@@ -1,0 +1,482 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7BA48CFC13D738E00056D61A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFB13D738E00056D61A /* UIKit.framework */; };
+		7BA48CFE13D738E00056D61A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFD13D738E00056D61A /* Foundation.framework */; };
+		7BA48D0013D738E00056D61A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFF13D738E00056D61A /* CoreGraphics.framework */; };
+		7BA48D0613D738E00056D61A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D0413D738E00056D61A /* InfoPlist.strings */; };
+		7BA48D0913D738E00056D61A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D0813D738E00056D61A /* main.m */; };
+		7BA48D0C13D738E00056D61A /* DubsarAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D0B13D738E00056D61A /* DubsarAppDelegate.m */; };
+		7BA48D1013D738E00056D61A /* DubsarAppDelegate_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D0F13D738E00056D61A /* DubsarAppDelegate_iPhone.m */; };
+		7BA48D1313D738E00056D61A /* MainWindow_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D1113D738E00056D61A /* MainWindow_iPhone.xib */; };
+		7BA48D1713D738E00056D61A /* DubsarAppDelegate_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D1613D738E00056D61A /* DubsarAppDelegate_iPad.m */; };
+		7BA48D1A13D738E10056D61A /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D1813D738E10056D61A /* MainWindow_iPad.xib */; };
+		7BA48D2113D738E10056D61A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFB13D738E00056D61A /* UIKit.framework */; };
+		7BA48D2213D738E10056D61A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFD13D738E00056D61A /* Foundation.framework */; };
+		7BA48D2313D738E10056D61A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFF13D738E00056D61A /* CoreGraphics.framework */; };
+		7BA48D2B13D738E10056D61A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2913D738E10056D61A /* InfoPlist.strings */; };
+		7BA48D2E13D738E10056D61A /* DubsarTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2D13D738E10056D61A /* DubsarTests.h */; };
+		7BA48D3013D738E10056D61A /* DubsarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D2F13D738E10056D61A /* DubsarTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7BA48D2413D738E10056D61A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BA48CEE13D738E00056D61A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BA48CF613D738E00056D61A;
+			remoteInfo = Dubsar;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7BA48CF713D738E00056D61A /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BA48CFB13D738E00056D61A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7BA48CFD13D738E00056D61A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7BA48CFF13D738E00056D61A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7BA48D0313D738E00056D61A /* Dubsar-Info.plist */ = {isa = PBXFileReference; path = "Dubsar-Info.plist"; sourceTree = "<group>"; };
+		7BA48D0513D738E00056D61A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7BA48D0713D738E00056D61A /* Dubsar-Prefix.pch */ = {isa = PBXFileReference; path = "Dubsar-Prefix.pch"; sourceTree = "<group>"; };
+		7BA48D0813D738E00056D61A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7BA48D0A13D738E00056D61A /* DubsarAppDelegate.h */ = {isa = PBXFileReference; path = DubsarAppDelegate.h; sourceTree = "<group>"; };
+		7BA48D0B13D738E00056D61A /* DubsarAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarAppDelegate.m; sourceTree = "<group>"; };
+		7BA48D0E13D738E00056D61A /* DubsarAppDelegate_iPhone.h */ = {isa = PBXFileReference; name = DubsarAppDelegate_iPhone.h; path = iPhone/DubsarAppDelegate_iPhone.h; sourceTree = "<group>"; };
+		7BA48D0F13D738E00056D61A /* DubsarAppDelegate_iPhone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DubsarAppDelegate_iPhone.m; path = iPhone/DubsarAppDelegate_iPhone.m; sourceTree = "<group>"; };
+		7BA48D1213D738E00056D61A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPhone/en.lproj/MainWindow_iPhone.xib; sourceTree = "<group>"; };
+		7BA48D1513D738E00056D61A /* DubsarAppDelegate_iPad.h */ = {isa = PBXFileReference; name = DubsarAppDelegate_iPad.h; path = iPad/DubsarAppDelegate_iPad.h; sourceTree = "<group>"; };
+		7BA48D1613D738E00056D61A /* DubsarAppDelegate_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DubsarAppDelegate_iPad.m; path = iPad/DubsarAppDelegate_iPad.m; sourceTree = "<group>"; };
+		7BA48D1913D738E10056D61A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPad/en.lproj/MainWindow_iPad.xib; sourceTree = "<group>"; };
+		7BA48D2013D738E10056D61A /* DubsarTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BA48D2813D738E10056D61A /* DubsarTests-Info.plist */ = {isa = PBXFileReference; path = "DubsarTests-Info.plist"; sourceTree = "<group>"; };
+		7BA48D2A13D738E10056D61A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7BA48D2C13D738E10056D61A /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
+		7BA48D2D13D738E10056D61A /* DubsarTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarTests.h; sourceTree = "<group>"; };
+		7BA48D2F13D738E10056D61A /* DubsarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7BA48CF413D738E00056D61A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BA48CFC13D738E00056D61A /* UIKit.framework in Frameworks */,
+				7BA48CFE13D738E00056D61A /* Foundation.framework in Frameworks */,
+				7BA48D0013D738E00056D61A /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BA48D1C13D738E10056D61A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BA48D2113D738E10056D61A /* UIKit.framework in Frameworks */,
+				7BA48D2213D738E10056D61A /* Foundation.framework in Frameworks */,
+				7BA48D2313D738E10056D61A /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7BA48CEC13D738E00056D61A = {
+			isa = PBXGroup;
+			children = (
+				7BA48D0113D738E00056D61A /* Dubsar */,
+				7BA48D2613D738E10056D61A /* DubsarTests */,
+				7BA48CFA13D738E00056D61A /* Frameworks */,
+				7BA48CF813D738E00056D61A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7BA48CF813D738E00056D61A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7BA48CF713D738E00056D61A /* Dubsar.app */,
+				7BA48D2013D738E10056D61A /* DubsarTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7BA48CFA13D738E00056D61A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7BA48CFB13D738E00056D61A /* UIKit.framework */,
+				7BA48CFD13D738E00056D61A /* Foundation.framework */,
+				7BA48CFF13D738E00056D61A /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7BA48D0113D738E00056D61A /* Dubsar */ = {
+			isa = PBXGroup;
+			children = (
+				7BA48D0A13D738E00056D61A /* DubsarAppDelegate.h */,
+				7BA48D0B13D738E00056D61A /* DubsarAppDelegate.m */,
+				7BA48D0D13D738E00056D61A /* iPhone */,
+				7BA48D1413D738E00056D61A /* iPad */,
+				7BA48D0213D738E00056D61A /* Supporting Files */,
+			);
+			path = Dubsar;
+			sourceTree = "<group>";
+		};
+		7BA48D0213D738E00056D61A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7BA48D0313D738E00056D61A /* Dubsar-Info.plist */,
+				7BA48D0413D738E00056D61A /* InfoPlist.strings */,
+				7BA48D0713D738E00056D61A /* Dubsar-Prefix.pch */,
+				7BA48D0813D738E00056D61A /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7BA48D0D13D738E00056D61A /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				7BA48D0E13D738E00056D61A /* DubsarAppDelegate_iPhone.h */,
+				7BA48D0F13D738E00056D61A /* DubsarAppDelegate_iPhone.m */,
+				7BA48D1113D738E00056D61A /* MainWindow_iPhone.xib */,
+			);
+			name = iPhone;
+			sourceTree = "<group>";
+		};
+		7BA48D1413D738E00056D61A /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				7BA48D1513D738E00056D61A /* DubsarAppDelegate_iPad.h */,
+				7BA48D1613D738E00056D61A /* DubsarAppDelegate_iPad.m */,
+				7BA48D1813D738E10056D61A /* MainWindow_iPad.xib */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
+		7BA48D2613D738E10056D61A /* DubsarTests */ = {
+			isa = PBXGroup;
+			children = (
+				7BA48D2D13D738E10056D61A /* DubsarTests.h */,
+				7BA48D2F13D738E10056D61A /* DubsarTests.m */,
+				7BA48D2713D738E10056D61A /* Supporting Files */,
+			);
+			path = DubsarTests;
+			sourceTree = "<group>";
+		};
+		7BA48D2713D738E10056D61A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7BA48D2813D738E10056D61A /* DubsarTests-Info.plist */,
+				7BA48D2913D738E10056D61A /* InfoPlist.strings */,
+				7BA48D2C13D738E10056D61A /* DubsarTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7BA48CF613D738E00056D61A /* Dubsar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7BA48D3313D738E10056D61A /* Build configuration list for PBXNativeTarget "Dubsar" */;
+			buildPhases = (
+				7BA48CF313D738E00056D61A /* Sources */,
+				7BA48CF413D738E00056D61A /* Frameworks */,
+				7BA48CF513D738E00056D61A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Dubsar;
+			productName = Dubsar;
+			productReference = 7BA48CF713D738E00056D61A /* Dubsar.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7BA48D1F13D738E10056D61A /* DubsarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7BA48D3613D738E10056D61A /* Build configuration list for PBXNativeTarget "DubsarTests" */;
+			buildPhases = (
+				7BA48D1B13D738E10056D61A /* Sources */,
+				7BA48D1C13D738E10056D61A /* Frameworks */,
+				7BA48D1D13D738E10056D61A /* Resources */,
+				7BA48D1E13D738E10056D61A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7BA48D2513D738E10056D61A /* PBXTargetDependency */,
+			);
+			name = DubsarTests;
+			productName = DubsarTests;
+			productReference = 7BA48D2013D738E10056D61A /* DubsarTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7BA48CEE13D738E00056D61A /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 7BA48CF113D738E00056D61A /* Build configuration list for PBXProject "Dubsar" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7BA48CEC13D738E00056D61A;
+			productRefGroup = 7BA48CF813D738E00056D61A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7BA48CF613D738E00056D61A /* Dubsar */,
+				7BA48D1F13D738E10056D61A /* DubsarTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7BA48CF513D738E00056D61A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BA48D0613D738E00056D61A /* InfoPlist.strings in Resources */,
+				7BA48D1313D738E00056D61A /* MainWindow_iPhone.xib in Resources */,
+				7BA48D1A13D738E10056D61A /* MainWindow_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BA48D1D13D738E10056D61A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BA48D2B13D738E10056D61A /* InfoPlist.strings in Resources */,
+				7BA48D2E13D738E10056D61A /* DubsarTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7BA48D1E13D738E10056D61A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7BA48CF313D738E00056D61A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BA48D0913D738E00056D61A /* main.m in Sources */,
+				7BA48D0C13D738E00056D61A /* DubsarAppDelegate.m in Sources */,
+				7BA48D1013D738E00056D61A /* DubsarAppDelegate_iPhone.m in Sources */,
+				7BA48D1713D738E00056D61A /* DubsarAppDelegate_iPad.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BA48D1B13D738E10056D61A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BA48D3013D738E10056D61A /* DubsarTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7BA48D2513D738E10056D61A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BA48CF613D738E00056D61A /* Dubsar */;
+			targetProxy = 7BA48D2413D738E10056D61A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7BA48D0413D738E00056D61A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7BA48D0513D738E00056D61A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7BA48D1113D738E00056D61A /* MainWindow_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7BA48D1213D738E00056D61A /* en */,
+			);
+			name = MainWindow_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		7BA48D1813D738E10056D61A /* MainWindow_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7BA48D1913D738E10056D61A /* en */,
+			);
+			name = MainWindow_iPad.xib;
+			sourceTree = "<group>";
+		};
+		7BA48D2913D738E10056D61A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7BA48D2A13D738E10056D61A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7BA48D3113D738E10056D61A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7BA48D3213D738E10056D61A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7BA48D3413D738E10056D61A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
+				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7BA48D3513D738E10056D61A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
+				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		7BA48D3713D738E10056D61A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Dubsar.app/Dubsar";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DubsarTests/DubsarTests-Prefix.pch";
+				INFOPLIST_FILE = "DubsarTests/DubsarTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		7BA48D3813D738E10056D61A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Dubsar.app/Dubsar";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DubsarTests/DubsarTests-Prefix.pch";
+				INFOPLIST_FILE = "DubsarTests/DubsarTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7BA48CF113D738E00056D61A /* Build configuration list for PBXProject "Dubsar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BA48D3113D738E10056D61A /* Debug */,
+				7BA48D3213D738E10056D61A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7BA48D3313D738E10056D61A /* Build configuration list for PBXNativeTarget "Dubsar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BA48D3413D738E10056D61A /* Debug */,
+				7BA48D3513D738E10056D61A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7BA48D3613D738E10056D61A /* Build configuration list for PBXNativeTarget "DubsarTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BA48D3713D738E10056D61A /* Debug */,
+				7BA48D3813D738E10056D61A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7BA48CEE13D738E00056D61A /* Project object */;
+}
