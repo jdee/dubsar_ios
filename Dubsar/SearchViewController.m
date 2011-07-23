@@ -183,7 +183,7 @@
     }
 }
 
-- (void)loadComplete:(id)model
+- (void)loadComplete:(Model *)model
 {
     if (model != search) return;
     

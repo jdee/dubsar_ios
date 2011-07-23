@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class Search;
+@class Model;
 
 @protocol LoadDelegate <NSObject>
 
-- (void)loadComplete:(id)model;
+- (void)loadComplete:(Model*)model;
 @end

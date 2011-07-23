@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Model.h"
 
 typedef enum  {
     POSAdjective,
@@ -19,14 +20,7 @@ typedef enum  {
     POSVerb
 } PartOfSpeech;
 
-@class JSONDecoder;
-@protocol LoadDelegate;
-
-@interface Word : NSObject {
-    JSONDecoder* decoder;
-    NSURLConnection* connection;
-    NSMutableData* data;
-    NSString* _url;
+@interface Word : Model {
 }
 
 @property (nonatomic) int _id;
@@ -36,9 +30,6 @@ typedef enum  {
 @property (nonatomic, retain) NSString* inflections;
 @property (nonatomic, retain) NSMutableArray* senses;
 
-@property bool complete;
-@property (nonatomic, assign) id<LoadDelegate> delegate;
-
 +(id)wordWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 +(id)wordWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;
 -(id)initWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
@@ -46,11 +37,7 @@ typedef enum  {
 -(NSString*)pos;
 -(NSString*)nameAndPos;
 
--(void)initConnection;
--(void)load;
 -(void)parseData;
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection;
--(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)data;
+-(void)initUrl;
 
 @end

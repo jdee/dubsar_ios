@@ -14,8 +14,6 @@
 
 @implementation Search
 
-@synthesize complete;
-@synthesize delegate;
 @synthesize results;
 @synthesize term;
 
@@ -31,35 +29,19 @@
     
     self = [super init];
     if (self) {   
-        decoder = [[JSONDecoder decoder]retain];
-        delegate = nil;
         term = [[theTerm copy] retain];
-        complete = false;
         results = nil;
-        _url = [[NSString stringWithFormat:@"%@/.json?term=%@", DubsarBaseUrl, term]retain];
-        data = [[NSMutableData dataWithLength:0]retain];
-
+        _url = [NSString stringWithFormat:@"%@/.json?term=%@", DubsarBaseUrl, term];
     }
     return self;
 }
 
 -(void)dealloc
 {    
-    [connection release];
-    [data release];
-    [decoder release];
-    [_url release];
     [term release];
     [results release];
 
     [super dealloc];
-}
-
--(void)load
-{    
-    NSURL* url = [NSURL URLWithString:_url];
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
-    connection = [NSURLConnection connectionWithRequest:request delegate:self];
 }
 
 - (void)parseData
@@ -79,24 +61,6 @@
         
         [results insertObject:[Word wordWithId:numericId.intValue name:name posString:posString] atIndex:j];
     }
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    NSLog(@"received response");
-    [data setLength:0];
-}
-
--(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)theData
-{
-    [data appendData:theData];
-}
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    [self parseData];
-    [self setComplete:true];
-    [[self delegate] loadComplete:self];
 }
 
 @end

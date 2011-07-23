@@ -20,9 +20,6 @@
 @synthesize inflections;
 @synthesize senses;
 
-@synthesize complete;
-@synthesize delegate;
-
 +(id)wordWithId:(int)theId name:(id)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
     return [[self alloc] initWithId:theId name:theName partOfSpeech:thePartOfSpeech];
@@ -40,7 +37,7 @@
         _id = theId;
         name = [theName copy];
         partOfSpeech = thePartOfSpeech;
-        [self initConnection];
+        [self initUrl];
     }
     return self;
 }
@@ -70,8 +67,7 @@
         } else if ([posString compare:@"v"] == NSOrderedSame) {
             partOfSpeech = POSVerb;
         }
-        
-        [self initConnection];
+        [self initUrl];
     }
     return self;
 }
@@ -118,39 +114,6 @@
     return [[NSString alloc]initWithFormat:@"%@ (%@.)", name, self.pos];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    NSLog(@"received response");
-    [data setLength:0];
-}
-
--(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)theData
-{
-    [data appendData:theData];
-}
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    [self parseData];
-    [self setComplete:true];
-    [[self delegate] loadComplete:self];
-}
-
--(void)initConnection
-{
-    data = [[NSMutableData dataWithLength:0] retain];
-    _url = [[NSString stringWithFormat:@"%@/words/%d.json", DubsarBaseUrl, _id] retain];
-    decoder = [[JSONDecoder decoder] retain];
-}
-
--(void)load
-{
-    NSLog(@"requesting %@", _url);
-    NSURL* url = [NSURL URLWithString:_url];
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
-    connection = [NSURLConnection connectionWithRequest:request delegate:self];   
-}
-
 -(void)parseData
 {
     NSArray* response = [decoder objectWithData:data];
@@ -160,4 +123,8 @@
     NSArray* _senses = [response objectAtIndex:4];
 }
 
+-(void)initUrl
+{
+    _url = [[NSString stringWithFormat:@"%@/words/%d.json", DubsarBaseUrl, _id] retain];
+}
 @end
