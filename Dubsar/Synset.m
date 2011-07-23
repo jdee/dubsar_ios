@@ -31,7 +31,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        gloss = [theGloss retain];
+        gloss = [[theGloss copy]retain];
         partOfSpeech = thePartOfSpeech;
         lexname = nil;
         samples = nil;
@@ -60,7 +60,7 @@
     for (int j=0; j<_senses.count; ++j) {
         NSArray* _sense = [_senses objectAtIndex:j];
         NSNumber* _senseId = [_sense objectAtIndex:0];
-        Sense* sense = [Sense senseWithId:_senseId.intValue name:[_sense objectAtindex:1] synset:self];
+        Sense* sense = [Sense senseWithId:_senseId.intValue name:[_sense objectAtIndex:1] synset:self];
         [senses insertObject:sense atIndex:j];
     }
 }

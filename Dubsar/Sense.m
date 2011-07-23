@@ -33,6 +33,11 @@
     return [[self alloc]initWithId:theId name:theName synset:theSynset];
 }
 
++(id)senseWithId:(int)theId name:(NSString *)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
+{
+    return [[self alloc]initWithId:theId name:theName partOfSpeech:thePartOfSpeech];
+}
+
 +(id)senseWithId:(int)theId gloss:(NSString *)theGloss synonyms:(NSArray *)theSynonyms word:(Word *)theWord
 {
     return [[self alloc]initWithId:theId gloss:theGloss synonyms:theSynonyms word:theWord];
@@ -43,7 +48,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [theName retain];
+        name = [[theName copy]retain];
         word = nil;
         gloss = nil;
         synonyms = nil;
@@ -53,8 +58,30 @@
         verbFrames = nil;
         samples = nil;
         pointers = nil;
+        [self initUrl];
     }
     return self;
+}
+
+-(id)initWithId:(int)theId name:(NSString *)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
+{
+    self = [super init];
+    if (self) {
+        _id = theId;
+        name = [[theName copy]retain];
+        word = nil;
+        gloss = nil;
+        synonyms = nil;
+        synset = nil;
+        partOfSpeech = thePartOfSpeech;
+        marker = nil;
+        verbFrames = nil;
+        samples = nil;
+        pointers = nil;
+        [self initUrl];
+    }
+    return self;
+   
 }
 
 -(id)initWithId:(int)theId gloss:(NSString *)theGloss synonyms:(NSArray *)theSynonyms word:(Word *)theWord
@@ -62,9 +89,8 @@
     self = [super init];
     if (self) {
         _id = theId;
-        gloss = [theGloss copy];
+        gloss = [[theGloss copy]retain];
         synonyms = [theSynonyms retain];
-        _url = [[NSString stringWithFormat:@"%@/senses/%d.json", DubsarBaseUrl, _id]retain];
         word = [theWord retain];
         partOfSpeech = word.partOfSpeech;
         
@@ -75,6 +101,7 @@
         verbFrames = nil;
         samples = nil;
         pointers = nil;
+        [self initUrl];
     }
     return self;
 }
@@ -170,17 +197,26 @@
     
     if (!synonyms) {
         NSArray* _synonyms = [response objectAtIndex:6];
+        NSLog(@"found %u synonyms", [_synonyms count]);
         synonyms = [[NSMutableArray arrayWithCapacity:_synonyms.count] retain];
         for (int j=0; j< _synonyms.count; ++j) {
             NSArray* _synonym = [_synonyms objectAtIndex:j];
-            _wordId = [_synonym objectAtIndex:0];
-            Word* w = [Word wordWithId:_wordId.intValue name:[_synonym objectAtIndex:1] partOfSpeech:partOfSpeech];
-            [synonyms insertObject:w atIndex:j];
+            NSNumber* _senseId = [_synonym objectAtIndex:0];
+            Sense* sense = [Sense senseWithId:_senseId.intValue name:[_synonym objectAtIndex:1] synset:synset];
+            NSLog(@" found %@, ID %d", sense.nameAndPos, _senseId.intValue);
+            [synonyms insertObject:sense atIndex:j];
         }
     }
     
     verbFrames = [[response objectAtIndex:7]retain];
     samples = [[response objectAtIndex:8]retain];
+    
+    NSLog(@"found %u verb frames and %u sample sentences", [verbFrames count], [samples count]);
+}
+
+- (void)initUrl
+{
+    _url = [[NSString stringWithFormat:@"%@/senses/%d.json", DubsarBaseUrl, _id]retain];
 }
 
 @end

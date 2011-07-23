@@ -19,7 +19,7 @@
     UILabel *bannerLabel;
     UILabel *glossLabel;
     UITableView *tableView;
-    NSArray* tableSections;
+    NSMutableArray* tableSections;
 }
 
 @property (nonatomic, retain) Sense* sense;

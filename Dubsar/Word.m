@@ -35,7 +35,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [theName copy];
+        name = [[theName copy]retain];
         partOfSpeech = thePartOfSpeech;
         [self initUrl];
     }
@@ -47,7 +47,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [theName copy];
+        name = [[theName copy]retain];
         
         if ([posString compare:@"adj"] == NSOrderedSame) {
             partOfSpeech = POSAdjective;
@@ -130,8 +130,8 @@
         for (int k=0; k<_synonyms.count; ++k) {
             NSArray* _synonym = [_synonyms objectAtIndex:k];
             numericId = [_synonym objectAtIndex:0];
-            Word* word = [Word wordWithId:numericId.intValue name:[_synonym objectAtIndex:1] partOfSpeech:partOfSpeech];
-            [synonyms insertObject:word atIndex:k];
+            Sense* sense = [Sense senseWithId:numericId.intValue name:[_synonym objectAtIndex:1] partOfSpeech:partOfSpeech];
+            [synonyms insertObject:sense atIndex:k];
         }
         
         numericId = [_sense objectAtIndex:0];

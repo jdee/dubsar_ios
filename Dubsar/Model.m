@@ -60,6 +60,7 @@
     [self parseData];
     [self setComplete:true];
     [[self delegate] loadComplete:self];
+    NSLog(@"load processing finished");
 }
 
 @end

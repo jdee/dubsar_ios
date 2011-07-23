@@ -34,12 +34,15 @@
 @property (nonatomic, retain) NSMutableArray* pointers;
 
 +(id)senseWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
++(id)senseWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 +(id)senseWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
 -(id)initWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
+-(id)initWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 -(id)initWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
 
 -(NSString*)pos;
 -(NSString*)nameAndPos;
+-(void)initUrl;
 
 -(NSString*)synonymsAsString;
 
