@@ -23,6 +23,8 @@
     if (self) {
         // Custom initialization
         self.title = @"Home";
+        UIImage* image = [UIImage imageNamed:@"dubsar-link.png"];
+        self.navigationItem.titleView = [[UIImageView alloc]initWithImage:image];
         [self createToolbarItems];
     }
     return self;
@@ -68,7 +70,7 @@
 {
     segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
     searchBar.text = @"";
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self.navigationController setToolbarHidden:NO animated:NO];
 }
 
