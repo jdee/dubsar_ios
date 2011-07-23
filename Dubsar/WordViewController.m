@@ -108,20 +108,31 @@
 
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView != theTableView) return nil;
+    
     static NSString* cellType = @"word";
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType] autorelease];
     }
-    
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     int index = indexPath.row;
     Sense* sense = [word.senses objectAtIndex:index];
     
+    NSString* synonymList = [NSString string];
+    for(int j=0; j<sense.synonyms.count; ++j) {
+        Word* synonym = [sense.synonyms objectAtIndex:j];
+        synonymList = [synonymList stringByAppendingString:synonym.name];
+        if (j<sense.synonyms.count-1) {
+            synonymList = [synonymList stringByAppendingString:@", "];
+        }
+    }
+
     cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", index+1, sense.gloss];
-    
+    cell.detailTextLabel.text = synonymList;
+    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+   
     return cell;
 }
 

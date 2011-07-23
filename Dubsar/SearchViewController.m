@@ -169,7 +169,7 @@
     Word* word = [search.results objectAtIndex:index];
     NSLog(@"found \"%@\"", [word nameAndPos]);
     
-    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [word nameAndPos];
     return cell;
 }
