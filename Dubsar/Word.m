@@ -8,7 +8,6 @@
 
 #import "Dubsar.h"
 #import "JSONKit.h"
-#import "LoadDelegate.h"
 #import "Sense.h"
 #import "Word.h"
 

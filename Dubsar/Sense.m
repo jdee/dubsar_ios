@@ -8,8 +8,8 @@
 
 #import "Dubsar.h"
 #import "JSONKit.h"
-#import "LoadDelegate.h"
 #import "Sense.h"
+#import "Synset.h"
 #import "Word.h"
 
 @implementation Sense
@@ -17,6 +17,7 @@
 @synthesize _id;
 @synthesize gloss;
 @synthesize synonyms;
+@synthesize synset;
 @synthesize word;
 @synthesize lexname;
 @synthesize marker;
@@ -36,9 +37,21 @@
         synonyms = [theSynonyms retain];
         _url = [[NSString stringWithFormat:@"%@/senses/%d.json", DubsarBaseUrl, _id]retain];
         word = [theWord retain];
+        synset = nil;
         marker = nil;
     }
     return self;
+}
+
+-(void)dealloc
+{
+    [gloss release];
+    [synonyms release];
+    [synset release];
+    [word release];
+    [lexname release];
+    [marker release];
+    [super dealloc];
 }
 
 -(NSString*)synonymsAsString
@@ -58,6 +71,11 @@
 -(void)parseData
 {
     NSArray* response = [decoder objectWithData:data];
+    NSArray* _synset = [response objectAtIndex:2];
+    NSNumber* _synsetId = [_synset objectAtIndex:0];
+
+    synset = [[Synset synsetWithId:_synsetId.intValue gloss:[_synset objectAtIndex:1]] retain];
+    
     lexname = [[response objectAtIndex:3] retain];
     NSLog(@"lexname: \"%@\"", lexname);
 

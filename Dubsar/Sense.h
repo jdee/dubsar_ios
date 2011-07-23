@@ -8,6 +8,7 @@
 
 #import "Model.h"
 
+@class Synset;
 @class Word;
 
 @interface Sense : Model {
@@ -18,6 +19,7 @@
 @property (nonatomic, retain) NSString* gloss;
 @property (nonatomic, retain) NSArray* synonyms;
 
+@property (nonatomic, retain) Synset* synset;
 @property (nonatomic, retain) Word* word;
 
 @property (nonatomic, retain) NSString* lexname;

@@ -1,41 +1,32 @@
 //
-//  SenseViewController_iPhone.m
+//  SynsetViewController_iPhone.m
 //  Dubsar
 //
 //  Created by Jimmy Dee on 7/23/11.
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "DubsarViewController_iPhone.h"
-#import "SenseViewController_iPhone.h"
-#import "SearchBarManager_iPhone.h"
+#import "LoadDelegate.h"
 #import "SynsetViewController_iPhone.h"
-#import "Sense.h"
-#import "Word.h"
+#import "SearchBarmanager_iPhone.h"
+#import "Synset.h"
 
-@implementation SenseViewController_iPhone
+@implementation SynsetViewController_iPhone
+@synthesize synset;
+@synthesize searchBarManager;
 @synthesize searchBar;
 @synthesize bannerLabel;
-@synthesize glossLabel;
-@synthesize synonymsLabel;
-@synthesize synonymsTextLabel;
-@synthesize searchBarManager;
-@synthesize sense;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset *)theSynset
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        sense = [theSense retain];
-        sense.delegate = self;
+        synset = [theSynset retain];
+        synset.delegate = self;
+        [synset load];
         
-        [sense load];
-        self.title = [NSString stringWithFormat:@"Sense: %@", sense.word.nameAndPos];
-        
-        UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset"  style:UIBarButtonItemStylePlain target:self action:@selector(loadSynsetView)];
-        
-        self.navigationItem.rightBarButtonItem = barButtonItem;
+        self.title = [NSString stringWithFormat:@"Synset: %@", synset.gloss];
         [self createToolbarItems];
     }
     return self;
@@ -43,13 +34,10 @@
 
 - (void)dealloc
 {
-    [sense release];
     [searchBarManager release];
     [searchBar release];
+    [synset release];
     [bannerLabel release];
-    [glossLabel release];
-    [synonymsLabel release];
-    [synonymsTextLabel release];
     [super dealloc];
 }
 
@@ -74,9 +62,6 @@
 {
     [self setSearchBar:nil];
     [self setBannerLabel:nil];
-    [self setGlossLabel:nil];
-    [self setSynonymsLabel:nil];
-    [self setSynonymsTextLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -128,37 +113,6 @@
     return NO;
 }
 
-- (void)loadComplete:(Model*)model
-{
-    if (model != sense) return;
-    
-    [self adjustBannerLabel];
-    glossLabel.text = sense.gloss;
-    
-    if (sense.synonyms.count > 0) {
-        synonymsLabel.text = sense.synonymsAsString;
-    }
-    else {
-        [synonymsTextLabel setHidden:YES];
-        [synonymsLabel setHidden:YES];
-    }
-}
-
-- (void)adjustBannerLabel
-{    
-    NSString* text = [NSString stringWithFormat:@"<%@>", sense.lexname];
-    if (sense.marker) {
-        text = [text stringByAppendingString:[NSString stringWithFormat:@" (%@)", sense.marker]];
-    }
-    text = [text stringByAppendingString:[NSString stringWithFormat:@" freq. cnt.: %d", sense.freqCnt]];
-    bannerLabel.text = text;   
-}
-
-- (void)loadSynsetView
-{
-    [self.navigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:sense.synset] animated:YES];
-}
-
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
@@ -171,6 +125,13 @@
 - (void)loadRootController
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)loadComplete:(Model*)model
+{
+    if (model != synset) return;
+    
+    bannerLabel.text = [NSString stringWithFormat:@"<%@>", synset.lexname];
 }
 
 @end
