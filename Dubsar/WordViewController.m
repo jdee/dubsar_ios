@@ -9,6 +9,7 @@
 #import "WordViewController.h"
 
 #import "SearchBarManager.h"
+#import "Sense.h"
 #import "Word.h"
 
 @implementation WordViewController
@@ -102,7 +103,7 @@
 
 - (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return theTableView == tableView && word.complete && word.senses ? word.senses.count : 0;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -115,6 +116,11 @@
     }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    int index = indexPath.row;
+    Sense* sense = [word.senses objectAtIndex:index];
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", index+1, sense.gloss];
     
     return cell;
 }
@@ -135,6 +141,8 @@
     if (model != word) return;
     
     [self adjustInflections];
+    
+    [tableView reloadData];
 }
 
 - (void)adjustInflections

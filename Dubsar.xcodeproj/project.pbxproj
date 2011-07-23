@@ -42,6 +42,7 @@
 		7BDD67AA13DA5B3000A9E94B /* WordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BDD67A813DA5B2D00A9E94B /* WordViewController.xib */; };
 		7BDD67B313DA68F600A9E94B /* Dubsar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67B213DA68F400A9E94B /* Dubsar.m */; };
 		7BDD67C013DA8DC100A9E94B /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67BF13DA8DC100A9E94B /* Model.m */; };
+		7BDD67C413DA933600A9E94B /* Sense.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67C313DA933500A9E94B /* Sense.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,8 @@
 		7BDD67B213DA68F400A9E94B /* Dubsar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dubsar.m; sourceTree = "<group>"; };
 		7BDD67BE13DA8DC100A9E94B /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		7BDD67BF13DA8DC100A9E94B /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
+		7BDD67C213DA933500A9E94B /* Sense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sense.h; sourceTree = "<group>"; };
+		7BDD67C313DA933500A9E94B /* Sense.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sense.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +182,8 @@
 				7BDD677A13D9B98C00A9E94B /* Word.m */,
 				7BDD67BE13DA8DC100A9E94B /* Model.h */,
 				7BDD67BF13DA8DC100A9E94B /* Model.m */,
+				7BDD67C213DA933500A9E94B /* Sense.h */,
+				7BDD67C313DA933500A9E94B /* Sense.m */,
 				7BA48D0A13D738E00056D61A /* DubsarAppDelegate.h */,
 				7BA48D0B13D738E00056D61A /* DubsarAppDelegate.m */,
 				7BA48D0D13D738E00056D61A /* iPhone */,
@@ -396,6 +401,7 @@
 				7BDD67A913DA5B3000A9E94B /* WordViewController.m in Sources */,
 				7BDD67B313DA68F600A9E94B /* Dubsar.m in Sources */,
 				7BDD67C013DA8DC100A9E94B /* Model.m in Sources */,
+				7BDD67C413DA933600A9E94B /* Sense.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

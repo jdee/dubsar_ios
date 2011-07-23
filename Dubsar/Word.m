@@ -9,6 +9,7 @@
 #import "Dubsar.h"
 #import "JSONKit.h"
 #import "LoadDelegate.h"
+#import "Sense.h"
 #import "Word.h"
 
 @implementation Word
@@ -121,6 +122,23 @@
     inflections = [[response objectAtIndex:3]retain];
 
     NSArray* _senses = [response objectAtIndex:4];
+    senses = [[NSMutableArray arrayWithCapacity:_senses.count]retain];
+    for (int j=0; j<_senses.count; ++j) {
+        NSArray* _sense = [_senses objectAtIndex:j];
+        NSArray* _synonyms = [_sense objectAtIndex:1];
+        NSNumber* numericId = nil;
+        NSMutableArray* synonyms = [NSMutableArray arrayWithCapacity:_synonyms.count];
+        for (int k=0; k<_synonyms.count; ++k) {
+            NSArray* _synonym = [_synonyms objectAtIndex:k];
+            numericId = [_synonym objectAtIndex:0];
+            Word* word = [Word wordWithId:numericId.intValue name:[_synonym objectAtIndex:1] partOfSpeech:partOfSpeech];
+            [synonyms insertObject:word atIndex:k];
+        }
+        
+        numericId = [_sense objectAtIndex:0];
+        Sense* sense = [Sense senseWithId:numericId.intValue gloss:[_sense objectAtIndex:2] synonyms:synonyms];
+        [senses insertObject:sense atIndex:j];
+    }
 }
 
 -(void)initUrl

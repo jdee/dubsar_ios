@@ -67,6 +67,7 @@
 {
     segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
     searchBar.text = @"";
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

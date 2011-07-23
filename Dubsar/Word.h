@@ -6,10 +6,10 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "Model.h"
 
 typedef enum  {
+    POSUnknown,
     POSAdjective,
     POSAdverb,
     POSConjunction,
@@ -23,7 +23,7 @@ typedef enum  {
 @interface Word : Model {
 }
 
-@property (nonatomic) int _id;
+@property int _id;
 @property (nonatomic, retain) NSString* name;
 @property (nonatomic) PartOfSpeech partOfSpeech;
 

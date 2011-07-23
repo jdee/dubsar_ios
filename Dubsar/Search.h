@@ -6,7 +6,6 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "Model.h"
 
 @interface Search : Model {

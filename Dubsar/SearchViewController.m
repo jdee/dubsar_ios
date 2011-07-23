@@ -84,6 +84,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self adjustPageLabel];
     _dubsarSearchDisplayController.searchBar.text = [_searchText copy];
 }
