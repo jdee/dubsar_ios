@@ -8,6 +8,7 @@
 
 #import "Model.h"
 
+@class Word;
 
 @interface Sense : Model {
     
@@ -17,7 +18,15 @@
 @property (nonatomic, retain) NSString* gloss;
 @property (nonatomic, retain) NSArray* synonyms;
 
-+(id)senseWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms;
--(id)initWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms;
+@property (nonatomic, retain) Word* word;
+
+@property (nonatomic, retain) NSString* lexname;
+@property int freqCnt;
+@property (nonatomic, retain) NSString* marker;
+
++(id)senseWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
+-(id)initWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
+
+-(NSString*)synonymsAsString;
 
 @end

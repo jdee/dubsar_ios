@@ -23,4 +23,6 @@
 
 - (IBAction)licenseSelected:(id)sender;
 - (void)displayLicense;
+- (void)createToolbarItems;
+
 @end

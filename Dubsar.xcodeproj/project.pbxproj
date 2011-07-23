@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B22254413DB1FDA003B7322 /* SenseViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22254213DB1FDA003B7322 /* SenseViewController_iPhone.m */; };
+		7B22254513DB1FDA003B7322 /* SenseViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B22254313DB1FDA003B7322 /* SenseViewController_iPhone.xib */; };
 		7B3F874813D73B0B009C390B /* dubsar.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F874713D73B0B009C390B /* dubsar.png */; };
 		7B3F874A13D73B15009C390B /* dubsar-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F874913D73B15009C390B /* dubsar-ipad.png */; };
 		7B3F875C13D7443D009C390B /* DubsarViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F875A13D7443D009C390B /* DubsarViewController_iPhone.m */; };
@@ -56,6 +58,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B22254113DB1FDA003B7322 /* SenseViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SenseViewController_iPhone.h; sourceTree = "<group>"; };
+		7B22254213DB1FDA003B7322 /* SenseViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SenseViewController_iPhone.m; sourceTree = "<group>"; };
+		7B22254313DB1FDA003B7322 /* SenseViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SenseViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B3F874713D73B0B009C390B /* dubsar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dubsar.png; sourceTree = "<group>"; };
 		7B3F874913D73B15009C390B /* dubsar-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-ipad.png"; sourceTree = "<group>"; };
 		7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarViewController_iPhone.h; sourceTree = "<group>"; };
@@ -140,15 +145,15 @@
 		7B22253C13DB1F18003B7322 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7BDD677613D9B76B00A9E94B /* Search.h */,
 				7BDD67A213D9DDA100A9E94B /* LoadDelegate.h */,
-				7BDD677713D9B76C00A9E94B /* Search.m */,
-				7BDD677913D9B98B00A9E94B /* Word.h */,
-				7BDD677A13D9B98C00A9E94B /* Word.m */,
 				7BDD67BE13DA8DC100A9E94B /* Model.h */,
 				7BDD67BF13DA8DC100A9E94B /* Model.m */,
+				7BDD677613D9B76B00A9E94B /* Search.h */,
+				7BDD677713D9B76C00A9E94B /* Search.m */,
 				7BDD67C213DA933500A9E94B /* Sense.h */,
 				7BDD67C313DA933500A9E94B /* Sense.m */,
+				7BDD677913D9B98B00A9E94B /* Word.h */,
+				7BDD677A13D9B98C00A9E94B /* Word.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -215,23 +220,26 @@
 		7BA48D0D13D738E00056D61A /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
-				7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */,
-				7BDD67A613DA5B2B00A9E94B /* WordViewController_iPhone.h */,
-				7BDD67A713DA5B2C00A9E94B /* WordViewController_iPhone.m */,
-				7BDD67A813DA5B2D00A9E94B /* WordViewController_iPhone.xib */,
-				7B4B2EC513D7CD3100A0B98F /* SearchViewController_iPhone.h */,
-				7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */,
-				7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */,
-				7B3F875A13D7443D009C390B /* DubsarViewController_iPhone.m */,
-				7B3F875B13D7443D009C390B /* DubsarViewController_iPhone.xib */,
 				7BA48D0E13D738E00056D61A /* DubsarAppDelegate_iPhone.h */,
 				7BA48D0F13D738E00056D61A /* DubsarAppDelegate_iPhone.m */,
-				7BA48D1113D738E00056D61A /* MainWindow_iPhone.xib */,
+				7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */,
+				7B3F875A13D7443D009C390B /* DubsarViewController_iPhone.m */,
+				7B3F875B13D7443D009C390B /* DubsarViewController_iPhone.xib */,
 				7B3F877213D7599E009C390B /* LicenseViewController_iPhone.h */,
 				7B3F877313D7599E009C390B /* LicenseViewController_iPhone.m */,
 				7B3F877413D7599F009C390B /* LicenseViewController_iPhone.xib */,
+				7BA48D1113D738E00056D61A /* MainWindow_iPhone.xib */,
 				7BDD675B13D8613B00A9E94B /* SearchBarManager_iPhone.h */,
 				7BDD675C13D8613B00A9E94B /* SearchBarManager_iPhone.m */,
+				7B4B2EC513D7CD3100A0B98F /* SearchViewController_iPhone.h */,
+				7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */,
+				7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */,
+				7B22254113DB1FDA003B7322 /* SenseViewController_iPhone.h */,
+				7B22254213DB1FDA003B7322 /* SenseViewController_iPhone.m */,
+				7B22254313DB1FDA003B7322 /* SenseViewController_iPhone.xib */,
+				7BDD67A613DA5B2B00A9E94B /* WordViewController_iPhone.h */,
+				7BDD67A713DA5B2C00A9E94B /* WordViewController_iPhone.m */,
+				7BDD67A813DA5B2D00A9E94B /* WordViewController_iPhone.xib */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -359,6 +367,7 @@
 				7B3F877613D7599F009C390B /* LicenseViewController_iPhone.xib in Resources */,
 				7B4B2EC913D7CD3300A0B98F /* SearchViewController_iPhone.xib in Resources */,
 				7BDD67AA13DA5B3000A9E94B /* WordViewController_iPhone.xib in Resources */,
+				7B22254513DB1FDA003B7322 /* SenseViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +419,7 @@
 				7BDD67B313DA68F600A9E94B /* Dubsar.m in Sources */,
 				7BDD67C013DA8DC100A9E94B /* Model.m in Sources */,
 				7BDD67C413DA933600A9E94B /* Sense.m in Sources */,
+				7B22254413DB1FDA003B7322 /* SenseViewController_iPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

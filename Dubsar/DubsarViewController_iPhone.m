@@ -23,6 +23,7 @@
     if (self) {
         // Custom initialization
         self.title = @"Home";
+        [self createToolbarItems];
     }
     return self;
 }
@@ -68,6 +69,7 @@
     segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
     searchBar.text = @"";
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setToolbarHidden:NO animated:NO];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -112,6 +114,15 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
 {
     [searchBarManager searchBarSearchButtonClicked:theSearchBar];
+}
+
+- (void)createToolbarItems
+{
+    UIBarButtonItem* licenseButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"License" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLicense)];
+    
+    NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:licenseButtonItem];
+    
+    self.toolbarItems = buttonItems.retain;
 }
 
 @end

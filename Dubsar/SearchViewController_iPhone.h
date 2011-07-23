@@ -27,4 +27,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText;
 - (void)adjustPageLabel;
 
+- (void)createToolbarItems;
+- (void)loadRootController;
+
 @end

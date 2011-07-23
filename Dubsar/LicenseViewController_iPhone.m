@@ -6,6 +6,7 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
+#import "DubsarViewController_iPhone.h"
 #import "LicenseViewController_iPhone.h"
 #import "SearchBarManager_iPHone.h"
 
@@ -18,6 +19,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"License";
+        [self createToolbarItems];
     }
     return self;
 }
@@ -58,6 +60,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [self.navigationController setToolbarHidden:NO animated:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -88,6 +91,20 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
 {
     [searchBarManager searchBarSearchButtonClicked:theSearchBar];
+}
+
+- (void)createToolbarItems
+{
+    UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
+    
+    NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
+    
+    self.toolbarItems = buttonItems;
+}
+
+- (void)loadRootController
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

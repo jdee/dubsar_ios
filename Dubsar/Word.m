@@ -136,7 +136,7 @@
         }
         
         numericId = [_sense objectAtIndex:0];
-        Sense* sense = [Sense senseWithId:numericId.intValue gloss:[_sense objectAtIndex:2] synonyms:synonyms];
+        Sense* sense = [Sense senseWithId:numericId.intValue gloss:[_sense objectAtIndex:2] synonyms:synonyms word:self];
         [senses insertObject:sense atIndex:j];
     }
 }

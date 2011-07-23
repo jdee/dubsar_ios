@@ -1,47 +1,54 @@
 //
-//  WordViewController.m
+//  SenseViewController_iPhone.m
 //  Dubsar
 //
-//  Created by Jimmy Dee on 7/22/11.
+//  Created by Jimmy Dee on 7/23/11.
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
 #import "DubsarViewController_iPhone.h"
-#import "WordViewController_iPhone.h"
+#import "SenseViewController_iPhone.h"
 #import "SearchBarManager_iPhone.h"
 #import "Sense.h"
-#import "SenseViewController_iPhone.h"
 #import "Word.h"
 
-@implementation WordViewController_iPhone
-@synthesize searchBarManager;
+@implementation SenseViewController_iPhone
 @synthesize searchBar;
-@synthesize inflectionsLabel;
-@synthesize tableView;
-@synthesize word;
+@synthesize bannerLabel;
+@synthesize glossLabel;
+@synthesize synonymsLabel;
+@synthesize synonymsTextLabel;
+@synthesize searchBarManager;
+@synthesize sense;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        word = [theWord retain];
-        word.delegate = self;
-        [word load];
-
-        self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
+        sense = [theSense retain];
+        sense.delegate = self;
+        
+        [sense load];
+        self.title = [NSString stringWithFormat:@"Sense: %@", sense.word.nameAndPos];
+        
+        UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset"  style:UIBarButtonItemStylePlain target:self action:@selector(loadSynsetView)];
+        
+        self.navigationItem.rightBarButtonItem = barButtonItem;
         [self createToolbarItems];
-   }
+    }
     return self;
 }
 
 - (void)dealloc
 {
-    [word release];
+    [sense release];
     [searchBarManager release];
-    [inflectionsLabel release];
     [searchBar release];
-    [tableView release];
+    [bannerLabel release];
+    [glossLabel release];
+    [synonymsLabel release];
+    [synonymsTextLabel release];
     [super dealloc];
 }
 
@@ -64,9 +71,11 @@
 
 - (void)viewDidUnload
 {
-    [self setInflectionsLabel:nil];
     [self setSearchBar:nil];
-    [self setTableView:nil];
+    [self setBannerLabel:nil];
+    [self setGlossLabel:nil];
+    [self setSynonymsLabel:nil];
+    [self setSynonymsTextLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -108,40 +117,6 @@
                        replacementText:text];
 }
 
-- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    int index = indexPath.row;
-    Sense* sense = [word.senses objectAtIndex:index];
-    [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense] animated:YES];
-}
-
-- (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
-{
-    return theTableView == tableView && word.complete && word.senses ? word.senses.count : 0;
-}
-
-- (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (tableView != theTableView) return nil;
-    
-    static NSString* cellType = @"word";
-    
-    UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType] autorelease];
-    }
-    
-    int index = indexPath.row;
-    Sense* sense = [word.senses objectAtIndex:index];
-    
-    cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", index+1, sense.gloss];
-    cell.detailTextLabel.text = sense.synonymsAsString;
-    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-   
-    return cell;
-}
-
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     if ((interfaceOrientation == UIInterfaceOrientationPortrait) ||
@@ -152,20 +127,35 @@
     return NO;
 }
 
-- (void)loadComplete:(Model *)model
+- (void)loadComplete:(Model*)model
 {
-    if (model != word) return;
+    if (model != sense) return;
     
-    [self adjustInflections];
+    [self adjustBannerLabel];
+    glossLabel.text = sense.gloss;
     
-    [tableView reloadData];
+    if (sense.synonyms.count > 0) {
+        synonymsLabel.text = sense.synonymsAsString;
+    }
+    else {
+        [synonymsTextLabel setHidden:YES];
+        [synonymsLabel setHidden:YES];
+    }
 }
 
-- (void)adjustInflections
+- (void)adjustBannerLabel
+{    
+    NSString* text = [NSString stringWithFormat:@"<%@>", sense.lexname];
+    if (sense.marker) {
+        text = [text stringByAppendingString:[NSString stringWithFormat:@" (%@)", sense.marker]];
+    }
+    text = [text stringByAppendingString:[NSString stringWithFormat:@" freq. cnt.: %d", sense.freqCnt]];
+    bannerLabel.text = text;   
+}
+
+- (void)loadSynsetView
 {
-    NSString* inflections = word.inflections;
-    if (inflections.length == 0) inflections = @"(none)";
-    inflectionsLabel.text = [NSString stringWithFormat:@"other forms: %@", inflections];
+
 }
 
 - (void)createToolbarItems
@@ -181,6 +171,5 @@
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
-
 
 @end

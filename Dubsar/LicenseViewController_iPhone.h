@@ -17,5 +17,8 @@
 @property (nonatomic, retain) SearchBarManager_iPhone* searchBarManager;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 
+- (void)createToolbarItems;
+- (void)loadRootController;
+
 
 @end

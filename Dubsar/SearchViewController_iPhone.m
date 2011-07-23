@@ -8,6 +8,7 @@
 
 #import <stdlib.h>
 
+#import "DubsarViewController_iPhone.h"
 #import "SearchBarManager_iPhone.h"
 #import "SearchViewController_iPhone.h"
 #import "Search.h"
@@ -27,8 +28,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Search Results";
-        
         /*
          * The argument (theSearchText) is the content of the search bar from the previous 
          * view that launched this search, not the search bar associated with this
@@ -42,6 +41,9 @@
         
         // send the request
         [search load];
+        
+        self.title = [NSString stringWithFormat:@"Search: \"%@\"", _searchText];
+        [self createToolbarItems];
     }
     return self;
 }
@@ -87,6 +89,7 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self adjustPageLabel];
     _dubsarSearchDisplayController.searchBar.text = [_searchText copy];
+    [self.navigationController setToolbarHidden:NO animated:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -190,6 +193,20 @@
     
     NSLog(@"search complete");
     [_dubsarSearchDisplayController.searchResultsTableView reloadData];
+}
+
+- (void)createToolbarItems
+{
+    UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
+    
+    NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
+    
+    self.toolbarItems = buttonItems;
+}
+
+- (void)loadRootController
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

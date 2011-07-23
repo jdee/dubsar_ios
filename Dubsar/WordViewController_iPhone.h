@@ -30,4 +30,7 @@
 
 -(void)adjustInflections;
 
+- (void)createToolbarItems;
+- (void)loadRootController;
+
 @end
