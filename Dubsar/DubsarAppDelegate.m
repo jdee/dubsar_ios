@@ -3,7 +3,7 @@
 //  Dubsar
 //
 //  Created by Jimmy Dee on 7/20/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
 #import "DubsarAppDelegate.h"
@@ -14,7 +14,7 @@
 @synthesize window=_window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+{   
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
     return YES;

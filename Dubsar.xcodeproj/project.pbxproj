@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B3F874813D73B0B009C390B /* dubsar.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F874713D73B0B009C390B /* dubsar.png */; };
+		7B3F874A13D73B15009C390B /* dubsar-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F874913D73B15009C390B /* dubsar-ipad.png */; };
+		7B3F875C13D7443D009C390B /* DubsarViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F875A13D7443D009C390B /* DubsarViewController_iPhone.m */; };
+		7B3F875D13D7443D009C390B /* DubsarViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F875B13D7443D009C390B /* DubsarViewController_iPhone.xib */; };
+		7B3F876613D74474009C390B /* DubsarViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F876413D74474009C390B /* DubsarViewController_iPad.m */; };
+		7B3F876713D74474009C390B /* DubsarViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F876513D74474009C390B /* DubsarViewController_iPad.xib */; };
+		7B3F876913D74CA9009C390B /* dubsar-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F876813D74CA9009C390B /* dubsar-full.png */; };
+		7B3F877513D7599F009C390B /* LicenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F877313D7599E009C390B /* LicenseViewController.m */; };
+		7B3F877613D7599F009C390B /* LicenseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F877413D7599F009C390B /* LicenseViewController.xib */; };
+		7B4B2EC813D7CD3300A0B98F /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC613D7CD3200A0B98F /* SearchViewController.m */; };
+		7B4B2EC913D7CD3300A0B98F /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC713D7CD3200A0B98F /* SearchViewController.xib */; };
 		7BA48CFC13D738E00056D61A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFB13D738E00056D61A /* UIKit.framework */; };
 		7BA48CFE13D738E00056D61A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFD13D738E00056D61A /* Foundation.framework */; };
 		7BA48D0013D738E00056D61A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFF13D738E00056D61A /* CoreGraphics.framework */; };
@@ -23,6 +34,13 @@
 		7BA48D2B13D738E10056D61A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2913D738E10056D61A /* InfoPlist.strings */; };
 		7BA48D2E13D738E10056D61A /* DubsarTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2D13D738E10056D61A /* DubsarTests.h */; };
 		7BA48D3013D738E10056D61A /* DubsarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D2F13D738E10056D61A /* DubsarTests.m */; };
+		7BDD675D13D8613B00A9E94B /* SearchBarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD675C13D8613B00A9E94B /* SearchBarManager.m */; };
+		7BDD677813D9B76C00A9E94B /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677713D9B76C00A9E94B /* Search.m */; };
+		7BDD677B13D9B98D00A9E94B /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677A13D9B98C00A9E94B /* Word.m */; };
+		7BDD67A513DA43D900A9E94B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67A413DA43D900A9E94B /* JSONKit.m */; };
+		7BDD67A913DA5B3000A9E94B /* WordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67A713DA5B2C00A9E94B /* WordViewController.m */; };
+		7BDD67AA13DA5B3000A9E94B /* WordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BDD67A813DA5B2D00A9E94B /* WordViewController.xib */; };
+		7BDD67B313DA68F600A9E94B /* Dubsar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67B213DA68F400A9E94B /* Dubsar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,28 +54,57 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B3F874713D73B0B009C390B /* dubsar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dubsar.png; sourceTree = "<group>"; };
+		7B3F874913D73B15009C390B /* dubsar-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-ipad.png"; sourceTree = "<group>"; };
+		7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarViewController_iPhone.h; sourceTree = "<group>"; };
+		7B3F875A13D7443D009C390B /* DubsarViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarViewController_iPhone.m; sourceTree = "<group>"; };
+		7B3F875B13D7443D009C390B /* DubsarViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DubsarViewController_iPhone.xib; sourceTree = "<group>"; };
+		7B3F876313D74474009C390B /* DubsarViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarViewController_iPad.h; sourceTree = "<group>"; };
+		7B3F876413D74474009C390B /* DubsarViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarViewController_iPad.m; sourceTree = "<group>"; };
+		7B3F876513D74474009C390B /* DubsarViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DubsarViewController_iPad.xib; sourceTree = "<group>"; };
+		7B3F876813D74CA9009C390B /* dubsar-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-full.png"; sourceTree = "<group>"; };
+		7B3F877213D7599E009C390B /* LicenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseViewController.h; sourceTree = "<group>"; };
+		7B3F877313D7599E009C390B /* LicenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseViewController.m; sourceTree = "<group>"; };
+		7B3F877413D7599F009C390B /* LicenseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseViewController.xib; sourceTree = "<group>"; };
+		7B4B2EC513D7CD3100A0B98F /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		7B4B2EC613D7CD3200A0B98F /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		7B4B2EC713D7CD3200A0B98F /* SearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
 		7BA48CF713D738E00056D61A /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA48CFB13D738E00056D61A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7BA48CFD13D738E00056D61A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7BA48CFF13D738E00056D61A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		7BA48D0313D738E00056D61A /* Dubsar-Info.plist */ = {isa = PBXFileReference; path = "Dubsar-Info.plist"; sourceTree = "<group>"; };
+		7BA48D0313D738E00056D61A /* Dubsar-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Dubsar-Info.plist"; sourceTree = "<group>"; };
 		7BA48D0513D738E00056D61A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7BA48D0713D738E00056D61A /* Dubsar-Prefix.pch */ = {isa = PBXFileReference; path = "Dubsar-Prefix.pch"; sourceTree = "<group>"; };
+		7BA48D0713D738E00056D61A /* Dubsar-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dubsar-Prefix.pch"; sourceTree = "<group>"; };
 		7BA48D0813D738E00056D61A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7BA48D0A13D738E00056D61A /* DubsarAppDelegate.h */ = {isa = PBXFileReference; path = DubsarAppDelegate.h; sourceTree = "<group>"; };
+		7BA48D0A13D738E00056D61A /* DubsarAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarAppDelegate.h; sourceTree = "<group>"; };
 		7BA48D0B13D738E00056D61A /* DubsarAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarAppDelegate.m; sourceTree = "<group>"; };
-		7BA48D0E13D738E00056D61A /* DubsarAppDelegate_iPhone.h */ = {isa = PBXFileReference; name = DubsarAppDelegate_iPhone.h; path = iPhone/DubsarAppDelegate_iPhone.h; sourceTree = "<group>"; };
+		7BA48D0E13D738E00056D61A /* DubsarAppDelegate_iPhone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DubsarAppDelegate_iPhone.h; path = iPhone/DubsarAppDelegate_iPhone.h; sourceTree = "<group>"; };
 		7BA48D0F13D738E00056D61A /* DubsarAppDelegate_iPhone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DubsarAppDelegate_iPhone.m; path = iPhone/DubsarAppDelegate_iPhone.m; sourceTree = "<group>"; };
 		7BA48D1213D738E00056D61A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPhone/en.lproj/MainWindow_iPhone.xib; sourceTree = "<group>"; };
-		7BA48D1513D738E00056D61A /* DubsarAppDelegate_iPad.h */ = {isa = PBXFileReference; name = DubsarAppDelegate_iPad.h; path = iPad/DubsarAppDelegate_iPad.h; sourceTree = "<group>"; };
+		7BA48D1513D738E00056D61A /* DubsarAppDelegate_iPad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DubsarAppDelegate_iPad.h; path = iPad/DubsarAppDelegate_iPad.h; sourceTree = "<group>"; };
 		7BA48D1613D738E00056D61A /* DubsarAppDelegate_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DubsarAppDelegate_iPad.m; path = iPad/DubsarAppDelegate_iPad.m; sourceTree = "<group>"; };
 		7BA48D1913D738E10056D61A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPad/en.lproj/MainWindow_iPad.xib; sourceTree = "<group>"; };
 		7BA48D2013D738E10056D61A /* DubsarTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BA48D2813D738E10056D61A /* DubsarTests-Info.plist */ = {isa = PBXFileReference; path = "DubsarTests-Info.plist"; sourceTree = "<group>"; };
+		7BA48D2813D738E10056D61A /* DubsarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarTests-Info.plist"; sourceTree = "<group>"; };
 		7BA48D2A13D738E10056D61A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7BA48D2C13D738E10056D61A /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
+		7BA48D2C13D738E10056D61A /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
 		7BA48D2D13D738E10056D61A /* DubsarTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarTests.h; sourceTree = "<group>"; };
 		7BA48D2F13D738E10056D61A /* DubsarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarTests.m; sourceTree = "<group>"; };
+		7BDD675B13D8613B00A9E94B /* SearchBarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarManager.h; sourceTree = "<group>"; };
+		7BDD675C13D8613B00A9E94B /* SearchBarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarManager.m; sourceTree = "<group>"; };
+		7BDD677613D9B76B00A9E94B /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
+		7BDD677713D9B76C00A9E94B /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
+		7BDD677913D9B98B00A9E94B /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
+		7BDD677A13D9B98C00A9E94B /* Word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Word.m; sourceTree = "<group>"; };
+		7BDD67A213D9DDA100A9E94B /* LoadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadDelegate.h; sourceTree = "<group>"; };
+		7BDD67A313DA43D900A9E94B /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		7BDD67A413DA43D900A9E94B /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		7BDD67A613DA5B2B00A9E94B /* WordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordViewController.h; sourceTree = "<group>"; };
+		7BDD67A713DA5B2C00A9E94B /* WordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordViewController.m; sourceTree = "<group>"; };
+		7BDD67A813DA5B2D00A9E94B /* WordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WordViewController.xib; sourceTree = "<group>"; };
+		7BDD67B113DA68F200A9E94B /* Dubsar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dubsar.h; sourceTree = "<group>"; };
+		7BDD67B213DA68F400A9E94B /* Dubsar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dubsar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +134,9 @@
 		7BA48CEC13D738E00056D61A = {
 			isa = PBXGroup;
 			children = (
+				7B3F874913D73B15009C390B /* dubsar-ipad.png */,
+				7B3F874713D73B0B009C390B /* dubsar.png */,
+				7B3F876813D74CA9009C390B /* dubsar-full.png */,
 				7BA48D0113D738E00056D61A /* Dubsar */,
 				7BA48D2613D738E10056D61A /* DubsarTests */,
 				7BA48CFA13D738E00056D61A /* Frameworks */,
@@ -116,6 +166,14 @@
 		7BA48D0113D738E00056D61A /* Dubsar */ = {
 			isa = PBXGroup;
 			children = (
+				7BDD67B113DA68F200A9E94B /* Dubsar.h */,
+				7BDD67B213DA68F400A9E94B /* Dubsar.m */,
+				7BDD677C13D9CC6700A9E94B /* JSONKit */,
+				7BDD677613D9B76B00A9E94B /* Search.h */,
+				7BDD67A213D9DDA100A9E94B /* LoadDelegate.h */,
+				7BDD677713D9B76C00A9E94B /* Search.m */,
+				7BDD677913D9B98B00A9E94B /* Word.h */,
+				7BDD677A13D9B98C00A9E94B /* Word.m */,
 				7BA48D0A13D738E00056D61A /* DubsarAppDelegate.h */,
 				7BA48D0B13D738E00056D61A /* DubsarAppDelegate.m */,
 				7BA48D0D13D738E00056D61A /* iPhone */,
@@ -139,9 +197,23 @@
 		7BA48D0D13D738E00056D61A /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
+				7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */,
+				7BDD67A613DA5B2B00A9E94B /* WordViewController.h */,
+				7BDD67A713DA5B2C00A9E94B /* WordViewController.m */,
+				7BDD67A813DA5B2D00A9E94B /* WordViewController.xib */,
+				7B4B2EC513D7CD3100A0B98F /* SearchViewController.h */,
+				7B4B2EC613D7CD3200A0B98F /* SearchViewController.m */,
+				7B4B2EC713D7CD3200A0B98F /* SearchViewController.xib */,
+				7B3F875A13D7443D009C390B /* DubsarViewController_iPhone.m */,
+				7B3F875B13D7443D009C390B /* DubsarViewController_iPhone.xib */,
 				7BA48D0E13D738E00056D61A /* DubsarAppDelegate_iPhone.h */,
 				7BA48D0F13D738E00056D61A /* DubsarAppDelegate_iPhone.m */,
 				7BA48D1113D738E00056D61A /* MainWindow_iPhone.xib */,
+				7B3F877213D7599E009C390B /* LicenseViewController.h */,
+				7B3F877313D7599E009C390B /* LicenseViewController.m */,
+				7B3F877413D7599F009C390B /* LicenseViewController.xib */,
+				7BDD675B13D8613B00A9E94B /* SearchBarManager.h */,
+				7BDD675C13D8613B00A9E94B /* SearchBarManager.m */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -149,6 +221,9 @@
 		7BA48D1413D738E00056D61A /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				7B3F876313D74474009C390B /* DubsarViewController_iPad.h */,
+				7B3F876413D74474009C390B /* DubsarViewController_iPad.m */,
+				7B3F876513D74474009C390B /* DubsarViewController_iPad.xib */,
 				7BA48D1513D738E00056D61A /* DubsarAppDelegate_iPad.h */,
 				7BA48D1613D738E00056D61A /* DubsarAppDelegate_iPad.m */,
 				7BA48D1813D738E10056D61A /* MainWindow_iPad.xib */,
@@ -174,6 +249,15 @@
 				7BA48D2C13D738E10056D61A /* DubsarTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7BDD677C13D9CC6700A9E94B /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				7BDD67A313DA43D900A9E94B /* JSONKit.h */,
+				7BDD67A413DA43D900A9E94B /* JSONKit.m */,
+			);
+			name = JSONKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,6 +304,9 @@
 /* Begin PBXProject section */
 		7BA48CEE13D738E00056D61A /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Jimmy Dee";
+			};
 			buildConfigurationList = 7BA48CF113D738E00056D61A /* Build configuration list for PBXProject "Dubsar" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -246,6 +333,14 @@
 				7BA48D0613D738E00056D61A /* InfoPlist.strings in Resources */,
 				7BA48D1313D738E00056D61A /* MainWindow_iPhone.xib in Resources */,
 				7BA48D1A13D738E10056D61A /* MainWindow_iPad.xib in Resources */,
+				7B3F874813D73B0B009C390B /* dubsar.png in Resources */,
+				7B3F874A13D73B15009C390B /* dubsar-ipad.png in Resources */,
+				7B3F875D13D7443D009C390B /* DubsarViewController_iPhone.xib in Resources */,
+				7B3F876713D74474009C390B /* DubsarViewController_iPad.xib in Resources */,
+				7B3F876913D74CA9009C390B /* dubsar-full.png in Resources */,
+				7B3F877613D7599F009C390B /* LicenseViewController.xib in Resources */,
+				7B4B2EC913D7CD3300A0B98F /* SearchViewController.xib in Resources */,
+				7BDD67AA13DA5B3000A9E94B /* WordViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +380,16 @@
 				7BA48D0C13D738E00056D61A /* DubsarAppDelegate.m in Sources */,
 				7BA48D1013D738E00056D61A /* DubsarAppDelegate_iPhone.m in Sources */,
 				7BA48D1713D738E00056D61A /* DubsarAppDelegate_iPad.m in Sources */,
+				7B3F875C13D7443D009C390B /* DubsarViewController_iPhone.m in Sources */,
+				7B3F876613D74474009C390B /* DubsarViewController_iPad.m in Sources */,
+				7B3F877513D7599F009C390B /* LicenseViewController.m in Sources */,
+				7B4B2EC813D7CD3300A0B98F /* SearchViewController.m in Sources */,
+				7BDD675D13D8613B00A9E94B /* SearchBarManager.m in Sources */,
+				7BDD677813D9B76C00A9E94B /* Search.m in Sources */,
+				7BDD677B13D9B98D00A9E94B /* Word.m in Sources */,
+				7BDD67A513DA43D900A9E94B /* JSONKit.m in Sources */,
+				7BDD67A913DA5B3000A9E94B /* WordViewController.m in Sources */,
+				7BDD67B313DA68F600A9E94B /* Dubsar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +572,7 @@
 				7BA48D3513D738E10056D61A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7BA48D3613D738E10056D61A /* Build configuration list for PBXNativeTarget "DubsarTests" */ = {
 			isa = XCConfigurationList;
@@ -475,6 +581,7 @@
 				7BA48D3813D738E10056D61A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
