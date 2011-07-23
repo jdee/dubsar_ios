@@ -6,8 +6,6 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import <pthread.h>
-
 #import <UIKit/UIKit.h>
 
 #import "LoadDelegate.h"
@@ -25,10 +23,8 @@
 @property (nonatomic, retain) SearchBarManager* searchBarManager;
 @property (nonatomic, retain) NSString* searchText;
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
-@property (nonatomic, retain) UIViewController* viewController;
 
-- (IBAction)dismiss:(id)sender;
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText viewController:(UIViewController*)theViewController;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText;
 - (void)adjustPageLabel;
 
 @end

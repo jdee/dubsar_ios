@@ -50,7 +50,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [[SearchBarManager alloc]initWithSearchBar:searchBar viewController:self];
+    searchBarManager = [[SearchBarManager alloc]initWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload
@@ -87,10 +87,10 @@
 - (void)displayLicense {
     if (!_licenseViewController) {
         _licenseViewController = [[LicenseViewController alloc]
-            initWithNibName:@"LicenseViewController" bundle:nil viewController:self];
+            initWithNibName:@"LicenseViewController" bundle:nil];
     }
-    
-    [self presentModalViewController:_licenseViewController animated: YES];
+
+    [self.navigationController pushViewController:_licenseViewController animated: YES];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar

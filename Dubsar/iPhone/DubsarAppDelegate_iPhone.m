@@ -17,9 +17,10 @@
 {    
     DubsarViewController_iPhone *rootViewController = [[DubsarViewController_iPhone alloc]
                                               initWithNibName:@"DubsarViewController_iPhone" bundle:nil];
-    
-    [self.window setRootViewController:rootViewController];
+    UINavigationController* navigationController = [[UINavigationController alloc]initWithRootViewController:rootViewController];
     [rootViewController release];
+   
+    [self.window setRootViewController:navigationController];
     
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     return YES;

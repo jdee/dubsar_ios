@@ -12,21 +12,18 @@
 @implementation LicenseViewController
 @synthesize searchBarManager;
 @synthesize searchBar;
-@synthesize viewController=_viewController;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil viewController:(UIViewController *)theViewController
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"License";
-        _viewController = theViewController;
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [_viewController release];
     [searchBarManager release];
     [searchBar release];
     [super dealloc];
@@ -46,7 +43,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [[SearchBarManager alloc]initWithSearchBar:searchBar viewController:_viewController];
+    searchBarManager = [[SearchBarManager alloc]initWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload
@@ -88,8 +85,4 @@
     [searchBarManager searchBarSearchButtonClicked:theSearchBar];
 }
 
-- (IBAction)doneSelected:(id)sender 
-{
-    [_viewController dismissModalViewControllerAnimated:YES];
-}
 @end

@@ -14,10 +14,8 @@
     UISearchBar *searchBar;
 }
 
-@property (nonatomic, retain) UIViewController* viewController;
 @property (nonatomic, retain) SearchBarManager* searchBarManager;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil viewController:(UIViewController*)theViewController;
-- (IBAction)doneSelected:(id)sender;
+
 
 @end

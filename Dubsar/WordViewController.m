@@ -15,16 +15,16 @@
 @synthesize searchBarManager;
 @synthesize searchBar;
 @synthesize pageLabel;
-@synthesize viewController=_viewController;
 @synthesize word;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil viewController:(UIViewController *)theViewController word:(Word *)theWord
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        _viewController = theViewController;
         word = [theWord retain];
+        self.title = word.nameAndPos;
+        
         word.delegate = self;
         [word load];
     }
@@ -35,7 +35,6 @@
 {
     [word release];
     [searchBarManager release];
-    [_viewController release];
     [pageLabel release];
     [searchBar release];
     [super dealloc];
@@ -56,7 +55,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     pageLabel.text = word.nameAndPos;
-    searchBarManager = [SearchBarManager managerWithSearchBar:searchBar viewController:_viewController];
+    searchBarManager = [SearchBarManager managerWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload
@@ -108,11 +107,6 @@
         return YES;
     
     return NO;
-}
-
-- (IBAction)dismiss:(id)sender
-{
-    [_viewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)loadComplete:(id)model

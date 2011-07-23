@@ -12,10 +12,10 @@
 
 @interface SearchBarManager : NSObject <UISearchBarDelegate> {
 }
-@property (nonatomic, retain) UIViewController* viewController;
+@property (nonatomic, retain) UINavigationController* navigationController;
 @property (nonatomic, retain) UISearchBar *searchBar;
 
-+ (id)managerWithSearchBar:(UISearchBar*)theSearchBar viewController:(UIViewController*)theViewController;
-- (id)initWithSearchBar:(UISearchBar*)theSearchBar viewController:(UIViewController*)theViewController;
++ (id)managerWithSearchBar:(UISearchBar*)theSearchBar navigationController:(UINavigationController*)theNavigationController;
+- (id)initWithSearchBar:(UISearchBar*)theSearchBar navigationController:(UINavigationController*)theNavigationController;
 
 @end

@@ -22,18 +22,19 @@
 @synthesize searchBarManager;
 @synthesize searchText=_searchText;
 @synthesize searchDisplayController=_dubsarSearchDisplayController;
-@synthesize viewController=_viewController;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText viewController:(UIViewController *)theViewController{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText 
+{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.title = @"Search Results";
+        
         /*
          * The argument (theSearchText) is the content of the search bar from the previous 
          * view that launched this search, not the search bar associated with this
          * controller. That view was just unloaded. We make a copy here.
          */
         _searchText = [[theSearchText copy] retain];
-        _viewController = theViewController;
         
         // set up a new search request to the server asynchronously
         search = [[Search searchWithTerm:_searchText] retain];
@@ -69,7 +70,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [[SearchBarManager managerWithSearchBar:_dubsarSearchDisplayController.searchBar viewController:_viewController] retain];
+    searchBarManager = [[SearchBarManager managerWithSearchBar:_dubsarSearchDisplayController.searchBar navigationController:self.navigationController] retain];
 }
 
 - (void)viewDidUnload
@@ -139,8 +140,7 @@
 {
     int index = indexPath.row;
     Word* word = [search.results objectAtIndex:index];
-    [_viewController dismissModalViewControllerAnimated:NO];
-    [_viewController presentModalViewController:[[WordViewController alloc]initWithNibName:@"WordViewController" bundle:nil viewController:_viewController word:word] animated:YES];
+    [self.navigationController pushViewController:[[WordViewController alloc]initWithNibName:@"WordViewController" bundle:nil word:word] animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
@@ -171,11 +171,6 @@
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     cell.textLabel.text = [word nameAndPos];
     return cell;
-}
-
-- (IBAction)dismiss:(id)sender
-{
-    [_viewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)adjustPageLabel

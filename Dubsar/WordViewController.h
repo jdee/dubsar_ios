@@ -20,11 +20,9 @@
 
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, retain) SearchBarManager* searchBarManager;
-@property (nonatomic, retain) UIViewController* viewController;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UILabel *pageLabel;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil viewController:(UIViewController*)theViewController word:(Word*)theWord;
-- (IBAction)dismiss:(id)sender;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 
 @end
