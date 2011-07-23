@@ -81,6 +81,12 @@
     }
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSLog(@"received response");
+    [data setLength:0];
+}
+
 -(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)theData
 {
     [data appendData:theData];

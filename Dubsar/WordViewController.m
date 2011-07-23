@@ -14,7 +14,8 @@
 @implementation WordViewController
 @synthesize searchBarManager;
 @synthesize searchBar;
-@synthesize pageLabel;
+@synthesize inflectionsLabel;
+@synthesize tableView;
 @synthesize word;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord
@@ -23,11 +24,11 @@
     if (self) {
         // Custom initialization
         word = [theWord retain];
-        self.title = word.nameAndPos;
-        
         word.delegate = self;
         [word load];
-    }
+
+        self.title = word.nameAndPos;
+   }
     return self;
 }
 
@@ -35,8 +36,9 @@
 {
     [word release];
     [searchBarManager release];
-    [pageLabel release];
+    [inflectionsLabel release];
     [searchBar release];
+    [tableView release];
     [super dealloc];
 }
 
@@ -54,14 +56,14 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    pageLabel.text = word.nameAndPos;
     searchBarManager = [SearchBarManager managerWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload
 {
-    [self setPageLabel:nil];
+    [self setInflectionsLabel:nil];
     [self setSearchBar:nil];
+    [self setTableView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -98,6 +100,25 @@
                        replacementText:text];
 }
 
+- (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
+{
+    return 5;
+}
+
+- (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString* cellType = @"word";
+    
+    UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType] autorelease];
+    }
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    return cell;
+}
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -111,7 +132,16 @@
 
 - (void)loadComplete:(id)model
 {
+    if (model != word) return;
     
+    [self adjustInflections];
+}
+
+- (void)adjustInflections
+{
+    NSString* inflections = word.inflections;
+    if (inflections.length == 0) inflections = @"(none)";
+    inflectionsLabel.text = [NSString stringWithFormat:@"other forms: %@", inflections];
 }
 
 @end

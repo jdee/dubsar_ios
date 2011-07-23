@@ -43,7 +43,7 @@
     [theSearchBar resignFirstResponder];
     [_navigationController dismissModalViewControllerAnimated:NO];
     
-    // new modal SearchViewController for this search
+    // new SearchViewController for this search
     NSLog(@"presenting modal view controller for \"%@\"", theSearchBar.text);
     SearchViewController* searchViewController = [[SearchViewController alloc] initWithNibName: @"SearchViewController" bundle: nil text: theSearchBar.text];
     [_navigationController pushViewController:searchViewController animated: YES];

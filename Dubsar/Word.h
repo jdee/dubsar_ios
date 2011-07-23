@@ -19,9 +19,11 @@ typedef enum  {
     POSVerb
 } PartOfSpeech;
 
+@class JSONDecoder;
 @protocol LoadDelegate;
 
 @interface Word : NSObject {
+    JSONDecoder* decoder;
     NSURLConnection* connection;
     NSMutableData* data;
     NSString* _url;
@@ -30,6 +32,9 @@ typedef enum  {
 @property (nonatomic) int _id;
 @property (nonatomic, retain) NSString* name;
 @property (nonatomic) PartOfSpeech partOfSpeech;
+
+@property (nonatomic, retain) NSString* inflections;
+@property (nonatomic, retain) NSMutableArray* senses;
 
 @property bool complete;
 @property (nonatomic, assign) id<LoadDelegate> delegate;
@@ -41,6 +46,7 @@ typedef enum  {
 -(NSString*)pos;
 -(NSString*)nameAndPos;
 
+-(void)initConnection;
 -(void)load;
 -(void)parseData;
 

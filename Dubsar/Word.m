@@ -7,6 +7,7 @@
 //
 
 #import "Dubsar.h"
+#import "JSONKit.h"
 #import "LoadDelegate.h"
 #import "Word.h"
 
@@ -15,6 +16,9 @@
 @synthesize _id;
 @synthesize name;
 @synthesize partOfSpeech;
+
+@synthesize inflections;
+@synthesize senses;
 
 @synthesize complete;
 @synthesize delegate;
@@ -36,8 +40,7 @@
         _id = theId;
         name = [theName copy];
         partOfSpeech = thePartOfSpeech;
-        data = [[NSMutableData dataWithLength:0] retain];
-        _url = [[NSString stringWithFormat:@"%@/words/%d", DubsarBaseUrl, _id] retain];
+        [self initConnection];
     }
     return self;
 }
@@ -67,12 +70,17 @@
         } else if ([posString compare:@"v"] == NSOrderedSame) {
             partOfSpeech = POSVerb;
         }
+        
+        [self initConnection];
     }
     return self;
 }
 
 -(void)dealloc
 {
+    [senses release];
+    [inflections release];
+    [decoder release];
     [connection release];
     [_url release];
     [data release];
@@ -110,6 +118,12 @@
     return [[NSString alloc]initWithFormat:@"%@ (%@.)", name, self.pos];
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSLog(@"received response");
+    [data setLength:0];
+}
+
 -(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)theData
 {
     [data appendData:theData];
@@ -122,8 +136,16 @@
     [[self delegate] loadComplete:self];
 }
 
+-(void)initConnection
+{
+    data = [[NSMutableData dataWithLength:0] retain];
+    _url = [[NSString stringWithFormat:@"%@/words/%d.json", DubsarBaseUrl, _id] retain];
+    decoder = [[JSONDecoder decoder] retain];
+}
+
 -(void)load
 {
+    NSLog(@"requesting %@", _url);
     NSURL* url = [NSURL URLWithString:_url];
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     connection = [NSURLConnection connectionWithRequest:request delegate:self];   
@@ -131,7 +153,11 @@
 
 -(void)parseData
 {
+    NSArray* response = [decoder objectWithData:data];
     
+    inflections = [[response objectAtIndex:3]retain];
+
+    NSArray* _senses = [response objectAtIndex:4];
 }
 
 @end

@@ -14,15 +14,20 @@
 
 @interface WordViewController : UIViewController <LoadDelegate> {
     
-    UILabel *pageLabel;
+    UILabel *inflectionsLabel;
     UISearchBar *searchBar;
+    UITableView *tableView;
 }
+
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
 
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, retain) SearchBarManager* searchBarManager;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
-@property (nonatomic, retain) IBOutlet UILabel *pageLabel;
+@property (nonatomic, retain) IBOutlet UILabel *inflectionsLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
+
+-(void)adjustInflections;
 
 @end
