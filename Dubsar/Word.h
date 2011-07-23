@@ -6,26 +6,15 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
+#import "Dubsar.h"
 #import "Model.h"
-
-typedef enum  {
-    POSUnknown,
-    POSAdjective,
-    POSAdverb,
-    POSConjunction,
-    POSInterjection,
-    POSNoun,
-    POSPreposition,
-    POSPronoun,
-    POSVerb
-} PartOfSpeech;
 
 @interface Word : Model {
 }
 
 @property int _id;
 @property (nonatomic, retain) NSString* name;
-@property (nonatomic) PartOfSpeech partOfSpeech;
+@property PartOfSpeech partOfSpeech;
 
 @property (nonatomic, retain) NSString* inflections;
 @property (nonatomic, retain) NSMutableArray* senses;

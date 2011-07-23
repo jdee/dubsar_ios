@@ -13,13 +13,13 @@
 @class Sense;
 
 
-@interface SenseViewController_iPhone : UIViewController <UISearchBarDelegate, LoadDelegate> {
-    
+@interface SenseViewController_iPhone : UIViewController <UISearchBarDelegate, LoadDelegate> 
+{
     UISearchBar *searchBar;
     UILabel *bannerLabel;
     UILabel *glossLabel;
-    UILabel *synonymsLabel;
-    UILabel *synonymsTextLabel;
+    UITableView *tableView;
+    NSArray* tableSections;
 }
 
 @property (nonatomic, retain) Sense* sense;
@@ -27,8 +27,7 @@
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
-@property (nonatomic, retain) IBOutlet UILabel *synonymsLabel;
-@property (nonatomic, retain) IBOutlet UILabel *synonymsTextLabel;
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 
@@ -37,5 +36,7 @@
 
 - (void)createToolbarItems;
 - (void)loadRootController;
+
+- (void)setupTableSections;
 
 @end

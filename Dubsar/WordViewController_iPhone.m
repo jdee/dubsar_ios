@@ -117,7 +117,8 @@
 
 - (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
 {
-    return theTableView == tableView && word.complete && word.senses ? word.senses.count : 0;
+    if (theTableView != tableView) return 0;
+    return word.complete && word.senses ? word.senses.count : 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -129,6 +130,12 @@
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType] autorelease];
+    }
+    
+    if (!word.complete) {
+        cell.textLabel.text = @"loading...";
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        return cell;
     }
     
     int index = indexPath.row;
@@ -179,7 +186,7 @@
 
 - (void)loadRootController
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController pushViewController:[[DubsarViewController_iPhone alloc]initWithNibName:@"DubsarViewController_iPhone" bundle:nil] animated:YES];
 }
 
 

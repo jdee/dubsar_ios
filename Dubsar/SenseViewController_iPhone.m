@@ -17,8 +17,7 @@
 @synthesize searchBar;
 @synthesize bannerLabel;
 @synthesize glossLabel;
-@synthesize synonymsLabel;
-@synthesize synonymsTextLabel;
+@synthesize tableView;
 @synthesize searchBarManager;
 @synthesize sense;
 
@@ -31,7 +30,7 @@
         sense.delegate = self;
         
         [sense load];
-        self.title = [NSString stringWithFormat:@"Sense: %@", sense.word.nameAndPos];
+        self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
         
         UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset"  style:UIBarButtonItemStylePlain target:self action:@selector(loadSynsetView)];
         
@@ -43,13 +42,13 @@
 
 - (void)dealloc
 {
+    [tableSections release];
     [sense release];
     [searchBarManager release];
     [searchBar release];
     [bannerLabel release];
     [glossLabel release];
-    [synonymsLabel release];
-    [synonymsTextLabel release];
+    [tableView release];
     [super dealloc];
 }
 
@@ -75,8 +74,7 @@
     [self setSearchBar:nil];
     [self setBannerLabel:nil];
     [self setGlossLabel:nil];
-    [self setSynonymsLabel:nil];
-    [self setSynonymsTextLabel:nil];
+    [self setTableView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -134,14 +132,8 @@
     
     [self adjustBannerLabel];
     glossLabel.text = sense.gloss;
-    
-    if (sense.synonyms.count > 0) {
-        synonymsLabel.text = sense.synonymsAsString;
-    }
-    else {
-        [synonymsTextLabel setHidden:YES];
-        [synonymsLabel setHidden:YES];
-    }
+    [self setupTableSections];
+    [tableView reloadData];
 }
 
 - (void)adjustBannerLabel
@@ -150,7 +142,9 @@
     if (sense.marker) {
         text = [text stringByAppendingString:[NSString stringWithFormat:@" (%@)", sense.marker]];
     }
-    text = [text stringByAppendingString:[NSString stringWithFormat:@" freq. cnt.: %d", sense.freqCnt]];
+    if (sense.freqCnt > 0) {
+        text = [text stringByAppendingString:[NSString stringWithFormat:@" freq. cnt.: %d", sense.freqCnt]];
+    }
     bannerLabel.text = text;   
 }
 
@@ -170,7 +164,51 @@
 
 - (void)loadRootController
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController pushViewController:[[DubsarViewController_iPhone alloc]initWithNibName:@"DubsarViewController_iPhone" bundle:nil] animated:YES];
+}
+
+/* TableView management */
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (theTableView != tableView) return nil;
+    
+    static NSString* cellType = @"sense";
+    
+    UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType];
+    }
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.text = @"loading...";
+    
+    return cell;
+}
+
+- (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"loading...";
+}
+
+- (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
+{
+    return @"loading...";
+}
+
+- (void)setupTableSections
+{
+    
 }
 
 @end

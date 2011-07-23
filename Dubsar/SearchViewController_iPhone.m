@@ -149,7 +149,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    NSInteger rows = tableView == _dubsarSearchDisplayController.searchResultsTableView && search.complete && search.results ? search.results.count : 0;
+    if (_dubsarSearchDisplayController.searchResultsTableView != tableView) return 0;
+    
+    NSInteger rows = search.complete && search.results ? search.results.count : 1;
     NSLog(@"tableView:numberOfRowsInSection: = %d", rows);
     return rows;
 }
@@ -163,6 +165,12 @@
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
+    }
+    
+    if (!search.complete) {
+        cell.textLabel.text = @"loading...";
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        return cell;
     }
     
     NSLog(@"have view cell, loading data");
@@ -206,7 +214,7 @@
 
 - (void)loadRootController
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController pushViewController:[[DubsarViewController_iPhone alloc]initWithNibName:@"DubsarViewController_iPhone" bundle:nil] animated:YES];
 }
 
 @end

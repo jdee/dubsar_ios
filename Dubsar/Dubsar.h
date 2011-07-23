@@ -9,3 +9,15 @@
 #import <Foundation/Foundation.h>
 
 extern const NSString* DubsarBaseUrl;
+
+typedef enum  {
+    POSUnknown,
+    POSAdjective,
+    POSAdverb,
+    POSConjunction,
+    POSInterjection,
+    POSNoun,
+    POSPreposition,
+    POSPronoun,
+    POSVerb
+} PartOfSpeech;

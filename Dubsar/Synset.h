@@ -6,6 +6,7 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
+#import "Dubsar.h"
 #import "Model.h"
 
 
@@ -15,10 +16,13 @@
 
 @property int _id;
 @property (nonatomic, retain) NSString* gloss;
+@property PartOfSpeech partOfSpeech;
 @property (nonatomic, retain) NSString* lexname;
+@property (nonatomic, retain) NSMutableArray* samples;
+@property (nonatomic, retain) NSMutableArray* senses;
 
-+(id)synsetWithId:(int)theId gloss:(NSString*)theGloss;
--(id)initWithId:(int)theId gloss:(NSString*)theGloss;
++(id)synsetWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
+-(id)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 -(void)parseData;
 
 @end
