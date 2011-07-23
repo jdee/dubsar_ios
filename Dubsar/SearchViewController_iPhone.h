@@ -10,17 +10,17 @@
 
 #import "LoadDelegate.h"
 
-@class SearchBarManager;
+@class SearchBarManager_iPhone;
 @class Search;
 
-@interface SearchViewController : UIViewController <LoadDelegate> {
+@interface SearchViewController_iPhone : UIViewController <LoadDelegate> {
 
     UILabel *_pageLabel;
 }
 
 @property (nonatomic, retain) Search* search;
 @property (nonatomic, retain) IBOutlet UILabel *pageLabel;
-@property (nonatomic, retain) SearchBarManager* searchBarManager;
+@property (nonatomic, retain) SearchBarManager_iPhone* searchBarManager;
 @property (nonatomic, retain) NSString* searchText;
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
 

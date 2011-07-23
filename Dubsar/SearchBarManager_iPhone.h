@@ -8,9 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class SearchViewController;
-
-@interface SearchBarManager : NSObject <UISearchBarDelegate> {
+@interface SearchBarManager_iPhone : NSObject <UISearchBarDelegate> {
 }
 @property (nonatomic, retain) UINavigationController* navigationController;
 @property (nonatomic, retain) UISearchBar *searchBar;

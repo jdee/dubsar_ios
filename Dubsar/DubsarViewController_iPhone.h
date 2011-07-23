@@ -8,18 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@class LicenseViewController;
-@class SearchBarManager;
+@class LicenseViewController_iPhone;
+@class SearchBarManager_iPhone;
 
 
 @interface DubsarViewController_iPhone : UIViewController <UISearchBarDelegate> {
     UISegmentedControl *segmentedControl;
     UISearchBar *searchBar;
 }
-@property (nonatomic, retain) SearchBarManager* searchBarManager;
+@property (nonatomic, retain) SearchBarManager_iPhone* searchBarManager;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentedControl;
-@property (nonatomic, retain) LicenseViewController* licenseViewController;
+@property (nonatomic, retain) LicenseViewController_iPhone* licenseViewController;
 
 - (IBAction)licenseSelected:(id)sender;
 - (void)displayLicense;

@@ -8,14 +8,14 @@
 
 #import <stdlib.h>
 
-#import "SearchBarManager.h"
-#import "SearchViewController.h"
+#import "SearchBarManager_iPhone.h"
+#import "SearchViewController_iPhone.h"
 #import "Search.h"
 #import "Word.h"
-#import "WordViewController.h"
+#import "WordViewController_iPHone.h"
 
 
-@implementation SearchViewController
+@implementation SearchViewController_iPhone
 
 @synthesize search;
 @synthesize pageLabel = _pageLabel;
@@ -70,7 +70,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [[SearchBarManager managerWithSearchBar:_dubsarSearchDisplayController.searchBar navigationController:self.navigationController] retain];
+    searchBarManager = [[SearchBarManager_iPhone managerWithSearchBar:_dubsarSearchDisplayController.searchBar navigationController:self.navigationController] retain];
 }
 
 - (void)viewDidUnload
@@ -141,7 +141,7 @@
 {
     int index = indexPath.row;
     Word* word = [search.results objectAtIndex:index];
-    [self.navigationController pushViewController:[[WordViewController alloc]initWithNibName:@"WordViewController" bundle:nil word:word] animated:YES];
+    [self.navigationController pushViewController:[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word] animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 

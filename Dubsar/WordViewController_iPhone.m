@@ -6,13 +6,13 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "WordViewController.h"
+#import "WordViewController_iPhone.h"
 
-#import "SearchBarManager.h"
+#import "SearchBarManager_iPhone.h"
 #import "Sense.h"
 #import "Word.h"
 
-@implementation WordViewController
+@implementation WordViewController_iPhone
 @synthesize searchBarManager;
 @synthesize searchBar;
 @synthesize inflectionsLabel;
@@ -57,7 +57,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [SearchBarManager managerWithSearchBar:searchBar navigationController:self.navigationController];
+    searchBarManager = [SearchBarManager_iPhone managerWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload

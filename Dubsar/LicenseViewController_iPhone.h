@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class SearchBarManager;
+@class SearchBarManager_iPhone;
 
-@interface LicenseViewController : UIViewController <UISearchBarDelegate> {
+@interface LicenseViewController_iPhone : UIViewController <UISearchBarDelegate> {
     UISearchBar *searchBar;
 }
 
-@property (nonatomic, retain) SearchBarManager* searchBarManager;
+@property (nonatomic, retain) SearchBarManager_iPhone* searchBarManager;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 
 

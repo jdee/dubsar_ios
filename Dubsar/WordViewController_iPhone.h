@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "LoadDelegate.h"
 
-@class SearchBarManager;
+@class SearchBarManager_iPhone;
 @class Word;
 
-@interface WordViewController : UIViewController <LoadDelegate> {
+@interface WordViewController_iPhone : UIViewController <LoadDelegate> {
     
     UILabel *inflectionsLabel;
     UISearchBar *searchBar;
@@ -22,7 +22,7 @@
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 
 @property (nonatomic, retain) Word* word;
-@property (nonatomic, retain) SearchBarManager* searchBarManager;
+@property (nonatomic, retain) SearchBarManager_iPhone* searchBarManager;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UILabel *inflectionsLabel;
 

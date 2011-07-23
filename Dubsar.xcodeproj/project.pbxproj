@@ -14,10 +14,10 @@
 		7B3F876613D74474009C390B /* DubsarViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F876413D74474009C390B /* DubsarViewController_iPad.m */; };
 		7B3F876713D74474009C390B /* DubsarViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F876513D74474009C390B /* DubsarViewController_iPad.xib */; };
 		7B3F876913D74CA9009C390B /* dubsar-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F876813D74CA9009C390B /* dubsar-full.png */; };
-		7B3F877513D7599F009C390B /* LicenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F877313D7599E009C390B /* LicenseViewController.m */; };
-		7B3F877613D7599F009C390B /* LicenseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F877413D7599F009C390B /* LicenseViewController.xib */; };
-		7B4B2EC813D7CD3300A0B98F /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC613D7CD3200A0B98F /* SearchViewController.m */; };
-		7B4B2EC913D7CD3300A0B98F /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC713D7CD3200A0B98F /* SearchViewController.xib */; };
+		7B3F877513D7599F009C390B /* LicenseViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F877313D7599E009C390B /* LicenseViewController_iPhone.m */; };
+		7B3F877613D7599F009C390B /* LicenseViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F877413D7599F009C390B /* LicenseViewController_iPhone.xib */; };
+		7B4B2EC813D7CD3300A0B98F /* SearchViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */; };
+		7B4B2EC913D7CD3300A0B98F /* SearchViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */; };
 		7BA48CFC13D738E00056D61A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFB13D738E00056D61A /* UIKit.framework */; };
 		7BA48CFE13D738E00056D61A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFD13D738E00056D61A /* Foundation.framework */; };
 		7BA48D0013D738E00056D61A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFF13D738E00056D61A /* CoreGraphics.framework */; };
@@ -34,12 +34,12 @@
 		7BA48D2B13D738E10056D61A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2913D738E10056D61A /* InfoPlist.strings */; };
 		7BA48D2E13D738E10056D61A /* DubsarTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2D13D738E10056D61A /* DubsarTests.h */; };
 		7BA48D3013D738E10056D61A /* DubsarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D2F13D738E10056D61A /* DubsarTests.m */; };
-		7BDD675D13D8613B00A9E94B /* SearchBarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD675C13D8613B00A9E94B /* SearchBarManager.m */; };
+		7BDD675D13D8613B00A9E94B /* SearchBarManager_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD675C13D8613B00A9E94B /* SearchBarManager_iPhone.m */; };
 		7BDD677813D9B76C00A9E94B /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677713D9B76C00A9E94B /* Search.m */; };
 		7BDD677B13D9B98D00A9E94B /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677A13D9B98C00A9E94B /* Word.m */; };
 		7BDD67A513DA43D900A9E94B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67A413DA43D900A9E94B /* JSONKit.m */; };
-		7BDD67A913DA5B3000A9E94B /* WordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67A713DA5B2C00A9E94B /* WordViewController.m */; };
-		7BDD67AA13DA5B3000A9E94B /* WordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BDD67A813DA5B2D00A9E94B /* WordViewController.xib */; };
+		7BDD67A913DA5B3000A9E94B /* WordViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67A713DA5B2C00A9E94B /* WordViewController_iPhone.m */; };
+		7BDD67AA13DA5B3000A9E94B /* WordViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BDD67A813DA5B2D00A9E94B /* WordViewController_iPhone.xib */; };
 		7BDD67B313DA68F600A9E94B /* Dubsar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67B213DA68F400A9E94B /* Dubsar.m */; };
 		7BDD67C013DA8DC100A9E94B /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67BF13DA8DC100A9E94B /* Model.m */; };
 		7BDD67C413DA933600A9E94B /* Sense.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67C313DA933500A9E94B /* Sense.m */; };
@@ -65,12 +65,12 @@
 		7B3F876413D74474009C390B /* DubsarViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarViewController_iPad.m; sourceTree = "<group>"; };
 		7B3F876513D74474009C390B /* DubsarViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DubsarViewController_iPad.xib; sourceTree = "<group>"; };
 		7B3F876813D74CA9009C390B /* dubsar-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-full.png"; sourceTree = "<group>"; };
-		7B3F877213D7599E009C390B /* LicenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseViewController.h; sourceTree = "<group>"; };
-		7B3F877313D7599E009C390B /* LicenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseViewController.m; sourceTree = "<group>"; };
-		7B3F877413D7599F009C390B /* LicenseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseViewController.xib; sourceTree = "<group>"; };
-		7B4B2EC513D7CD3100A0B98F /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
-		7B4B2EC613D7CD3200A0B98F /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
-		7B4B2EC713D7CD3200A0B98F /* SearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
+		7B3F877213D7599E009C390B /* LicenseViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseViewController_iPhone.h; sourceTree = "<group>"; };
+		7B3F877313D7599E009C390B /* LicenseViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseViewController_iPhone.m; sourceTree = "<group>"; };
+		7B3F877413D7599F009C390B /* LicenseViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseViewController_iPhone.xib; sourceTree = "<group>"; };
+		7B4B2EC513D7CD3100A0B98F /* SearchViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController_iPhone.h; sourceTree = "<group>"; };
+		7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController_iPhone.m; sourceTree = "<group>"; };
+		7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchViewController_iPhone.xib; sourceTree = "<group>"; };
 		7BA48CF713D738E00056D61A /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA48CFB13D738E00056D61A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7BA48CFD13D738E00056D61A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -93,8 +93,8 @@
 		7BA48D2C13D738E10056D61A /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
 		7BA48D2D13D738E10056D61A /* DubsarTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarTests.h; sourceTree = "<group>"; };
 		7BA48D2F13D738E10056D61A /* DubsarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarTests.m; sourceTree = "<group>"; };
-		7BDD675B13D8613B00A9E94B /* SearchBarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarManager.h; sourceTree = "<group>"; };
-		7BDD675C13D8613B00A9E94B /* SearchBarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarManager.m; sourceTree = "<group>"; };
+		7BDD675B13D8613B00A9E94B /* SearchBarManager_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarManager_iPhone.h; sourceTree = "<group>"; };
+		7BDD675C13D8613B00A9E94B /* SearchBarManager_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarManager_iPhone.m; sourceTree = "<group>"; };
 		7BDD677613D9B76B00A9E94B /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
 		7BDD677713D9B76C00A9E94B /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
 		7BDD677913D9B98B00A9E94B /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
@@ -102,9 +102,9 @@
 		7BDD67A213D9DDA100A9E94B /* LoadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadDelegate.h; sourceTree = "<group>"; };
 		7BDD67A313DA43D900A9E94B /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		7BDD67A413DA43D900A9E94B /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
-		7BDD67A613DA5B2B00A9E94B /* WordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordViewController.h; sourceTree = "<group>"; };
-		7BDD67A713DA5B2C00A9E94B /* WordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordViewController.m; sourceTree = "<group>"; };
-		7BDD67A813DA5B2D00A9E94B /* WordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WordViewController.xib; sourceTree = "<group>"; };
+		7BDD67A613DA5B2B00A9E94B /* WordViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordViewController_iPhone.h; sourceTree = "<group>"; };
+		7BDD67A713DA5B2C00A9E94B /* WordViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordViewController_iPhone.m; sourceTree = "<group>"; };
+		7BDD67A813DA5B2D00A9E94B /* WordViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WordViewController_iPhone.xib; sourceTree = "<group>"; };
 		7BDD67B113DA68F200A9E94B /* Dubsar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dubsar.h; sourceTree = "<group>"; };
 		7BDD67B213DA68F400A9E94B /* Dubsar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dubsar.m; sourceTree = "<group>"; };
 		7BDD67BE13DA8DC100A9E94B /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
@@ -137,6 +137,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B22253C13DB1F18003B7322 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7BDD677613D9B76B00A9E94B /* Search.h */,
+				7BDD67A213D9DDA100A9E94B /* LoadDelegate.h */,
+				7BDD677713D9B76C00A9E94B /* Search.m */,
+				7BDD677913D9B98B00A9E94B /* Word.h */,
+				7BDD677A13D9B98C00A9E94B /* Word.m */,
+				7BDD67BE13DA8DC100A9E94B /* Model.h */,
+				7BDD67BF13DA8DC100A9E94B /* Model.m */,
+				7BDD67C213DA933500A9E94B /* Sense.h */,
+				7BDD67C313DA933500A9E94B /* Sense.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		7BA48CEC13D738E00056D61A = {
 			isa = PBXGroup;
 			children = (
@@ -174,18 +190,10 @@
 			children = (
 				7BDD67B113DA68F200A9E94B /* Dubsar.h */,
 				7BDD67B213DA68F400A9E94B /* Dubsar.m */,
-				7BDD677C13D9CC6700A9E94B /* JSONKit */,
-				7BDD677613D9B76B00A9E94B /* Search.h */,
-				7BDD67A213D9DDA100A9E94B /* LoadDelegate.h */,
-				7BDD677713D9B76C00A9E94B /* Search.m */,
-				7BDD677913D9B98B00A9E94B /* Word.h */,
-				7BDD677A13D9B98C00A9E94B /* Word.m */,
-				7BDD67BE13DA8DC100A9E94B /* Model.h */,
-				7BDD67BF13DA8DC100A9E94B /* Model.m */,
-				7BDD67C213DA933500A9E94B /* Sense.h */,
-				7BDD67C313DA933500A9E94B /* Sense.m */,
 				7BA48D0A13D738E00056D61A /* DubsarAppDelegate.h */,
 				7BA48D0B13D738E00056D61A /* DubsarAppDelegate.m */,
+				7BDD677C13D9CC6700A9E94B /* JSONKit */,
+				7B22253C13DB1F18003B7322 /* Models */,
 				7BA48D0D13D738E00056D61A /* iPhone */,
 				7BA48D1413D738E00056D61A /* iPad */,
 				7BA48D0213D738E00056D61A /* Supporting Files */,
@@ -208,22 +216,22 @@
 			isa = PBXGroup;
 			children = (
 				7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */,
-				7BDD67A613DA5B2B00A9E94B /* WordViewController.h */,
-				7BDD67A713DA5B2C00A9E94B /* WordViewController.m */,
-				7BDD67A813DA5B2D00A9E94B /* WordViewController.xib */,
-				7B4B2EC513D7CD3100A0B98F /* SearchViewController.h */,
-				7B4B2EC613D7CD3200A0B98F /* SearchViewController.m */,
-				7B4B2EC713D7CD3200A0B98F /* SearchViewController.xib */,
+				7BDD67A613DA5B2B00A9E94B /* WordViewController_iPhone.h */,
+				7BDD67A713DA5B2C00A9E94B /* WordViewController_iPhone.m */,
+				7BDD67A813DA5B2D00A9E94B /* WordViewController_iPhone.xib */,
+				7B4B2EC513D7CD3100A0B98F /* SearchViewController_iPhone.h */,
+				7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */,
+				7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */,
 				7B3F875A13D7443D009C390B /* DubsarViewController_iPhone.m */,
 				7B3F875B13D7443D009C390B /* DubsarViewController_iPhone.xib */,
 				7BA48D0E13D738E00056D61A /* DubsarAppDelegate_iPhone.h */,
 				7BA48D0F13D738E00056D61A /* DubsarAppDelegate_iPhone.m */,
 				7BA48D1113D738E00056D61A /* MainWindow_iPhone.xib */,
-				7B3F877213D7599E009C390B /* LicenseViewController.h */,
-				7B3F877313D7599E009C390B /* LicenseViewController.m */,
-				7B3F877413D7599F009C390B /* LicenseViewController.xib */,
-				7BDD675B13D8613B00A9E94B /* SearchBarManager.h */,
-				7BDD675C13D8613B00A9E94B /* SearchBarManager.m */,
+				7B3F877213D7599E009C390B /* LicenseViewController_iPhone.h */,
+				7B3F877313D7599E009C390B /* LicenseViewController_iPhone.m */,
+				7B3F877413D7599F009C390B /* LicenseViewController_iPhone.xib */,
+				7BDD675B13D8613B00A9E94B /* SearchBarManager_iPhone.h */,
+				7BDD675C13D8613B00A9E94B /* SearchBarManager_iPhone.m */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -348,9 +356,9 @@
 				7B3F875D13D7443D009C390B /* DubsarViewController_iPhone.xib in Resources */,
 				7B3F876713D74474009C390B /* DubsarViewController_iPad.xib in Resources */,
 				7B3F876913D74CA9009C390B /* dubsar-full.png in Resources */,
-				7B3F877613D7599F009C390B /* LicenseViewController.xib in Resources */,
-				7B4B2EC913D7CD3300A0B98F /* SearchViewController.xib in Resources */,
-				7BDD67AA13DA5B3000A9E94B /* WordViewController.xib in Resources */,
+				7B3F877613D7599F009C390B /* LicenseViewController_iPhone.xib in Resources */,
+				7B4B2EC913D7CD3300A0B98F /* SearchViewController_iPhone.xib in Resources */,
+				7BDD67AA13DA5B3000A9E94B /* WordViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,13 +400,13 @@
 				7BA48D1713D738E00056D61A /* DubsarAppDelegate_iPad.m in Sources */,
 				7B3F875C13D7443D009C390B /* DubsarViewController_iPhone.m in Sources */,
 				7B3F876613D74474009C390B /* DubsarViewController_iPad.m in Sources */,
-				7B3F877513D7599F009C390B /* LicenseViewController.m in Sources */,
-				7B4B2EC813D7CD3300A0B98F /* SearchViewController.m in Sources */,
-				7BDD675D13D8613B00A9E94B /* SearchBarManager.m in Sources */,
+				7B3F877513D7599F009C390B /* LicenseViewController_iPhone.m in Sources */,
+				7B4B2EC813D7CD3300A0B98F /* SearchViewController_iPhone.m in Sources */,
+				7BDD675D13D8613B00A9E94B /* SearchBarManager_iPhone.m in Sources */,
 				7BDD677813D9B76C00A9E94B /* Search.m in Sources */,
 				7BDD677B13D9B98D00A9E94B /* Word.m in Sources */,
 				7BDD67A513DA43D900A9E94B /* JSONKit.m in Sources */,
-				7BDD67A913DA5B3000A9E94B /* WordViewController.m in Sources */,
+				7BDD67A913DA5B3000A9E94B /* WordViewController_iPhone.m in Sources */,
 				7BDD67B313DA68F600A9E94B /* Dubsar.m in Sources */,
 				7BDD67C013DA8DC100A9E94B /* Model.m in Sources */,
 				7BDD67C413DA933600A9E94B /* Sense.m in Sources */,

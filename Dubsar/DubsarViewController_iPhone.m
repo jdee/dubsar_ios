@@ -7,8 +7,8 @@
 //
 
 #import "DubsarViewController_iPhone.h"
-#import "LicenseViewController.h"
-#import "SearchBarManager.h"
+#import "LicenseViewController_iPhone.h"
+#import "SearchBarManager_iPhone.h"
 
 @implementation DubsarViewController_iPhone
 
@@ -50,7 +50,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [[SearchBarManager alloc]initWithSearchBar:searchBar navigationController:self.navigationController];
+    searchBarManager = [[SearchBarManager_iPhone alloc]initWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload
@@ -87,8 +87,8 @@
 
 - (void)displayLicense {
     if (!_licenseViewController) {
-        _licenseViewController = [[LicenseViewController alloc]
-            initWithNibName:@"LicenseViewController" bundle:nil];
+        _licenseViewController = [[LicenseViewController_iPhone alloc]
+            initWithNibName:@"LicenseViewController_iPhone" bundle:nil];
     }
 
     [self.navigationController pushViewController:_licenseViewController animated: YES];

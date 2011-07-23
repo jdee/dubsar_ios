@@ -6,10 +6,10 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "LicenseViewController.h"
-#import "SearchBarManager.h"
+#import "LicenseViewController_iPhone.h"
+#import "SearchBarManager_iPHone.h"
 
-@implementation LicenseViewController
+@implementation LicenseViewController_iPhone
 @synthesize searchBarManager;
 @synthesize searchBar;
 
@@ -43,7 +43,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [[SearchBarManager alloc]initWithSearchBar:searchBar navigationController:self.navigationController];
+    searchBarManager = [[SearchBarManager_iPhone alloc]initWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload

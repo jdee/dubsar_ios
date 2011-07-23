@@ -7,10 +7,10 @@
 //
 
 #import "Search.h"
-#import "SearchBarManager.h"
-#import "SearchViewController.h"
+#import "SearchBarManager_iPhone.h"
+#import "SearchViewController_iPhone.h"
 
-@implementation SearchBarManager
+@implementation SearchBarManager_iPhone
 @synthesize navigationController=_navigationController;
 @synthesize searchBar;
 
@@ -45,7 +45,7 @@
     
     // new SearchViewController for this search
     NSLog(@"presenting modal view controller for \"%@\"", theSearchBar.text);
-    SearchViewController* searchViewController = [[SearchViewController alloc] initWithNibName: @"SearchViewController" bundle: nil text: theSearchBar.text];
+    SearchViewController_iPhone* searchViewController = [[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: theSearchBar.text];
     [_navigationController pushViewController:searchViewController animated: YES];
 }
 
