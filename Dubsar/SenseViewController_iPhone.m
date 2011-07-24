@@ -82,6 +82,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [tableView reloadData];
     [self.navigationController setToolbarHidden:NO animated:animated];
 }
 
@@ -199,9 +200,9 @@
     NSLog(@"selected section %d, row %d", section, row);
     
     NSDictionary* _section = [tableSections objectAtIndex:section];
-    NSString* _linkType = [_section valueForKey:@"linkType"];
+    id _linkType = [_section valueForKey:@"linkType"];
     NSLog(@"linkType is %@", _linkType);
-    if (_linkType == nil) return;
+    if (_linkType == NSNull.null) return;
     
     NSArray* _collection = [_section valueForKey:@"collection"];
     id _object = [_collection objectAtIndex:row];
@@ -286,7 +287,12 @@
             cell.textLabel.text = _object;
         }
         
-        if (hasLinks) cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if (hasLinks) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        else {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
         
         NSLog(@"set text %@ at section %d, row %d", cell.textLabel.text, section, row);
     }

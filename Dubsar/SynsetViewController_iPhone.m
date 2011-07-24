@@ -78,6 +78,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [tableView reloadData];
     [self.navigationController setToolbarHidden:NO animated:animated];
 }
 
@@ -182,9 +183,9 @@
     NSLog(@"selected section %d, row %d", section, row);
     
     NSDictionary* _section = [tableSections objectAtIndex:section];
-    NSString* _linkType = [_section valueForKey:@"linkType"];
+    id _linkType = [_section valueForKey:@"linkType"];
     NSLog(@"linkType is %@", _linkType);
-    if (_linkType == nil) return;
+    if (_linkType == NSNull.null) return;
     
     NSArray* _collection = [_section valueForKey:@"collection"];
     
@@ -234,7 +235,7 @@
         NSDictionary* _section = [tableSections objectAtIndex:section];
         NSArray* _collection = [_section valueForKey:@"collection"];
         id _object = [_collection objectAtIndex:row];
-        bool hasLinks = [_section valueForKey:@"linkType"] != nil;
+        bool hasLinks = [_section valueForKey:@"linkType"] != NSNull.null;
         
         if ([_object respondsToSelector:@selector(name)]) {
             cell.textLabel.text = [_object name];
@@ -244,7 +245,12 @@
             cell.textLabel.text = _object;
         }
         
-        if (hasLinks) cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if (hasLinks) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        else {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
         
         NSLog(@"set text %@ at section %d, row %d", cell.textLabel.text, section, row);
     }
@@ -289,7 +295,7 @@
         [section setValue:@"Sample Sentences" forKey:@"header"];
         [section setValue:@"" forKey:@"footer"];
         [section setValue:synset.samples forKey:@"collection"];
-        [section setValue:nil forKey:@"linkType"];
+        [section setValue:NSNull.null forKey:@"linkType"];
         [tableSections addObject:section];
     }
     
