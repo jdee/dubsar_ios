@@ -52,10 +52,6 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBText"/>
 						<string key="IBPlaceholder">search term(s)</string>
-						<object class="NSColor" key="IBTintColor">
-							<int key="NSColorSpace">2</int>
-							<bytes key="NSRGB">MC44NDMxMzczMjM5IDAuODU0OTAyMDI5IDAuOTkyMTU2OTIyOAA</bytes>
-						</object>
 						<object class="IBUITextInputTraits" key="IBTextInputTraits">
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
