@@ -51,6 +51,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.navigationController.navigationBar.tintColor = searchBar.tintColor;
+    self.navigationController.toolbar.tintColor = searchBar.tintColor;
     searchBarManager = [[SearchBarManager_iPhone alloc]initWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
