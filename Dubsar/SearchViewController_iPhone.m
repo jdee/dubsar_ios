@@ -218,10 +218,4 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void)displayLicense 
-{
-    [self.navigationController pushViewController:[[LicenseViewController_iPhone alloc]
-                                                   initWithNibName:@"LicenseViewController_iPhone" bundle:nil] animated: YES];
-}
-
 @end

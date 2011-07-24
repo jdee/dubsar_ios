@@ -143,7 +143,7 @@
     
     cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", index+1, sense.gloss];
     cell.detailTextLabel.text = sense.synonymsAsString;
-    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
    
     return cell;
 }
@@ -191,12 +191,6 @@
 - (void)loadRootController
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (void)displayLicense 
-{
-    [self.navigationController pushViewController:[[LicenseViewController_iPhone alloc]
-                                                   initWithNibName:@"LicenseViewController_iPhone" bundle:nil] animated: YES];
 }
 
 

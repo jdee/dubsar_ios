@@ -31,7 +31,6 @@
 
 - (void)createToolbarItems;
 - (void)loadRootController;
-- (void)displayLicense;
 - (void)adjustBannerLabel;
 - (void)setupTableSections;
 

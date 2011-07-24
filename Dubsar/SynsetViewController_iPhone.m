@@ -133,12 +133,6 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void)displayLicense 
-{
-    [self.navigationController pushViewController:[[LicenseViewController_iPhone alloc]
-                                                   initWithNibName:@"LicenseViewController_iPhone" bundle:nil] animated: YES];
-}
-
 - (void)loadComplete:(Model*)model
 {
     if (model != synset) return;

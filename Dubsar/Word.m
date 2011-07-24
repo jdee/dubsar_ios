@@ -50,22 +50,22 @@
         _id = theId;
         name = [[theName copy]retain];
         
-        if ([posString compare:@"adj"] == NSOrderedSame) {
+        if ([posString isEqualToString:@"adj"]) {
             partOfSpeech = POSAdjective;
             
-        } else if ([posString compare:@"adv"] == NSOrderedSame) {
+        } else if ([posString isEqualToString:@"adv"]) {
             partOfSpeech = POSAdverb;
-        } else if ([posString compare:@"conj"] == NSOrderedSame) {
+        } else if ([posString isEqualToString:@"conj"]) {
             partOfSpeech = POSConjunction;
-        } else if ([posString compare:@"interj"] == NSOrderedSame) {
+        } else if ([posString isEqualToString:@"interj"]) {
             partOfSpeech = POSInterjection;
-        } else if ([posString compare:@"n"] == NSOrderedSame) {
+        } else if ([posString isEqualToString:@"n"]) {
             partOfSpeech = POSNoun;
-        } else if ([posString compare:@"prep"] == NSOrderedSame) {
+        } else if ([posString isEqualToString:@"prep"]) {
             partOfSpeech = POSPreposition;
-        } else if ([posString compare:@"pron"] == NSOrderedSame) {
+        } else if ([posString isEqualToString:@"pron"]) {
             partOfSpeech = POSPronoun;
-        } else if ([posString compare:@"v"] == NSOrderedSame) {
+        } else if ([posString isEqualToString:@"v"]) {
             partOfSpeech = POSVerb;
         }
         [self initUrl];

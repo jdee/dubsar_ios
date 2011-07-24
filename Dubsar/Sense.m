@@ -172,6 +172,7 @@
     NSArray* _synset = [response objectAtIndex:2];
     NSNumber* _synsetId = [_synset objectAtIndex:0];
     
+    NSLog(@"parsing Sense response for %@", self.nameAndPos);
     if (!word) {
         word = [[Word wordWithId:_wordId.intValue name:[_word objectAtIndex:1] partOfSpeech:partOfSpeech]retain];
     }
@@ -195,6 +196,8 @@
     NSNumber* fc = [response objectAtIndex:5];
     freqCnt = fc.intValue;
     
+    NSLog(@"freq. cnt.: %d", freqCnt);
+    
     if (!synonyms) {
         NSArray* _synonyms = [response objectAtIndex:6];
         NSLog(@"found %u synonyms", [_synonyms count]);
@@ -208,7 +211,15 @@
         }
     }
     
-    verbFrames = [[response objectAtIndex:7]retain];
+    NSArray* _verbFrames = [[response objectAtIndex:7]retain];
+    NSLog(@"found %u verb frames", _verbFrames.count);
+    verbFrames = [[NSMutableArray arrayWithCapacity:_verbFrames.count]retain];
+    for (int j=0; j<_verbFrames.count; ++j) {
+        NSString* frame = [_verbFrames objectAtIndex:j];
+        NSString* format = [frame stringByReplacingOccurrencesOfString:@"%s" withString:@"%@"];
+        NSLog(@" %@", format);
+        [verbFrames insertObject:[NSString stringWithFormat:format, name] atIndex:j];
+    }
     samples = [[response objectAtIndex:8]retain];
     
     NSLog(@"found %u verb frames and %u sample sentences", [verbFrames count], [samples count]);
