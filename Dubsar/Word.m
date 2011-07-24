@@ -148,6 +148,7 @@
         
         [senses insertObject:sense atIndex:j];
     }
+    [senses sortUsingSelector:@selector(compareFreqCnt:)];
     _freqCnt = [response objectAtIndex:5];
     freqCnt = _freqCnt.intValue;
 }

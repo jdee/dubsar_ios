@@ -101,21 +101,24 @@
     return 5*index - 1;
 }
 
+#define USE_SECTION_HEADER_IN_WORD_TABLE_VIEW
+
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
 {
     if (theTableView != tableView) return nil;
     
-#if 0
+#ifdef USE_SECTION_HEADER_IN_WORD_TABLE_VIEW
     if (!word || !word.complete) return @"loading...";
     
     Sense* sense = [word.senses objectAtIndex:section];
     
-    NSString* textLine = [NSString stringWithFormat:@"<%@>", sense.lexname];
+    NSString* textLine = [NSString string];
+    if (sense.freqCnt > 0) {
+        textLine = [textLine stringByAppendingFormat:@"freq. cnt.: %d", sense.freqCnt];
+    }
+    textLine = [textLine stringByAppendingFormat:@" <%@>", sense.lexname];
     if (sense.marker) {
         textLine = [textLine stringByAppendingFormat:@" (%@)", sense.marker];
-    }
-    if (sense.freqCnt > 0) {
-        textLine = [textLine stringByAppendingFormat:@" freq. cnt.: %d", sense.freqCnt];
     }
     return textLine;
 #else

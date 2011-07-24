@@ -83,6 +83,7 @@
         gloss = [[response objectAtIndex:3] retain];
     }
     samples = [[response objectAtIndex:4] retain];
+    NSNumber* _freqCnt;
     NSArray* _senses = [response objectAtIndex:5];
     NSLog(@"found %u senses", _senses.count);
     senses = [[NSMutableArray arrayWithCapacity:_senses.count]retain];
@@ -90,9 +91,18 @@
         NSArray* _sense = [_senses objectAtIndex:j];
         NSNumber* _senseId = [_sense objectAtIndex:0];
         Sense* sense = [Sense senseWithId:_senseId.intValue name:[_sense objectAtIndex:1] synset:self];
+        id marker = [_sense objectAtIndex:2];
+        _freqCnt = [_sense objectAtIndex:3];
+        sense.lexname = lexname;
+        sense.freqCnt = _freqCnt.intValue;
+        if (marker != NSNull.null) {
+            sense.marker = marker;
+        }
         [senses insertObject:sense atIndex:j];
     }
-    NSNumber* _freqCnt = [response objectAtIndex:6];
+    [senses sortUsingSelector:@selector(compareFreqCnt:)];
+    
+    _freqCnt = [response objectAtIndex:6];
     freqCnt = _freqCnt.intValue;
     
     [self parsePointers:response];

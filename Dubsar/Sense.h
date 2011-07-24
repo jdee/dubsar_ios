@@ -48,6 +48,8 @@
 -(void)initUrl;
 -(void)parsePointers:(NSArray*)response;
 
+-(NSComparisonResult)compareFreqCnt:(Sense*)sense;
+
 -(NSString*)synonymsAsString;
 
 @end

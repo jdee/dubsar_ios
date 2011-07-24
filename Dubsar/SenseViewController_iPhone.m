@@ -221,8 +221,22 @@
         bool hasLinks = [_section valueForKey:@"linkType"] != NSNull.null;
         
         if ([_object respondsToSelector:@selector(name)]) {
+            cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"]autorelease];
+            }
+            
             // synonyms (senses)
             cell.textLabel.text = [_object name];
+            
+            NSString* detailLine = [NSString string];
+            if ([_object respondsToSelector:@selector(freqCnt)] && [_object freqCnt] > 0) {
+                detailLine = [detailLine stringByAppendingFormat:@"freq. cnt.: %d", [_object freqCnt]];
+            }
+            if ([_object respondsToSelector:@selector(marker)] && [_object marker]) {
+                detailLine = [detailLine stringByAppendingFormat:@" (%@)", [_object marker]];
+            }
+            cell.detailTextLabel.text = detailLine;
         }
         else if ([_object respondsToSelector:@selector(objectAtIndex:)]) {
             cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];

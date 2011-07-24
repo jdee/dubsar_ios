@@ -208,6 +208,12 @@
             NSArray* _synonym = [_synonyms objectAtIndex:j];
             NSNumber* _senseId = [_synonym objectAtIndex:0];
             Sense* sense = [Sense senseWithId:_senseId.intValue name:[_synonym objectAtIndex:1] synset:synset];
+            _marker = [_synonym objectAtIndex:2];
+            if (_marker != NSNull.null) {
+                sense.marker = [_synonym objectAtIndex:2];
+            }
+            fc = [_synonym objectAtIndex:3];
+            sense.freqCnt = fc.intValue;
             NSLog(@" found %@, ID %d", sense.nameAndPos, _senseId.intValue);
             [synonyms insertObject:sense atIndex:j];
         }
@@ -469,6 +475,13 @@
     }
    
     return @"";
+}
+
+- (NSComparisonResult)compareFreqCnt:(Sense*)sense
+{
+    return freqCnt < sense.freqCnt ? NSOrderedDescending : 
+        freqCnt > sense.freqCnt ? NSOrderedAscending : 
+        NSOrderedSame;
 }
 
 @end
