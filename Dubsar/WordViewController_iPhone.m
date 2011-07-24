@@ -69,9 +69,51 @@
     [tableView reloadData];
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
+{
+    if (theTableView != tableView) return 0;
+    return word && word.complete ? word.senses.count : 1;
+}
+
+- (NSArray*)sectionIndexTitlesForTableView:(UITableView*)theTableView
+{
+    if (theTableView != tableView) return nil;
+    NSMutableArray* titles = [NSMutableArray array];
+    if (!word || !word.complete || word.senses.count < 10) {
+        return titles;
+    }
+    
+    [titles addObject:@"top"];
+
+    for (int j=4; j<word.senses.count; j += 5) {
+        [titles addObject:[NSString stringWithFormat:@"%d", j+1]];
+    }
+    return titles;
+}
+
+- (NSInteger)tableView:(UITableView*)theTableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    if (theTableView != tableView) return -1;
+    switch (index) {
+        case 0:
+            return 0;
+    }
+    return 5*index - 1;
+}
+
+- (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"";
+}
+
+- (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
+{
+    return @"";
+}
+
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    int index = indexPath.row;
+    int index = indexPath.section;
     Sense* sense = [word.senses objectAtIndex:index];
     [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense] animated:YES];
 }
@@ -79,7 +121,7 @@
 - (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
 {
     if (theTableView != tableView) return 0;
-    return word.complete && word.senses ? word.senses.count : 1;
+    return 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -99,7 +141,7 @@
         return cell;
     }
     
-    int index = indexPath.row;
+    int index = indexPath.section;
     Sense* sense = [word.senses objectAtIndex:index];
     
     cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", index+1, sense.gloss];
