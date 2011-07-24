@@ -1,5 +1,5 @@
 //
-//  SearchBarManager.h
+//  SearchBarManager_iPhone.h
 //  Dubsar
 //
 //  Created by Jimmy Dee on 7/21/11.
@@ -10,8 +10,8 @@
 
 @interface SearchBarManager_iPhone : NSObject <UISearchBarDelegate> {
 }
-@property (nonatomic, retain) UINavigationController* navigationController;
-@property (nonatomic, retain) UISearchBar *searchBar;
+@property (nonatomic, assign) UINavigationController* navigationController;
+@property (nonatomic, assign) UISearchBar *searchBar;
 
 + (id)managerWithSearchBar:(UISearchBar*)theSearchBar navigationController:(UINavigationController*)theNavigationController;
 - (id)initWithSearchBar:(UISearchBar*)theSearchBar navigationController:(UINavigationController*)theNavigationController;

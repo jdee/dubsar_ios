@@ -1,5 +1,5 @@
 //
-//  WordViewController.h
+//  WordViewController_iPhone.h
 //  Dubsar
 //
 //  Created by Jimmy Dee on 7/22/11.

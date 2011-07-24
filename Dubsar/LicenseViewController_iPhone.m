@@ -10,23 +10,18 @@
 #import "SearchBarManager_iPHone.h"
 
 @implementation LicenseViewController_iPhone
-@synthesize searchBarManager;
-@synthesize searchBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"License";
-        [self createToolbarItems];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [searchBarManager release];
-    [searchBar release];
     [super dealloc];
 }
 
@@ -44,13 +39,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [[SearchBarManager_iPhone alloc]initWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload
 {
-    [self setSearchBarManager:nil];
-    [self setSearchBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -72,38 +64,8 @@
     return NO;
 }
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarTextDidBeginEditing:theSearchBar];
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarTextDidEndEditing:theSearchBar];
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarCancelButtonClicked:theSearchBar];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarSearchButtonClicked:theSearchBar];
-}
-
-- (void)createToolbarItems
-{
-    UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
-    
-    NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
-    
-    self.toolbarItems = buttonItems;
-}
-
-- (void)loadRootController
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+- (IBAction)dismiss:(id)sender {
+    [self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
 @end

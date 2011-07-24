@@ -84,7 +84,7 @@
 
 - (void)displayLicense 
 {
-    [self.navigationController pushViewController:[[LicenseViewController_iPhone alloc]
+    [self presentModalViewController:[[LicenseViewController_iPhone alloc]
             initWithNibName:@"LicenseViewController_iPhone" bundle:nil] animated: YES];
 }
 

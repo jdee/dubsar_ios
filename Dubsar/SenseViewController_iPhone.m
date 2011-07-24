@@ -169,13 +169,11 @@
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
-    UIBarButtonItem* licenseButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"License" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLicense)];
     
     UIBarButtonItem* wordButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Word"  style:UIBarButtonItemStyleBordered target:self action:@selector(loadWordView)];
     UIBarButtonItem* synsetButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset"  style:UIBarButtonItemStyleBordered target:self action:@selector(loadSynsetView)];
    
     NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
-    [buttonItems addObject:licenseButtonItem];
     [buttonItems addObject:wordButtonItem];
     [buttonItems addObject:synsetButtonItem];
     

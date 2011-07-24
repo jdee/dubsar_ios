@@ -182,10 +182,8 @@
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
-    UIBarButtonItem* licenseButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"License" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLicense)];
     
     NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
-    [buttonItems addObject:licenseButtonItem];
     
     self.toolbarItems = buttonItems;
 }

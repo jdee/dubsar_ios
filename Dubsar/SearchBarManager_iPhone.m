@@ -31,8 +31,6 @@
 
 - (void)dealloc
 {
-    [_navigationController release];
-    [searchBar release];
     [super dealloc];
 }
 
@@ -41,10 +39,9 @@
     if (theSearchBar != searchBar) return;
     
     [theSearchBar resignFirstResponder];
-    [_navigationController dismissModalViewControllerAnimated:NO];
     
     // new SearchViewController for this search
-    NSLog(@"presenting modal view controller for \"%@\"", theSearchBar.text);
+    NSLog(@"presenting view controller for \"%@\"", theSearchBar.text);
     SearchViewController_iPhone* searchViewController = [[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: theSearchBar.text];
     [_navigationController pushViewController:searchViewController animated: YES];
 }
