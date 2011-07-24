@@ -21,3 +21,5 @@ typedef enum  {
     POSPronoun,
     POSVerb
 } PartOfSpeech;
+
+extern PartOfSpeech partOfSpeechFromPos(NSString* pos);

@@ -105,8 +105,7 @@
         case POSVerb:
             return @"v";
         default:
-            // DEBT: Should throw an exception
-            return nil;
+            return @"..";
     }
 }
 

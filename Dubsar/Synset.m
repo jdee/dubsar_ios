@@ -22,9 +22,9 @@
 @synthesize samples;
 @synthesize senses;
 
-+ (id)synsetWithId:(int)theId
++ (id)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
-    return [[self alloc]initWithId:theId];
+    return [[self alloc]initWithId:theId partOfSpeech:thePartOfSpeech];
 }
 
 + (id)synsetWithId:(int)theId gloss:(NSString *)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech
@@ -32,13 +32,13 @@
     return [[self alloc]initWithId:theId gloss:theGloss partOfSpeech:thePartOfSpeech];
 }
 
-- (id)initWithId:(int)theId
+- (id)initWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
     self = [super init];
     if (self) {
         _id = theId;
         gloss = nil;
-        partOfSpeech = POSUnknown;
+        partOfSpeech = thePartOfSpeech;
         lexname = nil;
         samples = nil;
         senses = nil;
@@ -75,6 +75,7 @@
 - (void)parseData
 {
     NSArray* response = [decoder objectWithData:data];
+    partOfSpeech = partOfSpeechFromPos([response objectAtIndex:1]);
     lexname = [[response objectAtIndex:2] retain];
     if (!gloss) {
         gloss = [[response objectAtIndex:3] retain];

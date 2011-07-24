@@ -20,6 +20,7 @@
 @synthesize searchBar;
 @synthesize bannerLabel;
 @synthesize tableView;
+@synthesize glossLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset *)theSynset
 {
@@ -30,7 +31,7 @@
         synset.delegate = self;
         [synset load];
         
-        self.title = [NSString stringWithFormat:@"Synset: %@", synset.gloss];
+        [self adjustTitle];
         [self createToolbarItems];
     }
     return self;
@@ -43,6 +44,7 @@
     [synset release];
     [bannerLabel release];
     [tableView release];
+    [glossLabel release];
     [super dealloc];
 }
 
@@ -68,6 +70,7 @@
     [self setSearchBar:nil];
     [self setBannerLabel:nil];
     [self setTableView:nil];
+    [self setGlossLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -136,7 +139,9 @@
 - (void)loadComplete:(Model*)model
 {
     if (model != synset) return;
+    [self adjustTitle];
     [self adjustBannerLabel];
+    [self adjustGlossLabel];
     [self setupTableSections];
     [tableView reloadData];
 }
@@ -148,6 +153,21 @@
         text = [text stringByAppendingFormat:@" freq. cnt.: %d", synset.freqCnt];
     }
     bannerLabel.text = text;
+}
+
+- (void)adjustGlossLabel
+{
+    glossLabel.text = synset.gloss;
+}
+
+- (void)adjustTitle
+{
+    if (synset.gloss) {
+        self.title = [NSString stringWithFormat:@"Synset: %@", synset.gloss];
+    }
+    else {
+        self.title = [NSString stringWithString:@"Synset"];
+    }
 }
 
 /* TableView management */

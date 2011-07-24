@@ -154,8 +154,7 @@
         case POSVerb:
             return @"v";
         default:
-            // DEBT: Should throw an exception
-            return nil;
+            return @"..";
     }
 }
 
@@ -166,13 +165,16 @@
 
 -(void)parseData
 {
+    NSLog(@"parsing Sense response for %@", self.nameAndPos);
+    
     NSArray* response = [decoder objectWithData:data];
     NSArray* _word = [response objectAtIndex:1];
     NSNumber* _wordId = [_word objectAtIndex:0];
     NSArray* _synset = [response objectAtIndex:2];
     NSNumber* _synsetId = [_synset objectAtIndex:0];
     
-    NSLog(@"parsing Sense response for %@", self.nameAndPos);
+    partOfSpeech = partOfSpeechFromPos([_word objectAtIndex:2]);
+    
     if (!word) {
         word = [[Word wordWithId:_wordId.intValue name:[_word objectAtIndex:1] partOfSpeech:partOfSpeech]retain];
     }

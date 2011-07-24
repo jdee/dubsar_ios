@@ -133,7 +133,8 @@
     NSLog(@"completed loading Sense %d, %@", sense._id, sense.nameAndPos);
     NSLog(@"gloss: %@, synonyms %@", sense.gloss, sense.synonymsAsString);
     NSLog(@"lexname: %@, marker: %@, freq. cnt.: %d", sense.lexname, sense.marker, sense.freqCnt);
-    
+   
+    self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
     [self adjustBannerLabel];
     glossLabel.text = sense.gloss;
     [self setupTableSections];
@@ -216,7 +217,7 @@
         NSArray* pointer = _object;
         NSNumber* targetId = [pointer objectAtIndex:1];
         /* sense pointer */
-        targetSense = [Sense senseWithId:targetId.intValue name:[pointer objectAtIndex:0] partOfSpeech:sense.partOfSpeech];
+        targetSense = [Sense senseWithId:targetId.intValue name:[pointer objectAtIndex:2] partOfSpeech:POSUnknown];
         NSLog(@"links to Sense %@", targetSense.nameAndPos);
         [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
     }
@@ -224,7 +225,7 @@
         NSArray* pointer = _object;
         NSNumber* targetId = [pointer objectAtIndex:1];
         /* synset pointer */
-        Synset* targetSynset = [Synset synsetWithId:targetId.intValue];
+        Synset* targetSynset = [Synset synsetWithId:targetId.intValue partOfSpeech:POSUnknown];
         NSLog(@"links to Synset %d", targetSynset._id);
         [self.navigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset] animated:YES];
     }
