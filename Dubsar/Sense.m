@@ -240,6 +240,7 @@
         NSString* targetType = [_pointer objectAtIndex:1];
         NSNumber* targetId = [_pointer objectAtIndex:2];
         NSString* targetText = [_pointer objectAtIndex:3];
+        NSString* targetGloss = [_pointer objectAtIndex:4];
         
         NSMutableArray* _pointersByType = [pointers valueForKey:ptype];
         if (_pointersByType == nil) {
@@ -251,6 +252,7 @@
         [_ptr addObject:targetType];
         [_ptr addObject:targetId];
         [_ptr addObject:targetText];
+        [_ptr addObject:targetGloss];
         
         [_pointersByType addObject:_ptr];
         [pointers setValue:_pointersByType forKey:ptype];
@@ -293,6 +295,95 @@
      'derived from/pertains to' => 'adj: pertinent noun; adv: source noun'
 
      */
+    
+    if ([ptype isEqualToString:@"antonym"]) {
+        return @"words opposite in meaning";
+    }
+    else if ([ptype isEqualToString:@"hypernym"]) {
+        return @"more generic terms";
+    }
+    else if ([ptype isEqualToString:@"instance hypernym"]) {
+        return @"classes of which this is an instance";
+    }
+    else if ([ptype isEqualToString:@"hyponym"]) {
+        return @"more specific terms";
+    }
+    else if ([ptype isEqualToString:@"instance hyponym"]) {
+        return @"instances of this class";
+    }
+    else if ([ptype isEqualToString:@"member holonym"]) {
+        return @"wholes of which this is a member";
+    }
+    else if ([ptype isEqualToString:@"substance holonym"]) {
+        return @"wholes of which this is an ingredient";
+    }
+    else if ([ptype isEqualToString:@"part holonym"]) {
+        return @"wholes of which this is a part";
+    }
+    else if ([ptype isEqualToString:@"member meronym"]) {
+        return @"constituent members";
+    }
+    else if ([ptype isEqualToString:@"substance meronym"]) {
+        return @"constituent substances";
+    }
+    else if ([ptype isEqualToString:@"part meronym"]) {
+        return @"constituent parts";
+    }
+    else if ([ptype isEqualToString:@"attribute"]) {
+        return @"general qualities";
+    }
+    else if ([ptype isEqualToString:@"derivationally related form"]) {
+        return @"cognates, etc.";
+    }
+    else if ([ptype isEqualToString:@"domain of synset (topic)"]) {
+        return @"related topics";
+    }
+    else if ([ptype isEqualToString:@"member of this domain (topic)"]) {
+        return @"entries under this topic";
+    }
+    else if ([ptype isEqualToString:@"domain of synset (region)"]) {
+        return @"relevant regions";
+    }
+    else if ([ptype isEqualToString:@"member of this domain (region)"]) {
+        return @"things relevant to this region";
+    }
+    else if ([ptype isEqualToString:@"domain of synset (usage)"]) {
+        return @"pertinent to usage";
+    }
+    else if ([ptype isEqualToString:@"member of this domain (usage)"]) {
+        return @"relevant by usage";
+    }
+    else if ([ptype isEqualToString:@"entailment"]) {
+        return @"consequences";
+    }
+    else if ([ptype isEqualToString:@"cause"]) {
+        return @"origins or reasons";
+    }
+    else if ([ptype isEqualToString:@"also see"]) {
+        return @"related entries";
+    }
+    else if ([ptype isEqualToString:@"verb group"]) {
+        return @"related verbs";
+    }
+    else if ([ptype isEqualToString:@"similar to"]) {
+        return @"near in meaning, but not exact";
+    }
+    else if ([ptype isEqualToString:@"participle of verb"]) {
+        return @"root verbs";
+    }
+    else if ([ptype isEqualToString:@"derived from/pertains to"]) {
+        return @"adj: pertinent noun; adv: source noun";
+    }
+    else if ([ptype isEqualToString:@"synonym"]) {
+        return @"words that share this meaning";
+    }
+    else if ([ptype isEqualToString:@"verb frame"]) {
+        return @"generic templates for this verb sense";
+    }
+    else if ([ptype isEqualToString:@"sample sentence"]) {
+        return @"examples of usage for this word and synonyms";
+    }
+    
     return @"";
 }
 

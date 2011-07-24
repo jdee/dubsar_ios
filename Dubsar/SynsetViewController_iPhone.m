@@ -221,7 +221,7 @@
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
     }
     
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -284,7 +284,7 @@
     if (synset.senses && synset.senses.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Synonyms" forKey:@"header"];
-        [section setValue:@"" forKey:@"footer"];
+        [section setValue:[Sense helpWithPointerType:@"synonym"] forKey:@"footer"];
         [section setValue:synset.senses forKey:@"collection"];
         [section setValue:@"sense" forKey:@"linkType"];
         [tableSections addObject:section];
@@ -293,7 +293,7 @@
     if (synset.samples && synset.samples.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Sample Sentences" forKey:@"header"];
-        [section setValue:@"" forKey:@"footer"];
+        [section setValue:[Sense helpWithPointerType:@"sample sentence"] forKey:@"footer"];
         [section setValue:synset.samples forKey:@"collection"];
         [section setValue:NSNull.null forKey:@"linkType"];
         [tableSections addObject:section];

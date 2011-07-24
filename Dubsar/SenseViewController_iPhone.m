@@ -258,7 +258,7 @@
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
     }
     
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -279,8 +279,14 @@
             cell.textLabel.text = [_object name];
         }
         else if ([_object respondsToSelector:@selector(objectAtIndex:)]) {
+            cell = [theTableView dequeueReusableCellWithIdentifier:@"pointer"];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"pointer"]autorelease];
+            }
+            
             // pointers
             cell.textLabel.text = [_object objectAtIndex:2];
+            cell.detailTextLabel.text = [_object objectAtIndex:3];
         }
         else {
             // must be a string
@@ -335,7 +341,7 @@
     if (sense.verbFrames && sense.verbFrames.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Verb Frames" forKey:@"header"];
-        [section setValue:@"" forKey:@"footer"];
+        [section setValue:[Sense helpWithPointerType:@"verb frame"] forKey:@"footer"];
         [section setValue:sense.verbFrames forKey:@"collection"];
         [section setValue:NSNull.null forKey:@"linkType"];
         [tableSections addObject:section];
@@ -344,7 +350,7 @@
     if (sense.samples && sense.samples.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Sample Sentences" forKey:@"header"];
-        [section setValue:@"" forKey:@"footer"];
+        [section setValue:[Sense helpWithPointerType:@"sample sentence"] forKey:@"footer"];
         [section setValue:sense.samples forKey:@"collection"];
         [section setValue:NSNull.null forKey:@"linkType"];
         [tableSections addObject:section];
@@ -358,7 +364,7 @@
             
             section = [NSMutableDictionary dictionary];
             [section setValue:title forKey:@"header"];
-            [section setValue:@"" forKey:@"footer"];
+            [section setValue:[Sense helpWithPointerType:key] forKey:@"footer"];
             [section setValue:[sense.pointers valueForKey:key] forKey:@"collection"];
             [section setValue:@"pointer" forKey:@"linkType"];
             [tableSections addObject:section];
