@@ -103,7 +103,24 @@
 
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
 {
+    if (theTableView != tableView) return nil;
+    
+#if 0
+    if (!word || !word.complete) return @"loading...";
+    
+    Sense* sense = [word.senses objectAtIndex:section];
+    
+    NSString* textLine = [NSString stringWithFormat:@"<%@>", sense.lexname];
+    if (sense.marker) {
+        textLine = [textLine stringByAppendingFormat:@" (%@)", sense.marker];
+    }
+    if (sense.freqCnt > 0) {
+        textLine = [textLine stringByAppendingFormat:@" freq. cnt.: %d", sense.freqCnt];
+    }
+    return textLine;
+#else
     return @"";
+#endif
 }
 
 - (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
@@ -143,7 +160,6 @@
     
     int index = indexPath.section;
     Sense* sense = [word.senses objectAtIndex:index];
-    
     cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", index+1, sense.gloss];
     cell.detailTextLabel.text = sense.synonymsAsString;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

@@ -120,6 +120,7 @@
     
     inflections = [[response objectAtIndex:3]retain];
 
+    NSNumber* _freqCnt;
     NSArray* _senses = [response objectAtIndex:4];
     senses = [[NSMutableArray arrayWithCapacity:_senses.count]retain];
     for (int j=0; j<_senses.count; ++j) {
@@ -136,9 +137,18 @@
         
         numericId = [_sense objectAtIndex:0];
         Sense* sense = [Sense senseWithId:numericId.intValue gloss:[_sense objectAtIndex:2] synonyms:synonyms word:self];
+        NSString* lexname = [_sense objectAtIndex:3];
+        id marker = [_sense objectAtIndex:4];
+        _freqCnt = [_sense objectAtIndex:5];
+        sense.lexname = lexname;
+        if (marker != NSNull.null) {
+            sense.marker = marker;
+        }
+        sense.freqCnt = _freqCnt.intValue;
+        
         [senses insertObject:sense atIndex:j];
     }
-    NSNumber* _freqCnt = [response objectAtIndex:5];
+    _freqCnt = [response objectAtIndex:5];
     freqCnt = _freqCnt.intValue;
 }
 
