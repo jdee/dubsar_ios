@@ -177,8 +177,8 @@
     UIBarButtonItem* synsetButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset"  style:UIBarButtonItemStyleBordered target:self action:@selector(loadSynsetView)];
    
     NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
-    [buttonItems addObject:wordButtonItem];
     [buttonItems addObject:synsetButtonItem];
+    [buttonItems addObject:wordButtonItem];
     
     self.toolbarItems = buttonItems;
 }
