@@ -6,7 +6,7 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "DubsarViewController_iPhone.h"
+#import "LicenseViewController_iPhone.h"
 #import "WordViewController_iPhone.h"
 #import "SearchBarManager_iPhone.h"
 #import "Sense.h"
@@ -172,21 +172,33 @@
 {
     NSString* inflections = word.inflections;
     if (inflections.length == 0) inflections = @"(none)";
-    inflectionsLabel.text = [NSString stringWithFormat:@"other forms: %@", inflections];
+    NSString* text = [NSString stringWithFormat:@"other forms: %@", inflections];
+    if (word.freqCnt > 0) {
+        text = [text stringByAppendingFormat:@" freq. cnt.: %d", word.freqCnt];
+    }
+    inflectionsLabel.text = text;
 }
 
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
+    UIBarButtonItem* licenseButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"License" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLicense)];
     
     NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
+    [buttonItems addObject:licenseButtonItem];
     
     self.toolbarItems = buttonItems;
 }
 
 - (void)loadRootController
 {
-    [self.navigationController pushViewController:[[DubsarViewController_iPhone alloc]initWithNibName:@"DubsarViewController_iPhone" bundle:nil] animated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)displayLicense 
+{
+    [self.navigationController pushViewController:[[LicenseViewController_iPhone alloc]
+                                                   initWithNibName:@"LicenseViewController_iPhone" bundle:nil] animated: YES];
 }
 
 

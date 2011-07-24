@@ -16,6 +16,7 @@
 @synthesize _id;
 @synthesize name;
 @synthesize partOfSpeech;
+@synthesize freqCnt;
 
 @synthesize inflections;
 @synthesize senses;
@@ -138,6 +139,8 @@
         Sense* sense = [Sense senseWithId:numericId.intValue gloss:[_sense objectAtIndex:2] synonyms:synonyms word:self];
         [senses insertObject:sense atIndex:j];
     }
+    NSNumber* _freqCnt = [response objectAtIndex:5];
+    freqCnt = _freqCnt.intValue;
 }
 
 -(void)initUrl

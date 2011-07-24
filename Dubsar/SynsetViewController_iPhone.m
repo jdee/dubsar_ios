@@ -6,9 +6,12 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
+#import "LicenseViewController_iPhone.h"
 #import "LoadDelegate.h"
+#import "SenseViewController_iPhone.h"
 #import "SynsetViewController_iPhone.h"
 #import "SearchBarmanager_iPhone.h"
+#import "Sense.h"
 #import "Synset.h"
 
 @implementation SynsetViewController_iPhone
@@ -16,6 +19,7 @@
 @synthesize searchBarManager;
 @synthesize searchBar;
 @synthesize bannerLabel;
+@synthesize tableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset *)theSynset
 {
@@ -38,6 +42,7 @@
     [searchBar release];
     [synset release];
     [bannerLabel release];
+    [tableView release];
     [super dealloc];
 }
 
@@ -62,6 +67,7 @@
 {
     [self setSearchBar:nil];
     [self setBannerLabel:nil];
+    [self setTableView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -116,8 +122,10 @@
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
+    UIBarButtonItem* licenseButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"License" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLicense)];
     
     NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
+    [buttonItems addObject:licenseButtonItem];
     
     self.toolbarItems = buttonItems;
 }
@@ -127,11 +135,152 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+- (void)displayLicense 
+{
+    [self.navigationController pushViewController:[[LicenseViewController_iPhone alloc]
+                                                   initWithNibName:@"LicenseViewController_iPhone" bundle:nil] animated: YES];
+}
+
 - (void)loadComplete:(Model*)model
 {
     if (model != synset) return;
-    
-    bannerLabel.text = [NSString stringWithFormat:@"<%@>", synset.lexname];
+    [self adjustBannerLabel];
+    [self setupTableSections];
+    [tableView reloadData];
 }
 
+- (void)adjustBannerLabel
+{
+    NSString* text = [NSString stringWithFormat:@"<%@>", synset.lexname];
+    if (synset.freqCnt > 0) {
+        text = [text stringByAppendingFormat:@" freq. cnt.: %d", synset.freqCnt];
+    }
+    bannerLabel.text = text;
+}
+
+/* TableView management */
+
+- (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (theTableView != tableView) return;
+    
+    int section = indexPath.section;
+    int row = indexPath.row;
+    
+    NSLog(@"selected section %d, row %d", section, row);
+    
+    NSDictionary* _section = [tableSections objectAtIndex:section];
+    NSString* _linkType = [_section valueForKey:@"linkType"];
+    NSLog(@"linkType is %@", _linkType);
+    if (_linkType == nil) return;
+    
+    NSArray* _collection = [_section valueForKey:@"collection"];
+    
+    /* synonyms */
+    Sense* targetSense = [_collection objectAtIndex:row];
+    NSLog(@"links to Sense %@", targetSense.nameAndPos);
+    [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
+{
+    if (theTableView != tableView) return 0;    
+    NSInteger n = synset && synset.complete ? tableSections.count : 1;
+    NSLog(@"%d sections in table view", n);
+    return n;
+}
+
+- (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
+{
+    if (theTableView != tableView) return 0;    
+    NSDictionary* _section = [tableSections objectAtIndex:section];
+    NSArray* _collection = [_section valueForKey:@"collection"];
+    NSInteger n = synset && synset.complete ? _collection.count : 1 ;
+    NSLog(@"%d rows in section %d of table view", n, section);
+    return n;
+}
+
+- (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (theTableView != tableView) return nil;
+    
+    static NSString* cellType = @"sense";
+    
+    UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType];
+    }
+    
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    if (!synset || !synset.complete) {
+        cell.textLabel.text = @"loading...";
+    }
+    else {
+        int section = indexPath.section;
+        int row = indexPath.row;
+        NSDictionary* _section = [tableSections objectAtIndex:section];
+        NSArray* _collection = [_section valueForKey:@"collection"];
+        id _object = [_collection objectAtIndex:row];
+        bool hasLinks = [_section valueForKey:@"linkType"] != nil;
+        
+        if ([_object respondsToSelector:@selector(name)]) {
+            cell.textLabel.text = [_object name];
+        }
+        else {
+            // must be a string
+            cell.textLabel.text = _object;
+        }
+        
+        if (hasLinks) cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        NSLog(@"set text %@ at section %d, row %d", cell.textLabel.text, section, row);
+    }
+    
+    return cell;
+}
+
+- (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
+{
+    if (theTableView != tableView) return @"";
+    NSDictionary* _section = [tableSections objectAtIndex:section];
+    NSString* title = synset && synset.complete ? [_section valueForKey:@"header"] : @"loading...";
+    NSLog(@"header %@ for section %d", title, section);
+    return title;
+}
+
+- (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
+{
+    if (theTableView != tableView) return @"";
+    NSDictionary* _section = [tableSections objectAtIndex:section];
+    NSString* title = synset && synset.complete ? [_section valueForKey:@"footer"] : @"";
+    NSLog(@"footer \"%@\" for section %d", title, section);
+    return title;
+}
+
+- (void)setupTableSections
+{
+    NSLog(@"entering setupTableSection");
+    tableSections = [[NSMutableArray array]retain];
+    NSMutableDictionary* section;
+    if (synset.senses && synset.senses.count > 0) {
+        section = [NSMutableDictionary dictionary];
+        [section setValue:@"Synonyms" forKey:@"header"];
+        [section setValue:@"" forKey:@"footer"];
+        [section setValue:synset.senses forKey:@"collection"];
+        [section setValue:@"sense" forKey:@"linkType"];
+        [tableSections addObject:section];
+    }
+    
+    if (synset.samples && synset.samples.count > 0) {
+        section = [NSMutableDictionary dictionary];
+        [section setValue:@"Sample Sentences" forKey:@"header"];
+        [section setValue:@"" forKey:@"footer"];
+        [section setValue:synset.samples forKey:@"collection"];
+        [section setValue:nil forKey:@"linkType"];
+        [tableSections addObject:section];
+    }
+    
+    NSLog(@"found %u table sections", tableSections.count);
+}
 @end

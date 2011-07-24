@@ -29,5 +29,6 @@
 
 - (void)createToolbarItems;
 - (void)loadRootController;
+- (void)displayLicense;
 
 @end

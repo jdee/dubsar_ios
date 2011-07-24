@@ -18,6 +18,7 @@
 @synthesize gloss;
 @synthesize partOfSpeech;
 @synthesize lexname;
+@synthesize freqCnt;
 @synthesize samples;
 @synthesize senses;
 
@@ -54,8 +55,9 @@
 {
     NSArray* response = [decoder objectWithData:data];
     lexname = [[response objectAtIndex:2] retain];
-    samples = [[response objectAtIndex:3] retain];
-    NSArray* _senses = [response objectAtIndex:4];
+    samples = [[response objectAtIndex:4] retain];
+    NSArray* _senses = [response objectAtIndex:5];
+    NSLog(@"found %u senses", _senses.count);
     senses = [[NSMutableArray arrayWithCapacity:_senses.count]retain];
     for (int j=0; j<_senses.count; ++j) {
         NSArray* _sense = [_senses objectAtIndex:j];
@@ -63,6 +65,8 @@
         Sense* sense = [Sense senseWithId:_senseId.intValue name:[_sense objectAtIndex:1] synset:self];
         [senses insertObject:sense atIndex:j];
     }
+    NSNumber* _freqCnt = [response objectAtIndex:6];
+    freqCnt = _freqCnt.intValue;
 }
 
 @end

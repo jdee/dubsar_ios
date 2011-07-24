@@ -15,6 +15,7 @@
 @property int _id;
 @property (nonatomic, retain) NSString* name;
 @property PartOfSpeech partOfSpeech;
+@property int freqCnt;
 
 @property (nonatomic, retain) NSString* inflections;
 @property (nonatomic, retain) NSMutableArray* senses;

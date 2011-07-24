@@ -6,10 +6,11 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "DubsarViewController_iPhone.h"
+#import "LicenseViewController_iPhone.h"
 #import "SenseViewController_iPhone.h"
 #import "SearchBarManager_iPhone.h"
 #import "SynsetViewController_iPhone.h"
+#import "WordViewController_iPhone.h"
 #import "Sense.h"
 #import "Word.h"
 
@@ -33,9 +34,6 @@
         tableSections = nil;
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
         
-        UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset"  style:UIBarButtonItemStylePlain target:self action:@selector(loadSynsetView)];
-        
-        self.navigationItem.rightBarButtonItem = barButtonItem;
         [self createToolbarItems];
     }
     return self;
@@ -163,18 +161,36 @@
     [self.navigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:sense.synset] animated:YES];
 }
 
+- (void)loadWordView
+{
+    [self.navigationController pushViewController:[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:sense.word] animated:YES];
+}
+
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
+    UIBarButtonItem* licenseButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"License" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLicense)];
     
+    UIBarButtonItem* wordButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Word"  style:UIBarButtonItemStyleBordered target:self action:@selector(loadWordView)];
+    UIBarButtonItem* synsetButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset"  style:UIBarButtonItemStyleBordered target:self action:@selector(loadSynsetView)];
+   
     NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
+    [buttonItems addObject:licenseButtonItem];
+    [buttonItems addObject:wordButtonItem];
+    [buttonItems addObject:synsetButtonItem];
     
     self.toolbarItems = buttonItems;
 }
 
 - (void)loadRootController
 {
-    [self.navigationController pushViewController:[[DubsarViewController_iPhone alloc]initWithNibName:@"DubsarViewController_iPhone" bundle:nil] animated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)displayLicense 
+{
+    [self.navigationController pushViewController:[[LicenseViewController_iPhone alloc]
+                                                   initWithNibName:@"LicenseViewController_iPhone" bundle:nil] animated: YES];
 }
 
 /* TableView management */
@@ -283,7 +299,7 @@
     tableSections = [[NSMutableArray array]retain];
     NSMutableDictionary* section;
     if (sense.synonyms && sense.synonyms.count > 0) {
-        section = [NSMutableDictionary dictionaryWithCapacity:3];
+        section = [NSMutableDictionary dictionary];
         [section setValue:@"Synonyms" forKey:@"header"];
         [section setValue:@"" forKey:@"footer"];
         [section setValue:sense.synonyms forKey:@"collection"];
@@ -292,7 +308,7 @@
     }
     
     if (sense.verbFrames && sense.verbFrames.count > 0) {
-        section = [NSMutableDictionary dictionaryWithCapacity:3];
+        section = [NSMutableDictionary dictionary];
         [section setValue:@"Verb Frames" forKey:@"header"];
         [section setValue:@"" forKey:@"footer"];
         [section setValue:sense.verbFrames forKey:@"collection"];
@@ -301,7 +317,7 @@
     }
     
     if (sense.samples && sense.samples.count > 0) {
-        section = [NSMutableDictionary dictionaryWithCapacity:3];
+        section = [NSMutableDictionary dictionary];
         [section setValue:@"Sample Sentences" forKey:@"header"];
         [section setValue:@"" forKey:@"footer"];
         [section setValue:sense.samples forKey:@"collection"];

@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString* gloss;
 @property PartOfSpeech partOfSpeech;
 @property (nonatomic, retain) NSString* lexname;
+@property int freqCnt;
 @property (nonatomic, retain) NSMutableArray* samples;
 @property (nonatomic, retain) NSMutableArray* senses;
 

@@ -33,9 +33,11 @@
 
 -(void)adjustBannerLabel;
 -(void)loadSynsetView;
+-(void)loadWordView;
 
 - (void)createToolbarItems;
 - (void)loadRootController;
+- (void)displayLicense;
 
 - (void)setupTableSections;
 

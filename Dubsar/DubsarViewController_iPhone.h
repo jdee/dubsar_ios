@@ -19,9 +19,7 @@
 @property (nonatomic, retain) SearchBarManager_iPhone* searchBarManager;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentedControl;
-@property (nonatomic, retain) LicenseViewController_iPhone* licenseViewController;
 
-- (IBAction)licenseSelected:(id)sender;
 - (void)displayLicense;
 - (void)createToolbarItems;
 

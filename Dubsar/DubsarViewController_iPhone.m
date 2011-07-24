@@ -15,7 +15,6 @@
 @synthesize searchBarManager;
 @synthesize searchBar;
 @synthesize segmentedControl;
-@synthesize licenseViewController=_licenseViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,7 +32,6 @@
 - (void)dealloc
 {
     [searchBarManager release];
-    [_licenseViewController release];
     [segmentedControl release];
     [searchBar release];
     [super dealloc];
@@ -84,18 +82,10 @@
     return NO;
 }
 
-- (IBAction)licenseSelected:(id)sender 
+- (void)displayLicense 
 {
-    [self displayLicense];
-}
-
-- (void)displayLicense {
-    if (!_licenseViewController) {
-        _licenseViewController = [[LicenseViewController_iPhone alloc]
-            initWithNibName:@"LicenseViewController_iPhone" bundle:nil];
-    }
-
-    [self.navigationController pushViewController:_licenseViewController animated: YES];
+    [self.navigationController pushViewController:[[LicenseViewController_iPhone alloc]
+            initWithNibName:@"LicenseViewController_iPhone" bundle:nil] animated: YES];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
