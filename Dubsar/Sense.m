@@ -211,7 +211,7 @@
         }
     }
     
-    NSArray* _verbFrames = [[response objectAtIndex:7]retain];
+    NSArray* _verbFrames = [response objectAtIndex:7];
     NSLog(@"found %u verb frames", _verbFrames.count);
     verbFrames = [[NSMutableArray arrayWithCapacity:_verbFrames.count]retain];
     for (int j=0; j<_verbFrames.count; ++j) {
@@ -223,11 +223,159 @@
     samples = [[response objectAtIndex:8]retain];
     
     NSLog(@"found %u verb frames and %u sample sentences", [verbFrames count], [samples count]);
+    
+    [self parsePointers:response];
+}
+
+- (void)parsePointers:(NSArray*)response
+{    
+    pointers = [[NSMutableDictionary dictionary]retain];
+    NSArray* _pointers = [response objectAtIndex:9];
+    for (int j=0; j<_pointers.count; ++j) {
+        NSArray* _pointer = [_pointers objectAtIndex:j];
+        
+        NSString* ptype = [_pointer objectAtIndex:0];
+        NSString* targetType = [_pointer objectAtIndex:1];
+        NSNumber* targetId = [_pointer objectAtIndex:2];
+        NSString* targetText = [_pointer objectAtIndex:3];
+        
+        NSMutableArray* _pointersByType = [pointers valueForKey:ptype];
+        if (_pointersByType == nil) {
+            _pointersByType = [NSMutableArray array];
+            [pointers setValue:_pointersByType forKey:ptype];
+        }
+        
+        NSMutableArray* _ptr = [NSMutableArray array];
+        [_ptr addObject:targetType];
+        [_ptr addObject:targetId];
+        [_ptr addObject:targetText];
+        
+        [_pointersByType addObject:_ptr];
+        [pointers setValue:_pointersByType forKey:ptype];
+    }
 }
 
 - (void)initUrl
 {
     _url = [[NSString stringWithFormat:@"%@/senses/%d.json", DubsarBaseUrl, _id]retain];
+}
+
++ (NSString*)helpWithPointerType:(NSString *)ptype
+{
+    /* From the Rails server (Pointer model):
+     'antonym' => 'words opposite in meaning',
+     'hypernym' => 'more generic terms',
+     'instance hypernym' => 'classes of which this is an instance',
+     'hyponym' => 'more specific terms',
+     'instance hyponym' => 'instances of this class',
+     'member holonym' => 'wholes of which this is a member',
+     'substance holonym' => 'wholes of which this is an ingredient',
+     'part holonym' => 'wholes of which this is a part',
+     'member meronym' => 'constituent members',
+     'substance meronym' => 'constituent substances',
+     'part meronym' => 'constituent parts',
+     'attribute' => 'general quality',
+     'derivationally related form' => 'cognates, etc.',
+     'domain of synset (topic)' => 'related topics',
+     'member of this domain (topic)' => 'entries under this topic',
+     'domain of synset (region)' => 'relevant region',
+     'member of this domain (region)' => 'things relevant to this region',
+     'domain of synset (usage)' => 'pertinent to usage',
+     'member of this domain (usage)' => 'relevant by usage',
+     'entailment' => 'consequence',
+     'cause' => 'origin or reason',
+     'also see' => 'related entries',
+     'verb group' => 'related verbs',
+     'similar to' => 'near in meaning, but not exact',
+     'participle of verb' => 'root verb',
+     'derived from/pertains to' => 'adj: pertinent noun; adv: source noun'
+
+     */
+    return @"";
+}
+
++ (NSString*)titleWithPointerType:(NSString *)ptype
+{
+    if ([ptype isEqualToString:@"antonym"]) {
+        return @"Antonyms";
+    }
+    else if ([ptype isEqualToString:@"hypernym"]) {
+        return @"Hypernyms";
+    }
+    else if ([ptype isEqualToString:@"instance hypernym"]) {
+        return @"Instance Hypernyms";
+    }
+    else if ([ptype isEqualToString:@"hyponym"]) {
+        return @"Hyponyms";
+    }
+    else if ([ptype isEqualToString:@"instance hyponym"]) {
+        return @"Instance Hyponyms";
+    }
+    else if ([ptype isEqualToString:@"member holonym"]) {
+        return @"Member Hypernyms";
+    }
+    else if ([ptype isEqualToString:@"substance holonym"]) {
+        return @"Substance Holonyms";
+    }
+    else if ([ptype isEqualToString:@"part holonym"]) {
+        return @"Part Holonyms";
+    }
+    else if ([ptype isEqualToString:@"member meronym"]) {
+        return @"Member Meronyms";
+    }
+    else if ([ptype isEqualToString:@"substance meronym"]) {
+        return @"Substance Meronyms";
+    }
+    else if ([ptype isEqualToString:@"part meronym"]) {
+        return @"Part Meronyms";
+    }
+    else if ([ptype isEqualToString:@"attribute"]) {
+        return @"Attributes";
+    }
+    else if ([ptype isEqualToString:@"derivationally related form"]) {
+        return @"Derivationally Related Forms";
+    }
+    else if ([ptype isEqualToString:@"domain of synset (topic)"]) {
+        return @"Domains of Synset (Topic)";
+    }
+    else if ([ptype isEqualToString:@"member of this domain (topic)"]) {
+        return @"Members of this Domain (Topic)";
+    }
+    else if ([ptype isEqualToString:@"domain of synset (region)"]) {
+        return @"Domains of Synset (Region)";
+    }
+    else if ([ptype isEqualToString:@"member of this domain (region)"]) {
+        return @"Members of this Domain (Region)";
+    }
+    else if ([ptype isEqualToString:@"domain of synset (usage)"]) {
+        return @"Domains of Synset (Usage)";
+    }
+    else if ([ptype isEqualToString:@"member of this domain (usage)"]) {
+        return @"Members of this Domain (Usage)";
+    }
+    else if ([ptype isEqualToString:@"entailment"]) {
+        return @"Entailments";
+    }
+    else if ([ptype isEqualToString:@"cause"]) {
+        return @"Causes";
+    }
+    else if ([ptype isEqualToString:@"also see"]) {
+        return @"Also See";
+    }
+    else if ([ptype isEqualToString:@"verb group"]) {
+        return @"Verb Groups";
+    }
+    else if ([ptype isEqualToString:@"similar to"]) {
+        return @"Similar to";
+    }
+    else if ([ptype isEqualToString:@"participle of verb"]) {
+        return @"Participle of Verbs";
+    }
+    else if ([ptype isEqualToString:@"derived from/pertains to"]) {
+        return @"Derived from/Pertains to";
+    }
+   
+    return @"";
 }
 
 @end

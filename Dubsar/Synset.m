@@ -22,9 +22,30 @@
 @synthesize samples;
 @synthesize senses;
 
++ (id)synsetWithId:(int)theId
+{
+    return [[self alloc]initWithId:theId];
+}
+
 + (id)synsetWithId:(int)theId gloss:(NSString *)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
     return [[self alloc]initWithId:theId gloss:theGloss partOfSpeech:thePartOfSpeech];
+}
+
+- (id)initWithId:(int)theId
+{
+    self = [super init];
+    if (self) {
+        _id = theId;
+        gloss = nil;
+        partOfSpeech = POSUnknown;
+        lexname = nil;
+        samples = nil;
+        senses = nil;
+        _url = [[NSString stringWithFormat:@"%@/synsets/%d.json", DubsarBaseUrl, _id]retain];
+    }
+    return self;
+
 }
 
 - (id)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech
@@ -55,6 +76,9 @@
 {
     NSArray* response = [decoder objectWithData:data];
     lexname = [[response objectAtIndex:2] retain];
+    if (!gloss) {
+        gloss = [[response objectAtIndex:3] retain];
+    }
     samples = [[response objectAtIndex:4] retain];
     NSArray* _senses = [response objectAtIndex:5];
     NSLog(@"found %u senses", _senses.count);

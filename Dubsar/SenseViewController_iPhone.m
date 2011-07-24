@@ -12,6 +12,7 @@
 #import "SynsetViewController_iPhone.h"
 #import "WordViewController_iPhone.h"
 #import "Sense.h"
+#import "Synset.h"
 #import "Word.h"
 
 @implementation SenseViewController_iPhone
@@ -202,11 +203,31 @@
     if (_linkType == nil) return;
     
     NSArray* _collection = [_section valueForKey:@"collection"];
+    id _object = [_collection objectAtIndex:row];
     
-    /* only synonyms for now */
-    Sense* targetSense = [_collection objectAtIndex:row];
-    NSLog(@"links to Sense %@", targetSense.nameAndPos);
-    [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
+    Sense* targetSense=nil;
+    
+    if ([_linkType isEqualToString:@"sense"]) {
+        targetSense = _object;
+        NSLog(@"links to Sense %@", targetSense.nameAndPos);
+        [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
+    }
+    else if ([[_object objectAtIndex:0] isEqualToString:@"sense"]) {
+        NSArray* pointer = _object;
+        NSNumber* targetId = [pointer objectAtIndex:1];
+        /* sense pointer */
+        targetSense = [Sense senseWithId:targetId.intValue name:[pointer objectAtIndex:0] partOfSpeech:sense.partOfSpeech];
+        NSLog(@"links to Sense %@", targetSense.nameAndPos);
+        [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
+    }
+    else {
+        NSArray* pointer = _object;
+        NSNumber* targetId = [pointer objectAtIndex:1];
+        /* synset pointer */
+        Synset* targetSynset = [Synset synsetWithId:targetId.intValue];
+        NSLog(@"links to Synset %d", targetSynset._id);
+        [self.navigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset] animated:YES];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
@@ -249,10 +270,15 @@
         NSDictionary* _section = [tableSections objectAtIndex:section];
         NSArray* _collection = [_section valueForKey:@"collection"];
         id _object = [_collection objectAtIndex:row];
-        bool hasLinks = [_section valueForKey:@"linkType"] != nil;
+        bool hasLinks = [_section valueForKey:@"linkType"] != NSNull.null;
         
         if ([_object respondsToSelector:@selector(name)]) {
+            // synonyms (senses)
             cell.textLabel.text = [_object name];
+        }
+        else if ([_object respondsToSelector:@selector(objectAtIndex:)]) {
+            // pointers
+            cell.textLabel.text = [_object objectAtIndex:2];
         }
         else {
             // must be a string
@@ -304,7 +330,7 @@
         [section setValue:@"Verb Frames" forKey:@"header"];
         [section setValue:@"" forKey:@"footer"];
         [section setValue:sense.verbFrames forKey:@"collection"];
-        [section setValue:nil forKey:@"linkType"];
+        [section setValue:NSNull.null forKey:@"linkType"];
         [tableSections addObject:section];
     }
     
@@ -313,8 +339,23 @@
         [section setValue:@"Sample Sentences" forKey:@"header"];
         [section setValue:@"" forKey:@"footer"];
         [section setValue:sense.samples forKey:@"collection"];
-        [section setValue:nil forKey:@"linkType"];
+        [section setValue:NSNull.null forKey:@"linkType"];
         [tableSections addObject:section];
+    }
+    
+    if (sense.pointers && sense.pointers.count > 0) {
+        NSArray* keys = [sense.pointers allKeys];
+        for (int j=0; j<keys.count; ++j) {
+            NSString* key = [keys objectAtIndex:j];
+            NSString* title = [Sense titleWithPointerType:key];
+            
+            section = [NSMutableDictionary dictionary];
+            [section setValue:title forKey:@"header"];
+            [section setValue:@"" forKey:@"footer"];
+            [section setValue:[sense.pointers valueForKey:key] forKey:@"collection"];
+            [section setValue:@"pointer" forKey:@"linkType"];
+            [tableSections addObject:section];
+        }
     }
     
     NSLog(@"found %u table sections", tableSections.count);

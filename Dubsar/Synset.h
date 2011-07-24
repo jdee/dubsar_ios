@@ -22,7 +22,10 @@
 @property (nonatomic, retain) NSMutableArray* samples;
 @property (nonatomic, retain) NSMutableArray* senses;
 
+
++(id)synsetWithId:(int)theId;
 +(id)synsetWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
+-(id)initWithId:(int)theId;
 -(id)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 -(void)parseData;
 

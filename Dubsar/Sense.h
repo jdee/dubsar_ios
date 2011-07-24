@@ -31,7 +31,10 @@
 
 @property (nonatomic, retain) NSMutableArray* verbFrames;
 @property (nonatomic, retain) NSMutableArray* samples;
-@property (nonatomic, retain) NSMutableArray* pointers;
+@property (nonatomic, retain) NSMutableDictionary* pointers;
+
++(NSString*)titleWithPointerType:(NSString*)ptype;
++(NSString*)helpWithPointerType:(NSString*)ptype;
 
 +(id)senseWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
 +(id)senseWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
@@ -43,6 +46,7 @@
 -(NSString*)pos;
 -(NSString*)nameAndPos;
 -(void)initUrl;
+-(void)parsePointers:(NSArray*)response;
 
 -(NSString*)synonymsAsString;
 
