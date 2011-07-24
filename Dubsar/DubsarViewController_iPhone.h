@@ -6,21 +6,11 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "SearchBarViewController_iPhone.h"
 
-@class LicenseViewController_iPhone;
-@class SearchBarManager_iPhone;
-
-
-@interface DubsarViewController_iPhone : UIViewController <UISearchBarDelegate> {
-    UISegmentedControl *segmentedControl;
-    UISearchBar *searchBar;
+@interface DubsarViewController_iPhone : SearchBarViewController_iPhone {
 }
-@property (nonatomic, retain) SearchBarManager_iPhone* searchBarManager;
-@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *segmentedControl;
 
 - (void)displayLicense;
-- (void)createToolbarItems;
 
 @end

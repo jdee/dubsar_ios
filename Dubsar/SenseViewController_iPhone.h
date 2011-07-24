@@ -6,16 +6,13 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "LoadDelegate.h"
+#import "SearchBarViewController_iPhone.h"
 
-@class SearchBarManager_iPhone;
 @class Sense;
 
 
-@interface SenseViewController_iPhone : UIViewController <UISearchBarDelegate, LoadDelegate> 
+@interface SenseViewController_iPhone : SearchBarViewController_iPhone 
 {
-    UISearchBar *searchBar;
     UILabel *bannerLabel;
     UILabel *glossLabel;
     UITableView *tableView;
@@ -23,8 +20,6 @@
 }
 
 @property (nonatomic, retain) Sense* sense;
-@property (nonatomic, retain) SearchBarManager_iPhone* searchBarManager;
-@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
@@ -34,9 +29,6 @@
 -(void)adjustBannerLabel;
 -(void)loadSynsetView;
 -(void)loadWordView;
-
-- (void)createToolbarItems;
-- (void)loadRootController;
 
 - (void)setupTableSections;
 

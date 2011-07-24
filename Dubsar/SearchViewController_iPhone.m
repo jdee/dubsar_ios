@@ -9,8 +9,6 @@
 #import <stdlib.h>
 
 #import "DubsarViewController_iPhone.h"
-#import "LicenseViewController_iPhone.h"
-#import "SearchBarManager_iPhone.h"
 #import "SearchViewController_iPhone.h"
 #import "Search.h"
 #import "Word.h"
@@ -21,7 +19,6 @@
 
 @synthesize search;
 @synthesize pageLabel = _pageLabel;
-@synthesize searchBarManager;
 @synthesize searchText=_searchText;
 @synthesize searchDisplayController=_dubsarSearchDisplayController;
 
@@ -44,7 +41,6 @@
         [search load];
         
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", _searchText];
-        [self createToolbarItems];
     }
     return self;
 }
@@ -52,7 +48,6 @@
 - (void)dealloc
 {
     [search release];
-    [searchBarManager release];
     [_dubsarSearchDisplayController release];
     [_searchText release];
     [_pageLabel release];
@@ -73,13 +68,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [[SearchBarManager_iPhone managerWithSearchBar:_dubsarSearchDisplayController.searchBar navigationController:self.navigationController] retain];
 }
 
 - (void)viewDidUnload
 {
-    [self setSearchBarManager:nil];
     [self setPageLabel:nil];
+    [self setSearchBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -87,58 +81,26 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [super viewWillAppear:animated];
     [self adjustPageLabel];
     _dubsarSearchDisplayController.searchBar.text = [_searchText copy];
-    [self.navigationController setToolbarHidden:NO animated:animated];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ((interfaceOrientation == UIInterfaceOrientationPortrait) ||
-        (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) ||
-        (interfaceOrientation == UIInterfaceOrientationLandscapeRight))
-        return YES;
-    
-    return NO;
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarSearchButtonClicked:theSearchBar];
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar 
+- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar
 {
     if (theSearchBar != _dubsarSearchDisplayController.searchBar) return;
-
+    
     _searchText = @"";
     [self adjustPageLabel];
-    [searchBarManager searchBarCancelButtonClicked:theSearchBar];
+    [super searchBarCancelButtonClicked:theSearchBar];
 }
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar*)theSearchBar
-{
-    [searchBarManager searchBarTextDidBeginEditing:theSearchBar];
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarTextDidEndEditing:theSearchBar];
-}
-
-- (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
+- (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)searchText
 {
     if (theSearchBar != _dubsarSearchDisplayController.searchBar) return;
-    
-    _searchText = [theSearchText copy];
-    // [self adjustPageLabel];
-}
-
-- (BOOL)searchBar:(UISearchBar*)theSearchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    return [searchBarManager searchBar:theSearchBar shouldChangeTextInRange:range
-                       replacementText:text];
+    NSLog(@"search text changed in search view search bar");
+    _searchText = [searchText copy];
+    [super searchBar:theSearchBar textDidChange:searchText];
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -202,20 +164,6 @@
     
     NSLog(@"search complete");
     [_dubsarSearchDisplayController.searchResultsTableView reloadData];
-}
-
-- (void)createToolbarItems
-{
-    UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
-    
-    NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
-    
-    self.toolbarItems = buttonItems;
-}
-
-- (void)loadRootController
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

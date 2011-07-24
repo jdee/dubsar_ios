@@ -6,16 +6,12 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "LicenseViewController_iPhone.h"
 #import "WordViewController_iPhone.h"
-#import "SearchBarManager_iPhone.h"
 #import "Sense.h"
 #import "SenseViewController_iPhone.h"
 #import "Word.h"
 
 @implementation WordViewController_iPhone
-@synthesize searchBarManager;
-@synthesize searchBar;
 @synthesize inflectionsLabel;
 @synthesize tableView;
 @synthesize word;
@@ -30,7 +26,6 @@
         [word load];
 
         self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
-        [self createToolbarItems];
    }
     return self;
 }
@@ -38,9 +33,7 @@
 - (void)dealloc
 {
     [word release];
-    [searchBarManager release];
     [inflectionsLabel release];
-    [searchBar release];
     [tableView release];
     [super dealloc];
 }
@@ -59,13 +52,11 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [SearchBarManager_iPhone managerWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload
 {
     [self setInflectionsLabel:nil];
-    [self setSearchBar:nil];
     [self setTableView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -74,39 +65,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [tableView reloadData];
-    [self.navigationController setToolbarHidden:NO animated:animated];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarSearchButtonClicked:theSearchBar];
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar 
-{
-    [searchBarManager searchBarCancelButtonClicked:theSearchBar];
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar*)theSearchBar
-{
-    [searchBarManager searchBarTextDidBeginEditing:theSearchBar];
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarTextDidEndEditing:theSearchBar];
-}
-
-- (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
-{
-    [searchBarManager searchBar:theSearchBar textDidChange:theSearchText];
-}
-
-- (BOOL)searchBar:(UISearchBar*)theSearchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    return [searchBarManager searchBar:theSearchBar shouldChangeTextInRange:range
-                       replacementText:text];
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -149,17 +109,6 @@
     return cell;
 }
 
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ((interfaceOrientation == UIInterfaceOrientationPortrait) ||
-        (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) ||
-        (interfaceOrientation == UIInterfaceOrientationLandscapeRight))
-        return YES;
-    
-    return NO;
-}
-
 - (void)loadComplete:(Model *)model
 {
     if (model != word) return;
@@ -179,20 +128,5 @@
     }
     inflectionsLabel.text = text;
 }
-
-- (void)createToolbarItems
-{
-    UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
-    
-    NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
-    
-    self.toolbarItems = buttonItems;
-}
-
-- (void)loadRootController
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
 
 @end

@@ -6,9 +6,7 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "LicenseViewController_iPhone.h"
 #import "SenseViewController_iPhone.h"
-#import "SearchBarManager_iPhone.h"
 #import "SynsetViewController_iPhone.h"
 #import "WordViewController_iPhone.h"
 #import "Sense.h"
@@ -16,11 +14,9 @@
 #import "Word.h"
 
 @implementation SenseViewController_iPhone
-@synthesize searchBar;
 @synthesize bannerLabel;
 @synthesize glossLabel;
 @synthesize tableView;
-@synthesize searchBarManager;
 @synthesize sense;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense
@@ -34,8 +30,7 @@
         [sense load];
         tableSections = nil;
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
-        
-        [self createToolbarItems];
+
     }
     return self;
 }
@@ -44,8 +39,6 @@
 {
     [tableSections release];
     [sense release];
-    [searchBarManager release];
-    [searchBar release];
     [bannerLabel release];
     [glossLabel release];
     [tableView release];
@@ -66,12 +59,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    searchBarManager = [SearchBarManager_iPhone managerWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload
 {
-    [self setSearchBar:nil];
     [self setBannerLabel:nil];
     [self setGlossLabel:nil];
     [self setTableView:nil];
@@ -82,49 +73,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [tableView reloadData];
-    [self.navigationController setToolbarHidden:NO animated:animated];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarSearchButtonClicked:theSearchBar];
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar 
-{
-    [searchBarManager searchBarCancelButtonClicked:theSearchBar];
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar*)theSearchBar
-{
-    [searchBarManager searchBarTextDidBeginEditing:theSearchBar];
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarTextDidEndEditing:theSearchBar];
-}
-
-- (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
-{
-    [searchBarManager searchBar:theSearchBar textDidChange:theSearchText];
-}
-
-- (BOOL)searchBar:(UISearchBar*)theSearchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    return [searchBarManager searchBar:theSearchBar shouldChangeTextInRange:range
-                       replacementText:text];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ((interfaceOrientation == UIInterfaceOrientationPortrait) ||
-        (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) ||
-        (interfaceOrientation == UIInterfaceOrientationLandscapeRight))
-        return YES;
-    
-    return NO;
 }
 
 - (void)loadComplete:(Model*)model
@@ -171,21 +121,17 @@
 
 - (void)createToolbarItems
 {
-    UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
+    UIBarButtonItem* homeItem = [[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
+    UIBarButtonItem* synsetItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset" style:UIBarButtonItemStyleBordered target:self action:@selector(loadSynsetView)];
+    UIBarButtonItem* wordItem = [[UIBarButtonItem alloc]initWithTitle:@"Word" style:UIBarButtonItemStyleBordered target:self action:@selector(loadWordView)];
     
-    UIBarButtonItem* wordButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Word"  style:UIBarButtonItemStyleBordered target:self action:@selector(loadWordView)];
-    UIBarButtonItem* synsetButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset"  style:UIBarButtonItemStyleBordered target:self action:@selector(loadSynsetView)];
-   
-    NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
-    [buttonItems addObject:synsetButtonItem];
-    [buttonItems addObject:wordButtonItem];
+    NSMutableArray* buttonItems = [NSMutableArray arrayWithCapacity:3];
+    
+    [buttonItems addObject:homeItem];
+    [buttonItems addObject:synsetItem];
+    [buttonItems addObject:wordItem];
     
     self.toolbarItems = buttonItems;
-}
-
-- (void)loadRootController
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 /* TableView management */

@@ -6,31 +6,23 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "LoadDelegate.h"
+#import "SearchBarViewController_iPhone.h"
 
-@class SearchBarManager_iPhone;
 @class Word;
 
-@interface WordViewController_iPhone : UIViewController <LoadDelegate> {
+@interface WordViewController_iPhone : SearchBarViewController_iPhone {
     
     UILabel *inflectionsLabel;
-    UISearchBar *searchBar;
     UITableView *tableView;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 
 @property (nonatomic, retain) Word* word;
-@property (nonatomic, retain) SearchBarManager_iPhone* searchBarManager;
-@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UILabel *inflectionsLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 
 -(void)adjustInflections;
-
-- (void)createToolbarItems;
-- (void)loadRootController;
 
 @end

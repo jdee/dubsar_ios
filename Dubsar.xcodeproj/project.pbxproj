@@ -40,7 +40,6 @@
 		7BA48D2B13D738E10056D61A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2913D738E10056D61A /* InfoPlist.strings */; };
 		7BA48D2E13D738E10056D61A /* DubsarTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2D13D738E10056D61A /* DubsarTests.h */; };
 		7BA48D3013D738E10056D61A /* DubsarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D2F13D738E10056D61A /* DubsarTests.m */; };
-		7BDD675D13D8613B00A9E94B /* SearchBarManager_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD675C13D8613B00A9E94B /* SearchBarManager_iPhone.m */; };
 		7BDD677813D9B76C00A9E94B /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677713D9B76C00A9E94B /* Search.m */; };
 		7BDD677B13D9B98D00A9E94B /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677A13D9B98C00A9E94B /* Word.m */; };
 		7BDD67A513DA43D900A9E94B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67A413DA43D900A9E94B /* JSONKit.m */; };
@@ -49,6 +48,7 @@
 		7BDD67B313DA68F600A9E94B /* Dubsar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67B213DA68F400A9E94B /* Dubsar.m */; };
 		7BDD67C013DA8DC100A9E94B /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67BF13DA8DC100A9E94B /* Model.m */; };
 		7BDD67C413DA933600A9E94B /* Sense.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67C313DA933500A9E94B /* Sense.m */; };
+		7BF7AD3513DC541B0006D948 /* SearchBarViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF7AD3313DC541B0006D948 /* SearchBarViewController_iPhone.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,8 +108,6 @@
 		7BA48D2C13D738E10056D61A /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
 		7BA48D2D13D738E10056D61A /* DubsarTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarTests.h; sourceTree = "<group>"; };
 		7BA48D2F13D738E10056D61A /* DubsarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarTests.m; sourceTree = "<group>"; };
-		7BDD675B13D8613B00A9E94B /* SearchBarManager_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarManager_iPhone.h; sourceTree = "<group>"; };
-		7BDD675C13D8613B00A9E94B /* SearchBarManager_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarManager_iPhone.m; sourceTree = "<group>"; };
 		7BDD677613D9B76B00A9E94B /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
 		7BDD677713D9B76C00A9E94B /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
 		7BDD677913D9B98B00A9E94B /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
@@ -126,6 +124,8 @@
 		7BDD67BF13DA8DC100A9E94B /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 		7BDD67C213DA933500A9E94B /* Sense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sense.h; sourceTree = "<group>"; };
 		7BDD67C313DA933500A9E94B /* Sense.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sense.m; sourceTree = "<group>"; };
+		7BF7AD3213DC541B0006D948 /* SearchBarViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarViewController_iPhone.h; sourceTree = "<group>"; };
+		7BF7AD3313DC541B0006D948 /* SearchBarViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarViewController_iPhone.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,8 +242,8 @@
 				7B3F877313D7599E009C390B /* LicenseViewController_iPhone.m */,
 				7B3F877413D7599F009C390B /* LicenseViewController_iPhone.xib */,
 				7BA48D1113D738E00056D61A /* MainWindow_iPhone.xib */,
-				7BDD675B13D8613B00A9E94B /* SearchBarManager_iPhone.h */,
-				7BDD675C13D8613B00A9E94B /* SearchBarManager_iPhone.m */,
+				7BF7AD3213DC541B0006D948 /* SearchBarViewController_iPhone.h */,
+				7BF7AD3313DC541B0006D948 /* SearchBarViewController_iPhone.m */,
 				7B4B2EC513D7CD3100A0B98F /* SearchViewController_iPhone.h */,
 				7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */,
 				7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */,
@@ -429,7 +429,6 @@
 				7B3F876613D74474009C390B /* DubsarViewController_iPad.m in Sources */,
 				7B3F877513D7599F009C390B /* LicenseViewController_iPhone.m in Sources */,
 				7B4B2EC813D7CD3300A0B98F /* SearchViewController_iPhone.m in Sources */,
-				7BDD675D13D8613B00A9E94B /* SearchBarManager_iPhone.m in Sources */,
 				7BDD677813D9B76C00A9E94B /* Search.m in Sources */,
 				7BDD677B13D9B98D00A9E94B /* Word.m in Sources */,
 				7BDD67A513DA43D900A9E94B /* JSONKit.m in Sources */,
@@ -440,6 +439,7 @@
 				7B22254413DB1FDA003B7322 /* SenseViewController_iPhone.m in Sources */,
 				7B08976A13DB3FA900660C51 /* Synset.m in Sources */,
 				7B08976F13DB418200660C51 /* SynsetViewController_iPhone.m in Sources */,
+				7BF7AD3513DC541B0006D948 /* SearchBarViewController_iPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

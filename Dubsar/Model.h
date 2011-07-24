@@ -12,6 +12,8 @@
 @protocol LoadDelegate;
 
 @protocol Model
+@optional
+/* model-specific parsing method, not implemented in base class */
 -(void)parseData;
 @end
 

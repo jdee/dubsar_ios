@@ -6,28 +6,21 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "SearchBarViewController_iPhone.h"
 
-#import "LoadDelegate.h"
-
-@class SearchBarManager_iPhone;
 @class Search;
 
-@interface SearchViewController_iPhone : UIViewController <LoadDelegate> {
+@interface SearchViewController_iPhone : SearchBarViewController_iPhone {
 
     UILabel *_pageLabel;
 }
 
 @property (nonatomic, retain) Search* search;
 @property (nonatomic, retain) IBOutlet UILabel *pageLabel;
-@property (nonatomic, retain) SearchBarManager_iPhone* searchBarManager;
 @property (nonatomic, retain) NSString* searchText;
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText;
 - (void)adjustPageLabel;
-
-- (void)createToolbarItems;
-- (void)loadRootController;
 
 @end

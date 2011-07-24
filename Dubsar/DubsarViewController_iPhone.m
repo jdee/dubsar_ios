@@ -8,13 +8,8 @@
 
 #import "DubsarViewController_iPhone.h"
 #import "LicenseViewController_iPhone.h"
-#import "SearchBarManager_iPhone.h"
 
 @implementation DubsarViewController_iPhone
-
-@synthesize searchBarManager;
-@synthesize searchBar;
-@synthesize segmentedControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -24,25 +19,13 @@
         self.title = @"Home";
         UIImage* image = [UIImage imageNamed:@"dubsar-link.png"];
         self.navigationItem.titleView = [[UIImageView alloc]initWithImage:image];
-        [self createToolbarItems];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [searchBarManager release];
-    [segmentedControl release];
-    [searchBar release];
     [super dealloc];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
@@ -51,16 +34,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.navigationController.navigationBar.tintColor = searchBar.tintColor;
-    self.navigationController.toolbar.tintColor = searchBar.tintColor;
-    searchBarManager = [[SearchBarManager_iPhone alloc]initWithSearchBar:searchBar navigationController:self.navigationController];
 }
 
 - (void)viewDidUnload
 {
-    [self setSearchBarManager:nil];
-    [self setSegmentedControl:nil];
-    [self setSearchBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -68,46 +45,14 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
+    [super viewWillAppear:animated];
     searchBar.text = @"";
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
-    [self.navigationController setToolbarHidden:NO animated:NO];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ((interfaceOrientation == UIInterfaceOrientationPortrait) ||
-        (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) ||
-        (interfaceOrientation == UIInterfaceOrientationLandscapeRight))
-        return YES;
-    
-    return NO;
 }
 
 - (void)displayLicense 
 {
     [self presentModalViewController:[[LicenseViewController_iPhone alloc]
             initWithNibName:@"LicenseViewController_iPhone" bundle:nil] animated: YES];
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarTextDidBeginEditing:theSearchBar];
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarTextDidEndEditing:theSearchBar];
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarCancelButtonClicked:theSearchBar];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
-{
-    [searchBarManager searchBarSearchButtonClicked:theSearchBar];
 }
 
 - (void)createToolbarItems

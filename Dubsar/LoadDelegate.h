@@ -12,5 +12,8 @@
 
 @protocol LoadDelegate <NSObject>
 
+@optional
+/* The SearchBarViewController_iPhone base class does
+   not implement this. */
 - (void)loadComplete:(Model*)model;
 @end
