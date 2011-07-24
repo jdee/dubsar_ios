@@ -21,6 +21,7 @@
 @synthesize freqCnt;
 @synthesize samples;
 @synthesize senses;
+@synthesize pointers;
 
 + (id)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
@@ -65,6 +66,7 @@
 
 - (void)dealloc
 {
+    [pointers release];
     [senses release];
     [samples release];
     [lexname release];
@@ -92,6 +94,38 @@
     }
     NSNumber* _freqCnt = [response objectAtIndex:6];
     freqCnt = _freqCnt.intValue;
+    
+    [self parsePointers:response];
+}
+
+- (void)parsePointers:(NSArray*)response
+{    
+    pointers = [[NSMutableDictionary dictionary]retain];
+    NSArray* _pointers = [response objectAtIndex:7];
+    for (int j=0; j<_pointers.count; ++j) {
+        NSArray* _pointer = [_pointers objectAtIndex:j];
+        
+        NSString* ptype = [_pointer objectAtIndex:0];
+        NSString* targetType = [_pointer objectAtIndex:1];
+        NSNumber* targetId = [_pointer objectAtIndex:2];
+        NSString* targetText = [_pointer objectAtIndex:3];
+        NSString* targetGloss = [_pointer objectAtIndex:4];
+        
+        NSMutableArray* _pointersByType = [pointers valueForKey:ptype];
+        if (_pointersByType == nil) {
+            _pointersByType = [NSMutableArray array];
+            [pointers setValue:_pointersByType forKey:ptype];
+        }
+        
+        NSMutableArray* _ptr = [NSMutableArray array];
+        [_ptr addObject:targetType];
+        [_ptr addObject:targetId];
+        [_ptr addObject:targetText];
+        [_ptr addObject:targetGloss];
+        
+        [_pointersByType addObject:_ptr];
+        [pointers setValue:_pointersByType forKey:ptype];
+    }
 }
 
 @end

@@ -124,11 +124,23 @@
     if (_linkType == NSNull.null) return;
     
     NSArray* _collection = [_section valueForKey:@"collection"];
+    id _object = [_collection objectAtIndex:row];
     
-    /* synonyms */
-    Sense* targetSense = [_collection objectAtIndex:row];
-    NSLog(@"links to Sense %@", targetSense.nameAndPos);
-    [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
+    Sense* targetSense=nil;
+    
+    if ([_linkType isEqualToString:@"sense"]) {
+        targetSense = _object;
+        NSLog(@"links to Sense %@", targetSense.nameAndPos);
+        [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
+    }
+    else {
+        NSArray* pointer = _object;
+        NSNumber* targetId = [pointer objectAtIndex:1];
+        /* synset pointer */
+        Synset* targetSynset = [Synset synsetWithId:targetId.intValue partOfSpeech:POSUnknown];
+        NSLog(@"links to Synset %d", targetSynset._id);
+        [self.navigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset] animated:YES];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
@@ -153,7 +165,7 @@
 {
     if (theTableView != tableView) return nil;
     
-    static NSString* cellType = @"sense";
+    static NSString* cellType = @"synset";
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
@@ -175,6 +187,16 @@
         
         if ([_object respondsToSelector:@selector(name)]) {
             cell.textLabel.text = [_object name];
+        }
+        else if ([_object respondsToSelector:@selector(objectAtIndex:)]) {
+            cell = [theTableView dequeueReusableCellWithIdentifier:@"synsetPointer"];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"synsetPointer"]autorelease];
+            }
+            
+            // pointers
+            cell.textLabel.text = [_object objectAtIndex:2];
+            cell.detailTextLabel.text = [_object objectAtIndex:3];
         }
         else {
             // must be a string
@@ -233,6 +255,21 @@
         [section setValue:synset.samples forKey:@"collection"];
         [section setValue:NSNull.null forKey:@"linkType"];
         [tableSections addObject:section];
+    }
+    
+    if (synset.pointers && synset.pointers.count > 0) {
+        NSArray* keys = [synset.pointers allKeys];
+        for (int j=0; j<keys.count; ++j) {
+            NSString* key = [keys objectAtIndex:j];
+            NSString* title = [Sense titleWithPointerType:key];
+            
+            section = [NSMutableDictionary dictionary];
+            [section setValue:title forKey:@"header"];
+            [section setValue:[Sense helpWithPointerType:key] forKey:@"footer"];
+            [section setValue:[synset.pointers valueForKey:key] forKey:@"collection"];
+            [section setValue:@"pointer" forKey:@"linkType"];
+            [tableSections addObject:section];
+        }
     }
     
     NSLog(@"found %u table sections", tableSections.count);

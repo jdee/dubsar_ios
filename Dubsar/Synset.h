@@ -21,6 +21,7 @@
 @property int freqCnt;
 @property (nonatomic, retain) NSMutableArray* samples;
 @property (nonatomic, retain) NSMutableArray* senses;
+@property (nonatomic, retain) NSMutableDictionary* pointers;
 
 
 +(id)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech;
@@ -28,5 +29,6 @@
 -(id)initWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 -(id)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 -(void)parseData;
+-(void)parsePointers:(NSArray*)response;
 
 @end

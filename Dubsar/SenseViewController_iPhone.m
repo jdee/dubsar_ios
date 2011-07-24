@@ -225,9 +225,9 @@
             cell.textLabel.text = [_object name];
         }
         else if ([_object respondsToSelector:@selector(objectAtIndex:)]) {
-            cell = [theTableView dequeueReusableCellWithIdentifier:@"pointer"];
+            cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];
             if (cell == nil) {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"pointer"]autorelease];
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"]autorelease];
             }
             
             // pointers
