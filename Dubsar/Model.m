@@ -59,6 +59,9 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSString* jsonData = [NSString stringWithCString:(const char*)[data bytes] encoding:NSUTF8StringEncoding];
+    NSLog(@"JSON response from URL %@:", url);
+    NSLog(@"%@", jsonData);
     [self parseData];
     [self setComplete:true];
     [[self delegate] loadComplete:self];

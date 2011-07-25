@@ -188,6 +188,8 @@
     
     lexname = [[response objectAtIndex:3] retain];
     NSLog(@"lexname: \"%@\"", lexname);
+    
+    synset.lexname = lexname;
 
     NSObject* _marker = [response objectAtIndex:4];
     if (_marker != NSNull.null) {

@@ -57,7 +57,7 @@
         lexname = nil;
         samples = nil;
         senses = nil;
-        _url = [[NSString stringWithFormat:@"%@/synsets/%d.json", DubsarBaseUrl, _id]retain];
+        _url = [[NSString stringWithFormat:@"/synsets/%d.json", _id]retain];
     }
     return self;
 }
@@ -77,6 +77,7 @@
     NSArray* response = [decoder objectWithData:data];
     partOfSpeech = partOfSpeechFromPos([response objectAtIndex:1]);
     lexname = [[response objectAtIndex:2] retain];
+    NSLog(@"lexname: \"%@\"", lexname);
     if (!gloss) {
         gloss = [[response objectAtIndex:3] retain];
     }
