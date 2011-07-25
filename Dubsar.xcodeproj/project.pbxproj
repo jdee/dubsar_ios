@@ -27,6 +27,10 @@
 		7B4B2EC813D7CD3300A0B98F /* SearchViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */; };
 		7B4B2EC913D7CD3300A0B98F /* SearchViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */; };
 		7B8FF4F713DDF68500DD3612 /* DetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8FF4F613DDF68500DD3612 /* DetailView.xib */; };
+		7B92A42F13DE2337001F662E /* dubsar-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B92A42B13DE2337001F662E /* dubsar-hr.png */; };
+		7B92A43013DE2337001F662E /* dubsar-search-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */; };
+		7B92A43113DE2337001F662E /* dubsar-spotlight-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B92A42D13DE2337001F662E /* dubsar-spotlight-hr.png */; };
+		7B92A43213DE2337001F662E /* dubsar-spotlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B92A42E13DE2337001F662E /* dubsar-spotlight.png */; };
 		7BA48CFC13D738E00056D61A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFB13D738E00056D61A /* UIKit.framework */; };
 		7BA48CFE13D738E00056D61A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFD13D738E00056D61A /* Foundation.framework */; };
 		7BA48D0013D738E00056D61A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFF13D738E00056D61A /* CoreGraphics.framework */; };
@@ -94,6 +98,10 @@
 		7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController_iPhone.m; sourceTree = "<group>"; };
 		7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B8FF4F613DDF68500DD3612 /* DetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView.xib; sourceTree = "<group>"; };
+		7B92A42B13DE2337001F662E /* dubsar-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-hr.png"; path = "Dubsar/dubsar-hr.png"; sourceTree = "<group>"; };
+		7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-search-ipad.png"; path = "Dubsar/dubsar-search-ipad.png"; sourceTree = "<group>"; };
+		7B92A42D13DE2337001F662E /* dubsar-spotlight-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-spotlight-hr.png"; path = "Dubsar/dubsar-spotlight-hr.png"; sourceTree = "<group>"; };
+		7B92A42E13DE2337001F662E /* dubsar-spotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-spotlight.png"; path = "Dubsar/dubsar-spotlight.png"; sourceTree = "<group>"; };
 		7BA48CF713D738E00056D61A /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA48CFB13D738E00056D61A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7BA48CFD13D738E00056D61A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -191,6 +199,10 @@
 				7B3F874913D73B15009C390B /* dubsar-ipad.png */,
 				7B3F874713D73B0B009C390B /* dubsar.png */,
 				7B3F876813D74CA9009C390B /* dubsar-full.png */,
+				7B92A42B13DE2337001F662E /* dubsar-hr.png */,
+				7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */,
+				7B92A42D13DE2337001F662E /* dubsar-spotlight-hr.png */,
+				7B92A42E13DE2337001F662E /* dubsar-spotlight.png */,
 				7BA48D0113D738E00056D61A /* Dubsar */,
 				7BA48D2613D738E10056D61A /* DubsarTests */,
 				7BA48CFA13D738E00056D61A /* Frameworks */,
@@ -404,6 +416,10 @@
 				7B08977213DB4C0A00660C51 /* dubsar-link.png in Resources */,
 				7B0ACD6113DD0BDF0098DC02 /* AutocompleterView.xib in Resources */,
 				7B8FF4F713DDF68500DD3612 /* DetailView.xib in Resources */,
+				7B92A42F13DE2337001F662E /* dubsar-hr.png in Resources */,
+				7B92A43013DE2337001F662E /* dubsar-search-ipad.png in Resources */,
+				7B92A43113DE2337001F662E /* dubsar-spotlight-hr.png in Resources */,
+				7B92A43213DE2337001F662E /* dubsar-spotlight.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -119,6 +119,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    searchBar.hidden = NO;
+    bannerLabel.hidden = NO;
+    glossScrollView.hidden = NO;
+    tableView.hidden = NO;
+    detailView.hidden = YES;
     [tableView reloadData];
 }
 
