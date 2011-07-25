@@ -34,7 +34,6 @@
             tableView.hidden = YES;
             detailView.hidden = NO;
     } completion:^(BOOL finished){
-        
     }];
 }
 
