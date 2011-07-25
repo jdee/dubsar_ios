@@ -127,6 +127,21 @@
     return NO;
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    switch (toInterfaceOrientation) {
+        case UIInterfaceOrientationPortrait:
+            [self.navigationController setToolbarHidden:NO animated:YES];
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            [self.navigationController setToolbarHidden:YES animated:YES];
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+            break;
+    }
+}
+
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
