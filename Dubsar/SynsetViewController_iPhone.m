@@ -118,6 +118,7 @@
 {
     if (theTableView != tableView) {
         [super tableView:theTableView didSelectRowAtIndexPath:indexPath];
+        return;
     }
     
     int section = indexPath.section;
