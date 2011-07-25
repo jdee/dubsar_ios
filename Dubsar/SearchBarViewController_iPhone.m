@@ -64,7 +64,7 @@
     [autocompleterTableView removeFromSuperview];
     [searchBar resignFirstResponder];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
-    [self.navigationController setToolbarHidden:NO animated:NO];
+    [self initOrientation];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
@@ -143,6 +143,23 @@
             break;
     }
 }
+
+
+- (void)initOrientation
+{
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if (UIDeviceOrientationIsLandscape(deviceOrientation))
+    {
+        [self.navigationController setToolbarHidden:YES animated:YES];
+        [self.view setNeedsLayout];
+    }
+    else if (UIDeviceOrientationIsPortrait(deviceOrientation))
+    {
+        [self.navigationController setToolbarHidden:NO animated:YES];
+        [self.view setNeedsLayout];
+    }
+}
+
 
 - (void)createToolbarItems
 {
