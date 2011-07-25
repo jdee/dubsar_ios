@@ -11,13 +11,17 @@
 @class Sense;
 
 
-@interface SenseViewController_iPhone : SearchBarViewController_iPhone 
+@interface SenseViewController_iPhone : SearchBarViewController_iPhone
 {
     UILabel *bannerLabel;
     UIScrollView *glossScrollView;
     UILabel *glossLabel;
     UITableView *tableView;
+    UILabel *detailLabel;
+    UIView *detailView;
     NSMutableArray* tableSections;
+    UINib* detailNib;
+    UIView* mainView;
 }
 
 @property (nonatomic, retain) Sense* sense;
@@ -25,12 +29,19 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *glossScrollView;
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (nonatomic, retain) IBOutlet UILabel *detailLabel;
+@property (nonatomic, retain) IBOutlet UIView *detailView;
+
+- (void)displayPopup:(NSString*)text;
+- (IBAction)dismissPopup:(id)sender;
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 
 -(void)adjustBannerLabel;
 -(void)loadSynsetView;
 -(void)loadWordView;
+
+-(void)followTableLink:(NSIndexPath*)indexPath;
 
 - (void)setupTableSections;
 

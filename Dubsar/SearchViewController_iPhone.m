@@ -85,6 +85,7 @@
     [super viewWillAppear:animated];
     [self adjustPageLabel];
     searchBar.text = [_searchText copy];
+    [_tableView reloadData];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar

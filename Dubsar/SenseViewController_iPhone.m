@@ -18,7 +18,39 @@
 @synthesize glossScrollView;
 @synthesize glossLabel;
 @synthesize tableView;
+@synthesize detailLabel;
+@synthesize detailView;
 @synthesize sense;
+
+- (void)displayPopup:(NSString*)text
+{
+    [detailLabel setText:text];
+    [UIView transitionWithView:self.view duration:0.4 
+        options:UIViewAnimationOptionTransitionFlipFromRight 
+        animations:^{
+            searchBar.hidden = YES;
+            bannerLabel.hidden = YES;
+            glossScrollView.hidden = YES;
+            tableView.hidden = YES;
+            detailView.hidden = NO;
+    } completion:^(BOOL finished){
+        
+    }];
+}
+
+- (IBAction)dismissPopup:(id)sender {
+    [UIView transitionWithView:self.view duration:0.4 
+        options:UIViewAnimationOptionTransitionFlipFromLeft 
+        animations:^{
+            searchBar.hidden = NO;
+            bannerLabel.hidden = NO;
+            glossScrollView.hidden = NO;
+            tableView.hidden = NO;
+            detailView.hidden = YES;
+    } completion:^(BOOL finished){
+                        
+    }];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense
 {
@@ -32,6 +64,7 @@
         tableSections = nil;
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
 
+        detailNib = [UINib nibWithNibName:@"DetailView" bundle:nil];
     }
     return self;
 }
@@ -44,6 +77,9 @@
     [glossLabel release];
     [tableView release];
     [glossScrollView release];
+    [detailNib release];
+    [detailLabel release];
+    [detailView release];
     [super dealloc];
 }
 
@@ -60,18 +96,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    mainView = [self.view retain];
     // Do any additional setup after loading the view from its nib.
     [glossScrollView setContentSize:CGSizeMake(1280,44)];
     [glossScrollView addSubview:glossLabel];
-
+    [detailNib instantiateWithOwner:self options:nil];
+    [detailView setHidden:YES];
+    [self.view addSubview:detailView];
 }
 
 - (void)viewDidUnload
 {
+    [mainView release];
     [self setBannerLabel:nil];
     [self setGlossLabel:nil];
     [self setTableView:nil];
     [self setGlossScrollView:nil];
+    [self setDetailLabel:nil];
+    [self setDetailView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -149,6 +191,21 @@
         return;
     }
     
+    [self followTableLink:indexPath];
+}
+
+- (void)tableView:(UITableView *)theTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    if (theTableView != tableView) {
+        [super tableView:theTableView didSelectRowAtIndexPath:indexPath];
+        return;
+    }
+    
+    [self followTableLink:indexPath];   
+}
+
+- (void)followTableLink:(NSIndexPath *)indexPath
+{
     int section = indexPath.section;
     int row = indexPath.row;
     
@@ -168,6 +225,9 @@
         targetSense = _object;
         NSLog(@"links to Sense %@", targetSense.nameAndPos);
         [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
+    }
+    else if ([_linkType isEqualToString:@"sample"]) {
+        [self displayPopup:_object];
     }
     else if ([[_object objectAtIndex:0] isEqualToString:@"sense"]) {
         NSArray* pointer = _object;
@@ -234,6 +294,8 @@
         NSArray* _collection = [_section valueForKey:@"collection"];
         id _object = [_collection objectAtIndex:row];
         bool hasLinks = [_section valueForKey:@"linkType"] != NSNull.null;
+        NSString* linkType = nil;
+        if (hasLinks) linkType = [_section valueForKey:@"linkType"];
         
         if ([_object respondsToSelector:@selector(name)]) {
             cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];
@@ -268,13 +330,14 @@
             cell.textLabel.text = _object;
         }
         
-        if (hasLinks) {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
-        else {
+        if ([linkType isEqualToString:@"sample"]) {
+            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        
+        else {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+       
         NSLog(@"set text %@ at section %d, row %d", cell.textLabel.text, section, row);
     }
     
@@ -322,7 +385,7 @@
         [section setValue:@"Verb Frames" forKey:@"header"];
         [section setValue:[Sense helpWithPointerType:@"verb frame"] forKey:@"footer"];
         [section setValue:sense.verbFrames forKey:@"collection"];
-        [section setValue:NSNull.null forKey:@"linkType"];
+        [section setValue:@"sample" forKey:@"linkType"];
         [tableSections addObject:section];
     }
     
@@ -331,7 +394,7 @@
         [section setValue:@"Sample Sentences" forKey:@"header"];
         [section setValue:[Sense helpWithPointerType:@"sample sentence"] forKey:@"footer"];
         [section setValue:sense.samples forKey:@"collection"];
-        [section setValue:NSNull.null forKey:@"linkType"];
+        [section setValue:@"sample" forKey:@"linkType"];
         [tableSections addObject:section];
     }
     

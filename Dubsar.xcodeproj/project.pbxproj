@@ -26,6 +26,7 @@
 		7B3F877613D7599F009C390B /* LicenseViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F877413D7599F009C390B /* LicenseViewController_iPhone.xib */; };
 		7B4B2EC813D7CD3300A0B98F /* SearchViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */; };
 		7B4B2EC913D7CD3300A0B98F /* SearchViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */; };
+		7B8FF4F713DDF68500DD3612 /* DetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8FF4F613DDF68500DD3612 /* DetailView.xib */; };
 		7BA48CFC13D738E00056D61A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFB13D738E00056D61A /* UIKit.framework */; };
 		7BA48CFE13D738E00056D61A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFD13D738E00056D61A /* Foundation.framework */; };
 		7BA48D0013D738E00056D61A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFF13D738E00056D61A /* CoreGraphics.framework */; };
@@ -92,6 +93,7 @@
 		7B4B2EC513D7CD3100A0B98F /* SearchViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController_iPhone.h; sourceTree = "<group>"; };
 		7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController_iPhone.m; sourceTree = "<group>"; };
 		7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchViewController_iPhone.xib; sourceTree = "<group>"; };
+		7B8FF4F613DDF68500DD3612 /* DetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView.xib; sourceTree = "<group>"; };
 		7BA48CF713D738E00056D61A /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA48CFB13D738E00056D61A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7BA48CFD13D738E00056D61A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -246,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				7B0ACD6013DD0BDE0098DC02 /* AutocompleterView.xib */,
+				7B8FF4F613DDF68500DD3612 /* DetailView.xib */,
 				7BA48D0E13D738E00056D61A /* DubsarAppDelegate_iPhone.h */,
 				7BA48D0F13D738E00056D61A /* DubsarAppDelegate_iPhone.m */,
 				7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */,
@@ -400,6 +403,7 @@
 				7B08977013DB418200660C51 /* SynsetViewController_iPhone.xib in Resources */,
 				7B08977213DB4C0A00660C51 /* dubsar-link.png in Resources */,
 				7B0ACD6113DD0BDF0098DC02 /* AutocompleterView.xib in Resources */,
+				7B8FF4F713DDF68500DD3612 /* DetailView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
