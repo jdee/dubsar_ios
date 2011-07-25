@@ -16,6 +16,7 @@
     UILabel *lexnameLabel;
     UITableView *tableView;
     UILabel *glossLabel;
+    UIScrollView *glossScrollView;
     NSMutableArray* tableSections;
 }
 
@@ -23,6 +24,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
+@property (nonatomic, retain) IBOutlet UIScrollView *glossScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset*)theSynset;
 

@@ -15,6 +15,7 @@
 
 @implementation SenseViewController_iPhone
 @synthesize bannerLabel;
+@synthesize glossScrollView;
 @synthesize glossLabel;
 @synthesize tableView;
 @synthesize sense;
@@ -42,6 +43,7 @@
     [bannerLabel release];
     [glossLabel release];
     [tableView release];
+    [glossScrollView release];
     [super dealloc];
 }
 
@@ -59,6 +61,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [glossScrollView setContentSize:CGSizeMake(1280,44)];
+    [glossScrollView addSubview:glossLabel];
+
 }
 
 - (void)viewDidUnload
@@ -66,6 +71,7 @@
     [self setBannerLabel:nil];
     [self setGlossLabel:nil];
     [self setTableView:nil];
+    [self setGlossScrollView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

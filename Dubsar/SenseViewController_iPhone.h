@@ -14,6 +14,7 @@
 @interface SenseViewController_iPhone : SearchBarViewController_iPhone 
 {
     UILabel *bannerLabel;
+    UIScrollView *glossScrollView;
     UILabel *glossLabel;
     UITableView *tableView;
     NSMutableArray* tableSections;
@@ -21,6 +22,7 @@
 
 @property (nonatomic, retain) Sense* sense;
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
+@property (nonatomic, retain) IBOutlet UIScrollView *glossScrollView;
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 

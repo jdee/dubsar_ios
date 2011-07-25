@@ -17,6 +17,7 @@
 @synthesize bannerLabel;
 @synthesize tableView;
 @synthesize glossLabel;
+@synthesize glossScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset *)theSynset
 {
@@ -38,6 +39,7 @@
     [bannerLabel release];
     [tableView release];
     [glossLabel release];
+    [glossScrollView release];
     [super dealloc];
 }
 
@@ -55,6 +57,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [glossScrollView setContentSize:CGSizeMake(1280,44)];
+    [glossScrollView addSubview:glossLabel];
 }
 
 - (void)viewDidUnload
@@ -62,6 +66,7 @@
     [self setBannerLabel:nil];
     [self setTableView:nil];
     [self setGlossLabel:nil];
+    [self setGlossScrollView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
