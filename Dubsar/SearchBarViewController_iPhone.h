@@ -22,7 +22,7 @@
 @property (nonatomic, assign) id<AutocompleteDelegate> delegate;
 @end
 
-@interface SearchBarViewController_iPhone : UIViewController <LoadDelegate, UISearchBarDelegate, AutocompleteDelegate> {
+@interface SearchBarViewController_iPhone : UIViewController <LoadDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AutocompleteDelegate> {
     UISearchBar *searchBar;
     UITableView *autocompleterTableView;
     AutocompleterProxy* proxy;

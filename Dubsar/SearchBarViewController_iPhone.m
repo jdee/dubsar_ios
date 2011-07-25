@@ -101,7 +101,7 @@
 {
     NSLog(@"search bar text changed to \"%@\"", theSearchText);
     if (theSearchText.length > 0) {
-        Autocompleter* _autocompleter = [[[Autocompleter alloc] initWithTerm:theSearchText]retain];
+        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText]retain];
         _autocompleter.delegate = proxy;
         [_autocompleter load];
     }
@@ -141,6 +141,12 @@
 
 - (void)autocompleterFinished:(Autocompleter *)theAutocompleter
 {
+    /*
+     * Ignore old responses.
+     */
+    if (theAutocompleter.seqNum <= autocompleter.seqNum || 
+        searchBar.text.length == 0) return ;
+    
     [self setAutocompleter:theAutocompleter];
     [self.view addSubview:autocompleterTableView];
     [autocompleterTableView reloadData];

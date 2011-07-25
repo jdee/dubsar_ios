@@ -10,16 +10,23 @@
 #import "Dubsar.h"
 #import "JSONKit.h"
 
-
 @implementation Autocompleter
 
+@synthesize seqNum;
 @synthesize results=_results;
 @synthesize term=_term;
 
-- (id)initWithTerm:(NSString *)theTerm
++ (id)autocompleterWithTerm:(NSString *)theTerm
+{
+    static NSInteger _seqNum = 0;
+    return [[self alloc]initWithTerm:theTerm seqNum:_seqNum++];
+}
+
+- (id)initWithTerm:(NSString *)theTerm seqNum:(NSInteger)theSeqNum
 {
     self = [super init];
     if (self) {
+        seqNum = theSeqNum;
         _term = [[theTerm copy]retain];
         _results = nil;
         _url = [NSString stringWithFormat:@"%@/os.json?term=%@", DubsarBaseUrl, _term];

@@ -71,13 +71,18 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
 {
-    if (theTableView != tableView) return 0;
+    if (theTableView != tableView) {
+        return [super numberOfSectionsInTableView:theTableView];
+    }
     return word && word.complete ? word.senses.count : 1;
 }
 
 - (NSArray*)sectionIndexTitlesForTableView:(UITableView*)theTableView
 {
-    if (theTableView != tableView) return nil;
+    if (theTableView != tableView) {
+        return [super sectionIndexTitlesForTableView:theTableView];
+    }
+    
     NSMutableArray* titles = [NSMutableArray array];
     if (!word || !word.complete || word.senses.count < 10) {
         return titles;
@@ -93,7 +98,10 @@
 
 - (NSInteger)tableView:(UITableView*)theTableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
-    if (theTableView != tableView) return -1;
+    if (theTableView != tableView) {
+        return [super tableView:theTableView sectionForSectionIndexTitle:title atIndex:index];
+    }
+    
     switch (index) {
         case 0:
             return 0;
@@ -101,13 +109,12 @@
     return 5*index - 1;
 }
 
-#define USE_SECTION_HEADER_IN_WORD_TABLE_VIEW
-
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
 {
-    if (theTableView != tableView) return nil;
+    if (theTableView != tableView) {
+        return [super tableView:theTableView titleForHeaderInSection:section];
+    }
     
-#ifdef USE_SECTION_HEADER_IN_WORD_TABLE_VIEW
     if (!word || !word.complete) return @"loading...";
     
     Sense* sense = [word.senses objectAtIndex:section];
@@ -121,18 +128,21 @@
         textLine = [textLine stringByAppendingFormat:@" (%@)", sense.marker];
     }
     return textLine;
-#else
-    return @"";
-#endif
 }
 
 - (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
 {
+    if (theTableView != tableView) {
+        return [super tableView:theTableView titleForFooterInSection:section];
+    }
     return @"";
 }
 
-- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (theTableView != tableView) {
+        [super tableView:theTableView didSelectRowAtIndexPath:indexPath];
+    }
     int index = indexPath.section;
     Sense* sense = [word.senses objectAtIndex:index];
     [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense] animated:YES];
@@ -140,13 +150,17 @@
 
 - (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
 {
-    if (theTableView != tableView) return 0;
+    if (theTableView != tableView) {
+        return [super tableView:theTableView numberOfRowsInSection:section];
+    }
     return 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView != theTableView) return nil;
+    if (tableView != theTableView) {
+        return [super tableView:theTableView cellForRowAtIndexPath:indexPath];
+    }
     
     static NSString* cellType = @"word";
     

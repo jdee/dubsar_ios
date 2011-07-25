@@ -111,7 +111,9 @@
 
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (theTableView != tableView) return;
+    if (theTableView != tableView) {
+        [super tableView:theTableView didSelectRowAtIndexPath:indexPath];
+    }
     
     int section = indexPath.section;
     int row = indexPath.row;
@@ -145,7 +147,9 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
 {
-    if (theTableView != tableView) return 0;    
+    if (theTableView != tableView) {
+        return [super numberOfSectionsInTableView:theTableView];
+    }
     NSInteger n = synset && synset.complete ? tableSections.count : 1;
     NSLog(@"%d sections in table view", n);
     return n;
@@ -153,7 +157,9 @@
 
 - (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
 {
-    if (theTableView != tableView) return 0;    
+    if (theTableView != tableView) {
+        return [super tableView:theTableView numberOfRowsInSection:section];
+    }
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSArray* _collection = [_section valueForKey:@"collection"];
     NSInteger n = synset && synset.complete ? _collection.count : 1 ;
@@ -163,7 +169,9 @@
 
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (theTableView != tableView) return nil;
+    if (theTableView != tableView) {
+        return [super tableView:theTableView cellForRowAtIndexPath:indexPath];
+    }
     
     static NSString* cellType = @"synset";
     
@@ -231,7 +239,9 @@
 
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
 {
-    if (theTableView != tableView) return @"";
+    if (theTableView != tableView) {
+        return [self tableView:theTableView titleForHeaderInSection:section];
+    }
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSString* title = synset && synset.complete ? [_section valueForKey:@"header"] : @"loading...";
     NSLog(@"header %@ for section %d", title, section);
@@ -240,7 +250,9 @@
 
 - (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
 {
-    if (theTableView != tableView) return @"";
+    if (theTableView != tableView) {
+        return [self tableView:theTableView titleForFooterInSection:section];
+    }
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSString* title = synset && synset.complete ? [_section valueForKey:@"footer"] : @"";
     NSLog(@"footer \"%@\" for section %d", title, section);

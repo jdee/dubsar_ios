@@ -14,10 +14,13 @@
     NSMutableArray* _results;    
 }
 
+@property (nonatomic) NSInteger seqNum;
 @property (nonatomic, retain) NSString* term;
 @property (nonatomic, retain) NSMutableArray* results;
 
--(id)initWithTerm:(NSString*)theTerm;
++(id)autocompleterWithTerm:(NSString*)theTerm;
+
+-(id)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum;
 -(void)parseData;
 
 @end

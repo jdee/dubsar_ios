@@ -105,6 +105,11 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView != _dubsarSearchDisplayController.searchResultsTableView) {
+        [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+        return;
+    }
+    
     int index = indexPath.row;
     Word* word = [search.results objectAtIndex:index];
     [self.navigationController pushViewController:[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word] animated:YES];
@@ -112,7 +117,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    if (_dubsarSearchDisplayController.searchResultsTableView != tableView) return 0;
+    if (_dubsarSearchDisplayController.searchResultsTableView != tableView) {
+        return [super tableView:tableView numberOfRowsInSection:section];
+    }
     
     NSInteger rows = search.complete && search.results ? search.results.count : 1;
     NSLog(@"tableView:numberOfRowsInSection: = %d", rows);
@@ -121,7 +128,9 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    if (tableView != _dubsarSearchDisplayController.searchResultsTableView) return nil;
+    if (tableView != _dubsarSearchDisplayController.searchResultsTableView) {
+        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    }
     
     static NSString* cellType = @"search";
     
