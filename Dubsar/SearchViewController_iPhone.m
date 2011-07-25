@@ -112,7 +112,7 @@
         return;
     }
     
-    int index = indexPath.row;
+    int index = indexPath.section;
     Word* word = [search.results objectAtIndex:index];
     [self.navigationController pushViewController:[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word] animated:YES];
 }
@@ -122,10 +122,13 @@
     if (_tableView != tableView) {
         return [super tableView:tableView numberOfRowsInSection:section];
     }
-    
-    NSInteger rows = search.complete && search.results ? search.results.count : 1;
-    NSLog(@"tableView:numberOfRowsInSection: = %d", rows);
-    return rows;
+    return 1;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{    
+    NSInteger sections = search.complete && search.results ? search.results.count : 1;
+    return sections;
 }
 
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
@@ -158,7 +161,7 @@
     
     NSLog(@"have view cell, loading data");
 
-    int index = indexPath.row;
+    int index = indexPath.section;
     NSLog(@"looking for index %d", index);
     Word* word = [search.results objectAtIndex:index];
     NSLog(@"found \"%@\"", [word nameAndPos]);
@@ -166,6 +169,43 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [word nameAndPos];
     return cell;
+}
+
+- (NSArray*)sectionIndexTitlesForTableView:(UITableView*)theTableView
+{
+    if (theTableView != _tableView) {
+        return [super sectionIndexTitlesForTableView:theTableView];
+    }
+    
+    NSMutableArray* titles = [NSMutableArray arrayWithCapacity:10];
+    if (!search || !search.complete || search.results.count < 10) {
+        return titles;
+    }
+    
+    for (int j=0; j<10; ++j) {
+        int index = (j*search.results.count)/10;
+        Word* word = [search.results objectAtIndex:index];
+        NSString* name = word.name;
+        NSRange range;
+        range.location = 0;
+        range.length = name.length > 3 ? 3 : name.length;
+
+        [titles addObject:[name substringWithRange:range]];
+    }
+    
+    return titles;
+}
+
+- (NSInteger)tableView:(UITableView*)theTableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    if (theTableView != _tableView) {
+        return [super tableView:theTableView sectionForSectionIndexTitle:title atIndex:index];
+    }
+    
+    NSInteger section = (index*search.results.count)/10;
+    Word* word = [search.results objectAtIndex:section];
+    NSLog(@"word: \"%@\", title \"%@\"", word.name, title);
+    return section;
 }
 
 - (void)adjustPageLabel
