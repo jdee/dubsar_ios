@@ -95,7 +95,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    mainView = [self.view retain];
     // Do any additional setup after loading the view from its nib.
     [glossScrollView setContentSize:CGSizeMake(1280,44)];
     [glossScrollView addSubview:glossLabel];
@@ -106,7 +105,6 @@
 
 - (void)viewDidUnload
 {
-    [mainView release];
     [self setBannerLabel:nil];
     [self setGlossLabel:nil];
     [self setTableView:nil];

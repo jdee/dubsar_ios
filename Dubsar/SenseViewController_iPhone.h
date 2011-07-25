@@ -21,7 +21,6 @@
     UIView *detailView;
     NSMutableArray* tableSections;
     UINib* detailNib;
-    UIView* mainView;
 }
 
 @property (nonatomic, retain) Sense* sense;

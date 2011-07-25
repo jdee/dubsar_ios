@@ -17,6 +17,9 @@
     UITableView *tableView;
     UILabel *glossLabel;
     UIScrollView *glossScrollView;
+    UILabel *detailLabel;
+    UIView *detailView;
+    UINib* detailNib;
     NSMutableArray* tableSections;
 }
 
@@ -25,6 +28,8 @@
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UIScrollView *glossScrollView;
+@property (nonatomic, retain) IBOutlet UILabel *detailLabel;
+@property (nonatomic, retain) IBOutlet UIView *detailView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset*)theSynset;
 
@@ -32,5 +37,9 @@
 - (void)adjustBannerLabel;
 - (void)adjustGlossLabel;
 - (void)setupTableSections;
+- (void)followTableLink:(NSIndexPath*)indexPath;
+
+- (void)displayPopup:(NSString*)title;
+- (IBAction)dismissPopup:(id)sender;
 
 @end
