@@ -13,6 +13,7 @@
 @interface WordViewController_iPhone : SearchBarViewController_iPhone {
     
     UILabel *inflectionsLabel;
+    UIScrollView *inflectionsScrollView;
     UITableView *tableView;
 }
 
@@ -20,6 +21,7 @@
 
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, retain) IBOutlet UILabel *inflectionsLabel;
+@property (nonatomic, retain) IBOutlet UIScrollView *inflectionsScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 

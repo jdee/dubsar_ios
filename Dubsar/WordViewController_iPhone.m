@@ -13,6 +13,7 @@
 
 @implementation WordViewController_iPhone
 @synthesize inflectionsLabel;
+@synthesize inflectionsScrollView;
 @synthesize tableView;
 @synthesize word;
 
@@ -35,6 +36,7 @@
     [word release];
     [inflectionsLabel release];
     [tableView release];
+    [inflectionsScrollView release];
     [super dealloc];
 }
 
@@ -51,6 +53,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [inflectionsScrollView setContentSize:CGSizeMake(1280,44)];
+    [inflectionsScrollView addSubview:inflectionsLabel];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -58,6 +62,7 @@
 {
     [self setInflectionsLabel:nil];
     [self setTableView:nil];
+    [self setInflectionsScrollView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -189,7 +194,7 @@
     if (model != word) return;
     
     [self adjustInflections];
-    
+
     [tableView reloadData];
 }
 
@@ -203,6 +208,7 @@
         text = [text stringByAppendingFormat:@"also %@", word.inflections];
     }
     inflectionsLabel.text = text;
+    [inflectionsLabel sizeToFit];
 }
 
 @end
