@@ -127,6 +127,15 @@
     return rows;
 }
 
+- (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
+{
+    if (theTableView != _tableView) {
+        return [super tableView:theTableView titleForHeaderInSection:section];
+    }
+    
+    return @"";
+}
+
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if (tableView != _tableView) {

@@ -186,6 +186,11 @@
     return autocompleter.results.count < 3 ? autocompleter.results.count : 3;
 }
 
+- (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"suggestions";
+}
+
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* cellType = @"autocomplete";
@@ -194,7 +199,7 @@
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
     }
     
-    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [autocompleter.results objectAtIndex:indexPath.row];
     
     return cell;

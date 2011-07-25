@@ -304,7 +304,7 @@
     if (sense.synonyms && sense.synonyms.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Synonyms" forKey:@"header"];
-        [section setValue:@"" forKey:@"footer"];
+        [section setValue:[Sense helpWithPointerType:@"synonym"]  forKey:@"footer"];
         [section setValue:sense.synonyms forKey:@"collection"];
         [section setValue:@"sense" forKey:@"linkType"];
         [tableSections addObject:section];
