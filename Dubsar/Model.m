@@ -6,15 +6,16 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
+#import "Dubsar.h"
 #import "JSONKit.h"
 #import "LoadDelegate.h"
 #import "Model.h"
-
 
 @implementation Model
 
 @synthesize complete;
 @synthesize delegate;
+@synthesize url;
 
 -(id)init
 {
@@ -38,9 +39,10 @@
 }
 
 -(void)load
-{    
-    NSURL* url = [NSURL URLWithString:_url];
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
+{   
+    url = [[NSString stringWithFormat:@"%@%@", DubsarBaseUrl, _url]retain];
+    NSURL* nsurl = [NSURL URLWithString:url];
+    NSURLRequest* request = [NSURLRequest requestWithURL:nsurl];
     connection = [NSURLConnection connectionWithRequest:request delegate:self];
 }
 

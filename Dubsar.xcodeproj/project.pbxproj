@@ -42,6 +42,7 @@
 		7BA48D2B13D738E10056D61A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2913D738E10056D61A /* InfoPlist.strings */; };
 		7BA48D2E13D738E10056D61A /* DubsarTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2D13D738E10056D61A /* DubsarTests.h */; };
 		7BA48D3013D738E10056D61A /* DubsarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D2F13D738E10056D61A /* DubsarTests.m */; };
+		7BA54C3C13DD3D8A00D00620 /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */; };
 		7BDD677813D9B76C00A9E94B /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677713D9B76C00A9E94B /* Search.m */; };
 		7BDD677B13D9B98D00A9E94B /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677A13D9B98C00A9E94B /* Word.m */; };
 		7BDD67A513DA43D900A9E94B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67A413DA43D900A9E94B /* JSONKit.m */; };
@@ -113,6 +114,8 @@
 		7BA48D2C13D738E10056D61A /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
 		7BA48D2D13D738E10056D61A /* DubsarTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarTests.h; sourceTree = "<group>"; };
 		7BA48D2F13D738E10056D61A /* DubsarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarTests.m; sourceTree = "<group>"; };
+		7BA54C3A13DD3D8A00D00620 /* URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLEncoding.h; sourceTree = "<group>"; };
+		7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLEncoding.m; sourceTree = "<group>"; };
 		7BDD677613D9B76B00A9E94B /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
 		7BDD677713D9B76C00A9E94B /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
 		7BDD677913D9B98B00A9E94B /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
@@ -160,6 +163,8 @@
 		7B22253C13DB1F18003B7322 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7BA54C3A13DD3D8A00D00620 /* URLEncoding.h */,
+				7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */,
 				7B0ACD5113DCF15C0098DC02 /* Autocompleter.h */,
 				7B0ACD5213DCF15C0098DC02 /* Autocompleter.m */,
 				7BDD67A213D9DDA100A9E94B /* LoadDelegate.h */,
@@ -450,6 +455,7 @@
 				7B08976F13DB418200660C51 /* SynsetViewController_iPhone.m in Sources */,
 				7BF7AD3513DC541B0006D948 /* SearchBarViewController_iPhone.m in Sources */,
 				7B0ACD5313DCF15C0098DC02 /* Autocompleter.m in Sources */,
+				7BA54C3C13DD3D8A00D00620 /* URLEncoding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

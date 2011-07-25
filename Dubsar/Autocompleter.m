@@ -7,8 +7,8 @@
 //
 
 #import "Autocompleter.h"
-#import "Dubsar.h"
 #import "JSONKit.h"
+#import "URLEncoding.h"
 
 @implementation Autocompleter
 
@@ -29,7 +29,7 @@
         seqNum = theSeqNum;
         _term = [[theTerm copy]retain];
         _results = nil;
-        _url = [NSString stringWithFormat:@"%@/os.json?term=%@", DubsarBaseUrl, _term];
+        _url = [[NSString stringWithFormat:@"/os.json?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain];
     }
     return self;
 }

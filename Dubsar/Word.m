@@ -6,7 +6,6 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "Dubsar.h"
 #import "JSONKit.h"
 #import "Sense.h"
 #import "Word.h"
@@ -155,6 +154,6 @@
 
 -(void)initUrl
 {
-    _url = [[NSString stringWithFormat:@"%@/words/%d.json", DubsarBaseUrl, _id] retain];
+    _url = [[NSString stringWithFormat:@"/words/%d.json", _id] retain];
 }
 @end

@@ -205,7 +205,7 @@
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (theTableView != tableView) {
-        return [self tableView:theTableView cellForRowAtIndexPath:indexPath];
+        return [super tableView:theTableView cellForRowAtIndexPath:indexPath];
     }
     
     static NSString* cellType = @"sense";
@@ -277,7 +277,7 @@
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
 {
     if (theTableView != tableView) {
-        return [self tableView:theTableView titleForFooterInSection:section];
+        return [super tableView:theTableView titleForFooterInSection:section];
     }
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSString* title = sense && sense.complete ? [_section valueForKey:@"header"] : @"loading...";
@@ -288,7 +288,7 @@
 - (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
 {
     if (theTableView != tableView) {
-        return [self tableView:theTableView titleForFooterInSection:section];
+        return [super tableView:theTableView titleForFooterInSection:section];
     }
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSString* title = sense && sense.complete ? [_section valueForKey:@"footer"] : @"";

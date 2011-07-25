@@ -6,11 +6,9 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "Dubsar.h"
 #import "JSONKit.h"
 #import "Sense.h"
 #import "Synset.h"
-
 
 @implementation Synset
 
@@ -43,7 +41,7 @@
         lexname = nil;
         samples = nil;
         senses = nil;
-        _url = [[NSString stringWithFormat:@"%@/synsets/%d.json", DubsarBaseUrl, _id]retain];
+        _url = [[NSString stringWithFormat:@"/synsets/%d.json", _id]retain];
     }
     return self;
 

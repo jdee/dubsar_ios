@@ -24,6 +24,7 @@
     NSString* _url;
 }
 
+@property (nonatomic, retain) NSString* url;
 @property bool complete;
 @property (nonatomic, assign) id<LoadDelegate> delegate;
 

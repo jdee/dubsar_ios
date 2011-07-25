@@ -240,7 +240,7 @@
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
 {
     if (theTableView != tableView) {
-        return [self tableView:theTableView titleForHeaderInSection:section];
+        return [super tableView:theTableView titleForHeaderInSection:section];
     }
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSString* title = synset && synset.complete ? [_section valueForKey:@"header"] : @"loading...";
@@ -251,7 +251,7 @@
 - (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
 {
     if (theTableView != tableView) {
-        return [self tableView:theTableView titleForFooterInSection:section];
+        return [super tableView:theTableView titleForFooterInSection:section];
     }
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSString* title = synset && synset.complete ? [_section valueForKey:@"footer"] : @"";

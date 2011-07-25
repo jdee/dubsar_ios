@@ -195,11 +195,12 @@
 
 - (void)adjustInflections
 {
-    NSString* inflections = word.inflections;
-    if (inflections.length == 0) inflections = @"(none)";
-    NSString* text = [NSString stringWithFormat:@"other forms: %@", inflections];
+    NSString* text = [NSString string];
     if (word.freqCnt > 0) {
-        text = [text stringByAppendingFormat:@" freq. cnt.: %d", word.freqCnt];
+        text = [text stringByAppendingFormat:@"freq. cnt.: %d ", word.freqCnt];
+    }
+    if (word.inflections.length > 0) {
+        text = [text stringByAppendingFormat:@"also %@", word.inflections];
     }
     inflectionsLabel.text = text;
 }

@@ -6,7 +6,6 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "Dubsar.h"
 #import "JSONKit.h"
 #import "Sense.h"
 #import "Synset.h"
@@ -266,7 +265,7 @@
 
 - (void)initUrl
 {
-    _url = [[NSString stringWithFormat:@"%@/senses/%d.json", DubsarBaseUrl, _id]retain];
+    _url = [[NSString stringWithFormat:@"/senses/%d.json", _id]retain];
 }
 
 + (NSString*)helpWithPointerType:(NSString *)ptype

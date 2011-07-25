@@ -6,9 +6,9 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
-#import "Dubsar.h"
 #import "Search.h"
 #import "JSONKit.h"
+#import "URLEncoding.h"
 #import "Word.h"
 
 @implementation Search
@@ -30,7 +30,7 @@
     if (self) {   
         term = [[theTerm copy] retain];
         results = nil;
-        _url = [NSString stringWithFormat:@"%@/.json?term=%@", DubsarBaseUrl, term];
+        _url = [[NSString stringWithFormat:@"/.json?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain];
     }
     return self;
 }
