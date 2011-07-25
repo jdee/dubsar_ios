@@ -200,24 +200,23 @@
     
     NSLog(@"freq. cnt.: %d", freqCnt);
     
-    if (!synonyms) {
-        NSArray* _synonyms = [response objectAtIndex:6];
-        NSLog(@"found %u synonyms", [_synonyms count]);
-        synonyms = [[NSMutableArray arrayWithCapacity:_synonyms.count] retain];
-        for (int j=0; j< _synonyms.count; ++j) {
-            NSArray* _synonym = [_synonyms objectAtIndex:j];
-            NSNumber* _senseId = [_synonym objectAtIndex:0];
-            Sense* sense = [Sense senseWithId:_senseId.intValue name:[_synonym objectAtIndex:1] synset:synset];
-            _marker = [_synonym objectAtIndex:2];
-            if (_marker != NSNull.null) {
-                sense.marker = [_synonym objectAtIndex:2];
-            }
-            fc = [_synonym objectAtIndex:3];
-            sense.freqCnt = fc.intValue;
-            NSLog(@" found %@, ID %d", sense.nameAndPos, _senseId.intValue);
-            [synonyms insertObject:sense atIndex:j];
+    NSArray* _synonyms = [response objectAtIndex:6];
+    NSLog(@"found %u synonyms", [_synonyms count]);
+    synonyms = [[NSMutableArray arrayWithCapacity:_synonyms.count] retain];
+    for (int j=0; j< _synonyms.count; ++j) {
+        NSArray* _synonym = [_synonyms objectAtIndex:j];
+        NSNumber* _senseId = [_synonym objectAtIndex:0];
+        Sense* sense = [Sense senseWithId:_senseId.intValue name:[_synonym objectAtIndex:1] synset:synset];
+        _marker = [_synonym objectAtIndex:2];
+        if (_marker != NSNull.null) {
+            sense.marker = [_synonym objectAtIndex:2];
         }
+        fc = [_synonym objectAtIndex:3];
+        sense.freqCnt = fc.intValue;
+        NSLog(@" found %@, ID %d, freq. cnt. %d", sense.nameAndPos, sense._id, sense.freqCnt);
+        [synonyms insertObject:sense atIndex:j];
     }
+    [synonyms sortUsingSelector:@selector(compareFreqCnt:)];
     
     NSArray* _verbFrames = [response objectAtIndex:7];
     NSLog(@"found %u verb frames", _verbFrames.count);
