@@ -59,6 +59,11 @@
     self.navigationController.toolbar.tintColor = searchBar.tintColor;
 }
 
+- (void)viewDidUnload {
+    [self setAutocompleterTableView:nil];
+    [super viewDidUnload];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [autocompleterTableView removeFromSuperview];
@@ -151,12 +156,10 @@
     if (UIDeviceOrientationIsLandscape(deviceOrientation))
     {
         [self.navigationController setToolbarHidden:YES animated:YES];
-        [self.view setNeedsLayout];
     }
     else if (UIDeviceOrientationIsPortrait(deviceOrientation))
     {
         [self.navigationController setToolbarHidden:NO animated:YES];
-        [self.view setNeedsLayout];
     }
 }
 
@@ -188,11 +191,6 @@
     [autocompleterTableView reloadData];
 }
 
-- (void)viewDidUnload {
-    [self setAutocompleterTableView:nil];
-    [super viewDidUnload];
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
 {
     return 1;
@@ -200,7 +198,15 @@
 
 - (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
 {
-    return autocompleter.results.count < 3 ? autocompleter.results.count : 3;
+    switch (autocompleter.results.count) {
+        case 0:
+        case 1:
+            return 1;
+        case 2:
+            return 2;
+        default:
+            return 3;
+    }
 }
 
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
@@ -216,8 +222,14 @@
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
     }
     
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.text = [autocompleter.results objectAtIndex:indexPath.row];
+    if (autocompleter.results.count > 0) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.text = [autocompleter.results objectAtIndex:indexPath.row];
+    }
+    else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.textLabel.text = @"no suggestions";
+    }
     
     return cell;
 }
