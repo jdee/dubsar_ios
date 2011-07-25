@@ -18,7 +18,7 @@
 @property (nonatomic, retain) Search* search;
 @property (nonatomic, retain) IBOutlet UILabel *pageLabel;
 @property (nonatomic, retain) NSString* searchText;
-@property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
+@property (nonatomic, retain) IBOutlet UITableView *searchResultsTableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText;
 - (void)adjustPageLabel;

@@ -20,7 +20,7 @@
 @synthesize search;
 @synthesize pageLabel = _pageLabel;
 @synthesize searchText=_searchText;
-@synthesize searchDisplayController=_dubsarSearchDisplayController;
+@synthesize searchResultsTableView=_tableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText 
 {
@@ -47,8 +47,8 @@
 
 - (void)dealloc
 {
+    [_tableView release];
     [search release];
-    [_dubsarSearchDisplayController release];
     [_searchText release];
     [_pageLabel release];
     [super dealloc];
@@ -74,6 +74,7 @@
 {
     [self setPageLabel:nil];
     [self setSearchBar:nil];
+    [self setSearchResultsTableView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -83,12 +84,12 @@
 {
     [super viewWillAppear:animated];
     [self adjustPageLabel];
-    _dubsarSearchDisplayController.searchBar.text = [_searchText copy];
+    searchBar.text = [_searchText copy];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar
 {
-    if (theSearchBar != _dubsarSearchDisplayController.searchBar) return;
+    if (theSearchBar != searchBar) return;
     
     _searchText = @"";
     [self adjustPageLabel];
@@ -97,7 +98,7 @@
 
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)searchText
 {
-    if (theSearchBar != _dubsarSearchDisplayController.searchBar) return;
+    if (theSearchBar != searchBar) return;
     NSLog(@"search text changed in search view search bar");
     _searchText = [searchText copy];
     [super searchBar:theSearchBar textDidChange:searchText];
@@ -105,7 +106,7 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView != _dubsarSearchDisplayController.searchResultsTableView) {
+    if (tableView != _tableView) {
         [super tableView:tableView didSelectRowAtIndexPath:indexPath];
         return;
     }
@@ -117,7 +118,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    if (_dubsarSearchDisplayController.searchResultsTableView != tableView) {
+    if (_tableView != tableView) {
         return [super tableView:tableView numberOfRowsInSection:section];
     }
     
@@ -128,7 +129,7 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    if (tableView != _dubsarSearchDisplayController.searchResultsTableView) {
+    if (tableView != _tableView) {
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
     
@@ -172,7 +173,7 @@
     if (model != search) return;
     
     NSLog(@"search complete");
-    [_dubsarSearchDisplayController.searchResultsTableView reloadData];
+    [_tableView reloadData];
 }
 
 @end
