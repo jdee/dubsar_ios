@@ -11,6 +11,8 @@
 		7B08976F13DB418200660C51 /* SynsetViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B08976D13DB418100660C51 /* SynsetViewController_iPhone.m */; };
 		7B08977013DB418200660C51 /* SynsetViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B08976E13DB418100660C51 /* SynsetViewController_iPhone.xib */; };
 		7B08977213DB4C0A00660C51 /* dubsar-link.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B08977113DB4C0A00660C51 /* dubsar-link.png */; };
+		7B0ACD5313DCF15C0098DC02 /* Autocompleter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0ACD5213DCF15C0098DC02 /* Autocompleter.m */; };
+		7B0ACD6113DD0BDF0098DC02 /* AutocompleterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B0ACD6013DD0BDE0098DC02 /* AutocompleterView.xib */; };
 		7B22254413DB1FDA003B7322 /* SenseViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22254213DB1FDA003B7322 /* SenseViewController_iPhone.m */; };
 		7B22254513DB1FDA003B7322 /* SenseViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B22254313DB1FDA003B7322 /* SenseViewController_iPhone.xib */; };
 		7B3F874813D73B0B009C390B /* dubsar.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F874713D73B0B009C390B /* dubsar.png */; };
@@ -68,6 +70,9 @@
 		7B08976D13DB418100660C51 /* SynsetViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetViewController_iPhone.m; sourceTree = "<group>"; };
 		7B08976E13DB418100660C51 /* SynsetViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SynsetViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B08977113DB4C0A00660C51 /* dubsar-link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-link.png"; sourceTree = "<group>"; };
+		7B0ACD5113DCF15C0098DC02 /* Autocompleter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Autocompleter.h; sourceTree = "<group>"; };
+		7B0ACD5213DCF15C0098DC02 /* Autocompleter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Autocompleter.m; sourceTree = "<group>"; };
+		7B0ACD6013DD0BDE0098DC02 /* AutocompleterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterView.xib; sourceTree = "<group>"; };
 		7B22254113DB1FDA003B7322 /* SenseViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SenseViewController_iPhone.h; sourceTree = "<group>"; };
 		7B22254213DB1FDA003B7322 /* SenseViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SenseViewController_iPhone.m; sourceTree = "<group>"; };
 		7B22254313DB1FDA003B7322 /* SenseViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SenseViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -155,6 +160,8 @@
 		7B22253C13DB1F18003B7322 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7B0ACD5113DCF15C0098DC02 /* Autocompleter.h */,
+				7B0ACD5213DCF15C0098DC02 /* Autocompleter.m */,
 				7BDD67A213D9DDA100A9E94B /* LoadDelegate.h */,
 				7BDD67BE13DA8DC100A9E94B /* Model.h */,
 				7BDD67BF13DA8DC100A9E94B /* Model.m */,
@@ -233,6 +240,7 @@
 		7BA48D0D13D738E00056D61A /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
+				7B0ACD6013DD0BDE0098DC02 /* AutocompleterView.xib */,
 				7BA48D0E13D738E00056D61A /* DubsarAppDelegate_iPhone.h */,
 				7BA48D0F13D738E00056D61A /* DubsarAppDelegate_iPhone.m */,
 				7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */,
@@ -386,6 +394,7 @@
 				7B22254513DB1FDA003B7322 /* SenseViewController_iPhone.xib in Resources */,
 				7B08977013DB418200660C51 /* SynsetViewController_iPhone.xib in Resources */,
 				7B08977213DB4C0A00660C51 /* dubsar-link.png in Resources */,
+				7B0ACD6113DD0BDF0098DC02 /* AutocompleterView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +449,7 @@
 				7B08976A13DB3FA900660C51 /* Synset.m in Sources */,
 				7B08976F13DB418200660C51 /* SynsetViewController_iPhone.m in Sources */,
 				7BF7AD3513DC541B0006D948 /* SearchBarViewController_iPhone.m in Sources */,
+				7B0ACD5313DCF15C0098DC02 /* Autocompleter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

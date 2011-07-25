@@ -7,7 +7,6 @@
 //
 
 #import "LicenseViewController_iPhone.h"
-#import "SearchBarManager_iPHone.h"
 
 @implementation LicenseViewController_iPhone
 

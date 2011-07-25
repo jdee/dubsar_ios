@@ -10,15 +10,30 @@
 
 #import "LoadDelegate.h"
 
-@interface SearchBarViewController_iPhone : UIViewController <LoadDelegate, UISearchBarDelegate> {
-    UISearchBar *searchBar;
+@class Autocompleter;
+
+@protocol AutocompleteDelegate
+- (void)autocompleterFinished:(Autocompleter*)theAutocompleter;
+@end
+
+@interface AutocompleterProxy : NSObject<LoadDelegate> {
     
 }
+@property (nonatomic, assign) id<AutocompleteDelegate> delegate;
+@end
 
+@interface SearchBarViewController_iPhone : UIViewController <LoadDelegate, UISearchBarDelegate, AutocompleteDelegate> {
+    UISearchBar *searchBar;
+    UITableView *autocompleterTableView;
+    AutocompleterProxy* proxy;
+}
+
+@property (nonatomic, retain) Autocompleter* autocompleter;
+@property (nonatomic, retain) UINib* autocompleterNib;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
 
 -(void)createToolbarItems;
 -(void)loadRootController;
-
 
 @end

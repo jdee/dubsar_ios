@@ -6,24 +6,44 @@
 //  Copyright 2011 Jimmy Dee. All rights reserved.
 //
 
+#import "Autocompleter.h"
 #import "SearchBarViewController_iPhone.h"
 #import "SearchViewController_iPhone.h"
 
+@implementation AutocompleterProxy
+@synthesize delegate;
+
+- (void)loadComplete:(Model *)model
+{
+    if (delegate) [delegate autocompleterFinished:(Autocompleter*)model];
+}
+@end
+
 @implementation SearchBarViewController_iPhone
+@synthesize autocompleter;
 @synthesize searchBar;
+@synthesize autocompleterTableView;
+@synthesize autocompleterNib;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        proxy = [[AutocompleterProxy alloc]init];
+        proxy.delegate = self;
+        
+        autocompleterNib = [UINib nibWithNibName:@"AutocompleterView" bundle:nil];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [autocompleter release];
+    [autocompleterNib release];
     [searchBar release];
+    [autocompleterTableView release];
     [super dealloc];
 }
 
@@ -32,6 +52,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [autocompleterNib instantiateWithOwner:self options:nil];
     // Do any additional setup after loading the view from its nib.
     [self createToolbarItems];
     self.navigationController.navigationBar.tintColor = searchBar.tintColor;
@@ -44,13 +65,12 @@
     [self.navigationController setToolbarHidden:NO animated:NO];
 }
 
-
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
 {
     if (theSearchBar != searchBar) return;
     
     [theSearchBar resignFirstResponder];
+    [autocompleterTableView removeFromSuperview];
     
     // new SearchViewController for this search
     NSLog(@"presenting view controller for \"%@\"", theSearchBar.text);
@@ -79,6 +99,15 @@
 
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
 {
+    NSLog(@"search bar text changed to \"%@\"", theSearchText);
+    if (theSearchText.length > 0) {
+        Autocompleter* _autocompleter = [[[Autocompleter alloc] initWithTerm:theSearchText]retain];
+        _autocompleter.delegate = proxy;
+        [_autocompleter load];
+    }
+    else {
+        [autocompleterTableView removeFromSuperview];
+    }
 }
 
 - (BOOL)searchBar:(UISearchBar*)theSearchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -108,6 +137,56 @@
 - (void)loadRootController
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)autocompleterFinished:(Autocompleter *)theAutocompleter
+{
+    [self setAutocompleter:theAutocompleter];
+    [self.view addSubview:autocompleterTableView];
+    [autocompleterTableView reloadData];
+}
+
+- (void)viewDidUnload {
+    [self setAutocompleterTableView:nil];
+    [super viewDidUnload];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
+{
+    return autocompleter.results.count < 3 ? autocompleter.results.count : 3;
+}
+
+- (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString* cellType = @"autocomplete";
+    UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
+    }
+    
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.textLabel.text = [autocompleter.results objectAtIndex:indexPath.row];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [searchBar resignFirstResponder];
+    [autocompleterTableView removeFromSuperview];
+
+    if (!autocompleter.complete || !autocompleter.results) {
+        return;
+    }
+    
+    NSString* text = [autocompleter.results objectAtIndex:indexPath.row];
+    SearchViewController_iPhone* searchViewController = [[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: text];
+    [self.navigationController pushViewController:searchViewController animated: YES];
 }
 
 @end
