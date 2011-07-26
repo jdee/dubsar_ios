@@ -59,6 +59,9 @@
 		7BF7AD3513DC541B0006D948 /* SearchBarViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF7AD3313DC541B0006D948 /* SearchBarViewController_iPhone.m */; };
 		7BFEEE1C13DF14B600EB5D11 /* FAQViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BFEEE1A13DF14B600EB5D11 /* FAQViewController_iPhone.m */; };
 		7BFEEE1D13DF14B600EB5D11 /* FAQViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BFEEE1B13DF14B600EB5D11 /* FAQViewController_iPhone.xib */; };
+		7BFEEE2113DF20CC00EB5D11 /* SearchBarViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BFEEE1F13DF20CC00EB5D11 /* SearchBarViewController_iPad.m */; };
+		7BFEEE2213DF20CC00EB5D11 /* SearchBarViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BFEEE2013DF20CC00EB5D11 /* SearchBarViewController_iPad.xib */; };
+		7BFEEE5F13DF2D7200EB5D11 /* AutocompleterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BFEEE5E13DF2D7200EB5D11 /* AutocompleterProxy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +152,12 @@
 		7BFEEE1913DF14B600EB5D11 /* FAQViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAQViewController_iPhone.h; path = Dubsar.xcodeproj/FAQViewController_iPhone.h; sourceTree = SOURCE_ROOT; };
 		7BFEEE1A13DF14B600EB5D11 /* FAQViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAQViewController_iPhone.m; path = Dubsar.xcodeproj/FAQViewController_iPhone.m; sourceTree = SOURCE_ROOT; };
 		7BFEEE1B13DF14B600EB5D11 /* FAQViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FAQViewController_iPhone.xib; path = Dubsar.xcodeproj/FAQViewController_iPhone.xib; sourceTree = SOURCE_ROOT; };
+		7BFEEE1E13DF20CC00EB5D11 /* SearchBarViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarViewController_iPad.h; sourceTree = "<group>"; };
+		7BFEEE1F13DF20CC00EB5D11 /* SearchBarViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarViewController_iPad.m; sourceTree = "<group>"; };
+		7BFEEE2013DF20CC00EB5D11 /* SearchBarViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchBarViewController_iPad.xib; sourceTree = "<group>"; };
+		7BFEEE5D13DF2D7200EB5D11 /* AutocompleterProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterProxy.h; sourceTree = "<group>"; };
+		7BFEEE5E13DF2D7200EB5D11 /* AutocompleterProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterProxy.m; sourceTree = "<group>"; };
+		7BFEEE6013DF2D8A00EB5D11 /* AutocompleterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,10 +187,11 @@
 		7B22253C13DB1F18003B7322 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7BA54C3A13DD3D8A00D00620 /* URLEncoding.h */,
-				7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */,
 				7B0ACD5113DCF15C0098DC02 /* Autocompleter.h */,
 				7B0ACD5213DCF15C0098DC02 /* Autocompleter.m */,
+				7BFEEE6013DF2D8A00EB5D11 /* AutocompleterDelegate.h */,
+				7BFEEE5D13DF2D7200EB5D11 /* AutocompleterProxy.h */,
+				7BFEEE5E13DF2D7200EB5D11 /* AutocompleterProxy.m */,
 				7BDD67A213D9DDA100A9E94B /* LoadDelegate.h */,
 				7BDD67BE13DA8DC100A9E94B /* Model.h */,
 				7BDD67BF13DA8DC100A9E94B /* Model.m */,
@@ -193,6 +203,8 @@
 				7BDD677A13D9B98C00A9E94B /* Word.m */,
 				7B08976813DB3FA900660C51 /* Synset.h */,
 				7B08976913DB3FA900660C51 /* Synset.m */,
+				7BA54C3A13DD3D8A00D00620 /* URLEncoding.h */,
+				7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -305,6 +317,9 @@
 				7BA48D1513D738E00056D61A /* DubsarAppDelegate_iPad.h */,
 				7BA48D1613D738E00056D61A /* DubsarAppDelegate_iPad.m */,
 				7BA48D1813D738E10056D61A /* MainWindow_iPad.xib */,
+				7BFEEE1E13DF20CC00EB5D11 /* SearchBarViewController_iPad.h */,
+				7BFEEE1F13DF20CC00EB5D11 /* SearchBarViewController_iPad.m */,
+				7BFEEE2013DF20CC00EB5D11 /* SearchBarViewController_iPad.xib */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -429,6 +444,7 @@
 				7B92A43113DE2337001F662E /* dubsar-spotlight-hr.png in Resources */,
 				7B92A43213DE2337001F662E /* dubsar-spotlight.png in Resources */,
 				7BFEEE1D13DF14B600EB5D11 /* FAQViewController_iPhone.xib in Resources */,
+				7BFEEE2213DF20CC00EB5D11 /* SearchBarViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +502,8 @@
 				7B0ACD5313DCF15C0098DC02 /* Autocompleter.m in Sources */,
 				7BA54C3C13DD3D8A00D00620 /* URLEncoding.m in Sources */,
 				7BFEEE1C13DF14B600EB5D11 /* FAQViewController_iPhone.m in Sources */,
+				7BFEEE2113DF20CC00EB5D11 /* SearchBarViewController_iPad.m in Sources */,
+				7BFEEE5F13DF2D7200EB5D11 /* AutocompleterProxy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,19 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import "LoadDelegate.h"
+#import "AutocompleterProxy.h"
 
-@class Autocompleter;
-
-@protocol AutocompleterDelegate
-- (void)autocompleterFinished:(Autocompleter*)theAutocompleter;
-@end
-
-@interface AutocompleterProxy : NSObject<LoadDelegate> {
-    
-}
-@property (nonatomic, assign) id<AutocompleterDelegate> delegate;
-@end
 
 @interface SearchBarViewController_iPhone : UIViewController <LoadDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AutocompleterDelegate> {
     UISearchBar *searchBar;

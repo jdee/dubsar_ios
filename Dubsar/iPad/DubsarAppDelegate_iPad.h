@@ -13,8 +13,10 @@
 
 @interface DubsarAppDelegate_iPad : DubsarAppDelegate {
     
+    UISplitViewController *_splitViewController;
 }
 
 @property (nonatomic, retain) DubsarViewController_iPad* dubsarViewController;
+@property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
 
 @end

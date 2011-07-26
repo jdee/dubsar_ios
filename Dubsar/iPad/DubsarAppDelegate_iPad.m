@@ -12,14 +12,11 @@
 @implementation DubsarAppDelegate_iPad
 
 @synthesize dubsarViewController=_dubsarViewController;
+@synthesize splitViewController = _splitViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
-    DubsarViewController_iPad *aViewController = [[DubsarViewController_iPad alloc]
-                                                    initWithNibName:@"DubsarViewController_iPad" bundle:nil];
-    [self setDubsarViewController:aViewController];
-    [aViewController release];
-    self.window.rootViewController = self.dubsarViewController;    
+    self.window.rootViewController = _splitViewController;    
     
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     return YES;
@@ -28,6 +25,7 @@
 - (void)dealloc
 {
     [_dubsarViewController dealloc];
+    [_splitViewController release];
 	[super dealloc];
 }
 

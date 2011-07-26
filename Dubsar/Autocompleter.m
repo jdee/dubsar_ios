@@ -47,7 +47,7 @@
     
     NSMutableArray* r = [[NSMutableArray array]retain];
     NSArray* list = [response objectAtIndex:1];
-    for (int j=0; j<3 && j<list.count; ++j) {
+    for (int j=0; j<list.count; ++j) {
         [r addObject:[list objectAtIndex:j]];
     }
     _results = r;

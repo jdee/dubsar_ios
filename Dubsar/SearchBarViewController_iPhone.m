@@ -10,15 +10,6 @@
 #import "SearchBarViewController_iPhone.h"
 #import "SearchViewController_iPhone.h"
 
-@implementation AutocompleterProxy
-@synthesize delegate;
-
-- (void)loadComplete:(Model *)model
-{
-    if (delegate) [delegate autocompleterFinished:(Autocompleter*)model];
-}
-@end
-
 @implementation SearchBarViewController_iPhone
 @synthesize autocompleter;
 @synthesize searchBar;
