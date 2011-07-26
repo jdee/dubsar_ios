@@ -22,7 +22,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        editing = false;
+
 #ifdef AUTOCOMPLETER_FROM_NIB
         autocompleterNib = [UINib nibWithNibName:@"AutocompleterView" bundle:nil];
 #endif // AUTOCOMPLETER_FROM_NIB
@@ -105,12 +106,14 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
 {
     if (theSearchBar != searchBar) return;
+    editing = true;
     theSearchBar.showsCancelButton = YES;
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
 {
     if (theSearchBar != searchBar) return;
+    editing = false;
     theSearchBar.showsCancelButton = NO;
 }
 
@@ -118,6 +121,9 @@
 {
     _searchText = [theSearchText copy];
     NSLog(@"search bar text changed to \"%@\"", theSearchText);
+    
+    if (!editing) return;
+    
     if (theSearchText.length > 0) {
         Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:caseSwitch.on]retain];
         _autocompleter.delegate = self;
@@ -139,11 +145,12 @@
     /*
      * Ignore old responses.
      */
-    if (theAutocompleter.seqNum <= autocompleter.seqNum || 
+    if (!editing || ![searchBar isFirstResponder] || 
+        theAutocompleter.seqNum <= autocompleter.seqNum || 
         searchBar.text.length == 0) return ;
     
     [self setAutocompleter:theAutocompleter];    
-    [autocompleterTableView setHidden:NO];
+    autocompleterTableView.hidden = NO;
     CGRect frame = CGRectMake(0.0, 44.0, 320.0, 44 * ([self tableView:autocompleterTableView numberOfRowsInSection:0]+1));
     autocompleterTableView.frame = frame;
     
@@ -203,15 +210,15 @@
 
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [searchBar resignFirstResponder];
-    [autocompleterTableView setHidden:YES];
-    
     if (!autocompleter.complete || !autocompleter.results) {
         return;
     }
     
     NSString* text = [autocompleter.results objectAtIndex:indexPath.row];
     [searchBar setText:text];
+    [searchBar resignFirstResponder];
+    [autocompleterTableView setHidden:YES];
+    
     SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text: text matchCase:caseSwitch.on];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }

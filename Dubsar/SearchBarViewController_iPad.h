@@ -16,6 +16,7 @@
 
 @interface SearchBarViewController_iPad : UIViewController <LoadDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UISplitViewControllerDelegate> {
     
+    bool editing;
     UISearchBar *searchBar;
     UITableView *autocompleterTableView;
     UISwitch *caseSwitch;

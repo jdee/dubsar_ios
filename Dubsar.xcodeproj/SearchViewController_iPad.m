@@ -10,6 +10,7 @@
 #import "Search.h"
 #import "SearchViewController_iPad.h"
 #import "Word.h"
+#import "WordViewController_iPad.h"
 
 
 @implementation SearchViewController_iPad
@@ -25,6 +26,7 @@
         search.delegate = self;
         [search load];
         
+        self.title = [NSString stringWithFormat:@"Search: \"%@\"", text];
     }
     return self;
 }
@@ -130,8 +132,16 @@
     else {
         Word* word = [search.results objectAtIndex:indexPath.row];
         cell.textLabel.text = word.nameAndPos;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Word* word = [search.results objectAtIndex:indexPath.row];
+    WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
+    [self.navigationController pushViewController:wordViewController animated:YES];
 }
 
 - (void)loadComplete:(Model*)model
@@ -139,6 +149,11 @@
     if (model != search) return;
     
     [(UITableView*)self.view reloadData];
+}
+
+- (void)loadRootController
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

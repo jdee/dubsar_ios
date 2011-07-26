@@ -28,6 +28,8 @@
 		7B4B2EC913D7CD3300A0B98F /* SearchViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */; };
 		7B59D7B913DF58950099B27D /* SearchViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59D7B713DF58950099B27D /* SearchViewController_iPad.m */; };
 		7B59D7BA13DF58950099B27D /* SearchViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B59D7B813DF58950099B27D /* SearchViewController_iPad.xib */; };
+		7B59D7BE13DF63740099B27D /* WordViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59D7BC13DF63730099B27D /* WordViewController_iPad.m */; };
+		7B59D7BF13DF63740099B27D /* WordViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B59D7BD13DF63740099B27D /* WordViewController_iPad.xib */; };
 		7B8FF4F713DDF68500DD3612 /* DetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8FF4F613DDF68500DD3612 /* DetailView_iPhone.xib */; };
 		7B92A42F13DE2337001F662E /* dubsar-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B92A42B13DE2337001F662E /* dubsar-hr.png */; };
 		7B92A43013DE2337001F662E /* dubsar-search-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */; };
@@ -107,6 +109,9 @@
 		7B59D7B613DF58950099B27D /* SearchViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController_iPad.h; path = Dubsar.xcodeproj/SearchViewController_iPad.h; sourceTree = SOURCE_ROOT; };
 		7B59D7B713DF58950099B27D /* SearchViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController_iPad.m; path = Dubsar.xcodeproj/SearchViewController_iPad.m; sourceTree = SOURCE_ROOT; };
 		7B59D7B813DF58950099B27D /* SearchViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchViewController_iPad.xib; path = Dubsar.xcodeproj/SearchViewController_iPad.xib; sourceTree = SOURCE_ROOT; };
+		7B59D7BB13DF63730099B27D /* WordViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordViewController_iPad.h; sourceTree = "<group>"; };
+		7B59D7BC13DF63730099B27D /* WordViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordViewController_iPad.m; sourceTree = "<group>"; };
+		7B59D7BD13DF63740099B27D /* WordViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WordViewController_iPad.xib; sourceTree = "<group>"; };
 		7B8FF4F613DDF68500DD3612 /* DetailView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPhone.xib; sourceTree = "<group>"; };
 		7B92A42B13DE2337001F662E /* dubsar-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-hr.png"; sourceTree = "<group>"; };
 		7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-search-ipad.png"; sourceTree = "<group>"; };
@@ -327,6 +332,9 @@
 				7BFEEE2013DF20CC00EB5D11 /* SearchBarViewController_iPad.xib */,
 				7B59D7B613DF58950099B27D /* SearchViewController_iPad.h */,
 				7B59D7B713DF58950099B27D /* SearchViewController_iPad.m */,
+				7B59D7BB13DF63730099B27D /* WordViewController_iPad.h */,
+				7B59D7BC13DF63730099B27D /* WordViewController_iPad.m */,
+				7B59D7BD13DF63740099B27D /* WordViewController_iPad.xib */,
 				7B59D7B813DF58950099B27D /* SearchViewController_iPad.xib */,
 			);
 			name = iPad;
@@ -454,6 +462,7 @@
 				7BFEEE1D13DF14B600EB5D11 /* FAQViewController_iPhone.xib in Resources */,
 				7BFEEE2213DF20CC00EB5D11 /* SearchBarViewController_iPad.xib in Resources */,
 				7B59D7BA13DF58950099B27D /* SearchViewController_iPad.xib in Resources */,
+				7B59D7BF13DF63740099B27D /* WordViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +523,7 @@
 				7BFEEE2113DF20CC00EB5D11 /* SearchBarViewController_iPad.m in Sources */,
 				7BFEEE5F13DF2D7200EB5D11 /* AutocompleterProxy.m in Sources */,
 				7B59D7B913DF58950099B27D /* SearchViewController_iPad.m in Sources */,
+				7B59D7BE13DF63740099B27D /* WordViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
