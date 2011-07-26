@@ -45,6 +45,7 @@
     NSURLRequest* request = [NSURLRequest requestWithURL:nsurl];
     connection = [NSURLConnection connectionWithRequest:request delegate:self];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSLog(@"requesting %@", url);
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -58,8 +59,19 @@
     [data appendData:theData];
 }
 
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    NSString* errMsg = [error localizedDescription];
+    NSLog(@"error requesting %@: %@", url, errMsg);
+    [self setComplete:true];
+    [[self delegate] loadComplete:self];
+    NSLog(@"load processing finished");
+}
+
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     NSString* jsonData = [NSString stringWithCString:(const char*)[data bytes] encoding:NSUTF8StringEncoding];
     NSLog(@"JSON response from URL %@:", url);
     NSLog(@"%@", jsonData);
@@ -67,7 +79,6 @@
     [self setComplete:true];
     [[self delegate] loadComplete:self];
     NSLog(@"load processing finished");
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 @end
