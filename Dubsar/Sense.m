@@ -166,7 +166,7 @@
 {
     NSLog(@"parsing Sense response for %@", self.nameAndPos);
     
-    NSArray* response = [decoder objectWithData:data];
+    NSArray* response = [[self decoder] objectWithData:[self data]];
     NSArray* _word = [response objectAtIndex:1];
     NSNumber* _wordId = [_word objectAtIndex:0];
     NSArray* _synset = [response objectAtIndex:2];
@@ -267,7 +267,7 @@
 
 - (void)initUrl
 {
-    _url = [[NSString stringWithFormat:@"/senses/%d.json", _id]retain];
+    [self set_url: [[NSString stringWithFormat:@"/senses/%d.json", _id]retain]];
 }
 
 + (NSString*)helpWithPointerType:(NSString *)ptype

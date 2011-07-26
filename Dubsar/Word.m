@@ -76,10 +76,6 @@
 {
     [senses release];
     [inflections release];
-    [decoder release];
-    [connection release];
-    [_url release];
-    [data release];
     [name release];
     [super dealloc];
 }
@@ -115,7 +111,7 @@
 
 -(void)parseData
 {
-    NSArray* response = [decoder objectWithData:data];
+    NSArray* response =[[self decoder] objectWithData:[self data]];
     
     inflections = [[response objectAtIndex:3]retain];
 
@@ -154,6 +150,6 @@
 
 -(void)initUrl
 {
-    _url = [[NSString stringWithFormat:@"/words/%d.json", _id] retain];
+    [self set_url: [[NSString stringWithFormat:@"/words/%d.json", _id] retain]];
 }
 @end

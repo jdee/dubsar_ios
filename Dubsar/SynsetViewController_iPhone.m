@@ -28,7 +28,7 @@
     [UIView transitionWithView:self.view duration:0.4 
                        options:UIViewAnimationOptionTransitionFlipFromRight 
                     animations:^{
-                        searchBar.hidden = YES;
+                        self.searchBar.hidden = YES;
                         bannerLabel.hidden = YES;
                         glossScrollView.hidden = YES;
                         tableView.hidden = YES;
@@ -45,7 +45,7 @@
     [UIView transitionWithView:self.view duration:0.4 
                        options:UIViewAnimationOptionTransitionFlipFromLeft 
                     animations:^{
-                        searchBar.hidden = NO;
+                        self.searchBar.hidden = NO;
                         bannerLabel.hidden = NO;
                         glossScrollView.hidden = NO;
                         tableView.hidden = NO;
@@ -124,7 +124,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    searchBar.hidden = NO;
+    self.searchBar.hidden = NO;
     bannerLabel.hidden = NO;
     glossScrollView.hidden = NO;
     tableView.hidden = NO;

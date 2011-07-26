@@ -30,7 +30,7 @@
     if (self) {   
         term = [[theTerm copy] retain];
         results = nil;
-        _url = [[NSString stringWithFormat:@"/.json?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain];
+        [self set_url: [[NSString stringWithFormat:@"/.json?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
     }
     return self;
 }
@@ -45,7 +45,7 @@
 
 - (void)parseData
 {        
-    NSArray* response = [decoder objectWithData:data];
+    NSArray* response = [[self decoder] objectWithData:[self data]];
     NSArray* list = [response objectAtIndex:1];
     
     results = [[NSMutableArray arrayWithCapacity:list.count]retain];

@@ -13,6 +13,9 @@
 
 @implementation Model
 
+@synthesize decoder;
+@synthesize data;
+@synthesize _url;
 @synthesize complete;
 @synthesize delegate;
 @synthesize url;

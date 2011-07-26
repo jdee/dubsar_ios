@@ -29,7 +29,7 @@
         seqNum = theSeqNum;
         _term = [[theTerm copy]retain];
         _results = nil;
-        _url = [[NSString stringWithFormat:@"/os.json?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain];
+        [self set_url:[[NSString stringWithFormat:@"/os.json?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
     }
     return self;
 }
@@ -43,7 +43,7 @@
 
 - (void)parseData
 {
-    NSArray* response = [decoder objectWithData:data];
+    NSArray* response = [[self decoder] objectWithData:[self data]];
     
     NSMutableArray* r = [[NSMutableArray array]retain];
     NSArray* list = [response objectAtIndex:1];
@@ -52,7 +52,7 @@
     }
     _results = r;
     
-    NSLog(@"autocompleter for term \"%@\" (URL \"%@\") finished with %d results:", [response objectAtIndex:0], _url, _results.count);
+    NSLog(@"autocompleter for term \"%@\" (URL \"%@\") finished with %d results:", [response objectAtIndex:0], [self _url], _results.count);
 }
 
 @end

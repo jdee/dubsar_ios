@@ -41,7 +41,7 @@
         lexname = nil;
         samples = nil;
         senses = nil;
-        _url = [[NSString stringWithFormat:@"/synsets/%d.json", _id]retain];
+        [self set_url: [[NSString stringWithFormat:@"/synsets/%d.json", _id]retain]];
     }
     return self;
 
@@ -57,7 +57,7 @@
         lexname = nil;
         samples = nil;
         senses = nil;
-        _url = [[NSString stringWithFormat:@"/synsets/%d.json", _id]retain];
+        [self set_url: [[NSString stringWithFormat:@"/synsets/%d.json", _id]retain]];
     }
     return self;
 }
@@ -74,7 +74,7 @@
 
 - (void)parseData
 {
-    NSArray* response = [decoder objectWithData:data];
+    NSArray* response = [[self decoder] objectWithData:[self data]];
     partOfSpeech = partOfSpeechFromPos([response objectAtIndex:1]);
     lexname = [[response objectAtIndex:2] retain];
     NSLog(@"lexname: \"%@\"", lexname);

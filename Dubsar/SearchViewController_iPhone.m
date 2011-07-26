@@ -84,13 +84,13 @@
 {
     [super viewWillAppear:animated];
     [self adjustPageLabel];
-    searchBar.text = [_searchText copy];
+    [self searchBar].text = [_searchText copy];
     [_tableView reloadData];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar
 {
-    if (theSearchBar != searchBar) return;
+    if (theSearchBar != [self searchBar]) return;
     
     _searchText = @"";
     [self adjustPageLabel];
@@ -99,7 +99,7 @@
 
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)searchText
 {
-    if (theSearchBar != searchBar) return;
+    if (theSearchBar != [self searchBar]) return;
     NSLog(@"search text changed in search view search bar");
     _searchText = [searchText copy];
     [super searchBar:theSearchBar textDidChange:searchText];
