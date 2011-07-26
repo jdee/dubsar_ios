@@ -41,6 +41,7 @@
 }
 
 - (IBAction)dismissPopup:(id)sender {
+    [tableView reloadData];
     [UIView transitionWithView:self.view duration:0.4 
         options:UIViewAnimationOptionTransitionFlipFromLeft 
         animations:^{
