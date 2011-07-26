@@ -9,14 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "DubsarAppDelegate.h"
 
-@class DubsarViewController_iPad;
-
 @interface DubsarAppDelegate_iPad : DubsarAppDelegate {
     
     UISplitViewController *_splitViewController;
 }
 
-@property (nonatomic, retain) DubsarViewController_iPad* dubsarViewController;
+@property (nonatomic, retain) UINavigationController* navigationController;
 @property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
 
 @end
