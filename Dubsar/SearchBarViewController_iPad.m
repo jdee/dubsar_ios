@@ -117,7 +117,7 @@
     [self setAutocompleter:theAutocompleter];
     [autocompleterTableView setHidden:NO];
     CGRect frame = autocompleterTableView.frame;
-    frame.size.height = 44 * (autocompleter.results.count+1);
+    frame.size.height = 44 * ([self tableView:autocompleterTableView numberOfRowsInSection:0]+1);
     autocompleterTableView.frame = frame;
     [autocompleterTableView reloadData];
 }
@@ -146,7 +146,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return autocompleter.results.count < 6 ? autocompleter.results.count : 6;
+    return autocompleter.results.count < 6 && autocompleter.results.count > 0 ? autocompleter.results.count :
+    autocompleter.results.count == 0 ? 1 : 6;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -158,9 +159,15 @@
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault   reuseIdentifier:cellType]autorelease];
     }
 
-    int index = indexPath.row;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.text = [autocompleter.results objectAtIndex:index];
+    if (autocompleter.results.count > 0) {
+        int index = indexPath.row;
+        cell.textLabel.text = [autocompleter.results objectAtIndex:index];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    else {
+        cell.textLabel.text = @"no suggestions";
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     return cell;
 }

@@ -43,7 +43,7 @@
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUITableView" id="33068203">
+					<object class="IBUITableView" id="818320261">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{0, 44}, {1024, 484}}</string>
@@ -63,23 +63,24 @@
 						<float key="IBUISectionHeaderHeight">22</float>
 						<float key="IBUISectionFooterHeight">22</float>
 					</object>
-					<object class="IBUISearchBar" id="741239188">
+					<object class="IBUISearchBar" id="1005362688">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">290</int>
 						<string key="NSFrameSize">{1024, 44}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="NSNextKeyView" ref="33068203"/>
+						<reference key="NSNextKeyView" ref="818320261"/>
 						<int key="IBUIContentMode">3</int>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBPlaceholder">search term(s)</string>
 						<object class="IBUITextInputTraits" key="IBTextInputTraits">
+							<int key="IBUIAutocorrectionType">1</int>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 20}, {1024, 748}}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSNextKeyView" ref="741239188"/>
+				<reference key="NSNextKeyView" ref="1005362688"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">2</int>
 					<bytes key="NSRGB">MC44NDMxMzczMjM5IDAuODU0OTAyMDI5IDAuOTkyMTU2OTIyOAA</bytes>
@@ -109,7 +110,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">dataSource</string>
-						<reference key="source" ref="33068203"/>
+						<reference key="source" ref="818320261"/>
 						<reference key="destination" ref="841351856"/>
 					</object>
 					<int key="connectionID">6</int>
@@ -117,7 +118,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">delegate</string>
-						<reference key="source" ref="33068203"/>
+						<reference key="source" ref="818320261"/>
 						<reference key="destination" ref="841351856"/>
 					</object>
 					<int key="connectionID">7</int>
@@ -125,7 +126,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">delegate</string>
-						<reference key="source" ref="741239188"/>
+						<reference key="source" ref="1005362688"/>
 						<reference key="destination" ref="841351856"/>
 					</object>
 					<int key="connectionID">8</int>
@@ -134,7 +135,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">searchBar</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="741239188"/>
+						<reference key="destination" ref="1005362688"/>
 					</object>
 					<int key="connectionID">9</int>
 				</object>
@@ -142,7 +143,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">autocompleterTableView</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="33068203"/>
+						<reference key="destination" ref="818320261"/>
 					</object>
 					<int key="connectionID">12</int>
 				</object>
@@ -172,19 +173,19 @@
 						<reference key="object" ref="766721923"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="741239188"/>
-							<reference ref="33068203"/>
+							<reference ref="1005362688"/>
+							<reference ref="818320261"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">4</int>
-						<reference key="object" ref="741239188"/>
+						<reference key="object" ref="1005362688"/>
 						<reference key="parent" ref="766721923"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">5</int>
-						<reference key="object" ref="33068203"/>
+						<reference key="object" ref="818320261"/>
 						<reference key="parent" ref="766721923"/>
 					</object>
 				</object>
