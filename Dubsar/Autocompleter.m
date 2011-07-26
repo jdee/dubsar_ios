@@ -15,21 +15,28 @@
 @synthesize seqNum;
 @synthesize results=_results;
 @synthesize term=_term;
+@synthesize matchCase;
 
-+ (id)autocompleterWithTerm:(NSString *)theTerm
++ (id)autocompleterWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
 {
     static NSInteger _seqNum = 0;
-    return [[self alloc]initWithTerm:theTerm seqNum:_seqNum++];
+    return [[self alloc]initWithTerm:theTerm seqNum:_seqNum++ matchCase:mustMatchCase];
 }
 
-- (id)initWithTerm:(NSString *)theTerm seqNum:(NSInteger)theSeqNum
+- (id)initWithTerm:(NSString *)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase
 {
     self = [super init];
     if (self) {
         seqNum = theSeqNum;
         _term = [[theTerm copy]retain];
         _results = nil;
-        [self set_url:[[NSString stringWithFormat:@"/os.json?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
+        matchCase = mustMatchCase;
+        if (matchCase) {
+            [self set_url:[[NSString stringWithFormat:@"/os.json?term=%@&match=case", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
+       }
+        else {
+            [self set_url:[[NSString stringWithFormat:@"/os.json?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
+        }
     }
     return self;
 }

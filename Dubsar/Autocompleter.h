@@ -14,13 +14,14 @@
     NSMutableArray* _results;    
 }
 
+@property (nonatomic) BOOL matchCase;
 @property (nonatomic) NSInteger seqNum;
 @property (nonatomic, retain) NSString* term;
 @property (nonatomic, retain) NSMutableArray* results;
 
-+(id)autocompleterWithTerm:(NSString*)theTerm;
++(id)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
 
--(id)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum;
+-(id)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase;
 -(void)parseData;
 
 @end

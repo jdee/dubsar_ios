@@ -14,6 +14,7 @@
 @synthesize autocompleter;
 @synthesize searchBar;
 @synthesize autocompleterTableView;
+@synthesize caseSwitch;
 @synthesize searchText=_searchText;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -21,16 +22,23 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+#ifdef AUTOCOMPLETER_FROM_NIB
+        autocompleterNib = [UINib nibWithNibName:@"AutocompleterView" bundle:nil];
+#endif // AUTOCOMPLETER_FROM_NIB
     }
     return self;
 }
 
 - (void)dealloc
 {
+#ifdef AUTOCOMPLETER_FROM_NIB
+    [autocompleterNib release];
+#endif // AUTOCOMPLETER_FROM_NIB
     [autocompleter release];
     [_searchText release];
     [searchBar release];
     [autocompleterTableView release];
+    [caseSwitch release];
     [super dealloc];
 }
 
@@ -47,17 +55,32 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    [autocompleterTableView setHidden:YES];
+
+#ifdef AUTOCOMPLETER_FROM_NIB
+    // Would prefer to get this from the NIB, but this wasn't working.
+    [autocompleterNib instantiateWithOwner:self options:nil];
+#else    
+    autocompleterTableView = [[UITableView alloc]initWithFrame:CGRectMake(0.0, 44.0, 320.0, 308.0) style:UITableViewStylePlain];
+    autocompleterTableView.backgroundColor = self.view.backgroundColor;
+    autocompleterTableView.dataSource = self;
+    autocompleterTableView.delegate = self;
+#endif // AUTOCOMPLETER_FROM_NIB
+    [self.view addSubview:autocompleterTableView];
 }
 
 - (void)viewDidUnload
 {
     [self setSearchBar:nil];
     [self setAutocompleterTableView:nil];
+    [self setCaseSwitch:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [autocompleterTableView setHidden:YES];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
@@ -91,7 +114,7 @@
 {
     NSLog(@"search bar text changed to \"%@\"", theSearchText);
     if (theSearchText.length > 0) {
-        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText]retain];
+        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:caseSwitch.on]retain];
         _autocompleter.delegate = self;
         [_autocompleter load];
     }
@@ -114,11 +137,12 @@
     if (theAutocompleter.seqNum <= autocompleter.seqNum || 
         searchBar.text.length == 0) return ;
     
-    [self setAutocompleter:theAutocompleter];
+    [self setAutocompleter:theAutocompleter];    
     [autocompleterTableView setHidden:NO];
-    CGRect frame = autocompleterTableView.frame;
-    frame.size.height = 44 * ([self tableView:autocompleterTableView numberOfRowsInSection:0]+1);
+    CGRect frame = CGRectMake(0.0, 44.0, 320.0, 44 * ([self tableView:autocompleterTableView numberOfRowsInSection:0]+1));
     autocompleterTableView.frame = frame;
+    
+    NSLog(@"autocompleter at (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
     [autocompleterTableView reloadData];
 }
 

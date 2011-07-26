@@ -24,7 +24,7 @@
         proxy = [[AutocompleterProxy alloc]init];
         proxy.delegate = self;
         
-        autocompleterNib = [UINib nibWithNibName:@"AutocompleterView_iPhone" bundle:nil];
+        autocompleterNib = [UINib nibWithNibName:@"AutocompleterView" bundle:nil];
     }
     return self;
 }
@@ -100,7 +100,7 @@
 {
     NSLog(@"search bar text changed to \"%@\"", theSearchText);
     if (theSearchText.length > 0) {
-        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText]retain];
+        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
         _autocompleter.delegate = proxy;
         [_autocompleter load];
     }
