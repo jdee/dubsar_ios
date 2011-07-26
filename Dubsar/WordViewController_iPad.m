@@ -143,7 +143,26 @@
 {
     if (model != word) return;
     
+    [self adjustInflections];
     [_tableView reloadData];
 }
+
+- (void)adjustInflections
+{
+    NSString* text = [NSString string];
+    if (word.freqCnt > 0) {
+        text = [text stringByAppendingFormat:@"freq. cnt.: %d ", word.freqCnt];
+    }
+    if (word.inflections.length > 0) {
+        text = [text stringByAppendingFormat:@"also %@", word.inflections];
+    }
+    inflectionsLabel.text = text;
+}
+
+- (void)loadRootController
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 
 @end

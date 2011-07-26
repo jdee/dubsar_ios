@@ -215,7 +215,6 @@
         text = [text stringByAppendingFormat:@"also %@", word.inflections];
     }
     inflectionsLabel.text = text;
-    [inflectionsLabel sizeToFit];
 }
 
 @end
