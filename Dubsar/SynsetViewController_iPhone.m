@@ -69,7 +69,7 @@
         
         [self adjustTitle];
         
-        detailNib = [UINib nibWithNibName:@"DetailView" bundle:nil];
+        detailNib = [UINib nibWithNibName:@"DetailView_iPhone" bundle:nil];
     }
     return self;
 }

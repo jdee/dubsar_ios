@@ -70,7 +70,7 @@
         tableSections = nil;
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
 
-        detailNib = [UINib nibWithNibName:@"DetailView" bundle:nil];
+        detailNib = [UINib nibWithNibName:@"DetailView_iPhone" bundle:nil];
     }
     return self;
 }

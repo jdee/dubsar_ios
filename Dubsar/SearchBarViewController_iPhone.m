@@ -33,7 +33,7 @@
         proxy = [[AutocompleterProxy alloc]init];
         proxy.delegate = self;
         
-        autocompleterNib = [UINib nibWithNibName:@"AutocompleterView" bundle:nil];
+        autocompleterNib = [UINib nibWithNibName:@"AutocompleterView_iPhone" bundle:nil];
     }
     return self;
 }
