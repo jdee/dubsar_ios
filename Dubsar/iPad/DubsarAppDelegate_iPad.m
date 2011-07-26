@@ -21,6 +21,7 @@
     DubsarViewController_iPad* dubsarViewController = [[DubsarViewController_iPad alloc]initWithNibName:@"DubsarViewController_iPad" bundle:nil];
     
     _navigationController = [[UINavigationController alloc]initWithRootViewController:dubsarViewController];
+    searchBarViewController.navigationController = _navigationController;
     
     _splitViewController = [[UISplitViewController alloc]init];
     _splitViewController.viewControllers = [NSArray arrayWithObjects:searchBarViewController, _navigationController, nil];

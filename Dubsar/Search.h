@@ -13,11 +13,12 @@
     NSMutableArray* _results;
 }
 
+@property (nonatomic) BOOL matchCase;
 @property (nonatomic, retain) NSString* term;
 @property (nonatomic, retain) NSMutableArray* results;
 
-+(id)searchWithTerm:(NSString*)theTerm;
--(id)initWithTerm:(NSString*)theTerm;
++(id)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
+-(id)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
 -(void)parseData;
 
 @end

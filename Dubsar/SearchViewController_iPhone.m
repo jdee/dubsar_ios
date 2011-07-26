@@ -34,7 +34,7 @@
         _searchText = [[theSearchText copy] retain];
         
         // set up a new search request to the server asynchronously
-        search = [[Search searchWithTerm:_searchText] retain];
+        search = [[Search searchWithTerm:_searchText matchCase:NO] retain];
         search.delegate = self;
         
         // send the request

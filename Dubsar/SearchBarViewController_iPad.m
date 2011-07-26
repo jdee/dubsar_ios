@@ -8,9 +8,10 @@
 
 #import "Autocompleter.h"
 #import "SearchBarViewController_iPad.h"
-
+#import "SearchViewController_iPad.h"
 
 @implementation SearchBarViewController_iPad
+@synthesize navigationController=_navigationController;
 @synthesize autocompleter;
 @synthesize searchBar;
 @synthesize autocompleterTableView;
@@ -89,6 +90,9 @@
     
     [theSearchBar resignFirstResponder];
     [autocompleterTableView setHidden:YES];
+    
+    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil text:_searchText matchCase:caseSwitch.on];
+    [_navigationController pushViewController:searchViewController animated:YES];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar 
@@ -112,6 +116,7 @@
 
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
 {
+    _searchText = [theSearchText copy];
     NSLog(@"search bar text changed to \"%@\"", theSearchText);
     if (theSearchText.length > 0) {
         Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:caseSwitch.on]retain];
@@ -194,6 +199,21 @@
     }
     
     return cell;
+}
+
+- (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [searchBar resignFirstResponder];
+    [autocompleterTableView setHidden:YES];
+    
+    if (!autocompleter.complete || !autocompleter.results) {
+        return;
+    }
+    
+    NSString* text = [autocompleter.results objectAtIndex:indexPath.row];
+    [searchBar setText:text];
+    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text: text matchCase:caseSwitch.on];
+    [self.navigationController pushViewController:searchViewController animated: YES];
 }
 
 @end

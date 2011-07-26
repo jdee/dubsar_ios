@@ -24,6 +24,7 @@
 #endif // AUTOCOMPLETER_FROM_NIB
 }
 
+@property (nonatomic, assign) UINavigationController* navigationController;
 @property (nonatomic, retain) Autocompleter* autocompleter;
 @property (nonatomic, retain) NSString* searchText;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;

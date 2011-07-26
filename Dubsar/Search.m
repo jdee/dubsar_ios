@@ -15,22 +15,30 @@
 
 @synthesize results;
 @synthesize term;
+@synthesize matchCase;
 
 
-+(id)searchWithTerm:(id)theTerm
++(id)searchWithTerm:(id)theTerm matchCase:(BOOL)mustMatchCase
 {
-    return [[self alloc]initWithTerm:theTerm];
+    return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase];
 }
 
--(id)initWithTerm:(NSString *)theTerm
+-(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
 {
     NSLog(@"constructing search for \"%@\"", theTerm);
     
     self = [super init];
     if (self) {   
+        matchCase = mustMatchCase;
         term = [[theTerm copy] retain];
         results = nil;
-        [self set_url: [[NSString stringWithFormat:@"/.json?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
+        if (matchCase) {
+            [self set_url: [[NSString stringWithFormat:@"/.json?term=%@&match=case", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
+           
+        }
+        else {
+            [self set_url: [[NSString stringWithFormat:@"/.json?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
+        }
     }
     return self;
 }
