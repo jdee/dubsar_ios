@@ -33,7 +33,10 @@
             glossScrollView.hidden = YES;
             tableView.hidden = YES;
             detailView.hidden = NO;
-    } completion:^(BOOL finished){
+            self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+            self.navigationController.toolbar.barStyle = UIBarStyleBlackOpaque;
+            UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleBlackOpaque;
+        } completion:^(BOOL finished){
     }];
 }
 
@@ -46,7 +49,10 @@
             glossScrollView.hidden = NO;
             tableView.hidden = NO;
             detailView.hidden = YES;
-    } completion:^(BOOL finished){
+            self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+            self.navigationController.toolbar.barStyle = UIBarStyleDefault;
+            UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleDefault;
+        } completion:^(BOOL finished){
                         
     }];
 }
@@ -125,6 +131,13 @@
     tableView.hidden = NO;
     detailView.hidden = YES;
     [tableView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.toolbar.barStyle = UIBarStyleDefault;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
 }
 
 - (void)loadComplete:(Model*)model
