@@ -127,7 +127,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {    
-    NSInteger sections = search.complete && search.results ? search.results.count : 1;
+    NSInteger sections = search.complete && search.results && search.results.count > 0 ? search.results.count : 1;
     return sections;
 }
 
@@ -163,6 +163,12 @@
         indicator.frame = frame;
         [cell.contentView addSubview:indicator];
         [indicator startAnimating];
+        return cell;
+    }
+    
+    if (search.results.count == 0) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.textLabel.text = [NSString stringWithFormat:@"no results for \"%@\"", _searchText];
         return cell;
     }
     
