@@ -53,6 +53,7 @@
 {
     [super viewDidLoad];
     [autocompleterNib instantiateWithOwner:self options:nil];
+    [self.view addSubview:autocompleterTableView];
     // Do any additional setup after loading the view from its nib.
     [self createToolbarItems];
     self.navigationController.navigationBar.tintColor = searchBar.tintColor;
@@ -66,7 +67,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [autocompleterTableView removeFromSuperview];
+    [autocompleterTableView setHidden:YES];
     [searchBar resignFirstResponder];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self initOrientation];
@@ -77,7 +78,7 @@
     if (theSearchBar != searchBar) return;
     
     [theSearchBar resignFirstResponder];
-    [autocompleterTableView removeFromSuperview];
+    [autocompleterTableView setHidden:YES];
     
     // new SearchViewController for this search
     NSLog(@"presenting view controller for \"%@\"", theSearchBar.text);
@@ -113,7 +114,7 @@
         [_autocompleter load];
     }
     else {
-        [autocompleterTableView removeFromSuperview];
+        [autocompleterTableView setHidden:YES];
     }
 }
 
@@ -187,7 +188,7 @@
         searchBar.text.length == 0) return ;
     
     [self setAutocompleter:theAutocompleter];
-    [self.view addSubview:autocompleterTableView];
+    [autocompleterTableView setHidden:NO];
     [autocompleterTableView reloadData];
 }
 
@@ -242,7 +243,7 @@
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [searchBar resignFirstResponder];
-    [autocompleterTableView removeFromSuperview];
+    [autocompleterTableView setHidden:YES];
 
     if (!autocompleter.complete || !autocompleter.results) {
         return;
