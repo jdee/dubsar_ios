@@ -11,6 +11,7 @@
 @interface DubsarViewController_iPhone : SearchBarViewController_iPhone {
 }
 
+- (void)displayFAQ;
 - (void)displayLicense;
 
 @end

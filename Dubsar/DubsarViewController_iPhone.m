@@ -7,6 +7,7 @@
 //
 
 #import "DubsarViewController_iPhone.h"
+#import "FAQViewController_iPhone.h"
 #import "LicenseViewController_iPhone.h"
 
 @implementation DubsarViewController_iPhone
@@ -49,6 +50,12 @@
     searchBar.text = @"";
 }
 
+- (void)displayFAQ
+{
+    [self presentModalViewController:[[FAQViewController_iPhone alloc]
+            initWithNibName:@"FAQViewController_iPhone" bundle:nil] animated: YES];    
+}
+
 - (void)displayLicense 
 {
     [self presentModalViewController:[[LicenseViewController_iPhone alloc]
@@ -57,9 +64,12 @@
 
 - (void)createToolbarItems
 {
+    UIBarButtonItem* faqButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)];
     UIBarButtonItem* licenseButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"License" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLicense)];
     
-    NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:licenseButtonItem];
+    NSMutableArray* buttonItems = [NSMutableArray array];
+    [buttonItems addObject:faqButtonItem];
+    [buttonItems addObject:licenseButtonItem];
     
     self.toolbarItems = buttonItems.retain;
 }
