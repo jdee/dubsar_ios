@@ -41,7 +41,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    NSString *url = @"http://fatman:3000/m_faq";
+    NSString *url = @"http://m.dubsar-dictionary.com/m_faq";
     NSURL* nsurl = [NSURL URLWithString:url];
     NSURLRequest* request = [NSURLRequest requestWithURL:nsurl];
     [webView loadRequest:request];
