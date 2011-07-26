@@ -75,22 +75,22 @@
 		7B08976C13DB418000660C51 /* SynsetViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetViewController_iPhone.h; sourceTree = "<group>"; };
 		7B08976D13DB418100660C51 /* SynsetViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetViewController_iPhone.m; sourceTree = "<group>"; };
 		7B08976E13DB418100660C51 /* SynsetViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SynsetViewController_iPhone.xib; sourceTree = "<group>"; };
-		7B08977113DB4C0A00660C51 /* dubsar-link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-link.png"; sourceTree = "<group>"; };
+		7B08977113DB4C0A00660C51 /* dubsar-link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-link.png"; path = "../dubsar-link.png"; sourceTree = "<group>"; };
 		7B0ACD5113DCF15C0098DC02 /* Autocompleter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Autocompleter.h; sourceTree = "<group>"; };
 		7B0ACD5213DCF15C0098DC02 /* Autocompleter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Autocompleter.m; sourceTree = "<group>"; };
 		7B0ACD6013DD0BDE0098DC02 /* AutocompleterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterView.xib; sourceTree = "<group>"; };
 		7B22254113DB1FDA003B7322 /* SenseViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SenseViewController_iPhone.h; sourceTree = "<group>"; };
 		7B22254213DB1FDA003B7322 /* SenseViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SenseViewController_iPhone.m; sourceTree = "<group>"; };
 		7B22254313DB1FDA003B7322 /* SenseViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SenseViewController_iPhone.xib; sourceTree = "<group>"; };
-		7B3F874713D73B0B009C390B /* dubsar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dubsar.png; sourceTree = "<group>"; };
-		7B3F874913D73B15009C390B /* dubsar-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-ipad.png"; sourceTree = "<group>"; };
+		7B3F874713D73B0B009C390B /* dubsar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dubsar.png; path = ../dubsar.png; sourceTree = "<group>"; };
+		7B3F874913D73B15009C390B /* dubsar-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-ipad.png"; path = "../dubsar-ipad.png"; sourceTree = "<group>"; };
 		7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarViewController_iPhone.h; sourceTree = "<group>"; };
 		7B3F875A13D7443D009C390B /* DubsarViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarViewController_iPhone.m; sourceTree = "<group>"; };
 		7B3F875B13D7443D009C390B /* DubsarViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DubsarViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B3F876313D74474009C390B /* DubsarViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarViewController_iPad.h; sourceTree = "<group>"; };
 		7B3F876413D74474009C390B /* DubsarViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarViewController_iPad.m; sourceTree = "<group>"; };
 		7B3F876513D74474009C390B /* DubsarViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DubsarViewController_iPad.xib; sourceTree = "<group>"; };
-		7B3F876813D74CA9009C390B /* dubsar-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-full.png"; sourceTree = "<group>"; };
+		7B3F876813D74CA9009C390B /* dubsar-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-full.png"; path = "../dubsar-full.png"; sourceTree = "<group>"; };
 		7B3F877213D7599E009C390B /* LicenseViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseViewController_iPhone.h; sourceTree = "<group>"; };
 		7B3F877313D7599E009C390B /* LicenseViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseViewController_iPhone.m; sourceTree = "<group>"; };
 		7B3F877413D7599F009C390B /* LicenseViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -98,10 +98,10 @@
 		7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController_iPhone.m; sourceTree = "<group>"; };
 		7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B8FF4F613DDF68500DD3612 /* DetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView.xib; sourceTree = "<group>"; };
-		7B92A42B13DE2337001F662E /* dubsar-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-hr.png"; path = "Dubsar/dubsar-hr.png"; sourceTree = "<group>"; };
-		7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-search-ipad.png"; path = "Dubsar/dubsar-search-ipad.png"; sourceTree = "<group>"; };
-		7B92A42D13DE2337001F662E /* dubsar-spotlight-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-spotlight-hr.png"; path = "Dubsar/dubsar-spotlight-hr.png"; sourceTree = "<group>"; };
-		7B92A42E13DE2337001F662E /* dubsar-spotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-spotlight.png"; path = "Dubsar/dubsar-spotlight.png"; sourceTree = "<group>"; };
+		7B92A42B13DE2337001F662E /* dubsar-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-hr.png"; sourceTree = "<group>"; };
+		7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-search-ipad.png"; sourceTree = "<group>"; };
+		7B92A42D13DE2337001F662E /* dubsar-spotlight-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-spotlight-hr.png"; sourceTree = "<group>"; };
+		7B92A42E13DE2337001F662E /* dubsar-spotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-spotlight.png"; sourceTree = "<group>"; };
 		7BA48CF713D738E00056D61A /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA48CFB13D738E00056D61A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7BA48CFD13D738E00056D61A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -195,14 +195,6 @@
 		7BA48CEC13D738E00056D61A = {
 			isa = PBXGroup;
 			children = (
-				7B08977113DB4C0A00660C51 /* dubsar-link.png */,
-				7B3F874913D73B15009C390B /* dubsar-ipad.png */,
-				7B3F874713D73B0B009C390B /* dubsar.png */,
-				7B3F876813D74CA9009C390B /* dubsar-full.png */,
-				7B92A42B13DE2337001F662E /* dubsar-hr.png */,
-				7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */,
-				7B92A42D13DE2337001F662E /* dubsar-spotlight-hr.png */,
-				7B92A42E13DE2337001F662E /* dubsar-spotlight.png */,
 				7BA48D0113D738E00056D61A /* Dubsar */,
 				7BA48D2613D738E10056D61A /* DubsarTests */,
 				7BA48CFA13D738E00056D61A /* Frameworks */,
@@ -248,6 +240,14 @@
 		7BA48D0213D738E00056D61A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7B08977113DB4C0A00660C51 /* dubsar-link.png */,
+				7B3F874913D73B15009C390B /* dubsar-ipad.png */,
+				7B3F874713D73B0B009C390B /* dubsar.png */,
+				7B3F876813D74CA9009C390B /* dubsar-full.png */,
+				7B92A42B13DE2337001F662E /* dubsar-hr.png */,
+				7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */,
+				7B92A42D13DE2337001F662E /* dubsar-spotlight-hr.png */,
+				7B92A42E13DE2337001F662E /* dubsar-spotlight.png */,
 				7BA48D0313D738E00056D61A /* Dubsar-Info.plist */,
 				7BA48D0413D738E00056D61A /* InfoPlist.strings */,
 				7BA48D0713D738E00056D61A /* Dubsar-Prefix.pch */,

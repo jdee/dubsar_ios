@@ -175,8 +175,15 @@
     }
     
     if (!word.complete) {
-        cell.textLabel.text = @"loading...";
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
+        }
+        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
+        [cell.contentView addSubview:indicator];
+        CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
+        indicator.frame = frame;
+        [indicator startAnimating];
         return cell;
     }
     

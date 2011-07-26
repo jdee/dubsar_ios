@@ -255,7 +255,16 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     if (!synset || !synset.complete) {
-        cell.textLabel.text = @"loading...";
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
+        }
+        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
+        [cell.contentView addSubview:indicator];
+        CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
+        indicator.frame = frame;
+        [indicator startAnimating];
+        return cell;
     }
     else {
         int section = indexPath.section;
