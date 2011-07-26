@@ -12,17 +12,17 @@
 
 @class Autocompleter;
 
-@protocol AutocompleteDelegate
+@protocol AutocompleterDelegate
 - (void)autocompleterFinished:(Autocompleter*)theAutocompleter;
 @end
 
 @interface AutocompleterProxy : NSObject<LoadDelegate> {
     
 }
-@property (nonatomic, assign) id<AutocompleteDelegate> delegate;
+@property (nonatomic, assign) id<AutocompleterDelegate> delegate;
 @end
 
-@interface SearchBarViewController_iPhone : UIViewController <LoadDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AutocompleteDelegate> {
+@interface SearchBarViewController_iPhone : UIViewController <LoadDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AutocompleterDelegate> {
     UISearchBar *searchBar;
     UITableView *autocompleterTableView;
     AutocompleterProxy* proxy;

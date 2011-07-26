@@ -214,6 +214,11 @@
     return @"suggestions";
 }
 
+- (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
+{
+    return @"";
+}
+
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* cellType = @"autocomplete";
@@ -246,6 +251,21 @@
     NSString* text = [autocompleter.results objectAtIndex:indexPath.row];
     SearchViewController_iPhone* searchViewController = [[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: text];
     [self.navigationController pushViewController:searchViewController animated: YES];
+}
+
+- (void)tableView:(UITableView*)theTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+- (NSArray*)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    return -1;
 }
 
 @end

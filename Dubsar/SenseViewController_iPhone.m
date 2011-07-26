@@ -199,7 +199,7 @@
 - (void)tableView:(UITableView *)theTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     if (theTableView != tableView) {
-        [super tableView:theTableView didSelectRowAtIndexPath:indexPath];
+        [super tableView:theTableView accessoryButtonTappedForRowWithIndexPath:indexPath];
         return;
     }
     
@@ -309,9 +309,13 @@
             cell.textLabel.text = [_object name];
             
             NSString* detailLine = [NSString string];
+            
+#undef FREQ_CNT_FOR_SYNONYMS_IN_SENSE_VIEW
+#ifdef FREQ_CNT_FOR_SYNONYMS_IN_SENSE_VIEW
             if ([_object respondsToSelector:@selector(freqCnt)] && [_object freqCnt] > 0) {
                 detailLine = [detailLine stringByAppendingFormat:@"freq. cnt.: %d", [_object freqCnt]];
             }
+#endif
             if ([_object respondsToSelector:@selector(marker)] && [_object marker]) {
                 detailLine = [detailLine stringByAppendingFormat:@" (%@)", [_object marker]];
             }
@@ -334,7 +338,6 @@
         
         if ([linkType isEqualToString:@"sample"]) {
             cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

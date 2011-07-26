@@ -300,7 +300,6 @@
         
         if ([linkType isEqualToString:@"sample"]) {
             cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         else {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
