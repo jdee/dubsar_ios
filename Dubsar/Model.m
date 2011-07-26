@@ -44,6 +44,7 @@
     NSURL* nsurl = [NSURL URLWithString:url];
     NSURLRequest* request = [NSURLRequest requestWithURL:nsurl];
     connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -66,6 +67,7 @@
     [self setComplete:true];
     [[self delegate] loadComplete:self];
     NSLog(@"load processing finished");
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 @end
