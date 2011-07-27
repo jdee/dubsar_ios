@@ -47,9 +47,9 @@
 					<object class="IBUITableView" id="658767669">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{0, 74}, {703, 704}}</string>
+						<string key="NSFrame">{{0, 89}, {703, 704}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="NSNextKeyView" ref="573779825"/>
+						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
 							<bytes key="NSRGB">MC44NDMxMzczMjM5IDAuODU0OTAyMDI5IDAuOTkyMTU2OTIyOAA</bytes>
@@ -69,7 +69,7 @@
 						<int key="NSvFlags">290</int>
 						<string key="NSFrameSize">{703, 37}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="NSNextKeyView" ref="658767669"/>
+						<reference key="NSNextKeyView" ref="573779825"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
 							<bytes key="NSRGB">MC44NDMxMzczMjM5IDAuODU0OTAyMDI5IDAuOTkyMTU2OTIyOAA</bytes>
@@ -97,9 +97,9 @@
 					<object class="IBUIScrollView" id="573779825">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{0, 37}, {703, 37}}</string>
+						<string key="NSFrame">{{0, 37}, {703, 52}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="658767669"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -150,7 +150,7 @@
 			<object class="IBUILabel" id="386268504">
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">290</int>
-				<string key="NSFrameSize">{1280, 21}</string>
+				<string key="NSFrameSize">{1264, 36}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView"/>
 				<bool key="IBUIOpaque">NO</bool>

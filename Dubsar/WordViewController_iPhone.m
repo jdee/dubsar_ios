@@ -53,7 +53,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    CGRect frame = CGRectMake(8.0, 8.0, 687.0, 21.0);
+    CGRect frame = CGRectMake(8.0, 4.0, 1264.0, 36.0);
     inflectionsLabel.frame = frame;
     
     [inflectionsScrollView setContentSize:CGSizeMake(1280,44)];
