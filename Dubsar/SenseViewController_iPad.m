@@ -9,6 +9,7 @@
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
 #import "Synset.h"
+#import "SynsetPopoverViewController_iPad.h"
 #import "SynsetViewController_iPad.h"
 #import "WordViewController_iPad.h"
 
@@ -319,7 +320,9 @@
 
 - (void)loadSynsetView
 {
-    [self.navigationController pushViewController:[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset] animated:YES];
+    SynsetPopoverViewController_iPad* viewController = [[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset];
+    [self displayPopoverWithViewController:viewController button:synsetButton];
+    
 }
 
 - (void)loadWordView

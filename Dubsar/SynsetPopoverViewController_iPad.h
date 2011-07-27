@@ -1,5 +1,5 @@
 //
-//  SynsetViewController_iPad.h
+//  SynsetPopoverViewController_iPad.h
 //  Dubsar
 //
 //  Created by Jimmy Dee on 7/26/11.
@@ -12,7 +12,7 @@
 
 @class Synset;
 
-@interface SynsetViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface SynsetPopoverViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
     
     UITableView *tableView;
     UILabel *bannerLabel;
@@ -36,8 +36,6 @@
 - (void)adjustGlossLabel;
 - (void)adjustBannerLabel;
 - (void)setupTableSections;
-- (void)loadRootController;
-- (void)followTableLink:(NSIndexPath*)indexPath;
 
 - (void)displayPopup:(NSString*)text;
 - (IBAction)dismissPopup:(id)sender;
