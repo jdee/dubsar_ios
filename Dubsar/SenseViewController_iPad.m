@@ -9,7 +9,6 @@
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
 #import "Synset.h"
-#import "SynsetPopoverViewController_iPad.h"
 #import "SynsetViewController_iPad.h"
 #import "WordPopoverViewController_iPad.h"
 #import "WordViewController_iPad.h"
@@ -21,8 +20,6 @@
 @synthesize glossLabel;
 @synthesize detailLabel;
 @synthesize detailView;
-@synthesize synsetButton;
-@synthesize wordButton;
 
 
 - (void)displayPopup:(NSString*)text
@@ -84,8 +81,6 @@
     [glossLabel release];
     [detailLabel release];
     [detailView release];
-    [synsetButton release];
-    [wordButton release];
     [super dealloc];
 }
 
@@ -115,8 +110,6 @@
     [self setGlossLabel:nil];
     [self setDetailLabel:nil];
     [self setDetailView:nil];
-    [self setSynsetButton:nil];
-    [self setWordButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -391,23 +384,26 @@
     NSLog(@"found %u table sections", tableSections.count);    
 }
 
-- (IBAction)showWordPopover:(id)sender 
+- (IBAction)showWordView:(id)sender 
 {
+    WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word]autorelease];
+    [self.navigationController pushViewController:wordViewController animated:YES];
+}
+
+- (IBAction)showSynsetView:(id)sender 
+{
+    SynsetViewController_iPad* synsetViewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset]autorelease];
+    [self.navigationController pushViewController:synsetViewController animated:YES];
+}
+
+- (IBAction)morePopover:(id)sender 
+{
+    UIView* senderView = (UIView*)sender;
+    
     WordPopoverViewController_iPad* wordViewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word]autorelease];
-    [self displayPopoverWithViewController:wordViewController button:wordButton];
-}
-
-- (IBAction)showSynsetPopover:(id)sender 
-{
-    SynsetPopoverViewController_iPad* synsetViewController = [[[SynsetPopoverViewController_iPad alloc]initWithNibName:@"SynsetPopoverViewController_iPad" bundle:nil synset:sense.synset]autorelease];
-    [self displayPopoverWithViewController:synsetViewController button:synsetButton];
-}
-
-- (void)displayPopoverWithViewController:(UIViewController *)viewController button:(UIBarButtonItem *)button
-{
     [popoverController release];
-    popoverController = [[UIPopoverController alloc]initWithContentViewController:viewController];
-    [popoverController presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    popoverController = [[UIPopoverController alloc]initWithContentViewController:wordViewController];
+    [popoverController presentPopoverFromRect:senderView.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 @end

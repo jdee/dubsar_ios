@@ -20,8 +20,6 @@
     UILabel *glossLabel;
     UILabel *detailLabel;
     UIView *detailView;
-    UIBarButtonItem *synsetButton;
-    UIBarButtonItem *wordButton;
     UINib *detailNib;
     UIPopoverController* popoverController;
 }
@@ -32,17 +30,14 @@
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *synsetButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *wordButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 - (void)loadRootController;
 
 - (void)setupTableSections;
-- (IBAction)showWordPopover:(id)sender;
-- (IBAction)showSynsetPopover:(id)sender;
-
-- (void)displayPopoverWithViewController:(UIViewController*)viewController button:(UIBarButtonItem*)button;
+- (IBAction)showWordView:(id)sender;
+- (IBAction)showSynsetView:(id)sender;
+- (IBAction)morePopover:(id)sender;
 
 -(void)followTableLink:(NSIndexPath*)indexPath;
 
