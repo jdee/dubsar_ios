@@ -403,6 +403,7 @@
     WordPopoverViewController_iPad* wordViewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word]autorelease];
     [popoverController release];
     popoverController = [[UIPopoverController alloc]initWithContentViewController:wordViewController];
+    wordViewController.popoverController = popoverController;
     [popoverController presentPopoverFromRect:senderView.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 

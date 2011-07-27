@@ -48,6 +48,7 @@
 						<int key="NSvFlags">288</int>
 						<string key="NSFrame">{{8, 8}, {687, 21}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="NSNextKeyView" ref="442996506"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -69,9 +70,10 @@
 					</object>
 					<object class="IBUITableView" id="442996506">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{0, 37}, {712, 667}}</string>
+						<int key="NSvFlags">290</int>
+						<string key="NSFrame">{{0, 37}, {703, 667}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
 							<bytes key="NSRGB">MC44NDMxMzczMjM5IDAuODU0OTAyMDI5IDAuOTkyMTU2OTIyOAA</bytes>

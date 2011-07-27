@@ -19,6 +19,7 @@
 @synthesize inflectionsScrollView;
 @synthesize tableView=_tableView;
 @synthesize headerLabel;
+@synthesize popoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord
 {
@@ -33,6 +34,8 @@
         
         UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
         self.navigationItem.rightBarButtonItem = homeButtonItem;
+        
+        self.contentSizeForViewInPopover = CGSizeMake(320.0, 155.0);
         
     }
     return self;
@@ -182,6 +185,16 @@
     if (model != word) return;
     
     NSLog(@"popover controller received word response");
+    
+    CGRect frame = _tableView.frame;
+    CGSize size = frame.size;
+    
+    float height = 89.0 + 66.0*[self numberOfSectionsInTableView:_tableView];
+    
+    size.height = height;
+
+    popoverController.popoverContentSize = size;
+    self.contentSizeForViewInPopover = size;
     
     [self adjustTitle];
     [self adjustInflections];

@@ -82,7 +82,9 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return word.complete ? word.senses.count : 1;
+    NSInteger count = word.complete ? word.senses.count : 1;
+    NSLog(@"%u sections in tableView", count);
+    return count;
 }
 
 - (NSArray*)sectionIndexTitlesForTableView:(UITableView*)theTableView
@@ -91,6 +93,8 @@
     if (!word || !word.complete || word.senses.count < 20) {
         return titles;
     }
+    
+    NSLog(@"returning titles for %u sections", word.senses.count);
     
     [titles addObject:@"top"];
     
@@ -181,7 +185,9 @@
 {
     if (model != word) return;
     
+    NSLog(@"word load complete with %u senses", word.senses.count);
     [self adjustInflections];
+
     [_tableView reloadData];
 }
 

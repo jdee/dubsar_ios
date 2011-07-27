@@ -25,18 +25,12 @@
     if (self) {
         editing = false;
 
-#ifdef AUTOCOMPLETER_FROM_NIB
-        autocompleterNib = [UINib nibWithNibName:@"AutocompleterView" bundle:nil];
-#endif // AUTOCOMPLETER_FROM_NIB
     }
     return self;
 }
 
 - (void)dealloc
 {
-#ifdef AUTOCOMPLETER_FROM_NIB
-    [autocompleterNib release];
-#endif // AUTOCOMPLETER_FROM_NIB
     [autocompleter release];
     [_searchText release];
     [searchBar release];
@@ -59,15 +53,10 @@
 {
     [super viewDidLoad];
 
-#ifdef AUTOCOMPLETER_FROM_NIB
-    // Would prefer to get this from the NIB, but this wasn't working.
-    [autocompleterNib instantiateWithOwner:self options:nil];
-#else    
     autocompleterTableView = [[UITableView alloc]initWithFrame:CGRectMake(0.0, 44.0, 320.0, 308.0) style:UITableViewStylePlain];
     autocompleterTableView.backgroundColor = self.view.backgroundColor;
     autocompleterTableView.dataSource = self;
     autocompleterTableView.delegate = self;
-#endif // AUTOCOMPLETER_FROM_NIB
     [self.view addSubview:autocompleterTableView];
 }
 
