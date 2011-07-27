@@ -121,6 +121,11 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [tableView reloadData];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
@@ -134,12 +139,6 @@
 
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    int section = indexPath.section;    
-    
-    NSDictionary* _section = [tableSections objectAtIndex:section];
-    id _linkType = [_section valueForKey:@"linkType"];
-    if ([_linkType isEqualToString:@"sample"]) return;
-    
     [self followTableLink:indexPath];
 }
 

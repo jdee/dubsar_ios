@@ -123,6 +123,11 @@
 	return YES;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [tableView reloadData];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
