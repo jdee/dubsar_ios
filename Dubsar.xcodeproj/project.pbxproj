@@ -17,6 +17,8 @@
 		7B22254513DB1FDA003B7322 /* SenseViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B22254313DB1FDA003B7322 /* SenseViewController_iPhone.xib */; };
 		7B29520613DFAEB800E425CC /* SynsetPopoverViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B29520413DFAEB800E425CC /* SynsetPopoverViewController_iPad.m */; };
 		7B29520713DFAEB800E425CC /* SynsetPopoverViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B29520513DFAEB800E425CC /* SynsetPopoverViewController_iPad.xib */; };
+		7B29520C13DFB08700E425CC /* WordPopoverViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B29520A13DFB08700E425CC /* WordPopoverViewController_iPad.m */; };
+		7B29520D13DFB08700E425CC /* WordPopoverViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B29520B13DFB08700E425CC /* WordPopoverViewController_iPad.xib */; };
 		7B3F874813D73B0B009C390B /* dubsar.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F874713D73B0B009C390B /* dubsar.png */; };
 		7B3F874A13D73B15009C390B /* dubsar-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F874913D73B15009C390B /* dubsar-ipad.png */; };
 		7B3F875C13D7443D009C390B /* DubsarViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F875A13D7443D009C390B /* DubsarViewController_iPhone.m */; };
@@ -103,6 +105,9 @@
 		7B29520313DFAEB800E425CC /* SynsetPopoverViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetPopoverViewController_iPad.h; sourceTree = "<group>"; };
 		7B29520413DFAEB800E425CC /* SynsetPopoverViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetPopoverViewController_iPad.m; sourceTree = "<group>"; };
 		7B29520513DFAEB800E425CC /* SynsetPopoverViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SynsetPopoverViewController_iPad.xib; sourceTree = "<group>"; };
+		7B29520913DFB08700E425CC /* WordPopoverViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordPopoverViewController_iPad.h; sourceTree = "<group>"; };
+		7B29520A13DFB08700E425CC /* WordPopoverViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordPopoverViewController_iPad.m; sourceTree = "<group>"; };
+		7B29520B13DFB08700E425CC /* WordPopoverViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WordPopoverViewController_iPad.xib; sourceTree = "<group>"; };
 		7B3F874713D73B0B009C390B /* dubsar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dubsar.png; path = ../dubsar.png; sourceTree = "<group>"; };
 		7B3F874913D73B15009C390B /* dubsar-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-ipad.png"; path = "../dubsar-ipad.png"; sourceTree = "<group>"; };
 		7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarViewController_iPhone.h; sourceTree = "<group>"; };
@@ -368,6 +373,9 @@
 				7B59D7D713DF9C680099B27D /* SynsetViewController_iPad.h */,
 				7B59D7D813DF9C690099B27D /* SynsetViewController_iPad.m */,
 				7B59D7D913DF9C6A0099B27D /* SynsetViewController_iPad.xib */,
+				7B29520913DFB08700E425CC /* WordPopoverViewController_iPad.h */,
+				7B29520A13DFB08700E425CC /* WordPopoverViewController_iPad.m */,
+				7B29520B13DFB08700E425CC /* WordPopoverViewController_iPad.xib */,
 				7B59D7BB13DF63730099B27D /* WordViewController_iPad.h */,
 				7B59D7BC13DF63730099B27D /* WordViewController_iPad.m */,
 				7B59D7BD13DF63740099B27D /* WordViewController_iPad.xib */,
@@ -503,6 +511,7 @@
 				7B59D7DB13DF9C6A0099B27D /* SynsetViewController_iPad.xib in Resources */,
 				7B8EB43613DFA77D00E2962B /* FAQViewController_iPad.xib in Resources */,
 				7B29520713DFAEB800E425CC /* SynsetPopoverViewController_iPad.xib in Resources */,
+				7B29520D13DFB08700E425CC /* WordPopoverViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,6 +577,7 @@
 				7B59D7DA13DF9C6A0099B27D /* SynsetViewController_iPad.m in Sources */,
 				7B8EB43513DFA77D00E2962B /* FAQViewController_iPad.m in Sources */,
 				7B29520613DFAEB800E425CC /* SynsetPopoverViewController_iPad.m in Sources */,
+				7B29520C13DFB08700E425CC /* WordPopoverViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

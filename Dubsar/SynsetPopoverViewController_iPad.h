@@ -19,6 +19,7 @@
     UILabel *glossLabel;
     UILabel *detailLabel;
     UIView *detailView;
+    UILabel *headerLabel;
     NSMutableArray* tableSections;
     UINib *detailNib;
 }
@@ -29,6 +30,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
+@property (nonatomic, retain) IBOutlet UILabel *headerLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset*)theSynset;
 

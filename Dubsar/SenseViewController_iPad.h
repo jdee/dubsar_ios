@@ -37,8 +37,6 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 - (void)loadRootController;
 
-- (void)loadSynsetView;
-- (void)loadWordView;
 - (void)setupTableSections;
 - (IBAction)showWordPopover:(id)sender;
 - (IBAction)showSynsetPopover:(id)sender;

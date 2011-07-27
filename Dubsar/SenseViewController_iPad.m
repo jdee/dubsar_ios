@@ -11,6 +11,7 @@
 #import "Synset.h"
 #import "SynsetPopoverViewController_iPad.h"
 #import "SynsetViewController_iPad.h"
+#import "WordPopoverViewController_iPad.h"
 #import "WordViewController_iPad.h"
 
 @implementation SenseViewController_iPad
@@ -318,18 +319,6 @@
     bannerLabel.text = text;   
 }
 
-- (void)loadSynsetView
-{
-    SynsetPopoverViewController_iPad* viewController = [[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset];
-    [self displayPopoverWithViewController:viewController button:synsetButton];
-    
-}
-
-- (void)loadWordView
-{
-    [self.navigationController pushViewController:[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word] animated:YES];
-}
-
 
 - (void)loadComplete:(Model *)model
 {
@@ -403,13 +392,13 @@
 
 - (IBAction)showWordPopover:(id)sender 
 {
-    WordViewController_iPad* wordViewController = [[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word];
+    WordPopoverViewController_iPad* wordViewController = [[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word];
     [self displayPopoverWithViewController:wordViewController button:wordButton];
 }
 
 - (IBAction)showSynsetPopover:(id)sender 
 {
-    SynsetViewController_iPad* synsetViewController = [[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset];
+    SynsetPopoverViewController_iPad* synsetViewController = [[SynsetPopoverViewController_iPad alloc]initWithNibName:@"SynsetPopoverViewController_iPad" bundle:nil synset:sense.synset];
     [self displayPopoverWithViewController:synsetViewController button:synsetButton];
 }
 

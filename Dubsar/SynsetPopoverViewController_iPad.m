@@ -19,6 +19,7 @@
 @synthesize glossLabel;
 @synthesize detailLabel;
 @synthesize detailView;
+@synthesize headerLabel;
 
 
 - (void)displayPopup:(NSString*)text
@@ -83,6 +84,7 @@
     [tableView release];
     [bannerLabel release];
     [glossLabel release];
+    [headerLabel release];
     [super dealloc];
 }
 
@@ -112,6 +114,7 @@
     [self setTableView:nil];
     [self setBannerLabel:nil];
     [self setGlossLabel:nil];
+    [self setHeaderLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -157,10 +160,10 @@
 - (void)adjustTitle
 {
     if (synset.gloss) {
-        self.title = [NSString stringWithFormat:@"Synset: %@", synset.gloss];
+        headerLabel.text = [NSString stringWithFormat:@"Synset: %@", synset.gloss];
     }
     else {
-        self.title = [NSString stringWithString:@"Synset"];
+        headerLabel.text = [NSString stringWithString:@"Synset"];
     }
 }
 
@@ -192,6 +195,7 @@
     }
     
     cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (!synset || !synset.complete) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
