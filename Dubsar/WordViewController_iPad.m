@@ -80,6 +80,30 @@
     return word.complete ? word.senses.count : 1;
 }
 
+- (NSArray*)sectionIndexTitlesForTableView:(UITableView*)theTableView
+{
+    NSMutableArray* titles = [NSMutableArray array];
+    if (!word || !word.complete || word.senses.count < 20) {
+        return titles;
+    }
+    
+    [titles addObject:@"top"];
+    
+    for (int j=4; j<word.senses.count; j += 5) {
+        [titles addObject:[NSString stringWithFormat:@"%d", j+1]];
+    }
+    return titles;
+}
+
+- (NSInteger)tableView:(UITableView*)theTableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    switch (index) {
+        case 0:
+            return 0;
+    }
+    return 5*index - 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
