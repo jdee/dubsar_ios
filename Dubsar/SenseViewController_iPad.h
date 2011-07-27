@@ -18,12 +18,17 @@
     UITableView *tableView;
     UILabel *bannerLabel;
     UILabel *glossLabel;
+    UILabel *detailLabel;
+    UIView *detailView;
+    UINib *detailNib;
 }
 
 @property (nonatomic, retain) Sense* sense;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
+@property (nonatomic, retain) IBOutlet UILabel *detailLabel;
+@property (nonatomic, retain) IBOutlet UIView *detailView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 - (void)loadRootController;
@@ -33,8 +38,10 @@
 - (void)setupTableSections;
 
 - (void)displayPopover:(NSString*)text;
-- (IBAction)dismissPopover:(id)sender;
 
 -(void)followTableLink:(NSIndexPath*)indexPath;
+
+- (void)displayPopup:(NSString*)text;
+- (IBAction)dismissPopup:(id)sender;
 
 @end

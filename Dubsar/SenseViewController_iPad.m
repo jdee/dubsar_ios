@@ -15,6 +15,38 @@
 @synthesize tableView;
 @synthesize bannerLabel;
 @synthesize glossLabel;
+@synthesize detailLabel;
+@synthesize detailView;
+
+
+- (void)displayPopup:(NSString*)text
+{
+    [detailLabel setText:text];
+    [UIView transitionWithView:self.view duration:0.4 
+                       options:UIViewAnimationOptionTransitionFlipFromRight 
+                    animations:^{
+                        bannerLabel.hidden = YES;
+                        // glossScrollView.hidden = YES;
+                        tableView.hidden = YES;
+                        detailView.hidden = NO;
+                        self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+                    } completion:^(BOOL finished){
+                    }];
+}
+
+- (IBAction)dismissPopup:(id)sender {
+    [tableView reloadData];
+    [UIView transitionWithView:self.view duration:0.4 
+                       options:UIViewAnimationOptionTransitionFlipFromLeft 
+                    animations:^{
+                        bannerLabel.hidden = NO;
+                        // glossScrollView.hidden = NO;
+                        tableView.hidden = NO;
+                        detailView.hidden = YES;
+                        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+                    } completion:^(BOOL finished){                    
+                    }];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense
 {
@@ -30,16 +62,21 @@
         UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
         self.navigationItem.rightBarButtonItem = homeButtonItem;
         
+        detailNib = [UINib nibWithNibName:@"DetailView_iPad" bundle:nil];
+        
    }
     return self;
 }
 
 - (void)dealloc
 {
+    [detailNib release];
     [sense release];
     [tableView release];
     [bannerLabel release];
     [glossLabel release];
+    [detailLabel release];
+    [detailView release];
     [super dealloc];
 }
 
@@ -57,6 +94,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [detailNib instantiateWithOwner:self options:nil];
+    [detailView setHidden:YES];
+    [self.view addSubview:detailView];
 }
 
 - (void)viewDidUnload
@@ -64,9 +104,16 @@
     [self setTableView:nil];
     [self setBannerLabel:nil];
     [self setGlossLabel:nil];
+    [self setDetailLabel:nil];
+    [self setDetailView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -77,6 +124,12 @@
 
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    int section = indexPath.section;    
+    
+    NSDictionary* _section = [tableSections objectAtIndex:section];
+    id _linkType = [_section valueForKey:@"linkType"];
+    if ([_linkType isEqualToString:@"sample"]) return;
+    
     [self followTableLink:indexPath];
 }
 
@@ -108,7 +161,7 @@
         [self.navigationController pushViewController:[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense] animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
-        [self displayPopover:_object];
+        [self displayPopup:_object];
     }
     else if ([[_object objectAtIndex:0] isEqualToString:@"sense"]) {
         NSArray* pointer = _object;
@@ -214,6 +267,7 @@
         else {
             // must be a string
             cell.textLabel.text = _object;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
         if ([linkType isEqualToString:@"sample"]) {
@@ -342,11 +396,6 @@
 
 - (void)displayPopover:(NSString *)text
 {
-}
-
-- (void)dismissPopover:(id)sender
-{
-    
 }
 
 @end
