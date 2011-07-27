@@ -226,7 +226,6 @@
     }
     
     cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (!synset || !synset.complete) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
@@ -238,6 +237,7 @@
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
         [indicator startAnimating];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     else {
@@ -288,6 +288,7 @@
         NSLog(@"set text %@ at section %d, row %d", cell.textLabel.text, section, row);
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

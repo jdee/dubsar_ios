@@ -124,6 +124,7 @@
         indicator.frame = frame;
         [indicator startAnimating];
         [cell.contentView addSubview:indicator];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     

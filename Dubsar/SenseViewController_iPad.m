@@ -228,6 +228,7 @@
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
         [indicator startAnimating];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     else {
