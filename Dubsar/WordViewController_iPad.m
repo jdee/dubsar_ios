@@ -185,7 +185,18 @@
 {
     if (model != word) return;
     
-    NSLog(@"word load complete with %u senses", word.senses.count);
+    unsigned int count = word.senses.count;
+    NSLog(@"word load complete with %u senses", count);
+    
+    float height = 66.0*count;
+    if (height + _tableView.frame.origin.y < self.view.frame.size.height) {
+        CGRect frame = _tableView.frame;
+        CGSize size = frame.size;
+        size.height = height;
+        frame.size = size;
+        _tableView.frame = frame;
+    }
+
     [self adjustInflections];
 
     [_tableView reloadData];
