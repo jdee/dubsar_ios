@@ -404,6 +404,7 @@
     [popoverController release];
     popoverController = [[UIPopoverController alloc]initWithContentViewController:wordViewController];
     wordViewController.popoverController = popoverController;
+    wordViewController.navigationController = self.navigationController;
     [popoverController presentPopoverFromRect:senderView.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 

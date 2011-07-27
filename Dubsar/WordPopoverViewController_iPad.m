@@ -8,6 +8,7 @@
 
 
 #import "Sense.h"
+#import "SenseViewController_iPad.h"
 #import "Word.h"
 #import "WordPopoverViewController_iPad.h"
 
@@ -20,6 +21,7 @@
 @synthesize tableView=_tableView;
 @synthesize headerLabel;
 @synthesize popoverController;
+@synthesize navigationController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord
 {
@@ -156,8 +158,6 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType]autorelease];
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.accessoryType = UITableViewCellAccessoryNone;
     
     if (!word.complete) {
         UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
@@ -172,12 +172,22 @@
     Sense* sense = [word.senses objectAtIndex:index];
     
     cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", index+1, sense.gloss];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     if (sense.synonyms.count > 0) {
         cell.detailTextLabel.text = sense.synonymsAsString;
     }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Sense* sense = [word.senses objectAtIndex:indexPath.section];
+    SenseViewController_iPad* viewController = [[[SenseViewController_iPad alloc] initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense] autorelease];
+  
+    [popoverController dismissPopoverAnimated:YES];
+    [navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)loadComplete:(Model *)model

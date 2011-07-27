@@ -18,6 +18,7 @@
     UILabel *headerLabel;
 }
 
+@property (nonatomic, assign) UINavigationController* navigationController;
 @property (nonatomic, assign) UIPopoverController* popoverController;
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, retain) IBOutlet UILabel *inflectionsLabel;
