@@ -49,7 +49,7 @@
 						<int key="NSvFlags">290</int>
 						<string key="NSFrameSize">{703, 37}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="NSNextKeyView" ref="606108008"/>
+						<reference key="NSNextKeyView" ref="218045207"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
 							<bytes key="NSRGB">MC44NDMxMzczMjM5IDAuODU0OTAyMDI5IDAuOTkyMTU2OTIyOAA</bytes>
@@ -122,7 +122,7 @@
 						<float key="IBUISectionHeaderHeight">10</float>
 						<float key="IBUISectionFooterHeight">10</float>
 					</object>
-					<object class="IBUIScrollView" id="606108008">
+					<object class="IBUIScrollView" id="218045207">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{0, 37}, {703, 37}}</string>
@@ -177,10 +177,9 @@
 			</object>
 			<object class="IBUILabel" id="249365872">
 				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">274</int>
+				<int key="NSvFlags">290</int>
 				<string key="NSFrameSize">{687, 21}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSNextKeyView"/>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClipsSubviews">YES</bool>
 				<int key="IBUIContentMode">7</int>
@@ -257,7 +256,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">glossScrollView</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="606108008"/>
+						<reference key="destination" ref="218045207"/>
 					</object>
 					<int key="connectionID">15</int>
 				</object>
@@ -290,7 +289,7 @@
 							<reference ref="263487684"/>
 							<reference ref="556228361"/>
 							<reference ref="895604301"/>
-							<reference ref="606108008"/>
+							<reference ref="218045207"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -316,7 +315,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">14</int>
-						<reference key="object" ref="606108008"/>
+						<reference key="object" ref="218045207"/>
 						<reference key="parent" ref="766721923"/>
 					</object>
 				</object>

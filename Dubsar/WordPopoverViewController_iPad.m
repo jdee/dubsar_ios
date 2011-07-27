@@ -62,10 +62,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    CGRect frame = CGRectMake(8.0, 8.0, 687.0, 21.0);
-    inflectionsLabel.frame = frame;
-    
-    [inflectionsScrollView setContentSize:CGSizeMake(1280,44)];
     [inflectionsScrollView addSubview:inflectionsLabel];
 }
 
@@ -78,6 +74,11 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self adjustInflections];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -194,6 +195,11 @@
 
 - (void)adjustInflections
 {
+    CGRect frame = CGRectMake(8.0, 8.0, 687.0, 21.0);
+    inflectionsLabel.frame = frame;
+    
+    [inflectionsScrollView setContentSize:CGSizeMake(1280,44)];
+    
     NSString* text = [NSString string];
     if (word.freqCnt > 0) {
         text = [text stringByAppendingFormat:@"freq. cnt.: %d ", word.freqCnt];

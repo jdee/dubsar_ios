@@ -107,11 +107,6 @@
     [detailNib instantiateWithOwner:self options:nil];
     [detailView setHidden:YES];
     [self.view addSubview:detailView];
-
-    CGRect frame = CGRectMake(8.0, 8.0, 687.0, 21.0);
-    glossLabel.frame = frame;
-    
-    [glossScrollView setContentSize:CGSizeMake(1280,44)];
     [glossScrollView addSubview:glossLabel];
 }
 
@@ -133,6 +128,11 @@
 {
     // Return YES for supported orientations
 	return YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self adjustGlossLabel];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -163,6 +163,11 @@
 
 - (void)adjustGlossLabel
 {
+    CGRect frame = CGRectMake(8.0, 8.0, 687.0, 21.0);
+    glossLabel.frame = frame;
+    
+    [glossScrollView setContentSize:CGSizeMake(1280,44)];
+    
     glossLabel.text = synset.gloss;
 }
 
