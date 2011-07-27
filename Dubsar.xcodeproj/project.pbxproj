@@ -19,6 +19,7 @@
 		7B29520713DFAEB800E425CC /* SynsetPopoverViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B29520513DFAEB800E425CC /* SynsetPopoverViewController_iPad.xib */; };
 		7B29520C13DFB08700E425CC /* WordPopoverViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B29520A13DFB08700E425CC /* WordPopoverViewController_iPad.m */; };
 		7B29520D13DFB08700E425CC /* WordPopoverViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B29520B13DFB08700E425CC /* WordPopoverViewController_iPad.xib */; };
+		7B29520F13DFD08000E425CC /* PopoverDetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B29520E13DFD08000E425CC /* PopoverDetailView_iPad.xib */; };
 		7B3F874813D73B0B009C390B /* dubsar.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F874713D73B0B009C390B /* dubsar.png */; };
 		7B3F874A13D73B15009C390B /* dubsar-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3F874913D73B15009C390B /* dubsar-ipad.png */; };
 		7B3F875C13D7443D009C390B /* DubsarViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F875A13D7443D009C390B /* DubsarViewController_iPhone.m */; };
@@ -108,6 +109,7 @@
 		7B29520913DFB08700E425CC /* WordPopoverViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordPopoverViewController_iPad.h; sourceTree = "<group>"; };
 		7B29520A13DFB08700E425CC /* WordPopoverViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordPopoverViewController_iPad.m; sourceTree = "<group>"; };
 		7B29520B13DFB08700E425CC /* WordPopoverViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WordPopoverViewController_iPad.xib; sourceTree = "<group>"; };
+		7B29520E13DFD08000E425CC /* PopoverDetailView_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopoverDetailView_iPad.xib; sourceTree = "<group>"; };
 		7B3F874713D73B0B009C390B /* dubsar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dubsar.png; path = ../dubsar.png; sourceTree = "<group>"; };
 		7B3F874913D73B15009C390B /* dubsar-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-ipad.png"; path = "../dubsar-ipad.png"; sourceTree = "<group>"; };
 		7B3F875913D7443D009C390B /* DubsarViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarViewController_iPhone.h; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 				7B8EB43313DFA77C00E2962B /* FAQViewController_iPad.m */,
 				7B8EB43413DFA77D00E2962B /* FAQViewController_iPad.xib */,
 				7BA48D1813D738E10056D61A /* MainWindow_iPad.xib */,
+				7B29520E13DFD08000E425CC /* PopoverDetailView_iPad.xib */,
 				7BFEEE1E13DF20CC00EB5D11 /* SearchBarViewController_iPad.h */,
 				7BFEEE1F13DF20CC00EB5D11 /* SearchBarViewController_iPad.m */,
 				7BFEEE2013DF20CC00EB5D11 /* SearchBarViewController_iPad.xib */,
@@ -512,6 +515,7 @@
 				7B8EB43613DFA77D00E2962B /* FAQViewController_iPad.xib in Resources */,
 				7B29520713DFAEB800E425CC /* SynsetPopoverViewController_iPad.xib in Resources */,
 				7B29520D13DFB08700E425CC /* WordPopoverViewController_iPad.xib in Resources */,
+				7B29520F13DFD08000E425CC /* PopoverDetailView_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

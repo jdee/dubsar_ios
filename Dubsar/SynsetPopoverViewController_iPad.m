@@ -70,7 +70,7 @@
         UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
         self.navigationItem.rightBarButtonItem = homeButtonItem;
         
-        detailNib = [UINib nibWithNibName:@"DetailView_iPad" bundle:nil];
+        detailNib = [UINib nibWithNibName:@"PopoverDetailView_iPad" bundle:nil];
         
     }
     return self;
@@ -168,6 +168,37 @@
 }
 
 /* TableView management */
+
+- (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self followTableLink:indexPath];
+}
+
+- (void)tableView:(UITableView *)theTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    [self followTableLink:indexPath];   
+}
+
+- (void)followTableLink:(NSIndexPath *)indexPath
+{
+    
+    int section = indexPath.section;
+    int row = indexPath.row;
+    
+    NSLog(@"selected section %d, row %d", section, row);
+    
+    NSDictionary* _section = [tableSections objectAtIndex:section];
+    id _linkType = [_section valueForKey:@"linkType"];
+    NSLog(@"linkType is %@", _linkType);
+    if (_linkType == NSNull.null) return;
+    
+    NSArray* _collection = [_section valueForKey:@"collection"];
+    id _object = [_collection objectAtIndex:row];
+    
+    if ([_linkType isEqualToString:@"sample"]) {
+        [self displayPopup:_object];
+    }
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
 {

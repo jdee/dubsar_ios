@@ -42,4 +42,6 @@
 - (void)displayPopup:(NSString*)text;
 - (IBAction)dismissPopup:(id)sender;
 
+- (void)followTableLink:(NSIndexPath*)indexPath;
+
 @end
