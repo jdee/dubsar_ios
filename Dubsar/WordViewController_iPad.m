@@ -7,6 +7,7 @@
 //
 
 #import "Sense.h"
+#import "SenseViewController_iPad.h"
 #import "Word.h"
 #import "WordViewController_iPad.h"
 
@@ -137,6 +138,13 @@
     }
     
     return cell;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Sense* sense = [word.senses objectAtIndex:indexPath.section];
+    [self.navigationController pushViewController:[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense] animated:YES];
 }
 
 - (void)loadComplete:(Model *)model
