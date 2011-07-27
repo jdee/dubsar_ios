@@ -17,7 +17,6 @@
     UISearchBar *searchBar;
     UITableView *autocompleterTableView;
     UISwitch *caseSwitch;
-    UISegmentedControl *segmentedControl;
 }
 
 @property (nonatomic, assign) UINavigationController* navigationController;
@@ -26,11 +25,9 @@
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
 @property (nonatomic, retain) IBOutlet UISwitch *caseSwitch;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *segmentedControl;
 
-- (IBAction)segmentedControlActivated:(id)sender;
 - (void)loadComplete:(Model *)model;
 - (IBAction)showFAQ:(id)sender;
-- (void)resetSegmentedControl:(id)arg;
+- (IBAction)loadRootController:(id)sender;
 
 @end

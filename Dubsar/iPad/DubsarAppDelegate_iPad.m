@@ -19,7 +19,6 @@
 {    
     SearchBarViewController_iPad* searchBarViewController = [[[SearchBarViewController_iPad alloc]initWithNibName:@"SearchBarViewController_iPad" bundle:nil]autorelease];
     DubsarViewController_iPad* dubsarViewController = [[[DubsarViewController_iPad alloc]initWithNibName:@"DubsarViewController_iPad" bundle:nil]autorelease];
-    dubsarViewController.searchBarViewController = searchBarViewController;
     
     _navigationController = [[UINavigationController alloc]initWithRootViewController:dubsarViewController];
     searchBarViewController.navigationController = _navigationController;

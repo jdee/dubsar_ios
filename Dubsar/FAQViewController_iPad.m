@@ -7,11 +7,9 @@
 //
 
 #import "FAQViewController_iPad.h"
-#import "SearchBarViewController_iPad.h"
 
 @implementation FAQViewController_iPad
 @synthesize webView;
-@synthesize searchBarViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,7 +57,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [searchBarViewController resetSegmentedControl:nil];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView

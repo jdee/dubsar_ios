@@ -7,11 +7,8 @@
 //
 
 #import "DubsarViewController_iPad.h"
-#import "SearchBarViewController_iPad.h"
-
 
 @implementation DubsarViewController_iPad
-@synthesize searchBarViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,7 +50,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [searchBarViewController resetSegmentedControl:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
