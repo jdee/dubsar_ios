@@ -69,7 +69,7 @@
         
         [self adjustTitle];
         
-        detailNib = [UINib nibWithNibName:@"DetailView_iPhone" bundle:nil];
+        detailNib = [[UINib nibWithNibName:@"DetailView_iPhone" bundle:nil]retain];
     }
     return self;
 }
@@ -219,7 +219,7 @@
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = _object;
         NSLog(@"links to Sense %@", targetSense.nameAndPos);
-        [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
+        [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
         [self displayPopup:_object];
@@ -230,7 +230,7 @@
         /* synset pointer */
         Synset* targetSynset = [Synset synsetWithId:targetId.intValue partOfSpeech:POSUnknown];
         NSLog(@"links to Synset %d", targetSynset._id);
-        [self.navigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset] animated:YES];
+        [self.navigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset]autorelease] animated:YES];
     }
 }
 

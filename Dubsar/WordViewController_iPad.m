@@ -174,7 +174,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Sense* sense = [word.senses objectAtIndex:indexPath.section];
-    [self.navigationController pushViewController:[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense] animated:YES];
+    [self.navigationController pushViewController:[[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense]autorelease] animated:YES];
 }
 
 - (void)loadComplete:(Model *)model

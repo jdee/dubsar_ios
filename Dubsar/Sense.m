@@ -29,17 +29,17 @@
 
 +(id)senseWithId:(int)theId name:(NSString *)theName synset:(Synset *)theSynset
 {
-    return [[self alloc]initWithId:theId name:theName synset:theSynset];
+    return [[[self alloc]initWithId:theId name:theName synset:theSynset]autorelease];
 }
 
 +(id)senseWithId:(int)theId name:(NSString *)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
-    return [[self alloc]initWithId:theId name:theName partOfSpeech:thePartOfSpeech];
+    return [[[self alloc]initWithId:theId name:theName partOfSpeech:thePartOfSpeech]autorelease];
 }
 
 +(id)senseWithId:(int)theId gloss:(NSString *)theGloss synonyms:(NSArray *)theSynonyms word:(Word *)theWord
 {
-    return [[self alloc]initWithId:theId gloss:theGloss synonyms:theSynonyms word:theWord];
+    return [[[self alloc]initWithId:theId gloss:theGloss synonyms:theSynonyms word:theWord]autorelease];
 }
 
 -(id)initWithId:(int)theId name:(NSString *)theName synset:(Synset *)theSynset
@@ -47,7 +47,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [[theName copy]retain];
+        name = [theName retain];
         word = nil;
         gloss = nil;
         synonyms = nil;
@@ -67,7 +67,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [[theName copy]retain];
+        name = [theName retain];
         word = nil;
         gloss = nil;
         synonyms = nil;
@@ -88,7 +88,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        gloss = [[theGloss copy]retain];
+        gloss = [theGloss retain];
         synonyms = [theSynonyms retain];
         word = [theWord retain];
         partOfSpeech = word.partOfSpeech;
@@ -121,7 +121,14 @@
 
 -(NSString*)synonymsAsString
 {
+    
     NSString* synonymList = [NSString string];
+    
+    /* The app still sometimes crashes when calling this method if this
+     * autorelease pool is used.
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+     */
+    
     for(int j=0; j<synonyms.count; ++j) {
         Word* synonym = [synonyms objectAtIndex:j];
         synonymList = [synonymList stringByAppendingString:synonym.name];
@@ -129,6 +136,10 @@
             synonymList = [synonymList stringByAppendingString:@", "];
         }
     }
+    
+    /*
+    [pool release];
+     */
     
     return synonymList;
 }
@@ -159,7 +170,7 @@
 
 -(NSString *)nameAndPos
 {
-    return [[NSString alloc]initWithFormat:@"%@ (%@.)", name, self.pos];
+    return [NSString stringWithFormat:@"%@ (%@.)", name, self.pos];
 }
 
 -(void)parseData
@@ -179,7 +190,7 @@
     }
 
     if (!gloss) {
-        gloss = [_synset objectAtIndex:1];
+        gloss = [[_synset objectAtIndex:1]retain];
     }
    
     if (!synset) {
@@ -267,7 +278,7 @@
 
 - (void)initUrl
 {
-    [self set_url: [[NSString stringWithFormat:@"/senses/%d.json", _id]retain]];
+    [self set_url: [NSString stringWithFormat:@"/senses/%d.json", _id]];
 }
 
 + (NSString*)helpWithPointerType:(NSString *)ptype

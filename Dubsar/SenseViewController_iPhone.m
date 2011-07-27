@@ -70,7 +70,7 @@
         tableSections = nil;
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
 
-        detailNib = [UINib nibWithNibName:@"DetailView_iPhone" bundle:nil];
+        detailNib = [[UINib nibWithNibName:@"DetailView_iPhone" bundle:nil]retain];
     }
     return self;
 }
@@ -178,19 +178,19 @@
 
 - (void)loadSynsetView
 {
-    [self.navigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:sense.synset] animated:YES];
+    [self.navigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:sense.synset]autorelease] animated:YES];
 }
 
 - (void)loadWordView
 {
-    [self.navigationController pushViewController:[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:sense.word] animated:YES];
+    [self.navigationController pushViewController:[[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:sense.word]autorelease] animated:YES];
 }
 
 - (void)createToolbarItems
 {
-    UIBarButtonItem* homeItem = [[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
-    UIBarButtonItem* synsetItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset" style:UIBarButtonItemStyleBordered target:self action:@selector(loadSynsetView)];
-    UIBarButtonItem* wordItem = [[UIBarButtonItem alloc]initWithTitle:@"Word" style:UIBarButtonItemStyleBordered target:self action:@selector(loadWordView)];
+    UIBarButtonItem* homeItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
+    UIBarButtonItem* synsetItem = [[[UIBarButtonItem alloc]initWithTitle:@"Synset" style:UIBarButtonItemStyleBordered target:self action:@selector(loadSynsetView)]autorelease];
+    UIBarButtonItem* wordItem = [[[UIBarButtonItem alloc]initWithTitle:@"Word" style:UIBarButtonItemStyleBordered target:self action:@selector(loadWordView)]autorelease];
     
     NSMutableArray* buttonItems = [NSMutableArray arrayWithCapacity:3];
     
@@ -243,7 +243,7 @@
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = _object;
         NSLog(@"links to Sense %@", targetSense.nameAndPos);
-        [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
+        [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
         [self displayPopup:_object];
@@ -254,7 +254,7 @@
         /* sense pointer */
         targetSense = [Sense senseWithId:targetId.intValue name:[pointer objectAtIndex:2] partOfSpeech:POSUnknown];
         NSLog(@"links to Sense %@", targetSense.nameAndPos);
-        [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
+        [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
     }
     else {
         NSArray* pointer = _object;
@@ -262,7 +262,7 @@
         /* synset pointer */
         Synset* targetSynset = [Synset synsetWithId:targetId.intValue partOfSpeech:POSUnknown];
         NSLog(@"links to Synset %d", targetSynset._id);
-        [self.navigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset] animated:YES];
+        [self.navigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset]autorelease] animated:YES];
     }
 }
 

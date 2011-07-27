@@ -23,12 +23,12 @@
 
 + (id)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
-    return [[self alloc]initWithId:theId partOfSpeech:thePartOfSpeech];
+    return [[[self alloc]initWithId:theId partOfSpeech:thePartOfSpeech]autorelease];
 }
 
 + (id)synsetWithId:(int)theId gloss:(NSString *)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
-    return [[self alloc]initWithId:theId gloss:theGloss partOfSpeech:thePartOfSpeech];
+    return [[[self alloc]initWithId:theId gloss:theGloss partOfSpeech:thePartOfSpeech]autorelease];
 }
 
 - (id)initWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
@@ -41,7 +41,7 @@
         lexname = nil;
         samples = nil;
         senses = nil;
-        [self set_url: [[NSString stringWithFormat:@"/synsets/%d.json", _id]retain]];
+        [self set_url: [NSString stringWithFormat:@"/synsets/%d.json", _id]];
     }
     return self;
 
@@ -57,7 +57,7 @@
         lexname = nil;
         samples = nil;
         senses = nil;
-        [self set_url: [[NSString stringWithFormat:@"/synsets/%d.json", _id]retain]];
+        [self set_url: [NSString stringWithFormat:@"/synsets/%d.json", _id]];
     }
     return self;
 }

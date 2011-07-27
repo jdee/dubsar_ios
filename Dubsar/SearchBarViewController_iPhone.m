@@ -24,13 +24,14 @@
         proxy = [[AutocompleterProxy alloc]init];
         proxy.delegate = self;
         
-        autocompleterNib = [UINib nibWithNibName:@"AutocompleterView_iPhone" bundle:nil];
+        autocompleterNib = [[UINib nibWithNibName:@"AutocompleterView_iPhone" bundle:nil]retain];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [proxy release];
     [autocompleter release];
     [autocompleterNib release];
     [searchBar release];
@@ -73,7 +74,7 @@
     
     // new SearchViewController for this search
     NSLog(@"presenting view controller for \"%@\"", theSearchBar.text);
-    SearchViewController_iPhone* searchViewController = [[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: theSearchBar.text];
+    SearchViewController_iPhone* searchViewController = [[[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: theSearchBar.text]autorelease];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }
 
@@ -158,7 +159,7 @@
 
 - (void)createToolbarItems
 {
-    UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
+    UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
     
     NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
     
@@ -241,7 +242,7 @@
     }
     
     NSString* text = [autocompleter.results objectAtIndex:indexPath.row];
-    SearchViewController_iPhone* searchViewController = [[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: text];
+    SearchViewController_iPhone* searchViewController = [[[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: text]autorelease];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }
 

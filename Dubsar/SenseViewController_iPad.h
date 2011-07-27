@@ -23,6 +23,7 @@
     UIBarButtonItem *synsetButton;
     UIBarButtonItem *wordButton;
     UINib *detailNib;
+    UIPopoverController* popoverController;
 }
 
 @property (nonatomic, retain) Sense* sense;

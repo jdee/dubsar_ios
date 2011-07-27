@@ -71,7 +71,7 @@
         UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
         self.navigationItem.rightBarButtonItem = homeButtonItem;
         
-        detailNib = [UINib nibWithNibName:@"PopoverDetailView_iPad" bundle:nil];
+        detailNib = [[UINib nibWithNibName:@"PopoverDetailView_iPad" bundle:nil]retain];
         
     }
     return self;

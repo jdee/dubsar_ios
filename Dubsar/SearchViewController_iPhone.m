@@ -26,12 +26,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        /*
-         * The argument (theSearchText) is the content of the search bar from the previous 
-         * view that launched this search, not the search bar associated with this
-         * controller. That view was just unloaded. We make a copy here.
-         */
-        _searchText = [[theSearchText copy] retain];
+        _searchText = [theSearchText retain];
         
         // set up a new search request to the server asynchronously
         search = [[Search searchWithTerm:_searchText matchCase:NO] retain];
@@ -114,7 +109,7 @@
     
     int index = indexPath.section;
     Word* word = [search.results objectAtIndex:index];
-    [self.navigationController pushViewController:[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word] animated:YES];
+    [self.navigationController pushViewController:[[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word]autorelease] animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 

@@ -20,7 +20,7 @@
 
 +(id)searchWithTerm:(id)theTerm matchCase:(BOOL)mustMatchCase
 {
-    return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase];
+    return [[[self alloc]initWithTerm:theTerm matchCase:mustMatchCase]autorelease];
 }
 
 -(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
@@ -30,14 +30,14 @@
     self = [super init];
     if (self) {   
         matchCase = mustMatchCase;
-        term = [[theTerm copy] retain];
+        term = [theTerm retain];
         results = nil;
         if (matchCase) {
-            [self set_url: [[NSString stringWithFormat:@"/.json?term=%@&match=case", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
+            [self set_url: [NSString stringWithFormat:@"/.json?term=%@&match=case", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
            
         }
         else {
-            [self set_url: [[NSString stringWithFormat:@"/.json?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
+            [self set_url: [NSString stringWithFormat:@"/.json?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
         }
     }
     return self;

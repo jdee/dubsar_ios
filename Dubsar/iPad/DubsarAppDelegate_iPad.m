@@ -17,8 +17,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
-    SearchBarViewController_iPad* searchBarViewController = [[SearchBarViewController_iPad alloc]initWithNibName:@"SearchBarViewController_iPad" bundle:nil];
-    DubsarViewController_iPad* dubsarViewController = [[DubsarViewController_iPad alloc]initWithNibName:@"DubsarViewController_iPad" bundle:nil];
+    SearchBarViewController_iPad* searchBarViewController = [[[SearchBarViewController_iPad alloc]initWithNibName:@"SearchBarViewController_iPad" bundle:nil]autorelease];
+    DubsarViewController_iPad* dubsarViewController = [[[DubsarViewController_iPad alloc]initWithNibName:@"DubsarViewController_iPad" bundle:nil]autorelease];
     
     _navigationController = [[UINavigationController alloc]initWithRootViewController:dubsarViewController];
     searchBarViewController.navigationController = _navigationController;

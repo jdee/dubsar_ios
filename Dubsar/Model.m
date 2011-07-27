@@ -46,7 +46,7 @@
     url = [[NSString stringWithFormat:@"%@%@", DubsarBaseUrl, _url]retain];
     NSURL* nsurl = [NSURL URLWithString:url];
     NSURLRequest* request = [NSURLRequest requestWithURL:nsurl];
-    connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    connection = [[NSURLConnection connectionWithRequest:request delegate:self]retain];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     NSLog(@"requesting %@", url);
 }

@@ -19,7 +19,7 @@
         // Custom initialization
         self.title = @"Home";
         UIImage* image = [UIImage imageNamed:@"dubsar-link.png"];
-        self.navigationItem.titleView = [[UIImageView alloc]initWithImage:image];
+        self.navigationItem.titleView = [[[UIImageView alloc]initWithImage:image]autorelease];
     }
     return self;
 }
@@ -52,20 +52,20 @@
 
 - (void)displayFAQ
 {
-    [self presentModalViewController:[[FAQViewController_iPhone alloc]
-            initWithNibName:@"FAQViewController_iPhone" bundle:nil] animated: YES];    
+    [self presentModalViewController:[[[FAQViewController_iPhone alloc]
+            initWithNibName:@"FAQViewController_iPhone" bundle:nil]autorelease] animated: YES];    
 }
 
 - (void)displayLicense 
 {
-    [self presentModalViewController:[[LicenseViewController_iPhone alloc]
-            initWithNibName:@"LicenseViewController_iPhone" bundle:nil] animated: YES];
+    [self presentModalViewController:[[[LicenseViewController_iPhone alloc]
+            initWithNibName:@"LicenseViewController_iPhone" bundle:nil]autorelease] animated: YES];
 }
 
 - (void)createToolbarItems
 {
-    UIBarButtonItem* faqButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)];
-    UIBarButtonItem* licenseButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"License" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLicense)];
+    UIBarButtonItem* faqButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)]autorelease];
+    UIBarButtonItem* licenseButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"License" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLicense)]autorelease];
     
     NSMutableArray* buttonItems = [NSMutableArray array];
     [buttonItems addObject:faqButtonItem];

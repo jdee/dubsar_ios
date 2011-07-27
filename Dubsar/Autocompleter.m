@@ -20,7 +20,7 @@
 + (id)autocompleterWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
 {
     static NSInteger _seqNum = 0;
-    return [[self alloc]initWithTerm:theTerm seqNum:_seqNum++ matchCase:mustMatchCase];
+    return [[[self alloc]initWithTerm:theTerm seqNum:_seqNum++ matchCase:mustMatchCase]autorelease];
 }
 
 - (id)initWithTerm:(NSString *)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase
@@ -28,14 +28,14 @@
     self = [super init];
     if (self) {
         seqNum = theSeqNum;
-        _term = [[theTerm copy]retain];
+        _term = [theTerm retain];
         _results = nil;
         matchCase = mustMatchCase;
         if (matchCase) {
-            [self set_url:[[NSString stringWithFormat:@"/os.json?term=%@&match=case", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
+            [self set_url:[NSString stringWithFormat:@"/os.json?term=%@&match=case", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
        }
         else {
-            [self set_url:[[NSString stringWithFormat:@"/os.json?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]retain]];
+            [self set_url:[NSString stringWithFormat:@"/os.json?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
         }
     }
     return self;

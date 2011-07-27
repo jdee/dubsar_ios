@@ -161,7 +161,7 @@
 
 - (IBAction)showFAQ:(id)sender 
 {
-    [_navigationController pushViewController:[[FAQViewController_iPad alloc] initWithNibName:@"FAQViewController_iPad" bundle:nil] animated:YES];
+    [_navigationController pushViewController:[[[FAQViewController_iPad alloc] initWithNibName:@"FAQViewController_iPad" bundle:nil]autorelease] animated:YES];
 }
 
 
@@ -225,7 +225,7 @@
     [searchBar resignFirstResponder];
     [autocompleterTableView setHidden:YES];
     
-    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text: text matchCase:caseSwitch.on];
+    SearchViewController_iPad* searchViewController = [[[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text: text matchCase:caseSwitch.on]autorelease];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }
 

@@ -22,12 +22,12 @@
 
 +(id)wordWithId:(int)theId name:(id)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
-    return [[self alloc] initWithId:theId name:theName partOfSpeech:thePartOfSpeech];
+    return [[[self alloc] initWithId:theId name:theName partOfSpeech:thePartOfSpeech]autorelease];
 }
 
 +(id)wordWithId:(int)theId name:(NSString *)theName posString:(NSString *)posString
 {
-    return [[self alloc] initWithId:theId name:theName posString:posString];
+    return [[[self alloc] initWithId:theId name:theName posString:posString]autorelease];
 }
 
 -(id)initWithId:(int)theId name:(NSString *)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
@@ -35,7 +35,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [[theName copy]retain];
+        name = [theName retain];
         partOfSpeech = thePartOfSpeech;
         [self initUrl];
     }
@@ -47,7 +47,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [[theName copy]retain];
+        name = [theName retain];
         
         if ([posString isEqualToString:@"adj"]) {
             partOfSpeech = POSAdjective;
@@ -106,7 +106,7 @@
 
 -(NSString *)nameAndPos
 {
-    return [[NSString alloc]initWithFormat:@"%@ (%@.)", name, self.pos];
+    return [NSString stringWithFormat:@"%@ (%@.)", name, self.pos];
 }
 
 -(void)parseData
@@ -150,6 +150,6 @@
 
 -(void)initUrl
 {
-    [self set_url: [[NSString stringWithFormat:@"/words/%d.json", _id] retain]];
+    [self set_url: [NSString stringWithFormat:@"/words/%d.json", _id]];
 }
 @end

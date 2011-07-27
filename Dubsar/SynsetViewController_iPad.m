@@ -69,7 +69,7 @@
         UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
         self.navigationItem.rightBarButtonItem = homeButtonItem;
         
-        detailNib = [UINib nibWithNibName:@"DetailView_iPad" bundle:nil];
+        detailNib = [[UINib nibWithNibName:@"DetailView_iPad" bundle:nil]retain];
         
     }
     return self;
@@ -207,7 +207,7 @@
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = _object;
         NSLog(@"links to Sense %@", targetSense.nameAndPos);
-        [self.navigationController pushViewController:[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense] animated:YES];
+        [self.navigationController pushViewController:[[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease] animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
         [self displayPopup:_object];
@@ -218,7 +218,7 @@
         /* synset pointer */
         Synset* targetSynset = [Synset synsetWithId:targetId.intValue partOfSpeech:POSUnknown];
         NSLog(@"links to Synset %d", targetSynset._id);
-        [self.navigationController pushViewController:[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset] animated:YES];
+        [self.navigationController pushViewController:[[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset]autorelease] animated:YES];
     }
 }
 

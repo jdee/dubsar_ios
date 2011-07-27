@@ -22,7 +22,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        search = [Search searchWithTerm:text matchCase:matchCase];
+        search = [[Search searchWithTerm:text matchCase:matchCase]retain];
         search.delegate = self;
         [search load];
         
