@@ -16,6 +16,7 @@
 @implementation SearchViewController_iPad
 
 @synthesize search;
+@synthesize tableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString *)text matchCase:(BOOL)matchCase
 {
@@ -34,6 +35,7 @@
 - (void)dealloc
 {
     [search release];
+    [tableView release];
     [super dealloc];
 }
 
@@ -50,16 +52,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
 {
+    [self setTableView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -93,13 +96,13 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView
 {
     NSLog(@"1 section in tableView");
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
     if (!search.complete || search.results.count == 0) {
@@ -111,11 +114,11 @@
     return search.results.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"search";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
@@ -123,13 +126,19 @@
     // Configure the cell...
     
     if (!search.complete) {
+        static NSString* indicatorType = @"indicator";
+        UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:indicatorType];
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indicatorType]autorelease];
+        }
+        
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
         indicator.frame = frame;
         [indicator startAnimating];
         [cell.contentView addSubview:indicator];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-   }
+    }
     else if (search.results.count == 0) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = [NSString stringWithFormat:@"no results for \"%@\"", search.term];
@@ -142,7 +151,7 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Word* word = [search.results objectAtIndex:indexPath.row];
     WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
@@ -153,7 +162,11 @@
 {
     if (model != search) return;
     
-    [(UITableView*)self.view reloadData];
+    CGRect frame = tableView.frame;
+    frame.size.height = [self tableView:tableView numberOfRowsInSection:0]*44.0;
+    tableView.frame = frame;
+    
+    [tableView reloadData];
 }
 
 - (void)loadRootController

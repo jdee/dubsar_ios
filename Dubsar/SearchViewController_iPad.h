@@ -11,11 +11,13 @@
 @protocol LoadDelegate;
 @class Search;
 
-@interface SearchViewController_iPad : UITableViewController<LoadDelegate> {
+@interface SearchViewController_iPad : UIViewController<LoadDelegate> {
     
+    UITableView *tableView;
 }
 
 @property (nonatomic, retain) Search* search;
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)text matchCase:(BOOL)matchCase;
 
