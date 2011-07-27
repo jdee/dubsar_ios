@@ -19,6 +19,8 @@
 @synthesize glossLabel;
 @synthesize detailLabel;
 @synthesize detailView;
+@synthesize synsetButton;
+@synthesize wordButton;
 
 
 - (void)displayPopup:(NSString*)text
@@ -79,6 +81,8 @@
     [glossLabel release];
     [detailLabel release];
     [detailView release];
+    [synsetButton release];
+    [wordButton release];
     [super dealloc];
 }
 
@@ -108,6 +112,8 @@
     [self setGlossLabel:nil];
     [self setDetailLabel:nil];
     [self setDetailView:nil];
+    [self setSynsetButton:nil];
+    [self setWordButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -392,8 +398,22 @@
     NSLog(@"found %u table sections", tableSections.count);    
 }
 
-- (void)displayPopover:(NSString *)text
+- (IBAction)showWordPopover:(id)sender 
 {
+    WordViewController_iPad* wordViewController = [[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word];
+    [self displayPopoverWithViewController:wordViewController button:wordButton];
+}
+
+- (IBAction)showSynsetPopover:(id)sender 
+{
+    SynsetViewController_iPad* synsetViewController = [[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset];
+    [self displayPopoverWithViewController:synsetViewController button:synsetButton];
+}
+
+- (void)displayPopoverWithViewController:(UIViewController *)viewController button:(UIBarButtonItem *)button
+{
+    UIPopoverController* controller = [[UIPopoverController alloc]initWithContentViewController:viewController];
+    [controller presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 @end
