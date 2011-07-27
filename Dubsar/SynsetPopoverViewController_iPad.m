@@ -20,6 +20,7 @@
 @synthesize detailLabel;
 @synthesize detailView;
 @synthesize headerLabel;
+@synthesize glossScrollView;
 
 
 - (void)displayPopup:(NSString*)text
@@ -29,7 +30,7 @@
                        options:UIViewAnimationOptionTransitionFlipFromRight 
                     animations:^{
                         bannerLabel.hidden = YES;
-                        // glossScrollView.hidden = YES;
+                        glossScrollView.hidden = YES;
                         tableView.hidden = YES;
                         detailView.hidden = NO;
                         self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -45,7 +46,7 @@
                        options:UIViewAnimationOptionTransitionFlipFromLeft 
                     animations:^{
                         bannerLabel.hidden = NO;
-                        // glossScrollView.hidden = NO;
+                        glossScrollView.hidden = NO;
                         tableView.hidden = NO;
                         detailView.hidden = YES;
                         self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
@@ -85,6 +86,7 @@
     [bannerLabel release];
     [glossLabel release];
     [headerLabel release];
+    [glossScrollView release];
     [super dealloc];
 }
 
@@ -105,6 +107,8 @@
     [detailNib instantiateWithOwner:self options:nil];
     [detailView setHidden:YES];
     [self.view addSubview:detailView];
+    [glossScrollView setContentSize:CGSizeMake(1280,44)];
+    [glossScrollView addSubview:glossLabel];
 }
 
 - (void)viewDidUnload
@@ -115,6 +119,7 @@
     [self setBannerLabel:nil];
     [self setGlossLabel:nil];
     [self setHeaderLabel:nil];
+    [self setGlossScrollView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

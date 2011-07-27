@@ -16,6 +16,7 @@
 
 @synthesize word;
 @synthesize inflectionsLabel;
+@synthesize inflectionsScrollView;
 @synthesize tableView=_tableView;
 @synthesize headerLabel;
 
@@ -43,6 +44,7 @@
     [inflectionsLabel release];
     [_tableView release];
     [headerLabel release];
+    [inflectionsScrollView release];
     [super dealloc];
 }
 
@@ -60,6 +62,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [inflectionsScrollView setContentSize:CGSizeMake(1280,44)];
+    [inflectionsScrollView addSubview:inflectionsLabel];
 }
 
 - (void)viewDidUnload
@@ -67,6 +71,7 @@
     [self setInflectionsLabel:nil];
     [self setTableView:nil];
     [self setHeaderLabel:nil];
+    [self setInflectionsScrollView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -81,6 +86,30 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return word.complete ? word.senses.count : 1;
+}
+
+- (NSArray*)sectionIndexTitlesForTableView:(UITableView*)theTableView
+{
+    NSMutableArray* titles = [NSMutableArray array];
+    if (!word || !word.complete || word.senses.count < 20) {
+        return titles;
+    }
+    
+    [titles addObject:@"top"];
+    
+    for (int j=4; j<word.senses.count; j += 5) {
+        [titles addObject:[NSString stringWithFormat:@"%d", j+1]];
+    }
+    return titles;
+}
+
+- (NSInteger)tableView:(UITableView*)theTableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    switch (index) {
+        case 0:
+            return 0;
+    }
+    return 5*index - 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

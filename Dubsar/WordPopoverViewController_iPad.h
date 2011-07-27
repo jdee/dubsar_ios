@@ -14,11 +14,13 @@
 @interface WordPopoverViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
     
     UILabel *inflectionsLabel;
+    UIScrollView *inflectionsScrollView;
     UILabel *headerLabel;
 }
 
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, retain) IBOutlet UILabel *inflectionsLabel;
+@property (nonatomic, retain) IBOutlet UIScrollView *inflectionsScrollView;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *headerLabel;
 
