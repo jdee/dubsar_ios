@@ -7,6 +7,7 @@
 //
 
 #import "Autocompleter.h"
+#import "FAQViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 #import "SearchViewController_iPad.h"
 
@@ -156,6 +157,11 @@
     
     NSLog(@"autocompleter at (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
     [autocompleterTableView reloadData];
+}
+
+- (IBAction)showFAQ:(id)sender 
+{
+    [_navigationController pushViewController:[[FAQViewController_iPad alloc] initWithNibName:@"FAQViewController_iPad" bundle:nil] animated:YES];
 }
 
 

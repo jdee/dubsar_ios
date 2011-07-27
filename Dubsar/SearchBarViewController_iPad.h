@@ -33,5 +33,6 @@
 @property (nonatomic, retain) IBOutlet UISwitch *caseSwitch;
 
 - (void)loadComplete:(Model *)model;
+- (IBAction)showFAQ:(id)sender;
 
 @end
