@@ -53,6 +53,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    CGRect frame = CGRectMake(8.0, 8.0, 687.0, 21.0);
+    inflectionsLabel.frame = frame;
+    
     [inflectionsScrollView setContentSize:CGSizeMake(1280,44)];
     [inflectionsScrollView addSubview:inflectionsLabel];
     // Do any additional setup after loading the view from its nib.

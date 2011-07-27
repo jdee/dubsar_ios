@@ -101,6 +101,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    CGRect frame = CGRectMake(8.0, 8.0, 687.0, 21.0);
+    glossLabel.frame = frame;
+    
     [glossScrollView setContentSize:CGSizeMake(1280,44)];
     [glossScrollView addSubview:glossLabel];
     [detailNib instantiateWithOwner:self options:nil];
