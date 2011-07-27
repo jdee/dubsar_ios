@@ -17,6 +17,7 @@
 @synthesize searchBar;
 @synthesize autocompleterTableView;
 @synthesize caseSwitch;
+@synthesize segmentedControl;
 @synthesize searchText=_searchText;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -36,6 +37,7 @@
     [searchBar release];
     [autocompleterTableView release];
     [caseSwitch release];
+    [segmentedControl release];
     [super dealloc];
 }
 
@@ -65,6 +67,7 @@
     [self setSearchBar:nil];
     [self setAutocompleterTableView:nil];
     [self setCaseSwitch:nil];
+    [self setSegmentedControl:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -129,6 +132,23 @@
     return theSearchBar == searchBar;
 }
 
+- (IBAction)segmentedControlActivated:(id)sender 
+{
+    switch (segmentedControl.selectedSegmentIndex) {
+        case 0:
+            [_navigationController popToRootViewControllerAnimated:YES];
+            break;
+        case 1:
+            [self showFAQ:sender];
+            break;
+    }
+}
+
+- (void)resetSegmentedControl:(id)arg
+{
+    segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
+}
+
 - (void)loadComplete:(Model *)model
 {
     Autocompleter* theAutocompleter = (Autocompleter*)model;
@@ -150,7 +170,9 @@
 
 - (IBAction)showFAQ:(id)sender 
 {
-    [_navigationController pushViewController:[[[FAQViewController_iPad alloc] initWithNibName:@"FAQViewController_iPad" bundle:nil]autorelease] animated:YES];
+    FAQViewController_iPad* faqViewController = [[[FAQViewController_iPad alloc] initWithNibName:@"FAQViewController_iPad" bundle:nil]autorelease];
+    faqViewController.searchBarViewController = self;
+    [_navigationController pushViewController:faqViewController animated:YES];
 }
 
 

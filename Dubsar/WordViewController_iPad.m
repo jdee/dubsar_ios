@@ -28,10 +28,6 @@
         [word load];
         
         self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
-        
-        UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
-        self.navigationItem.rightBarButtonItem = homeButtonItem;
-      
     }
     return self;
 }

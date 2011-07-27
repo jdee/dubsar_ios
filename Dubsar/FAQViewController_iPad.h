@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class SearchBarViewController_iPad;
 
 @interface FAQViewController_iPad : UIViewController <UIWebViewDelegate> {
     
     UIWebView *webView;
 }
+
+@property (nonatomic, assign) SearchBarViewController_iPad* searchBarViewController;
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
 
 @end

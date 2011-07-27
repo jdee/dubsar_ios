@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class SearchBarViewController_iPad;
 
 @interface DubsarViewController_iPad : UIViewController {
     
 }
+
+@property (nonatomic, assign) SearchBarViewController_iPad* searchBarViewController;
 
 @end

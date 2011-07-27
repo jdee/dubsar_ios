@@ -7,9 +7,11 @@
 //
 
 #import "DubsarViewController_iPad.h"
+#import "SearchBarViewController_iPad.h"
 
 
 @implementation DubsarViewController_iPad
+@synthesize searchBarViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,6 +49,11 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [searchBarViewController resetSegmentedControl:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
