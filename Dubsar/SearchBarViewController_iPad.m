@@ -188,8 +188,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return autocompleter.results.count < 6 && autocompleter.results.count > 0 ? autocompleter.results.count :
-    autocompleter.results.count == 0 ? 1 : 6;
+    return autocompleter.results.count < 7 && autocompleter.results.count > 0 ? autocompleter.results.count :
+    autocompleter.results.count == 0 ? 1 : 7;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
