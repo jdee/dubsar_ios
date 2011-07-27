@@ -61,7 +61,7 @@
         sense.delegate = self;
         [sense load];
         
-        self.title = [NSString stringWithFormat:@"Word: %@", sense.nameAndPos];
+        self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
         
         UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
         self.navigationItem.rightBarButtonItem = homeButtonItem;
