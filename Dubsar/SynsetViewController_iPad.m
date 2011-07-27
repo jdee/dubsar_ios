@@ -1,5 +1,5 @@
 //
-//  SenseViewController_iPad.m
+//  SynsetViewController_iPad.m
 //  Dubsar
 //
 //  Created by Jimmy Dee on 7/26/11.
@@ -10,10 +10,10 @@
 #import "SenseViewController_iPad.h"
 #import "Synset.h"
 #import "SynsetViewController_iPad.h"
-#import "WordViewController_iPad.h"
 
-@implementation SenseViewController_iPad
-@synthesize sense;
+
+@implementation SynsetViewController_iPad
+@synthesize synset;
 @synthesize tableView;
 @synthesize bannerLabel;
 @synthesize glossLabel;
@@ -32,6 +32,8 @@
                         tableView.hidden = YES;
                         detailView.hidden = NO;
                         self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+                        self.navigationController.toolbar.barStyle = UIBarStyleBlackOpaque;
+                        UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleBlackOpaque;
                     } completion:^(BOOL finished){
                     }];
 }
@@ -46,39 +48,41 @@
                         tableView.hidden = NO;
                         detailView.hidden = YES;
                         self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-                    } completion:^(BOOL finished){                    
+                        self.navigationController.toolbar.barStyle = UIBarStyleDefault;
+                        UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleDefault;
+                    } completion:^(BOOL finished){
+                        
                     }];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset *)theSynset
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.sense = theSense;
-        sense.delegate = self;
-        [sense load];
+        self.synset = theSynset;
+        synset.delegate = self;
+        [synset load];
         
-        self.title = [NSString stringWithFormat:@"Word: %@", sense.nameAndPos];
+        [self adjustTitle];
         
         UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
         self.navigationItem.rightBarButtonItem = homeButtonItem;
         
         detailNib = [UINib nibWithNibName:@"DetailView_iPad" bundle:nil];
         
-   }
+    }
     return self;
 }
 
 - (void)dealloc
 {
-    [detailNib release];
-    [sense release];
+    [detailLabel release];
+    [detailView release];
+    [synset release];
     [tableView release];
     [bannerLabel release];
     [glossLabel release];
-    [detailLabel release];
-    [detailView release];
     [super dealloc];
 }
 
@@ -103,19 +107,14 @@
 
 - (void)viewDidUnload
 {
+    [self setDetailLabel:nil];
+    [self setDetailView:nil];
     [self setTableView:nil];
     [self setBannerLabel:nil];
     [self setGlossLabel:nil];
-    [self setDetailLabel:nil];
-    [self setDetailView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -124,14 +123,56 @@
 	return YES;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.toolbar.barStyle = UIBarStyleDefault;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
+}
+
+- (void)loadComplete:(Model*)model
+{
+    if (model != synset) return;
+    [self adjustTitle];
+    [self adjustBannerLabel];
+    [self adjustGlossLabel];
+    [self setupTableSections];
+    [tableView reloadData];
+}
+
+- (void)adjustBannerLabel
+{
+    NSString* text = [NSString stringWithFormat:@"<%@>", synset.lexname];
+    if (synset.freqCnt > 0) {
+        text = [text stringByAppendingFormat:@" freq. cnt.: %d", synset.freqCnt];
+    }
+    bannerLabel.text = text;
+}
+
+- (void)adjustGlossLabel
+{
+    glossLabel.text = synset.gloss;
+}
+
+- (void)adjustTitle
+{
+    if (synset.gloss) {
+        self.title = [NSString stringWithFormat:@"Synset: %@", synset.gloss];
+    }
+    else {
+        self.title = [NSString stringWithString:@"Synset"];
+    }
+}
+
+- (void)loadRootController
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+/* TableView management */
+
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    int section = indexPath.section;    
-    
-    NSDictionary* _section = [tableSections objectAtIndex:section];
-    id _linkType = [_section valueForKey:@"linkType"];
-    if ([_linkType isEqualToString:@"sample"]) return;
-    
     [self followTableLink:indexPath];
 }
 
@@ -142,6 +183,7 @@
 
 - (void)followTableLink:(NSIndexPath *)indexPath
 {
+    
     int section = indexPath.section;
     int row = indexPath.row;
     
@@ -165,14 +207,6 @@
     else if ([_linkType isEqualToString:@"sample"]) {
         [self displayPopup:_object];
     }
-    else if ([[_object objectAtIndex:0] isEqualToString:@"sense"]) {
-        NSArray* pointer = _object;
-        NSNumber* targetId = [pointer objectAtIndex:1];
-        /* sense pointer */
-        targetSense = [Sense senseWithId:targetId.intValue name:[pointer objectAtIndex:2] partOfSpeech:POSUnknown];
-        NSLog(@"links to Sense %@", targetSense.nameAndPos);
-        [self.navigationController pushViewController:[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense] animated:YES];
-    }
     else {
         NSArray* pointer = _object;
         NSNumber* targetId = [pointer objectAtIndex:1];
@@ -185,7 +219,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
 {
-    NSInteger n = sense && sense.complete ? tableSections.count : 1;
+    NSInteger n = synset && synset.complete ? tableSections.count : 1;
     NSLog(@"%d sections in table view", n);
     return n;
 }
@@ -194,14 +228,14 @@
 {
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSArray* _collection = [_section valueForKey:@"collection"];
-    NSInteger n = sense && sense.complete ? _collection.count : 1 ;
+    NSInteger n = synset && synset.complete ? _collection.count : 1 ;
     NSLog(@"%d rows in section %d of table view", n, section);
     return n;
 }
 
-- (UITableViewCell*)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString* cellType = @"sense";
+    static NSString* cellType = @"synset";
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
@@ -210,12 +244,12 @@
     
     cell.accessoryType = UITableViewCellAccessoryNone;
     
-    if (!sense || !sense.complete) {
+    if (!synset || !synset.complete) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
         }
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]autorelease];
+        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
         [cell.contentView addSubview:indicator];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
@@ -233,31 +267,25 @@
         if (hasLinks) linkType = [_section valueForKey:@"linkType"];
         
         if ([_object respondsToSelector:@selector(name)]) {
-            cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];
+            cell = [theTableView dequeueReusableCellWithIdentifier:@"synsetPointer"];
             if (cell == nil) {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"]autorelease];
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"synsetPointer"]autorelease];
             }
             
-            // synonyms (senses)
             cell.textLabel.text = [_object name];
-            
             NSString* detailLine = [NSString string];
-            
-#undef FREQ_CNT_FOR_SYNONYMS_IN_SENSE_VIEW
-#ifdef FREQ_CNT_FOR_SYNONYMS_IN_SENSE_VIEW
             if ([_object respondsToSelector:@selector(freqCnt)] && [_object freqCnt] > 0) {
                 detailLine = [detailLine stringByAppendingFormat:@"freq. cnt.: %d", [_object freqCnt]];
             }
-#endif
             if ([_object respondsToSelector:@selector(marker)] && [_object marker]) {
                 detailLine = [detailLine stringByAppendingFormat:@" (%@)", [_object marker]];
             }
             cell.detailTextLabel.text = detailLine;
         }
         else if ([_object respondsToSelector:@selector(objectAtIndex:)]) {
-            cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];
+            cell = [theTableView dequeueReusableCellWithIdentifier:@"synsetPointer"];
             if (cell == nil) {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"]autorelease];
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"synsetPointer"]autorelease];
             }
             
             // pointers
@@ -267,7 +295,6 @@
         else {
             // must be a string
             cell.textLabel.text = _object;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
         if ([linkType isEqualToString:@"sample"]) {
@@ -286,7 +313,7 @@
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
 {
     NSDictionary* _section = [tableSections objectAtIndex:section];
-    NSString* title = sense && sense.complete ? [_section valueForKey:@"header"] : @"loading...";
+    NSString* title = synset && synset.complete ? [_section valueForKey:@"header"] : @"loading...";
     NSLog(@"header %@ for section %d", title, section);
     return title;
 }
@@ -294,52 +321,9 @@
 - (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
 {
     NSDictionary* _section = [tableSections objectAtIndex:section];
-    NSString* title = sense && sense.complete ? [_section valueForKey:@"footer"] : @"";
+    NSString* title = synset && synset.complete ? [_section valueForKey:@"footer"] : @"";
     NSLog(@"footer \"%@\" for section %d", title, section);
     return title;
-}
-
-- (void)adjustBannerLabel
-{    
-    NSString* text = [NSString stringWithFormat:@"<%@>", sense.lexname];
-    if (sense.marker) {
-        text = [text stringByAppendingString:[NSString stringWithFormat:@" (%@)", sense.marker]];
-    }
-    if (sense.freqCnt > 0) {
-        text = [text stringByAppendingString:[NSString stringWithFormat:@" freq. cnt.: %d", sense.freqCnt]];
-    }
-    bannerLabel.text = text;   
-}
-
-- (void)loadSynsetView
-{
-    [self.navigationController pushViewController:[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset] animated:YES];
-}
-
-- (void)loadWordView
-{
-    [self.navigationController pushViewController:[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word] animated:YES];
-}
-
-
-- (void)loadComplete:(Model *)model
-{
-    if (model != sense) return;
-    
-    [glossLabel setText:sense.gloss];
-    [self adjustBannerLabel];
-    [self setupTableSections];
-    if (tableSections.count > 0) {
-        [tableView reloadData];
-    }
-    else {
-        [tableView setHidden:YES];
-    }
-}
-
-- (void)loadRootController
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)setupTableSections
@@ -347,35 +331,26 @@
     NSLog(@"entering setupTableSection");
     tableSections = [[NSMutableArray array]retain];
     NSMutableDictionary* section;
-    if (sense.synonyms && sense.synonyms.count > 0) {
+    if (synset.senses && synset.senses.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Synonyms" forKey:@"header"];
-        [section setValue:[Sense helpWithPointerType:@"synonym"]  forKey:@"footer"];
-        [section setValue:sense.synonyms forKey:@"collection"];
+        [section setValue:[Sense helpWithPointerType:@"synonym"] forKey:@"footer"];
+        [section setValue:synset.senses forKey:@"collection"];
         [section setValue:@"sense" forKey:@"linkType"];
         [tableSections addObject:section];
     }
     
-    if (sense.verbFrames && sense.verbFrames.count > 0) {
-        section = [NSMutableDictionary dictionary];
-        [section setValue:@"Verb Frames" forKey:@"header"];
-        [section setValue:[Sense helpWithPointerType:@"verb frame"] forKey:@"footer"];
-        [section setValue:sense.verbFrames forKey:@"collection"];
-        [section setValue:@"sample" forKey:@"linkType"];
-        [tableSections addObject:section];
-    }
-    
-    if (sense.samples && sense.samples.count > 0) {
+    if (synset.samples && synset.samples.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Sample Sentences" forKey:@"header"];
         [section setValue:[Sense helpWithPointerType:@"sample sentence"] forKey:@"footer"];
-        [section setValue:sense.samples forKey:@"collection"];
+        [section setValue:synset.samples forKey:@"collection"];
         [section setValue:@"sample" forKey:@"linkType"];
         [tableSections addObject:section];
     }
     
-    if (sense.pointers && sense.pointers.count > 0) {
-        NSArray* keys = [sense.pointers allKeys];
+    if (synset.pointers && synset.pointers.count > 0) {
+        NSArray* keys = [synset.pointers allKeys];
         for (int j=0; j<keys.count; ++j) {
             NSString* key = [keys objectAtIndex:j];
             NSString* title = [Sense titleWithPointerType:key];
@@ -383,17 +358,13 @@
             section = [NSMutableDictionary dictionary];
             [section setValue:title forKey:@"header"];
             [section setValue:[Sense helpWithPointerType:key] forKey:@"footer"];
-            [section setValue:[sense.pointers valueForKey:key] forKey:@"collection"];
+            [section setValue:[synset.pointers valueForKey:key] forKey:@"collection"];
             [section setValue:@"pointer" forKey:@"linkType"];
             [tableSections addObject:section];
         }
     }
     
-    NSLog(@"found %u table sections", tableSections.count);    
-}
-
-- (void)displayPopover:(NSString *)text
-{
+    NSLog(@"found %u table sections", tableSections.count);
 }
 
 @end
