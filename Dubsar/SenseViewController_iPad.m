@@ -20,6 +20,7 @@
 @synthesize glossLabel;
 @synthesize detailLabel;
 @synthesize detailView;
+@synthesize moreButton;
 
 
 - (void)displayPopup:(NSString*)text
@@ -66,6 +67,7 @@
         self.navigationItem.rightBarButtonItem = homeButtonItem;
         
         detailNib = [[UINib nibWithNibName:@"DetailView_iPad" bundle:nil]retain];
+        popoverController = nil;
         
    }
     return self;
@@ -81,6 +83,7 @@
     [glossLabel release];
     [detailLabel release];
     [detailView release];
+    [moreButton release];
     [super dealloc];
 }
 
@@ -110,6 +113,7 @@
     [self setGlossLabel:nil];
     [self setDetailLabel:nil];
     [self setDetailView:nil];
+    [self setMoreButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -129,6 +133,16 @@
 {
     // Return YES for supported orientations
 	return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [popoverController dismissPopoverAnimated:YES];    
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [popoverController presentPopoverFromRect:moreButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

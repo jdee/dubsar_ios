@@ -12,7 +12,6 @@
 
 @class Sense;
 
-
 @interface SenseViewController_iPad : UIViewController <UITableViewDataSource, UITableViewDelegate, LoadDelegate> {
     NSMutableArray* tableSections;    
     UITableView *tableView;
@@ -20,6 +19,7 @@
     UILabel *glossLabel;
     UILabel *detailLabel;
     UIView *detailView;
+    UIButton *moreButton;
     UINib *detailNib;
     UIPopoverController* popoverController;
 }
@@ -30,6 +30,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
+@property (nonatomic, retain) IBOutlet UIButton *moreButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 - (void)loadRootController;
