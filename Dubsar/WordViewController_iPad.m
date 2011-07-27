@@ -191,9 +191,7 @@
     float height = 66.0*count;
     if (height + _tableView.frame.origin.y < self.view.frame.size.height) {
         CGRect frame = _tableView.frame;
-        CGSize size = frame.size;
-        size.height = height;
-        frame.size = size;
+        frame.size.height = height;
         _tableView.frame = frame;
     }
 
