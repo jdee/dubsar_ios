@@ -39,10 +39,8 @@
 		7B59D7D613DF951C0099B27D /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B59D7D513DF951B0099B27D /* DetailView_iPad.xib */; };
 		7B59D7DA13DF9C6A0099B27D /* SynsetViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59D7D813DF9C690099B27D /* SynsetViewController_iPad.m */; };
 		7B59D7DB13DF9C6A0099B27D /* SynsetViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B59D7D913DF9C6A0099B27D /* SynsetViewController_iPad.xib */; };
-		7B84720913E11B7900DC7B59 /* dubsar-ipad-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B84720713E11B7900DC7B59 /* dubsar-ipad-landscape.png */; };
-		7B84720A13E11B7900DC7B59 /* dubsar-ipad-portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B84720813E11B7900DC7B59 /* dubsar-ipad-portrait.png */; };
 		7B8EB43513DFA77D00E2962B /* FAQViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8EB43313DFA77C00E2962B /* FAQViewController_iPad.m */; };
-		7B8EB43613DFA77D00E2962B /* FAQViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8EB43413DFA77D00E2962B /* FAQViewController_iPad.xib */; };
+		7B8EB43613DFA77D00E2962B /* (null) in Resources */ = {isa = PBXBuildFile; };
 		7B8FF4F713DDF68500DD3612 /* DetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8FF4F613DDF68500DD3612 /* DetailView_iPhone.xib */; };
 		7B92A42F13DE2337001F662E /* dubsar-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B92A42B13DE2337001F662E /* dubsar-hr.png */; };
 		7B92A43013DE2337001F662E /* dubsar-search-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */; };
@@ -65,6 +63,8 @@
 		7BA48D2E13D738E10056D61A /* DubsarTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2D13D738E10056D61A /* DubsarTests.h */; };
 		7BA48D3013D738E10056D61A /* DubsarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D2F13D738E10056D61A /* DubsarTests.m */; };
 		7BA54C3C13DD3D8A00D00620 /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */; };
+		7BC17F6413E122AD00231E54 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC17F6313E122AD00231E54 /* Default-Portrait~ipad.png */; };
+		7BC17F6613E122B800231E54 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC17F6513E122B800231E54 /* Default-Landscape~ipad.png */; };
 		7BDD677813D9B76C00A9E94B /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677713D9B76C00A9E94B /* Search.m */; };
 		7BDD677B13D9B98D00A9E94B /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677A13D9B98C00A9E94B /* Word.m */; };
 		7BDD67A513DA43D900A9E94B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD67A413DA43D900A9E94B /* JSONKit.m */; };
@@ -138,11 +138,8 @@
 		7B59D7D713DF9C680099B27D /* SynsetViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetViewController_iPad.h; sourceTree = "<group>"; };
 		7B59D7D813DF9C690099B27D /* SynsetViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetViewController_iPad.m; sourceTree = "<group>"; };
 		7B59D7D913DF9C6A0099B27D /* SynsetViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SynsetViewController_iPad.xib; sourceTree = "<group>"; };
-		7B84720713E11B7900DC7B59 /* dubsar-ipad-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-ipad-landscape.png"; path = "../dubsar-ipad-landscape.png"; sourceTree = "<group>"; };
-		7B84720813E11B7900DC7B59 /* dubsar-ipad-portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-ipad-portrait.png"; path = "../dubsar-ipad-portrait.png"; sourceTree = "<group>"; };
 		7B8EB43213DFA77C00E2962B /* FAQViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQViewController_iPad.h; sourceTree = "<group>"; };
 		7B8EB43313DFA77C00E2962B /* FAQViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQViewController_iPad.m; sourceTree = "<group>"; };
-		7B8EB43413DFA77sD00E2962B /* FAQViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FAQViewController_iPad.xib; sourceTree = "<group>"; };
 		7B8FF4F613DDF68500DD3612 /* DetailView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPhone.xib; sourceTree = "<group>"; };
 		7B92A42B13DE2337001F662E /* dubsar-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-hr.png"; sourceTree = "<group>"; };
 		7B92A42C13DE2337001F662E /* dubsar-search-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-search-ipad.png"; sourceTree = "<group>"; };
@@ -172,6 +169,8 @@
 		7BA48D2F13D738E10056D61A /* DubsarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarTests.m; sourceTree = "<group>"; };
 		7BA54C3A13DD3D8A00D00620 /* URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLEncoding.h; sourceTree = "<group>"; };
 		7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLEncoding.m; sourceTree = "<group>"; };
+		7BC17F6313E122AD00231E54 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		7BC17F6513E122B800231E54 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		7BDD677613D9B76B00A9E94B /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
 		7BDD677713D9B76C00A9E94B /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
 		7BDD677913D9B98B00A9E94B /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
@@ -255,6 +254,8 @@
 		7BA48CEC13D738E00056D61A = {
 			isa = PBXGroup;
 			children = (
+				7BC17F6513E122B800231E54 /* Default-Landscape~ipad.png */,
+				7BC17F6313E122AD00231E54 /* Default-Portrait~ipad.png */,
 				7BA48D0113D738E00056D61A /* Dubsar */,
 				7BA48D2613D738E10056D61A /* DubsarTests */,
 				7BA48CFA13D738E00056D61A /* Frameworks */,
@@ -302,8 +303,6 @@
 			children = (
 				7B08977113DB4C0A00660C51 /* dubsar-link.png */,
 				7B3F874913D73B15009C390B /* dubsar-ipad.png */,
-				7B84720713E11B7900DC7B59 /* dubsar-ipad-landscape.png */,
-				7B84720813E11B7900DC7B59 /* dubsar-ipad-portrait.png */,
 				7B3F874713D73B0B009C390B /* dubsar.png */,
 				7B3F876813D74CA9009C390B /* dubsar-full.png */,
 				7B92A42B13DE2337001F662E /* dubsar-hr.png */,
@@ -364,7 +363,6 @@
 				7B3F876513D74474009C390B /* DubsarViewController_iPad.xib */,
 				7B8EB43213DFA77C00E2962B /* FAQViewController_iPad.h */,
 				7B8EB43313DFA77C00E2962B /* FAQViewController_iPad.m */,
-				7B8EB43413DFA77D00E2962B /* FAQViewController_iPad.xib */,
 				7B1C13A713E0FF8A002ED533 /* LicenseViewController_iPad.h */,
 				7B1C13A813E0FF8A002ED533 /* LicenseViewController_iPad.m */,
 				7B1C13A913E0FF8A002ED533 /* LicenseViewController_iPad.xib */,
@@ -517,13 +515,13 @@
 				7B59D7CF13DF826B0099B27D /* SenseViewController_iPad.xib in Resources */,
 				7B59D7D613DF951C0099B27D /* DetailView_iPad.xib in Resources */,
 				7B59D7DB13DF9C6A0099B27D /* SynsetViewController_iPad.xib in Resources */,
-				7B8EB43613DFA77D00E2962B /* FAQViewController_iPad.xib in Resources */,
+				7B8EB43613DFA77D00E2962B /* (null) in Resources */,
 				7B29520D13DFB08700E425CC /* WordPopoverViewController_iPad.xib in Resources */,
 				7B29520F13DFD08000E425CC /* PopoverDetailView_iPad.xib in Resources */,
 				7BE155E813E09527007F45DD /* SearchViewController_iPad.xib in Resources */,
 				7B1C13AB13E0FF8B002ED533 /* LicenseViewController_iPad.xib in Resources */,
-				7B84720913E11B7900DC7B59 /* dubsar-ipad-landscape.png in Resources */,
-				7B84720A13E11B7900DC7B59 /* dubsar-ipad-portrait.png in Resources */,
+				7BC17F6413E122AD00231E54 /* Default-Portrait~ipad.png in Resources */,
+				7BC17F6613E122B800231E54 /* Default-Landscape~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
