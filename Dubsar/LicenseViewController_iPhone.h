@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface LicenseViewController_iPhone : UIViewController <UISearchBarDelegate> {
+    UIScrollView *licenseScrollView;
+    UIView *licenseView;
 }
 
 - (IBAction)dismiss:(id)sender;
-
+@property (nonatomic, retain) IBOutlet UIScrollView *licenseScrollView;
+@property (nonatomic, retain) IBOutlet UIView *licenseView;
 
 @end

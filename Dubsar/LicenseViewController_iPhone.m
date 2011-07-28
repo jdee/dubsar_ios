@@ -9,6 +9,8 @@
 #import "LicenseViewController_iPhone.h"
 
 @implementation LicenseViewController_iPhone
+@synthesize licenseScrollView;
+@synthesize licenseView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
 {
@@ -21,6 +23,8 @@
 
 - (void)dealloc
 {
+    [licenseScrollView release];
+    [licenseView release];
     [super dealloc];
 }
 
@@ -38,10 +42,14 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [licenseScrollView setContentSize:CGSizeMake(320.0, 416.0)];
+    [licenseScrollView addSubview:licenseView];
 }
 
 - (void)viewDidUnload
 {
+    [self setLicenseScrollView:nil];
+    [self setLicenseView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
