@@ -204,6 +204,8 @@
     if (model != word) return;
     
     if (error) {
+        [tableView setHidden:YES];
+        [inflectionsLabel setText:error];
         return;
     }
    

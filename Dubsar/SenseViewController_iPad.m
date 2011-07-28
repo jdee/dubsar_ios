@@ -20,6 +20,7 @@
 @synthesize glossLabel;
 @synthesize detailLabel;
 @synthesize detailView;
+@synthesize senseToolbar;
 @synthesize moreButton;
 @synthesize mainView;
 
@@ -79,6 +80,7 @@
     [detailView release];
     [moreButton release];
     [mainView release];
+    [senseToolbar release];
     [super dealloc];
 }
 
@@ -110,6 +112,7 @@
     [self setDetailView:nil];
     [self setMoreButton:nil];
     [self setMainView:nil];
+    [self setSenseToolbar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -326,7 +329,16 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
-    if (model != sense || error) return;
+    if (model != sense) return;
+    
+    if (error) {
+        [bannerLabel setHidden:YES];
+        [moreButton setHidden:YES];
+        [tableView setHidden:YES];
+        [senseToolbar setHidden:YES];
+        [glossLabel setText:error];
+        return;
+    }
     
     [glossLabel setText:sense.gloss];
     [self adjustBannerLabel];

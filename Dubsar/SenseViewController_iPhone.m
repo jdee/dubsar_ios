@@ -149,6 +149,11 @@
     if (model != sense) return;
     
     if (error) {
+        [bannerLabel setHidden:YES];
+        [tableView setHidden:YES];
+        [glossLabel setText:error];
+        [self.navigationController.toolbar setItems:[NSArray arrayWithObject:    [[[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease]]];
+
         return;
     }
     

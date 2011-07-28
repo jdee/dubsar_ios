@@ -19,6 +19,7 @@
     UILabel *glossLabel;
     UILabel *detailLabel;
     UIView *detailView;
+    UIToolbar *senseToolbar;
     UIButton *moreButton;
     UIView *mainView;
     UINib *detailNib;
@@ -31,6 +32,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
+@property (nonatomic, retain) IBOutlet UIToolbar *senseToolbar;
 @property (nonatomic, retain) IBOutlet UIButton *moreButton;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 

@@ -147,6 +147,9 @@
     if (model != synset) return;
     
     if (error) {
+        [bannerLabel setHidden:YES];
+        [tableView setHidden:YES];
+        [glossLabel setText:error];
         return;
     }
 

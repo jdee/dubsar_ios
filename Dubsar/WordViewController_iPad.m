@@ -179,7 +179,13 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
-    if (model != word || error) return;
+    if (model != word) return;
+    
+    if (error) {
+        [_tableView setHidden:YES];
+        [inflectionsLabel setText:error];
+        return;
+    }
     
     unsigned int count = word.senses.count;
     NSLog(@"word load complete with %u senses", count);

@@ -134,7 +134,15 @@
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error
 {
-    if (model != synset || error) return;
+    if (model != synset) return;
+    
+    if (error) {
+        [bannerLabel setHidden:YES];
+        [tableView setHidden:YES];
+        [glossLabel setText:error];
+        return;
+    }
+    
     [self adjustTitle];
     [self adjustBannerLabel];
     [self adjustGlossLabel];

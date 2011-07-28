@@ -192,7 +192,14 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
-    if (model != word || error) return;
+    if (model != word) return;
+    
+    if (error) {
+        [_tableView setHidden:YES];
+        [headerLabel setText:@"ERROR"];
+        [inflectionsLabel setText:error];
+        return;
+    }
     
     NSLog(@"popover controller received word response");
     
