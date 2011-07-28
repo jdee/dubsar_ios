@@ -180,6 +180,7 @@
         searchBar.text.length == 0) return ;
     
     [self setAutocompleter:theAutocompleter];
+    [theAutocompleter release];
     [autocompleterTableView setHidden:NO];
     [autocompleterTableView reloadData];
 }
