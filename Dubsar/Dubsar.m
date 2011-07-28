@@ -9,7 +9,7 @@
 #import "Dubsar.h"
 
 const NSString* DubsarBaseUrl = @"http://dubsar-dictionary.com";
-// const NSString* DubsarBaseUrl = @"http://fatman:3000";
+// const NSString* DubsarBaseUrl = @"http://fatman:3001";
 
 PartOfSpeech partOfSpeechFromPos(NSString* pos)
 {

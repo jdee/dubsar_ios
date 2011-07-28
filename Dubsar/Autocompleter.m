@@ -32,10 +32,10 @@
         _results = nil;
         matchCase = mustMatchCase;
         if (matchCase) {
-            [self set_url:[NSString stringWithFormat:@"/os.json?term=%@&match=case", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
+            [self set_url:[NSString stringWithFormat:@"/os?term=%@&match=case", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
        }
         else {
-            [self set_url:[NSString stringWithFormat:@"/os.json?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
+            [self set_url:[NSString stringWithFormat:@"/os?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
         }
     }
     return self;

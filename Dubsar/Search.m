@@ -33,11 +33,11 @@
         term = [theTerm retain];
         results = nil;
         if (matchCase) {
-            [self set_url: [NSString stringWithFormat:@"/.json?term=%@&match=case", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
+            [self set_url: [NSString stringWithFormat:@"/?term=%@&match=case", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
            
         }
         else {
-            [self set_url: [NSString stringWithFormat:@"/.json?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
+            [self set_url: [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
         }
     }
     return self;

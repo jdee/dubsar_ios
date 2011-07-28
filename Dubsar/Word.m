@@ -150,6 +150,6 @@
 
 -(void)initUrl
 {
-    [self set_url: [NSString stringWithFormat:@"/words/%d.json", _id]];
+    [self set_url: [NSString stringWithFormat:@"/words/%d", _id]];
 }
 @end

@@ -280,7 +280,7 @@
 
 - (void)initUrl
 {
-    [self set_url: [NSString stringWithFormat:@"/senses/%d.json", _id]];
+    [self set_url: [NSString stringWithFormat:@"/senses/%d", _id]];
 }
 
 + (NSString*)helpWithPointerType:(NSString *)ptype
