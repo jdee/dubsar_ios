@@ -146,13 +146,13 @@
 - (void)initOrientation
 {
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    if (UIDeviceOrientationIsLandscape(deviceOrientation))
+    if (UIDeviceOrientationIsPortrait(deviceOrientation))
     {
-        [self.navigationController setToolbarHidden:YES animated:YES];
+        [self.navigationController setToolbarHidden:NO animated:NO];
     }
-    else if (UIDeviceOrientationIsPortrait(deviceOrientation))
+    else if (UIDeviceOrientationIsLandscape(deviceOrientation))
     {
-        [self.navigationController setToolbarHidden:NO animated:YES];
+        [self.navigationController setToolbarHidden:YES animated:NO];
     }
 }
 
