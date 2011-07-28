@@ -25,6 +25,6 @@
 -(void)createToolbarItems;
 -(void)loadRootController;
 -(void)initOrientation;
-// -(void)orientationChanged:(NSNotification*)notification;
+
 
 @end

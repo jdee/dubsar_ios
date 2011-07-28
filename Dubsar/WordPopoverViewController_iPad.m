@@ -190,9 +190,9 @@
     [navigationController pushViewController:viewController animated:YES];
 }
 
-- (void)loadComplete:(Model *)model
+- (void)loadComplete:(Model *)model withError:(NSString *)error
 {
-    if (model != word) return;
+    if (model != word || error) return;
     
     NSLog(@"popover controller received word response");
     

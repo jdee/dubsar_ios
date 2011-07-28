@@ -171,8 +171,12 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void)autocompleterFinished:(Autocompleter *)theAutocompleter
+- (void)autocompleterFinished:(Autocompleter *)theAutocompleter withError:(NSString *)error
 {
+    if (error) {
+        return;
+    }
+    
     /*
      * Ignore old responses.
      */

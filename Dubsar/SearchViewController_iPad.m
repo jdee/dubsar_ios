@@ -159,9 +159,9 @@
     [self.navigationController pushViewController:wordViewController animated:YES];
 }
 
-- (void)loadComplete:(Model*)model
+- (void)loadComplete:(Model*)model withError:(NSString *)error
 {
-    if (model != search) return;
+    if (model != search || error) return;
     
     
     float height = search.results.count*44.0;

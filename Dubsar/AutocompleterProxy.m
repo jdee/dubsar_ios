@@ -13,8 +13,8 @@
 @implementation AutocompleterProxy
 @synthesize delegate;
 
-- (void)loadComplete:(Model *)model
+- (void)loadComplete:(Model *)model withError:(NSString *)error
 {
-    if (delegate) [delegate autocompleterFinished:(Autocompleter*)model];
+    if (delegate) [delegate autocompleterFinished:(Autocompleter*)model withError:error];
 }
 @end

@@ -199,10 +199,14 @@
     return cell;
 }
 
-- (void)loadComplete:(Model *)model
+- (void)loadComplete:(Model *)model withError:(NSString *)error
 {
     if (model != word) return;
     
+    if (error) {
+        return;
+    }
+   
     [self adjustInflections];
     
     float height = 66.0*word.senses.count;

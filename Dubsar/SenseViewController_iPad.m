@@ -324,9 +324,9 @@
 }
 
 
-- (void)loadComplete:(Model *)model
+- (void)loadComplete:(Model *)model withError:(NSString *)error
 {
-    if (model != sense) return;
+    if (model != sense || error) return;
     
     [glossLabel setText:sense.gloss];
     [self adjustBannerLabel];

@@ -144,9 +144,13 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
 }
 
-- (void)loadComplete:(Model*)model
+- (void)loadComplete:(Model*)model withError:(NSString *)error
 {
     if (model != sense) return;
+    
+    if (error) {
+        return;
+    }
     
     NSLog(@"completed loading Sense %d, %@", sense._id, sense.nameAndPos);
     NSLog(@"gloss: %@, synonyms %@", sense.gloss, sense.synonymsAsString);

@@ -177,9 +177,9 @@
     [self.navigationController pushViewController:[[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense]autorelease] animated:YES];
 }
 
-- (void)loadComplete:(Model *)model
+- (void)loadComplete:(Model *)model withError:(NSString *)error
 {
-    if (model != word) return;
+    if (model != word || error) return;
     
     unsigned int count = word.senses.count;
     NSLog(@"word load complete with %u senses", count);

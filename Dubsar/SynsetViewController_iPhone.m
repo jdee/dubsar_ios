@@ -142,9 +142,14 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
 }
 
-- (void)loadComplete:(Model*)model
+- (void)loadComplete:(Model*)model withError:(NSString *)error
 {
     if (model != synset) return;
+    
+    if (error) {
+        return;
+    }
+
     [self adjustTitle];
     [self adjustBannerLabel];
     [self adjustGlossLabel];

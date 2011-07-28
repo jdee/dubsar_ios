@@ -130,8 +130,11 @@
     return theSearchBar == searchBar;
 }
 
-- (void)loadComplete:(Model *)model
+- (void)loadComplete:(Model *)model withError:(NSString *)error
 {
+    if (error) {
+        return;
+    }
     Autocompleter* theAutocompleter = (Autocompleter*)model;
     /*
      * Ignore old responses.

@@ -65,6 +65,15 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
 }
 
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
+
+    NSString* errMsg = [error localizedDescription];
+    UIAlertView* alertView = [[[UIAlertView alloc]initWithTitle:@"Network Error" message:errMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil]autorelease];
+    [alertView show];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     if ((interfaceOrientation == UIInterfaceOrientationPortrait) ||

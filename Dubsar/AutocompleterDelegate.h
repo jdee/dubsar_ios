@@ -12,5 +12,5 @@
 @class Autocompleter;
 
 @protocol AutocompleterDelegate
-- (void)autocompleterFinished:(Autocompleter*)theAutocompleter;
+- (void)autocompleterFinished:(Autocompleter*)theAutocompleter withError:(NSString*)error;
 @end

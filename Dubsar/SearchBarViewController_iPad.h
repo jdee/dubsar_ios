@@ -26,7 +26,6 @@
 @property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
 @property (nonatomic, retain) IBOutlet UISwitch *caseSwitch;
 
-- (void)loadComplete:(Model *)model;
 - (IBAction)showFAQ:(id)sender;
 - (IBAction)loadRootController:(id)sender;
 - (IBAction)showLicense:(id)sender;

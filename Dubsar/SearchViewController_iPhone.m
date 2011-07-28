@@ -226,11 +226,15 @@
     }
 }
 
-- (void)loadComplete:(Model *)model
+- (void)loadComplete:(Model *)model withError:(NSString *)error
 {
     if (model != search) return;
     
     NSLog(@"search complete");
+    
+    if (error) {
+        return;
+    }
     
     float height = search.results.count*44.0;
     if (height < self.view.frame.size.height) {

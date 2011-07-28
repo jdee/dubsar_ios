@@ -32,5 +32,6 @@
 @property (nonatomic, assign) id<LoadDelegate> delegate;
 
 -(void)load;
++(void)displayNetworkAlert:(NSString*)error;
 
 @end

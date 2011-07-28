@@ -15,5 +15,5 @@
 @optional
 /* The SearchBarViewController_iPhone base class does
    not implement this. */
-- (void)loadComplete:(Model*)model;
+- (void)loadComplete:(Model*)model withError:(NSString*)error;
 @end

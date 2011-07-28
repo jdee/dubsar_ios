@@ -69,8 +69,9 @@
     NSString* errMsg = [error localizedDescription];
     NSLog(@"error requesting %@: %@", url, errMsg);
     [self setComplete:true];
-    [[self delegate] loadComplete:self];
+    [[self delegate] loadComplete:self withError:errMsg];
     NSLog(@"load processing finished");
+    [Model displayNetworkAlert:errMsg];
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -81,8 +82,16 @@
     NSLog(@"%@", jsonData);
     [self parseData];
     [self setComplete:true];
-    [[self delegate] loadComplete:self];
+    [[self delegate] loadComplete:self withError:nil];
     NSLog(@"load processing finished");
+}
+
++(void)displayNetworkAlert:(NSString *)error
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
+    
+    UIAlertView* alertView = [[[UIAlertView alloc]initWithTitle:@"Network Error" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil]autorelease];
+    [alertView show];   
 }
 
 @end
