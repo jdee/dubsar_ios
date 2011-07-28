@@ -119,15 +119,18 @@
     [super dealloc];
 }
 
+#undef AUTORELEASE_POOL_FOR_SYNONYMS
 -(NSString*)synonymsAsString
 {
     
     NSString* synonymList = [NSString string];
     
-    /* The app still sometimes crashes when calling this method if this
-     * autorelease pool is used.
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    /* 
+     * The app still sometimes crashes when this autorelease pool is used.
      */
+#ifdef AUTORELEASE_POOL_FOR_SYNONYMS
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+#endif // AUTORELEASE_POOL_FOR_SYNOYMS
     
     for(int j=0; j<synonyms.count; ++j) {
         Word* synonym = [synonyms objectAtIndex:j];
@@ -137,10 +140,9 @@
         }
     }
     
-    /*
+#ifdef AUTORELEASE_POOL_FOR_SYNONYMS
     [pool release];
-     */
-    
+#endif // AUTORELEASE_POOL_FOR_SYNONYMS    
     return synonymList;
 }
 
