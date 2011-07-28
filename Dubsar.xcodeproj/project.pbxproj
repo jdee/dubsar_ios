@@ -249,8 +249,6 @@
 				7BDD67C313DA933500A9E94B /* Sense.m */,
 				7B08976813DB3FA900660C51 /* Synset.h */,
 				7B08976913DB3FA900660C51 /* Synset.m */,
-				7BA54C3A13DD3D8A00D00620 /* URLEncoding.h */,
-				7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */,
 				7BDD677913D9B98B00A9E94B /* Word.h */,
 				7BDD677A13D9B98C00A9E94B /* Word.m */,
 			);
@@ -297,7 +295,7 @@
 				7BDD67B213DA68F400A9E94B /* Dubsar.m */,
 				7BA48D0A13D738E00056D61A /* DubsarAppDelegate.h */,
 				7BA48D0B13D738E00056D61A /* DubsarAppDelegate.m */,
-				7BDD677C13D9CC6700A9E94B /* JSONKit */,
+				7BDD677C13D9CC6700A9E94B /* External */,
 				7B22253C13DB1F18003B7322 /* Models */,
 				7BA48D0D13D738E00056D61A /* iPhone */,
 				7BA48D1413D738E00056D61A /* iPad */,
@@ -419,13 +417,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7BDD677C13D9CC6700A9E94B /* JSONKit */ = {
+		7BDD677C13D9CC6700A9E94B /* External */ = {
 			isa = PBXGroup;
 			children = (
 				7BDD67A313DA43D900A9E94B /* JSONKit.h */,
 				7BDD67A413DA43D900A9E94B /* JSONKit.m */,
+				7BA54C3A13DD3D8A00D00620 /* URLEncoding.h */,
+				7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */,
 			);
-			name = JSONKit;
+			name = External;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

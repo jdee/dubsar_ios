@@ -1,11 +1,3 @@
-//
-//  URLEncoding.h
-//  Dubsar
-//
-//  Created by Jimmy Dee on 7/25/11.
-//  Copyright 2011 Jimmy Dee. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 
 /*
