@@ -8,6 +8,7 @@
 
 #import "Autocompleter.h"
 #import "FAQViewController_iPad.h"
+#import "LicenseViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 #import "SearchViewController_iPad.h"
 
@@ -156,6 +157,12 @@
 
 - (IBAction)loadRootController:(id)sender {
     [_navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (IBAction)showLicense:(id)sender 
+{
+    LicenseViewController_iPad* licenseViewController = [[[LicenseViewController_iPad alloc] initWithNibName:@"LicenseViewController_iPad" bundle:nil]autorelease];
+    [_navigationController pushViewController:licenseViewController animated:YES];
 }
 
 

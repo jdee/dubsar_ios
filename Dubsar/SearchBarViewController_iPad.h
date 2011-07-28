@@ -29,5 +29,6 @@
 - (void)loadComplete:(Model *)model;
 - (IBAction)showFAQ:(id)sender;
 - (IBAction)loadRootController:(id)sender;
+- (IBAction)showLicense:(id)sender;
 
 @end
