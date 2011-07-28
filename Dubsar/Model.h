@@ -28,7 +28,9 @@
 @property (nonatomic, retain) NSMutableData* data;
 @property (nonatomic, retain, setter=set_url:) NSString* _url;
 @property (nonatomic, retain) NSString* url;
-@property bool complete;
+@property (nonatomic) bool complete;
+@property (nonatomic) bool error;
+@property (nonatomic, retain) NSString* errorMessage;
 @property (nonatomic, assign) id<LoadDelegate> delegate;
 
 -(void)load;

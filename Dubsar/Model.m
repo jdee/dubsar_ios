@@ -17,6 +17,8 @@
 @synthesize data;
 @synthesize _url;
 @synthesize complete;
+@synthesize error;
+@synthesize errorMessage;
 @synthesize delegate;
 @synthesize url;
 
@@ -28,12 +30,15 @@
         decoder = [[JSONDecoder decoder] retain];
         _url = nil;
         connection = nil;
+        complete = error = false;
+        errorMessage = nil;
     }
     return self;
 }
 
 -(void)dealloc
 {
+    [errorMessage release];
     [url release];
     [decoder release];
     [connection release];
@@ -68,14 +73,16 @@
     [data appendData:theData];
 }
 
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)theError
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-    NSString* errMsg = [error localizedDescription];
+    NSString* errMsg = [theError localizedDescription];
     NSLog(@"error requesting %@: %@", url, errMsg);
     
     [self setComplete:true];
+    [self setError:true];
+    [self setErrorMessage:errMsg];
     [[self delegate] loadComplete:self withError:errMsg];
     
     NSLog(@"load processing finished");

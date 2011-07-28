@@ -140,6 +140,11 @@
         [cell.contentView addSubview:indicator];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    else if (search.error) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.textLabel.text = search.errorMessage;
+        cell.textLabel.adjustsFontSizeToFitWidth = YES;
+    }
     else if (search.results.count == 0) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = [NSString stringWithFormat:@"no results for \"%@\"", search.term];
@@ -161,14 +166,15 @@
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error
 {
-    if (model != search || error) return;
-    
-    
-    float height = search.results.count*44.0;
-    if (height < self.view.frame.size.height) {
-        CGRect frame = tableView.frame;
-        frame.size.height = height;
-        tableView.frame = frame;
+    if (model != search) return;
+
+    if (!model.error) {
+        float height = search.results.count*44.0;
+        if (height < self.view.frame.size.height) {
+            CGRect frame = tableView.frame;
+            frame.size.height = height;
+            tableView.frame = frame;
+        }
     }
     
     [tableView reloadData];
