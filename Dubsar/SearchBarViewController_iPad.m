@@ -140,7 +140,9 @@
         theAutocompleter.seqNum <= autocompleter.seqNum || 
         searchBar.text.length == 0) return ;
     
-    [self setAutocompleter:theAutocompleter];    
+    [self setAutocompleter:theAutocompleter];
+    [theAutocompleter release];
+    
     autocompleterTableView.hidden = NO;
     CGRect frame = CGRectMake(0.0, 44.0, 320.0, 44 * ([self tableView:autocompleterTableView numberOfRowsInSection:0]+1));
     autocompleterTableView.frame = frame;
