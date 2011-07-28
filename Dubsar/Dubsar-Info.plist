@@ -18,14 +18,6 @@
 		<string>dubsar-search-ipad.png</string>
 		<string>dubsar-spotlight.png</string>
 		<string>dubsar-spotlight-hr.png</string>
-		<string>dubsar.png</string>
-		<string>dubsar.png</string>
-		<string>dubsar-ipad.png</string>
-		<string>dubsar-ipad.png</string>
-		<string>dubsar.png</string>
-		<string>dubsar.png</string>
-		<string>dubsar-ipad.png</string>
-		<string>dubsar-ipad.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.dubsar-dictionary.${PRODUCT_NAME:rfc1034identifier}</string>

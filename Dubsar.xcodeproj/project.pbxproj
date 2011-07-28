@@ -39,6 +39,8 @@
 		7B59D7D613DF951C0099B27D /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B59D7D513DF951B0099B27D /* DetailView_iPad.xib */; };
 		7B59D7DA13DF9C6A0099B27D /* SynsetViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59D7D813DF9C690099B27D /* SynsetViewController_iPad.m */; };
 		7B59D7DB13DF9C6A0099B27D /* SynsetViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B59D7D913DF9C6A0099B27D /* SynsetViewController_iPad.xib */; };
+		7B84720913E11B7900DC7B59 /* dubsar-ipad-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B84720713E11B7900DC7B59 /* dubsar-ipad-landscape.png */; };
+		7B84720A13E11B7900DC7B59 /* dubsar-ipad-portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B84720813E11B7900DC7B59 /* dubsar-ipad-portrait.png */; };
 		7B8EB43513DFA77D00E2962B /* FAQViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8EB43313DFA77C00E2962B /* FAQViewController_iPad.m */; };
 		7B8EB43613DFA77D00E2962B /* FAQViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8EB43413DFA77D00E2962B /* FAQViewController_iPad.xib */; };
 		7B8FF4F713DDF68500DD3612 /* DetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8FF4F613DDF68500DD3612 /* DetailView_iPhone.xib */; };
@@ -136,6 +138,8 @@
 		7B59D7D713DF9C680099B27D /* SynsetViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetViewController_iPad.h; sourceTree = "<group>"; };
 		7B59D7D813DF9C690099B27D /* SynsetViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetViewController_iPad.m; sourceTree = "<group>"; };
 		7B59D7D913DF9C6A0099B27D /* SynsetViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SynsetViewController_iPad.xib; sourceTree = "<group>"; };
+		7B84720713E11B7900DC7B59 /* dubsar-ipad-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-ipad-landscape.png"; sourceTree = "<group>"; };
+		7B84720813E11B7900DC7B59 /* dubsar-ipad-portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-ipad-portrait.png"; sourceTree = "<group>"; };
 		7B8EB43213DFA77C00E2962B /* FAQViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQViewController_iPad.h; sourceTree = "<group>"; };
 		7B8EB43313DFA77C00E2962B /* FAQViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQViewController_iPad.m; sourceTree = "<group>"; };
 		7B8EB43413DFA77D00E2962B /* FAQViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FAQViewController_iPad.xib; sourceTree = "<group>"; };
@@ -251,6 +255,8 @@
 		7BA48CEC13D738E00056D61A = {
 			isa = PBXGroup;
 			children = (
+				7B84720713E11B7900DC7B59 /* dubsar-ipad-landscape.png */,
+				7B84720813E11B7900DC7B59 /* dubsar-ipad-portrait.png */,
 				7BA48D0113D738E00056D61A /* Dubsar */,
 				7BA48D2613D738E10056D61A /* DubsarTests */,
 				7BA48CFA13D738E00056D61A /* Frameworks */,
@@ -516,6 +522,8 @@
 				7B29520F13DFD08000E425CC /* PopoverDetailView_iPad.xib in Resources */,
 				7BE155E813E09527007F45DD /* SearchViewController_iPad.xib in Resources */,
 				7B1C13AB13E0FF8B002ED533 /* LicenseViewController_iPad.xib in Resources */,
+				7B84720913E11B7900DC7B59 /* dubsar-ipad-landscape.png in Resources */,
+				7B84720A13E11B7900DC7B59 /* dubsar-ipad-portrait.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

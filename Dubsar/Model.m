@@ -34,6 +34,7 @@
 
 -(void)dealloc
 {
+    [url release];
     [decoder release];
     [connection release];
     [_url release];
