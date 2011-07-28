@@ -66,7 +66,7 @@
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:nsurl];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    
+   
     connection = [[NSURLConnection connectionWithRequest:request delegate:self]retain];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -76,6 +76,25 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+    
+    NSLog(@"GET request for URL %@ returned HTTP status code %d", url, httpResponse.statusCode);
+    
+    NSDictionary* headers = [httpResponse allHeaderFields];
+    [headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSString* value = (NSString*)obj;
+        NSLog(@"%@: \"%@\"", key, value);
+    }];
+    
+    if (httpResponse.statusCode >= 400) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
+        NSString* errMsg = @"The Dubsar server did not return the data properly.";
+        
+        [delegate loadComplete:self withError:errMsg];
+        [Model displayNetworkAlert:errMsg];
+    }
+    
     NSLog(@"received response");
     [data setLength:0];
 }
