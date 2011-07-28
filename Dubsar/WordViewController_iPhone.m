@@ -204,7 +204,14 @@
     if (model != word) return;
     
     [self adjustInflections];
-
+    
+    float height = 66.0*word.senses.count;
+    if (height + tableView.frame.origin.y < self.view.frame.size.height) {
+        CGRect frame = tableView.frame;
+        frame.size.height = height;
+        tableView.frame = frame;
+    }
+    
     [tableView reloadData];
 }
 

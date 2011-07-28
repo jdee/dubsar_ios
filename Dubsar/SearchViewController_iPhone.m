@@ -231,6 +231,13 @@
     if (model != search) return;
     
     NSLog(@"search complete");
+    
+    float height = search.results.count*44.0;
+    if (height < self.view.frame.size.height) {
+        CGRect frame = _tableView.frame;
+        frame.size.height = height;
+        _tableView.frame = frame;
+    }
     [_tableView reloadData];
 }
 
