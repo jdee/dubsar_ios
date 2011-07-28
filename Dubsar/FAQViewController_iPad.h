@@ -13,6 +13,7 @@
     UIWebView *webView;
 }
 
+@property (nonatomic, retain) NSURL* url;
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
 
 @end

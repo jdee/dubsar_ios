@@ -11,18 +11,21 @@
 
 @implementation FAQViewController_iPhone
 @synthesize webView;
+@synthesize url;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        NSString *_url = @"http://m.dubsar-dictionary.com/m_faq";
+        url = [[NSURL URLWithString:_url]retain];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [url release];
     [webView release];
     [super dealloc];
 }
@@ -41,9 +44,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    NSString *url = @"http://m.dubsar-dictionary.com/m_faq";
-    NSURL* nsurl = [NSURL URLWithString:url];
-    NSURLRequest* request = [NSURLRequest requestWithURL:nsurl];
+    NSURLRequest* request = [NSURLRequest requestWithURL:url];
     [webView loadRequest:request];
 }
 
@@ -55,23 +56,25 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
+- (void)webViewDidStartLoad:(UIWebView *)theWebView
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+- (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+- (void)webView:(UIWebView *)theWebView didFailLoadWithError:(NSError *)error
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
-
+    
     NSString* errMsg = [error localizedDescription];
     UIAlertView* alertView = [[[UIAlertView alloc]initWithTitle:@"Network Error" message:errMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil]autorelease];
     [alertView show];
+    
+    [theWebView loadHTMLString:[NSString stringWithFormat:@"<html><body><h1 style=\"text-align: center;\">%@</h1></body></html>", errMsg ] baseURL:url];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
