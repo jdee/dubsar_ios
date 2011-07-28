@@ -20,6 +20,7 @@
     UILabel *detailLabel;
     UIView *detailView;
     UIButton *moreButton;
+    UIView *mainView;
     UINib *detailNib;
     UIPopoverController* popoverController;
 }
@@ -31,6 +32,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
 @property (nonatomic, retain) IBOutlet UIButton *moreButton;
+@property (nonatomic, retain) IBOutlet UIView *mainView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 - (void)loadRootController;

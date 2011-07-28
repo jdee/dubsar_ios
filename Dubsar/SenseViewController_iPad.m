@@ -21,17 +21,16 @@
 @synthesize detailLabel;
 @synthesize detailView;
 @synthesize moreButton;
+@synthesize mainView;
 
 
 - (void)displayPopup:(NSString*)text
 {
     [detailLabel setText:text];
     [UIView transitionWithView:self.view duration:0.4 
-                       options:UIViewAnimationOptionTransitionFlipFromRight 
+                       options:UIViewAnimationOptionTransitionFlipFromRight
                     animations:^{
-                        bannerLabel.hidden = YES;
-                        // glossScrollView.hidden = YES;
-                        tableView.hidden = YES;
+                        mainView.hidden = YES;    
                         detailView.hidden = NO;
                         self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
                     } completion:^(BOOL finished){
@@ -43,9 +42,7 @@
     [UIView transitionWithView:self.view duration:0.4 
                        options:UIViewAnimationOptionTransitionFlipFromLeft 
                     animations:^{
-                        bannerLabel.hidden = NO;
-                        // glossScrollView.hidden = NO;
-                        tableView.hidden = NO;
+                        mainView.hidden = NO;
                         detailView.hidden = YES;
                         self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
                     } completion:^(BOOL finished){                    
@@ -81,6 +78,7 @@
     [detailLabel release];
     [detailView release];
     [moreButton release];
+    [mainView release];
     [super dealloc];
 }
 
@@ -111,6 +109,7 @@
     [self setDetailLabel:nil];
     [self setDetailView:nil];
     [self setMoreButton:nil];
+    [self setMainView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
