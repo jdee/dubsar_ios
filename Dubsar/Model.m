@@ -30,7 +30,8 @@
         decoder = [[JSONDecoder decoder] retain];
         _url = nil;
         connection = nil;
-        complete = error = false;
+        complete = false;
+        error = false;
         errorMessage = nil;
     }
     return self;

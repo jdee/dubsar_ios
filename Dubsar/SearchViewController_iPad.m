@@ -105,8 +105,7 @@
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    if (!search.complete || search.results.count == 0) {
+    if (!search.complete || search.error || search.results.count == 0) {
         return 1;  
     }
     
@@ -117,16 +116,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"search";
     
-    UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
-    // Configure the cell...
+    NSLog(@"loading cell at row %d", indexPath.row);
     
     if (!search.complete) {
+        NSLog(@"generating spinner cell at row %d", indexPath.row);
+        
         static NSString* indicatorType = @"indicator";
         UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:indicatorType];
         if (cell == nil) {
@@ -139,11 +134,21 @@
         [indicator startAnimating];
         [cell.contentView addSubview:indicator];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
     }
-    else if (search.error) {
+    
+    static NSString *CellIdentifier = @"search";
+    UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+    if (search.error) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = search.errorMessage;
         cell.textLabel.adjustsFontSizeToFitWidth = YES;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else if (search.results.count == 0) {
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -159,6 +164,8 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (!search.complete || search.error) return;
+    
     Word* word = [search.results objectAtIndex:indexPath.row];
     WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
     [self.navigationController pushViewController:wordViewController animated:YES];

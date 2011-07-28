@@ -102,7 +102,7 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView != _tableView) {
+    if (tableView != _tableView || !search.complete || search.error) {
         [super tableView:tableView didSelectRowAtIndexPath:indexPath];
         return;
     }
@@ -153,11 +153,12 @@
         if (cell == nil) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
         }
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]autorelease];
+        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
         [cell.contentView addSubview:indicator];
         [indicator startAnimating];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     
