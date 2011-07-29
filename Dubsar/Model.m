@@ -129,7 +129,9 @@
     NSLog(@"JSON response from URL %@:", url);
     NSLog(@"%@", jsonData);
 
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
     [self parseData];
+    [pool release];
 
     [self setComplete:true];
     [[self delegate] loadComplete:self withError:nil];

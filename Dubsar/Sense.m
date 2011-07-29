@@ -63,12 +63,14 @@
         word = nil;
         gloss = nil;
         synonyms = nil;
-        synset = [theSynset retain];
+        synset = theSynset;
         partOfSpeech = synset.partOfSpeech;
         marker = nil;
         verbFrames = nil;
         samples = nil;
         pointers = nil;
+        weakSynsetLink = true;
+        weakWordLink = false;
         [self initUrl];
     }
     return self;
@@ -89,6 +91,7 @@
         verbFrames = nil;
         samples = nil;
         pointers = nil;
+        weakWordLink = weakSynsetLink = false;
         [self initUrl];
     }
     return self;
@@ -102,7 +105,7 @@
         _id = theId;
         gloss = [theGloss retain];
         synonyms = [theSynonyms retain];
-        word = [theWord retain];
+        word = theWord;
         partOfSpeech = word.partOfSpeech;
         
         /* no need to retain or release this, which just points to another property */
@@ -112,6 +115,8 @@
         verbFrames = nil;
         samples = nil;
         pointers = nil;
+        weakSynsetLink = false;
+        weakWordLink = true;
         [self initUrl];
     }
     return self;
@@ -124,8 +129,8 @@
     [verbFrames release];
     [gloss release];
     [synonyms release];
-    [synset release];
-    [word release];
+    if (!weakSynsetLink) [synset release];
+    if (!weakWordLink) [word release];
     [lexname release];
     [marker release];
     [super dealloc];

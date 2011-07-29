@@ -24,7 +24,7 @@
 @class Word;
 
 @interface Sense : Model {
-    
+    bool weakSynsetLink, weakWordLink;
 }
 
 @property int _id;
