@@ -225,9 +225,21 @@
 
 - (void)adjustInflections
 {
+    if (word.freqCnt == 0 || word.inflections.length == 0) {
+        inflectionsTextView.hidden = YES;
+        CGRect frame = tableView.frame;
+        frame.origin.y = 44.0;
+        tableView.frame = frame;
+        return;
+    }
+    
     NSString* text = [NSString string];
     if (word.freqCnt > 0) {
-        text = [text stringByAppendingFormat:@"freq. cnt.: %d ", word.freqCnt];
+        text = [text stringByAppendingFormat:@"freq. cnt.: %d", word.freqCnt];
+        if (word.inflections.length > 0) {
+            text = [text stringByAppendingString:@";"];
+        }
+        text = [text stringByAppendingString:@" "];
     }
     if (word.inflections.length > 0) {
         text = [text stringByAppendingFormat:@"also %@", word.inflections];

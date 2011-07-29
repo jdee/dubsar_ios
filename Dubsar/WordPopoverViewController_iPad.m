@@ -218,7 +218,8 @@
     CGRect frame = _tableView.frame;
     CGSize size = frame.size;
     
-    float height = 81.0 + 66.0*[self numberOfSectionsInTableView:_tableView];
+    float offset = (word.inflections.length == 0 && word.freqCnt == 0) ? 37.0 : 81.0;
+    float height = offset + 66.0*[self numberOfSectionsInTableView:_tableView];
     
     size.height = height;
 
@@ -237,9 +238,20 @@
 
 - (void)adjustInflections
 {
+    if (word.inflections.length == 0 && word.freqCnt == 0) {
+        [inflectionsTextView setHidden:YES];
+        CGRect frame = _tableView.frame;
+        frame.origin.y = 37.0;
+        _tableView.frame = frame;
+    }
+    
     NSString* text = [NSString string];
     if (word.freqCnt > 0) {
         text = [text stringByAppendingFormat:@"freq. cnt.: %d ", word.freqCnt];
+        if (word.inflections.length > 0) {
+            text = [text stringByAppendingString:@";"];
+        }
+        text = [text stringByAppendingString:@" "];
     }
     if (word.inflections.length > 0) {
         text = [text stringByAppendingFormat:@"also %@", word.inflections];
