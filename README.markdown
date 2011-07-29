@@ -1,8 +1,31 @@
 Dubsar for iOS
 ==============
 
-Watch this space for more information about native Dubsar clients for
-iPhone and iPad, to be launched soon.
+Dubsar for iOS is a pair of open-source client applications for iPhone
+and iPad that allow users to search and browse the WordNet(R) content
+in Dubsar's database.
+
+* * *
+
+See the main [Dubsar wiki](https://github.com/jdee/dubsar/wiki) for more information on Dubsar.
+
+Dubsar Mobile is deployed at http://m.dubsar-dictionary.com/m.
+
+Further information on Dubsar is available on the [Dubsar site](http://dubsar-dictionary.com) itself:
+
+[About Dubsar](http://dubsar-dictionary.com/about)
+-- [FAQ](http://dubsar-dictionary.com/faq)
+-- [QUnit test suite](http://dubsar-dictionary.com/qunit)
+-- [Tour](http://dubsar-dictionary.com/tour)
+-- [RSS News Feed](http://dubsar-dictionary.com/rss_news.xml)
+
+Also see:
+
+- [Dubsar group on Google](http://groups.google.com/group/dubsar)
+- [Dubsar subscribed links on Google](http://www.google.com/coop/profile?user=012127914215357268281)
+- [Dubsar on Facebook](http://www.facebook.com/pages/Dubsar/155561501154946)
+- [Dubsar on Twitter](http://twitter.com/#!/dubsar)
+
 
 Copyright
 =========
