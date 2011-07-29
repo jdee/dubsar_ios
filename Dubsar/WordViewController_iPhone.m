@@ -23,9 +23,8 @@
 #import "Word.h"
 
 @implementation WordViewController_iPhone
-@synthesize inflectionsLabel;
-@synthesize inflectionsScrollView;
 @synthesize tableView;
+@synthesize inflectionsTextView;
 @synthesize word;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord
@@ -45,9 +44,8 @@
 - (void)dealloc
 {
     [word release];
-    [inflectionsLabel release];
     [tableView release];
-    [inflectionsScrollView release];
+    [inflectionsTextView release];
     [super dealloc];
 }
 
@@ -64,19 +62,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    CGRect frame = CGRectMake(8.0, 4.0, 1264.0, 36.0);
-    inflectionsLabel.frame = frame;
-    
-    [inflectionsScrollView setContentSize:CGSizeMake(1280,44)];
-    [inflectionsScrollView addSubview:inflectionsLabel];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload
 {
-    [self setInflectionsLabel:nil];
     [self setTableView:nil];
-    [self setInflectionsScrollView:nil];
+    [self setInflectionsTextView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -216,7 +207,7 @@
     
     if (error) {
         [tableView setHidden:YES];
-        [inflectionsLabel setText:error];
+        [inflectionsTextView setText:error];
         return;
     }
    
@@ -241,7 +232,7 @@
     if (word.inflections.length > 0) {
         text = [text stringByAppendingFormat:@"also %@", word.inflections];
     }
-    inflectionsLabel.text = text;
+    inflectionsTextView.text = text;
 }
 
 @end

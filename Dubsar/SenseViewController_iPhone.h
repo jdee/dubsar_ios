@@ -25,28 +25,24 @@
 @interface SenseViewController_iPhone : SearchBarViewController_iPhone
 {
     UILabel *bannerLabel;
-    UIScrollView *glossScrollView;
-    UILabel *glossLabel;
     UITableView *tableView;
     UILabel *detailLabel;
     UIView *detailView;
-    UIScrollView *detailScrollView;
-    UILabel *detailGlossLabel;
     UILabel *detailBannerLabel;
+    UITextView *detailGlossTextView;
     NSMutableArray* tableSections;
     UINib* detailNib;
+    UITextView *glossTextView;
 }
+@property (nonatomic, retain) IBOutlet UITextView *glossTextView;
 
 @property (nonatomic, retain) Sense* sense;
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
-@property (nonatomic, retain) IBOutlet UIScrollView *glossScrollView;
-@property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
-@property (nonatomic, retain) IBOutlet UIScrollView *detailScrollView;
-@property (nonatomic, retain) IBOutlet UILabel *detailGlossLabel;
 @property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
+@property (nonatomic, retain) IBOutlet UITextView *detailGlossTextView;
 
 - (void)displayPopup:(NSString*)text;
 - (IBAction)dismissPopup:(id)sender;

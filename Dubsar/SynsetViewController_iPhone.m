@@ -29,13 +29,11 @@
 
 @synthesize bannerLabel;
 @synthesize tableView;
-@synthesize glossLabel;
-@synthesize glossScrollView;
 @synthesize detailLabel;
 @synthesize detailView;
 @synthesize detailBannerLabel;
-@synthesize detailGlossLabel;
-@synthesize detailScrollView;
+@synthesize detailGlossTextView;
+@synthesize glossTextView;
 
 
 - (void)displayPopup:(NSString*)text
@@ -46,7 +44,7 @@
                     animations:^{
                         self.searchBar.hidden = YES;
                         bannerLabel.hidden = YES;
-                        glossScrollView.hidden = YES;
+                        glossTextView.hidden = YES;
                         tableView.hidden = YES;
                         detailView.hidden = NO;
                         self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -63,7 +61,7 @@
                     animations:^{
                         self.searchBar.hidden = NO;
                         bannerLabel.hidden = NO;
-                        glossScrollView.hidden = NO;
+                        glossTextView.hidden = NO;
                         tableView.hidden = NO;
                         detailView.hidden = YES;
                         self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
@@ -92,16 +90,15 @@
 
 - (void)dealloc
 {
+    [detailGlossTextView release];
     [synset release];
     [bannerLabel release];
     [tableView release];
-    [glossLabel release];
-    [glossScrollView release];
     [detailNib release];
     [detailLabel release];
     [detailView release];
     [detailBannerLabel release];
-    [detailGlossLabel release];
+    [glossTextView release];
     [super dealloc];
 }
 
@@ -118,30 +115,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    CGRect frame = CGRectMake(8.0, 4.0, 1264.0, 36.0);
-    glossLabel.frame = frame;
-    
-    [glossScrollView setContentSize:CGSizeMake(1280,44)];
-    [glossScrollView addSubview:glossLabel];
-
     [detailNib instantiateWithOwner:self options:nil];
     [detailView setHidden:YES];
-    [detailScrollView setContentSize:CGSizeMake(1280,44)];
-    [detailScrollView addSubview:detailGlossLabel];
     [self.view addSubview:detailView];
 }
 
 - (void)viewDidUnload
 {
+    [self setDetailGlossTextView:nil];
     [self setBannerLabel:nil];
     [self setTableView:nil];
-    [self setGlossLabel:nil];
-    [self setGlossScrollView:nil];
     [self setDetailLabel:nil];
     [self setDetailView:nil];
     [self setDetailBannerLabel:nil];
-    [self setDetailGlossLabel:nil];
+    [self setGlossTextView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -152,7 +139,7 @@
     [super viewWillAppear:animated];
     self.searchBar.hidden = NO;
     bannerLabel.hidden = NO;
-    glossScrollView.hidden = NO;
+    glossTextView.hidden = NO;
     tableView.hidden = NO;
     detailView.hidden = YES;
     [tableView reloadData];
@@ -172,7 +159,7 @@
     if (error) {
         [bannerLabel setHidden:YES];
         [tableView setHidden:YES];
-        [glossLabel setText:error];
+        [glossTextView setText:error];
         return;
     }
 
@@ -195,8 +182,8 @@
 
 - (void)adjustGlossLabel
 {
-    glossLabel.text = synset.gloss;
-    detailGlossLabel.text = [synset.synonymsAsString stringByAppendingFormat:@" (%@.)", [PartOfSpeechDictionary posFromPartOfSpeech:synset.partOfSpeech]];
+    glossTextView.text = synset.gloss;
+    detailGlossTextView.text = [synset.synonymsAsString stringByAppendingFormat:@" (%@.)", [PartOfSpeechDictionary posFromPartOfSpeech:synset.partOfSpeech]];
 }
 
 - (void)adjustTitle

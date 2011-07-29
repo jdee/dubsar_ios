@@ -27,14 +27,12 @@
 
 @implementation SenseViewController_iPhone
 @synthesize bannerLabel;
-@synthesize glossScrollView;
-@synthesize glossLabel;
 @synthesize tableView;
 @synthesize detailLabel;
 @synthesize detailView;
-@synthesize detailScrollView;
-@synthesize detailGlossLabel;
 @synthesize detailBannerLabel;
+@synthesize detailGlossTextView;
+@synthesize glossTextView;
 @synthesize sense;
 
 - (void)displayPopup:(NSString*)text
@@ -45,7 +43,7 @@
         animations:^{
             [self searchBar].hidden = YES;
             bannerLabel.hidden = YES;
-            glossScrollView.hidden = YES;
+            glossTextView.hidden = YES;
             tableView.hidden = YES;
             detailView.hidden = NO;
             self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -62,7 +60,7 @@
         animations:^{
             [self searchBar].hidden = NO;
             bannerLabel.hidden = NO;
-            glossScrollView.hidden = NO;
+            glossTextView.hidden = NO;
             tableView.hidden = NO;
             detailView.hidden = YES;
             self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
@@ -95,15 +93,13 @@
     [tableSections release];
     [sense release];
     [bannerLabel release];
-    [glossLabel release];
     [tableView release];
-    [glossScrollView release];
     [detailNib release];
     [detailLabel release];
     [detailView release];
-    [detailScrollView release];
-    [detailGlossLabel release];
     [detailBannerLabel release];
+    [detailGlossTextView release];
+    [glossTextView release];
     [super dealloc];
 }
 
@@ -121,15 +117,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    CGRect frame = CGRectMake(8.0, 4.0, 1264.0, 36.0);
-    glossLabel.frame = frame;
-    
-    [glossScrollView setContentSize:CGSizeMake(1280,44)];
-    [glossScrollView addSubview:glossLabel];
-
     [detailNib instantiateWithOwner:self options:nil];
-    [detailScrollView setContentSize:CGSizeMake(1280,44)];
-    [detailScrollView addSubview:detailGlossLabel];
     [detailView setHidden:YES];
     [self.view addSubview:detailView];
 }
@@ -137,14 +125,12 @@
 - (void)viewDidUnload
 {
     [self setBannerLabel:nil];
-    [self setGlossLabel:nil];
     [self setTableView:nil];
-    [self setGlossScrollView:nil];
     [self setDetailLabel:nil];
     [self setDetailView:nil];
-    [self setDetailScrollView:nil];
-    [self setDetailGlossLabel:nil];
     [self setDetailBannerLabel:nil];
+    [self setDetailGlossTextView:nil];
+    [self setGlossTextView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -155,7 +141,7 @@
     [super viewWillAppear:animated];
     self.searchBar.hidden = NO;
     bannerLabel.hidden = NO;
-    glossScrollView.hidden = NO;
+    glossTextView.hidden = NO;
     tableView.hidden = NO;
     detailView.hidden = YES;
     [tableView reloadData];
@@ -175,7 +161,7 @@
     if (error) {
         [bannerLabel setHidden:YES];
         [tableView setHidden:YES];
-        [glossLabel setText:error];
+        [glossTextView setText:error];
         [self.navigationController.toolbar setItems:[NSArray arrayWithObject:    [[[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease]]];
 
         return;
@@ -187,8 +173,8 @@
    
     self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
     [self adjustBannerLabel];
-    glossLabel.text = sense.gloss;
-    detailGlossLabel.text = sense.gloss;
+    glossTextView.text = sense.gloss;
+    detailGlossTextView.text = sense.gloss;
     [self setupTableSections];
     if (tableSections.count > 0) {
         [tableView reloadData];
