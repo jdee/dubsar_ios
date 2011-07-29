@@ -35,6 +35,8 @@
 @synthesize senseToolbar;
 @synthesize moreButton;
 @synthesize mainView;
+@synthesize detailBannerLabel;
+@synthesize detailGlossLabel;
 
 
 - (void)displayPopup:(NSString*)text
@@ -97,6 +99,8 @@
     [moreButton release];
     [mainView release];
     [senseToolbar release];
+    [detailBannerLabel release];
+    [detailGlossLabel release];
     [super dealloc];
 }
 
@@ -129,6 +133,8 @@
     [self setMoreButton:nil];
     [self setMainView:nil];
     [self setSenseToolbar:nil];
+    [self setDetailBannerLabel:nil];
+    [self setDetailGlossLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -346,7 +352,8 @@
     if (sense.freqCnt > 0) {
         text = [text stringByAppendingString:[NSString stringWithFormat:@" freq. cnt.: %d", sense.freqCnt]];
     }
-    bannerLabel.text = text;   
+    bannerLabel.text = text;
+    detailBannerLabel.text = text;
 }
 
 
@@ -364,6 +371,7 @@
     }
     
     [glossLabel setText:sense.gloss];
+    [detailGlossLabel setText:sense.gloss];
     [self adjustBannerLabel];
     [self setupTableSections];
     if (tableSections.count > 0) {

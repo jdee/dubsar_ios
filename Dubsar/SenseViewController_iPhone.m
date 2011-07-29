@@ -32,6 +32,9 @@
 @synthesize tableView;
 @synthesize detailLabel;
 @synthesize detailView;
+@synthesize detailScrollView;
+@synthesize detailGlossLabel;
+@synthesize detailBannerLabel;
 @synthesize sense;
 
 - (void)displayPopup:(NSString*)text
@@ -98,6 +101,9 @@
     [detailNib release];
     [detailLabel release];
     [detailView release];
+    [detailScrollView release];
+    [detailGlossLabel release];
+    [detailBannerLabel release];
     [super dealloc];
 }
 
@@ -120,7 +126,10 @@
     
     [glossScrollView setContentSize:CGSizeMake(1280,44)];
     [glossScrollView addSubview:glossLabel];
+
     [detailNib instantiateWithOwner:self options:nil];
+    [detailScrollView setContentSize:CGSizeMake(1280,44)];
+    [detailScrollView addSubview:detailGlossLabel];
     [detailView setHidden:YES];
     [self.view addSubview:detailView];
 }
@@ -133,6 +142,9 @@
     [self setGlossScrollView:nil];
     [self setDetailLabel:nil];
     [self setDetailView:nil];
+    [self setDetailScrollView:nil];
+    [self setDetailGlossLabel:nil];
+    [self setDetailBannerLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -176,6 +188,7 @@
     self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
     [self adjustBannerLabel];
     glossLabel.text = sense.gloss;
+    detailGlossLabel.text = sense.gloss;
     [self setupTableSections];
     if (tableSections.count > 0) {
         [tableView reloadData];
@@ -194,7 +207,8 @@
     if (sense.freqCnt > 0) {
         text = [text stringByAppendingString:[NSString stringWithFormat:@" freq. cnt.: %d", sense.freqCnt]];
     }
-    bannerLabel.text = text;   
+    bannerLabel.text = text;
+    detailBannerLabel.text = text;
 }
 
 - (void)loadSynsetView

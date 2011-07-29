@@ -41,6 +41,9 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *glossScrollView;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
+@property (nonatomic, retain) IBOutlet UIScrollView* detailScrollView;
+@property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
+@property (nonatomic, retain) IBOutlet UILabel *detailGlossLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset*)theSynset;
 

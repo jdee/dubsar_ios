@@ -33,6 +33,8 @@
     UIToolbar *senseToolbar;
     UIButton *moreButton;
     UIView *mainView;
+    UILabel *detailBannerLabel;
+    UILabel *detailGlossLabel;
     UINib *detailNib;
     UIPopoverController* popoverController;
 }
@@ -46,6 +48,8 @@
 @property (nonatomic, retain) IBOutlet UIToolbar *senseToolbar;
 @property (nonatomic, retain) IBOutlet UIButton *moreButton;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
+@property (nonatomic, retain) IBOutlet UILabel *detailGlossLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 - (void)loadRootController;

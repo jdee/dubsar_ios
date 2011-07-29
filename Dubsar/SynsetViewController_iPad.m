@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "PartOfSpeechDictionary.h"
 #import "PointerDictionary.h"
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
@@ -31,6 +32,8 @@
 @synthesize glossLabel;
 @synthesize detailLabel;
 @synthesize detailView;
+@synthesize detailBannerLabel;
+@synthesize detailGlossLabel;
 
 
 - (void)displayPopup:(NSString*)text
@@ -91,6 +94,8 @@
     [tableView release];
     [bannerLabel release];
     [glossLabel release];
+    [detailGlossLabel release];
+    [detailBannerLabel release];
     [super dealloc];
 }
 
@@ -125,6 +130,8 @@
     [self setTableView:nil];
     [self setBannerLabel:nil];
     [self setGlossLabel:nil];
+    [self setDetailGlossLabel:nil];
+    [self setDetailBannerLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -173,11 +180,13 @@
         text = [text stringByAppendingFormat:@" freq. cnt.: %d", synset.freqCnt];
     }
     bannerLabel.text = text;
+    detailBannerLabel.text = text;
 }
 
 - (void)adjustGlossLabel
 {
     glossLabel.text = synset.gloss;
+    detailGlossLabel.text = [synset.synonymsAsString stringByAppendingFormat:@" (%@.)", [PartOfSpeechDictionary posFromPartOfSpeech:synset.partOfSpeech]];
 }
 
 - (void)adjustTitle

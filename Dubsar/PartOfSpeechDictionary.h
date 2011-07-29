@@ -28,9 +28,11 @@
 @property (nonatomic, retain) NSDictionary* dictionary;
 
 - (PartOfSpeech)partOfSpeechFromPOS:(NSString*)pos;
+- (NSString*)posFromPartOfSpeech:(PartOfSpeech)partOfSpeech;
 - (void)setupDictionary;
 - (void)setValue:(PartOfSpeech)partOfSpeech forKey:(NSString*)pos;
 + (PartOfSpeechDictionary*)instance;
 + (PartOfSpeech)partofSpeechFromPOS:(NSString*)pos;
++ (NSString*)posFromPartOfSpeech:(PartOfSpeech)partOfSpeech;
 
 @end

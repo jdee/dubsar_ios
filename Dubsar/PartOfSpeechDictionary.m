@@ -30,6 +30,12 @@ static PartOfSpeechDictionary* theInstance=nil;
     return [instance partOfSpeechFromPOS:pos];
 }
 
++(NSString*)posFromPartOfSpeech:(PartOfSpeech)partOfSpeech
+{
+    PartOfSpeechDictionary* instance = [self instance];
+    return [instance posFromPartOfSpeech:partOfSpeech];
+}
+
 +(PartOfSpeechDictionary*)instance
 {
     if (theInstance == nil) {
@@ -52,6 +58,30 @@ static PartOfSpeechDictionary* theInstance=nil;
 {
     [dictionary release];
     [super dealloc];
+}
+
+-(NSString*)posFromPartOfSpeech:(PartOfSpeech)partOfSpeech
+{
+    switch (partOfSpeech) {
+        case POSAdjective:
+            return @"adj";
+        case POSAdverb:
+            return @"adv";
+        case POSConjunction:
+            return @"conj";
+        case POSInterjection:
+            return @"interj";
+        case POSNoun:
+            return @"n";
+        case POSPreposition:
+            return @"prep";
+        case POSPronoun:
+            return @"pron";
+        case POSVerb:
+            return @"v";
+        default:
+            return @"<unknown>";
+    }
 }
 
 -(PartOfSpeech)partOfSpeechFromPOS:(NSString*)pos

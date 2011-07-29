@@ -59,4 +59,35 @@
     STAssertEquals(POSVerb, partOfSpeech, @"expected POSVerb, found %d", partOfSpeech);
 }
 
+- (void)testReverseMapping
+{
+    PartOfSpeechDictionary* dictionary = [PartOfSpeechDictionary instance];
+    
+    NSString* pos;
+    
+    pos = [dictionary posFromPartOfSpeech:POSAdjective];
+    STAssertTrue([pos isEqualToString:@"adj"], @"expected pos \"adj\" for adjective, found \"%@\"", pos);
+    
+    pos = [dictionary posFromPartOfSpeech:POSAdverb];
+    STAssertTrue([pos isEqualToString:@"adv"], @"expected pos \"adv\" for adverb, found \"%@\"", pos);
+    
+    pos = [dictionary posFromPartOfSpeech:POSConjunction];
+    STAssertTrue([pos isEqualToString:@"conj"], @"expected pos \"conj\" for conjunction, found \"%@\"", pos);
+    
+    pos = [dictionary posFromPartOfSpeech:POSInterjection];
+    STAssertTrue([pos isEqualToString:@"interj"], @"expected pos \"interj\" for interjection, found \"%@\"", pos);
+    
+    pos = [dictionary posFromPartOfSpeech:POSNoun];
+    STAssertTrue([pos isEqualToString:@"n"], @"expected pos \"n\" for noun, found \"%@\"", pos);
+    
+    pos = [dictionary posFromPartOfSpeech:POSPreposition];
+    STAssertTrue([pos isEqualToString:@"prep"], @"expected pos \"prep\" for preposition, found \"%@\"", pos);
+    
+    pos = [dictionary posFromPartOfSpeech:POSPronoun];
+    STAssertTrue([pos isEqualToString:@"pron"], @"expected pos \"pron\" for pronoun, found \"%@\"", pos);
+    
+    pos = [dictionary posFromPartOfSpeech:POSVerb];
+    STAssertTrue([pos isEqualToString:@"v"], @"expected pos \"v\" for verb, found \"%@\"", pos);
+}
+
 @end

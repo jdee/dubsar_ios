@@ -68,6 +68,7 @@
 		7BA48D2313D738E10056D61A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFF13D738E00056D61A /* CoreGraphics.framework */; };
 		7BA48D2B13D738E10056D61A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2913D738E10056D61A /* InfoPlist.strings */; };
 		7BA54C3C13DD3D8A00D00620 /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */; };
+		7BB004B713E279F700BA30E8 /* README.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 7BB004B613E279F700BA30E8 /* README.markdown */; };
 		7BC17F6413E122AD00231E54 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC17F6313E122AD00231E54 /* Default-Portrait~ipad.png */; };
 		7BC17F6613E122B800231E54 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC17F6513E122B800231E54 /* Default-Landscape~ipad.png */; };
 		7BDD677813D9B76C00A9E94B /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDD677713D9B76C00A9E94B /* Search.m */; };
@@ -183,6 +184,7 @@
 		7BA48D2C13D738E10056D61A /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
 		7BA54C3A13DD3D8A00D00620 /* URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLEncoding.h; sourceTree = "<group>"; };
 		7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLEncoding.m; sourceTree = "<group>"; };
+		7BB004B613E279F700BA30E8 /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
 		7BC17F6313E122AD00231E54 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		7BC17F6513E122B800231E54 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		7BDD677613D9B76B00A9E94B /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 		7BA48CEC13D738E00056D61A = {
 			isa = PBXGroup;
 			children = (
+				7BB004B613E279F700BA30E8 /* README.markdown */,
 				7B7E3B4913E19D0200146CCC /* Default@2x.png */,
 				7B7E3B4413E194E100146CCC /* Default.png */,
 				7BC17F6513E122B800231E54 /* Default-Landscape~ipad.png */,
@@ -320,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				7B08977113DB4C0A00660C51 /* dubsar-link.png */,
+				7B7E3B4713E198FA00146CCC /* dubsar-link-hr.png */,
 				7B3F874913D73B15009C390B /* dubsar-ipad.png */,
 				7B3F874713D73B0B009C390B /* dubsar.png */,
 				7B3F876813D74CA9009C390B /* dubsar-full.png */,
@@ -354,7 +358,6 @@
 				7BA48D1113D738E00056D61A /* MainWindow_iPhone.xib */,
 				7BF7AD3213DC541B0006D948 /* SearchBarViewController_iPhone.h */,
 				7B59D7C913DF81D10099B27D /* SearchBarViewController_iPhone.m */,
-				7B7E3B4713E198FA00146CCC /* dubsar-link-hr.png */,
 				7B4B2EC513D7CD3100A0B98F /* SearchViewController_iPhone.h */,
 				7B4B2EC613D7CD3200A0B98F /* SearchViewController_iPhone.m */,
 				7B4B2EC713D7CD3200A0B98F /* SearchViewController_iPhone.xib */,
@@ -548,6 +551,7 @@
 				7B7E3B4513E194E100146CCC /* Default.png in Resources */,
 				7B7E3B4813E198FA00146CCC /* dubsar-link-hr.png in Resources */,
 				7B7E3B4A13E19D0200146CCC /* Default@2x.png in Resources */,
+				7BB004B713E279F700BA30E8 /* README.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

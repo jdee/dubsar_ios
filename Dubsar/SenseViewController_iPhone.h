@@ -30,6 +30,9 @@
     UITableView *tableView;
     UILabel *detailLabel;
     UIView *detailView;
+    UIScrollView *detailScrollView;
+    UILabel *detailGlossLabel;
+    UILabel *detailBannerLabel;
     NSMutableArray* tableSections;
     UINib* detailNib;
 }
@@ -41,6 +44,9 @@
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
+@property (nonatomic, retain) IBOutlet UIScrollView *detailScrollView;
+@property (nonatomic, retain) IBOutlet UILabel *detailGlossLabel;
+@property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
 
 - (void)displayPopup:(NSString*)text;
 - (IBAction)dismissPopup:(id)sender;

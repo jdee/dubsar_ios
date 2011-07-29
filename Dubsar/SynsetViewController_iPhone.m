@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "PartOfSpeechDictionary.h"
 #import "PointerDictionary.h"
 #import "SenseViewController_iPhone.h"
 #import "SynsetViewController_iPhone.h"
@@ -32,6 +33,9 @@
 @synthesize glossScrollView;
 @synthesize detailLabel;
 @synthesize detailView;
+@synthesize detailBannerLabel;
+@synthesize detailGlossLabel;
+@synthesize detailScrollView;
 
 
 - (void)displayPopup:(NSString*)text
@@ -96,6 +100,8 @@
     [detailNib release];
     [detailLabel release];
     [detailView release];
+    [detailBannerLabel release];
+    [detailGlossLabel release];
     [super dealloc];
 }
 
@@ -118,8 +124,11 @@
     
     [glossScrollView setContentSize:CGSizeMake(1280,44)];
     [glossScrollView addSubview:glossLabel];
+
     [detailNib instantiateWithOwner:self options:nil];
     [detailView setHidden:YES];
+    [detailScrollView setContentSize:CGSizeMake(1280,44)];
+    [detailScrollView addSubview:detailGlossLabel];
     [self.view addSubview:detailView];
 }
 
@@ -131,6 +140,8 @@
     [self setGlossScrollView:nil];
     [self setDetailLabel:nil];
     [self setDetailView:nil];
+    [self setDetailBannerLabel:nil];
+    [self setDetailGlossLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -179,11 +190,13 @@
         text = [text stringByAppendingFormat:@" freq. cnt.: %d", synset.freqCnt];
     }
     bannerLabel.text = text;
+    detailBannerLabel.text = text;
 }
 
 - (void)adjustGlossLabel
 {
     glossLabel.text = synset.gloss;
+    detailGlossLabel.text = [synset.synonymsAsString stringByAppendingFormat:@" (%@.)", [PartOfSpeechDictionary posFromPartOfSpeech:synset.partOfSpeech]];
 }
 
 - (void)adjustTitle

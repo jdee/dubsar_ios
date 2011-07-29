@@ -42,4 +42,6 @@
 -(void)parseData;
 -(void)parsePointers:(NSArray*)response;
 
+-(NSString*)synonymsAsString;
+
 @end

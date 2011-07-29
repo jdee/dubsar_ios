@@ -21,6 +21,7 @@
 #import "PartOfSpeechDictionary.h"
 #import "Sense.h"
 #import "Synset.h"
+#import "Word.h"
 
 @implementation Synset
 
@@ -147,6 +148,32 @@
         [_pointersByType addObject:_ptr];
         [pointers setValue:_pointersByType forKey:ptype];
     }
+}
+
+-(NSString*)synonymsAsString
+{
+    
+    NSString* synonymList = [NSString string];
+    
+    /* 
+     * The app still sometimes crashes when this autorelease pool is used.
+     */
+#ifdef AUTORELEASE_POOL_FOR_SYNONYMS
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+#endif // AUTORELEASE_POOL_FOR_SYNOYMS
+    
+    for(int j=0; j<senses.count; ++j) {
+        Sense* sense = [senses objectAtIndex:j];
+        synonymList = [synonymList stringByAppendingString:sense.name];
+        if (j<senses.count-1) {
+            synonymList = [synonymList stringByAppendingString:@", "];
+        }
+    }
+    
+#ifdef AUTORELEASE_POOL_FOR_SYNONYMS
+    [pool release];
+#endif // AUTORELEASE_POOL_FOR_SYNONYMS    
+    return synonymList;
 }
 
 @end

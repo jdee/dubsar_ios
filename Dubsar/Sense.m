@@ -131,7 +131,6 @@
     [super dealloc];
 }
 
-#undef AUTORELEASE_POOL_FOR_SYNONYMS
 -(NSString*)synonymsAsString
 {
     
