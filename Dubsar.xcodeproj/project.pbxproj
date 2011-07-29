@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B058B7113E310DB00A1CA08 /* AutocompleterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B058B7013E310DB00A1CA08 /* AutocompleterTest.m */; };
 		7B08976A13DB3FA900660C51 /* Synset.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B08976913DB3FA900660C51 /* Synset.m */; };
 		7B08976F13DB418200660C51 /* SynsetViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B08976D13DB418100660C51 /* SynsetViewController_iPhone.m */; };
 		7B08977013DB418200660C51 /* SynsetViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B08976E13DB418100660C51 /* SynsetViewController_iPhone.xib */; };
@@ -99,6 +100,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B058B6F13E310DB00A1CA08 /* AutocompleterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterTest.h; sourceTree = "<group>"; };
+		7B058B7013E310DB00A1CA08 /* AutocompleterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterTest.m; sourceTree = "<group>"; };
 		7B08976813DB3FA900660C51 /* Synset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Synset.h; sourceTree = "<group>"; };
 		7B08976913DB3FA900660C51 /* Synset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Synset.m; sourceTree = "<group>"; };
 		7B08976C13DB418000660C51 /* SynsetViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetViewController_iPhone.h; sourceTree = "<group>"; };
@@ -415,6 +418,8 @@
 		7BA48D2613D738E10056D61A /* DubsarTests */ = {
 			isa = PBXGroup;
 			children = (
+				7B058B6F13E310DB00A1CA08 /* AutocompleterTest.h */,
+				7B058B7013E310DB00A1CA08 /* AutocompleterTest.m */,
 				7B0B0BE713E21A7800BE7338 /* PartOfSpeechDictionaryTest.h */,
 				7B0B0BE813E21A7800BE7338 /* PartOfSpeechDictionaryTest.m */,
 				7B0B0BED13E220EE00BE7338 /* PointerDictionaryTest.h */,
@@ -619,6 +624,7 @@
 				7B1C13AA13E0FF8B002ED533 /* LicenseViewController_iPad.m in Sources */,
 				7B0B0BE313E214A600BE7338 /* PartOfSpeechDictionary.m in Sources */,
 				7B0B0BF213E223E500BE7338 /* PointerDictionary.m in Sources */,
+				7B058B7113E310DB00A1CA08 /* AutocompleterTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
