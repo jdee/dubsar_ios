@@ -44,6 +44,7 @@
 		7B59D7D613DF951C0099B27D /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B59D7D513DF951B0099B27D /* DetailView_iPad.xib */; };
 		7B59D7DA13DF9C6A0099B27D /* SynsetViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59D7D813DF9C690099B27D /* SynsetViewController_iPad.m */; };
 		7B59D7DB13DF9C6A0099B27D /* SynsetViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B59D7D913DF9C6A0099B27D /* SynsetViewController_iPad.xib */; };
+		7B6B80FC13E3227000C228F0 /* AutocompleterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B058B7013E310DB00A1CA08 /* AutocompleterTest.m */; };
 		7B7E3B4513E194E100146CCC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B7E3B4413E194E100146CCC /* Default.png */; };
 		7B7E3B4813E198FA00146CCC /* dubsar-link-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B7E3B4713E198FA00146CCC /* dubsar-link-hr.png */; };
 		7B7E3B4A13E19D0200146CCC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B7E3B4913E19D0200146CCC /* Default@2x.png */; };
@@ -632,6 +633,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B6B80FC13E3227000C228F0 /* AutocompleterTest.m in Sources */,
 				7B0B0BE913E21A7800BE7338 /* PartOfSpeechDictionaryTest.m in Sources */,
 				7B0B0BEF13E220EE00BE7338 /* PointerDictionaryTest.m in Sources */,
 			);

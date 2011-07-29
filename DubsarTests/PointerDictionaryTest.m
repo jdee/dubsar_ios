@@ -20,6 +20,7 @@
 #import "PointerDictionary.h"
 #import "PointerDictionaryTest.h"
 
+#ifdef COMPILE_WITH_UNIT_TESTS
 @implementation PointerDictionaryTest
 
 /* From the Rails server (Pointer model):
@@ -145,3 +146,4 @@
 }
 
 @end
+#endif // COMPILE_WITH_UNIT_TESTS

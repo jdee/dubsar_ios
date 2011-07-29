@@ -20,7 +20,7 @@
 #import "PartOfSpeechDictionary.h"
 #import "PartOfSpeechDictionaryTest.h"
 
-
+#ifdef COMPILE_WITH_UNIT_TESTS
 @implementation PartOfSpeechDictionaryTest
 
 - (void)testMapping 
@@ -91,3 +91,4 @@
 }
 
 @end
+#endif // COMPILE_WITH_UNIT_TESTS

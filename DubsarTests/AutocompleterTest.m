@@ -20,7 +20,7 @@
 #import "Autocompleter.h"
 #import "AutocompleterTest.h"
 
-
+#ifdef COMPILE_WITH_UNIT_TESTS
 @implementation AutocompleterTest
 
 -(void)testParsing
@@ -45,3 +45,4 @@
 }
 
 @end
+#endif // COMPILE_WITH_UNIT_TESTS
