@@ -27,21 +27,21 @@
     
     UITableView *tableView;
     UILabel *bannerLabel;
-    UILabel *glossLabel;
     UILabel *detailLabel;
     UIView *detailView;
     NSMutableArray* tableSections;
     UINib *detailNib;
+    UITextView *glossTextView;
 }
 
 @property (nonatomic, retain) Synset* synset;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
-@property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
-@property (nonatomic, retain) IBOutlet UILabel *detailGlossLabel;
 @property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
+@property (nonatomic, retain) IBOutlet UITextView* detailGlossTextView;
+@property (nonatomic, retain) IBOutlet UITextView *glossTextView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset*)theSynset;
 

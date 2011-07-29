@@ -27,10 +27,9 @@
 @implementation WordPopoverViewController_iPad
 
 @synthesize word;
-@synthesize inflectionsLabel;
-@synthesize inflectionsScrollView;
 @synthesize tableView=_tableView;
 @synthesize headerLabel;
+@synthesize inflectionsTextView;
 @synthesize popoverController;
 @synthesize navigationController;
 
@@ -47,7 +46,7 @@
         UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
         self.navigationItem.rightBarButtonItem = homeButtonItem;
         
-        self.contentSizeForViewInPopover = CGSizeMake(320.0, 155.0);
+        self.contentSizeForViewInPopover = CGSizeMake(320.0, 147.0);
         
     }
     return self;
@@ -56,10 +55,9 @@
 - (void)dealloc
 {
     [word release];
-    [inflectionsLabel release];
     [_tableView release];
     [headerLabel release];
-    [inflectionsScrollView release];
+    [inflectionsTextView release];
     [super dealloc];
 }
 
@@ -82,15 +80,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [inflectionsScrollView addSubview:inflectionsLabel];
 }
 
 - (void)viewDidUnload
 {
-    [self setInflectionsLabel:nil];
     [self setTableView:nil];
     [self setHeaderLabel:nil];
-    [self setInflectionsScrollView:nil];
+    [self setInflectionsTextView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -213,7 +209,7 @@
     if (error) {
         [_tableView setHidden:YES];
         [headerLabel setText:@"ERROR"];
-        [inflectionsLabel setText:error];
+        [inflectionsTextView setText:error];
         return;
     }
     
@@ -222,7 +218,7 @@
     CGRect frame = _tableView.frame;
     CGSize size = frame.size;
     
-    float height = 89.0 + 66.0*[self numberOfSectionsInTableView:_tableView];
+    float height = 81.0 + 66.0*[self numberOfSectionsInTableView:_tableView];
     
     size.height = height;
 
@@ -241,11 +237,6 @@
 
 - (void)adjustInflections
 {
-    CGRect frame = CGRectMake(8.0, 4.0, 1264.0, 36.0);
-    inflectionsLabel.frame = frame;
-    
-    [inflectionsScrollView setContentSize:CGSizeMake(1280,44)];
-    
     NSString* text = [NSString string];
     if (word.freqCnt > 0) {
         text = [text stringByAppendingFormat:@"freq. cnt.: %d ", word.freqCnt];
@@ -253,7 +244,7 @@
     if (word.inflections.length > 0) {
         text = [text stringByAppendingFormat:@"also %@", word.inflections];
     }
-    inflectionsLabel.text = text;
+    inflectionsTextView.text = text;
 }
 
 

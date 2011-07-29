@@ -26,17 +26,17 @@
 #import "WordViewController_iPad.h"
 
 @implementation SenseViewController_iPad
+@synthesize detailGlossTextView;
+@synthesize glossTextView;
 @synthesize sense;
 @synthesize tableView;
 @synthesize bannerLabel;
-@synthesize glossLabel;
 @synthesize detailLabel;
 @synthesize detailView;
 @synthesize senseToolbar;
 @synthesize moreButton;
 @synthesize mainView;
 @synthesize detailBannerLabel;
-@synthesize detailGlossLabel;
 
 
 - (void)displayPopup:(NSString*)text
@@ -93,14 +93,14 @@
     [sense release];
     [tableView release];
     [bannerLabel release];
-    [glossLabel release];
     [detailLabel release];
     [detailView release];
     [moreButton release];
     [mainView release];
     [senseToolbar release];
     [detailBannerLabel release];
-    [detailGlossLabel release];
+    [glossTextView release];
+    [detailGlossTextView release];
     [super dealloc];
 }
 
@@ -127,14 +127,14 @@
 {
     [self setTableView:nil];
     [self setBannerLabel:nil];
-    [self setGlossLabel:nil];
     [self setDetailLabel:nil];
     [self setDetailView:nil];
     [self setMoreButton:nil];
     [self setMainView:nil];
     [self setSenseToolbar:nil];
     [self setDetailBannerLabel:nil];
-    [self setDetailGlossLabel:nil];
+    [self setGlossTextView:nil];
+    [self setDetailGlossTextView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -366,12 +366,12 @@
         [moreButton setHidden:YES];
         [tableView setHidden:YES];
         [senseToolbar setHidden:YES];
-        [glossLabel setText:error];
+        [glossTextView setText:error];
         return;
     }
     
-    [glossLabel setText:sense.gloss];
-    [detailGlossLabel setText:sense.gloss];
+    [glossTextView setText:sense.gloss];
+    [detailGlossTextView setText:sense.gloss];
     [self adjustBannerLabel];
     [self setupTableSections];
     if (tableSections.count > 0) {

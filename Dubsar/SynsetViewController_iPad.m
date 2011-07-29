@@ -29,11 +29,11 @@
 @synthesize synset;
 @synthesize tableView;
 @synthesize bannerLabel;
-@synthesize glossLabel;
 @synthesize detailLabel;
 @synthesize detailView;
 @synthesize detailBannerLabel;
-@synthesize detailGlossLabel;
+@synthesize detailGlossTextView;
+@synthesize glossTextView;
 
 
 - (void)displayPopup:(NSString*)text
@@ -88,14 +88,14 @@
 
 - (void)dealloc
 {
+    [detailGlossTextView release];
     [detailLabel release];
     [detailView release];
     [synset release];
     [tableView release];
     [bannerLabel release];
-    [glossLabel release];
-    [detailGlossLabel release];
     [detailBannerLabel release];
+    [glossTextView release];
     [super dealloc];
 }
 
@@ -125,13 +125,13 @@
 
 - (void)viewDidUnload
 {
+    [self setDetailGlossTextView:nil];
     [self setDetailLabel:nil];
     [self setDetailView:nil];
     [self setTableView:nil];
     [self setBannerLabel:nil];
-    [self setGlossLabel:nil];
-    [self setDetailGlossLabel:nil];
     [self setDetailBannerLabel:nil];
+    [self setGlossTextView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -162,7 +162,7 @@
     if (error) {
         [bannerLabel setHidden:YES];
         [tableView setHidden:YES];
-        [glossLabel setText:error];
+        [glossTextView setText:error];
         return;
     }
     
@@ -185,8 +185,8 @@
 
 - (void)adjustGlossLabel
 {
-    glossLabel.text = synset.gloss;
-    detailGlossLabel.text = [synset.synonymsAsString stringByAppendingFormat:@" (%@.)", [PartOfSpeechDictionary posFromPartOfSpeech:synset.partOfSpeech]];
+    glossTextView.text = synset.gloss;
+    detailGlossTextView.text = [synset.synonymsAsString stringByAppendingFormat:@" (%@.)", [PartOfSpeechDictionary posFromPartOfSpeech:synset.partOfSpeech]];
 }
 
 - (void)adjustTitle

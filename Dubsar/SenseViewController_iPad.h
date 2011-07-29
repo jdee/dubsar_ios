@@ -27,29 +27,29 @@
     NSMutableArray* tableSections;    
     UITableView *tableView;
     UILabel *bannerLabel;
-    UILabel *glossLabel;
     UILabel *detailLabel;
     UIView *detailView;
     UIToolbar *senseToolbar;
     UIButton *moreButton;
     UIView *mainView;
     UILabel *detailBannerLabel;
-    UILabel *detailGlossLabel;
     UINib *detailNib;
     UIPopoverController* popoverController;
+    UITextView *glossTextView;
+    UITextView *detailGlossTextView;
 }
+@property (nonatomic, retain) IBOutlet UITextView *detailGlossTextView;
+@property (nonatomic, retain) IBOutlet UITextView *glossTextView;
 
 @property (nonatomic, retain) Sense* sense;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
-@property (nonatomic, retain) IBOutlet UILabel *glossLabel;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
 @property (nonatomic, retain) IBOutlet UIToolbar *senseToolbar;
 @property (nonatomic, retain) IBOutlet UIButton *moreButton;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
-@property (nonatomic, retain) IBOutlet UILabel *detailGlossLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 - (void)loadRootController;
