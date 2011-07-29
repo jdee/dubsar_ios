@@ -94,7 +94,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     NSInteger count = word.complete ? word.senses.count : 1;
-    NSLog(@"%u sections in tableView", count);
     return count;
 }
 
@@ -104,8 +103,6 @@
     if (!word || !word.complete || word.senses.count < 20) {
         return titles;
     }
-    
-    NSLog(@"returning titles for %u sections", word.senses.count);
     
     [titles addObject:@"top"];
     

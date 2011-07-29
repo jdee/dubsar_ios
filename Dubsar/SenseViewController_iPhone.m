@@ -249,11 +249,8 @@
     int section = indexPath.section;
     int row = indexPath.row;
     
-    NSLog(@"selected section %d, row %d", section, row);
-    
     NSDictionary* _section = [tableSections objectAtIndex:section];
     id _linkType = [_section valueForKey:@"linkType"];
-    NSLog(@"linkType is %@", _linkType);
     if (_linkType == NSNull.null) return;
     
     NSArray* _collection = [_section valueForKey:@"collection"];
@@ -263,7 +260,6 @@
     
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = _object;
-        NSLog(@"links to Sense %@", targetSense.nameAndPos);
         [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
@@ -274,7 +270,6 @@
         NSNumber* targetId = [pointer objectAtIndex:1];
         /* sense pointer */
         targetSense = [Sense senseWithId:targetId.intValue name:[pointer objectAtIndex:2] partOfSpeech:POSUnknown];
-        NSLog(@"links to Sense %@", targetSense.nameAndPos);
         [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
     }
     else {
@@ -282,7 +277,6 @@
         NSNumber* targetId = [pointer objectAtIndex:1];
         /* synset pointer */
         Synset* targetSynset = [Synset synsetWithId:targetId.intValue partOfSpeech:POSUnknown];
-        NSLog(@"links to Synset %d", targetSynset._id);
         [self.navigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset]autorelease] animated:YES];
     }
 }
@@ -293,7 +287,6 @@
         return [super numberOfSectionsInTableView:theTableView];
     }
     NSInteger n = sense && sense.complete ? tableSections.count : 1;
-    NSLog(@"%d sections in table view", n);
     return n;
 }
 
@@ -305,7 +298,6 @@
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSArray* _collection = [_section valueForKey:@"collection"];
     NSInteger n = sense && sense.complete ? _collection.count : 1 ;
-    NSLog(@"%d rows in section %d of table view", n, section);
     return n;
 }
 
@@ -389,8 +381,6 @@
         else {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-       
-        NSLog(@"set text %@ at section %d, row %d", cell.textLabel.text, section, row);
     }
     
     return cell;
@@ -403,7 +393,6 @@
     }
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSString* title = sense && sense.complete ? [_section valueForKey:@"header"] : @"loading...";
-    NSLog(@"header %@ for section %d", title, section);
     return title;
 }
 
@@ -414,13 +403,11 @@
     }
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSString* title = sense && sense.complete ? [_section valueForKey:@"footer"] : @"";
-    NSLog(@"footer \"%@\" for section %d", title, section);
     return title;
 }
 
 - (void)setupTableSections
 {
-    NSLog(@"entering setupTableSection");
     tableSections = [[NSMutableArray array]retain];
     NSMutableDictionary* section;
     if (sense.synonyms && sense.synonyms.count > 0) {
@@ -464,8 +451,6 @@
             [tableSections addObject:section];
         }
     }
-    
-    NSLog(@"found %u table sections", tableSections.count);
 }
 
 @end

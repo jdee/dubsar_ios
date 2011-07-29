@@ -114,7 +114,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView
 {
-    NSLog(@"1 section in tableView");
     return 1;
 }
 
@@ -124,19 +123,12 @@
         return 1;  
     }
     
-    NSLog(@"%d rows in tableView", search.results.count);
-    
     return search.results.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    NSLog(@"loading cell at row %d", indexPath.row);
-    
     if (!search.complete) {
-        NSLog(@"generating spinner cell at row %d", indexPath.row);
-        
         static NSString* indicatorType = @"indicator";
         UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:indicatorType];
         if (cell == nil) {

@@ -106,7 +106,6 @@
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)searchText
 {
     if (theSearchBar != [self searchBar]) return;
-    NSLog(@"search text changed in search view search bar");
     _searchText = [searchText copy];
     [super searchBar:theSearchBar textDidChange:searchText];
 }
@@ -184,13 +183,9 @@
         cell.textLabel.text = [NSString stringWithFormat:@"no results for \"%@\"", _searchText];
         return cell;
     }
-    
-    NSLog(@"have view cell, loading data");
 
     int index = indexPath.section;
-    NSLog(@"looking for index %d", index);
     Word* word = [search.results objectAtIndex:index];
-    NSLog(@"found \"%@\"", [word nameAndPos]);
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [word nameAndPos];
@@ -229,8 +224,6 @@
     }
     
     NSInteger section = (index*search.results.count)/10;
-    Word* word = [search.results objectAtIndex:section];
-    NSLog(@"word: \"%@\", title \"%@\"", word.name, title);
     return section;
 }
 

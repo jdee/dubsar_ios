@@ -65,7 +65,7 @@
     NSArray* list = [response objectAtIndex:1];
     
     results = [[NSMutableArray arrayWithCapacity:list.count]retain];
-    NSLog(@"request for \"%@\" returned %d results", [response objectAtIndex:0], list.count);
+    NSLog(@"search request for \"%@\" returned %d results", [response objectAtIndex:0], list.count);
     int j;
     for (j=0; j<list.count; ++j) {
         NSArray* entry = [list objectAtIndex:j];

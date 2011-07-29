@@ -123,7 +123,6 @@
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
 {
     _searchText = [theSearchText copy];
-    NSLog(@"search bar text changed to \"%@\"", theSearchText);
     
     if (!editing) return;
     
@@ -161,8 +160,6 @@
     autocompleterTableView.hidden = NO;
     CGRect frame = CGRectMake(0.0, 44.0, 320.0, 44 * ([self tableView:autocompleterTableView numberOfRowsInSection:0]+1));
     autocompleterTableView.frame = frame;
-    
-    NSLog(@"autocompleter at (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
     [autocompleterTableView reloadData];
 }
 

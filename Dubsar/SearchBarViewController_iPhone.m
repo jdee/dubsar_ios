@@ -84,7 +84,6 @@
     [autocompleterTableView setHidden:YES];
     
     // new SearchViewController for this search
-    NSLog(@"presenting view controller for \"%@\"", theSearchBar.text);
     SearchViewController_iPhone* searchViewController = [[[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: theSearchBar.text]autorelease];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }
@@ -110,7 +109,6 @@
 
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
 {
-    NSLog(@"search bar text changed to \"%@\"", theSearchText);
     if (theSearchText.length > 0) {
         Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
         _autocompleter.delegate = proxy;
