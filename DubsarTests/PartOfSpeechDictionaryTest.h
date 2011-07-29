@@ -17,7 +17,20 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Dubsar.h"
+//  See Also: http://developer.apple.com/iphone/library/documentation/Xcode/Conceptual/iphone_development/135-Unit_Testing_Applications/unit_testing_applications.html
 
-const NSString* DubsarBaseUrl = @"http://dubsar-dictionary.com";
-// const NSString* DubsarBaseUrl = @"http://fatman:3001";
+//  Application unit tests contain unit test code that must be injected into an application to run correctly.
+//  Define USE_APPLICATION_UNIT_TEST to 0 if the unit test code is designed to be linked into an independent test executable.
+
+#import <SenTestingKit/SenTestingKit.h>
+#import <UIKit/UIKit.h>
+//#import "application_headers" as required
+
+
+@interface PartOfSpeechDictionaryTest : SenTestCase {
+    
+}
+
+- (void)testMapping;
+
+@end

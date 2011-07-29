@@ -13,6 +13,10 @@
 		7B08977213DB4C0A00660C51 /* dubsar-link.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B08977113DB4C0A00660C51 /* dubsar-link.png */; };
 		7B0ACD5313DCF15C0098DC02 /* Autocompleter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0ACD5213DCF15C0098DC02 /* Autocompleter.m */; };
 		7B0ACD6113DD0BDF0098DC02 /* AutocompleterView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B0ACD6013DD0BDE0098DC02 /* AutocompleterView_iPhone.xib */; };
+		7B0B0BE313E214A600BE7338 /* PartOfSpeechDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B0BE213E214A600BE7338 /* PartOfSpeechDictionary.m */; };
+		7B0B0BE913E21A7800BE7338 /* PartOfSpeechDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B0BE813E21A7800BE7338 /* PartOfSpeechDictionaryTest.m */; };
+		7B0B0BEF13E220EE00BE7338 /* PointerDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B0BEE13E220EE00BE7338 /* PointerDictionaryTest.m */; };
+		7B0B0BF213E223E500BE7338 /* PointerDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B0BF113E223E300BE7338 /* PointerDictionary.m */; };
 		7B1C13AA13E0FF8B002ED533 /* LicenseViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1C13A813E0FF8A002ED533 /* LicenseViewController_iPad.m */; };
 		7B1C13AB13E0FF8B002ED533 /* LicenseViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B1C13A913E0FF8A002ED533 /* LicenseViewController_iPad.xib */; };
 		7B22254413DB1FDA003B7322 /* SenseViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22254213DB1FDA003B7322 /* SenseViewController_iPhone.m */; };
@@ -63,8 +67,6 @@
 		7BA48D2213D738E10056D61A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFD13D738E00056D61A /* Foundation.framework */; };
 		7BA48D2313D738E10056D61A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA48CFF13D738E00056D61A /* CoreGraphics.framework */; };
 		7BA48D2B13D738E10056D61A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2913D738E10056D61A /* InfoPlist.strings */; };
-		7BA48D2E13D738E10056D61A /* DubsarTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 7BA48D2D13D738E10056D61A /* DubsarTests.h */; };
-		7BA48D3013D738E10056D61A /* DubsarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA48D2F13D738E10056D61A /* DubsarTests.m */; };
 		7BA54C3C13DD3D8A00D00620 /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */; };
 		7BC17F6413E122AD00231E54 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC17F6313E122AD00231E54 /* Default-Portrait~ipad.png */; };
 		7BC17F6613E122B800231E54 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC17F6513E122B800231E54 /* Default-Landscape~ipad.png */; };
@@ -105,6 +107,14 @@
 		7B0ACD5113DCF15C0098DC02 /* Autocompleter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Autocompleter.h; sourceTree = "<group>"; };
 		7B0ACD5213DCF15C0098DC02 /* Autocompleter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Autocompleter.m; sourceTree = "<group>"; };
 		7B0ACD6013DD0BDE0098DC02 /* AutocompleterView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterView_iPhone.xib; sourceTree = "<group>"; };
+		7B0B0BE113E214A500BE7338 /* PartOfSpeechDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartOfSpeechDictionary.h; sourceTree = "<group>"; };
+		7B0B0BE213E214A600BE7338 /* PartOfSpeechDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartOfSpeechDictionary.m; sourceTree = "<group>"; };
+		7B0B0BE713E21A7800BE7338 /* PartOfSpeechDictionaryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartOfSpeechDictionaryTest.h; sourceTree = "<group>"; };
+		7B0B0BE813E21A7800BE7338 /* PartOfSpeechDictionaryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartOfSpeechDictionaryTest.m; sourceTree = "<group>"; };
+		7B0B0BED13E220EE00BE7338 /* PointerDictionaryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerDictionaryTest.h; sourceTree = "<group>"; };
+		7B0B0BEE13E220EE00BE7338 /* PointerDictionaryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointerDictionaryTest.m; sourceTree = "<group>"; };
+		7B0B0BF013E223E200BE7338 /* PointerDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerDictionary.h; sourceTree = "<group>"; };
+		7B0B0BF113E223E300BE7338 /* PointerDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointerDictionary.m; sourceTree = "<group>"; };
 		7B1C13A713E0FF8A002ED533 /* LicenseViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseViewController_iPad.h; sourceTree = "<group>"; };
 		7B1C13A813E0FF8A002ED533 /* LicenseViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseViewController_iPad.m; sourceTree = "<group>"; };
 		7B1C13A913E0FF8A002ED533 /* LicenseViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseViewController_iPad.xib; sourceTree = "<group>"; };
@@ -171,8 +181,6 @@
 		7BA48D2813D738E10056D61A /* DubsarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarTests-Info.plist"; sourceTree = "<group>"; };
 		7BA48D2A13D738E10056D61A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7BA48D2C13D738E10056D61A /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
-		7BA48D2D13D738E10056D61A /* DubsarTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarTests.h; sourceTree = "<group>"; };
-		7BA48D2F13D738E10056D61A /* DubsarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarTests.m; sourceTree = "<group>"; };
 		7BA54C3A13DD3D8A00D00620 /* URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLEncoding.h; sourceTree = "<group>"; };
 		7BA54C3B13DD3D8A00D00620 /* URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLEncoding.m; sourceTree = "<group>"; };
 		7BC17F6313E122AD00231E54 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
@@ -243,6 +251,10 @@
 				7BDD67A213D9DDA100A9E94B /* LoadDelegate.h */,
 				7BDD67BE13DA8DC100A9E94B /* Model.h */,
 				7BDD67BF13DA8DC100A9E94B /* Model.m */,
+				7B0B0BE113E214A500BE7338 /* PartOfSpeechDictionary.h */,
+				7B0B0BE213E214A600BE7338 /* PartOfSpeechDictionary.m */,
+				7B0B0BF013E223E200BE7338 /* PointerDictionary.h */,
+				7B0B0BF113E223E300BE7338 /* PointerDictionary.m */,
 				7BDD677613D9B76B00A9E94B /* Search.h */,
 				7BDD677713D9B76C00A9E94B /* Search.m */,
 				7BDD67C213DA933500A9E94B /* Sense.h */,
@@ -400,8 +412,10 @@
 		7BA48D2613D738E10056D61A /* DubsarTests */ = {
 			isa = PBXGroup;
 			children = (
-				7BA48D2D13D738E10056D61A /* DubsarTests.h */,
-				7BA48D2F13D738E10056D61A /* DubsarTests.m */,
+				7B0B0BE713E21A7800BE7338 /* PartOfSpeechDictionaryTest.h */,
+				7B0B0BE813E21A7800BE7338 /* PartOfSpeechDictionaryTest.m */,
+				7B0B0BED13E220EE00BE7338 /* PointerDictionaryTest.h */,
+				7B0B0BEE13E220EE00BE7338 /* PointerDictionaryTest.m */,
 				7BA48D2713D738E10056D61A /* Supporting Files */,
 			);
 			path = DubsarTests;
@@ -542,7 +556,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BA48D2B13D738E10056D61A /* InfoPlist.strings in Resources */,
-				7BA48D2E13D738E10056D61A /* DubsarTests.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,6 +613,8 @@
 				7B29520C13DFB08700E425CC /* WordPopoverViewController_iPad.m in Sources */,
 				7BE155E713E09527007F45DD /* SearchViewController_iPad.m in Sources */,
 				7B1C13AA13E0FF8B002ED533 /* LicenseViewController_iPad.m in Sources */,
+				7B0B0BE313E214A600BE7338 /* PartOfSpeechDictionary.m in Sources */,
+				7B0B0BF213E223E500BE7338 /* PointerDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,7 +622,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BA48D3013D738E10056D61A /* DubsarTests.m in Sources */,
+				7B0B0BE913E21A7800BE7338 /* PartOfSpeechDictionaryTest.m in Sources */,
+				7B0B0BEF13E220EE00BE7338 /* PointerDictionaryTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -44,9 +44,6 @@
 @property (nonatomic, retain) NSMutableArray* samples;
 @property (nonatomic, retain) NSMutableDictionary* pointers;
 
-+(NSString*)titleWithPointerType:(NSString*)ptype;
-+(NSString*)helpWithPointerType:(NSString*)ptype;
-
 +(id)senseWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
 +(id)senseWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 +(id)senseWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;

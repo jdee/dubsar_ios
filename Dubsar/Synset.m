@@ -18,6 +18,7 @@
  */
 
 #import "JSONKit.h"
+#import "PartOfSpeechDictionary.h"
 #import "Sense.h"
 #import "Synset.h"
 
@@ -86,7 +87,7 @@
 - (void)parseData
 {
     NSArray* response = [[self decoder] objectWithData:[self data]];
-    partOfSpeech = partOfSpeechFromPos([response objectAtIndex:1]);
+    partOfSpeech = [PartOfSpeechDictionary partofSpeechFromPOS:[response objectAtIndex:1]];
     lexname = [[response objectAtIndex:2] retain];
     NSLog(@"lexname: \"%@\"", lexname);
     if (!gloss) {

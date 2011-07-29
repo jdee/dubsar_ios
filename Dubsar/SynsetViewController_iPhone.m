@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "PointerDictionary.h"
 #import "SenseViewController_iPhone.h"
 #import "SynsetViewController_iPhone.h"
 #import "Sense.h"
@@ -386,7 +387,7 @@
     if (synset.senses && synset.senses.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Synonyms" forKey:@"header"];
-        [section setValue:[Sense helpWithPointerType:@"synonym"] forKey:@"footer"];
+        [section setValue:[PointerDictionary helpWithPointerType:@"synonym"] forKey:@"footer"];
         [section setValue:synset.senses forKey:@"collection"];
         [section setValue:@"sense" forKey:@"linkType"];
         [tableSections addObject:section];
@@ -395,7 +396,7 @@
     if (synset.samples && synset.samples.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Sample Sentences" forKey:@"header"];
-        [section setValue:[Sense helpWithPointerType:@"sample sentence"] forKey:@"footer"];
+        [section setValue:[PointerDictionary helpWithPointerType:@"sample sentence"] forKey:@"footer"];
         [section setValue:synset.samples forKey:@"collection"];
         [section setValue:@"sample" forKey:@"linkType"];
         [tableSections addObject:section];
@@ -405,11 +406,11 @@
         NSArray* keys = [synset.pointers allKeys];
         for (int j=0; j<keys.count; ++j) {
             NSString* key = [keys objectAtIndex:j];
-            NSString* title = [Sense titleWithPointerType:key];
+            NSString* title = [PointerDictionary titleWithPointerType:key];
             
             section = [NSMutableDictionary dictionary];
             [section setValue:title forKey:@"header"];
-            [section setValue:[Sense helpWithPointerType:key] forKey:@"footer"];
+            [section setValue:[PointerDictionary helpWithPointerType:key] forKey:@"footer"];
             [section setValue:[synset.pointers valueForKey:key] forKey:@"collection"];
             [section setValue:@"pointer" forKey:@"linkType"];
             [tableSections addObject:section];

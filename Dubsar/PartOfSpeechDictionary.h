@@ -17,7 +17,20 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import <Foundation/Foundation.h>
+
 #import "Dubsar.h"
 
-const NSString* DubsarBaseUrl = @"http://dubsar-dictionary.com";
-// const NSString* DubsarBaseUrl = @"http://fatman:3001";
+@interface PartOfSpeechDictionary : NSObject {
+    NSMutableDictionary* dictionary;
+}
+
+@property (nonatomic, retain) NSDictionary* dictionary;
+
+- (PartOfSpeech)partOfSpeechFromPOS:(NSString*)pos;
+- (void)setupDictionary;
+- (void)setValue:(PartOfSpeech)partOfSpeech forKey:(NSString*)pos;
++ (PartOfSpeechDictionary*)instance;
++ (PartOfSpeech)partofSpeechFromPOS:(NSString*)pos;
+
+@end

@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "PointerDictionary.h"
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
 #import "Synset.h"
@@ -375,7 +376,7 @@
     if (sense.synonyms && sense.synonyms.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Synonyms" forKey:@"header"];
-        [section setValue:[Sense helpWithPointerType:@"synonym"]  forKey:@"footer"];
+        [section setValue:[PointerDictionary helpWithPointerType:@"synonym"]  forKey:@"footer"];
         [section setValue:sense.synonyms forKey:@"collection"];
         [section setValue:@"sense" forKey:@"linkType"];
         [tableSections addObject:section];
@@ -384,7 +385,7 @@
     if (sense.verbFrames && sense.verbFrames.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Verb Frames" forKey:@"header"];
-        [section setValue:[Sense helpWithPointerType:@"verb frame"] forKey:@"footer"];
+        [section setValue:[PointerDictionary helpWithPointerType:@"verb frame"] forKey:@"footer"];
         [section setValue:sense.verbFrames forKey:@"collection"];
         [section setValue:@"sample" forKey:@"linkType"];
         [tableSections addObject:section];
@@ -393,7 +394,7 @@
     if (sense.samples && sense.samples.count > 0) {
         section = [NSMutableDictionary dictionary];
         [section setValue:@"Sample Sentences" forKey:@"header"];
-        [section setValue:[Sense helpWithPointerType:@"sample sentence"] forKey:@"footer"];
+        [section setValue:[PointerDictionary helpWithPointerType:@"sample sentence"] forKey:@"footer"];
         [section setValue:sense.samples forKey:@"collection"];
         [section setValue:@"sample" forKey:@"linkType"];
         [tableSections addObject:section];
@@ -403,11 +404,11 @@
         NSArray* keys = [sense.pointers allKeys];
         for (int j=0; j<keys.count; ++j) {
             NSString* key = [keys objectAtIndex:j];
-            NSString* title = [Sense titleWithPointerType:key];
+            NSString* title = [PointerDictionary titleWithPointerType:key];
             
             section = [NSMutableDictionary dictionary];
             [section setValue:title forKey:@"header"];
-            [section setValue:[Sense helpWithPointerType:key] forKey:@"footer"];
+            [section setValue:[PointerDictionary helpWithPointerType:key] forKey:@"footer"];
             [section setValue:[sense.pointers valueForKey:key] forKey:@"collection"];
             [section setValue:@"pointer" forKey:@"linkType"];
             [tableSections addObject:section];
