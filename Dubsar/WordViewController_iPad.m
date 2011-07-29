@@ -36,7 +36,6 @@
         // Custom initialization
         word = [theWord retain];
         word.delegate = self;
-        [word load];
         
         self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
     }
@@ -49,6 +48,11 @@
     [inflectionsLabel release];
     [_tableView release];
     [super dealloc];
+}
+
+- (void)load
+{
+    [word load];
 }
 
 - (void)didReceiveMemoryWarning
@@ -185,7 +189,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Sense* sense = [word.senses objectAtIndex:indexPath.section];
-    [self.navigationController pushViewController:[[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense]autorelease] animated:YES];
+    SenseViewController_iPad* senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense]autorelease];
+    [senseViewController load];
+    [self.navigationController pushViewController:senseViewController animated:YES];
 }
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error

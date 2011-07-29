@@ -36,7 +36,6 @@
         // Custom initialization
         search = [[Search searchWithTerm:text matchCase:matchCase]retain];
         search.delegate = self;
-        [search load];
         
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", text];
     }
@@ -48,6 +47,11 @@
     [search release];
     [tableView release];
     [super dealloc];
+}
+
+- (void)load
+{
+    [search load];
 }
 
 - (void)didReceiveMemoryWarning
@@ -179,6 +183,7 @@
     
     Word* word = [search.results objectAtIndex:indexPath.row];
     WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
+    [wordViewController load];
     [self.navigationController pushViewController:wordViewController animated:YES];
 }
 

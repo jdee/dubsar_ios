@@ -49,6 +49,7 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 - (void)loadRootController;
+- (void)load;
 
 - (void)setupTableSections;
 - (IBAction)showWordView:(id)sender;

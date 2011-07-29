@@ -41,7 +41,6 @@
         // Custom initialization
         word = [theWord retain];
         word.delegate = self;
-        [word load];
         
         [self adjustTitle];
         
@@ -62,6 +61,11 @@
     [headerLabel release];
     [inflectionsScrollView release];
     [super dealloc];
+}
+
+- (void)load
+{
+    [word load];
 }
 
 - (void)didReceiveMemoryWarning
@@ -196,6 +200,7 @@
 {
     Sense* sense = [word.senses objectAtIndex:indexPath.section];
     SenseViewController_iPad* viewController = [[[SenseViewController_iPad alloc] initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense] autorelease];
+    [viewController load];
   
     [popoverController dismissPopoverAnimated:YES];
     [navigationController pushViewController:viewController animated:YES];

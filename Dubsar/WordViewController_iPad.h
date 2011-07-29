@@ -34,5 +34,6 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 - (void)adjustInflections;
 - (void)loadRootController;
+- (void)load;
 
 @end

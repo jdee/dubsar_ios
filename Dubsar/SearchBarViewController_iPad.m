@@ -95,6 +95,7 @@
     [autocompleterTableView setHidden:YES];
     
     SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil text:_searchText matchCase:caseSwitch.on];
+    [searchViewController load];
     [_navigationController pushViewController:searchViewController animated:YES];
 }
 
@@ -243,6 +244,7 @@
     [autocompleterTableView setHidden:YES];
     
     SearchViewController_iPad* searchViewController = [[[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text: text matchCase:caseSwitch.on]autorelease];
+    [searchViewController load];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }
 

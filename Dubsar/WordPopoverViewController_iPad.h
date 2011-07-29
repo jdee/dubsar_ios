@@ -40,5 +40,6 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 - (void)adjustInflections;
 - (void)adjustTitle;
+- (void)load;
 
 @end

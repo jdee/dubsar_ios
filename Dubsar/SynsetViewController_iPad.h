@@ -48,6 +48,7 @@
 - (void)adjustBannerLabel;
 - (void)setupTableSections;
 - (void)loadRootController;
+- (void)load;
 - (void)followTableLink:(NSIndexPath*)indexPath;
 
 - (void)displayPopup:(NSString*)text;

@@ -31,5 +31,6 @@
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)text matchCase:(BOOL)matchCase;
+- (void)load;
 
 @end

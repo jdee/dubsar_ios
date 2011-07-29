@@ -69,7 +69,6 @@
         // Custom initialization
         self.sense = theSense;
         sense.delegate = self;
-        [sense load];
         
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
         
@@ -78,6 +77,11 @@
         
    }
     return self;
+}
+
+- (void)load
+{
+    [sense load];
 }
 
 - (void)dealloc
@@ -182,11 +186,14 @@
     id _object = [_collection objectAtIndex:row];
     
     Sense* targetSense=nil;
-    
+    SenseViewController_iPad* senseViewController;    
+
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = _object;
         NSLog(@"links to Sense %@", targetSense.nameAndPos);
-        [self.navigationController pushViewController:[[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease] animated:YES];
+        senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
+        [senseViewController load];
+        [self.navigationController pushViewController:senseViewController animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
         [self displayPopup:_object];
@@ -197,7 +204,9 @@
         /* sense pointer */
         targetSense = [Sense senseWithId:targetId.intValue name:[pointer objectAtIndex:2] partOfSpeech:POSUnknown];
         NSLog(@"links to Sense %@", targetSense.nameAndPos);
-        [self.navigationController pushViewController:[[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease] animated:YES];
+        senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
+        [senseViewController load];
+        [self.navigationController pushViewController:senseViewController animated:YES];
     }
     else {
         NSArray* pointer = _object;
@@ -205,7 +214,9 @@
         /* synset pointer */
         Synset* targetSynset = [Synset synsetWithId:targetId.intValue partOfSpeech:POSUnknown];
         NSLog(@"links to Synset %d", targetSynset._id);
-        [self.navigationController pushViewController:[[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset]autorelease] animated:YES];
+        SynsetViewController_iPad* synsetViewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset]autorelease];
+        [synsetViewController load];
+        [self.navigationController pushViewController:synsetViewController animated:YES];
     }
 }
 
@@ -421,12 +432,14 @@
 - (IBAction)showWordView:(id)sender 
 {
     WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word]autorelease];
+    [wordViewController load];
     [self.navigationController pushViewController:wordViewController animated:YES];
 }
 
 - (IBAction)showSynsetView:(id)sender 
 {
     SynsetViewController_iPad* synsetViewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset]autorelease];
+    [synsetViewController load];
     [self.navigationController pushViewController:synsetViewController animated:YES];
 }
 
@@ -435,6 +448,7 @@
     UIView* senderView = (UIView*)sender;
     
     WordPopoverViewController_iPad* wordViewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word]autorelease];
+    [wordViewController load];
     [popoverController release];
     popoverController = [[UIPopoverController alloc]initWithContentViewController:wordViewController];
     wordViewController.popoverController = popoverController;

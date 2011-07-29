@@ -74,7 +74,6 @@
         // Custom initialization
         self.synset = theSynset;
         synset.delegate = self;
-        [synset load];
         
         [self adjustTitle];
                 
@@ -93,6 +92,11 @@
     [bannerLabel release];
     [glossLabel release];
     [super dealloc];
+}
+
+- (void)load
+{
+    [synset load];
 }
 
 - (void)didReceiveMemoryWarning
@@ -224,7 +228,9 @@
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = _object;
         NSLog(@"links to Sense %@", targetSense.nameAndPos);
-        [self.navigationController pushViewController:[[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease] animated:YES];
+        SenseViewController_iPad* senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
+        [senseViewController load];
+        [self.navigationController pushViewController:senseViewController animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
         [self displayPopup:_object];
@@ -235,7 +241,9 @@
         /* synset pointer */
         Synset* targetSynset = [Synset synsetWithId:targetId.intValue partOfSpeech:POSUnknown];
         NSLog(@"links to Synset %d", targetSynset._id);
-        [self.navigationController pushViewController:[[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset]autorelease] animated:YES];
+        SynsetViewController_iPad* synsetViewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset]autorelease];
+        [synsetViewController load];
+        [self.navigationController pushViewController:synsetViewController animated:YES];
     }
 }
 
