@@ -43,13 +43,10 @@
         matchCase = mustMatchCase;
         term = [theTerm retain];
         results = nil;
-        if (matchCase) {
-            [self set_url: [NSString stringWithFormat:@"/?term=%@&match=case", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
-           
-        }
-        else {
-            [self set_url: [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]]];
-        }
+        
+        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
+        if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
+        [self set_url:__url];
     }
     return self;
 }
