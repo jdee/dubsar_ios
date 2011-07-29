@@ -222,9 +222,12 @@
     float height = offset + 66.0*[self numberOfSectionsInTableView:_tableView];
     
     size.height = height;
+    frame.size = size;
 
     popoverController.popoverContentSize = size;
     self.contentSizeForViewInPopover = size;
+    
+    _tableView.frame = frame;
     
     [self adjustTitle];
     [self adjustInflections];
