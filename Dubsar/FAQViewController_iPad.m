@@ -30,7 +30,8 @@
     if (self) {
         self.title = @"Dubsar Mobile FAQ";
         NSString *_url = @"http://m.dubsar-dictionary.com/m_faq";
-        url = [[NSURL URLWithString:_url]retain];       
+        url = [[NSURL URLWithString:_url]retain];    
+        ready = false;
     }
     return self;
 }
@@ -55,9 +56,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     // Do any additional setup after loading the view from its nib.
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
-    [webView loadRequest:request];
+     
+    // [self displayMessage:@"loading..." url:[NSURL URLWithString:@"about:blank"]];
+    [self displayMessage:@"loading..." url:url];
 }
 
 - (void)viewDidUnload
@@ -74,11 +77,19 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)theWebView
 {
+    if (!ready) return ;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
+    if (!ready) {
+        NSURLRequest* request = [NSURLRequest requestWithURL:url];
+        [webView loadRequest:request];
+        ready = true;
+        return;
+    }
+
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
 }
 
@@ -89,14 +100,20 @@
     NSString* errMsg = [error localizedDescription];
     UIAlertView* alertView = [[[UIAlertView alloc]initWithTitle:@"Network Error" message:errMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil]autorelease];
     [alertView show];
-    
-    [theWebView loadHTMLString:[NSString stringWithFormat:@"<html><body><h1 style=\"text-align: center;\">%@</h1></body></html>", errMsg ] baseURL:url];
+    [self displayMessage:errMsg url:url];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
 	return YES;
+}
+
+- (void)displayMessage:(NSString*)text url:(NSURL *)baseUrl
+{
+    // NSURL* baseUrl = [NSURL URLWithString:@""];
+    [webView loadHTMLString:[NSString stringWithFormat:@"<html><body style=\"background-color: #c0c0c0;\"><h1 style=\"text-align: center; margin-top: 2ex; font: bold 24pt Helvetica;\">%@</h1></body></html>", text ] baseURL:baseUrl];
+    
 }
 
 @end

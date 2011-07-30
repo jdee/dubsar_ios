@@ -22,9 +22,12 @@
 @interface FAQViewController_iPad : UIViewController <UIWebViewDelegate> {
     
     UIWebView *webView;
+    bool ready;
 }
 
 @property (nonatomic, retain) NSURL* url;
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
+
+- (void)displayMessage:(NSString*)text url:(NSURL*)baseUrl;
 
 @end
