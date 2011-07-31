@@ -184,7 +184,8 @@
     if (model != search) return;
 
     if (!model.error) {
-        float height = search.results.count*44.0;
+        int rows = search.results.count > 1 ? search.results.count : 1 ;
+        float height = rows*44.0;
         if (height < self.view.frame.size.height) {
             CGRect frame = tableView.frame;
             frame.size.height = height;
