@@ -214,24 +214,40 @@
     }
     
     NSLog(@"popover controller received word response");
+    NSLog(@"freq. cnt.: %d; inflections: \"%@\"", word.freqCnt, word.inflections);
     
-    CGRect frame = _tableView.frame;
-    CGSize size = frame.size;
-    
-    float offset = (word.inflections.length == 0 && word.freqCnt == 0) ? 37.0 : 81.0;
-    float height = offset + 66.0*[self numberOfSectionsInTableView:_tableView];
-    
-    size.height = height;
-    frame.size = size;
-
-    popoverController.popoverContentSize = size;
-    self.contentSizeForViewInPopover = size;
-    
-    _tableView.frame = frame;
+    [self adjustTableViewFrame];
+    [self adjustPopoverSize];    
     
     [self adjustTitle];
     [self adjustInflections];
     [_tableView reloadData];
+}
+
+- (void)adjustTableViewFrame
+{
+    CGRect frame = _tableView.frame;
+    
+    // the inflections label is hidden if it would be empty
+    if (word.inflections.length == 0 && word.freqCnt == 0) {
+        [inflectionsTextView setHidden:YES];
+        frame.origin.y = 37.0;
+    }
+    
+    _tableView.frame = frame;
+
+}
+
+- (void)adjustPopoverSize
+{
+    CGSize popoverSize = self.view.frame.size;
+    
+    float offset = (word.inflections.length == 0 && word.freqCnt == 0) ? 37.0 : 81.0;
+    float popoverHeight = offset + 66.0*word.senses.count;
+    popoverSize.height = popoverHeight > 1100.0 ? 1100.0 : popoverHeight;
+
+    popoverController.popoverContentSize = popoverSize;
+    self.contentSizeForViewInPopover = popoverSize;
 }
 
 - (void)adjustTitle
@@ -241,12 +257,7 @@
 
 - (void)adjustInflections
 {
-    if (word.inflections.length == 0 && word.freqCnt == 0) {
-        [inflectionsTextView setHidden:YES];
-        CGRect frame = _tableView.frame;
-        frame.origin.y = 37.0;
-        _tableView.frame = frame;
-    }
+    if (word.freqCnt == 0 && word.inflections.length == 0) return;
     
     NSString* text = [NSString string];
     if (word.freqCnt > 0) {

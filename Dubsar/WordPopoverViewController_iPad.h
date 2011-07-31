@@ -40,4 +40,7 @@
 - (void)adjustTitle;
 - (void)load;
 
+- (void)adjustTableViewFrame;
+- (void)adjustPopoverSize;
+
 @end
