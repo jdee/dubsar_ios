@@ -17,9 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "AboutViewController_iPad.h"
 #import "Autocompleter.h"
 #import "FAQViewController_iPad.h"
-#import "LicenseViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 #import "SearchViewController_iPad.h"
 
@@ -173,10 +173,9 @@
     [_navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (IBAction)showLicense:(id)sender 
+- (IBAction)showAboutPage:(id)sender
 {
-    LicenseViewController_iPad* licenseViewController = [[[LicenseViewController_iPad alloc] initWithNibName:@"LicenseViewController_iPad" bundle:nil]autorelease];
-    [_navigationController pushViewController:licenseViewController animated:YES];
+    [_navigationController pushViewController:[[[AboutViewController_iPad alloc]initWithNibName:@"AboutViewController_iPad" bundle:nil]autorelease] animated:YES];
 }
 
 

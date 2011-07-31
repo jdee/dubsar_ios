@@ -24,6 +24,7 @@
 #import "SynsetViewController_iPad.h"
 #import "WordPopoverViewController_iPad.h"
 #import "WordViewController_iPad.h"
+#import "Word.h"
 
 @implementation SenseViewController_iPad
 @synthesize detailGlossTextView;
@@ -357,7 +358,7 @@
         [glossTextView setText:error];
         return;
     }
-    
+
     [glossTextView setText:sense.gloss];
     [detailGlossTextView setText:sense.gloss];
     [self adjustBannerLabel];

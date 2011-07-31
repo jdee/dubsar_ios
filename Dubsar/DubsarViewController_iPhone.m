@@ -17,9 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "AboutViewController_iPhone.h"
 #import "DubsarViewController_iPhone.h"
 #import "FAQViewController_iPhone.h"
-#import "LicenseViewController_iPhone.h"
 
 @implementation DubsarViewController_iPhone
 
@@ -71,20 +71,22 @@
             initWithNibName:@"FAQViewController_iPhone" bundle:nil]autorelease] animated: YES];    
 }
 
-- (void)displayLicense 
+- (void)displayAbout
 {
-    [self presentModalViewController:[[[LicenseViewController_iPhone alloc]
-            initWithNibName:@"LicenseViewController_iPhone" bundle:nil]autorelease] animated: YES];
+    AboutViewController_iPhone* aboutViewController = [[[AboutViewController_iPhone alloc]
+                                                        initWithNibName:@"AboutViewController_iPhone" bundle:nil]autorelease];
+    aboutViewController.mainViewController = self;
+    [self presentModalViewController:aboutViewController animated: YES];
 }
 
 - (void)createToolbarItems
 {
     UIBarButtonItem* faqButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)]autorelease];
-    UIBarButtonItem* licenseButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"License" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLicense)]autorelease];
+    UIBarButtonItem* aboutButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAbout)]autorelease];
     
     NSMutableArray* buttonItems = [NSMutableArray array];
     [buttonItems addObject:faqButtonItem];
-    [buttonItems addObject:licenseButtonItem];
+    [buttonItems addObject:aboutButtonItem];
     
     self.toolbarItems = buttonItems.retain;
 }

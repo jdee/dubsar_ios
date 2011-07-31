@@ -19,6 +19,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define VERSION @"1.0"
+
 extern const NSString* DubsarBaseUrl;
 
 typedef enum  {

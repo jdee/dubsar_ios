@@ -23,6 +23,6 @@
 }
 
 - (void)displayFAQ;
-- (void)displayLicense;
+- (void)displayAbout;
 
 @end
