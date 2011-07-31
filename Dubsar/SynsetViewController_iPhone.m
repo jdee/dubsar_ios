@@ -90,6 +90,7 @@
 
 - (void)dealloc
 {
+    [tableSections release];
     [detailGlossTextView release];
     [synset release];
     [bannerLabel release];

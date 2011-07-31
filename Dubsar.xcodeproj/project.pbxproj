@@ -369,11 +369,11 @@
 				7B32807513E38BBE00274E6C /* SearchViewController_iPad.m */,
 				7B32807613E38BBE00274E6C /* SearchViewController_iPad.xib */,
 				7B32807E13E38BF200274E6C /* SenseViewController_iPad.h */,
+				7B32807F13E38BF300274E6C /* SenseViewController_iPad.m */,
+				7B32808013E38BF300274E6C /* SenseViewController_iPad.xib */,
 				7B32808313E38C0300274E6C /* SynsetViewController_iPad.h */,
 				7B32808413E38C0300274E6C /* SynsetViewController_iPad.m */,
 				7B32808513E38C0300274E6C /* SynsetViewController_iPad.xib */,
-				7B32807F13E38BF300274E6C /* SenseViewController_iPad.m */,
-				7B32808013E38BF300274E6C /* SenseViewController_iPad.xib */,
 				7B32807913E38BDE00274E6C /* WordViewController_iPad.h */,
 				7B32807A13E38BDE00274E6C /* WordViewController_iPad.m */,
 				7B32807B13E38BDF00274E6C /* WordViewController_iPad.xib */,
@@ -704,8 +704,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -722,8 +722,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";

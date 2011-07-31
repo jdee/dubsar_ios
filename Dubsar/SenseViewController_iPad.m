@@ -89,6 +89,7 @@
 
 - (void)dealloc
 {
+    [tableSections release];
     [popoverController release];
     [detailNib release];
     [sense release];

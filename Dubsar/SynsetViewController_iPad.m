@@ -88,6 +88,7 @@
 
 - (void)dealloc
 {
+    [tableSections release];
     [detailGlossTextView release];
     [detailLabel release];
     [detailView release];
