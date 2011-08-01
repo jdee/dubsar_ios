@@ -23,7 +23,6 @@
 //  Define USE_APPLICATION_UNIT_TEST to 0 if the unit test code is designed to be linked into an independent test executable.
 
 
-#ifdef COMPILE_WITH_UNIT_TESTS
 #import <SenTestingKit/SenTestingKit.h>
 #import <UIKit/UIKit.h>
 
@@ -39,4 +38,3 @@
 - (void)singleTitleCase:(NSString*)ptype expected:(NSString*)expected;
 
 @end
-#endif // COMPILE_WITH_UNIT_TESTS

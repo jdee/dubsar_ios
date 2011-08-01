@@ -20,7 +20,6 @@
 #import "Autocompleter.h"
 #import "AutocompleterTest.h"
 
-#ifdef COMPILE_WITH_UNIT_TESTS
 @implementation AutocompleterTest
 
 -(void)testParsing
@@ -41,8 +40,7 @@
     autocompleter.data = data;
     [autocompleter parseData];
     
-    STAssertEqual(3, autocompleter.results.count, @"expected 3 autocompleter results, got %u", autocompleter.results.count);
+    STAssertTrue(3 == autocompleter.results.count, @"expected 3 autocompleter results, got %u", autocompleter.results.count);
 }
 
 @end
-#endif // COMPILE_WITH_UNIT_TESTS
