@@ -59,7 +59,7 @@
     STAssertNotNil(dictionary, @"PointerDictionary should not be nil");
     STAssertNotNil(dictionary.helpDictionary, @"help dictionary should not be nil");
     
-    STAssertTrue(dictionary.helpDictionary.count == 29, @"expected 29 entries in help dictionary, found %d", dictionary.helpDictionary.count);
+    STAssertEquals((unsigned int)29, dictionary.helpDictionary.count, @"expected 29 entries in help dictionary, found %d", dictionary.helpDictionary.count);
     
     [self singleHelpCase:@"antonym" expected:@"words opposite in meaning"];
     [self singleHelpCase:@"hypernym" expected:@"more generic terms"];
@@ -99,7 +99,7 @@
     STAssertNotNil(dictionary, @"PointerDictionary should not be nil");
     STAssertNotNil(dictionary.titleDictionary, @"title dictionary should not be nil");
     
-    STAssertTrue(dictionary.titleDictionary.count == 29, @"expected 29 entries in title dictionary, found %d", dictionary.titleDictionary.count);
+    STAssertEquals((unsigned int)29, dictionary.titleDictionary.count, @"expected 29 entries in title dictionary, found %d", dictionary.titleDictionary.count);
     
     [self singleTitleCase:@"antonym" expected:@"Antonyms"];
     [self singleTitleCase:@"hypernym" expected:@"Hypernyms"];

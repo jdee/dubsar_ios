@@ -19,8 +19,30 @@
 
 #import "ModelTestCase.h"
 
-@interface AutocompleterTest : ModelTestCase {
+@implementation ModelTestCase
+
++ (NSMutableData*)dataWithString:(NSString*)stringData
+{
+    NSRange range;
+    range.location = 0;
+    range.length = stringData.length;
     
+    NSUInteger length;
+    unsigned char buffer[256];
+    
+    [stringData getBytes:buffer maxLength:256 usedLength:&length encoding:NSUTF8StringEncoding options:0 range:range remainingRange:NULL];
+    
+    return [NSData dataWithBytes:buffer length:length];
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        // Initialization code here.
+    }
+    
+    return self;
 }
 
 @end

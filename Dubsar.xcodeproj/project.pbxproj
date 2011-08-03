@@ -81,6 +81,15 @@
 		7B3280D113E38F8200274E6C /* FAQViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280CF13E38F8200274E6C /* FAQViewController_iPhone.m */; };
 		7B3280D213E38F8200274E6C /* FAQViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3280D013E38F8200274E6C /* FAQViewController_iPhone.xib */; };
 		7B3280DA13E3900700274E6C /* SearchBarViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280D913E3900700274E6C /* SearchBarViewController_iPhone.m */; };
+		7B59C4CE13E8A5E8006F5FDB /* SearchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4CD13E8A5E8006F5FDB /* SearchTest.m */; };
+		7B59C4D013E8A74C006F5FDB /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809C13E38CEE00274E6C /* Search.m */; };
+		7B59C4D113E8A762006F5FDB /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280A213E38CEE00274E6C /* Word.m */; };
+		7B59C4D213E8A76D006F5FDB /* Sense.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809E13E38CEE00274E6C /* Sense.m */; };
+		7B59C4D313E8A775006F5FDB /* Synset.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280A013E38CEE00274E6C /* Synset.m */; };
+		7B59C4D613E8A7BE006F5FDB /* ModelTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4D513E8A7BE006F5FDB /* ModelTestCase.m */; };
+		7B59C4D913E8AC9A006F5FDB /* WordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4D813E8AC9A006F5FDB /* WordTest.m */; };
+		7B59C4DC13E8B05C006F5FDB /* SenseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4DB13E8B05C006F5FDB /* SenseTest.m */; };
+		7B59C4E013E8CAF9006F5FDB /* SynsetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4DF13E8CAF9006F5FDB /* SynsetTest.m */; };
 		7B6953B613E6E3CC00B10519 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B69537B13E6E21700B10519 /* SenTestingKit.framework */; };
 		7B6953B713E6E3CC00B10519 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF113E3875400274E6C /* UIKit.framework */; };
 		7B6953B813E6E3CC00B10519 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF313E3875400274E6C /* Foundation.framework */; };
@@ -215,6 +224,16 @@
 		7B3280D013E38F8200274E6C /* FAQViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FAQViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B3280D813E3900600274E6C /* SearchBarViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarViewController_iPhone.h; sourceTree = "<group>"; };
 		7B3280D913E3900700274E6C /* SearchBarViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarViewController_iPhone.m; sourceTree = "<group>"; };
+		7B59C4CC13E8A5E8006F5FDB /* SearchTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTest.h; sourceTree = "<group>"; };
+		7B59C4CD13E8A5E8006F5FDB /* SearchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTest.m; sourceTree = "<group>"; };
+		7B59C4D413E8A7BE006F5FDB /* ModelTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelTestCase.h; sourceTree = "<group>"; };
+		7B59C4D513E8A7BE006F5FDB /* ModelTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelTestCase.m; sourceTree = "<group>"; };
+		7B59C4D713E8AC9A006F5FDB /* WordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordTest.h; sourceTree = "<group>"; };
+		7B59C4D813E8AC9A006F5FDB /* WordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordTest.m; sourceTree = "<group>"; };
+		7B59C4DA13E8B05B006F5FDB /* SenseTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SenseTest.h; sourceTree = "<group>"; };
+		7B59C4DB13E8B05C006F5FDB /* SenseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SenseTest.m; sourceTree = "<group>"; };
+		7B59C4DE13E8CAF9006F5FDB /* SynsetTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetTest.h; sourceTree = "<group>"; };
+		7B59C4DF13E8CAF9006F5FDB /* SynsetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetTest.m; sourceTree = "<group>"; };
 		7B69537B13E6E21700B10519 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		7B6953B513E6E3CC00B10519 /* DubsarTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6953BC13E6E3CC00B10519 /* DubsarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarTests-Info.plist"; sourceTree = "<group>"; };
@@ -441,15 +460,33 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
-		7B6953BA13E6E3CC00B10519 /* DubsarTests */ = {
+		7B59C4DD13E8CAB3006F5FDB /* Model Tests */ = {
 			isa = PBXGroup;
 			children = (
 				7B00DF5913E6F03C00E80FCC /* AutocompleterTest.h */,
 				7B00DF5A13E6F03C00E80FCC /* AutocompleterTest.m */,
+				7B59C4D413E8A7BE006F5FDB /* ModelTestCase.h */,
+				7B59C4D513E8A7BE006F5FDB /* ModelTestCase.m */,
 				7B00DF5413E6EEB900E80FCC /* PartOfSpeechDictionaryTest.h */,
 				7B00DF5513E6EEB900E80FCC /* PartOfSpeechDictionaryTest.m */,
 				7B00DF6013E6F0E200E80FCC /* PointerDictionaryTest.h */,
 				7B00DF6113E6F0E200E80FCC /* PointerDictionaryTest.m */,
+				7B59C4CC13E8A5E8006F5FDB /* SearchTest.h */,
+				7B59C4CD13E8A5E8006F5FDB /* SearchTest.m */,
+				7B59C4DA13E8B05B006F5FDB /* SenseTest.h */,
+				7B59C4DB13E8B05C006F5FDB /* SenseTest.m */,
+				7B59C4DE13E8CAF9006F5FDB /* SynsetTest.h */,
+				7B59C4DF13E8CAF9006F5FDB /* SynsetTest.m */,
+				7B59C4D713E8AC9A006F5FDB /* WordTest.h */,
+				7B59C4D813E8AC9A006F5FDB /* WordTest.m */,
+			);
+			name = "Model Tests";
+			sourceTree = "<group>";
+		};
+		7B6953BA13E6E3CC00B10519 /* DubsarTests */ = {
+			isa = PBXGroup;
+			children = (
+				7B59C4DD13E8CAB3006F5FDB /* Model Tests */,
 				7B6953BB13E6E3CC00B10519 /* Supporting Files */,
 			);
 			path = DubsarTests;
@@ -643,6 +680,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B59C4D313E8A775006F5FDB /* Synset.m in Sources */,
+				7B59C4D213E8A76D006F5FDB /* Sense.m in Sources */,
+				7B59C4D113E8A762006F5FDB /* Word.m in Sources */,
+				7B59C4D013E8A74C006F5FDB /* Search.m in Sources */,
 				7B00DF6313E6F11F00E80FCC /* PointerDictionary.m in Sources */,
 				7B00DF5F13E6F0B800E80FCC /* URLEncoding.m in Sources */,
 				7B00DF5C13E6F0A100E80FCC /* JSONKit.m in Sources */,
@@ -653,6 +694,11 @@
 				7B00DF5613E6EEB900E80FCC /* PartOfSpeechDictionaryTest.m in Sources */,
 				7B00DF5B13E6F03C00E80FCC /* AutocompleterTest.m in Sources */,
 				7B00DF6213E6F0E200E80FCC /* PointerDictionaryTest.m in Sources */,
+				7B59C4CE13E8A5E8006F5FDB /* SearchTest.m in Sources */,
+				7B59C4D613E8A7BE006F5FDB /* ModelTestCase.m in Sources */,
+				7B59C4D913E8AC9A006F5FDB /* WordTest.m in Sources */,
+				7B59C4DC13E8B05C006F5FDB /* SenseTest.m in Sources */,
+				7B59C4E013E8CAF9006F5FDB /* SynsetTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

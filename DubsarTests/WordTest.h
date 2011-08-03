@@ -19,8 +19,6 @@
 
 #import "ModelTestCase.h"
 
-@interface AutocompleterTest : ModelTestCase {
-    
-}
+@interface WordTest : ModelTestCase
 
 @end

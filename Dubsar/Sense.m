@@ -149,7 +149,7 @@
 #endif // AUTORELEASE_POOL_FOR_SYNOYMS
     
     for(int j=0; j<synonyms.count; ++j) {
-        Word* synonym = [synonyms objectAtIndex:j];
+        Sense* synonym = [synonyms objectAtIndex:j];
         synonymList = [synonymList stringByAppendingString:synonym.name];
         if (j<synonyms.count-1) {
             synonymList = [synonymList stringByAppendingString:@", "];
@@ -193,9 +193,11 @@
 
 -(void)parseData
 {
-    NSLog(@"parsing Sense response for %@", self.nameAndPos);
+    NSLog(@"parsing Sense response for %@, %u bytes", self.nameAndPos, [self data].length);
     
     NSArray* response = [[self decoder] objectWithData:[self data]];
+    NSLog(@"sense response array has %u entries", response.count);
+    
     NSArray* _word = [response objectAtIndex:1];
     NSNumber* _wordId = [_word objectAtIndex:0];
     NSArray* _synset = [response objectAtIndex:2];

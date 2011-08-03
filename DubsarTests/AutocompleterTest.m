@@ -25,22 +25,16 @@
 -(void)testParsing
 {
     NSString* stringData = @"[ \"li\", [ \"like\", \"link\", \"lion\" ] ]";
-    NSRange range;
-    range.location = 0;
-    range.length = stringData.length;
-    
-    NSUInteger length;
-    unsigned char buffer[256];
-    
-    [stringData getBytes:buffer maxLength:256 usedLength:&length encoding:NSUTF8StringEncoding options:0 range:range remainingRange:NULL];
-    
-    NSMutableData* data = [NSData dataWithBytes:buffer length:length];
     
     Autocompleter* autocompleter = [Autocompleter autocompleterWithTerm:@"li" matchCase:NO];
-    autocompleter.data = data;
+    autocompleter.data = [self.class dataWithString:stringData];
     [autocompleter parseData];
     
-    STAssertTrue(3 == autocompleter.results.count, @"expected 3 autocompleter results, got %u", autocompleter.results.count);
+    NSArray* results = autocompleter.results;
+    STAssertEquals((unsigned int)3, results.count, @"expected 3 autocompleter results, got %u", results.count);
+    STAssertEqualObjects(@"like", [results objectAtIndex:0], @"expected \"like\", found \"%@\"", [results objectAtIndex:0]);
+    STAssertEqualObjects(@"link", [results objectAtIndex:1], @"expected \"link\", found \"%@\"", [results objectAtIndex:1]);
+    STAssertEqualObjects(@"lion", [results objectAtIndex:2], @"expected \"lion\", found \"%@\"", [results objectAtIndex:2]);
 }
 
 @end

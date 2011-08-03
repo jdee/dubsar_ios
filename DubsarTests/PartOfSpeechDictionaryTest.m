@@ -18,7 +18,7 @@
     STAssertNotNil(dictionary, @"PartOfSpeechDictionary should not be nil");
     STAssertNotNil(dictionary.dictionary, @"NSDictionary should not be nil");
     
-    STAssertTrue(8 == dictionary.dictionary.count, @"expected dictionary to have 8 entries, found %d", dictionary.dictionary.count);
+    STAssertEquals((unsigned int)8, dictionary.dictionary.count, @"expected dictionary to have 8 entries, found %d", dictionary.dictionary.count);
     
     PartOfSpeech partOfSpeech;
     
