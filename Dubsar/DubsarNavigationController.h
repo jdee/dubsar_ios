@@ -19,9 +19,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DubsarAppDelegate : NSObject <UIApplicationDelegate> {
-}
+#import "ForwardStack.h"
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+@interface DubsarNavigationController : UINavigationController
+
+@property (nonatomic, retain) ForwardStack* forwardStack;
+
+- (void)addBackButton;
+- (void)addForwardButton;
+
+- (void)back;
+- (void)forward;
 
 @end

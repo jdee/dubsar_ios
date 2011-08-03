@@ -19,9 +19,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DubsarAppDelegate : NSObject <UIApplicationDelegate> {
+@interface ForwardStack : NSObject {
+    NSMutableArray* stack;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+- (UIViewController*)topViewController;
+- (void)pushViewController:(UIViewController*)viewController;
+- (UIViewController*)popViewController;
+- (void)clear;
+- (unsigned int)count;
 
 @end

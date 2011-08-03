@@ -95,6 +95,13 @@
 		7B6953B813E6E3CC00B10519 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF313E3875400274E6C /* Foundation.framework */; };
 		7B6953B913E6E3CC00B10519 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF513E3875400274E6C /* CoreGraphics.framework */; };
 		7B6953BF13E6E3CC00B10519 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B6953BD13E6E3CC00B10519 /* InfoPlist.strings */; };
+		7B8AEB0913E9A39F00889E57 /* ForwardStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB0813E9A39F00889E57 /* ForwardStack.m */; };
+		7B8AEB1713E9ACA800889E57 /* DubsarNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB1613E9ACA800889E57 /* DubsarNavigationController.m */; };
+		7B8AEB1813E9ACA800889E57 /* DubsarNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB1613E9ACA800889E57 /* DubsarNavigationController.m */; };
+		7B8AEB3113E9D08100889E57 /* wedge-gray-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB2F13E9D08000889E57 /* wedge-gray-l.png */; };
+		7B8AEB3213E9D08100889E57 /* wedge-gray-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB2F13E9D08000889E57 /* wedge-gray-l.png */; };
+		7B8AEB3313E9D08100889E57 /* wedge-gray-r.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB3013E9D08000889E57 /* wedge-gray-r.png */; };
+		7B8AEB3413E9D08100889E57 /* wedge-gray-r.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB3013E9D08000889E57 /* wedge-gray-r.png */; };
 		7BB2270813E5A747005D454F /* AboutViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */; };
 		7BB2270913E5A747005D454F /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */; };
 		7BB2270E13E5B61B005D454F /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270D13E5B61B005D454F /* Default-Landscape~ipad.png */; };
@@ -327,6 +334,12 @@
 		7B6953BC13E6E3CC00B10519 /* DubsarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarTests-Info.plist"; sourceTree = "<group>"; };
 		7B6953BE13E6E3CC00B10519 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7B6953C413E6E3CC00B10519 /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
+		7B8AEB0713E9A39F00889E57 /* ForwardStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForwardStack.h; sourceTree = "<group>"; };
+		7B8AEB0813E9A39F00889E57 /* ForwardStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForwardStack.m; sourceTree = "<group>"; };
+		7B8AEB1513E9ACA800889E57 /* DubsarNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarNavigationController.h; sourceTree = "<group>"; };
+		7B8AEB1613E9ACA800889E57 /* DubsarNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarNavigationController.m; sourceTree = "<group>"; };
+		7B8AEB2F13E9D08000889E57 /* wedge-gray-l.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wedge-gray-l.png"; sourceTree = "<group>"; };
+		7B8AEB3013E9D08000889E57 /* wedge-gray-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wedge-gray-r.png"; sourceTree = "<group>"; };
 		7BB2270513E5A746005D454F /* AboutViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController_iPhone.h; sourceTree = "<group>"; };
 		7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_iPhone.m; sourceTree = "<group>"; };
 		7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -396,6 +409,8 @@
 		7B327FE213E3875400274E6C = {
 			isa = PBXGroup;
 			children = (
+				7B8AEB2F13E9D08000889E57 /* wedge-gray-l.png */,
+				7B8AEB3013E9D08000889E57 /* wedge-gray-r.png */,
 				7BCE75E913E741C900D1CECC /* iTunesArtwork */,
 				7BB2271913E5BA05005D454F /* Default@2x.png */,
 				7BB2271713E5B93D005D454F /* Default.png */,
@@ -448,6 +463,10 @@
 				7B3280AE13E38D9A00274E6C /* Dubsar.m */,
 				7B32800013E3875400274E6C /* DubsarAppDelegate.h */,
 				7B32800113E3875400274E6C /* DubsarAppDelegate.m */,
+				7B8AEB1513E9ACA800889E57 /* DubsarNavigationController.h */,
+				7B8AEB1613E9ACA800889E57 /* DubsarNavigationController.m */,
+				7B8AEB0713E9A39F00889E57 /* ForwardStack.h */,
+				7B8AEB0813E9A39F00889E57 /* ForwardStack.m */,
 				7B32808813E38C4200274E6C /* External */,
 				7B32808F13E38C9B00274E6C /* Models */,
 				7B32800313E3875400274E6C /* iPhone */,
@@ -784,6 +803,8 @@
 				7BB2271813E5B93E005D454F /* Default.png in Resources */,
 				7BB2271A13E5BA06005D454F /* Default@2x.png in Resources */,
 				7BCE75EA13E741C900D1CECC /* iTunesArtwork in Resources */,
+				7B8AEB3113E9D08100889E57 /* wedge-gray-l.png in Resources */,
+				7B8AEB3313E9D08100889E57 /* wedge-gray-r.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -836,6 +857,8 @@
 				7BF412AB13E8E6B000BAC92A /* Default.png in Resources */,
 				7BF412AC13E8E6B000BAC92A /* Default@2x.png in Resources */,
 				7BF412AD13E8E6B000BAC92A /* iTunesArtwork in Resources */,
+				7B8AEB3213E9D08100889E57 /* wedge-gray-l.png in Resources */,
+				7B8AEB3413E9D08100889E57 /* wedge-gray-r.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -918,6 +941,8 @@
 				7B3280DA13E3900700274E6C /* SearchBarViewController_iPhone.m in Sources */,
 				7B30646413E5A06000B2A1B1 /* AboutViewController_iPad.m in Sources */,
 				7BB2270813E5A747005D454F /* AboutViewController_iPhone.m in Sources */,
+				7B8AEB0913E9A39F00889E57 /* ForwardStack.m in Sources */,
+				7B8AEB1713E9ACA800889E57 /* DubsarNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -985,6 +1010,7 @@
 				7BF4128213E8E6B000BAC92A /* SearchBarViewController_iPhone.m in Sources */,
 				7BF4128313E8E6B000BAC92A /* AboutViewController_iPad.m in Sources */,
 				7BF4128413E8E6B000BAC92A /* AboutViewController_iPhone.m in Sources */,
+				7B8AEB1813E9ACA800889E57 /* DubsarNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

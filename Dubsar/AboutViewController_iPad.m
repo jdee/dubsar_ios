@@ -8,6 +8,7 @@
 
 #import "AboutViewController_iPad.h"
 #import "Dubsar.h"
+#import "DubsarAppDelegate_iPad.h"
 #import "LicenseViewController_iPad.h"
 
 @implementation AboutViewController_iPad
@@ -19,6 +20,15 @@
     if (self) {
         // Custom initialization
         self.title = @"About Dubsar for iPad";
+        
+        
+#if 0
+        DubsarAppDelegate_iPad* delegate = UIApplication.sharedApplication.delegate;
+        
+        UIBarButtonItem* forwardButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Forward" style:UIBarButtonItemStyleBordered target:delegate action:@selector(forward)]autorelease];
+        self.navigationItem.rightBarButtonItem = forwardButtonItem;
+#endif
+
     }
     return self;
 }

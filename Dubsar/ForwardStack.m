@@ -17,11 +17,52 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "ForwardStack.h"
 
-@interface DubsarAppDelegate : NSObject <UIApplicationDelegate> {
+@implementation ForwardStack
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        // Initialization code here.
+        stack = [[NSMutableArray array]retain];
+    }
+    
+    return self;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+- (void)dealloc
+{
+    [stack release];
+    [super dealloc];
+}
+
+- (void)pushViewController:(UIViewController *)viewController
+{
+    [stack addObject:viewController];
+}
+
+- (UIViewController*)popViewController
+{
+    UIViewController* viewController = self.topViewController;
+    [stack removeLastObject];
+    return viewController;
+}
+
+- (UIViewController*)topViewController
+{
+    return stack.lastObject;
+}
+
+- (void)clear
+{
+    [stack removeAllObjects];
+}
+
+- (unsigned int)count
+{
+    return stack.count;
+}
 
 @end
