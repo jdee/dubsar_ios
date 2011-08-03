@@ -44,6 +44,7 @@
 
 - (void)dealloc
 {
+    word.delegate = nil;
     [word release];
     [inflectionsLabel release];
     [_tableView release];

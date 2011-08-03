@@ -67,6 +67,11 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];   
+}
+
 - (void)webViewDidStartLoad:(UIWebView *)theWebView
 {
     if (!ready) return;

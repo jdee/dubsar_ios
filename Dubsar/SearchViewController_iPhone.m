@@ -54,6 +54,7 @@
 - (void)dealloc
 {
     [_tableView release];
+    search.delegate = nil;
     [search release];
     [_searchText release];
     [_pageLabel release];

@@ -44,6 +44,7 @@
 
 - (void)dealloc
 {
+    search.delegate = nil;
     [search release];
     [tableView release];
     [super dealloc];

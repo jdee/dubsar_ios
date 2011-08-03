@@ -43,6 +43,7 @@
 
 - (void)dealloc
 {
+    autocompleter.delegate = nil;
     [autocompleter release];
     [_searchText release];
     [searchBar release];

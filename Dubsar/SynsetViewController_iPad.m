@@ -92,6 +92,7 @@
     [detailGlossTextView release];
     [detailLabel release];
     [detailView release];
+    synset.delegate = nil;
     [synset release];
     [tableView release];
     [bannerLabel release];

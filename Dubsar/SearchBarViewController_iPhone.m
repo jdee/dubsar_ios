@@ -43,6 +43,7 @@
 - (void)dealloc
 {
     [proxy release];
+    autocompleter.delegate = nil;
     [autocompleter release];
     [autocompleterNib release];
     [searchBar release];

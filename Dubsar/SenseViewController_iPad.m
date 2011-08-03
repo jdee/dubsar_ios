@@ -92,6 +92,7 @@
     [tableSections release];
     [popoverController release];
     [detailNib release];
+    sense.delegate = nil;
     [sense release];
     [tableView release];
     [bannerLabel release];

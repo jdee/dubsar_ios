@@ -91,6 +91,7 @@
 - (void)dealloc
 {
     [tableSections release];
+    sense.delegate = nil;
     [sense release];
     [bannerLabel release];
     [tableView release];
