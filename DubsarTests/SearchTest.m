@@ -27,7 +27,7 @@
 
 -(void)testParsing
 {
-    NSString* stringData = @"[\"food\",[[26063,\"food\",\"n\"]]]";
+    NSString* stringData = @"[\"food\",[[26063,\"food\",\"n\",29,\"foods\"]]]";
 
     Search* search = [Search searchWithTerm:@"food" matchCase:NO];
     search.data = [self.class dataWithString:stringData];
@@ -36,10 +36,13 @@
     NSArray* results = search.results;
     Word* word = [results objectAtIndex:0];
     
-    STAssertEquals((unsigned int)1, results.count, @"expected 1 search result, got %u", results.count);
-    STAssertEquals(26063, word._id, @"expected 26063, found %d", word._id);
-    STAssertEqualObjects(@"food", word.name, @"expected \"food\", found \"%@\"", word.name);
-    STAssertEquals(POSNoun, word.partOfSpeech, @"expected n, found %@", [PartOfSpeechDictionary posFromPartOfSpeech:word.partOfSpeech]);
+    STAssertEquals((unsigned int)1, results.count, @"results count failed");
+    STAssertEquals(26063, word._id, @"word ID failed");
+    STAssertEqualObjects(@"food", word.name, @"word name failed");
+    STAssertEquals(POSNoun, word.partOfSpeech, @"word part of speech failed");
+    STAssertEquals(29, word.freqCnt, @"word frequency count failed");
+    STAssertNotNil(word.inflections, @"word inflections failed");
+    STAssertEqualObjects(@"foods", word.inflections, @"word inflection content failed");
 }
 
 @end

@@ -156,7 +156,7 @@
     
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType]autorelease];
     }
     
     if (!search.complete) {
@@ -190,6 +190,21 @@
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [word nameAndPos];
+    
+    NSString* subtitle = [NSString string];
+    if (word.freqCnt > 0) {
+        subtitle = [subtitle stringByAppendingFormat:@"freq. cnt.: %d", word.freqCnt];
+        if (word.inflections && word.inflections.length > 0) {
+            subtitle = [subtitle stringByAppendingString:@"; "];
+        }
+    }
+    if (word.inflections && word.inflections.length > 0) {
+        subtitle = [subtitle stringByAppendingFormat:@"also %@", word.inflections];
+    }
+    if (subtitle.length > 0) {
+        cell.detailTextLabel.text = subtitle;
+    }
+    
     return cell;
 }
 

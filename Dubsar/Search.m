@@ -73,8 +73,14 @@
         NSNumber* numericId = [entry objectAtIndex:0];
         NSString* name = [entry objectAtIndex:1];
         NSString* posString = [entry objectAtIndex:2];
+        NSNumber* numericFc = [entry objectAtIndex:3];
+        NSString* otherForms = [entry objectAtIndex:4];
         
-        [results insertObject:[Word wordWithId:numericId.intValue name:name posString:posString] atIndex:j];
+        Word* word = [Word wordWithId:numericId.intValue name:name posString:posString];
+        word.freqCnt = numericFc.intValue;
+        word.inflections = otherForms;
+        
+        [results insertObject:word atIndex:j];
     }
 }
 
