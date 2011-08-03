@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarNavigationController_iPad.h"
 #import "PointerDictionary.h"
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
@@ -46,9 +47,10 @@
     [UIView transitionWithView:self.view duration:0.4 
                        options:UIViewAnimationOptionTransitionFlipFromRight
                     animations:^{
+                        DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
                         mainView.hidden = YES;    
                         detailView.hidden = NO;
-                        self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+                        navigationController.searchToolbar.barStyle = UIBarStyleBlackOpaque;
                     } completion:^(BOOL finished){
                     }];
 }
@@ -58,9 +60,10 @@
     [UIView transitionWithView:self.view duration:0.4 
                        options:UIViewAnimationOptionTransitionFlipFromLeft 
                     animations:^{
+                        DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
                         mainView.hidden = NO;
                         detailView.hidden = YES;
-                        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+                        navigationController.searchToolbar.barStyle = UIBarStyleDefault;
                     } completion:^(BOOL finished){                    
                     }];
 }

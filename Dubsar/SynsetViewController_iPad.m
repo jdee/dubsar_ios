@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarNavigationController_iPad.h"
 #import "PartOfSpeechDictionary.h"
 #import "PointerDictionary.h"
 #import "Sense.h"
@@ -42,12 +43,13 @@
     [UIView transitionWithView:self.view duration:0.4 
                        options:UIViewAnimationOptionTransitionFlipFromRight 
                     animations:^{
+                        DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
                         bannerLabel.hidden = YES;
                         // glossScrollView.hidden = YES;
                         tableView.hidden = YES;
                         detailView.hidden = NO;
-                        self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-                        self.navigationController.toolbar.barStyle = UIBarStyleBlackOpaque;
+                        navigationController.searchToolbar.barStyle = UIBarStyleBlackOpaque;
+                        navigationController.toolbar.barStyle = UIBarStyleBlackOpaque;
                         UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleBlackOpaque;
                     } completion:^(BOOL finished){
                     }];
@@ -58,12 +60,13 @@
     [UIView transitionWithView:self.view duration:0.4 
                        options:UIViewAnimationOptionTransitionFlipFromLeft 
                     animations:^{
+                        DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
                         bannerLabel.hidden = NO;
                         // glossScrollView.hidden = NO;
                         tableView.hidden = NO;
                         detailView.hidden = YES;
-                        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-                        self.navigationController.toolbar.barStyle = UIBarStyleDefault;
+                        navigationController.searchToolbar.barStyle = UIBarStyleDefault;
+                        navigationController.toolbar.barStyle = UIBarStyleDefault;
                         UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleDefault;
                     } completion:^(BOOL finished){
                         

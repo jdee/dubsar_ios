@@ -18,7 +18,7 @@
  */
 
 #import "DubsarAppDelegate_iPhone.h"
-#import "DubsarNavigationController.h"
+#import "DubsarNavigationController_iPhone.h"
 #import "DubsarViewController_iPhone.h"
 
 @implementation DubsarAppDelegate_iPhone
@@ -29,7 +29,7 @@
 {    
     DubsarViewController_iPhone *rootViewController = [[DubsarViewController_iPhone alloc]
                                               initWithNibName:@"DubsarViewController_iPhone" bundle:nil];
-    UINavigationController* navigationController = [[[DubsarNavigationController alloc]initWithRootViewController:rootViewController]autorelease];
+    UINavigationController* navigationController = [[[DubsarNavigationController_iPhone alloc]initWithRootViewController:rootViewController]autorelease];
     [rootViewController release];
    
     [self.window setRootViewController:navigationController];

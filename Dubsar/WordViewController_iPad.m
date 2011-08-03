@@ -222,7 +222,7 @@
     if (word.inflections.length == 0 && word.freqCnt == 0) {
         inflectionsLabel.hidden = YES;
         CGRect frame = _tableView.frame;
-        frame.origin.y = 0;
+        frame.origin.y = 44.0;
         _tableView.frame = frame;
     }
     

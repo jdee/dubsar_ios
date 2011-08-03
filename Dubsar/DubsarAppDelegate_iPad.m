@@ -18,7 +18,7 @@
  */
 
 #import "DubsarAppDelegate_iPad.h"
-#import "DubsarNavigationController.h"
+#import "DubsarNavigationController_iPad.h"
 #import "DubsarViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 
@@ -32,7 +32,7 @@
     SearchBarViewController_iPad* searchBarViewController = [[[SearchBarViewController_iPad alloc]initWithNibName:@"SearchBarViewController_iPad" bundle:nil]autorelease];
     DubsarViewController_iPad* dubsarViewController = [[[DubsarViewController_iPad alloc]initWithNibName:@"DubsarViewController_iPad" bundle:nil]autorelease];
     
-    _navigationController = [[DubsarNavigationController alloc]initWithRootViewController:dubsarViewController];
+    _navigationController = [[DubsarNavigationController_iPad alloc]initWithRootViewController:dubsarViewController];
     searchBarViewController.navigationController = _navigationController;
     
     _splitViewController = [[UISplitViewController alloc]init];
