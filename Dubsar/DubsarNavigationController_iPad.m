@@ -6,7 +6,10 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import "Autocompleter.h"
+#import "AutocompleterPopoverViewController_iPad.h"
 #import "DubsarNavigationController_iPad.h"
+#import "SearchViewController_iPad.h"
 
 @implementation DubsarNavigationController_iPad
 @synthesize forwardStack;
@@ -15,6 +18,8 @@
 @synthesize titleLabel;
 @synthesize backBarButtonItem;
 @synthesize fwdBarButtonItem;
+@synthesize _searchText;
+@synthesize autocompleter;
 
 - (id)initWithRootViewController:(UIViewController *)rootViewController
 {
@@ -28,6 +33,18 @@
         [nib instantiateWithOwner:self options:nil];
 
         [self addToolbar:rootViewController];
+        
+        // let the autocompleter view controller handle the search bar
+        AutocompleterPopoverViewController_iPad* viewController = [[[AutocompleterPopoverViewController_iPad alloc]initWithNibName:@"AutocompleterPopoverViewController_iPad" bundle:nil]autorelease];
+        autocompleterTableView = (UITableView*)viewController.view;
+        viewController.searchBar = searchBar;
+        viewController.navigationController = self;
+        
+        popoverController = [[UIPopoverController alloc]initWithContentViewController:viewController];
+        viewController.popoverController = popoverController;
+        popoverController.popoverContentSize = CGSizeMake(320.0, 440.0);
+        
+        editing = false;
     }
     
     return self;
@@ -42,9 +59,7 @@
     }
     else {
         [forwardStack popViewController];
-        if (forwardStack.count > 0) {
-            fwdBarButtonItem.enabled = YES;
-        }
+        fwdBarButtonItem.enabled = forwardStack.count > 0;
     }
     
     backBarButtonItem.enabled = YES;
@@ -73,13 +88,10 @@
     return viewController;
 }
 
-- (IBAction)toggleSearchBar:(id)sender
-{
-    searchBar.hidden = ! searchBar.hidden;
-}
-
 - (void)dealloc 
 {
+    [_searchText release];
+    [popoverController release];
     [backBarButtonItem release];
     [fwdBarButtonItem release];
     [forwardStack release];
@@ -88,6 +100,19 @@
     [titleLabel release];
     [nib release];
     [super dealloc];
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    popoverWasVisible = popoverController.popoverVisible;
+    [popoverController dismissPopoverAnimated:YES];    
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    if (popoverWasVisible) {
+        [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
 }
 
 - (void)viewDidUnload 
@@ -115,5 +140,76 @@
 {
     [self pushViewController:forwardStack.topViewController animated:YES];
 }
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
+{
+    [theSearchBar resignFirstResponder];
+    
+    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil text:_searchText matchCase:NO];
+    [searchViewController load];
+    [self pushViewController:searchViewController animated:YES];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar 
+{
+    theSearchBar.text = @"";
+    [theSearchBar resignFirstResponder];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
+{
+    editing = true;
+    [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    theSearchBar.showsCancelButton = YES;
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
+{
+    editing = false;
+    theSearchBar.showsCancelButton = NO;
+}
+
+- (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
+{
+    _searchText = [theSearchText copy];
+    
+    if (!editing) return;
+    
+    if (theSearchText.length > 0) {
+        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
+        _autocompleter.delegate = self;
+        [_autocompleter load];
+    }
+    else {
+    }
+}
+
+- (BOOL)searchBar:(UISearchBar*)theSearchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    return theSearchBar == searchBar;
+}
+
+- (void)loadComplete:(Model *)model withError:(NSString *)error
+{
+    if (error) {
+        return;
+    }
+    Autocompleter* theAutocompleter = (Autocompleter*)model;
+    /*
+     * Ignore old responses.
+     */
+    if (!editing || ![searchBar isFirstResponder] || 
+        theAutocompleter.seqNum <= autocompleter.seqNum || 
+        searchBar.text.length == 0) return ;
+    
+    [self setAutocompleter:theAutocompleter];
+    [theAutocompleter release];
+    
+    AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
+    
+    viewController.autocompleter = autocompleter;
+    [autocompleterTableView reloadData];
+}
+
 
 @end

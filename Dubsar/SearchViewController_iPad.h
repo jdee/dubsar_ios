@@ -18,8 +18,8 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "LoadDelegate.h"
 
-@protocol LoadDelegate;
 @class Search;
 
 @interface SearchViewController_iPad : UIViewController<LoadDelegate> {

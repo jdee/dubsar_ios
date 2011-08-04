@@ -19,12 +19,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class Autocompleter;
 
-@interface AboutViewController_iPad : UIViewController {
-    
-    UILabel *versionLabel;
-}
-@property (nonatomic, retain) IBOutlet UILabel *versionLabel;
-- (IBAction)showLicense:(id)sender;
+@interface AutocompleterPopoverViewController_iPad : UITableViewController
+
+@property (nonatomic, assign) Autocompleter* autocompleter;
+@property (nonatomic, assign) UISearchBar* searchBar;
+@property (nonatomic, assign) UINavigationController* navigationController;
+@property (nonatomic, assign) UIPopoverController* popoverController;
 
 @end

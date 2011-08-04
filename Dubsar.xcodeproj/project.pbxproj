@@ -106,6 +106,10 @@
 		7B8AEB3813E9D60600889E57 /* DubsarNavigationController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB3613E9D60600889E57 /* DubsarNavigationController_iPad.m */; };
 		7B8AEB3D13E9E69100889E57 /* DubsarNavigationController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB3C13E9E69100889E57 /* DubsarNavigationController_iPad.xib */; };
 		7B8AEB3E13E9E69100889E57 /* DubsarNavigationController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB3C13E9E69100889E57 /* DubsarNavigationController_iPad.xib */; };
+		7B8AEB5113EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB4F13EA0E5000889E57 /* AutocompleterPopoverViewController_iPad.m */; };
+		7B8AEB5213EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB4F13EA0E5000889E57 /* AutocompleterPopoverViewController_iPad.m */; };
+		7B8AEB5313EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5013EA0E5200889E57 /* AutocompleterPopoverViewController_iPad.xib */; };
+		7B8AEB5413EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5013EA0E5200889E57 /* AutocompleterPopoverViewController_iPad.xib */; };
 		7BB2270813E5A747005D454F /* AboutViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */; };
 		7BB2270913E5A747005D454F /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */; };
 		7BB2270E13E5B61B005D454F /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270D13E5B61B005D454F /* Default-Landscape~ipad.png */; };
@@ -347,6 +351,9 @@
 		7B8AEB3513E9D60600889E57 /* DubsarNavigationController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarNavigationController_iPad.h; sourceTree = "<group>"; };
 		7B8AEB3613E9D60600889E57 /* DubsarNavigationController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarNavigationController_iPad.m; sourceTree = "<group>"; };
 		7B8AEB3C13E9E69100889E57 /* DubsarNavigationController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DubsarNavigationController_iPad.xib; sourceTree = "<group>"; };
+		7B8AEB4E13EA0E4B00889E57 /* AutocompleterPopoverViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterPopoverViewController_iPad.h; sourceTree = "<group>"; };
+		7B8AEB4F13EA0E5000889E57 /* AutocompleterPopoverViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterPopoverViewController_iPad.m; sourceTree = "<group>"; };
+		7B8AEB5013EA0E5200889E57 /* AutocompleterPopoverViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterPopoverViewController_iPad.xib; sourceTree = "<group>"; };
 		7BB2270513E5A746005D454F /* AboutViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController_iPhone.h; sourceTree = "<group>"; };
 		7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_iPhone.m; sourceTree = "<group>"; };
 		7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -534,6 +541,9 @@
 				7B30646113E5A06000B2A1B1 /* AboutViewController_iPad.h */,
 				7B30646213E5A06000B2A1B1 /* AboutViewController_iPad.m */,
 				7B30646313E5A06000B2A1B1 /* AboutViewController_iPad.xib */,
+				7B8AEB4E13EA0E4B00889E57 /* AutocompleterPopoverViewController_iPad.h */,
+				7B8AEB4F13EA0E5000889E57 /* AutocompleterPopoverViewController_iPad.m */,
+				7B8AEB5013EA0E5200889E57 /* AutocompleterPopoverViewController_iPad.xib */,
 				7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */,
 				7B32805D13E389C500274E6C /* DubsarAppDelegate_iPad.h */,
 				7B32805E13E389C500274E6C /* DubsarAppDelegate_iPad.m */,
@@ -816,6 +826,7 @@
 				7B8AEB3113E9D08100889E57 /* wedge-gray-l.png in Resources */,
 				7B8AEB3313E9D08100889E57 /* wedge-gray-r.png in Resources */,
 				7B8AEB3D13E9E69100889E57 /* DubsarNavigationController_iPad.xib in Resources */,
+				7B8AEB5313EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -871,6 +882,7 @@
 				7B8AEB3213E9D08100889E57 /* wedge-gray-l.png in Resources */,
 				7B8AEB3413E9D08100889E57 /* wedge-gray-r.png in Resources */,
 				7B8AEB3E13E9E69100889E57 /* DubsarNavigationController_iPad.xib in Resources */,
+				7B8AEB5413EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -956,6 +968,7 @@
 				7B8AEB0913E9A39F00889E57 /* ForwardStack.m in Sources */,
 				7B8AEB1713E9ACA800889E57 /* DubsarNavigationController_iPhone.m in Sources */,
 				7B8AEB3713E9D60600889E57 /* DubsarNavigationController_iPad.m in Sources */,
+				7B8AEB5113EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1025,6 +1038,7 @@
 				7BF4128413E8E6B000BAC92A /* AboutViewController_iPhone.m in Sources */,
 				7B8AEB1813E9ACA800889E57 /* DubsarNavigationController_iPhone.m in Sources */,
 				7B8AEB3813E9D60600889E57 /* DubsarNavigationController_iPad.m in Sources */,
+				7B8AEB5213EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
