@@ -1,10 +1,21 @@
-//
-//  DubsarNavigationController_iPad.m
-//  Dubsar
-//
-//  Created by Jimmy Dee on 8/3/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/*
+ Dubsar Dictionary Project
+ Copyright (C) 2010-11 Jimmy Dee
+ 
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 
 #import "Autocompleter.h"
 #import "AutocompleterPopoverViewController_iPad.h"
@@ -58,6 +69,7 @@
         fwdBarButtonItem.enabled = NO;
     }
     else {
+        [viewController.view setNeedsDisplay];
         [forwardStack popViewController];
         fwdBarButtonItem.enabled = forwardStack.count > 0;
     }
@@ -144,6 +156,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
 {
     [theSearchBar resignFirstResponder];
+    [popoverController dismissPopoverAnimated:YES];
     
     SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil text:_searchText matchCase:NO];
     [searchViewController load];
@@ -179,8 +192,6 @@
         Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
         _autocompleter.delegate = self;
         [_autocompleter load];
-    }
-    else {
     }
 }
 

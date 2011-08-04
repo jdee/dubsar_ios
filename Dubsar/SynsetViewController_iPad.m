@@ -155,9 +155,12 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    self.navigationController.toolbar.barStyle = UIBarStyleDefault;
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
+    DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
+    navigationController.searchToolbar.barStyle = UIBarStyleDefault;
+    navigationController.toolbar.barStyle = UIBarStyleDefault;
+    bannerLabel.hidden = NO;
+    tableView.hidden = NO;
+    detailView.hidden = YES;
 }
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error

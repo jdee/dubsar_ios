@@ -153,7 +153,10 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
+    DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
+    navigationController.searchToolbar.barStyle = UIBarStyleDefault;
+    mainView.hidden = NO;
+    detailView.hidden = YES;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

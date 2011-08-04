@@ -82,6 +82,8 @@
         
         [results insertObject:word atIndex:j];
     }
+    
+    [results sortUsingSelector:@selector(compareFreqCnt:)];
 }
 
 @end

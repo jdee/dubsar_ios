@@ -163,4 +163,12 @@
 {
     [self set_url: [NSString stringWithFormat:@"/words/%d", _id]];
 }
+
+- (NSComparisonResult)compareFreqCnt:(Word*)word
+{
+    return freqCnt < word.freqCnt ? NSOrderedDescending : 
+        freqCnt > word.freqCnt ? NSOrderedAscending : 
+        NSOrderedSame;
+}
+
 @end

@@ -41,4 +41,6 @@
 -(void)parseData;
 -(void)initUrl;
 
+- (NSComparisonResult)compareFreqCnt:(Word*)word;
+
 @end
