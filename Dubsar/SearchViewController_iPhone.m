@@ -202,9 +202,7 @@
     if (word.inflections && word.inflections.length > 0) {
         subtitle = [subtitle stringByAppendingFormat:@"also %@", word.inflections];
     }
-    if (subtitle.length > 0) {
-        cell.detailTextLabel.text = subtitle;
-    }
+    cell.detailTextLabel.text = subtitle;
     
     DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
     cell.textLabel.textColor = appDelegate.dubsarTintColor;

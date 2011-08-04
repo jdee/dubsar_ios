@@ -142,6 +142,7 @@ static int _seqNum = 0;
     
     results = [[NSMutableArray arrayWithCapacity:list.count]retain];
     NSLog(@"search request for \"%@\" returned %d results", [response objectAtIndex:0], list.count);
+    NSLog(@"(%d total pages)", totalPages);
     int j;
     for (j=0; j<list.count; ++j) {
         NSArray* entry = [list objectAtIndex:j];

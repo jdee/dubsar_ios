@@ -192,9 +192,9 @@
     cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", index+1, sense.gloss];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    if (sense.synonyms.count > 0) {
-        cell.detailTextLabel.text = sense.synonymsAsString;
-    }
+    cell.detailTextLabel.text = sense.synonymsAsString;
+    
+    NSLog(@"\"%@\" in section %d", cell.textLabel.text, index);
     
     return cell;
 }
@@ -223,8 +223,8 @@
     NSLog(@"popover controller received word response");
     NSLog(@"freq. cnt.: %d; inflections: \"%@\"", word.freqCnt, word.inflections);
     
-    [self adjustTableViewFrame];
     [self adjustPopoverSize];    
+    [self adjustTableViewFrame];
     
     [self adjustTitle];
     [self adjustInflections];
@@ -233,13 +233,24 @@
 
 - (void)adjustTableViewFrame
 {
-    CGRect frame = _tableView.frame;
+    if (word.inflections.length > 0 || word.freqCnt > 0) return ;
     
     // the inflections label is hidden if it would be empty
-    if (word.inflections.length == 0 && word.freqCnt == 0) {
-        [inflectionsTextView setHidden:YES];
-        frame.origin.y = 37.0;
+    [inflectionsTextView setHidden:YES];
+    
+    CGRect frame = _tableView.frame;
+    frame.origin.y -= 44.0;
+    float height = 66.0 * word.senses.count;
+    if (frame.origin.y + height <= self.contentSizeForViewInPopover.height) {
+        frame.size.height = height;
     }
+    else {
+        frame.size.height = self.contentSizeForViewInPopover.height - frame.origin.y;
+    }
+    
+    _tableView.contentSize = CGSizeMake(frame.size.width, height);
+    NSLog(@"adjusting origin to %f; tableView height is %f", frame.origin.y, frame.size.height);
+    NSLog(@"%d section(s) in tableView", [self numberOfSectionsInTableView:_tableView]);
     
     _tableView.frame = frame;
 
@@ -251,7 +262,9 @@
     
     float offset = (word.inflections.length == 0 && word.freqCnt == 0) ? 37.0 : 81.0;
     float popoverHeight = offset + 66.0*word.senses.count;
-    popoverSize.height = popoverHeight > 1100.0 ? 1100.0 : popoverHeight;
+    popoverSize.height = popoverHeight > 1004.0 ? 1004.0 : popoverHeight;
+    
+    NSLog(@"adjusting popoverHeight to %f", popoverHeight);
 
     popoverController.popoverContentSize = popoverSize;
     self.contentSizeForViewInPopover = popoverSize;

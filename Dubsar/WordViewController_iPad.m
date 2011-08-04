@@ -182,9 +182,7 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", index+1, sense.gloss];
     
-    if (sense.synonyms.count > 0) {
-        cell.detailTextLabel.text = sense.synonymsAsString;
-    }
+    cell.detailTextLabel.text = sense.synonymsAsString;
     
     return cell;
 }
