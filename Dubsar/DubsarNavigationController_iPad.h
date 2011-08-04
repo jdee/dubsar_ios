@@ -36,6 +36,7 @@
     bool popoverWasVisible;
 }
 
+@property (nonatomic, retain) UIPopoverController* popoverController;
 @property (nonatomic, retain) Autocompleter* autocompleter;
 @property (nonatomic, retain) NSString* _searchText;
 @property (nonatomic, retain) ForwardStack* forwardStack;

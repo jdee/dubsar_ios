@@ -21,6 +21,7 @@
 #import "AutocompleterPopoverViewController_iPad.h"
 #import "Autocompleter.h"
 #import "DubsarAppDelegate_iPad.h"
+#import "DubsarNavigationController_iPad.h"
 #import "FAQViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 #import "SearchViewController_iPad.h"
@@ -172,7 +173,22 @@
     [_navigationController pushViewController:faqViewController animated:YES];
 }
 
-- (IBAction)loadRootController:(id)sender {
+- (IBAction)loadRootController:(id)sender 
+{
+    searchBar.text = @"";
+    caseSwitch.on = NO;
+    
+    AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
+    viewController.autocompleter = nil;
+    [viewController.tableView reloadData];
+    
+    DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)_navigationController;    
+    navigationController.searchBar.text = @"";
+    
+    viewController = (AutocompleterPopoverViewController_iPad*)navigationController.popoverController.contentViewController;
+    viewController.autocompleter = nil;
+    [viewController.tableView reloadData];
+    
     [_navigationController popToRootViewControllerAnimated:YES];
 }
 

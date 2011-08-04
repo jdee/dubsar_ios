@@ -75,7 +75,7 @@
     int newPage = pageControl.currentPage + 1;
     if (newPage == search.currentPage) return ;
     
-    [self setSearchTitle:[NSString stringWithFormat:@"Search \"%@\" %d/%d", search.title, newPage, search.totalPages]];
+    [self setSearchTitle:[NSString stringWithFormat:@"Search \"%@\" p. %d of %d", search.title, newPage, search.totalPages]];
     
     NSLog(@"page changed to %d, requesting...", pageControl.currentPage);
     pageControl.enabled = NO;
@@ -262,7 +262,7 @@
         tableView.contentSize = CGSizeMake(tableView.frame.size.width, height);
         [self setTableViewHeight];
         if (search.totalPages > 1) {
-            [self setSearchTitle:[NSString stringWithFormat:@"Search: \"%@\" %d/%d", search.title, search.currentPage, search.totalPages]];
+            [self setSearchTitle:[NSString stringWithFormat:@"Search: \"%@\" p. %d of %d", search.title, search.currentPage, search.totalPages]];
         }
     }
     

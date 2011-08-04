@@ -31,6 +31,7 @@
 @synthesize fwdBarButtonItem;
 @synthesize _searchText;
 @synthesize autocompleter;
+@synthesize popoverController;
 
 - (id)initWithRootViewController:(UIViewController *)rootViewController
 {
