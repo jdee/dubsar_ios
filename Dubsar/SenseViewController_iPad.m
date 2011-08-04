@@ -17,7 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "DubsarNavigationController_iPad.h"
+#import "DubsarAppDelegate_iPad.h"
 #import "PointerDictionary.h"
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
@@ -47,10 +47,8 @@
     [UIView transitionWithView:self.view duration:0.4 
                        options:UIViewAnimationOptionTransitionFlipFromRight
                     animations:^{
-                        DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
                         mainView.hidden = YES;    
                         detailView.hidden = NO;
-                        navigationController.searchToolbar.barStyle = UIBarStyleBlackOpaque;
                     } completion:^(BOOL finished){
                     }];
 }
@@ -60,10 +58,8 @@
     [UIView transitionWithView:self.view duration:0.4 
                        options:UIViewAnimationOptionTransitionFlipFromLeft 
                     animations:^{
-                        DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
                         mainView.hidden = NO;
                         detailView.hidden = YES;
-                        navigationController.searchToolbar.barStyle = UIBarStyleDefault;
                     } completion:^(BOOL finished){                    
                     }];
 }
@@ -153,8 +149,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
-    navigationController.searchToolbar.barStyle = UIBarStyleDefault;
     mainView.hidden = NO;
     detailView.hidden = YES;
 }
@@ -323,6 +317,10 @@
         }
     }
     
+    DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
+    UIColor* tint = appDelegate.dubsarTintColor;
+    cell.textLabel.textColor = tint;
+   
     return cell;
 }
 

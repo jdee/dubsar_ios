@@ -19,6 +19,7 @@
 
 #import "AboutViewController_iPad.h"
 #import "Autocompleter.h"
+#import "DubsarAppDelegate_iPad.h"
 #import "FAQViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 #import "SearchViewController_iPad.h"
@@ -216,6 +217,11 @@
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault   reuseIdentifier:cellType]autorelease];
     }
 
+    DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
+    UIColor* tint = appDelegate.dubsarTintColor;
+ 
+    cell.textLabel.textColor = tint;
+   
     if (autocompleter.results.count > 0) {
         int index = indexPath.row;
         cell.textLabel.text = [autocompleter.results objectAtIndex:index];

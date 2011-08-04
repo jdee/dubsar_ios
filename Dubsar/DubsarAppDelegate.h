@@ -20,8 +20,10 @@
 #import <UIKit/UIKit.h>
 
 @interface DubsarAppDelegate : NSObject <UIApplicationDelegate> {
+    UIColor* dubsarTintColor;
 }
 
+@property (nonatomic, retain) UIColor* dubsarTintColor;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
 @end

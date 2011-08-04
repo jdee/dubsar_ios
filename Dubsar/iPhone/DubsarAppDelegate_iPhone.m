@@ -31,6 +31,10 @@
                                               initWithNibName:@"DubsarViewController_iPhone" bundle:nil];
     UINavigationController* navigationController = [[[DubsarNavigationController_iPhone alloc]initWithRootViewController:rootViewController]autorelease];
     [rootViewController release];
+    
+    UIColor* tint = [UIColor colorWithRed:0.110 green:0.580 blue:0.769 alpha:1.0];
+    navigationController.navigationBar.tintColor = tint;
+    navigationController.toolbar.tintColor = tint;
    
     [self.window setRootViewController:navigationController];
     

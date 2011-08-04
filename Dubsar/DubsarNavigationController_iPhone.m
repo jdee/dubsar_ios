@@ -73,7 +73,7 @@
 
 - (void)addBackButton
 {
-    UIImage* backButtonImage = [UIImage imageNamed:@"wedge-gray-l.png"];
+    UIImage* backButtonImage = [UIImage imageNamed:@"wedge-blue-l-narrow.png"];
     UIBarButtonItem* backButtonItem = [[[UIBarButtonItem alloc]initWithImage:backButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(back)]autorelease];
     
     self.topViewController.navigationItem.leftBarButtonItem = backButtonItem;
@@ -82,7 +82,7 @@
 
 - (void)addForwardButton
 {
-    UIImage* forwardButtonImage = [UIImage imageNamed:@"wedge-gray-r.png"];
+    UIImage* forwardButtonImage = [UIImage imageNamed:@"wedge-blue-r-narrow.png"];
     UIBarButtonItem* forwardButtonItem = [[[UIBarButtonItem alloc]initWithImage:forwardButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(forward)]autorelease];
                                            
     self.topViewController.navigationItem.rightBarButtonItem = forwardButtonItem;

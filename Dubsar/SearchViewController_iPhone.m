@@ -19,6 +19,7 @@
 
 #import <stdlib.h>
 
+#import "DubsarAppDelegate_iPhone.h"
 #import "DubsarViewController_iPhone.h"
 #import "SearchViewController_iPhone.h"
 #import "Search.h"
@@ -204,6 +205,9 @@
     if (subtitle.length > 0) {
         cell.detailTextLabel.text = subtitle;
     }
+    
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
+    cell.textLabel.textColor = appDelegate.dubsarTintColor;
     
     return cell;
 }

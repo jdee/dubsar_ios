@@ -23,6 +23,16 @@
 
 
 @synthesize window=_window;
+@synthesize dubsarTintColor;
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        dubsarTintColor = [[UIColor colorWithRed:0.110 green:0.580 blue:0.769 alpha:1.0]retain];
+    }
+    return self;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -72,6 +82,7 @@
 
 - (void)dealloc
 {
+    [dubsarTintColor release];
     [_window release];
     [super dealloc];
 }

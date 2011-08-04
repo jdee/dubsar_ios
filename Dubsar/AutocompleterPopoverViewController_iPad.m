@@ -19,6 +19,7 @@
 
 #import "Autocompleter.h"
 #import "AutocompleterPopoverViewController_iPad.h"
+#import "DubsarAppDelegate_iPad.h"
 #import "SearchViewController_iPad.h"
 
 @implementation AutocompleterPopoverViewController_iPad
@@ -121,6 +122,10 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault   reuseIdentifier:cellType]autorelease];
     }
+    
+    DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
+    UIColor* tint = appDelegate.dubsarTintColor;
+    cell.textLabel.textColor = tint;
     
     int index = indexPath.row;
     cell.textLabel.text = [autocompleter.results objectAtIndex:index];

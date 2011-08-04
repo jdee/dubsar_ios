@@ -59,7 +59,7 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">Label</string>
 						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">Helvetica-Bold</string>
+							<string key="NSName">TrebuchetMS-Bold</string>
 							<double key="NSSize">24</double>
 							<int key="NSfFlags">16</int>
 						</object>
@@ -84,7 +84,6 @@
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<int key="IBUIBarStyle">1</int>
 						<object class="NSMutableArray" key="IBUIItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIBarButtonItem" id="223445524">
@@ -93,6 +92,10 @@
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="751305996"/>
 							</object>
+						</object>
+						<object class="NSColor" key="IBUITintColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
 						</object>
 					</object>
 					<object class="IBUILabel" id="701188501">
@@ -137,7 +140,7 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">Label</string>
 						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">AmericanTypewriter-Bold</string>
+							<string key="NSName">Trebuchet-BoldItalic</string>
 							<double key="NSSize">24</double>
 							<int key="NSfFlags">16</int>
 						</object>
@@ -172,7 +175,7 @@
 							<bytes key="NSRGB">MC45NTY4NjI4MDczIDAuNTIxNTY4NjU2IDAuMDE1Njg2Mjc1NDQAA</bytes>
 						</object>
 						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">Palatino-Roman</string>
+							<string key="NSName">TrebuchetMS</string>
 							<double key="NSSize">24</double>
 							<int key="NSfFlags">16</int>
 						</object>

@@ -116,7 +116,7 @@
 - (void)displayMessage:(NSString *)text url:(NSURL *)baseUrl
 {
     
-    [webView loadHTMLString:[NSString stringWithFormat:@"<html><body style=\"background-color: #e0e0ff;\"><h1 style=\"text-align: center; margin-top: 2ex; font: bold 24pt Helvetica\">%@</h1></body></html>", text ] baseURL:baseUrl];
+    [webView loadHTMLString:[NSString stringWithFormat:@"<html><body style=\"background-color: #e0e0ff;\"><h1 style=\"color: #1c94c4; text-align: center; margin-top: 2ex; font: bold 24pt Trebuchet MS\">%@</h1></body></html>", text ] baseURL:baseUrl];
     
 }
 @end

@@ -100,7 +100,6 @@
                         copyrightLabel.hidden = YES;
                         aboutToolbar.hidden = YES;
                         licenseView.hidden = NO;
-                        UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleBlackOpaque;
                     } completion:^(BOOL finished){
                     }];
 }
@@ -119,7 +118,6 @@
                         copyrightLabel.hidden = NO;
                         aboutToolbar.hidden = NO;
                         licenseView.hidden = YES;
-                        UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleDefault;
                     } completion:^(BOOL finished){
                     }];
 }

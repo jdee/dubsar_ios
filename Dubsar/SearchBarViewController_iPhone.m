@@ -18,6 +18,7 @@
  */
 
 #import "Autocompleter.h"
+#import "DubsarAppDelegate_iPhone.h"
 #import "SearchBarViewController_iPhone.h"
 #import "SearchViewController_iPhone.h"
 
@@ -234,6 +235,9 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
     }
+    
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
+    cell.textLabel.textColor = appDelegate.dubsarTintColor;
     
     if (autocompleter.results.count > 0) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

@@ -18,6 +18,7 @@
  */
 
 
+#import "DubsarAppDelegate_iPad.h"
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
 #import "Word.h"
@@ -178,8 +179,12 @@
         [indicator startAnimating];
         [cell.contentView addSubview:indicator];
         return cell;
-    }
+    }    
     
+    DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
+    UIColor* tint = appDelegate.dubsarTintColor;
+    cell.textLabel.textColor = tint;
+
     int index = indexPath.section;
     Sense* sense = [word.senses objectAtIndex:index];
     

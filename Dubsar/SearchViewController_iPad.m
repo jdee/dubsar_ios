@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarAppDelegate_iPad.h"
 #import "LoadDelegate.h"
 #import "Search.h"
 #import "SearchViewController_iPad.h"
@@ -152,6 +153,10 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
+    DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
+    UIColor* tint = appDelegate.dubsarTintColor;
+    cell.textLabel.textColor = tint;
+ 
     if (search.error) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = search.errorMessage;

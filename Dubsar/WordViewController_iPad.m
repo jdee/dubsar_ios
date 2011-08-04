@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarAppDelegate_iPad.h"
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
 #import "Word.h"
@@ -169,6 +170,10 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
+    
+    DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
+    UIColor* tint = appDelegate.dubsarTintColor;
+    cell.textLabel.textColor = tint;
     
     int index = indexPath.section;
     Sense* sense = [word.senses objectAtIndex:index];

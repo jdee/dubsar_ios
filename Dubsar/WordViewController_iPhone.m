@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarAppDelegate_iPhone.h"
 #import "WordViewController_iPhone.h"
 #import "Sense.h"
 #import "SenseViewController_iPhone.h"
@@ -198,6 +199,9 @@
     cell.textLabel.text = [NSString stringWithFormat:@"%d. %@", index+1, sense.gloss];
     cell.detailTextLabel.text = sense.synonymsAsString;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
+    cell.textLabel.textColor = appDelegate.dubsarTintColor;
    
     return cell;
 }

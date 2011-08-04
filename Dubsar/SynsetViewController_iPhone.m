@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarAppDelegate_iPhone.h"
 #import "PartOfSpeechDictionary.h"
 #import "PointerDictionary.h"
 #import "SenseViewController_iPhone.h"
@@ -47,9 +48,6 @@
                         glossTextView.hidden = YES;
                         tableView.hidden = YES;
                         detailView.hidden = NO;
-                        self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-                        self.navigationController.toolbar.barStyle = UIBarStyleBlackOpaque;
-                        UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleBlackOpaque;
                    } completion:^(BOOL finished){
                     }];
 }
@@ -64,9 +62,6 @@
                         glossTextView.hidden = NO;
                         tableView.hidden = NO;
                         detailView.hidden = YES;
-                        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-                        self.navigationController.toolbar.barStyle = UIBarStyleDefault;
-                        UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleDefault;
                    } completion:^(BOOL finished){
                         
                     }];
@@ -145,13 +140,6 @@
     tableView.hidden = NO;
     detailView.hidden = YES;
     [tableView reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    self.navigationController.toolbar.barStyle = UIBarStyleDefault;
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
 }
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error
@@ -346,6 +334,9 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
+    
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
+    cell.textLabel.textColor = appDelegate.dubsarTintColor;
     
     return cell;
 }
