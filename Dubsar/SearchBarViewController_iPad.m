@@ -267,14 +267,9 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    popoverWasVisible = popoverController.popoverVisible;
-    [popoverController dismissPopoverAnimated:YES];    
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    if (popoverWasVisible) {
-        [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [searchBar resignFirstResponder];
+    if (popoverController.popoverVisible) {
+        [popoverController dismissPopoverAnimated:YES];
     }
 }
 

@@ -29,7 +29,6 @@
     UIPopoverController* popoverController;
     UITableView *autocompleterTableView;
     UISwitch *caseSwitch;
-    bool popoverWasVisible;
 }
 
 @property (nonatomic, assign) UINavigationController* navigationController;

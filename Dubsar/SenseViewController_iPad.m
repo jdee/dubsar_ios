@@ -75,7 +75,8 @@
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
         
         detailNib = [[UINib nibWithNibName:@"DetailView_iPad" bundle:nil]retain];
-        popoverLoaded = false;
+
+        popoverController = nil;
     }
     return self;
 }
@@ -158,14 +159,17 @@
 	return YES;
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [popoverController dismissPopoverAnimated:YES];    
-}
-
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [popoverController presentPopoverFromRect:moreButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (popoverWasVisible) {
+        [popoverController presentPopoverFromRect:moreButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    popoverWasVisible = popoverController.popoverVisible;
+    [popoverController dismissPopoverAnimated:YES];        
 }
 
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -448,14 +452,13 @@
 - (IBAction)morePopover:(id)sender 
 {
     WordPopoverViewController_iPad* wordViewController;
-    if (!popoverLoaded) {        
+    if (popoverController == nil) {        
         wordViewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word]autorelease];
         [wordViewController load];
         
         popoverController = [[[UIPopoverController alloc]initWithContentViewController:wordViewController]retain];
         wordViewController.popoverController = popoverController;
         wordViewController.navigationController = self.navigationController;
-        popoverLoaded = true;
     }
     else {
         wordViewController = (WordPopoverViewController_iPad*)popoverController.contentViewController;

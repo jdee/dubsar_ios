@@ -37,7 +37,7 @@
     UIPopoverController* popoverController;
     UITextView *glossTextView;
     UITextView *detailGlossTextView;
-    bool popoverLoaded;
+    bool popoverWasVisible;
 }
 @property (nonatomic, retain) IBOutlet UITextView *detailGlossTextView;
 @property (nonatomic, retain) IBOutlet UITextView *glossTextView;

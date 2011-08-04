@@ -194,8 +194,6 @@
     
     cell.detailTextLabel.text = sense.synonymsAsString;
     
-    NSLog(@"\"%@\" in section %d", cell.textLabel.text, index);
-    
     return cell;
 }
 
