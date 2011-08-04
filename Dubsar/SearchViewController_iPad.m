@@ -202,6 +202,7 @@
     else if (search.results.count == 0) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = [NSString stringWithFormat:@"no results for \"%@\"", search.term];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else {
         Word* word = [search.results objectAtIndex:indexPath.row];
@@ -227,7 +228,7 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!search || !search.complete || search.error) return;
+    if (!search || !search.complete || search.error || search.results.count == 0) return;
     
     Word* word = [search.results objectAtIndex:indexPath.row];
     WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
