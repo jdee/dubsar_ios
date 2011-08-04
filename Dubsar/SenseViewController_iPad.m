@@ -75,9 +75,8 @@
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
         
         detailNib = [[UINib nibWithNibName:@"DetailView_iPad" bundle:nil]retain];
-        popoverController = nil;
-        
-   }
+        popoverLoaded = false;
+    }
     return self;
 }
 
@@ -448,14 +447,22 @@
 
 - (IBAction)morePopover:(id)sender 
 {
-    UIView* senderView = (UIView*)sender;
+    WordPopoverViewController_iPad* wordViewController;
+    if (!popoverLoaded) {        
+        wordViewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word]autorelease];
+        [wordViewController load];
+        
+        popoverController = [[[UIPopoverController alloc]initWithContentViewController:wordViewController]retain];
+        wordViewController.popoverController = popoverController;
+        wordViewController.navigationController = self.navigationController;
+        popoverLoaded = true;
+    }
+    else {
+        wordViewController = (WordPopoverViewController_iPad*)popoverController.contentViewController;
+        NSLog(@"popover already loaded for %@", wordViewController.word.name);
+    }
     
-    WordPopoverViewController_iPad* wordViewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word]autorelease];
-    [wordViewController load];
-    [popoverController release];
-    popoverController = [[UIPopoverController alloc]initWithContentViewController:wordViewController];
-    wordViewController.popoverController = popoverController;
-    wordViewController.navigationController = self.navigationController;
+    UIView* senderView = (UIView*)sender;
     [popoverController presentPopoverFromRect:senderView.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
