@@ -162,6 +162,12 @@
     }
     
     if (!word.complete) {
+        static NSString* indicatorType = @"indicator";
+        cell = [tableView dequeueReusableCellWithIdentifier:indicatorType];
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indicatorType]autorelease];
+        }
+
         UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
