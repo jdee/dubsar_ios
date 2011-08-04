@@ -18,6 +18,7 @@
  */
 
 #import "AboutViewController_iPad.h"
+#import "AutocompleterPopoverViewController_iPad.h"
 #import "Autocompleter.h"
 #import "DubsarAppDelegate_iPad.h"
 #import "FAQViewController_iPad.h"
@@ -36,14 +37,23 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        // let the autocompleter view controller handle the table view
+        AutocompleterPopoverViewController_iPad* viewController = [[[AutocompleterPopoverViewController_iPad alloc]initWithNibName:@"AutocompleterPopoverViewController_iPad" bundle:nil]autorelease];
+        autocompleterTableView = (UITableView*)viewController.view;
+        
+        popoverController = [[UIPopoverController alloc]initWithContentViewController:viewController];
+        popoverController.delegate = self;
+        viewController.popoverController = popoverController;
+        popoverController.popoverContentSize = CGSizeMake(320.0, 440.0);
+        
         editing = false;
-
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [popoverController release];
     autocompleter.delegate = nil;
     [autocompleter release];
     [_searchText release];
@@ -51,6 +61,13 @@
     [autocompleterTableView release];
     [caseSwitch release];
     [super dealloc];
+}
+
+- (void)setNavigationController:(UINavigationController *)navigationController
+{
+    _navigationController = navigationController;
+    AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
+    viewController.navigationController = navigationController;
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,12 +83,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    autocompleterTableView = [[UITableView alloc]initWithFrame:CGRectMake(0.0, 44.0, 320.0, 308.0) style:UITableViewStylePlain];
-    autocompleterTableView.backgroundColor = self.view.backgroundColor;
-    autocompleterTableView.dataSource = self;
-    autocompleterTableView.delegate = self;
-    [self.view addSubview:autocompleterTableView];
+    AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
+    viewController.searchBar = searchBar;
 }
 
 - (void)viewDidUnload
@@ -84,40 +97,31 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [autocompleterTableView setHidden:YES];
-}
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
 {
-    if (theSearchBar != searchBar) return;
-    
     [theSearchBar resignFirstResponder];
-    [autocompleterTableView setHidden:YES];
+    [popoverController dismissPopoverAnimated:YES];
     
-    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil text:_searchText matchCase:caseSwitch.on];
+    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil text:_searchText matchCase:NO];
     [searchViewController load];
     [_navigationController pushViewController:searchViewController animated:YES];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar 
 {
-    if (theSearchBar != searchBar) return;
     theSearchBar.text = @"";
     [theSearchBar resignFirstResponder];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
 {
-    if (theSearchBar != searchBar) return;
     editing = true;
+    [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     theSearchBar.showsCancelButton = YES;
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
 {
-    if (theSearchBar != searchBar) return;
     editing = false;
     theSearchBar.showsCancelButton = NO;
 }
@@ -129,12 +133,9 @@
     if (!editing) return;
     
     if (theSearchText.length > 0) {
-        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:caseSwitch.on]retain];
+        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
         _autocompleter.delegate = self;
         [_autocompleter load];
-    }
-    else {
-        [autocompleterTableView setHidden:YES];
     }
 }
 
@@ -146,24 +147,22 @@
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
     if (error) {
-        [model release];
         return;
     }
-    
     Autocompleter* theAutocompleter = (Autocompleter*)model;
     /*
      * Ignore old responses.
      */
     if (!editing || ![searchBar isFirstResponder] || 
-        (autocompleter && theAutocompleter.seqNum <= autocompleter.seqNum) || 
+        theAutocompleter.seqNum <= autocompleter.seqNum || 
         searchBar.text.length == 0) return ;
     
-    [autocompleter release];
-    autocompleter = theAutocompleter;
+    [self setAutocompleter:theAutocompleter];
+    [theAutocompleter release];
     
-    autocompleterTableView.hidden = NO;
-    CGRect frame = CGRectMake(0.0, 44.0, 320.0, 44 * ([self tableView:autocompleterTableView numberOfRowsInSection:0]+1));
-    autocompleterTableView.frame = frame;
+    AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
+    
+    viewController.autocompleter = autocompleter;
     [autocompleterTableView reloadData];
 }
 
@@ -266,68 +265,22 @@
 	return YES;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    return 1;
+    popoverWasVisible = popoverController.popoverVisible;
+    [popoverController dismissPopoverAnimated:YES];    
 }
 
-- (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    return @"suggestions";
-}
-
-- (NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-{
-    return @"";
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return autocompleter.results.count < 7 && autocompleter.results.count > 0 ? autocompleter.results.count :
-    autocompleter.results.count == 0 ? 1 : 7;
-}
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString* cellType = @"autocompleter";
-    
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellType];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault   reuseIdentifier:cellType]autorelease];
+    if (popoverWasVisible) {
+        [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
-
-    DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
- 
-    cell.textLabel.textColor = appDelegate.dubsarTintColor;
-    cell.textLabel.font = appDelegate.dubsarNormalFont;
-   
-    if (autocompleter.results.count > 0) {
-        int index = indexPath.row;
-        cell.textLabel.text = [autocompleter.results objectAtIndex:index];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    else {
-        cell.textLabel.text = @"no suggestions";
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    
-    return cell;
 }
 
-- (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
 {
-    if (!autocompleter.complete || !autocompleter.results) {
-        return;
-    }
-    
-    NSString* text = [autocompleter.results objectAtIndex:indexPath.row];
-    [searchBar setText:text];
-    [searchBar resignFirstResponder];
-    [autocompleterTableView setHidden:YES];
-    
-    SearchViewController_iPad* searchViewController = [[[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text: text matchCase:caseSwitch.on]autorelease];
-    [searchViewController load];
-    [self.navigationController pushViewController:searchViewController animated: YES];
+    return !editing;
 }
 
 @end

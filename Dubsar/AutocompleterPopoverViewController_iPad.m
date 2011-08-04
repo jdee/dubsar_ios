@@ -146,6 +146,8 @@
     [searchBar setText:text];
     [searchBar resignFirstResponder];
     
+    NSLog(@"searching for \"%@\"", text);
+    
     SearchViewController_iPad* searchViewController = [[[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text: text matchCase:NO]autorelease];
     [searchViewController load];
     [self.navigationController pushViewController:searchViewController animated: YES];

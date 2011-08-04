@@ -22,12 +22,14 @@
 
 @class Autocompleter;
 
-@interface SearchBarViewController_iPad : UIViewController <LoadDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UISplitViewControllerDelegate> {
+@interface SearchBarViewController_iPad : UIViewController <LoadDelegate, UISearchBarDelegate, UISplitViewControllerDelegate, UIPopoverControllerDelegate> {
     
     bool editing;
     UISearchBar *searchBar;
+    UIPopoverController* popoverController;
     UITableView *autocompleterTableView;
     UISwitch *caseSwitch;
+    bool popoverWasVisible;
 }
 
 @property (nonatomic, assign) UINavigationController* navigationController;

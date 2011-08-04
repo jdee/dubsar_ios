@@ -45,13 +45,14 @@
 
         [self addToolbar:rootViewController];
         
-        // let the autocompleter view controller handle the search bar
+        // let the autocompleter view controller handle the table view
         AutocompleterPopoverViewController_iPad* viewController = [[[AutocompleterPopoverViewController_iPad alloc]initWithNibName:@"AutocompleterPopoverViewController_iPad" bundle:nil]autorelease];
         autocompleterTableView = (UITableView*)viewController.view;
         viewController.searchBar = searchBar;
         viewController.navigationController = self;
         
         popoverController = [[UIPopoverController alloc]initWithContentViewController:viewController];
+        popoverController.delegate = self;
         viewController.popoverController = popoverController;
         popoverController.popoverContentSize = CGSizeMake(320.0, 440.0);
         
@@ -63,6 +64,7 @@
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
+    NSLog(@"called pushViewController");
     [super pushViewController:viewController animated:animated];
     if (viewController != forwardStack.topViewController) {
         [forwardStack clear];
@@ -220,6 +222,11 @@
     
     viewController.autocompleter = autocompleter;
     [autocompleterTableView reloadData];
+}
+
+- (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
+{
+    return !editing;
 }
 
 

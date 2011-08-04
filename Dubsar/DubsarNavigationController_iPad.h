@@ -23,7 +23,7 @@
 
 @class Autocompleter;
 
-@interface DubsarNavigationController_iPad : UINavigationController <LoadDelegate, UISearchBarDelegate> {
+@interface DubsarNavigationController_iPad : UINavigationController <LoadDelegate, UISearchBarDelegate, UIPopoverControllerDelegate> {
     UIToolbar *searchToolbar;
     UISearchBar *searchBar;
     UIBarButtonItem *titleLabel;
