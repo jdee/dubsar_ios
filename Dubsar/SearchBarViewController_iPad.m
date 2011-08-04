@@ -182,6 +182,83 @@
     [_navigationController pushViewController:[[[AboutViewController_iPad alloc]initWithNibName:@"AboutViewController_iPad" bundle:nil]autorelease] animated:YES];
 }
 
+- (void)wildcardSearch:(NSString *)regexp title:(NSString *)title
+{
+    SearchViewController_iPad* viewController = [[[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil wildcard:regexp title:title]autorelease];
+    [viewController load];
+    [_navigationController pushViewController:viewController animated:YES];
+}
+
+- (IBAction)browseAB:(id)sender
+{
+    [self wildcardSearch:@"^[ABab]" title:@"AB"];
+}
+
+- (IBAction)browseCD:(id)sender
+{
+    [self wildcardSearch:@"^[CDcd]" title:@"CD"];
+}
+
+- (IBAction)browseEF:(id)sender
+{
+    [self wildcardSearch:@"^[EFef]" title:@"EF"];
+}
+
+- (IBAction)browseGH:(id)sender
+{
+    [self wildcardSearch:@"^[GHgh]" title:@"GH"];
+}
+
+- (IBAction)browseIJ:(id)sender
+{
+    [self wildcardSearch:@"^[IJij]" title:@"IJ"];
+}
+
+- (IBAction)browseKL:(id)sender
+{
+    [self wildcardSearch:@"^[KLkl]" title:@"KL"];
+}
+
+- (IBAction)browseMN:(id)sender
+{
+    [self wildcardSearch:@"^[MNmn]" title:@"MN"];
+}
+
+- (IBAction)browseOP:(id)sender
+{
+    [self wildcardSearch:@"^[OPop]" title:@"OP"];
+}
+
+- (IBAction)browseQR:(id)sender
+{
+    [self wildcardSearch:@"^[QRqr]" title:@"QR"];
+}
+
+- (IBAction)browseST:(id)sender
+{
+    [self wildcardSearch:@"^[STst]" title:@"ST"];
+}
+
+- (IBAction)browseUV:(id)sender
+{
+    [self wildcardSearch:@"^[UVuv]" title:@"UV"];
+}
+
+- (IBAction)browseWX:(id)sender
+{
+    [self wildcardSearch:@"^[WXwx]" title:@"WX"];
+}
+
+- (IBAction)browseYZ:(id)sender
+{
+    [self wildcardSearch:@"^[YZyz]" title:@"YZ"];
+}
+
+- (IBAction)browseOther:(id)sender
+{
+    [self wildcardSearch:@"^[^A-Za-z]" title:@"..."];
+}
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

@@ -25,6 +25,8 @@
 }
 
 @property (nonatomic) BOOL matchCase;
+@property (nonatomic) bool isWildCard;
+@property (nonatomic, retain) NSString* title;
 @property (nonatomic, retain) NSString* term;
 @property (nonatomic, retain) NSMutableArray* results;
 @property (nonatomic) int currentPage;
@@ -35,6 +37,11 @@
 -(id)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum;
 +(id)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page;
 -(id)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum;
++(id)searchWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle;
+-(id)initWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum;
+
 -(void)parseData;
+
+-(Search*)newSearchForPage:(int)page;
 
 @end

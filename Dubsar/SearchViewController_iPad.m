@@ -45,6 +45,19 @@
     return self;
 }
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil wildcard:(NSString *)wildcard title:(NSString *)theTitle
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        search = nil;
+        newSearch = [[Search searchWithWildcard:wildcard page:1 title:theTitle]retain];
+        newSearch.delegate = self;
+        
+        self.title = [NSString stringWithFormat:@"Search: \"%@\"", theTitle];
+    }
+    return self;    
+}
+
 - (void)dealloc
 {
     search.delegate = nil;
@@ -57,7 +70,6 @@
 - (void)load
 {
     [newSearch load];
-    newSearch = nil;
 }
 
 - (IBAction)pageChanged:(id)sender 
@@ -70,7 +82,7 @@
     NSLog(@"page changed to %d, requesting...", pageControl.currentPage);
     pageControl.enabled = NO;
 
-    Search* _newSearch = [Search searchWithTerm:search.term matchCase:search.matchCase page:newPage];
+    Search* _newSearch = [search newSearchForPage:newPage];
     _newSearch.delegate = self;
     [_newSearch load];
 
@@ -249,6 +261,7 @@
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error
 {
+    NSLog(@"received search response");
     Search* theSearch = (Search*)model;
 
     /*
@@ -256,6 +269,7 @@
      */
     if (search && theSearch.seqNum <= search.seqNum) {
         [theSearch release];
+        NSLog(@"ignoring old response");
         return;
     }
     
@@ -263,6 +277,9 @@
     search = theSearch;
     
     if (!search.error) {
+        NSLog(@"search completed without error: %d total pages", search.totalPages);
+        NSLog(@"search title: \"%@\"", search.title);
+        
         pageControl.numberOfPages = search.totalPages;
         pageControl.hidden = search.totalPages <= 1;
         pageControl.enabled = YES;
@@ -273,7 +290,7 @@
         tableView.contentSize = CGSizeMake(tableView.frame.size.width, height);
         [self setTableViewHeight];
         if (search.totalPages > 1) {
-            [self setSearchTitle:[NSString stringWithFormat:@"Search: \"%@\" %d/%d", search.term, search.currentPage, search.totalPages]];
+            [self setSearchTitle:[NSString stringWithFormat:@"Search: \"%@\" %d/%d", search.title, search.currentPage, search.totalPages]];
         }
     }
     
@@ -301,13 +318,13 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void)setSearchTitle:(NSString *)title
+- (void)setSearchTitle:(NSString *)theTitle
 {
-    self.title = title;
+    self.title = theTitle;
     
     DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
     
-    navigationController.titleLabel.title = title;
+    navigationController.titleLabel.title = theTitle;
 }
 
 @end

@@ -34,10 +34,12 @@
 @property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)text matchCase:(BOOL)matchCase;
-- (void)load;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil wildcard:(NSString*)wildcard title:(NSString*)title;
+
 - (IBAction)pageChanged:(id)sender;
 
 - (void)setTableViewHeight;
 - (void)setSearchTitle:(NSString*)title;
+- (void)load;
 
 @end

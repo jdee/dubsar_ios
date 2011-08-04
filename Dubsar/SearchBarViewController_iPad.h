@@ -40,5 +40,21 @@
 - (IBAction)showFAQ:(id)sender;
 - (IBAction)loadRootController:(id)sender;
 - (IBAction)showAboutPage:(id)sender;
+- (IBAction)browseAB:(id)sender;
+- (IBAction)browseCD:(id)sender;
+- (IBAction)browseEF:(id)sender;
+- (IBAction)browseGH:(id)sender;
+- (IBAction)browseIJ:(id)sender;
+- (IBAction)browseKL:(id)sender;
+- (IBAction)browseMN:(id)sender;
+- (IBAction)browseOP:(id)sender;
+- (IBAction)browseQR:(id)sender;
+- (IBAction)browseST:(id)sender;
+- (IBAction)browseUV:(id)sender;
+- (IBAction)browseWX:(id)sender;
+- (IBAction)browseYZ:(id)sender;
+- (IBAction)browseOther:(id)sender;
+
+- (void)wildcardSearch:(NSString*)regexp title:(NSString*)title;
 
 @end

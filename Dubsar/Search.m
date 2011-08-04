@@ -32,6 +32,8 @@ static int _seqNum = 0;
 @synthesize currentPage;
 @synthesize totalPages;
 @synthesize seqNum;
+@synthesize isWildCard;
+@synthesize title;
 
 
 +(id)searchWithTerm:(id)theTerm matchCase:(BOOL)mustMatchCase
@@ -44,6 +46,11 @@ static int _seqNum = 0;
     return [[[self alloc]initWithTerm:theTerm matchCase:mustMatchCase page:page seqNum:_seqNum++]autorelease];
 }
 
++(id)searchWithWildcard:(NSString *)regexp page:(int)page title:(NSString *)theTitle
+{
+    return [[[self alloc]initWithWildcard:regexp page:page title:theTitle seqNum:_seqNum++]autorelease];
+}
+
 -(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum
 {
     NSLog(@"constructing search for \"%@\"", theTerm);
@@ -52,6 +59,8 @@ static int _seqNum = 0;
     if (self) {   
         matchCase = mustMatchCase;
         term = [theTerm retain];
+        isWildCard = false;
+        title = [term copy];
         results = nil;
         currentPage = 1;
         totalPages = 0;
@@ -72,6 +81,8 @@ static int _seqNum = 0;
     if (self) {   
         matchCase = mustMatchCase;
         term = [theTerm retain];
+        isWildCard = false;
+        title = [term copy];
         results = nil;
         seqNum = theSeqNum;
         currentPage = page;
@@ -87,8 +98,35 @@ static int _seqNum = 0;
     return self;
 }
 
+-(id)initWithWildcard:(NSString *)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum
+{
+    NSLog(@"constructing search for \"%@\"", regexp);
+    
+    self = [super init];
+    if (self) {   
+        matchCase = false;
+        term = [regexp retain];
+        isWildCard = true;
+        title = [theTitle retain];
+        results = nil;
+        seqNum = theSeqNum;
+        currentPage = page;
+        
+        // totalPages is set by the server in the response
+        totalPages = 0;
+        
+        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
+        __url = [__url stringByAppendingString:@"&match=regexp"];
+        if (page > 1) __url = [__url stringByAppendingFormat:@"&page=%d", page];
+        [self set_url:__url];
+    }
+    return self;
+    
+}
+
 -(void)dealloc
 {    
+    [title release];
     [term release];
     [results release];
 
@@ -121,7 +159,22 @@ static int _seqNum = 0;
         [results insertObject:word atIndex:j];
     }
     
-    [results sortUsingSelector:@selector(compareFreqCnt:)];
+    /* This looks odd when browsing long lists. */
+    /* [results sortUsingSelector:@selector(compareFreqCnt:)]; */
+}
+
+- (Search*)newSearchForPage:(int)page
+{
+    Search* search;
+    
+    if (isWildCard) {
+        search = [Search searchWithWildcard:term page:page title:title];
+    }
+    else {
+        search = [Search searchWithTerm:term matchCase:matchCase page:page];
+    }
+    
+    return search;
 }
 
 @end
