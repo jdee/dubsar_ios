@@ -146,18 +146,20 @@
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
     if (error) {
+        [model release];
         return;
     }
+    
     Autocompleter* theAutocompleter = (Autocompleter*)model;
     /*
      * Ignore old responses.
      */
     if (!editing || ![searchBar isFirstResponder] || 
-        theAutocompleter.seqNum <= autocompleter.seqNum || 
+        (autocompleter && theAutocompleter.seqNum <= autocompleter.seqNum) || 
         searchBar.text.length == 0) return ;
     
-    [self setAutocompleter:theAutocompleter];
-    [theAutocompleter release];
+    [autocompleter release];
+    autocompleter = theAutocompleter;
     
     autocompleterTableView.hidden = NO;
     CGRect frame = CGRectMake(0.0, 44.0, 320.0, 44 * ([self tableView:autocompleterTableView numberOfRowsInSection:0]+1));

@@ -27,11 +27,13 @@
 
 -(void)testParsing
 {
-    NSString* stringData = @"[\"food\",[[26063,\"food\",\"n\",29,\"foods\"]]]";
+    NSString* stringData = @"[\"food\",[[26063,\"food\",\"n\",29,\"foods\"]],1]";
 
     Search* search = [Search searchWithTerm:@"food" matchCase:NO];
     search.data = [self.class dataWithString:stringData];
     [search parseData];
+
+    STAssertEquals(1, search.totalPages, @"total pages failed");
     
     NSArray* results = search.results;
     Word* word = [results objectAtIndex:0];

@@ -25,12 +25,19 @@
 @interface SearchViewController_iPad : UIViewController<LoadDelegate> {
     
     UITableView *tableView;
+    UIPageControl *pageControl;
+    Search* newSearch;
 }
 
 @property (nonatomic, retain) Search* search;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)text matchCase:(BOOL)matchCase;
 - (void)load;
+- (IBAction)pageChanged:(id)sender;
+
+- (void)setTableViewHeight;
+- (void)setSearchTitle:(NSString*)title;
 
 @end

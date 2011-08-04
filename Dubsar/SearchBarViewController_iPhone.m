@@ -185,17 +185,19 @@
 - (void)autocompleterFinished:(Autocompleter *)theAutocompleter withError:(NSString *)error
 {
     if (error) {
+        [theAutocompleter release];
         return;
     }
     
     /*
      * Ignore old responses.
      */
-    if (theAutocompleter.seqNum <= autocompleter.seqNum || 
+    if ((autocompleter && theAutocompleter.seqNum <= autocompleter.seqNum) || 
         searchBar.text.length == 0) return ;
     
-    [self setAutocompleter:theAutocompleter];
-    [theAutocompleter release];
+    [autocompleter release];
+    autocompleter = theAutocompleter;
+    
     [autocompleterTableView setHidden:NO];
     [autocompleterTableView reloadData];
 }

@@ -108,8 +108,6 @@
 		7B8AEB5213EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB4F13EA0E5000889E57 /* AutocompleterPopoverViewController_iPad.m */; };
 		7B8AEB5313EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5013EA0E5200889E57 /* AutocompleterPopoverViewController_iPad.xib */; };
 		7B8AEB5413EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5013EA0E5200889E57 /* AutocompleterPopoverViewController_iPad.xib */; };
-		7B8AEB5813EA20D600889E57 /* wedge-gray-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5513EA20D500889E57 /* wedge-gray-l.png */; };
-		7B8AEB5A13EA20D600889E57 /* wedge-gray-r.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5613EA20D600889E57 /* wedge-gray-r.png */; };
 		7B8AEB5D13EA217200889E57 /* wedge-gray-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5B13EA216F00889E57 /* wedge-gray-l.png */; };
 		7B8AEB5E13EA217200889E57 /* wedge-gray-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5B13EA216F00889E57 /* wedge-gray-l.png */; };
 		7B8AEB5F13EA217200889E57 /* wedge-gray-r.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5C13EA217000889E57 /* wedge-gray-r.png */; };
@@ -360,8 +358,6 @@
 		7B8AEB4E13EA0E4B00889E57 /* AutocompleterPopoverViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterPopoverViewController_iPad.h; sourceTree = "<group>"; };
 		7B8AEB4F13EA0E5000889E57 /* AutocompleterPopoverViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterPopoverViewController_iPad.m; sourceTree = "<group>"; };
 		7B8AEB5013EA0E5200889E57 /* AutocompleterPopoverViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterPopoverViewController_iPad.xib; sourceTree = "<group>"; };
-		7B8AEB5513EA20D500889E57 /* wedge-gray-l.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wedge-gray-l.png"; sourceTree = "<group>"; };
-		7B8AEB5613EA20D600889E57 /* wedge-gray-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wedge-gray-r.png"; sourceTree = "<group>"; };
 		7B8AEB5B13EA216F00889E57 /* wedge-gray-l.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wedge-gray-l.png"; sourceTree = "<group>"; };
 		7B8AEB5C13EA217000889E57 /* wedge-gray-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wedge-gray-r.png"; sourceTree = "<group>"; };
 		7B8AEB6713EA3BFB00889E57 /* Default-portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-portrait~ipad.png"; sourceTree = "<group>"; };
@@ -630,8 +626,6 @@
 				7B3280A013E38CEE00274E6C /* Synset.m */,
 				7B3280A113E38CEE00274E6C /* Word.h */,
 				7B3280A213E38CEE00274E6C /* Word.m */,
-				7B8AEB5513EA20D500889E57 /* wedge-gray-l.png */,
-				7B8AEB5613EA20D600889E57 /* wedge-gray-r.png */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -898,8 +892,6 @@
 				7BF412AD13E8E6B000BAC92A /* iTunesArtwork in Resources */,
 				7B8AEB3E13E9E69100889E57 /* DubsarNavigationController_iPad.xib in Resources */,
 				7B8AEB5413EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */,
-				7B8AEB5813EA20D600889E57 /* wedge-gray-l.png in Resources */,
-				7B8AEB5A13EA20D600889E57 /* wedge-gray-r.png in Resources */,
 				7B8AEB5E13EA217200889E57 /* wedge-gray-l.png in Resources */,
 				7B8AEB6013EA217200889E57 /* wedge-gray-r.png in Resources */,
 				7B8AEB6913EA3BFC00889E57 /* Default-portrait~ipad.png in Resources */,

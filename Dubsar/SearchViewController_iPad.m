@@ -18,6 +18,7 @@
  */
 
 #import "DubsarAppDelegate_iPad.h"
+#import "DubsarNavigationController_iPad.h"
 #import "LoadDelegate.h"
 #import "Search.h"
 #import "SearchViewController_iPad.h"
@@ -29,14 +30,15 @@
 
 @synthesize search;
 @synthesize tableView;
+@synthesize pageControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString *)text matchCase:(BOOL)matchCase
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
-        search = [[Search searchWithTerm:text matchCase:matchCase]retain];
-        search.delegate = self;
+        search = nil;
+        newSearch = [[Search searchWithTerm:text matchCase:matchCase]retain];
+        newSearch.delegate = self;
         
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", text];
     }
@@ -48,12 +50,37 @@
     search.delegate = nil;
     [search release];
     [tableView release];
+    [pageControl release];
     [super dealloc];
 }
 
 - (void)load
 {
-    [search load];
+    [newSearch load];
+    newSearch = nil;
+}
+
+- (IBAction)pageChanged:(id)sender 
+{
+    int newPage = pageControl.currentPage + 1;
+    if (newPage == search.currentPage) return ;
+    
+    [self setSearchTitle:[NSString stringWithFormat:@"Search \"%@\" %d/%d", search.term, newPage, search.totalPages]];
+    
+    NSLog(@"page changed to %d, requesting...", pageControl.currentPage);
+    pageControl.enabled = NO;
+
+    Search* _newSearch = [Search searchWithTerm:search.term matchCase:search.matchCase page:newPage];
+    _newSearch.delegate = self;
+    [_newSearch load];
+
+    // release each search when its response is received, unless it's the current one,
+    // which is release in dealloc (like the autocompleter model).
+    [_newSearch retain];
+    
+    // kick the app back to a loading state.
+    search.complete = false;
+    [tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,17 +96,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self setTableViewHeight];
 }
 
 - (void)viewDidUnload
 {
     [self setTableView:nil];
+    [self setPageControl:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -112,6 +135,27 @@
 	return YES;
 }
 
+/*
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    CGRect frame = tableView.frame;
+    switch (fromInterfaceOrientation) {
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            frame.size.height = pageControl.hidden ? 704.0 : 668.0 ;
+            break;
+            
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            frame.size.height = pageControl.hidden ? 1004.0 : 968.0 ;
+            break;
+    }
+    tableView.frame = frame;
+    [tableView setNeedsLayout];
+    [tableView reloadData];
+}
+ */
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView
@@ -121,7 +165,7 @@
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section
 {
-    if (!search.complete || search.error || search.results.count == 0) {
+    if (!search || !search.complete || search.error || search.results.count == 0) {
         return 1;  
     }
     
@@ -130,7 +174,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!search.complete) {
+    if (!search || !search.complete) {
         static NSString* indicatorType = @"indicator";
         UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:indicatorType];
         if (cell == nil) {
@@ -151,6 +195,9 @@
     
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    }
+    else {
+        cell.detailTextLabel.text = @"";
     }
     
     DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
@@ -192,7 +239,7 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!search.complete || search.error) return;
+    if (!search || !search.complete || search.error) return;
     
     Word* word = [search.results objectAtIndex:indexPath.row];
     WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
@@ -202,24 +249,65 @@
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error
 {
-    if (model != search) return;
+    Search* theSearch = (Search*)model;
 
-    if (!model.error) {
+    /*
+     * Ignore old responses.
+     */
+    if (search && theSearch.seqNum <= search.seqNum) {
+        [theSearch release];
+        return;
+    }
+    
+    [search release];
+    search = theSearch;
+    
+    if (!search.error) {
+        pageControl.numberOfPages = search.totalPages;
+        pageControl.hidden = search.totalPages <= 1;
+        pageControl.enabled = YES;
+        
         int rows = search.results.count > 1 ? search.results.count : 1 ;
-        float height = rows*44.0;
-        if (height < self.view.frame.size.height) {
-            CGRect frame = tableView.frame;
-            frame.size.height = height;
-            tableView.frame = frame;
+        float height = (rows)*44.0;
+        
+        tableView.contentSize = CGSizeMake(tableView.frame.size.width, height);
+        [self setTableViewHeight];
+        if (search.totalPages > 1) {
+            [self setSearchTitle:[NSString stringWithFormat:@"Search: \"%@\" %d/%d", search.term, search.currentPage, search.totalPages]];
         }
     }
     
     [tableView reloadData];
 }
 
+- (void)setTableViewHeight
+{
+    UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+    float height = UIInterfaceOrientationIsPortrait(currentOrientation) ? 960.0 : 704.0 ;
+
+    CGRect frame = tableView.frame;        
+
+    if (!pageControl.hidden) {
+        height -= 36.0;          
+    }
+    frame.size.height = height;
+    
+    tableView.frame = frame;
+
+}
+
 - (void)loadRootController
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)setSearchTitle:(NSString *)title
+{
+    self.title = title;
+    
+    DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
+    
+    navigationController.titleLabel.title = title;
 }
 
 @end

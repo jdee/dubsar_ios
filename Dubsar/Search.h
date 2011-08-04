@@ -27,9 +27,14 @@
 @property (nonatomic) BOOL matchCase;
 @property (nonatomic, retain) NSString* term;
 @property (nonatomic, retain) NSMutableArray* results;
+@property (nonatomic) int currentPage;
+@property (nonatomic) int totalPages;
+@property (nonatomic) int seqNum;
 
 +(id)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
--(id)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
+-(id)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum;
++(id)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page;
+-(id)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum;
 -(void)parseData;
 
 @end

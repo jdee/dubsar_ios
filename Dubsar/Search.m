@@ -22,19 +22,29 @@
 #import "URLEncoding.h"
 #import "Word.h"
 
+static int _seqNum = 0;
+
 @implementation Search
 
 @synthesize results;
 @synthesize term;
 @synthesize matchCase;
+@synthesize currentPage;
+@synthesize totalPages;
+@synthesize seqNum;
 
 
 +(id)searchWithTerm:(id)theTerm matchCase:(BOOL)mustMatchCase
 {
-    return [[[self alloc]initWithTerm:theTerm matchCase:mustMatchCase]autorelease];
+    return [[[self alloc]initWithTerm:theTerm matchCase:mustMatchCase seqNum:_seqNum++]autorelease];
 }
 
--(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
++(id)searchWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page
+{
+    return [[[self alloc]initWithTerm:theTerm matchCase:mustMatchCase page:page seqNum:_seqNum++]autorelease];
+}
+
+-(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum
 {
     NSLog(@"constructing search for \"%@\"", theTerm);
     
@@ -43,9 +53,35 @@
         matchCase = mustMatchCase;
         term = [theTerm retain];
         results = nil;
+        currentPage = 1;
+        totalPages = 0;
+        seqNum = theSeqNum;
         
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
+        [self set_url:__url];
+    }
+    return self;
+}
+
+-(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum
+{
+    NSLog(@"constructing search for \"%@\"", theTerm);
+    
+    self = [super init];
+    if (self) {   
+        matchCase = mustMatchCase;
+        term = [theTerm retain];
+        results = nil;
+        seqNum = theSeqNum;
+        currentPage = page;
+        
+        // totalPages is set by the server in the response
+        totalPages = 0;
+        
+        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
+        if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
+        if (page > 1) __url = [__url stringByAppendingFormat:@"&page=%d", page];
         [self set_url:__url];
     }
     return self;
@@ -63,6 +99,8 @@
 {        
     NSArray* response = [[self decoder] objectWithData:[self data]];
     NSArray* list = [response objectAtIndex:1];
+    NSNumber* pages = [response objectAtIndex:2];
+    totalPages = pages.intValue;
     
     results = [[NSMutableArray arrayWithCapacity:list.count]retain];
     NSLog(@"search request for \"%@\" returned %d results", [response objectAtIndex:0], list.count);
