@@ -36,9 +36,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        search = nil;
-        newSearch = [[Search searchWithTerm:text matchCase:matchCase]retain];
-        newSearch.delegate = self;
+        search = [[Search searchWithTerm:text matchCase:matchCase]retain];
+        search.delegate = self;
         
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", text];
     }
@@ -49,9 +48,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        search = nil;
-        newSearch = [[Search searchWithWildcard:wildcard page:1 title:theTitle]retain];
-        newSearch.delegate = self;
+        search = [[Search searchWithWildcard:wildcard page:1 title:theTitle]retain];
+        search.delegate = self;
         
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", theTitle];
     }
@@ -69,7 +67,7 @@
 
 - (void)load
 {
-    [newSearch load];
+    [search load];
 }
 
 - (IBAction)pageChanged:(id)sender 
@@ -77,18 +75,17 @@
     int newPage = pageControl.currentPage + 1;
     if (newPage == search.currentPage) return ;
     
-    [self setSearchTitle:[NSString stringWithFormat:@"Search \"%@\" %d/%d", search.term, newPage, search.totalPages]];
+    [self setSearchTitle:[NSString stringWithFormat:@"Search \"%@\" %d/%d", search.title, newPage, search.totalPages]];
     
     NSLog(@"page changed to %d, requesting...", pageControl.currentPage);
     pageControl.enabled = NO;
 
-    Search* _newSearch = [search newSearchForPage:newPage];
-    _newSearch.delegate = self;
-    [_newSearch load];
-
-    // release each search when its response is received, unless it's the current one,
-    // which is release in dealloc (like the autocompleter model).
-    [_newSearch retain];
+    // not interested in the old search any more
+    search.delegate = nil;
+    
+    self.search = [search newSearchForPage:newPage];
+    search.delegate = self;
+    [search load];
     
     // kick the app back to a loading state.
     search.complete = false;
@@ -146,27 +143,6 @@
     // Return YES for supported orientations
 	return YES;
 }
-
-/*
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    CGRect frame = tableView.frame;
-    switch (fromInterfaceOrientation) {
-        case UIInterfaceOrientationPortrait:
-        case UIInterfaceOrientationPortraitUpsideDown:
-            frame.size.height = pageControl.hidden ? 704.0 : 668.0 ;
-            break;
-            
-        case UIInterfaceOrientationLandscapeLeft:
-        case UIInterfaceOrientationLandscapeRight:
-            frame.size.height = pageControl.hidden ? 1004.0 : 968.0 ;
-            break;
-    }
-    tableView.frame = frame;
-    [tableView setNeedsLayout];
-    [tableView reloadData];
-}
- */
 
 #pragma mark - Table view data source
 
@@ -267,15 +243,11 @@
     /*
      * Ignore old responses.
      */
-    if (search && theSearch.seqNum <= search.seqNum) {
-        [theSearch release];
+    if (search != theSearch) {
         NSLog(@"ignoring old response");
         return;
     }
-    
-    [search release];
-    search = theSearch;
-    
+        
     if (!search.error) {
         NSLog(@"search completed without error: %d total pages", search.totalPages);
         NSLog(@"search title: \"%@\"", search.title);

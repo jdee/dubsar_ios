@@ -26,7 +26,6 @@
     
     UITableView *tableView;
     UIPageControl *pageControl;
-    Search* newSearch;
 }
 
 @property (nonatomic, retain) Search* search;
