@@ -154,8 +154,9 @@
     }
     
     DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
-    UIColor* tint = appDelegate.dubsarTintColor;
-    cell.textLabel.textColor = tint;
+    cell.textLabel.textColor = appDelegate.dubsarTintColor;
+    cell.textLabel.font = appDelegate.dubsarNormalFont;
+    cell.detailTextLabel.font = appDelegate.dubsarSmallFont;
  
     if (search.error) {
         cell.accessoryType = UITableViewCellAccessoryNone;

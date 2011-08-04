@@ -238,6 +238,7 @@
     
     DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
     cell.textLabel.textColor = appDelegate.dubsarTintColor;
+    cell.textLabel.font = appDelegate.dubsarNormalFont;
     
     if (autocompleter.results.count > 0) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

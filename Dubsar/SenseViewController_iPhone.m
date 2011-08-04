@@ -374,6 +374,8 @@
     
     DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
     cell.textLabel.textColor = appDelegate.dubsarTintColor;
+    cell.textLabel.font = appDelegate.dubsarNormalFont;
+    cell.detailTextLabel.font = appDelegate.dubsarSmallFont;
     
     return cell;
 }

@@ -24,6 +24,9 @@
 }
 
 @property (nonatomic, retain) UIColor* dubsarTintColor;
+@property (nonatomic, retain) NSString* dubsarFontFamily;
+@property (nonatomic, retain) UIFont* dubsarNormalFont;
+@property (nonatomic, retain) UIFont* dubsarSmallFont;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
 @end

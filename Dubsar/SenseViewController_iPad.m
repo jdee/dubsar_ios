@@ -318,8 +318,9 @@
     }
     
     DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
-    UIColor* tint = appDelegate.dubsarTintColor;
-    cell.textLabel.textColor = tint;
+    cell.textLabel.textColor = appDelegate.dubsarTintColor;
+    cell.textLabel.font = appDelegate.dubsarNormalFont;
+    cell.detailTextLabel.font = appDelegate.dubsarSmallFont;
    
     return cell;
 }
@@ -365,7 +366,9 @@
         return;
     }
 
-    [glossTextView setText:sense.gloss];
+    NSString* gloss = sense.gloss;
+    // gloss = [gloss stringByAppendingFormat:@" (in %@)", glossTextView.font.fontName];
+    [glossTextView setText:gloss];
     [detailGlossTextView setText:sense.gloss];
     [self adjustBannerLabel];
     [self setupTableSections];

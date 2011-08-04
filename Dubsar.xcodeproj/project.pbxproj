@@ -108,9 +108,7 @@
 		7B8AEB5213EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB4F13EA0E5000889E57 /* AutocompleterPopoverViewController_iPad.m */; };
 		7B8AEB5313EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5013EA0E5200889E57 /* AutocompleterPopoverViewController_iPad.xib */; };
 		7B8AEB5413EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5013EA0E5200889E57 /* AutocompleterPopoverViewController_iPad.xib */; };
-		7B8AEB5713EA20D600889E57 /* wedge-gray-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5513EA20D500889E57 /* wedge-gray-l.png */; };
 		7B8AEB5813EA20D600889E57 /* wedge-gray-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5513EA20D500889E57 /* wedge-gray-l.png */; };
-		7B8AEB5913EA20D600889E57 /* wedge-gray-r.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5613EA20D600889E57 /* wedge-gray-r.png */; };
 		7B8AEB5A13EA20D600889E57 /* wedge-gray-r.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5613EA20D600889E57 /* wedge-gray-r.png */; };
 		7B8AEB5D13EA217200889E57 /* wedge-gray-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5B13EA216F00889E57 /* wedge-gray-l.png */; };
 		7B8AEB5E13EA217200889E57 /* wedge-gray-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8AEB5B13EA216F00889E57 /* wedge-gray-l.png */; };
@@ -841,8 +839,6 @@
 				7BCE75EA13E741C900D1CECC /* iTunesArtwork in Resources */,
 				7B8AEB3D13E9E69100889E57 /* DubsarNavigationController_iPad.xib in Resources */,
 				7B8AEB5313EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */,
-				7B8AEB5713EA20D600889E57 /* wedge-gray-l.png in Resources */,
-				7B8AEB5913EA20D600889E57 /* wedge-gray-r.png in Resources */,
 				7B8AEB5D13EA217200889E57 /* wedge-gray-l.png in Resources */,
 				7B8AEB5F13EA217200889E57 /* wedge-gray-r.png in Resources */,
 				7B8AEB6813EA3BFC00889E57 /* Default-portrait~ipad.png in Resources */,
