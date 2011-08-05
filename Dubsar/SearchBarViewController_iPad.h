@@ -21,6 +21,7 @@
 #import "LoadDelegate.h"
 
 @class Autocompleter;
+@class DailyWord;
 
 @interface SearchBarViewController_iPad : UIViewController <LoadDelegate, UISearchBarDelegate, UISplitViewControllerDelegate, UIPopoverControllerDelegate> {
     
@@ -29,15 +30,20 @@
     UIPopoverController* popoverController;
     UITableView *autocompleterTableView;
     UISwitch *caseSwitch;
+    UIButton *wotdButton;
 }
 
+@property (nonatomic, retain) UIPopoverController* wordPopoverController;
 @property (nonatomic, assign) UINavigationController* navigationController;
 @property (nonatomic, retain) Autocompleter* autocompleter;
+@property (nonatomic, retain) DailyWord* dailyWord;
 @property (nonatomic, retain) NSString* searchText;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
 @property (nonatomic, retain) IBOutlet UISwitch *caseSwitch;
+@property (nonatomic, retain) IBOutlet UIButton *wotdButton;
 
+- (IBAction)showWotd:(id)sender;
 - (IBAction)showFAQ:(id)sender;
 - (IBAction)loadRootController:(id)sender;
 - (IBAction)showAboutPage:(id)sender;
@@ -55,6 +61,9 @@
 - (IBAction)browseWX:(id)sender;
 - (IBAction)browseYZ:(id)sender;
 - (IBAction)browseOther:(id)sender;
+
+- (void)autocompleterFinished:(Autocompleter*)theAutocompleter;
+- (void)wotdFinished:(DailyWord*)theDailyWord;
 
 - (void)wildcardSearch:(NSString*)regexp title:(NSString*)title;
 

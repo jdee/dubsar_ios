@@ -18,10 +18,15 @@
  */
 
 #import "AboutViewController_iPhone.h"
+#import "DailyWord.h"
 #import "DubsarViewController_iPhone.h"
 #import "FAQViewController_iPhone.h"
+#import "Word.h"
+#import "WordViewController_iPhone.h"
 
 @implementation DubsarViewController_iPhone
+@synthesize wotdButton;
+@synthesize dailyWord;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,6 +46,8 @@
 
 - (void)dealloc
 {
+    [dailyWord release];
+    [wotdButton release];
     [super dealloc];
 }
 
@@ -54,6 +61,7 @@
 
 - (void)viewDidUnload
 {
+    [self setWotdButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -62,7 +70,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    searchBar.text = @"";
+    
+    [wotdButton setTitle:@"loading..." forState:UIControlStateNormal];
+    [wotdButton setTitle:@"loading..." forState:UIControlStateHighlighted];
+    [wotdButton setTitle:@"loading..." forState:UIControlStateSelected];
+    
+    self.dailyWord = [[[DailyWord alloc]init]autorelease];
+    dailyWord.delegate = self;
+    [dailyWord load];
+    
+    self.searchBar.text = @"";
 }
 
 - (void)displayFAQ
@@ -79,6 +96,14 @@
     [self presentModalViewController:aboutViewController animated: YES];
 }
 
+- (IBAction)loadWotd:(id)sender
+{
+    if (!dailyWord.complete || dailyWord.error) return;
+    
+    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:dailyWord.word]autorelease];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
 - (void)createToolbarItems
 {
     UIBarButtonItem* faqButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)]autorelease];
@@ -89,6 +114,29 @@
     [buttonItems addObject:aboutButtonItem];
     
     self.toolbarItems = buttonItems.retain;
+}
+
+- (void)loadComplete:(Model *)model withError:(NSString *)error
+{
+    if (error || ![model isMemberOfClass:DailyWord.class]) {
+        [super loadComplete:model withError:error];
+        return;
+    }
+    
+    Word* word = dailyWord.word;
+    
+    NSString* title = [NSString stringWithFormat:@"%@", word.nameAndPos];
+    if (word.freqCnt > 0) {
+        title = [title stringByAppendingFormat:@" freq. cnt.: %d", word.freqCnt];
+    }
+    /*
+    if (word.inflections > 0) {
+        title = [title stringByAppendingFormat:@"; also %@", word.inflections];
+    }
+     */
+    [wotdButton setTitle:title forState:UIControlStateNormal];
+    [wotdButton setTitle:title forState:UIControlStateHighlighted];
+    [wotdButton setTitle:title forState:UIControlStateSelected];
 }
 
 @end

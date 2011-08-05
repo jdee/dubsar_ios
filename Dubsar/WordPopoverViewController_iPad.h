@@ -26,19 +26,21 @@
     
     UILabel *headerLabel;
     UITextView *inflectionsTextView;
+    UIButton *headerButton;
 }
 
 @property (nonatomic, assign) UINavigationController* navigationController;
 @property (nonatomic, assign) UIPopoverController* popoverController;
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UILabel *headerLabel;
 @property (nonatomic, retain) IBOutlet UITextView *inflectionsTextView;
+@property (nonatomic, retain) IBOutlet UIButton *headerButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 - (void)adjustInflections;
 - (void)adjustTitle;
 - (void)load;
+- (IBAction)loadWord:(id)sender;
 
 - (void)adjustTableViewFrame;
 - (void)adjustPopoverSize;

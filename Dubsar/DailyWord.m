@@ -17,21 +17,41 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "DailyWord.h"
+#import "JSONkit.h"
+#import "Word.h"
 
-#import "LoadDelegate.h"
+@implementation DailyWord
 
-@class DailyWord;
+@synthesize word;
 
-@interface DubsarViewController_iPad : UIViewController <LoadDelegate> {
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self set_url:@"/wotd"];
+    }
     
-    UIButton *wotdButton;
+    return self;
 }
 
-@property (nonatomic, retain) DailyWord* dailyWord;
-@property (nonatomic, retain) UIPopoverController* wordPopoverController;
-@property (nonatomic, retain) IBOutlet UIButton *wotdButton;
+- (void)dealloc
+{
+    [word release];
+    [super dealloc];
+}
 
-- (IBAction)showWotd:(id)sender;
+- (void)parseData
+{
+    NSArray* wotd = [[self decoder] objectWithData:[self data]];
+    NSNumber* numericId = [wotd objectAtIndex:0];
+    
+    word = [[Word wordWithId:numericId.intValue name:[wotd objectAtIndex:1] posString:[wotd objectAtIndex:2]]retain];
+    
+    NSNumber* fc = [wotd objectAtIndex:3];
+    word.freqCnt = fc.intValue;
+    
+    word.inflections = [wotd objectAtIndex:4];
+}
 
 @end

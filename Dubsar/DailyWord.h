@@ -17,21 +17,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "Model.h"
 
-#import "LoadDelegate.h"
+@class Word;
 
-@class DailyWord;
+@interface DailyWord : Model
 
-@interface DubsarViewController_iPad : UIViewController <LoadDelegate> {
-    
-    UIButton *wotdButton;
-}
-
-@property (nonatomic, retain) DailyWord* dailyWord;
-@property (nonatomic, retain) UIPopoverController* wordPopoverController;
-@property (nonatomic, retain) IBOutlet UIButton *wotdButton;
-
-- (IBAction)showWotd:(id)sender;
+@property (nonatomic, retain) Word* word;
 
 @end

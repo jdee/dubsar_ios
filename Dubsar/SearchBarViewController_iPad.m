@@ -20,11 +20,13 @@
 #import "AboutViewController_iPad.h"
 #import "AutocompleterPopoverViewController_iPad.h"
 #import "Autocompleter.h"
+#import "DailyWord.h"
 #import "DubsarAppDelegate_iPad.h"
 #import "DubsarNavigationController_iPad.h"
 #import "FAQViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 #import "SearchViewController_iPad.h"
+#import "WordPopoverViewController_iPad.h"
 
 @implementation SearchBarViewController_iPad
 @synthesize navigationController=_navigationController;
@@ -32,7 +34,10 @@
 @synthesize searchBar;
 @synthesize autocompleterTableView;
 @synthesize caseSwitch;
+@synthesize wotdButton;
 @synthesize searchText=_searchText;
+@synthesize dailyWord;
+@synthesize wordPopoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,6 +59,8 @@
 
 - (void)dealloc
 {
+    [wordPopoverController release];
+    [dailyWord release];
     [popoverController release];
     autocompleter.delegate = nil;
     [autocompleter release];
@@ -61,6 +68,7 @@
     [searchBar release];
     [autocompleterTableView release];
     [caseSwitch release];
+    [wotdButton release];
     [super dealloc];
 }
 
@@ -93,6 +101,7 @@
     [self setSearchBar:nil];
     [self setAutocompleterTableView:nil];
     [self setCaseSwitch:nil];
+    [self setWotdButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -150,7 +159,14 @@
     if (error) {
         return;
     }
-    Autocompleter* theAutocompleter = (Autocompleter*)model;
+    
+    if ([model isMemberOfClass:Autocompleter.class]) [self autocompleterFinished:(Autocompleter*)model];
+    
+    if ([model isMemberOfClass:DailyWord.class]) [self wotdFinished:(DailyWord*)model];
+}
+
+- (void)autocompleterFinished:(Autocompleter*)theAutocompleter
+{
     /*
      * Ignore old responses.
      */
@@ -165,6 +181,24 @@
     
     viewController.autocompleter = autocompleter;
     [autocompleterTableView reloadData];
+}
+
+- (void)wotdFinished:(DailyWord *)theDailyWord
+{    
+    WordPopoverViewController_iPad* viewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:theDailyWord.word]autorelease];
+    [viewController load];
+    self.wordPopoverController = [[[UIPopoverController alloc]initWithContentViewController:viewController]autorelease];
+    viewController.popoverController = wordPopoverController;
+    viewController.navigationController = _navigationController;
+    
+    [wordPopoverController presentPopoverFromRect:wotdButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (IBAction)showWotd:(id)sender 
+{
+    dailyWord = [[DailyWord alloc]init];
+    dailyWord.delegate = self;
+    [dailyWord load];
 }
 
 - (IBAction)showFAQ:(id)sender 

@@ -19,10 +19,17 @@
 
 #import "SearchBarViewController_iPhone.h"
 
+@class DailyWord;
+
 @interface DubsarViewController_iPhone : SearchBarViewController_iPhone {
+    UIButton *wotdButton;
 }
+
+@property (nonatomic, retain) DailyWord* dailyWord;
+@property (nonatomic, retain) IBOutlet UIButton *wotdButton;
 
 - (void)displayFAQ;
 - (void)displayAbout;
+- (IBAction)loadWotd:(id)sender;
 
 @end

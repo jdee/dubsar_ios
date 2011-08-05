@@ -17,9 +17,14 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DailyWord.h"
 #import "DubsarViewController_iPad.h"
+#import "WordPopoverViewController_iPad.h"
 
 @implementation DubsarViewController_iPad
+@synthesize dailyWord;
+@synthesize wotdButton;
+@synthesize wordPopoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +38,9 @@
 
 - (void)dealloc
 {
+    [dailyWord release];
+    [wordPopoverController release];
+    [wotdButton release];
     [super dealloc];
 }
 
@@ -54,6 +62,7 @@
 
 - (void)viewDidUnload
 {
+    [self setWotdButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -67,6 +76,26 @@
 {
     // Return YES for supported orientations
 	return YES;
+}
+
+- (void)loadComplete:(Model *)model withError:(NSString *)error
+{    
+    DailyWord* theDailyWord = (DailyWord*)model;
+    
+    WordPopoverViewController_iPad* viewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:theDailyWord.word]autorelease];
+    [viewController load];
+    self.wordPopoverController = [[[UIPopoverController alloc]initWithContentViewController:viewController]autorelease];
+    viewController.popoverController = wordPopoverController;
+    viewController.navigationController = self.navigationController;
+    
+    [wordPopoverController presentPopoverFromRect:wotdButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (IBAction)showWotd:(id)sender 
+{
+    dailyWord = [[DailyWord alloc]init];
+    dailyWord.delegate = self;
+    [dailyWord load];
 }
 
 @end

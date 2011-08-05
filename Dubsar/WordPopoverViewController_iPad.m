@@ -23,14 +23,15 @@
 #import "SenseViewController_iPad.h"
 #import "Word.h"
 #import "WordPopoverViewController_iPad.h"
+#import "WordViewController_iPad.h"
 
 
 @implementation WordPopoverViewController_iPad
 
 @synthesize word;
 @synthesize tableView=_tableView;
-@synthesize headerLabel;
 @synthesize inflectionsTextView;
+@synthesize headerButton;
 @synthesize popoverController;
 @synthesize navigationController;
 
@@ -58,14 +59,25 @@
     word.delegate = nil;
     [word release];
     [_tableView release];
-    [headerLabel release];
     [inflectionsTextView release];
+    [headerButton release];
     [super dealloc];
 }
 
 - (void)load
 {
     [word load];
+}
+
+- (IBAction)loadWord:(id)sender
+{
+    if (!word.complete || word.error) return;
+    
+    [popoverController dismissPopoverAnimated:YES];
+    
+    WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
+    [viewController load];
+    [navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -87,8 +99,8 @@
 - (void)viewDidUnload
 {
     [self setTableView:nil];
-    [self setHeaderLabel:nil];
     [self setInflectionsTextView:nil];
+    [self setHeaderButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -219,7 +231,7 @@
     
     if (error) {
         [_tableView setHidden:YES];
-        [headerLabel setText:@"ERROR"];
+        [headerButton setTitle:@"ERROR" forState:UIControlStateNormal];
         [inflectionsTextView setText:error];
         return;
     }
@@ -276,7 +288,10 @@
 
 - (void)adjustTitle
 {
-    headerLabel.text = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];   
+    NSString* title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
+    [headerButton setTitle:title forState:UIControlStateNormal];   
+    [headerButton setTitle:title forState:UIControlStateHighlighted];
+    [headerButton setTitle:title forState:UIControlStateSelected];
 }
 
 - (void)adjustInflections
