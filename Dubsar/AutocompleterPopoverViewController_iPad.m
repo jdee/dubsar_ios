@@ -111,14 +111,34 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return autocompleter && !autocompleter.error ? autocompleter.results.count : 0 ;
+    if (!autocompleter) return 0;
+    
+    if (!autocompleter.complete || autocompleter.error) return 1;
+    
+    return autocompleter.results.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell* cell;
+    if (!autocompleter.complete) {
+        static NSString* indicatorType = @"indicator";
+        cell = [tableView dequeueReusableCellWithIdentifier:indicatorType];
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indicatorType]autorelease];
+        }
+        
+        UIActivityIndicatorView* indicatorView = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]autorelease];
+        [indicatorView startAnimating];
+        indicatorView.frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
+        [cell.contentView addSubview:indicatorView];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+    }
+    
     static NSString* cellType = @"autocompleter";
     
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellType];
+    cell = [tableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault   reuseIdentifier:cellType]autorelease];
     }
@@ -128,8 +148,14 @@
     cell.textLabel.font = appDelegate.dubsarNormalFont;
     
     int index = indexPath.row;
-    cell.textLabel.text = [autocompleter.results objectAtIndex:index];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (autocompleter.error) {
+        cell.textLabel.text = autocompleter.errorMessage;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    else {
+        cell.textLabel.text = [autocompleter.results objectAtIndex:index];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     
     return cell;
 }

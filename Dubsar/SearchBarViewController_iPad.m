@@ -156,10 +156,6 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
-    if (error) {
-        return;
-    }
-    
     if ([model isMemberOfClass:Autocompleter.class]) [self autocompleterFinished:(Autocompleter*)model];
     
     if ([model isMemberOfClass:DailyWord.class]) [self wotdFinished:(DailyWord*)model];

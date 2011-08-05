@@ -118,21 +118,28 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
-    if (error || ![model isMemberOfClass:DailyWord.class]) {
+    if (![model isMemberOfClass:DailyWord.class]) {
         return;
     }
     
     Word* word = dailyWord.word;
     
-    NSString* title = [NSString stringWithFormat:@"%@", word.nameAndPos];
-    if (word.freqCnt > 0) {
-        title = [title stringByAppendingFormat:@" freq. cnt.: %d", word.freqCnt];
+    NSString* title;
+    if (dailyWord.error) {
+        title = dailyWord.errorMessage;
     }
-    /*
-    if (word.inflections > 0) {
-        title = [title stringByAppendingFormat:@"; also %@", word.inflections];
+    else {
+        title = [NSString stringWithFormat:@"%@", word.nameAndPos];
+        if (word.freqCnt > 0) {
+            title = [title stringByAppendingFormat:@" freq. cnt.: %d", word.freqCnt];
+        }
+        /*
+         if (word.inflections > 0) {
+         title = [title stringByAppendingFormat:@"; also %@", word.inflections];
+         }
+         */
     }
-     */
+    
     [wotdButton setTitle:title forState:UIControlStateNormal];
     [wotdButton setTitle:title forState:UIControlStateHighlighted];
     [wotdButton setTitle:title forState:UIControlStateSelected];

@@ -184,16 +184,14 @@
 
 - (void)autocompleterFinished:(Autocompleter *)theAutocompleter withError:(NSString *)error
 {
-    if (error) {
-        [theAutocompleter release];
-        return;
-    }
-    
     /*
      * Ignore old responses.
      */
     if ((autocompleter && theAutocompleter.seqNum <= autocompleter.seqNum) || 
-        searchBar.text.length == 0) return ;
+        searchBar.text.length == 0) {
+        [theAutocompleter release];
+        return;
+    }
     
     [autocompleter release];
     autocompleter = theAutocompleter;
