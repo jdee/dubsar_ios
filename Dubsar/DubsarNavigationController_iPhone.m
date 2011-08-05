@@ -73,19 +73,46 @@
 
 - (void)addBackButton
 {
-    UIImage* backButtonImage = [UIImage imageNamed:@"wedge-blue-l.png"];
-    UIBarButtonItem* backButtonItem = [[[UIBarButtonItem alloc]initWithImage:backButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(back)]autorelease];
+    UIImage* backButtonImage = [UIImage imageNamed:@"wedge-blue-l-hr.png"];
+    UIImage* highlightedImage = [UIImage imageNamed:@"wedge-white-l-hr.png"];
+    
+    UIButton* backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:backButtonImage forState:UIControlStateNormal];
+    [backButton setImage:highlightedImage forState:UIControlStateHighlighted];
+    [backButton setImage:backButtonImage forState:UIControlStateSelected];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    backButton.showsTouchWhenHighlighted = NO;
+    
+    CGRect frame = backButton.frame;
+    frame.size = CGSizeMake(37.0, 37.0);
+    backButton.frame = frame;
+
+
+    UIBarButtonItem* backButtonItem = [[[UIBarButtonItem alloc]initWithCustomView:backButton]autorelease];
     
     self.topViewController.navigationItem.leftBarButtonItem = backButtonItem;
-    
 }
 
 - (void)addForwardButton
 {
-    UIImage* forwardButtonImage = [UIImage imageNamed:@"wedge-blue-r.png"];
-    UIBarButtonItem* forwardButtonItem = [[[UIBarButtonItem alloc]initWithImage:forwardButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(forward)]autorelease];
-                                           
-    self.topViewController.navigationItem.rightBarButtonItem = forwardButtonItem;
+    UIImage* fwdButtonImage = [UIImage imageNamed:@"wedge-blue-r-hr.png"];
+    UIImage* highlightedImage = [UIImage imageNamed:@"wedge-white-r-hr.png"];
+
+    UIButton* fwdButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [fwdButton setImage:fwdButtonImage forState:UIControlStateNormal];
+    [fwdButton setImage:highlightedImage forState:UIControlStateHighlighted];
+    [fwdButton setImage:fwdButtonImage forState:UIControlStateSelected];
+    [fwdButton addTarget:self action:@selector(forward) forControlEvents:UIControlEventTouchUpInside];
+    fwdButton.showsTouchWhenHighlighted = NO;
+    
+    CGRect frame = fwdButton.frame;
+    frame.size = CGSizeMake(37.0, 37.0);
+    fwdButton.frame = frame;
+    
+    
+    UIBarButtonItem* fwdButtonItem = [[[UIBarButtonItem alloc]initWithCustomView:fwdButton]autorelease];
+    
+    self.topViewController.navigationItem.rightBarButtonItem = fwdButtonItem;
 }
 
 - (void)forward
