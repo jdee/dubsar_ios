@@ -125,6 +125,8 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
+    
+    // BUG: Why does jsonData show up as (null) in the iPod log?
     NSString* jsonData = [NSString stringWithCString:(const char*)[data bytes] encoding:NSUTF8StringEncoding];
     NSLog(@"JSON response from URL %@:", url);
     NSLog(@"%@", jsonData);

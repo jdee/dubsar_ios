@@ -119,7 +119,6 @@
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
     if (error || ![model isMemberOfClass:DailyWord.class]) {
-        [super loadComplete:model withError:error];
         return;
     }
     

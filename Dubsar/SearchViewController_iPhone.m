@@ -115,7 +115,6 @@
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView != _tableView || !search.complete || search.error) {
-        [super tableView:tableView didSelectRowAtIndexPath:indexPath];
         return;
     }
     
@@ -174,16 +173,23 @@
         return cell;
     }
     
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
+    cell.textLabel.textColor = appDelegate.dubsarTintColor;
+    cell.textLabel.font = appDelegate.dubsarNormalFont;
+    cell.detailTextLabel.font = appDelegate.dubsarSmallFont;
+    
     if (search.error) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = search.errorMessage;
         cell.textLabel.adjustsFontSizeToFitWidth = YES;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     else if (search.results.count == 0) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = [NSString stringWithFormat:@"no results for \"%@\"", _searchText];
-        return cell;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+       return cell;
     }
 
     int index = indexPath.section;
@@ -203,11 +209,6 @@
         subtitle = [subtitle stringByAppendingFormat:@"also %@", word.inflections];
     }
     cell.detailTextLabel.text = subtitle;
-    
-    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
-    cell.textLabel.textColor = appDelegate.dubsarTintColor;
-    cell.textLabel.font = appDelegate.dubsarNormalFont;
-    cell.detailTextLabel.font = appDelegate.dubsarSmallFont;
     
     return cell;
 }
