@@ -383,8 +383,8 @@
 		7B917A4913EB5F1500FBF365 /* wedge-blue-r-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wedge-blue-r-hr.png"; sourceTree = "<group>"; };
 		7B917A4F13EB600600FBF365 /* wedge-blue-l.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-blue-l.png"; path = "Dubsar/wedge-blue-l.png"; sourceTree = "<group>"; };
 		7B917A5013EB600600FBF365 /* wedge-blue-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-blue-r.png"; path = "Dubsar/wedge-blue-r.png"; sourceTree = "<group>"; };
-		7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-appstore.png"; sourceTree = "<group>"; };
-		7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dubsar-appstore-highlighted.png"; sourceTree = "<group>"; };
+		7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-appstore.png"; path = "Dubsar/dubsar-appstore.png"; sourceTree = "<group>"; };
+		7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-appstore-highlighted.png"; path = "Dubsar/dubsar-appstore-highlighted.png"; sourceTree = "<group>"; };
 		7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wedge-white-l-hr.png"; sourceTree = "<group>"; };
 		7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wedge-white-r-hr.png"; sourceTree = "<group>"; };
 		7B917A7313EC3CD600FBF365 /* DailyWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWord.h; sourceTree = "<group>"; };
@@ -476,6 +476,8 @@
 				7B32803813E387BF00274E6C /* dubsar-search-ipad.png */,
 				7B32803913E387BF00274E6C /* dubsar-spotlight-hr.png */,
 				7B32803A13E387BF00274E6C /* dubsar-spotlight.png */,
+				7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */,
+				7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */,
 				7B327FF713E3875400274E6C /* Dubsar */,
 				7B6953BA13E6E3CC00B10519 /* DubsarTests */,
 				7BF412BF13E8E81E00BAC92A /* DubsarApplicationTests */,
@@ -601,8 +603,6 @@
 				7B32806013E38A0D00274E6C /* SearchBarViewController_iPad.h */,
 				7B32806113E38A0D00274E6C /* SearchBarViewController_iPad.m */,
 				7B32806213E38A0D00274E6C /* SearchBarViewController_iPad.xib */,
-				7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */,
-				7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */,
 				7B32807413E38BBE00274E6C /* SearchViewController_iPad.h */,
 				7B32807513E38BBE00274E6C /* SearchViewController_iPad.m */,
 				7B32807613E38BBE00274E6C /* SearchViewController_iPad.xib */,

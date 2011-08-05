@@ -23,15 +23,18 @@
 
 @interface SearchViewController_iPhone : SearchBarViewController_iPhone {
 
-    UILabel *_pageLabel;
+    UIPageControl *_pageControl;
 }
 
 @property (nonatomic, retain) Search* search;
-@property (nonatomic, retain) IBOutlet UILabel *pageLabel;
 @property (nonatomic, retain) NSString* searchText;
 @property (nonatomic, retain) IBOutlet UITableView *searchResultsTableView;
+@property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText;
-- (void)adjustPageLabel;
+- (void)setTableViewHeight;
+- (void)setSearchTitle:(NSString*)theTitle;
+
+- (IBAction)pageChanged:(id)sender;
 
 @end

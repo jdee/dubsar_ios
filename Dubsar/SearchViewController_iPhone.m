@@ -30,9 +30,9 @@
 @implementation SearchViewController_iPhone
 
 @synthesize search;
-@synthesize pageLabel = _pageLabel;
 @synthesize searchText=_searchText;
 @synthesize searchResultsTableView=_tableView;
+@synthesize pageControl = _pageControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText 
 {
@@ -58,7 +58,7 @@
     search.delegate = nil;
     [search release];
     [_searchText release];
-    [_pageLabel release];
+    [_pageControl release];
     [super dealloc];
 }
 
@@ -80,9 +80,9 @@
 
 - (void)viewDidUnload
 {
-    [self setPageLabel:nil];
     [self setSearchBar:nil];
     [self setSearchResultsTableView:nil];
+    [self setPageControl:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -91,7 +91,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self adjustPageLabel];
     [self searchBar].text = [_searchText copy];
     [_tableView reloadData];
 }
@@ -101,7 +100,6 @@
     if (theSearchBar != [self searchBar]) return;
     
     _searchText = @"";
-    [self adjustPageLabel];
     [super searchBarCancelButtonClicked:theSearchBar];
 }
 
@@ -213,64 +211,73 @@
     return cell;
 }
 
-- (NSArray*)sectionIndexTitlesForTableView:(UITableView*)theTableView
+- (IBAction)pageChanged:(id)sender 
 {
-    if (theTableView != _tableView) {
-        return [super sectionIndexTitlesForTableView:theTableView];
-    }
+    int newPage = _pageControl.currentPage + 1;
+    if (newPage == search.currentPage) return ;
     
-    NSMutableArray* titles = [NSMutableArray arrayWithCapacity:10];
-    if (!search || !search.complete || search.results.count < 10) {
-        return titles;
-    }
-    
-    for (int j=0; j<10; ++j) {
-        int index = (j*search.results.count)/10;
-        Word* word = [search.results objectAtIndex:index];
-        NSString* name = word.name;
-        NSRange range;
-        range.location = 0;
-        range.length = name.length > 3 ? 3 : name.length;
+    NSLog(@"page changed to %d, requesting...", _pageControl.currentPage);
+    _pageControl.enabled = NO;
 
-        [titles addObject:[name substringWithRange:range]];
-    }
+    [self setSearchTitle:[NSString stringWithFormat:@"\"%@\" p. %d of %d", search.title, newPage, search.totalPages]];
     
-    return titles;
-}
-
-- (NSInteger)tableView:(UITableView*)theTableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-{
-    if (theTableView != _tableView) {
-        return [super tableView:theTableView sectionForSectionIndexTitle:title atIndex:index];
-    }
+    // not interested in the old search any more
+    search.delegate = nil;
     
-    NSInteger section = (index*search.results.count)/10;
-    return section;
-}
-
-- (void)adjustPageLabel
-{
-    if (_searchText.length > 0) {
-        _pageLabel.text = [NSString stringWithFormat:@"search results for \"%@\"", _searchText];
-    }
-    else {
-        _pageLabel.text = @"enter a word or words";
-    }
+    self.search = [search newSearchForPage:newPage];
+    search.delegate = self;
+    [search load];
+    
+    // kick the app back to a loading state.
+    search.complete = false;
+    [_tableView reloadData];
 }
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
     if (model != search) return;
     
-    NSLog(@"search complete");
+    if (!error) {
+        NSLog(@"search complete");
+        NSLog(@"search completed without error: %d total pages", search.totalPages);
+        NSLog(@"search title: \"%@\"", search.title);
     
-    float height = [self numberOfSectionsInTableView:_tableView]*44.0;
-    if (height < self.view.frame.size.height) {
-        CGRect frame = _tableView.frame;
-        frame.size.height = height;
-        _tableView.frame = frame;
+        _pageControl.numberOfPages = search.totalPages;
+        _pageControl.hidden = search.totalPages <= 1;
+        _pageControl.enabled = YES;
+        
+        int rows = search.results.count > 1 ? search.results.count : 1 ;
+        float height = (rows)*44.0;
+        
+        _tableView.contentSize = CGSizeMake(_tableView.frame.size.width, height);
+        [self setTableViewHeight];
+        if (search.totalPages > 1) {
+            [self setSearchTitle:[NSString stringWithFormat:@"\"%@\" p. %d of %d", search.title, search.currentPage, search.totalPages]];
+        }
     }
     [_tableView reloadData];
+}
+
+- (void)setTableViewHeight
+{
+    UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+    float height = UIInterfaceOrientationIsPortrait(currentOrientation) ? 328.0 : 225.0 ;
+    
+    CGRect frame = _tableView.frame;        
+    
+    if (!_pageControl.hidden) {
+        height -= 36.0;          
+    }
+    frame.size.height = height;
+    
+    _tableView.frame = frame;
+    
+}
+
+- (void)setSearchTitle:(NSString *)theTitle
+{
+    
+    [self setTitle:[NSString stringWithFormat:@"Search: %@", theTitle]];
 }
 
 @end
