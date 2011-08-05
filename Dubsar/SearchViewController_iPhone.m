@@ -260,8 +260,8 @@
 
 - (void)setTableViewHeight
 {
-    UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
-    float height = UIInterfaceOrientationIsPortrait(currentOrientation) ? 328.0 : 225.0 ;
+    UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
+    float height = UIInterfaceOrientationIsPortrait(orientation) ? 328.0 : 225.0 ;
     
     CGRect frame = _tableView.frame;        
     
@@ -278,6 +278,11 @@
 {
     
     [self setTitle:[NSString stringWithFormat:@"Search: %@", theTitle]];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self setTableViewHeight];
 }
 
 @end

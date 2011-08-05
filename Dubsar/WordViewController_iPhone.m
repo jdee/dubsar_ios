@@ -220,13 +220,7 @@
     }
    
     [self adjustInflections];
-    
-    float height = 66.0*word.senses.count;
-    if (height + tableView.frame.origin.y < self.view.frame.size.height) {
-        CGRect frame = tableView.frame;
-        frame.size.height = height;
-        tableView.frame = frame;
-    }
+    [self setTableViewHeight];
     
     [tableView reloadData];
 }
@@ -253,6 +247,17 @@
         text = [text stringByAppendingFormat:@"also %@", word.inflections];
     }
     inflectionsTextView.text = text;
+}
+
+- (void)setTableViewHeight
+{
+    UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
+    float height = UIInterfaceOrientationIsPortrait(orientation) ? 284.0 : 186.0 ;
+    
+    CGRect frame = tableView.frame;        
+    frame.size.height = height;
+    
+    tableView.frame = frame;
 }
 
 @end

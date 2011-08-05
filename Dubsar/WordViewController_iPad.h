@@ -35,5 +35,6 @@
 - (void)adjustInflections;
 - (void)loadRootController;
 - (void)load;
+- (void)setTableViewHeight;
 
 @end

@@ -78,6 +78,19 @@
 	return YES;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    if (popoverWasVisible) {
+        [wordPopoverController presentPopoverFromRect:wotdButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    popoverWasVisible = wordPopoverController.popoverVisible;
+    [wordPopoverController dismissPopoverAnimated:YES];        
+}
+
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {    
     DailyWord* theDailyWord = (DailyWord*)model;

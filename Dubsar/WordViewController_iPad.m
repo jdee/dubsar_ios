@@ -216,11 +216,8 @@
     NSLog(@"word load complete with %u senses", count);
     
     float height = 66.0*count;
-    if (height + _tableView.frame.origin.y < self.view.frame.size.height) {
-        CGRect frame = _tableView.frame;
-        frame.size.height = height;
-        _tableView.frame = frame;
-    }
+    _tableView.contentSize = CGSizeMake(_tableView.frame.size.width, height);
+    [self setTableViewHeight];
 
     [self adjustInflections];
 
@@ -254,6 +251,20 @@
 - (void)loadRootController
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)setTableViewHeight
+{
+    UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+    
+    CGRect frame = _tableView.frame;
+    frame.size.height = UIInterfaceOrientationIsPortrait(currentOrientation) ? 939.0 : 683.0 ;
+    _tableView.frame = frame;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self setTableViewHeight];
 }
 
 

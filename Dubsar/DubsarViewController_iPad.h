@@ -26,6 +26,7 @@
 @interface DubsarViewController_iPad : UIViewController <LoadDelegate> {
     
     UIButton *wotdButton;
+    bool popoverWasVisible;
 }
 
 @property (nonatomic, retain) DailyWord* dailyWord;
