@@ -254,11 +254,17 @@
 }
 
 - (void)setTableViewHeight
-{
+{    
     UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+    float maxHeight = UIInterfaceOrientationIsPortrait(currentOrientation) ? 960.0 : 704.0 ;
+    if (word.inflections.length > 0 || word.freqCnt > 0) maxHeight -= 21.0;
+    
+    float height = 66.0 * [self numberOfSectionsInTableView:_tableView];
+    
+    if (height > maxHeight) height = maxHeight;
     
     CGRect frame = _tableView.frame;
-    frame.size.height = UIInterfaceOrientationIsPortrait(currentOrientation) ? 939.0 : 683.0 ;
+    frame.size.height = height;
     _tableView.frame = frame;
 }
 

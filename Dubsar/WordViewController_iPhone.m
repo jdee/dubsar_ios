@@ -254,12 +254,24 @@
 - (void)setTableViewHeight
 {
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
-    float height = UIInterfaceOrientationIsPortrait(orientation) ? 284.0 : 186.0 ;
+    
+    // BUG: Where do these extra 12 points come from? Should be 212 in landscape (w/o
+    // inflections)
+    float maxHeight = UIInterfaceOrientationIsPortrait(orientation) ? 328.0 : 224.0 ;
+    if (word.freqCnt > 0 || word.inflections.length > 0) maxHeight -= 44.0;
+    
+    float height = 66.0*[self numberOfSectionsInTableView:tableView];
+    if (height > maxHeight) height = maxHeight;
     
     CGRect frame = tableView.frame;        
     frame.size.height = height;
     
     tableView.frame = frame;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self setTableViewHeight];
 }
 
 @end
