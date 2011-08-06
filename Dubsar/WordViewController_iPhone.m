@@ -78,7 +78,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [tableView reloadData];
+    if (word.complete) {
+        [self loadComplete:word withError:word.errorMessage];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView

@@ -84,7 +84,10 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [_tableView reloadData];
+    [super viewWillAppear:animated];
+    if (word.complete) {
+        [self loadComplete:word withError:word.errorMessage];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

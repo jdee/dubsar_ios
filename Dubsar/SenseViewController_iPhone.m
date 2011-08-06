@@ -140,7 +140,10 @@
     glossTextView.hidden = NO;
     tableView.hidden = NO;
     detailView.hidden = YES;
-    [tableView reloadData];
+    if (sense.complete) {
+        [self loadComplete:sense withError:sense.errorMessage];
+    }
+        
 }
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error

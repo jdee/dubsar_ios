@@ -72,6 +72,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [autocompleterTableView setHidden:YES];
     [searchBar resignFirstResponder];
     [self.navigationController setNavigationBarHidden:NO animated:NO];

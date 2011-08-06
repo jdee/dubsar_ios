@@ -139,7 +139,10 @@
     glossTextView.hidden = NO;
     tableView.hidden = NO;
     detailView.hidden = YES;
-    [tableView reloadData];
+
+    if (synset.complete) {
+        [self loadComplete:synset withError:synset.errorMessage];
+    }
 }
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error

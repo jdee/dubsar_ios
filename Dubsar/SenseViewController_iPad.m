@@ -144,9 +144,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [tableView reloadData];
+    [super viewWillAppear:animated];
+    if (sense.complete) {
+        [self loadComplete:sense withError:sense.errorMessage];
+    }
 }
-
+        
 - (void)viewWillDisappear:(BOOL)animated
 {
     mainView.hidden = NO;

@@ -146,7 +146,10 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [tableView reloadData];
+    [super viewWillAppear:animated];
+    if (synset.complete) {
+        [self loadComplete:synset withError:synset.errorMessage];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
