@@ -69,7 +69,6 @@
 						<string key="NSFrame">{{0, 416}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -4810,7 +4809,6 @@ dG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuCg</string>
 						<string key="NSFrame">{{4, 406}, {312, 42}}</string>
 						<reference key="NSSuperview" ref="38766819"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:311</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -5037,7 +5035,6 @@ dG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuCg</string>
 						<string key="NSFrame">{{20, 343}, {280, 21}}</string>
 						<reference key="NSSuperview" ref="345931380"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:311</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -5108,6 +5105,7 @@ dG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuCg</string>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<bool key="IBUIDirectionalLockEnabled">YES</bool>
 						<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
+						<int key="IBUIIndicatorStyle">2</int>
 					</object>
 					<object class="IBUIToolbar" id="28872278">
 						<reference key="NSNextResponder" ref="85580958"/>
@@ -5115,7 +5113,6 @@ dG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuCg</string>
 						<string key="NSFrame">{{0, 416}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="85580958"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:345</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>

@@ -112,12 +112,12 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!search.complete || search.error) {
-        return;
-    }
-    
     if (tableView != _tableView) {
         [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+        return;
+    }
+
+    if (!search.complete || search.error || search.results.count == 0) {
         return;
     }
     
