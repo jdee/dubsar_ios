@@ -179,7 +179,6 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
 {
     editing = true;
-    [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     theSearchBar.showsCancelButton = YES;
 }
 
@@ -224,11 +223,7 @@
     
     viewController.autocompleter = autocompleter;
     [autocompleterTableView reloadData];
-}
-
-- (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
-{
-    return !editing;
+    [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 

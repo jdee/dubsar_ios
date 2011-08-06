@@ -126,7 +126,6 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
 {
     editing = true;
-    [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     theSearchBar.showsCancelButton = YES;
 }
 
@@ -177,6 +176,7 @@
     
     viewController.autocompleter = autocompleter;
     [autocompleterTableView reloadData];
+    [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void)wotdFinished:(DailyWord *)theDailyWord
@@ -317,11 +317,6 @@
     if (popoverController.popoverVisible) {
         [popoverController dismissPopoverAnimated:YES];
     }
-}
-
-- (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
-{
-    return !editing;
 }
 
 @end
