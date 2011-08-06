@@ -154,7 +154,9 @@
 {
     if (theTableView != tableView) {
         [super tableView:theTableView didSelectRowAtIndexPath:indexPath];
+        return;
     }
+    
     int index = indexPath.section;
     Sense* sense = [word.senses objectAtIndex:index];
     [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense]autorelease] animated:YES];
