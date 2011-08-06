@@ -229,7 +229,7 @@
 
 - (void)adjustInflections
 {
-    if (word.freqCnt == 0 || word.inflections.length == 0) {
+    if (word.freqCnt == 0 && word.inflections.length == 0) {
         inflectionsTextView.hidden = YES;
         CGRect frame = tableView.frame;
         frame.origin.y = 44.0;
