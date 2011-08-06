@@ -32,6 +32,7 @@
 @property (nonatomic, retain) UINib* autocompleterNib;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
+@property (nonatomic, retain) NSString* preEditText;
 
 -(void)createToolbarItems;
 -(void)loadRootController;

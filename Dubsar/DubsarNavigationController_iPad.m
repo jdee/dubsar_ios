@@ -170,22 +170,14 @@
     [self pushViewController:searchViewController animated:YES];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar 
-{
-    theSearchBar.text = @"";
-    [theSearchBar resignFirstResponder];
-}
-
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
 {
     editing = true;
-    theSearchBar.showsCancelButton = YES;
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
 {
     editing = false;
-    theSearchBar.showsCancelButton = NO;
 }
 
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText

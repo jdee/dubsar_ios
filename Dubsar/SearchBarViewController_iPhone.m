@@ -27,6 +27,7 @@
 @synthesize searchBar;
 @synthesize autocompleterTableView;
 @synthesize autocompleterNib;
+@synthesize preEditText;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,12 +38,15 @@
         proxy.delegate = self;
         
         autocompleterNib = [[UINib nibWithNibName:@"AutocompleterView_iPhone" bundle:nil]retain];
+        
+        preEditText = nil;
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [preEditText release];
     [proxy release];
     autocompleter.delegate = nil;
     [autocompleter release];
@@ -67,6 +71,7 @@
 
 - (void)viewDidUnload {
     [self setAutocompleterTableView:nil];
+    [self setSearchBar:nil];
     [super viewDidUnload];
 }
 
@@ -77,6 +82,7 @@
     [searchBar resignFirstResponder];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self initOrientation];
+    if (preEditText != nil) searchBar.text = preEditText;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
@@ -94,19 +100,24 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar 
 {
     if (theSearchBar != searchBar) return;
-    theSearchBar.text = @"";
+    theSearchBar.text = preEditText;
+    NSLog(@"canceled, restored search text to \"%@\"", preEditText);
+    self.preEditText = nil;
     [theSearchBar resignFirstResponder];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
 {
     if (theSearchBar != searchBar) return;
+    self.preEditText = [NSString stringWithString:searchBar.text];
+    NSLog(@"editing began, started with \"%@\"", preEditText);
     theSearchBar.showsCancelButton = YES;
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
 {
     if (theSearchBar != searchBar) return;
+    self.preEditText = nil;
     theSearchBar.showsCancelButton = NO;
 }
 
@@ -188,7 +199,7 @@
     /*
      * Ignore old responses.
      */
-    if ((autocompleter && theAutocompleter.seqNum <= autocompleter.seqNum) || 
+    if (preEditText == nil || (autocompleter && theAutocompleter.seqNum <= autocompleter.seqNum) || 
         searchBar.text.length == 0) {
         [theAutocompleter release];
         return;
