@@ -112,7 +112,7 @@
     [theSearchBar resignFirstResponder];
     [popoverController dismissPopoverAnimated:YES];
     
-    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil text:_searchText matchCase:NO];
+    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil text:_searchText matchCase:caseSwitch.on];
     [searchViewController load];
     [_navigationController pushViewController:searchViewController animated:YES];
 }
@@ -134,7 +134,7 @@
     if (!editing) return;
     
     if (theSearchText.length > 0) {
-        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
+        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:caseSwitch.on]retain];
         _autocompleter.delegate = self;
         [_autocompleter load];
     }
