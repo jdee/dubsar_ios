@@ -47,7 +47,7 @@
 					<object class="IBUILabel" id="412861424">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{20, 44}, {280, 105}}</string>
+						<string key="NSFrame">{{20, 60}, {280, 105}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="746697659"/>
@@ -56,7 +56,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Welcome to Dubsar, a dictionary application for iPhone using content from the Princeton University WordNet® project.</string>
+						<string key="IBUIText">Welcome to Dubsar, a dictionary application for iPhone and iPod Touch using content from the Princeton University WordNet® project.</string>
 						<object class="NSFont" key="IBUIFont" id="404023022">
 							<string key="NSName">TrebuchetMS</string>
 							<double key="NSSize">17</double>
@@ -95,9 +95,10 @@
 					<object class="IBUIButton" id="629068767">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{20, 186}, {280, 37}}</string>
+						<string key="NSFrame">{{20, 216}, {280, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:222</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -130,7 +131,7 @@
 					<object class="IBUILabel" id="746697659">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">293</int>
-						<string key="NSFrame">{{96, 157}, {128, 21}}</string>
+						<string key="NSFrame">{{96, 187}, {128, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="629068767"/>
@@ -228,9 +229,9 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="161036438"/>
-							<reference ref="412861424"/>
-							<reference ref="746697659"/>
 							<reference ref="629068767"/>
+							<reference ref="746697659"/>
+							<reference ref="412861424"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>

@@ -65,7 +65,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    versionLabel.text = [NSString stringWithFormat:@"Dubsar for iPad Version %@", VERSION];
+    versionLabel.text = [NSString stringWithFormat:@"Version %@", VERSION];
 }
 
 - (void)viewDidUnload

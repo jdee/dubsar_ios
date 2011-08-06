@@ -14,10 +14,13 @@
 @synthesize versionLabel;
 @synthesize copyrightLabel;
 @synthesize aboutToolbar;
+@synthesize licenseToolbar;
 @synthesize mainViewController;
 @synthesize licenseView;
 @synthesize licenseScrollView;
 @synthesize licenseText;
+@synthesize aboutText;
+@synthesize aboutScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil viewController:(UIViewController *)viewController
 {
@@ -36,6 +39,9 @@
     [licenseText release];
     [copyrightLabel release];
     [aboutToolbar release];
+    [aboutText release];
+    [aboutScrollView release];
+    [licenseToolbar release];
     [super dealloc];
 }
 
@@ -54,12 +60,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [licenseScrollView setContentSize:CGSizeMake(320.0, 460.0)];
+    [licenseScrollView setContentSize:CGSizeMake(320.0, 475.0)];
     [licenseScrollView addSubview:licenseText];
     [licenseView setHidden:YES];
     [self.view addSubview:licenseView];
     
-    [versionLabel setText:[NSString stringWithFormat:@"Dubsar for iPhone Version %@", VERSION]];
+    [aboutScrollView setContentSize:CGSizeMake(320.0, 416.0)];
+    [aboutScrollView addSubview:aboutText];
+    
+    [versionLabel setText:[NSString stringWithFormat:@"Version %@", VERSION]];
 }
 
 - (void)viewDidUnload
@@ -70,6 +79,9 @@
     [self setLicenseText:nil];
     [self setCopyrightLabel:nil];
     [self setAboutToolbar:nil];
+    [self setAboutText:nil];
+    [self setAboutScrollView:nil];
+    [self setLicenseToolbar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
