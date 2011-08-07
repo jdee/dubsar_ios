@@ -42,11 +42,7 @@
 {
     [super pushViewController:viewController animated:animated];
     
-    if (viewController != forwardStack.topViewController) {
-        // should already have a gesture recognizer from the first
-        // time it was pushed
-        [self addGestureRecognizerToView:viewController.view];
-    }
+    [self addGestureRecognizerToView:viewController.view];
 
     if (viewController != forwardStack.topViewController) {
         [forwardStack clear];
@@ -64,11 +60,18 @@
 
 - (UIViewController*)popViewControllerAnimated:(BOOL)animated
 {
+    UIGestureRecognizer* recognizer = [self.topViewController.view.gestureRecognizers lastObject];
+    if (recognizer.delegate == self) {
+        NSLog(@"removing gesture recognizer");
+        [self.topViewController.view removeGestureRecognizer:recognizer];
+    }
+
     [forwardStack pushViewController:self.topViewController];
     NSLog(@"pushed view controller %@ onto forward stack", self.topViewController.title);
     
     [super popViewControllerAnimated:animated];
     [self addForwardButton];
+    [self addGestureRecognizerToView:self.topViewController.view];
     
     originalFrame = self.topViewController.view.frame;
     
@@ -77,12 +80,19 @@
 
 - (NSArray*)popToRootViewControllerAnimated:(BOOL)animated
 {
+    UIGestureRecognizer* recognizer = [self.topViewController.view.gestureRecognizers lastObject];
+    if (recognizer.delegate == self) {
+        NSLog(@"removing gesture recognizer");
+        [self.topViewController.view removeGestureRecognizer:recognizer];
+    }
+    
     [forwardStack clear];
     NSArray* stack = [super popToRootViewControllerAnimated:animated];
     self.topViewController.navigationItem.leftBarButtonItem = nil;
     self.topViewController.navigationItem.rightBarButtonItem = nil;
     
     originalFrame = self.topViewController.view.frame;
+    [self addGestureRecognizerToView:self.topViewController.view];
     
     return stack;
 }
@@ -147,6 +157,7 @@
 - (void)addGestureRecognizerToView:(UIView *)view
 {
     UIPanGestureRecognizer* recognizer = [[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)]autorelease];
+    recognizer.delegate = self;
     [view addGestureRecognizer:recognizer];
 }
 
@@ -176,15 +187,11 @@
     
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    return ![touch.view isKindOfClass:UIScrollView.class];
-}
-
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     
     originalFrame = self.topViewController.view.frame;
 
 }
+
 @end

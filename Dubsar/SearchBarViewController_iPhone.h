@@ -21,7 +21,6 @@
 
 #import "AutocompleterProxy.h"
 
-
 @interface SearchBarViewController_iPhone : UIViewController <LoadDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AutocompleterDelegate> {
     UISearchBar *searchBar;
     UITableView *autocompleterTableView;
@@ -37,6 +36,6 @@
 -(void)createToolbarItems;
 -(void)loadRootController;
 -(void)initOrientation;
-
-
+-(bool)loadedSuccessfully;
+-(void)load;
 @end

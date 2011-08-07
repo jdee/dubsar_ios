@@ -71,7 +71,6 @@
         sense = [theSense retain];
         sense.delegate = self;
         
-        [sense load];
         tableSections = nil;
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
 
@@ -94,6 +93,23 @@
     [detailGlossTextView release];
     [glossTextView release];
     [super dealloc];
+}
+
+- (bool)loadedSuccessfully
+{
+    return sense.complete && !sense.error;
+}
+
+- (void)load
+{
+    [sense load];
+
+    bannerLabel.hidden = NO;
+    tableView.hidden = NO;
+    sense.complete = sense.error = false;
+    glossTextView.text = @"loading...";
+    
+    [tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -383,7 +399,7 @@
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
 {
     if (theTableView != tableView) {
-        return [super tableView:theTableView titleForFooterInSection:section];
+        return [super tableView:theTableView titleForHeaderInSection:section];
     }
     NSDictionary* _section = [tableSections objectAtIndex:section];
     NSString* title = sense && sense.complete ? [_section valueForKey:@"header"] : @"loading...";

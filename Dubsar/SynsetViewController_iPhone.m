@@ -74,7 +74,6 @@
         // Custom initialization
         synset = [theSynset retain];
         synset.delegate = self;
-        [synset load];
         
         [self adjustTitle];
         
@@ -97,6 +96,23 @@
     [detailBannerLabel release];
     [glossTextView release];
     [super dealloc];
+}
+
+- (bool)loadedSuccessfully
+{
+    return synset.complete && !synset.error;
+}
+
+- (void)load
+{
+    [synset load];
+
+    bannerLabel.hidden = NO;
+    tableView.hidden = NO;
+    synset.complete = synset.error = false;
+    glossTextView.text = @"loading...";
+    
+    [tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning

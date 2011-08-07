@@ -43,10 +43,7 @@
         // set up a new search request to the server asynchronously
         search = [[Search searchWithTerm:_searchText matchCase:NO] retain];
         search.delegate = self;
-        
-        // send the request
-        [search load];
-        
+                
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", _searchText];
     }
     return self;
@@ -60,6 +57,21 @@
     [_searchText release];
     [_pageControl release];
     [super dealloc];
+}
+
+- (bool)loadedSuccessfully
+{
+    return search.complete && !search.error;
+}
+
+- (void)load
+{
+    [search load];
+
+    search.complete = search.error = false;
+    search.results = nil;
+    
+    [_tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -136,6 +148,8 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {    
+    if (tableView != _tableView) return [super numberOfSectionsInTableView:tableView];
+    
     NSInteger sections = search.complete && search.results && search.results.count > 0 ? search.results.count : 1;
     return sections;
 }
@@ -186,13 +200,15 @@
         cell.textLabel.text = search.errorMessage;
         cell.textLabel.adjustsFontSizeToFitWidth = YES;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.detailTextLabel.text = @"";
         return cell;
     }
     else if (search.results.count == 0) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = [NSString stringWithFormat:@"no results for \"%@\"", _searchText];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-       return cell;
+        cell.detailTextLabel.text = @"";
+        return cell;
     }
 
     int index = indexPath.section;
@@ -289,6 +305,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    NSLog(@"device rotated");
     [self setTableViewHeight];
 }
 

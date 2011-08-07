@@ -35,10 +35,12 @@
         // Custom initialization
         word = [theWord retain];
         word.delegate = self;
-        [word load];
 
         self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
-   }
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setTableViewFrame) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+    }
     return self;
 }
 
@@ -49,6 +51,21 @@
     [tableView release];
     [inflectionsTextView release];
     [super dealloc];
+}
+
+- (bool)loadedSuccessfully
+{
+    return word.complete && !word.error;
+}
+
+- (void)load
+{
+    [word load];
+
+    tableView.hidden = NO;
+    word.complete = word.error = false;
+    inflectionsTextView.text = @"loading...";
+    [tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -81,7 +98,7 @@
     if (word.complete) {
         [self loadComplete:word withError:word.errorMessage];
     }
-    [self setTableViewHeight];
+    [self setTableViewFrame];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
@@ -225,7 +242,7 @@
     }
    
     [self adjustInflections];
-    [self setTableViewHeight];
+    [self setTableViewFrame];
     
     [tableView reloadData];
 }
@@ -254,27 +271,26 @@
     inflectionsTextView.text = text;
 }
 
-- (void)setTableViewHeight
+- (void)setTableViewFrame
 {
+    bool inflectionsShowing = word.freqCnt > 0 || word.inflections.length > 0;
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
     
-    // BUG: Where do these extra 12 points come from? Should be 212 in landscape (w/o
-    // inflections)
+    // BUG: Where do these extra 12 points come from? Should be 212 in landscape.
     float maxHeight = UIInterfaceOrientationIsPortrait(orientation) ? 328.0 : 224.0 ;
-    if (word.freqCnt > 0 || word.inflections.length > 0) maxHeight -= 44.0;
+    if (inflectionsShowing) maxHeight -= 44.0;
     
-    float height = 66.0*[self numberOfSectionsInTableView:tableView];
-    if (height > maxHeight) height = maxHeight;
+    float height = 66.0*[self numberOfSectionsInTableView:tableView];  
     
     CGRect frame = tableView.frame;        
-    frame.size.height = height;
     
+    frame.size.height = height > maxHeight ? maxHeight : height;
+    frame.size.width = UIInterfaceOrientationIsPortrait(orientation) ? 320.0 : 480.0;
+    frame.origin.x = 0.0;
+    frame.origin.y = inflectionsShowing ? 88.0 : 44.0;
+    
+    tableView.contentSize = CGSizeMake(frame.size.width, height);
     tableView.frame = frame;
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self setTableViewHeight];
 }
 
 @end

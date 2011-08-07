@@ -35,6 +35,6 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 
 -(void)adjustInflections;
-- (void)setTableViewHeight;
+- (void)setTableViewFrame;
 
 @end

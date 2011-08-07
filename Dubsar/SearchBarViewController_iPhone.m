@@ -40,6 +40,7 @@
         autocompleterNib = [[UINib nibWithNibName:@"AutocompleterView_iPhone" bundle:nil]retain];
         
         preEditText = nil;
+        
     }
     return self;
 }
@@ -56,6 +57,16 @@
     [super dealloc];
 }
 
+- (bool)loadedSuccessfully
+{
+    return true;
+}
+
+- (void)load
+{
+    
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -63,6 +74,10 @@
     [super viewDidLoad];
     [autocompleterNib instantiateWithOwner:self options:nil];
     [self.view addSubview:autocompleterTableView];
+    CGRect frame = autocompleterTableView.frame;
+    frame.origin.y = 44.0;
+    autocompleterTableView.frame = frame;
+    
     // Do any additional setup after loading the view from its nib.
     [self createToolbarItems];
     self.navigationController.navigationBar.tintColor = searchBar.tintColor;
@@ -83,6 +98,18 @@
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self initOrientation];
     if (preEditText != nil) searchBar.text = preEditText;
+    
+    // BUG: Why does this have to be reloaded every time?
+    // If I'm in airplane mode and tap a link to something, it comes
+    // back with a network error. Then I exit airplane mode and try
+    // again once the network is back. When I go back and forward
+    // again, the page is loaded correctly. Then I go back and forward
+    // again, with the network available, and the view comes back
+    // with stale data (network error) unless it's reloaded every time.
+    
+    // if (!self.loadedSuccessfully) {
+        [self load];
+    // }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
@@ -253,7 +280,12 @@
     cell.textLabel.textColor = appDelegate.dubsarTintColor;
     cell.textLabel.font = appDelegate.dubsarNormalFont;
     
-    if (autocompleter.results.count > 0) {
+    if (autocompleter.error) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.text = autocompleter.errorMessage;
+    }
+    else if (autocompleter.results.count > 0) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [autocompleter.results objectAtIndex:indexPath.row];
     }
