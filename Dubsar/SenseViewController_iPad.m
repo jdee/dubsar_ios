@@ -172,7 +172,7 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     popoverWasVisible = popoverController.popoverVisible;
-    [popoverController dismissPopoverAnimated:YES];        
+    [popoverController dismissPopoverAnimated:YES];       
 }
 
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

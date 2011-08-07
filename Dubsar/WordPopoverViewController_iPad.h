@@ -22,11 +22,14 @@
 
 @class Word;
 
-@interface WordPopoverViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface WordPopoverViewController_iPad : UIViewController<LoadDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate> {
     
-    UILabel *headerLabel;
     UITextView *inflectionsTextView;
-    UIButton *headerButton;
+    UILabel *headerLabel;
+    UIColor* highlightBg;
+    UIColor* highlightTextColor;
+    UIColor* origBg;
+    UIColor* origTextColor;
 }
 
 @property (nonatomic, assign) UINavigationController* navigationController;
@@ -34,15 +37,18 @@
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UITextView *inflectionsTextView;
-@property (nonatomic, retain) IBOutlet UIButton *headerButton;
+@property (nonatomic, retain) IBOutlet UILabel *headerLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 - (void)adjustInflections;
 - (void)adjustTitle;
 - (void)load;
 - (IBAction)loadWord:(id)sender;
+- (void)fireButton:(UITapGestureRecognizer*)sender;
 
 - (void)adjustTableViewFrame;
 - (void)adjustPopoverSize;
+
+- (void)addGestureRecognizer;
 
 @end

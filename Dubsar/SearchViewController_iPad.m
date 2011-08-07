@@ -300,4 +300,9 @@
     navigationController.titleLabel.title = theTitle;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self setTableViewHeight];
+}
+
 @end

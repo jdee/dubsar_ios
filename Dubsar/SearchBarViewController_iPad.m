@@ -305,10 +305,9 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    NSLog(@"master panel rotating, hiding popover");
     [searchBar resignFirstResponder];
-    if (popoverController.popoverVisible) {
-        [popoverController dismissPopoverAnimated:YES];
-    }
+    [popoverController dismissPopoverAnimated:YES];
 }
 
 @end

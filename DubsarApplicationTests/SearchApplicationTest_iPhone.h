@@ -17,28 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "DubsarApplicationTests_iPhone.h"
+#import <SenTestingKit/SenTestingKit.h>
+#import <UIKit/UIKit.h>
 
-@implementation DubsarApplicationTests_iPhone
-
-- (void)setUp
-{
-    [super setUp];
-    
-    // Set-up code here.
-}
-
-- (void)tearDown
-{
-    // Tear-down code here.
-    
-    [super tearDown];
-}
-
-- (void)testAppDelegate
-{
-    id app_delegate = [[UIApplication sharedApplication] delegate];
-    STAssertNotNil(app_delegate, @"cannot find the app delegate");
-}
+@interface SearchApplicationTest_iPhone : SenTestCase
 
 @end

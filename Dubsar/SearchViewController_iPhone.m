@@ -276,6 +276,8 @@
     frame.size.height = height;
     
     _tableView.frame = frame;
+ 
+    NSLog(@"table view origin y: %f", _tableView.frame.origin.y);
     
 }
 

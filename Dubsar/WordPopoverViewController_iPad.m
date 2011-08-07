@@ -31,7 +31,7 @@
 @synthesize word;
 @synthesize tableView=_tableView;
 @synthesize inflectionsTextView;
-@synthesize headerButton;
+@synthesize headerLabel;
 @synthesize popoverController;
 @synthesize navigationController;
 
@@ -48,7 +48,7 @@
         UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
         self.navigationItem.rightBarButtonItem = homeButtonItem;
         
-        self.contentSizeForViewInPopover = CGSizeMake(320.0, 147.0);
+        self.contentSizeForViewInPopover = CGSizeMake(320.0, 154.0);
         
     }
     return self;
@@ -56,11 +56,15 @@
 
 - (void)dealloc
 {
+    [origBg release];
+    [highlightBg release];
+    [origTextColor release];
+    [highlightTextColor release];
     word.delegate = nil;
     [word release];
     [_tableView release];
     [inflectionsTextView release];
-    [headerButton release];
+    [headerLabel release];
     [super dealloc];
 }
 
@@ -72,12 +76,45 @@
 - (IBAction)loadWord:(id)sender
 {
     if (!word.complete || word.error) return;
-    
+        
     [popoverController dismissPopoverAnimated:YES];
     
     WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
     [viewController load];
     [navigationController pushViewController:viewController animated:YES];
+    
+    headerLabel.backgroundColor = origBg;
+    headerLabel.textColor = origTextColor;
+}
+
+- (void)addGestureRecognizer
+{
+    UITapGestureRecognizer* recognizer = [[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(fireButton:)]autorelease];
+    recognizer.delegate = self;
+    [self.view addGestureRecognizer:recognizer];
+    
+    highlightBg = [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0]retain];
+    highlightTextColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]retain];
+    origBg = [headerLabel.backgroundColor retain];
+    origTextColor = [headerLabel.textColor retain];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    CGPoint location = [touch locationInView:self.view];
+    return location.y <= headerLabel.frame.size.height;
+}
+
+- (void)fireButton:(UITapGestureRecognizer *)sender
+{
+    headerLabel.backgroundColor = highlightBg;
+    headerLabel.textColor = highlightTextColor;
+    [NSTimer scheduledTimerWithTimeInterval:0.1
+                                     target:self
+                                   selector:@selector(loadWord:)
+                                   userInfo:nil
+                                    repeats:NO];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -94,13 +131,14 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self addGestureRecognizer];
 }
 
 - (void)viewDidUnload
 {
     [self setTableView:nil];
     [self setInflectionsTextView:nil];
-    [self setHeaderButton:nil];
+    [self setHeaderLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -231,7 +269,7 @@
     
     if (error) {
         [_tableView setHidden:YES];
-        [headerButton setTitle:@"ERROR" forState:UIControlStateNormal];
+        [headerLabel setText:@"ERROR"];
         [inflectionsTextView setText:error];
         return;
     }
@@ -276,7 +314,7 @@
 {
     CGSize popoverSize = self.view.frame.size;
     
-    float offset = (word.inflections.length == 0 && word.freqCnt == 0) ? 37.0 : 81.0;
+    float offset = (word.inflections.length == 0 && word.freqCnt == 0) ? 44.0 : 88.0;
     float popoverHeight = offset + 66.0*word.senses.count;
     popoverSize.height = popoverHeight > 1004.0 ? 1004.0 : popoverHeight;
     
@@ -289,9 +327,7 @@
 - (void)adjustTitle
 {
     NSString* title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
-    [headerButton setTitle:title forState:UIControlStateNormal];   
-    [headerButton setTitle:title forState:UIControlStateHighlighted];
-    [headerButton setTitle:title forState:UIControlStateSelected];
+    headerLabel.text = title;
 }
 
 - (void)adjustInflections

@@ -211,6 +211,7 @@
 		7BD5434F13EE23E400AACDD3 /* DubsarApplicationTests_iPad.h in Resources */ = {isa = PBXBuildFile; fileRef = 7BD5434E13EE23E400AACDD3 /* DubsarApplicationTests_iPad.h */; };
 		7BD5435113EE23E400AACDD3 /* DubsarApplicationTests_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BD5435013EE23E400AACDD3 /* DubsarApplicationTests_iPad.m */; };
 		7BD5435813EE242100AACDD3 /* DubsarApplicationTests_iPad.octest in Resources */ = {isa = PBXBuildFile; fileRef = 7BD5434313EE23E400AACDD3 /* DubsarApplicationTests_iPad.octest */; };
+		7BD5435C13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BD5435B13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.m */; };
 		7BDD80DD13EDBC1D008A4441 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BDD80DC13EDBC1D008A4441 /* Default@2x.png */; };
 		7BDD80DE13EDBC1D008A4441 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BDD80DC13EDBC1D008A4441 /* Default@2x.png */; };
 		7BE9ABDF13E4C25500FB7402 /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */; };
@@ -448,7 +449,6 @@
 		7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPhone.xib; sourceTree = "<group>"; };
 		7BB2271713E5B93D005D454F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		7BCE75E913E741C900D1CECC /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
-		7BD542D813EE223400AACDD3 /* DubsarTesting copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DubsarTesting copy-Info.plist"; path = "/Users/jdee/Projects/Dubsar/DubsarTesting copy-Info.plist"; sourceTree = "<absolute>"; };
 		7BD5433B13EE23AE00AACDD3 /* Dubsar copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dubsar copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BD5433D13EE23AE00AACDD3 /* Dubsar copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Dubsar copy2-Info.plist"; path = "/Users/jdee/Projects/Dubsar/Dubsar copy2-Info.plist"; sourceTree = "<absolute>"; };
 		7BD5434313EE23E400AACDD3 /* DubsarApplicationTests_iPad.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarApplicationTests_iPad.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -457,6 +457,9 @@
 		7BD5434E13EE23E400AACDD3 /* DubsarApplicationTests_iPad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarApplicationTests_iPad.h; sourceTree = "<group>"; };
 		7BD5435013EE23E400AACDD3 /* DubsarApplicationTests_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarApplicationTests_iPad.m; sourceTree = "<group>"; };
 		7BD5435213EE23E400AACDD3 /* DubsarApplicationTests_iPad-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarApplicationTests_iPad-Prefix.pch"; sourceTree = "<group>"; };
+		7BD5435913EE28C600AACDD3 /* DubsarTesting copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarTesting copy-Info.plist"; sourceTree = "<group>"; };
+		7BD5435A13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchApplicationTest_iPhone.h; sourceTree = "<group>"; };
+		7BD5435B13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchApplicationTest_iPhone.m; sourceTree = "<group>"; };
 		7BDD80DC13EDBC1D008A4441 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPad.xib; sourceTree = "<group>"; };
 		7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPhone.xib; sourceTree = "<group>"; };
@@ -570,7 +573,7 @@
 				7B327FF013E3875400274E6C /* Frameworks */,
 				7B327FEE13E3875400274E6C /* Products */,
 				7BF412B413E8E6B000BAC92A /* Dubsar copy-Info.plist */,
-				7BD542D813EE223400AACDD3 /* DubsarTesting copy-Info.plist */,
+				7BD5435913EE28C600AACDD3 /* DubsarTesting copy-Info.plist */,
 				7BD5433D13EE23AE00AACDD3 /* Dubsar copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
@@ -821,6 +824,8 @@
 			children = (
 				7BF412C513E8E81E00BAC92A /* DubsarApplicationTests_iPhone.h */,
 				7BF412C713E8E81E00BAC92A /* DubsarApplicationTests_iPhone.m */,
+				7BD5435A13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.h */,
+				7BD5435B13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.m */,
 				7BF412C013E8E81E00BAC92A /* Supporting Files */,
 			);
 			name = DubsarApplicationTests_iPhone;
@@ -1342,6 +1347,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BF412C813E8E81E00BAC92A /* DubsarApplicationTests_iPhone.m in Sources */,
+				7BD5435C13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1422,7 +1428,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PROVISIONING_PROFILE = "7DC472D4-A856-4387-8DF4-E32F07D43E73";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7DC472D4-A856-4387-8DF4-E32F07D43E73";
 				SDKROOT = iphoneos;
@@ -1440,7 +1446,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "7DC472D4-A856-4387-8DF4-E32F07D43E73";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7DC472D4-A856-4387-8DF4-E32F07D43E73";
