@@ -103,6 +103,7 @@
     theSearchBar.text = preEditText;
     NSLog(@"canceled, restored search text to \"%@\"", preEditText);
     self.preEditText = nil;
+    [autocompleterTableView setHidden:YES];
     [theSearchBar resignFirstResponder];
 }
 
@@ -259,6 +260,7 @@
     else {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = @"no suggestions";
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     return cell;
@@ -266,12 +268,12 @@
 
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [searchBar resignFirstResponder];
-    [autocompleterTableView setHidden:YES];
-
-    if (!autocompleter.complete || !autocompleter.results) {
+    if (!autocompleter.complete || !autocompleter.results || autocompleter.results.count == 0) {
         return;
     }
+    
+    [searchBar resignFirstResponder];
+    [autocompleterTableView setHidden:YES];
     
     NSString* text = [autocompleter.results objectAtIndex:indexPath.row];
     SearchViewController_iPhone* searchViewController = [[[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: text]autorelease];
