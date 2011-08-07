@@ -86,4 +86,11 @@
     STAssertEqualObjects(@"hypernym gloss", [_pointer objectAtIndex:3], @"hypernym gloss failed");
 }
 
+-(void)testInitialization
+{
+    Sense* a = [[[Sense alloc]init]autorelease];
+    STAssertTrue(!a.complete, @"complete failed");
+    STAssertTrue(!a.error, @"error failed");
+}
+
 @end

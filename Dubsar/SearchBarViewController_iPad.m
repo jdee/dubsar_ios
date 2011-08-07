@@ -26,6 +26,7 @@
 #import "FAQViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 #import "SearchViewController_iPad.h"
+#import "Word.h"
 #import "WordPopoverViewController_iPad.h"
 
 @implementation SearchBarViewController_iPad
@@ -172,7 +173,15 @@
 }
 
 - (void)wotdFinished:(DailyWord *)theDailyWord
-{    
+{   
+    if (theDailyWord.error) {
+        NSLog(@"request error: %@", theDailyWord.errorMessage);
+        Word* word = [[[Word alloc]init]autorelease];
+        word.error = word.complete = true;
+        word.errorMessage = theDailyWord.errorMessage;
+        theDailyWord.word = word;
+    }
+    
     WordPopoverViewController_iPad* viewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:theDailyWord.word]autorelease];
     [viewController load];
     self.wordPopoverController = [[[UIPopoverController alloc]initWithContentViewController:viewController]autorelease];

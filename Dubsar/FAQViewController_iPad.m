@@ -58,9 +58,6 @@
     [super viewDidLoad];
 
     // Do any additional setup after loading the view from its nib.
-     
-    // [self displayMessage:@"loading..." url:[NSURL URLWithString:@"about:blank"]];
-    [self displayMessage:@"loading..." url:url];
 }
 
 - (void)viewDidUnload
@@ -69,6 +66,11 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self displayMessage:@"loading..." url:url];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -112,7 +114,7 @@
 
 - (void)displayMessage:(NSString*)text url:(NSURL *)baseUrl
 {
-    // NSURL* baseUrl = [NSURL URLWithString:@""];
+    ready = false;
     [webView loadHTMLString:[NSString stringWithFormat:@"<html><body style=\"background-color: #e0e0ff;\"><h1 style=\"color: #1c94c4; text-align: center; margin-top: 2ex; font: bold 24pt Trebuchet MS;\">%@</h1></body></html>", text ] baseURL:baseUrl];
     
 }

@@ -38,4 +38,11 @@
     STAssertEquals((unsigned int)1, synset.pointers.count, @"pointers count failed");
 }
 
+-(void)testInitialization
+{
+    Synset* a = [[[Synset alloc]init]autorelease];
+    STAssertTrue(!a.complete, @"complete failed");
+    STAssertTrue(!a.error, @"error failed");
+}
+
 @end

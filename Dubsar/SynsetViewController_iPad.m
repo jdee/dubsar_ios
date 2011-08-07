@@ -99,6 +99,8 @@
 
 - (void)load
 {
+    [bannerLabel setHidden:NO];
+    [tableView setHidden:NO];
     [synset load];
 }
 
@@ -144,8 +146,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (synset.complete) {
-        [self loadComplete:synset withError:synset.errorMessage];
+    if (synset.complete && !synset.error) {
+        [self loadComplete:synset withError:nil];
+    }
+    else if (synset.complete) {
+        // try again
+        synset.complete = synset.error = false;
+        [self load];
     }
 }
 

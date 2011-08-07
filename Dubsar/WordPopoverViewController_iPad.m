@@ -39,7 +39,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
         word = [theWord retain];
         word.delegate = self;
         
@@ -70,7 +69,11 @@
 
 - (void)load
 {
-    [word load];
+    NSLog(@"loading, word is %@complete", word.complete ? @"" : @"not ");
+    
+    if (!word.complete) {
+        [word load];
+    }
 }
 
 - (IBAction)loadWord:(id)sender
@@ -132,6 +135,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self addGestureRecognizer];
+    
+    // If the model is already complete when I load from the NIB, either I'm being 
+    // called with a mock object in a test, the response managed to come back before
+    // the view was loaded, or I've been passed a complete object from a previous
+    // request (start with a search, go to a word, then to one of the word's senses;
+    // that word will be presented in the more popover; it's already complete).
+    if (word.complete) {
+        [self loadComplete:word withError:word.errorMessage];
+    }
 }
 
 - (void)viewDidUnload
@@ -265,9 +277,13 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
+    NSLog(@"load complete");
     if (model != word) return;
     
+    NSLog(@"correct model found");
+    
     if (error) {
+        NSLog(@"displaying error");
         [_tableView setHidden:YES];
         [headerLabel setText:@"ERROR"];
         [inflectionsTextView setText:error];
@@ -311,14 +327,17 @@
 }
 
 - (void)adjustPopoverSize
-{
-    CGSize popoverSize = self.view.frame.size;
+{    
+    UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
+    float screenHeight = UIInterfaceOrientationIsPortrait(orientation) ? 1004.0 : 748.0;
     
     float offset = (word.inflections.length == 0 && word.freqCnt == 0) ? 44.0 : 88.0;
-    float popoverHeight = offset + 66.0*word.senses.count;
-    popoverSize.height = popoverHeight > 1004.0 ? 1004.0 : popoverHeight;
+    float height = offset + 66.0*word.senses.count;
+    float popoverHeight = height > screenHeight ? screenHeight : height;
     
     NSLog(@"adjusting popoverHeight to %f", popoverHeight);
+    
+    CGSize popoverSize = CGSizeMake(320.0, popoverHeight);
 
     popoverController.popoverContentSize = popoverSize;
     self.contentSizeForViewInPopover = popoverSize;
@@ -327,6 +346,7 @@
 - (void)adjustTitle
 {
     NSString* title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
+    NSLog(@"adjusting title: \"%@\"", title);
     headerLabel.text = title;
 }
 

@@ -43,5 +43,12 @@
     STAssertEquals(29, sense.freqCnt, @"expected 29, found %d", sense.freqCnt);
     STAssertEquals(29, word.freqCnt, @"expected 29, found %d", word.freqCnt);
 }
+
+-(void)testInitialization
+{
+    Word* a = [[[Word alloc]init]autorelease];
+    STAssertTrue(!a.complete, @"complete failed");
+    STAssertTrue(!a.error, @"error failed");
+}
                          
 @end

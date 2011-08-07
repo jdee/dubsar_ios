@@ -40,4 +40,11 @@
     STAssertEqualObjects(@"decelerated, decelerates, decelerating", word.inflections, @"word inflections failed");
 }
 
+-(void)testInitialization
+{
+    DailyWord* a = [[[DailyWord alloc]init]autorelease];
+    STAssertTrue(!a.complete, @"complete failed");
+    STAssertTrue(!a.error, @"error failed");
+}
+
 @end

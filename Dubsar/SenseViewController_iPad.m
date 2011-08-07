@@ -81,6 +81,10 @@
 
 - (void)load
 {
+    [bannerLabel setHidden:NO];
+    [moreButton setHidden:NO];
+    [tableView setHidden:NO];
+    [senseToolbar setHidden:NO];
     [sense load];
 }
 
@@ -143,8 +147,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (sense.complete) {
-        [self loadComplete:sense withError:sense.errorMessage];
+    if (sense.complete && !sense.error) {
+        [self loadComplete:sense withError:nil];
+    }
+    else if (sense.complete) {
+        // try again
+        sense.complete = sense.error = false;
+        [self load];
     }
 }
         
@@ -453,7 +462,9 @@
 - (IBAction)morePopover:(id)sender 
 {
     WordPopoverViewController_iPad* wordViewController;
-    if (popoverController == nil) {        
+    if (popoverController == nil) {
+        NSLog(@"creating popover, word is %@complete", sense.word.complete ? @"" : @"not ");
+        
         wordViewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word]autorelease];
         [wordViewController load];
         

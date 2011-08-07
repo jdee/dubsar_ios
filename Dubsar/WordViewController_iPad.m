@@ -54,6 +54,7 @@
 
 - (void)load
 {
+    [_tableView setHidden:NO];
     [word load];
 }
 
@@ -85,8 +86,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (word.complete) {
-        [self loadComplete:word withError:word.errorMessage];
+    if (word.complete && !word.error) {
+        [self loadComplete:word withError:nil];
+    }
+    else if (word.complete) {
+        // try again
+        word.complete = word.error = false;
+        [self load];
     }
 }
 

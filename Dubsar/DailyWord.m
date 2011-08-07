@@ -30,6 +30,7 @@
     self = [super init];
     if (self) {
         [self set_url:@"/wotd"];
+        word = nil;
     }
     
     return self;

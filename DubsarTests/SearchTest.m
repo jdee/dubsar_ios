@@ -47,4 +47,11 @@
     STAssertEqualObjects(@"foods", word.inflections, @"word inflection content failed");
 }
 
+-(void)testInitialization
+{
+    Search* a = [[[Search alloc]init]autorelease];
+    STAssertTrue(!a.complete, @"complete failed");
+    STAssertTrue(!a.error, @"error failed");
+}
+
 @end

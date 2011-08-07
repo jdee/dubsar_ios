@@ -37,4 +37,11 @@
     STAssertEqualObjects(@"lion", [results objectAtIndex:2], @"expected \"lion\", found \"%@\"", [results objectAtIndex:2]);
 }
 
+-(void)testInitialization
+{
+    Autocompleter* a = [[[Autocompleter alloc]init]autorelease];
+    STAssertTrue(!a.complete, @"complete failed");
+    STAssertTrue(!a.error, @"error failed");
+}
+
 @end

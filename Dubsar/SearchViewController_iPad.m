@@ -120,7 +120,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [tableView reloadData];
+    
+    if (search.complete && !search.error) {
+        [self loadComplete:search withError:nil];
+    }
+    else if (search.complete) {
+        // try again
+        search.complete = search.error = false;
+        search.results = nil;
+        [self load];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
