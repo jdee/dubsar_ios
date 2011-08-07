@@ -46,13 +46,13 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIToolbar" id="816494190">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">294</int>
+						<int key="NSvFlags">290</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUISearchBar" id="904500334">
 								<reference key="NSNextResponder" ref="816494190"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{435, 0}, {260, 44}}</string>
+								<string key="NSFrame">{{435, 0}, {264, 44}}</string>
 								<reference key="NSSuperview" ref="816494190"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
@@ -67,7 +67,7 @@
 								<bool key="IBIsInBar">YES</bool>
 							</object>
 						</object>
-						<string key="NSFrameSize">{768, 44}</string>
+						<string key="NSFrameSize">{703, 44}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="904500334"/>
@@ -113,7 +113,7 @@
 						</object>
 					</object>
 				</object>
-				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
+				<string key="NSFrame">{{0, 20}, {703, 748}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="816494190"/>
@@ -126,6 +126,10 @@
 				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
 					<int key="IBUIStatusBarStyle">2</int>
+				</object>
+				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
+					<int key="IBUIInterfaceOrientation">3</int>
+					<int key="interfaceOrientation">3</int>
 				</object>
 				<object class="IBUISimulatedSizeMetrics" key="IBUISimulatedDestinationMetrics">
 					<string key="IBUISimulatedSizeMetricsClass">IBUISplitViewDetailSimulatedSizeMetrics</string>

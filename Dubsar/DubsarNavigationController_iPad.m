@@ -67,6 +67,13 @@
 {
     NSLog(@"called pushViewController");
     [super pushViewController:viewController animated:animated];
+    
+    if (viewController != forwardStack.topViewController) {
+        // should already have a gesture recognizer from the first
+        // time it was pushed
+        [self addGestureRecognizerToView:viewController.view];
+    }
+    
     if (viewController != forwardStack.topViewController) {
         [forwardStack clear];
         fwdBarButtonItem.enabled = NO;
@@ -79,6 +86,8 @@
     
     backBarButtonItem.enabled = YES;
     [self addToolbar:viewController];
+    
+    originalFrame = self.topViewController.view.frame;
 }
 
 - (NSArray*)popToRootViewControllerAnimated:(BOOL)animated
@@ -88,6 +97,9 @@
     fwdBarButtonItem.enabled = NO;
     NSArray* stack = [super popToRootViewControllerAnimated:animated];
     [self addToolbar:self.topViewController];
+    
+    originalFrame = self.topViewController.view.frame;
+
     return stack;
 }
 
@@ -100,6 +112,9 @@
     fwdBarButtonItem.enabled = YES;
     backBarButtonItem.enabled = self.viewControllers.count > 1;
     [self addToolbar:self.topViewController];
+    
+    originalFrame = self.topViewController.view.frame;
+
     return viewController;
 }
 
@@ -132,6 +147,8 @@
     if (popoverWasVisible) {
         [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
+    
+    originalFrame = self.topViewController.view.frame;
 }
 
 - (void)viewDidUnload 
@@ -218,5 +235,38 @@
     [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
+- (void)addGestureRecognizerToView:(UIView *)view
+{
+    UIPanGestureRecognizer* recognizer = [[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)]autorelease];
+    [view addGestureRecognizer:recognizer];
+}
+
+- (void)handlePanGesture:(UIPanGestureRecognizer *)sender
+{
+    CGPoint translate = [sender translationInView:self.view];
+    
+    CGRect newFrame = originalFrame;
+    newFrame.origin.x += translate.x;
+    sender.view.frame = newFrame;
+    
+    if (sender.state != UIGestureRecognizerStateEnded) return;
+    
+    if (newFrame.origin.x <= -0.5*newFrame.size.width && fwdBarButtonItem.enabled) {
+        [self forward:nil];
+    }
+    else if (newFrame.origin.x >= 0.5*newFrame.size.width && backBarButtonItem.enabled) {
+        [self back:nil];
+    }
+    else {
+        // snap back
+        sender.view.frame = originalFrame;
+    }
+    
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    return ![touch.view isKindOfClass:UIScrollView.class];
+}
 
 @end

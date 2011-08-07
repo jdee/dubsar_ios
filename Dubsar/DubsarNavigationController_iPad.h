@@ -23,7 +23,7 @@
 
 @class Autocompleter;
 
-@interface DubsarNavigationController_iPad : UINavigationController <LoadDelegate, UISearchBarDelegate, UIPopoverControllerDelegate> {
+@interface DubsarNavigationController_iPad : UINavigationController <LoadDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, UIPopoverControllerDelegate> {
     UIToolbar *searchToolbar;
     UISearchBar *searchBar;
     UIBarButtonItem *titleLabel;
@@ -34,6 +34,7 @@
     bool editing;
     UITableView* autocompleterTableView;
     bool popoverWasVisible;
+    CGRect originalFrame;
 }
 
 @property (nonatomic, retain) UIPopoverController* popoverController;
@@ -50,5 +51,9 @@
 - (IBAction)forward:(id)sender;
 - (IBAction)back:(id)sender;
 - (IBAction)home:(id)sender;
+
+- (void)addGestureRecognizerToView:(UIView*)view;
+
+- (void)handlePanGesture:(UIPanGestureRecognizer*)sender;
 
 @end
