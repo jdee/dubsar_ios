@@ -18,6 +18,7 @@
  */
 
 #import "DubsarAppDelegate_iPhone.h"
+#import "Search.h"
 #import "SearchApplicationTest_iPhone.h"
 #import "SearchViewController_iPhone.h"
 
@@ -25,7 +26,7 @@
 
 - (void)tearDown
 {
-    DubsarAppDelegate_iPhone appDelegate* = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
     [appDelegate.navigationController popToRootViewControllerAnimated:NO];
 }
 
@@ -36,7 +37,7 @@
  */
 - (void)testNoResults
 {
-    DubsarAppDelegate_iPhone appDelegate* = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
     
     UINavigationController* navigationController = appDelegate.navigationController;
     

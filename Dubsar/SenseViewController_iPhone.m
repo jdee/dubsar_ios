@@ -47,8 +47,7 @@
             glossTextView.hidden = YES;
             tableView.hidden = YES;
             detailView.hidden = NO;
-        } completion:^(BOOL finished){
-    }];
+        } completion:nil];
 }
 
 - (IBAction)dismissPopup:(id)sender {
@@ -61,9 +60,7 @@
             glossTextView.hidden = NO;
             tableView.hidden = NO;
             detailView.hidden = YES;
-        } completion:^(BOOL finished){
-                        
-    }];
+        } completion:nil];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense

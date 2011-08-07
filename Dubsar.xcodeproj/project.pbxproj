@@ -81,6 +81,37 @@
 		7B3280D113E38F8200274E6C /* FAQViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280CF13E38F8200274E6C /* FAQViewController_iPhone.m */; };
 		7B3280D213E38F8200274E6C /* FAQViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B3280D013E38F8200274E6C /* FAQViewController_iPhone.xib */; };
 		7B3280DA13E3900700274E6C /* SearchBarViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280D913E3900700274E6C /* SearchBarViewController_iPhone.m */; };
+		7B495C3913EEF71900DAD2A9 /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809C13E38CEE00274E6C /* Search.m */; };
+		7B495C3B13EEF72000DAD2A9 /* SearchViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280BB13E38EFE00274E6C /* SearchViewController_iPhone.m */; };
+		7B495C3C13EEF74600DAD2A9 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809613E38CEE00274E6C /* Model.m */; };
+		7B495C3D13EEF75300DAD2A9 /* SearchBarViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280D913E3900700274E6C /* SearchBarViewController_iPhone.m */; };
+		7B495C3E13EEF75B00DAD2A9 /* WordViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280C013E38F0E00274E6C /* WordViewController_iPhone.m */; };
+		7B495C3F13EEF76100DAD2A9 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32808A13E38C9300274E6C /* JSONKit.m */; };
+		7B495C4013EEF76800DAD2A9 /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32808C13E38C9300274E6C /* URLEncoding.m */; };
+		7B495C4113EEF76D00DAD2A9 /* Autocompleter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809113E38CEE00274E6C /* Autocompleter.m */; };
+		7B495C4213EEF77300DAD2A9 /* AutocompleterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809413E38CEE00274E6C /* AutocompleterProxy.m */; };
+		7B495C4313EEF77900DAD2A9 /* DailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B917A7413EC3CD600FBF365 /* DailyWord.m */; };
+		7B495C4413EEF78000DAD2A9 /* PartOfSpeechDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809813E38CEE00274E6C /* PartOfSpeechDictionary.m */; };
+		7B495C4513EEF78800DAD2A9 /* PointerDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809A13E38CEE00274E6C /* PointerDictionary.m */; };
+		7B495C4613EEF78F00DAD2A9 /* Sense.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809E13E38CEE00274E6C /* Sense.m */; };
+		7B495C4713EEF79700DAD2A9 /* Synset.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280A013E38CEE00274E6C /* Synset.m */; };
+		7B495C4813EEF79C00DAD2A9 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280A213E38CEE00274E6C /* Word.m */; };
+		7B495C4913EEF7A400DAD2A9 /* AboutViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */; };
+		7B495C4A13EEF7AD00DAD2A9 /* DubsarAppDelegate_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32800513E3875400274E6C /* DubsarAppDelegate_iPhone.m */; };
+		7B495C4B13EEF7B300DAD2A9 /* DubsarNavigationController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB1613E9ACA800889E57 /* DubsarNavigationController_iPhone.m */; };
+		7B495C4C13EEF7CE00DAD2A9 /* SynsetViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280CA13E38F6D00274E6C /* SynsetViewController_iPhone.m */; };
+		7B495C4D13EEF7D600DAD2A9 /* DubsarViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280B613E38EE800274E6C /* DubsarViewController_iPhone.m */; };
+		7B495C4E13EEF7E300DAD2A9 /* FAQViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280CF13E38F8200274E6C /* FAQViewController_iPhone.m */; };
+		7B495C4F13EEF7E300DAD2A9 /* SenseViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280C513E38F5700274E6C /* SenseViewController_iPhone.m */; };
+		7B495C5013EEF81100DAD2A9 /* Dubsar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280AE13E38D9A00274E6C /* Dubsar.m */; };
+		7B495C5113EEF81100DAD2A9 /* DubsarAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32800113E3875400274E6C /* DubsarAppDelegate.m */; };
+		7B495C5213EEF81100DAD2A9 /* ForwardStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB0813E9A39F00889E57 /* ForwardStack.m */; };
+		7B495C5413EEFA0F00DAD2A9 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B495C5313EEFA0E00DAD2A9 /* Default-Portrait~ipad.png */; };
+		7B495C5513EEFA0F00DAD2A9 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B495C5313EEFA0E00DAD2A9 /* Default-Portrait~ipad.png */; };
+		7B495C5613EEFA0F00DAD2A9 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B495C5313EEFA0E00DAD2A9 /* Default-Portrait~ipad.png */; };
+		7B495C5813EEFA1800DAD2A9 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B495C5713EEFA1700DAD2A9 /* Default-Landscape~ipad.png */; };
+		7B495C5913EEFA1800DAD2A9 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B495C5713EEFA1700DAD2A9 /* Default-Landscape~ipad.png */; };
+		7B495C5A13EEFA1800DAD2A9 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B495C5713EEFA1700DAD2A9 /* Default-Landscape~ipad.png */; };
 		7B59C4CE13E8A5E8006F5FDB /* SearchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4CD13E8A5E8006F5FDB /* SearchTest.m */; };
 		7B59C4D013E8A74C006F5FDB /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809C13E38CEE00274E6C /* Search.m */; };
 		7B59C4D113E8A762006F5FDB /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280A213E38CEE00274E6C /* Word.m */; };
@@ -98,8 +129,6 @@
 		7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */; };
 		7B824E5213EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */; };
 		7B824E5813EC540100CDC665 /* DailyWordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B824E5713EC540100CDC665 /* DailyWordTest.m */; };
-		7B824E5A13EC609D00CDC665 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5913EC609C00CDC665 /* Default-Landscape~ipad.png */; };
-		7B824E5D13EC60B900CDC665 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5C13EC60B900CDC665 /* Default-Portrait~ipad.png */; };
 		7B8AEB0913E9A39F00889E57 /* ForwardStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB0813E9A39F00889E57 /* ForwardStack.m */; };
 		7B8AEB1713E9ACA800889E57 /* DubsarNavigationController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB1613E9ACA800889E57 /* DubsarNavigationController_iPhone.m */; };
 		7B8AEB1813E9ACA800889E57 /* DubsarNavigationController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB1613E9ACA800889E57 /* DubsarNavigationController_iPhone.m */; };
@@ -201,8 +230,6 @@
 		7BD5433113EE23AE00AACDD3 /* dubsar-appstore-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */; };
 		7BD5433213EE23AE00AACDD3 /* wedge-white-l-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */; };
 		7BD5433313EE23AE00AACDD3 /* wedge-white-r-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */; };
-		7BD5433513EE23AE00AACDD3 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5913EC609C00CDC665 /* Default-Landscape~ipad.png */; };
-		7BD5433613EE23AE00AACDD3 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5C13EC60B900CDC665 /* Default-Portrait~ipad.png */; };
 		7BD5434413EE23E400AACDD3 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B69537B13E6E21700B10519 /* SenTestingKit.framework */; };
 		7BD5434513EE23E400AACDD3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF113E3875400274E6C /* UIKit.framework */; };
 		7BD5434613EE23E400AACDD3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF313E3875400274E6C /* Foundation.framework */; };
@@ -403,6 +430,8 @@
 		7B3280D013E38F8200274E6C /* FAQViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FAQViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B3280D813E3900600274E6C /* SearchBarViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarViewController_iPhone.h; sourceTree = "<group>"; };
 		7B3280D913E3900700274E6C /* SearchBarViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarViewController_iPhone.m; sourceTree = "<group>"; };
+		7B495C5313EEFA0E00DAD2A9 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		7B495C5713EEFA1700DAD2A9 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		7B59C4CC13E8A5E8006F5FDB /* SearchTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTest.h; sourceTree = "<group>"; };
 		7B59C4CD13E8A5E8006F5FDB /* SearchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTest.m; sourceTree = "<group>"; };
 		7B59C4D413E8A7BE006F5FDB /* ModelTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelTestCase.h; sourceTree = "<group>"; };
@@ -421,8 +450,6 @@
 		7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterView_iPhone.xib; sourceTree = "<group>"; };
 		7B824E5613EC540100CDC665 /* DailyWordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWordTest.h; sourceTree = "<group>"; };
 		7B824E5713EC540100CDC665 /* DailyWordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWordTest.m; sourceTree = "<group>"; };
-		7B824E5913EC609C00CDC665 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		7B824E5C13EC60B900CDC665 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		7B8AEB0713E9A39F00889E57 /* ForwardStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForwardStack.h; sourceTree = "<group>"; };
 		7B8AEB0813E9A39F00889E57 /* ForwardStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForwardStack.m; sourceTree = "<group>"; };
 		7B8AEB1513E9ACA800889E57 /* DubsarNavigationController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarNavigationController_iPhone.h; sourceTree = "<group>"; };
@@ -543,9 +570,9 @@
 		7B327FE213E3875400274E6C = {
 			isa = PBXGroup;
 			children = (
+				7B495C5713EEFA1700DAD2A9 /* Default-Landscape~ipad.png */,
+				7B495C5313EEFA0E00DAD2A9 /* Default-Portrait~ipad.png */,
 				7BDD80DC13EDBC1D008A4441 /* Default@2x.png */,
-				7B824E5C13EC60B900CDC665 /* Default-Portrait~ipad.png */,
-				7B824E5913EC609C00CDC665 /* Default-Landscape~ipad.png */,
 				7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */,
 				7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */,
 				7B917A4813EB5F1500FBF365 /* wedge-blue-l-hr.png */,
@@ -1030,9 +1057,9 @@
 				7B917A6F13EC18AC00FBF365 /* wedge-white-l-hr.png in Resources */,
 				7B917A7113EC18AC00FBF365 /* wedge-white-r-hr.png in Resources */,
 				7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */,
-				7B824E5A13EC609D00CDC665 /* Default-Landscape~ipad.png in Resources */,
-				7B824E5D13EC60B900CDC665 /* Default-Portrait~ipad.png in Resources */,
 				7BDD80DD13EDBC1D008A4441 /* Default@2x.png in Resources */,
+				7B495C5413EEFA0F00DAD2A9 /* Default-Portrait~ipad.png in Resources */,
+				7B495C5813EEFA1800DAD2A9 /* Default-Landscape~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1085,8 +1112,8 @@
 				7BD5433113EE23AE00AACDD3 /* dubsar-appstore-highlighted.png in Resources */,
 				7BD5433213EE23AE00AACDD3 /* wedge-white-l-hr.png in Resources */,
 				7BD5433313EE23AE00AACDD3 /* wedge-white-r-hr.png in Resources */,
-				7BD5433513EE23AE00AACDD3 /* Default-Landscape~ipad.png in Resources */,
-				7BD5433613EE23AE00AACDD3 /* Default-Portrait~ipad.png in Resources */,
+				7B495C5613EEFA0F00DAD2A9 /* Default-Portrait~ipad.png in Resources */,
+				7B495C5A13EEFA1800DAD2A9 /* Default-Landscape~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1134,6 +1161,8 @@
 				7B917A7213EC18AC00FBF365 /* wedge-white-r-hr.png in Resources */,
 				7B824E5213EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */,
 				7BDD80DE13EDBC1D008A4441 /* Default@2x.png in Resources */,
+				7B495C5513EEFA0F00DAD2A9 /* Default-Portrait~ipad.png in Resources */,
+				7B495C5913EEFA1800DAD2A9 /* Default-Landscape~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1346,6 +1375,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B495C5013EEF81100DAD2A9 /* Dubsar.m in Sources */,
+				7B495C5113EEF81100DAD2A9 /* DubsarAppDelegate.m in Sources */,
+				7B495C5213EEF81100DAD2A9 /* ForwardStack.m in Sources */,
+				7B495C4E13EEF7E300DAD2A9 /* FAQViewController_iPhone.m in Sources */,
+				7B495C4F13EEF7E300DAD2A9 /* SenseViewController_iPhone.m in Sources */,
+				7B495C4D13EEF7D600DAD2A9 /* DubsarViewController_iPhone.m in Sources */,
+				7B495C4C13EEF7CE00DAD2A9 /* SynsetViewController_iPhone.m in Sources */,
+				7B495C4B13EEF7B300DAD2A9 /* DubsarNavigationController_iPhone.m in Sources */,
+				7B495C4A13EEF7AD00DAD2A9 /* DubsarAppDelegate_iPhone.m in Sources */,
+				7B495C4913EEF7A400DAD2A9 /* AboutViewController_iPhone.m in Sources */,
+				7B495C4813EEF79C00DAD2A9 /* Word.m in Sources */,
+				7B495C4713EEF79700DAD2A9 /* Synset.m in Sources */,
+				7B495C4613EEF78F00DAD2A9 /* Sense.m in Sources */,
+				7B495C4513EEF78800DAD2A9 /* PointerDictionary.m in Sources */,
+				7B495C4413EEF78000DAD2A9 /* PartOfSpeechDictionary.m in Sources */,
+				7B495C4313EEF77900DAD2A9 /* DailyWord.m in Sources */,
+				7B495C4213EEF77300DAD2A9 /* AutocompleterProxy.m in Sources */,
+				7B495C4113EEF76D00DAD2A9 /* Autocompleter.m in Sources */,
+				7B495C4013EEF76800DAD2A9 /* URLEncoding.m in Sources */,
+				7B495C3F13EEF76100DAD2A9 /* JSONKit.m in Sources */,
+				7B495C3E13EEF75B00DAD2A9 /* WordViewController_iPhone.m in Sources */,
+				7B495C3D13EEF75300DAD2A9 /* SearchBarViewController_iPhone.m in Sources */,
+				7B495C3C13EEF74600DAD2A9 /* Model.m in Sources */,
+				7B495C3B13EEF72000DAD2A9 /* SearchViewController_iPhone.m in Sources */,
+				7B495C3913EEF71900DAD2A9 /* Search.m in Sources */,
 				7BF412C813E8E81E00BAC92A /* DubsarApplicationTests_iPhone.m in Sources */,
 				7BD5435C13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.m in Sources */,
 			);
@@ -1737,6 +1791,7 @@
 				7BD5435513EE23E400AACDD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7BF412AE13E8E6B000BAC92A /* Build configuration list for PBXNativeTarget "DubsarTesting iPhone" */ = {
 			isa = XCConfigurationList;

@@ -112,8 +112,7 @@
                         copyrightLabel.hidden = YES;
                         aboutToolbar.hidden = YES;
                         licenseView.hidden = NO;
-                    } completion:^(BOOL finished){
-                    }];
+                    } completion:nil];
 }
 
 - (IBAction)dismiss:(id)sender 
@@ -130,7 +129,6 @@
                         copyrightLabel.hidden = NO;
                         aboutToolbar.hidden = NO;
                         licenseView.hidden = YES;
-                    } completion:^(BOOL finished){
-                    }];
+                    } completion:nil];
 }
 @end
