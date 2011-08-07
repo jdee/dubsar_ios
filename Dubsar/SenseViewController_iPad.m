@@ -49,8 +49,7 @@
                     animations:^{
                         mainView.hidden = YES;    
                         detailView.hidden = NO;
-                    } completion:^(BOOL finished){
-                    }];
+                    } completion:nil];
 }
 
 - (IBAction)dismissPopup:(id)sender {
@@ -60,8 +59,7 @@
                     animations:^{
                         mainView.hidden = NO;
                         detailView.hidden = YES;
-                    } completion:^(BOOL finished){                    
-                    }];
+                    } completion:nil];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense
@@ -150,7 +148,7 @@
     }
 }
         
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
     mainView.hidden = NO;
     detailView.hidden = YES;

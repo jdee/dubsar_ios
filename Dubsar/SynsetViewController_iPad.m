@@ -49,8 +49,7 @@
                         detailView.hidden = NO;
                         self.navigationController.toolbar.barStyle = UIBarStyleBlackOpaque;
                         UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleBlackOpaque;
-                    } completion:^(BOOL finished){
-                    }];
+                    } completion:nil];
 }
 
 - (IBAction)dismissPopup:(id)sender {
@@ -64,9 +63,7 @@
                         detailView.hidden = YES;
                         self.navigationController.toolbar.barStyle = UIBarStyleDefault;
                         UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleDefault;
-                    } completion:^(BOOL finished){
-                        
-                    }];
+                    } completion:nil];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset *)theSynset
@@ -152,7 +149,7 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
     self.navigationController.toolbar.barStyle = UIBarStyleDefault;
     bannerLabel.hidden = NO;
