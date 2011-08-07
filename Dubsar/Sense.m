@@ -107,9 +107,7 @@
         synonyms = [theSynonyms retain];
         word = theWord;
         partOfSpeech = word.partOfSpeech;
-        
-        /* no need to retain or release this, which just points to another property */
-        name = word.name;
+        name = [word.name retain];
         synset = nil;
         marker = nil;
         verbFrames = nil;
@@ -124,6 +122,7 @@
 
 -(void)dealloc
 {
+    [name release];
     [pointers release];
     [samples release];
     [verbFrames release];
