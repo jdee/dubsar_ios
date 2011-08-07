@@ -81,6 +81,7 @@
     if (word.complete) {
         [self loadComplete:word withError:word.errorMessage];
     }
+    [self setTableViewHeight];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
