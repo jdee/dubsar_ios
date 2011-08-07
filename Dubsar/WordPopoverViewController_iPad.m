@@ -159,6 +159,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self adjustInflections];
+    [self adjustTableViewFrame];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -303,27 +304,29 @@
 
 - (void)adjustTableViewFrame
 {
+    CGRect frame = _tableView.frame;
+    NSLog(@"initial table view frame: (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+
     if (word.inflections.length > 0 || word.freqCnt > 0) return ;
     
     // the inflections label is hidden if it would be empty
     [inflectionsTextView setHidden:YES];
     
-    CGRect frame = _tableView.frame;
-    frame.origin.y -= 44.0;
     float height = 66.0 * word.senses.count;
-    if (frame.origin.y + height <= self.contentSizeForViewInPopover.height) {
-        frame.size.height = height;
-    }
-    else {
-        frame.size.height = self.contentSizeForViewInPopover.height - frame.origin.y;
-    }
+    float maxHeight = self.contentSizeForViewInPopover.height - frame.origin.y;
     
     _tableView.contentSize = CGSizeMake(frame.size.width, height);
+ 
+    frame.origin.x = 0.0;
+    frame.origin.y = 44.0;
+    frame.size.width = 320;    
+    frame.size.height = height < maxHeight ? height : maxHeight;
+
     NSLog(@"adjusting origin to %f; tableView height is %f", frame.origin.y, frame.size.height);
     NSLog(@"%d section(s) in tableView", [self numberOfSectionsInTableView:_tableView]);
     
     _tableView.frame = frame;
-
+    NSLog(@"adjusted table view frame: (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
 }
 
 - (void)adjustPopoverSize
