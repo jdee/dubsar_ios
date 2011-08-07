@@ -21,7 +21,9 @@
 
 #import "ForwardStack.h"
 
-@interface DubsarNavigationController_iPhone : UINavigationController
+@interface DubsarNavigationController_iPhone : UINavigationController <UIGestureRecognizerDelegate> {
+    CGRect originalFrame;
+}
 
 @property (nonatomic, retain) ForwardStack* forwardStack;
 
@@ -30,5 +32,9 @@
 
 - (void)back;
 - (void)forward;
+
+- (void)addGestureRecognizerToView:(UIView*)view;
+
+- (void)handlePanGesture:(UIPanGestureRecognizer*)sender;
 
 @end

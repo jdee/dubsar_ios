@@ -41,6 +41,13 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     [super pushViewController:viewController animated:animated];
+    
+    if (viewController != forwardStack.topViewController) {
+        // should already have a gesture recognizer from the first
+        // time it was pushed
+        [self addGestureRecognizerToView:viewController.view];
+    }
+
     if (viewController != forwardStack.topViewController) {
         [forwardStack clear];
     }
@@ -50,6 +57,9 @@
     }
     
     if (self.viewControllers.count > 1) [self addBackButton];
+    
+    originalFrame = self.topViewController.view.frame;
+    
 }
 
 - (UIViewController*)popViewControllerAnimated:(BOOL)animated
@@ -59,6 +69,9 @@
     
     [super popViewControllerAnimated:animated];
     [self addForwardButton];
+    
+    originalFrame = self.topViewController.view.frame;
+    
     return forwardStack.topViewController;
 }
 
@@ -68,6 +81,9 @@
     NSArray* stack = [super popToRootViewControllerAnimated:animated];
     self.topViewController.navigationItem.leftBarButtonItem = nil;
     self.topViewController.navigationItem.rightBarButtonItem = nil;
+    
+    originalFrame = self.topViewController.view.frame;
+    
     return stack;
 }
 
@@ -128,4 +144,47 @@
     }
 }
 
+- (void)addGestureRecognizerToView:(UIView *)view
+{
+    UIPanGestureRecognizer* recognizer = [[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)]autorelease];
+    [view addGestureRecognizer:recognizer];
+}
+
+- (void)handlePanGesture:(UIPanGestureRecognizer *)sender
+{
+    CGPoint translate = [sender translationInView:self.view];
+    
+    CGRect newFrame = originalFrame;
+    newFrame.origin.x += translate.x;
+    sender.view.frame = newFrame;
+    
+    if (sender.state != UIGestureRecognizerStateEnded) return;
+    
+    if (newFrame.origin.x <= -0.5*newFrame.size.width && forwardStack.count > 0) {
+        [self forward];
+    }
+    else if (newFrame.origin.x >= 0.5*newFrame.size.width && self.topViewController.navigationItem.leftBarButtonItem.enabled) {
+        [self back];
+    }
+    else {
+        // snap back
+        NSTimeInterval duration = (newFrame.origin.x/newFrame.size.width)*0.5;
+        [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            sender.view.frame = originalFrame;          
+        } completion:nil];
+    }
+    
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    return ![touch.view isKindOfClass:UIScrollView.class];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    
+    originalFrame = self.topViewController.view.frame;
+
+}
 @end
