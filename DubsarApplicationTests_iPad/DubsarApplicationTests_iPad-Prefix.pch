@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'DubsarApplicationTests_iPad' target in the 'DubsarApplicationTests_iPad' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
