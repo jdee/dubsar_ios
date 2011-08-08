@@ -45,17 +45,24 @@
     // simulate no results
     Search* search = [[[Search alloc]init]autorelease];
     search.term = @"foo";
-    search.results = [NSMutableArray array];
+
+    search.results = [NSMutableArray arrayWithCapacity:0];
+    [search.results removeAllObjects];
+    
     search.error = false;
     search.complete = true;
-    search.errorMessage = @"";
+    search.errorMessage = nil;
     
     SearchViewController_iPhone* viewController = [[[SearchViewController_iPhone alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil]autorelease];
+    viewController.search = search;
+    
+    UITableView* tableView = viewController.searchResultsTableView;
     
     [navigationController pushViewController:viewController animated:NO];
     
-    // What now?
-    // I want to tap the top row in the table view and make sure that nothing happens.
+    // simulate a tap
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    STAssertNoThrow([tableView.delegate tableView:tableView didSelectRowAtIndexPath:indexPath], @"tapping on screen with no search results throws an exception");
 }
 
 @end
