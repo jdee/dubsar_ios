@@ -70,6 +70,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    ready = false;
     [self displayMessage:@"loading..." url:url];
 }
 
@@ -87,6 +88,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
     if (!ready) {
+        NSLog(@"requesting FAQ");
         NSURLRequest* request = [NSURLRequest requestWithURL:url];
         [webView loadRequest:request];
         ready = true;
@@ -101,6 +103,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
     
     NSString* errMsg = [error localizedDescription];
+    NSLog(@"FAQ load failed with error %@", errMsg);
     UIAlertView* alertView = [[[UIAlertView alloc]initWithTitle:@"Network Error" message:errMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil]autorelease];
     [alertView show];
     [self displayMessage:errMsg url:url];
@@ -114,7 +117,6 @@
 
 - (void)displayMessage:(NSString*)text url:(NSURL *)baseUrl
 {
-    ready = false;
     [webView loadHTMLString:[NSString stringWithFormat:@"<html><body style=\"background-color: #e0e0ff;\"><h1 style=\"color: #1c94c4; text-align: center; margin-top: 2ex; font: bold 24pt Trebuchet MS;\">%@</h1></body></html>", text ] baseURL:baseUrl];
     
 }

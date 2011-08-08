@@ -19,6 +19,7 @@
 
 #import "DailyWord.h"
 #import "DubsarViewController_iPad.h"
+#import "Word.h"
 #import "WordPopoverViewController_iPad.h"
 
 @implementation DubsarViewController_iPad
@@ -94,6 +95,14 @@
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {    
     DailyWord* theDailyWord = (DailyWord*)model;
+
+    if (theDailyWord.error) {
+        NSLog(@"request error: %@", theDailyWord.errorMessage);
+        Word* word = [[[Word alloc]init]autorelease];
+        word.error = word.complete = true;
+        word.errorMessage = theDailyWord.errorMessage;
+        theDailyWord.word = word;
+    }    
     
     WordPopoverViewController_iPad* viewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:theDailyWord.word]autorelease];
     [viewController load];

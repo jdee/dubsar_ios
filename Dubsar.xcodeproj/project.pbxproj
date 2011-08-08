@@ -112,6 +112,7 @@
 		7B495C5813EEFA1800DAD2A9 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B495C5713EEFA1700DAD2A9 /* Default-Landscape~ipad.png */; };
 		7B495C5913EEFA1800DAD2A9 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B495C5713EEFA1700DAD2A9 /* Default-Landscape~ipad.png */; };
 		7B495C5A13EEFA1800DAD2A9 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B495C5713EEFA1700DAD2A9 /* Default-Landscape~ipad.png */; };
+		7B495C5D13EF754000DAD2A9 /* AutocompleterApplicationTest_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B495C5C13EF754000DAD2A9 /* AutocompleterApplicationTest_iPhone.m */; };
 		7B59C4CE13E8A5E8006F5FDB /* SearchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4CD13E8A5E8006F5FDB /* SearchTest.m */; };
 		7B59C4D013E8A74C006F5FDB /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809C13E38CEE00274E6C /* Search.m */; };
 		7B59C4D113E8A762006F5FDB /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280A213E38CEE00274E6C /* Word.m */; };
@@ -432,6 +433,8 @@
 		7B3280D913E3900700274E6C /* SearchBarViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarViewController_iPhone.m; sourceTree = "<group>"; };
 		7B495C5313EEFA0E00DAD2A9 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		7B495C5713EEFA1700DAD2A9 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		7B495C5B13EF753F00DAD2A9 /* AutocompleterApplicationTest_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterApplicationTest_iPhone.h; sourceTree = "<group>"; };
+		7B495C5C13EF754000DAD2A9 /* AutocompleterApplicationTest_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterApplicationTest_iPhone.m; sourceTree = "<group>"; };
 		7B59C4CC13E8A5E8006F5FDB /* SearchTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTest.h; sourceTree = "<group>"; };
 		7B59C4CD13E8A5E8006F5FDB /* SearchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTest.m; sourceTree = "<group>"; };
 		7B59C4D413E8A7BE006F5FDB /* ModelTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelTestCase.h; sourceTree = "<group>"; };
@@ -849,6 +852,8 @@
 		7BF412BF13E8E81E00BAC92A /* DubsarApplicationTests_iPhone */ = {
 			isa = PBXGroup;
 			children = (
+				7B495C5B13EF753F00DAD2A9 /* AutocompleterApplicationTest_iPhone.h */,
+				7B495C5C13EF754000DAD2A9 /* AutocompleterApplicationTest_iPhone.m */,
 				7BF412C513E8E81E00BAC92A /* DubsarApplicationTests_iPhone.h */,
 				7BF412C713E8E81E00BAC92A /* DubsarApplicationTests_iPhone.m */,
 				7BD5435A13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.h */,
@@ -1402,6 +1407,7 @@
 				7B495C3913EEF71900DAD2A9 /* Search.m in Sources */,
 				7BF412C813E8E81E00BAC92A /* DubsarApplicationTests_iPhone.m in Sources */,
 				7BD5435C13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.m in Sources */,
+				7B495C5D13EF754000DAD2A9 /* AutocompleterApplicationTest_iPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

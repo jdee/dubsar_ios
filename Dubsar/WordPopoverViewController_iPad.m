@@ -307,7 +307,7 @@
     CGRect frame = _tableView.frame;
     NSLog(@"initial table view frame: (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
 
-    if (word.inflections.length > 0 || word.freqCnt > 0) return ;
+    if (word.inflections.length > 0 || word.freqCnt > 0 || word.error) return ;
     
     // the inflections label is hidden if it would be empty
     [inflectionsTextView setHidden:YES];

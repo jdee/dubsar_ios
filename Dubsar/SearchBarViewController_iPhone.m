@@ -300,7 +300,8 @@
 
 - (void)tableView:(UITableView*)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!autocompleter.complete || !autocompleter.results || autocompleter.results.count == 0) {
+    NSLog(@"in didSelect...");
+    if (!autocompleter.complete || !autocompleter.results /* || autocompleter.results.count == 0 */) {
         return;
     }
     

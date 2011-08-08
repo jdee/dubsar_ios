@@ -17,12 +17,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "Autocompleter.h"
+#import "AutocompleterApplicationTest_iPhone.h"
 #import "DubsarAppDelegate_iPhone.h"
-#import "Search.h"
-#import "SearchApplicationTest_iPhone.h"
-#import "SearchViewController_iPhone.h"
+#import "DubsarViewController_iPhone.h"
 
-@implementation SearchApplicationTest_iPhone
+@implementation AutocompleterApplicationTest_iPhone
 
 - (void)tearDown
 {
@@ -32,8 +32,8 @@
 
 
 /* 
- * https://github.com/jdee/dubsar_ios/issues/16
- * Issue #16: iPhone app crashes if you tap on the screen after "no results" message appears.
+ * https://github.com/jdee/dubsar_ios/issues/18
+ * Issue #18: iPhone app crashes if you select a row from the autocompleter when there are no suggestions
  */
 - (void)testNoResults
 {
@@ -43,27 +43,25 @@
     
     
     // simulate no results
-    Search* search = [[[Search alloc]init]autorelease];
-    search.term = @"foo";
-
-    search.results = [NSMutableArray array];
+    Autocompleter* autocompleter = [[Autocompleter autocompleterWithTerm:@"foo" matchCase:NO]retain];
     
-    search.error = false;
-    search.complete = true;
-    search.errorMessage = nil;
+    autocompleter.results = [NSMutableArray array];
     
-    SearchViewController_iPhone* viewController = [[[SearchViewController_iPhone alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil]autorelease];
-    viewController.search = search;
+    autocompleter.error = false;
+    autocompleter.complete = true;
+    autocompleter.errorMessage = nil;
     
+    DubsarViewController_iPhone* viewController = [[[DubsarViewController_iPhone alloc]initWithNibName:@"DubsarViewController_iPad" bundle:nil]autorelease];
+    [viewController autocompleterFinished:autocompleter withError:nil];
     [navigationController pushViewController:viewController animated:NO];
     
-    UITableView* tableView = viewController.searchResultsTableView;
+    UITableView* tableView = viewController.autocompleterTableView;
     
     // simulate a tap
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    STAssertNotNil(tableView, @"search results tableView not found");
-    STAssertNotNil(tableView.delegate, @"search results tableView delegate not found");
-    STAssertNoThrow([tableView.delegate tableView:tableView didSelectRowAtIndexPath:indexPath], @"tapping on screen with no search results throws an exception");
+    STAssertNotNil(tableView, @"autocompleter tableView not found");
+    STAssertNotNil(tableView.delegate, @"autocompleter tableView delegate not found");
+    STAssertNoThrow([tableView.delegate tableView:tableView didSelectRowAtIndexPath:indexPath], @"app crashes if you select a row from the autocompleter when there are no suggestions");
 }
 
 @end

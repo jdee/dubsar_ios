@@ -124,6 +124,7 @@
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"in didSelect...");
     if (tableView != _tableView) {
         [super tableView:tableView didSelectRowAtIndexPath:indexPath];
         return;
