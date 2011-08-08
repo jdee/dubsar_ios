@@ -306,19 +306,22 @@
 {
     CGRect frame = _tableView.frame;
     NSLog(@"initial table view frame: (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
-
-    if (word.inflections.length > 0 || word.freqCnt > 0 || word.error) return ;
     
     // the inflections label is hidden if it would be empty
-    [inflectionsTextView setHidden:YES];
-    
-    float height = 66.0 * word.senses.count;
-    float maxHeight = self.contentSizeForViewInPopover.height - frame.origin.y;
+    if (word.complete && word.inflections.length == 0 && word.freqCnt == 0 && !word.error) {
+        [inflectionsTextView setHidden:YES];
+    }
+
+    UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
+    float screenHeight = UIInterfaceOrientationIsPortrait(orientation) ? 1004.0 : 748.0;
+  
+    float height = word.complete ? 66.0 * word.senses.count : 66.0;
+    float maxHeight = screenHeight - frame.origin.y;
     
     _tableView.contentSize = CGSizeMake(frame.size.width, height);
  
     frame.origin.x = 0.0;
-    frame.origin.y = 44.0;
+    frame.origin.y = inflectionsTextView.hidden ? 44.0 : 88.0;
     frame.size.width = 320;    
     frame.size.height = height < maxHeight ? height : maxHeight;
 
@@ -334,8 +337,8 @@
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
     float screenHeight = UIInterfaceOrientationIsPortrait(orientation) ? 1004.0 : 748.0;
     
-    float offset = (word.inflections.length == 0 && word.freqCnt == 0) ? 44.0 : 88.0;
-    float height = offset + 66.0*word.senses.count;
+    float offset = (word.inflections.length == 0 && word.freqCnt == 0 && !word.error) ? 44.0 : 88.0;
+    float height = offset + (word.error ? 0.0 : 66.0*word.senses.count);
     float popoverHeight = height > screenHeight ? screenHeight : height;
     
     NSLog(@"adjusting popoverHeight to %f", popoverHeight);
