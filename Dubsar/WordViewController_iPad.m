@@ -221,11 +221,8 @@
         return;
     }
     
-    unsigned int count = word.senses.count;
-    NSLog(@"word load complete with %u senses", count);
+    NSLog(@"word load complete with %u senses", word.senses.count);
     
-    float height = 66.0*count;
-    _tableView.contentSize = CGSizeMake(_tableView.frame.size.width, height);
     [self setTableViewHeight];
 
     [self adjustInflections];
@@ -235,7 +232,7 @@
 
 - (void)adjustInflections
 {
-    if (word.inflections.length == 0 && word.freqCnt == 0) {
+    if (word.inflections.length == 0 && word.freqCnt == 0 && !word.error) {
         inflectionsLabel.hidden = YES;
         CGRect frame = _tableView.frame;
         frame.origin.y = 44.0;
@@ -265,16 +262,19 @@
 - (void)setTableViewHeight
 {    
     UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+    
     float maxHeight = UIInterfaceOrientationIsPortrait(currentOrientation) ? 960.0 : 704.0 ;
-    if (word.inflections.length > 0 || word.freqCnt > 0) maxHeight -= 21.0;
+    if (word.inflections.length > 0 || word.freqCnt > 0 || word.error) maxHeight -= 44.0;
     
     float height = 66.0 * [self numberOfSectionsInTableView:_tableView];
-    
-    if (height > maxHeight) height = maxHeight;
-    
+        
     CGRect frame = _tableView.frame;
-    frame.size.height = height;
+    
+    frame.size.height = height < maxHeight ? height : maxHeight;
+    
     _tableView.frame = frame;
+    
+    _tableView.contentSize = CGSizeMake(_tableView.frame.size.width, height);
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
