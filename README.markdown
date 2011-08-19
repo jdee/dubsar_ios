@@ -27,6 +27,7 @@ Also see:
 - [Dubsar on Facebook](http://www.facebook.com/pages/Dubsar/155561501154946)
 - [Dubsar on Twitter](http://twitter.com/#!/dubsar)
 - [Dubsar for Android](https://github.com/jdee/dubsar_android)
+- [Dubsar for iPhone, iPod Touch and iPad on the iTunes App Store](http://itunes.apple.com/us/app/dubsar/id453868483)
 
 Copyright
 =========
