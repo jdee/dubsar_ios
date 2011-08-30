@@ -37,6 +37,8 @@ Copyright (C) 2011 Jimmy Dee except as otherwise attributed.
 
 WordNet(R) Copyright (C) 2011 The Trustees of Princeton University.
 
+JSONKit Copyright (C) 2011 John Engelhart
+
 License
 =======
 
@@ -61,3 +63,6 @@ the GNU General Public License (GPL):
 >  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 WordNet(R) is available under the [WordNet 3.0 License](http://wordnet.princeton.edu/wordnet/license).
+
+JSONKit is dual licensed under either the terms of the BSD License,
+or alternatively under the terms of the Apache License, Version 2.0.
