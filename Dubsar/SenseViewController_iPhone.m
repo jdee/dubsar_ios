@@ -480,9 +480,12 @@
             bannerHandle.hidden = YES;
             break;
         case UIGestureRecognizerStateBegan:
-            if (!CGRectContainsPoint(bannerLabel.frame, location)) break;
+            if (location.y < glossTextView.frame.origin.y + glossTextView.frame.size.height ||
+                location.y > tableView.frame.origin.y) break;
             bannerHandle.hidden = NO;
         case UIGestureRecognizerStateChanged:
+            if (location.y < glossTextView.frame.origin.y + glossTextView.frame.size.height ||
+                location.y > tableView.frame.origin.y) break;
             [self translateViewContents:translate];
             break;
     }
