@@ -19,6 +19,7 @@
 
 #import "Autocompleter.h"
 #import "DubsarAppDelegate_iPhone.h"
+#import "DubsarNavigationController_iPhone.h"
 #import "SearchBarViewController_iPhone.h"
 #import "SearchViewController_iPhone.h"
 
@@ -28,6 +29,7 @@
 @synthesize autocompleterTableView;
 @synthesize autocompleterNib;
 @synthesize preEditText;
+@synthesize navigationGestureRecognizer;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,7 +42,7 @@
         autocompleterNib = [[UINib nibWithNibName:@"AutocompleterView_iPhone" bundle:nil]retain];
         
         preEditText = nil;
-        
+        navigationGestureRecognizer = nil;
     }
     return self;
 }
@@ -82,6 +84,8 @@
     [self createToolbarItems];
     self.navigationController.navigationBar.tintColor = searchBar.tintColor;
     self.navigationController.toolbar.tintColor = searchBar.tintColor;
+    
+    [self addGestureRecognizers];
 }
 
 - (void)viewDidUnload {
@@ -326,6 +330,12 @@
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
     return -1;
+}
+
+- (void)addGestureRecognizers
+{
+    DubsarNavigationController_iPhone* navigationController = (DubsarNavigationController_iPhone*)self.navigationController;
+    navigationGestureRecognizer = [navigationController addGestureRecognizerToView:self.view];
 }
 
 @end

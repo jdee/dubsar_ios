@@ -33,7 +33,7 @@
 - (void)back;
 - (void)forward;
 
-- (void)addGestureRecognizerToView:(UIView*)view;
+- (UIGestureRecognizer*)addGestureRecognizerToView:(UIView*)view;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender;
 

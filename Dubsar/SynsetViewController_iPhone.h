@@ -22,7 +22,7 @@
 @class Synset;
 
 
-@interface SynsetViewController_iPhone : SearchBarViewController_iPhone {
+@interface SynsetViewController_iPhone : SearchBarViewController_iPhone<UIGestureRecognizerDelegate> {
     
     UILabel *lexnameLabel;
     UITableView *tableView;
@@ -31,16 +31,21 @@
     UINib* detailNib;
     NSMutableArray* tableSections;
     UITextView *glossTextView;
+    UIImageView *bannerHandle;
+    UILabel *bannerLabel;
+    float initialLabelPosition;
+    float currentLabelPosition;
 }
 
 @property (nonatomic, retain) Synset* synset;
-@property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
 @property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
 @property (nonatomic, retain) IBOutlet UITextView* detailGlossTextView;
 @property (nonatomic, retain) IBOutlet UITextView *glossTextView;
+@property (nonatomic, retain) IBOutlet UIImageView *bannerHandle;
+@property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset*)theSynset;
 
@@ -52,5 +57,8 @@
 
 - (void)displayPopup:(NSString*)title;
 - (IBAction)dismissPopup:(id)sender;
+
+- (void)handlePanGesture:(UIGestureRecognizer*)sender;
+- (void)translateViewContents:(CGPoint)translate;
 
 @end

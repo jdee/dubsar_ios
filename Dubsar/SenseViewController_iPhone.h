@@ -22,27 +22,31 @@
 @class Sense;
 
 
-@interface SenseViewController_iPhone : SearchBarViewController_iPhone
+@interface SenseViewController_iPhone : SearchBarViewController_iPhone<UIGestureRecognizerDelegate>
 {
-    UILabel *bannerLabel;
     UITableView *tableView;
     UILabel *detailLabel;
     UIView *detailView;
     UILabel *detailBannerLabel;
     UITextView *detailGlossTextView;
+    UIImageView *bannerHandle;
+    UILabel *bannerLabel;
     NSMutableArray* tableSections;
     UINib* detailNib;
     UITextView *glossTextView;
+    float initialLabelPosition;
+    float currentLabelPosition;
 }
 @property (nonatomic, retain) IBOutlet UITextView *glossTextView;
 
 @property (nonatomic, retain) Sense* sense;
-@property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *detailLabel;
 @property (nonatomic, retain) IBOutlet UIView *detailView;
 @property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
 @property (nonatomic, retain) IBOutlet UITextView *detailGlossTextView;
+@property (nonatomic, retain) IBOutlet UIImageView *bannerHandle;
+@property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
 
 - (void)displayPopup:(NSString*)text;
 - (IBAction)dismissPopup:(id)sender;
@@ -56,5 +60,8 @@
 -(void)followTableLink:(NSIndexPath*)indexPath;
 
 - (void)setupTableSections;
+
+- (void)handlePanGesture:(UIPanGestureRecognizer*)sender;
+- (void)translateViewContents:(CGPoint)translate;
 
 @end

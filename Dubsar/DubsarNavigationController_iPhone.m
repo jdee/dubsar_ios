@@ -41,9 +41,7 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     [super pushViewController:viewController animated:animated];
-    
-    [self addGestureRecognizerToView:viewController.view];
-
+ 
     if (viewController != forwardStack.topViewController) {
         [forwardStack clear];
     }
@@ -60,11 +58,13 @@
 
 - (UIViewController*)popViewControllerAnimated:(BOOL)animated
 {
+    /*
     UIGestureRecognizer* recognizer = [self.topViewController.view.gestureRecognizers lastObject];
     if (recognizer.delegate == self) {
         NSLog(@"removing gesture recognizer");
         [self.topViewController.view removeGestureRecognizer:recognizer];
     }
+     */
 
     [forwardStack pushViewController:self.topViewController];
     NSLog(@"pushed view controller %@ onto forward stack", self.topViewController.title);
@@ -80,11 +80,13 @@
 
 - (NSArray*)popToRootViewControllerAnimated:(BOOL)animated
 {
+    /*
     UIGestureRecognizer* recognizer = [self.topViewController.view.gestureRecognizers lastObject];
     if (recognizer.delegate == self) {
         NSLog(@"removing gesture recognizer");
         [self.topViewController.view removeGestureRecognizer:recognizer];
     }
+     */
     
     [forwardStack clear];
     NSArray* stack = [super popToRootViewControllerAnimated:animated];
@@ -154,15 +156,20 @@
     }
 }
 
-- (void)addGestureRecognizerToView:(UIView *)view
+- (UIGestureRecognizer*)addGestureRecognizerToView:(UIView *)view
 {
     UIPanGestureRecognizer* recognizer = [[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)]autorelease];
     recognizer.delegate = self;
     [view addGestureRecognizer:recognizer];
+    return recognizer;
 }
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)sender
 {
+    if ([self.topViewController respondsToSelector:@selector(handlePanGesture:)]) {
+        [self.topViewController handlePanGesture:sender];
+    }
+
     CGPoint translate = [sender translationInView:self.view];
     
     CGRect newFrame = originalFrame;
@@ -184,7 +191,6 @@
             sender.view.frame = originalFrame;          
         } completion:nil];
     }
-    
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation

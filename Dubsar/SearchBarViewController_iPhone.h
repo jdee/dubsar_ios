@@ -32,10 +32,12 @@
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
 @property (nonatomic, retain) NSString* preEditText;
+@property (nonatomic, assign) UIGestureRecognizer* navigationGestureRecognizer;
 
 -(void)createToolbarItems;
 -(void)loadRootController;
 -(void)initOrientation;
 -(bool)loadedSuccessfully;
 -(void)load;
+-(void)addGestureRecognizers;
 @end
