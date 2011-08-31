@@ -36,12 +36,16 @@
     UINib *detailNib;
     UIPopoverController* popoverController;
     UITextView *glossTextView;
+    UIImageView *bannerHandle;
     UITextView *detailGlossTextView;
     bool popoverWasVisible;
+    float currentLabelPosition;
+    float initialLabelPosition;
 }
 @property (nonatomic, retain) IBOutlet UITextView *detailGlossTextView;
 @property (nonatomic, retain) IBOutlet UITextView *glossTextView;
 
+@property (nonatomic, retain) IBOutlet UIImageView *bannerHandle;
 @property (nonatomic, retain) Sense* sense;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
@@ -65,5 +69,8 @@
 
 - (void)displayPopup:(NSString*)text;
 - (IBAction)dismissPopup:(id)sender;
+
+- (void)handlePanGesture:(UIPanGestureRecognizer*)sender;
+- (void)translateViewContents:(CGPoint)translate;
 
 @end

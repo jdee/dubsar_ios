@@ -243,6 +243,9 @@
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)sender
 {
+    if ([self.topViewController respondsToSelector:@selector(handlePanGesture:)]) {
+        [self.topViewController handlePanGesture:sender];
+    }
     CGPoint translate = [sender translationInView:self.view];
     
     CGRect newFrame = originalFrame;

@@ -30,6 +30,7 @@
 @implementation SenseViewController_iPad
 @synthesize detailGlossTextView;
 @synthesize glossTextView;
+@synthesize bannerHandle;
 @synthesize sense;
 @synthesize tableView;
 @synthesize bannerLabel;
@@ -105,6 +106,7 @@
     [detailBannerLabel release];
     [glossTextView release];
     [detailGlossTextView release];
+    [bannerHandle release];
     [super dealloc];
 }
 
@@ -125,6 +127,8 @@
     [detailNib instantiateWithOwner:self options:nil];
     [detailView setHidden:YES];
     [self.view addSubview:detailView];
+    
+    currentLabelPosition = initialLabelPosition = bannerLabel.frame.origin.y;
 }
 
 - (void)viewDidUnload
@@ -139,6 +143,7 @@
     [self setDetailBannerLabel:nil];
     [self setGlossTextView:nil];
     [self setDetailGlossTextView:nil];
+    [self setBannerHandle:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -480,5 +485,51 @@
     UIView* senderView = (UIView*)sender;
     [popoverController presentPopoverFromRect:senderView.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
+
+- (void)handlePanGesture:(UIPanGestureRecognizer *)sender
+{
+    CGPoint location = [sender locationInView:self.view];    
+    CGPoint translate = [sender translationInView:self.view];
+    
+    switch (sender.state) {
+        default:
+            currentLabelPosition = bannerLabel.frame.origin.y;
+            bannerHandle.hidden = YES;
+            break;
+        case UIGestureRecognizerStateBegan:
+            if (location.y < glossTextView.frame.origin.y + glossTextView.frame.size.height ||
+                location.y > tableView.frame.origin.y) break;
+            bannerHandle.hidden = NO;
+        case UIGestureRecognizerStateChanged:
+            if (location.y < glossTextView.frame.origin.y + glossTextView.frame.size.height ||
+                location.y > tableView.frame.origin.y) break;
+            [self translateViewContents:translate];
+            break;
+    }
+}
+
+- (void)translateViewContents:(CGPoint)translate {
+    float position = currentLabelPosition + translate.y;
+    if (position < initialLabelPosition) position = initialLabelPosition;
+    
+    CGRect bannerFrame = bannerLabel.frame;
+    bannerFrame.origin.y = position;
+    bannerLabel.frame = bannerFrame;
+    bannerHandle.frame = bannerFrame;
+    
+    CGRect glossFrame = glossTextView.frame;
+    glossFrame.size.height = position - 4.0 - glossFrame.origin.y;
+    glossTextView.frame = glossFrame;
+    
+    CGRect buttonFrame = moreButton.frame;
+    buttonFrame.origin.y = position;
+    moreButton.frame = buttonFrame;
+    
+    CGRect tableViewFrame = tableView.frame;
+    tableViewFrame.origin.y = position + bannerFrame.size.height + 4.0;
+    tableView.frame = tableViewFrame;
+    
+}
+
 
 @end

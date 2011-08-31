@@ -32,8 +32,12 @@
     NSMutableArray* tableSections;
     UINib *detailNib;
     UITextView *glossTextView;
+    UIImageView *bannerHandle;
+    float initialLabelPosition;
+    float currentLabelPosition;
 }
 
+@property (nonatomic, retain) IBOutlet UIImageView *bannerHandle;
 @property (nonatomic, retain) Synset* synset;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
@@ -55,5 +59,8 @@
 
 - (void)displayPopup:(NSString*)text;
 - (IBAction)dismissPopup:(id)sender;
+
+- (void)handlePanGesture:(UIPanGestureRecognizer*)sender;
+- (void)translateViewContents:(CGPoint)translate;
 
 @end
