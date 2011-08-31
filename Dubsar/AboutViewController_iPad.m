@@ -87,4 +87,9 @@
     LicenseViewController_iPad* licenseViewController = [[[LicenseViewController_iPad alloc] initWithNibName:@"LicenseViewController_iPad" bundle:nil]autorelease];
     [self.navigationController pushViewController:licenseViewController animated:YES];
 }
+
+- (IBAction)viewInAppStore:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+}
 @end

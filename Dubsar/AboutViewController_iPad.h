@@ -26,5 +26,6 @@
 }
 @property (nonatomic, retain) IBOutlet UILabel *versionLabel;
 - (IBAction)showLicense:(id)sender;
+- (IBAction)viewInAppStore:(id)sender;
 
 @end

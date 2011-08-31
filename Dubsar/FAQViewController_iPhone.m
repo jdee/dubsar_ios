@@ -28,7 +28,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        NSString *_url = @"http://m.dubsar-dictionary.com/m_faq";
+        NSString *_url = @"http://m.dubsar-dictionary.com/ios_faq";
         url = [[NSURL URLWithString:_url]retain];
         ready = false;
     }

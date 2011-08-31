@@ -131,4 +131,9 @@
                         licenseView.hidden = YES;
                     } completion:nil];
 }
+
+- (IBAction)viewInAppStore:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+}
 @end

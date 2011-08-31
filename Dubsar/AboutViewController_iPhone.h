@@ -36,5 +36,6 @@
 - (IBAction)showLicense:(id)sender;
 - (IBAction)dismiss:(id)sender;
 - (IBAction)showAbout:(id)sender;
+- (IBAction)viewInAppStore:(id)sender;
 
 @end
