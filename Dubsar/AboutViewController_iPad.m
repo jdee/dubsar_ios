@@ -65,7 +65,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    versionLabel.text = [NSString stringWithFormat:@"Version %@", VERSION];
+    NSString* version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+    versionLabel.text = [NSString stringWithFormat:@"Version %@", version];
 }
 
 - (void)viewDidUnload

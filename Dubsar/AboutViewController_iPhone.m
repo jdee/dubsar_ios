@@ -68,7 +68,9 @@
     [aboutScrollView setContentSize:CGSizeMake(320.0, 416.0)];
     [aboutScrollView addSubview:aboutText];
     
-    [versionLabel setText:[NSString stringWithFormat:@"Version %@", VERSION]];
+    
+    NSString* version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+    versionLabel.text = [NSString stringWithFormat:@"Version %@", version];
 }
 
 - (void)viewDidUnload

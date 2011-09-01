@@ -19,8 +19,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define VERSION @"1.0.1"
-
 extern const NSString* DubsarBaseUrl;
 extern NSString* iTunesLink;
 
