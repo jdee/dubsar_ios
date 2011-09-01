@@ -160,6 +160,7 @@
 {
     UIPanGestureRecognizer* recognizer = [[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)]autorelease];
     recognizer.delegate = self;
+    recognizer.cancelsTouchesInView = NO;
     [view addGestureRecognizer:recognizer];
     return recognizer;
 }
@@ -198,6 +199,14 @@
     
     originalFrame = self.topViewController.view.frame;
 
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([self.topViewController respondsToSelector:@selector(handleTouch:)]) {
+        [self.topViewController handleTouch:touch];
+    }
+    return YES;
 }
 
 @end

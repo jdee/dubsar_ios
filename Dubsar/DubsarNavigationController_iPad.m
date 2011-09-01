@@ -238,6 +238,7 @@
 - (void)addGestureRecognizerToView:(UIView *)view
 {
     UIPanGestureRecognizer* recognizer = [[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)]autorelease];
+    recognizer.delegate = self;
     [view addGestureRecognizer:recognizer];
 }
 
@@ -272,6 +273,9 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
+    if ([self.topViewController respondsToSelector:@selector(handleTouch:)]) {
+        [self.topViewController handleTouch:touch];
+    }
     return ![touch.view isKindOfClass:UIScrollView.class];
 }
 

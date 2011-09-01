@@ -23,7 +23,7 @@
 
 @class Synset;
 
-@interface SynsetViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface SynsetViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate> {
     
     UITableView *tableView;
     UILabel *bannerLabel;
@@ -62,5 +62,8 @@
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender;
 - (void)translateViewContents:(CGPoint)translate;
+- (void)handleTapGesture:(UITapGestureRecognizer*)sender;
+- (void)handleTouch:(UITouch*)touch; 
+- (void)addGestureRecognizers;
 
 @end

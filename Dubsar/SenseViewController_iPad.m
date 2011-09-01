@@ -129,6 +129,7 @@
     [self.view addSubview:detailView];
     
     currentLabelPosition = initialLabelPosition = bannerLabel.frame.origin.y;
+    [self addGestureRecognizers];
 }
 
 - (void)viewDidUnload
@@ -486,6 +487,14 @@
     [popoverController presentPopoverFromRect:senderView.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
+- (void)addGestureRecognizers
+{
+    UITapGestureRecognizer* recognizer = [[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)]autorelease];
+    recognizer.delegate = self;
+    recognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:recognizer];
+}
+
 - (void)handlePanGesture:(UIPanGestureRecognizer *)sender
 {
     CGPoint location = [sender locationInView:self.view];    
@@ -530,6 +539,40 @@
     tableView.frame = tableViewFrame;
     
 }
+
+- (void)handleTapGesture:(UITapGestureRecognizer *)sender
+{
+    switch (sender.state) {
+        default:
+            break;
+        case UIGestureRecognizerStateRecognized:
+        case UIGestureRecognizerStateFailed:
+            bannerHandle.hidden = YES;
+            break;
+    }
+}
+
+- (void)handleTouch:(UITouch*)touch
+{
+    CGPoint location = [touch locationInView:self.view];
+    if (location.y >= glossTextView.frame.origin.y + glossTextView.frame.size.height &&
+        location.y <= tableView.frame.origin.y) {
+        switch (touch.phase) {
+            case UITouchPhaseBegan:
+                bannerHandle.hidden = NO;
+                break;
+                
+                /* Why don't we receive these events? I have to have a tap handler too to make this work right */
+            case UITouchPhaseEnded:
+            case UITouchPhaseCancelled:
+                bannerHandle.hidden = YES;
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 
 
 @end

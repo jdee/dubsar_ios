@@ -23,7 +23,7 @@
 
 @class Sense;
 
-@interface SenseViewController_iPad : UIViewController <UITableViewDataSource, UITableViewDelegate, LoadDelegate> {
+@interface SenseViewController_iPad : UIViewController <UITableViewDataSource, UITableViewDelegate, LoadDelegate, UIGestureRecognizerDelegate> {
     NSMutableArray* tableSections;    
     UITableView *tableView;
     UILabel *bannerLabel;
@@ -72,5 +72,8 @@
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender;
 - (void)translateViewContents:(CGPoint)translate;
+- (void)handleTapGesture:(UITapGestureRecognizer*)sender;
+- (void)handleTouch:(UITouch*)touch; 
+- (void)addGestureRecognizers;
 
 @end

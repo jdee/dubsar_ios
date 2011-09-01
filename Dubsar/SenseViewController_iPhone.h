@@ -62,6 +62,8 @@
 - (void)setupTableSections;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender;
+- (void)handleTapGesture:(UITapGestureRecognizer*)sender;
+- (void)handleTouch:(UITouch*)touch;
 - (void)translateViewContents:(CGPoint)translate;
 
 @end

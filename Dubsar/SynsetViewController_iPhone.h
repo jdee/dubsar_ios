@@ -59,6 +59,8 @@
 - (IBAction)dismissPopup:(id)sender;
 
 - (void)handlePanGesture:(UIGestureRecognizer*)sender;
+- (void)handleTapGesture:(UITapGestureRecognizer*)sender;
+- (void)handleTouch:(UITouch*)touch;
 - (void)translateViewContents:(CGPoint)translate;
 
 @end
