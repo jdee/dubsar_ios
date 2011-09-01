@@ -165,7 +165,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">banner-handle.png</string>
+									<string key="NSResourceName">banner-handle-ipad.png</string>
 								</object>
 							</object>
 							<object class="IBUILabel" id="663178642">
@@ -449,9 +449,9 @@
 							<reference ref="857507671"/>
 							<reference ref="167803352"/>
 							<reference ref="283837740"/>
-							<reference ref="663178642"/>
 							<reference ref="1072285222"/>
 							<reference ref="300796022"/>
+							<reference ref="663178642"/>
 						</object>
 						<reference key="parent" ref="766721923"/>
 					</object>
@@ -724,12 +724,12 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>banner-handle.png</string>
+				<string>banner-handle-ipad.png</string>
 				<string>dubsar-full.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{944, 72}</string>
+				<string>{687, 36}</string>
 				<string>{143, 52}</string>
 			</object>
 		</object>
