@@ -276,7 +276,7 @@
     if ([self.topViewController respondsToSelector:@selector(handleTouch:)]) {
         [self.topViewController handleTouch:touch];
     }
-    return ![touch.view isKindOfClass:UIScrollView.class];
+    return /* ![touch.view isKindOfClass:UIScrollView.class] */ YES;
 }
 
 @end
