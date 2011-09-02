@@ -20,6 +20,7 @@
 @synthesize licenseScrollView;
 @synthesize licenseText;
 @synthesize aboutText;
+@synthesize appStoreButton;
 @synthesize aboutScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil viewController:(UIViewController *)viewController
@@ -42,6 +43,7 @@
     [aboutText release];
     [aboutScrollView release];
     [licenseToolbar release];
+    [appStoreButton release];
     [super dealloc];
 }
 
@@ -84,6 +86,7 @@
     [self setAboutText:nil];
     [self setAboutScrollView:nil];
     [self setLicenseToolbar:nil];
+    [self setAppStoreButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -136,6 +139,15 @@
 
 - (IBAction)viewInAppStore:(id)sender
 {
+    [NSThread detachNewThreadSelector:@selector(launchAppStore:) toTarget:self withObject:nil];
+}
+
+- (void)launchAppStore:(id)arg
+{
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
+    [appStoreButton setEnabled:NO];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+    [appStoreButton setEnabled:YES];
+    [pool release];
 }
 @end

@@ -20,6 +20,7 @@
     UIView *licenseText;
     UIView *aboutView;
     UIScrollView *aboutScrollView;
+    UIButton *appStoreButton;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *versionLabel;
@@ -31,6 +32,7 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *licenseScrollView;
 @property (nonatomic, retain) IBOutlet UIView *licenseText;
 @property (nonatomic, retain) IBOutlet UIView *aboutText;
+@property (nonatomic, retain) IBOutlet UIButton *appStoreButton;
 @property (nonatomic, retain) IBOutlet UIScrollView *aboutScrollView;
 
 - (IBAction)showLicense:(id)sender;

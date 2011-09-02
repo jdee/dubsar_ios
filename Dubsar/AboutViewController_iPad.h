@@ -23,8 +23,10 @@
 @interface AboutViewController_iPad : UIViewController {
     
     UILabel *versionLabel;
+    UIButton *appStoreButton;
 }
 @property (nonatomic, retain) IBOutlet UILabel *versionLabel;
+@property (nonatomic, retain) IBOutlet UIButton *appStoreButton;
 - (IBAction)showLicense:(id)sender;
 - (IBAction)viewInAppStore:(id)sender;
 
