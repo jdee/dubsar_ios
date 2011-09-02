@@ -507,11 +507,13 @@
             break;
         case UIGestureRecognizerStateBegan:
             if (location.y < glossTextView.frame.origin.y + glossTextView.frame.size.height ||
-                location.y > tableView.frame.origin.y) break;
+                location.y > tableView.frame.origin.y ||
+                CGRectContainsPoint(moreButton.frame, location)) break;
             bannerHandle.hidden = NO;
         case UIGestureRecognizerStateChanged:
             if (location.y < glossTextView.frame.origin.y + glossTextView.frame.size.height ||
-                location.y > tableView.frame.origin.y) break;
+                location.y > tableView.frame.origin.y ||
+                CGRectContainsPoint(moreButton.frame, location)) break;
             [self translateViewContents:translate];
             break;
     }
@@ -556,7 +558,8 @@
 {
     CGPoint location = [touch locationInView:self.view];
     if (location.y >= glossTextView.frame.origin.y + glossTextView.frame.size.height &&
-        location.y <= tableView.frame.origin.y) {
+        location.y <= tableView.frame.origin.y &&
+        !CGRectContainsPoint(moreButton.frame, location)) {
         switch (touch.phase) {
             case UITouchPhaseBegan:
                 bannerHandle.hidden = NO;
