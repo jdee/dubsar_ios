@@ -31,5 +31,6 @@
 - (void)displayFAQ;
 - (void)displayAbout;
 - (IBAction)loadWotd:(id)sender;
+- (void)load;
 
 @end

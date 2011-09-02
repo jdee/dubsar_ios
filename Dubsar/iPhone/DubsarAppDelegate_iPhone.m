@@ -29,17 +29,26 @@
 {    
     DubsarViewController_iPhone *rootViewController = [[DubsarViewController_iPhone alloc]
                                               initWithNibName:@"DubsarViewController_iPhone" bundle:nil];
-    UINavigationController* navigationController = [[[DubsarNavigationController_iPhone alloc]initWithRootViewController:rootViewController]autorelease];
+    _navigationController = [[[DubsarNavigationController_iPhone alloc]initWithRootViewController:rootViewController]autorelease];
     [rootViewController release];
     
     UIColor* tint = [UIColor colorWithRed:0.110 green:0.580 blue:0.769 alpha:1.0];
-    navigationController.navigationBar.tintColor = tint;
-    navigationController.toolbar.tintColor = tint;
+    _navigationController.navigationBar.tintColor = tint;
+    _navigationController.toolbar.tintColor = tint;
    
-    [self.window setRootViewController:navigationController];
+    [self.window setRootViewController:_navigationController];
     
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     return YES;
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    UIViewController* controller = _navigationController.topViewController;
+    if ([controller respondsToSelector:@selector(load)]) {
+        [controller load];
+    }
+    [super applicationWillEnterForeground:application];
 }
 
 - (void)dealloc

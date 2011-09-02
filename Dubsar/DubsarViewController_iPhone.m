@@ -70,7 +70,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self load];
+}
+
+- (void)load
+{
     [wotdButton setTitle:@"loading..." forState:UIControlStateNormal];
     [wotdButton setTitle:@"loading..." forState:UIControlStateHighlighted];
     [wotdButton setTitle:@"loading..." forState:UIControlStateSelected];

@@ -93,6 +93,7 @@
         
         [delegate loadComplete:self withError:errMsg];
         [Model displayNetworkAlert:errMsg];
+        error = true;
     }
     
     NSLog(@"received response");
