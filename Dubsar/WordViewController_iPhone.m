@@ -60,12 +60,15 @@
 
 - (void)load
 {
+    if (self.loading) return;
+    
     [word load];
 
     tableView.hidden = NO;
     word.complete = word.error = false;
     inflectionsTextView.text = @"loading...";
     [tableView reloadData];
+    self.loading = true;
 }
 
 - (void)didReceiveMemoryWarning
@@ -233,6 +236,7 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
+    self.loading = false;
     if (model != word) return;
     
     if (error) {

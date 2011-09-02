@@ -104,6 +104,8 @@
 
 - (void)load
 {
+    if (self.loading) return;
+    
     [sense load];
 
     bannerLabel.hidden = NO;
@@ -112,6 +114,7 @@
     glossTextView.text = @"loading...";
     
     [tableView reloadData];
+    self.loading = true;
 }
 
 - (void)didReceiveMemoryWarning
@@ -167,6 +170,8 @@
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error
 {
+    self.loading = false;
+
     if (model != sense) return;
     
     if (error) {

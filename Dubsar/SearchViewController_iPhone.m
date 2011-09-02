@@ -66,12 +66,15 @@
 
 - (void)load
 {
+    if (self.loading) return;
+
     [search load];
 
     search.complete = search.error = false;
     search.results = nil;
     
     [_tableView reloadData];
+    self.loading = true;
 }
 
 - (void)didReceiveMemoryWarning
@@ -258,6 +261,7 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
+    self.loading = false;
     if (model != search) return;
     
     if (!error) {

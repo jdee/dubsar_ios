@@ -33,6 +33,7 @@
 @property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
 @property (nonatomic, retain) NSString* preEditText;
 @property (nonatomic, assign) UIGestureRecognizer* navigationGestureRecognizer;
+@property bool loading;
 
 -(void)createToolbarItems;
 -(void)loadRootController;

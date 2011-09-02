@@ -30,6 +30,7 @@
 @synthesize autocompleterNib;
 @synthesize preEditText;
 @synthesize navigationGestureRecognizer;
+@synthesize loading;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,6 +44,7 @@
         
         preEditText = nil;
         navigationGestureRecognizer = nil;
+        loading = false;
     }
     return self;
 }

@@ -75,6 +75,8 @@
 
 - (void)load
 {
+    if (self.loading) return;
+
     [wotdButton setTitle:@"loading..." forState:UIControlStateNormal];
     [wotdButton setTitle:@"loading..." forState:UIControlStateHighlighted];
     [wotdButton setTitle:@"loading..." forState:UIControlStateSelected];
@@ -84,6 +86,7 @@
     [dailyWord load];
     
     self.searchBar.text = @"";
+    self.loading = true;
 }
 
 - (void)displayFAQ
@@ -122,6 +125,7 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
+    self.loading = false;
     if (![model isMemberOfClass:DailyWord.class]) {
         return;
     }
