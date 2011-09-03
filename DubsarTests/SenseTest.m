@@ -86,6 +86,14 @@
     STAssertEqualObjects(@"hypernym gloss", [_pointer objectAtIndex:3], @"hypernym gloss failed");
 }
 
+-(void)testNameAndPosParsing
+{
+    NSString* nameAndPos = @"beauty (n.)";
+    Sense* sense = [Sense senseWithId:1 nameAndPos:nameAndPos];
+    STAssertEqualObjects(@"beauty", sense.name, @"name failed");
+    STAssertEquals(POSNoun, sense.partOfSpeech, @"part of speech failed");
+}
+
 -(void)testInitialization
 {
     Sense* a = [[[Sense alloc]init]autorelease];

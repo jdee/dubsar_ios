@@ -226,7 +226,7 @@
         NSArray* pointer = _object;
         NSNumber* targetId = [pointer objectAtIndex:1];
         /* sense pointer */
-        targetSense = [Sense senseWithId:targetId.intValue name:[pointer objectAtIndex:2] partOfSpeech:POSUnknown];
+        targetSense = [Sense senseWithId:targetId.intValue nameAndPos:[pointer objectAtIndex:2]];
         senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
         [senseViewController load];
         [self.navigationController pushViewController:senseViewController animated:YES];

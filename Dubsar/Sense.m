@@ -54,6 +54,11 @@
     return [[[self alloc]initWithId:theId gloss:theGloss synonyms:theSynonyms word:theWord]autorelease];
 }
 
++(id)senseWithId:(int)theId nameAndPos:(NSString*)nameAndPos
+{
+    return [[[self alloc]initWithId:theId nameAndPos:nameAndPos]autorelease];
+}
+
 -(id)initWithId:(int)theId name:(NSString *)theName synset:(Synset *)theSynset
 {
     self = [super init];
@@ -116,6 +121,27 @@
         weakSynsetLink = false;
         weakWordLink = true;
         [self initUrl];
+    }
+    return self;
+}
+
+-(id)initWithId:(int)theId nameAndPos:(NSString*)nameAndPos
+{
+    self = [super init];
+    if (self) {
+        _id = theId;
+        gloss = nil;
+        synonyms = nil;
+        word = nil;
+        synset = nil;
+        marker = nil;
+        verbFrames = nil;
+        samples = nil;
+        pointers = nil;
+        weakSynsetLink = false;
+        weakWordLink = false;
+        [self initUrl];
+        [self parseNameAndPos:nameAndPos];
     }
     return self;
 }
@@ -188,6 +214,27 @@
 -(NSString *)nameAndPos
 {
     return [NSString stringWithFormat:@"%@ (%@.)", name, self.pos];
+}
+
+-(void)parseNameAndPos:(NSString *)nameAndPos
+{
+    NSRange posStartRange = [nameAndPos rangeOfString:@" ("];
+    if (posStartRange.location == NSNotFound) {
+        NSLog(@"did not find \" (\"");
+        return;
+    }
+    
+    NSRange posEndRange = [nameAndPos rangeOfString:@".)" options:0 range:NSMakeRange(posStartRange.location+2, nameAndPos.length-posStartRange.location-2)];
+    if (posEndRange.location == NSNotFound) {
+        NSLog(@"did not find \".)\"");
+        return;
+    }
+    
+    NSRange nameRange = NSMakeRange(0, posStartRange.location);
+    NSRange posRange = NSMakeRange(posStartRange.location+2, posEndRange.location-posStartRange.location-2);
+    
+    name = [[nameAndPos substringWithRange:nameRange] retain];
+    partOfSpeech = [PartOfSpeechDictionary partofSpeechFromPOS:[nameAndPos substringWithRange:posRange]];
 }
 
 -(void)parseData

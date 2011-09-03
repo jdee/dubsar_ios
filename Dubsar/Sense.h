@@ -47,9 +47,11 @@
 +(id)senseWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
 +(id)senseWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 +(id)senseWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
++(id)senseWithId:(int)theId nameAndPos:(NSString*)nameAndPos;
 -(id)initWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
 -(id)initWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 -(id)initWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
+-(id)initWithId:(int)theId nameAndPos:(NSString*)nameAndPos;
 
 -(NSString*)pos;
 -(NSString*)nameAndPos;
@@ -59,5 +61,6 @@
 -(NSComparisonResult)compareFreqCnt:(Sense*)sense;
 
 -(NSString*)synonymsAsString;
+-(void)parseNameAndPos:(NSString*)nameAndPos;
 
 @end
