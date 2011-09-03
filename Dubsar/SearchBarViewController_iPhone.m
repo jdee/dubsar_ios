@@ -186,12 +186,12 @@
 {
     switch (toInterfaceOrientation) {
         case UIInterfaceOrientationPortrait:
-            [self.navigationController setToolbarHidden:NO animated:YES];
+            [self.navigationController setToolbarHidden:NO animated:NO];
             [self.view setNeedsLayout];
             break;
         case UIInterfaceOrientationLandscapeLeft:
         case UIInterfaceOrientationLandscapeRight:
-            [self.navigationController setToolbarHidden:YES animated:YES];
+            [self.navigationController setToolbarHidden:YES animated:NO];
             [self.view setNeedsLayout];
             break;
         default:
