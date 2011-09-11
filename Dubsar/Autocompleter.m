@@ -43,9 +43,11 @@
         _results = nil;
         matchCase = mustMatchCase;
         
+        /*
         NSString* __url = [NSString stringWithFormat:@"/os?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
         [self set_url:__url];
+         */
     }
     return self;
 }

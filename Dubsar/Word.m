@@ -228,7 +228,7 @@
 
 -(void)initUrl
 {
-    [self set_url: [NSString stringWithFormat:@"/words/%d", _id]];
+    // [self set_url: [NSString stringWithFormat:@"/words/%d", _id]];
 }
 
 - (NSComparisonResult)compareFreqCnt:(Word*)word

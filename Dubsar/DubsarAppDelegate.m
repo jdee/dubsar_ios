@@ -100,13 +100,21 @@
 
 - (void)prepareDatabase
 {
+    NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
+    NSString* srcPath = [resourcePath stringByAppendingPathComponent:PRODUCTION_DB_NAME];
+    
     /* copy to Documents folder */
+    /*
+     * This is only necessary for writing to the database. For now, Dubsar does not
+     * write to the DB, but it will sooner or later use this for WOTD persistence.
+     * For now, all this does is add a couple extra seconds to the required launch
+     * time, so we'll just read it in situ until then.
+     */
+    /*
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDir = [paths objectAtIndex: 0];
-    NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError* error;
-    NSString* srcPath = [resourcePath stringByAppendingPathComponent:PRODUCTION_DB_NAME];
     NSString* dstPath = [documentsDir stringByAppendingPathComponent:PRODUCTION_DB_NAME];
     
     if (![fileManager fileExistsAtPath:srcPath]) {
@@ -120,7 +128,7 @@
         NSLog(@"%@ does not exist, deploying", dstPath);
     }
     else {
-        /* TODO: Don't always need to replace. This runs every time the app starts. */
+        // TODO: Don't always need to replace. This runs every time the app starts.
         NSLog(@"%@ already deployed, removing", dstPath);
         if (![fileManager removeItemAtPath:dstPath error:&error]) {
             NSLog(@"could not remove DB %@: %@", dstPath, error.localizedDescription);
@@ -136,10 +144,11 @@
         return;
     }
     NSLog(@"successfully deployed database %@", dstPath);
+     */
    
     int rc;
-    if ((rc=sqlite3_open_v2([dstPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_NOMUTEX, NULL)) != SQLITE_OK) {
-        NSLog(@"error opening database %@, %d", dstPath, rc);
+    if ((rc=sqlite3_open_v2([srcPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_NOMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
+        NSLog(@"error opening database %@, %d", srcPath, rc);
         database = NULL;
         return;
     }

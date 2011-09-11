@@ -58,7 +58,7 @@
         lexname = nil;
         samples = nil;
         senses = nil;
-        [self set_url: [NSString stringWithFormat:@"/synsets/%d", _id]];
+        // [self set_url: [NSString stringWithFormat:@"/synsets/%d", _id]];
         [self prepareStatements];
     }
     return self;
@@ -75,7 +75,7 @@
         lexname = nil;
         samples = nil;
         senses = nil;
-        [self set_url: [NSString stringWithFormat:@"/synsets/%d", _id]];
+        // [self set_url: [NSString stringWithFormat:@"/synsets/%d", _id]];
         [self prepareStatements];
     }
     return self;
