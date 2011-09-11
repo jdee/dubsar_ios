@@ -149,14 +149,21 @@
         NSString* synSql = [NSString stringWithFormat:@"SELECT s.id, w.name "
                             @"FROM senses s "
                             @"INNER JOIN words w ON w.id = s.word_id "
-                            @"WHERE s.synset_id = %d AND w.name != '%@' "
-                            @"ORDER BY w.name ASC ", synsetId, name];
+                            @"WHERE s.synset_id = %d AND w.name != ? "
+                            @"ORDER BY w.name ASC ", synsetId];
         
         sqlite3_stmt* synStatement;
         NSLog(@"preparing statement \"%@\"", synSql);
         if ((rc=sqlite3_prepare_v2(appDelegate.database, [synSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &synStatement, NULL))
             != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
+            sqlite3_finalize(statement);
+            return;
+        }
+        
+        if ((rc=sqlite3_bind_text(synStatement, 1, [name cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            sqlite3_finalize(synStatement);
             sqlite3_finalize(statement);
             return;
         }

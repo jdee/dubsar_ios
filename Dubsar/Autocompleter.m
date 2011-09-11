@@ -70,22 +70,28 @@
 
 - (void)loadResults:(DubsarAppDelegate*)appDelegate
 {
-    NSString* sql = [NSString stringWithFormat:@"SELECT w.name "
+    NSString* sql = @"SELECT w.name "
                      @"FROM inflections i "
                      @"INNER JOIN words w "
                      @"ON w.id = i.word_id "
-                     @"WHERE i.name = '%@' "
-                     @"ORDER BY w.name ASC", _term];
+                     @"WHERE i.name = ? "
+                     @"ORDER BY w.name ASC";
     // NSLog(@"preparing statement \"%@\"", sql);
     sqlite3_stmt* statement;
     int rc;
     if ((rc=sqlite3_prepare_v2(appDelegate.database,
                                [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
+        self.errorMessage = [NSString stringWithFormat:@"error preparing exact match statement, error %d", rc];
         return;
     }
     else {
         // NSLog(@"prepared statement successfully");
+    }
+    
+    if ((rc=sqlite3_bind_text(statement, 1, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;
     }
     
     NSString* exactMatch = nil;
@@ -103,6 +109,7 @@
     sqlite3_finalize(statement);
     
     if (exactMatch != nil) {
+        NSLog(@"found exact match %@", exactMatch);
         self.results = [NSMutableArray arrayWithObject:exactMatch];
     }
     else {
@@ -112,22 +119,47 @@
     /*
      * This is a faster way to do case-insensitive autocompletion than joining the inflections table.
      */
-    sql = [NSString stringWithFormat:
-           @"SELECT DISTINCT name "
+    sql = @"SELECT DISTINCT name "
            @"FROM words "
-           @"WHERE name > '%@' AND name < '%@' AND NOT name LIKE '%@' AND name LIKE '%@%%' "
+           @"WHERE name > ? AND name < ? AND NOT name LIKE ? AND name LIKE ? "
            @"ORDER BY name ASC "
-           @"LIMIT %d",
-           [_term uppercaseString], [[self.class incrementString:_term]lowercaseString], _term, _term, (exactMatch != nil ? max-1 : max)];
+           @"LIMIT ?";
+    
     // NSLog(@"preparing statement \"%@\"", sql);
 
     if ((rc=sqlite3_prepare_v2(appDelegate.database,
                                [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
+        self.errorMessage = [NSString stringWithFormat:@"error preparing match statement, error %d", rc];
         return;
     }
     else {
         // NSLog(@"prepared statement successfully");
+    }
+    
+    if ((rc=sqlite3_bind_text(statement, 1, [[_term uppercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;
+    }
+    if ((rc=sqlite3_bind_text(statement, 2, [[[self.class incrementString:_term]lowercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;
+    }
+    if ((rc=sqlite3_bind_text(statement, 3, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;
+    }
+    if ((rc=sqlite3_bind_text(statement, 4, [[_term stringByAppendingString:@"%"]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;
+    }
+    if ((rc=sqlite3_bind_int(statement, 5, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;    
     }
     
     // NSLog(@"searching DB for autcompleter matches");

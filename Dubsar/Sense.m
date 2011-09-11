@@ -439,12 +439,18 @@
            @"SELECT se.id, w.name "
            @"FROM senses se "
            @"INNER JOIN words w ON w.id = se.word_id "
-           @"WHERE se.synset_id = %d AND w.name != '%@' "
-           @"ORDER BY w.name ASC ", synset._id, name];
+           @"WHERE se.synset_id = %d AND w.name != ? "
+           @"ORDER BY w.name ASC ", synset._id];
     
     if ((rc=sqlite3_prepare(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         return;
+    }
+    
+    if ((rc=sqlite3_bind_text(statement, 1, [name cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;       
     }
     
     NSLog(@"executing %@", sql);

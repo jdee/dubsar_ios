@@ -151,6 +151,11 @@ static int _seqNum = 0;
     NSRange range = [term rangeOfCharacterFromSet:set];
     NSString* sql = @"SELECT w.id, w.name, w.part_of_speech, w.freq_cnt FROM WORDS w ";
     
+    NSString* capital1;
+    NSString* capital2;
+    NSString* lower1;
+    NSString* lower2;
+    
     if (isWildCard) {
         // globbing for iPad alphabet buttons, term is like "[ABab]*" or "[^A-Za-z]*".
         unichar first = [term characterAtIndex:1];
@@ -160,10 +165,17 @@ static int _seqNum = 0;
             default:
                 // e.g., 
                 // WHERE (w.name >= 'A' AND w.name <'C') OR (w.name >= 'a' AND w.name < 'c') AND w.name GLOB '[ABab]*'
-                where = [NSString stringWithFormat:
-                       @"WHERE (w.name >= '%c' AND w.name < '%c') OR (w.name >= '%c' AND w.name < '%c') AND w.name GLOB '%@' ", 
-                       first, first+2, first+32, first+34, term];
-                       
+                where = @"WHERE (w.name >= :capital1 AND w.name < :capital2) OR "
+                @"(w.name >= :lower1 AND w.name < :lower2) AND w.name GLOB :term ";
+                
+                capital1 = [NSString stringWithCharacters:&first length:1];
+                first += 2;
+                capital2 = [NSString stringWithCharacters:&first length:1];
+                first += 30;
+                lower1 = [NSString stringWithCharacters:&first length:1];
+                first += 2;
+                lower2 = [NSString stringWithCharacters:&first length:1];
+                
                 break;
             case '^':
                 // things that don't begin with a letter
@@ -182,6 +194,40 @@ static int _seqNum = 0;
             != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error preparing count statement, error %d", rc];
             return;
+        }
+        
+        if (sqlite3_bind_parameter_count(countStmt) != 0) {
+            int c1Idx = sqlite3_bind_parameter_index(countStmt, ":capital1");
+            int c2Idx = sqlite3_bind_parameter_index(countStmt, ":capital2");
+            int l1Idx = sqlite3_bind_parameter_index(countStmt, ":lower1");
+            int l2Idx = sqlite3_bind_parameter_index(countStmt, ":lower2");
+            int termIdx = sqlite3_bind_parameter_index(countStmt, ":term");
+            
+            if ((rc=sqlite3_bind_text(countStmt, c1Idx, [capital1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                sqlite3_finalize(countStmt);
+                return;
+            }
+            if ((rc=sqlite3_bind_text(countStmt, c2Idx, [capital2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                sqlite3_finalize(countStmt);
+                return;
+            }
+            if ((rc=sqlite3_bind_text(countStmt, l1Idx, [lower1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                sqlite3_finalize(countStmt);
+                return;
+            }
+            if ((rc=sqlite3_bind_text(countStmt, l2Idx, [lower2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                sqlite3_finalize(countStmt);
+                return;
+            }
+            if ((rc=sqlite3_bind_text(countStmt, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                sqlite3_finalize(countStmt);
+                return;
+            }
         }
         
         NSLog(@"executing \"%@\"", countSql);
@@ -212,12 +258,12 @@ static int _seqNum = 0;
         NSString* where;
         
         if (base.length > 0) {
-            where = 
-                [NSString stringWithFormat:@"WHERE (w.name >= '%@' AND w.name < '%@' AND w.name LIKE '%@') ",
-                               [base uppercaseString], [[self.class incrementString:base]lowercaseString], term];
+            where = @"WHERE (w.name >= :capital1 AND w.name < :lower1 AND w.name LIKE :term) ";
+            capital1 = [base uppercaseString];
+            lower1 = [[self.class incrementString:base]lowercaseString];
         }
         else {
-            where = [NSString stringWithFormat:@"WHERE w.name LIKE '%@' ", term];
+            where = @"WHERE w.name LIKE :term ";
         }
         sql = [sql stringByAppendingString:where];
         countSql = [countSql stringByAppendingString:where];
@@ -231,6 +277,26 @@ static int _seqNum = 0;
             return;
         }
         
+        int termIdx = sqlite3_bind_parameter_index(countStmt, ":term");
+        int c1Idx = sqlite3_bind_parameter_index(countStmt, ":capital1");
+        int l1Idx = sqlite3_bind_parameter_index(countStmt, ":lower1");
+        
+        if ((rc=sqlite3_bind_text(countStmt, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            sqlite3_finalize(countStmt);
+            return;
+        }
+        if (c1Idx != 0 && (rc=sqlite3_bind_text(countStmt, c1Idx, [capital1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            sqlite3_finalize(countStmt);
+            return;           
+        }
+        if (l1Idx != 0 && (rc=sqlite3_bind_text(countStmt, l1Idx, [lower1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            sqlite3_finalize(countStmt);
+            return;           
+        }
+                
         NSLog(@"executing \"%@\"", countSql);
         if (sqlite3_step(countStmt) == SQLITE_ROW) {
             int totalRows = sqlite3_column_int(countStmt, 0);
@@ -243,10 +309,9 @@ static int _seqNum = 0;
         sqlite3_finalize(countStmt);
     }
     else {
-        sql = [NSString stringWithFormat:
-               @"SELECT DISTINCT w.id, w.name, w.part_of_speech, w.freq_cnt "
+        sql =  @"SELECT DISTINCT w.id, w.name, w.part_of_speech, w.freq_cnt "
                @"FROM words w INNER JOIN inflections i ON w.id = i.word_id "
-               @"WHERE w.id IN (SELECT word_id FROM inflections WHERE name = '%@') ", term];
+               @"WHERE w.id IN (SELECT word_id FROM inflections WHERE name = :term) ";
     }
     sql = [sql stringByAppendingString:@"ORDER BY w.name ASC, w.part_of_speech ASC "];
     
@@ -269,6 +334,38 @@ static int _seqNum = 0;
     }
     else {
         NSLog(@"prepared statement successfully");
+    }
+    
+    int termIdx = sqlite3_bind_parameter_index(statement, ":term");
+    int c1Idx = sqlite3_bind_parameter_index(statement, ":capital1");
+    int c2Idx = sqlite3_bind_parameter_index(statement, ":capital2");
+    int l1Idx = sqlite3_bind_parameter_index(statement, ":lower1");
+    int l2Idx = sqlite3_bind_parameter_index(statement, ":lower2");
+
+    if (termIdx != 0 && (rc=sqlite3_bind_text(statement, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;           
+    }
+    if (c1Idx != 0 && (rc=sqlite3_bind_text(statement, c1Idx, [capital1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;           
+    }
+    if (c2Idx != 0 && (rc=sqlite3_bind_text(statement, c2Idx, [capital2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;           
+    }
+    if (l1Idx != 0 && (rc=sqlite3_bind_text(statement, l1Idx, [lower1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;           
+    }
+    if (l2Idx != 0 && (rc=sqlite3_bind_text(statement, l2Idx, [lower2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;           
     }
     
     self.results = [NSMutableArray array];
