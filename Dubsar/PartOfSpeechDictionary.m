@@ -24,10 +24,16 @@ static PartOfSpeechDictionary* theInstance=nil;
 @implementation PartOfSpeechDictionary
 @synthesize dictionary;
 
-+(PartOfSpeech)partofSpeechFromPOS:(NSString *)pos
++(PartOfSpeech)partOfSpeechFromPOS:(NSString *)pos
 {
     PartOfSpeechDictionary* instance = [self instance];
     return [instance partOfSpeechFromPOS:pos];
+}
+
++(PartOfSpeech)partOfSpeechFrom_part_of_speech:(char const *)part_of_speech
+{
+    PartOfSpeechDictionary* instance = [self instance];
+    return [instance partOfSpeechFrom_part_of_speech:part_of_speech];
 }
 
 +(NSString*)posFromPartOfSpeech:(PartOfSpeech)partOfSpeech
@@ -90,10 +96,18 @@ static PartOfSpeechDictionary* theInstance=nil;
     return number.intValue;
 }
 
+-(PartOfSpeech)partOfSpeechFrom_part_of_speech:(char const *)part_of_speech
+{
+    NSString* key = [NSString stringWithCString:part_of_speech encoding:NSUTF8StringEncoding];
+    NSNumber* number = [verboseDictionary valueForKey:key];
+    return number.intValue;
+}
+
 -(void)setupDictionary
 {
     NSLog(@"setting up part of speech dictionary");
     dictionary = [[NSMutableDictionary alloc]init];
+    verboseDictionary = [[NSMutableDictionary alloc]init];
 
     [self setValue:POSAdjective forKey:@"adj"];
     [self setValue:POSAdverb forKey:@"adv"];
@@ -103,12 +117,27 @@ static PartOfSpeechDictionary* theInstance=nil;
     [self setValue:POSPreposition forKey:@"prep"];
     [self setValue:POSPronoun forKey:@"pron"];
     [self setValue:POSVerb forKey:@"v"];
+    
+    [self setVerboseValue:POSAdjective forKey:@"adjective"];
+    [self setVerboseValue:POSAdverb forKey:@"adverb"];
+    [self setVerboseValue:POSConjunction forKey:@"conjunction"];
+    [self setVerboseValue:POSInterjection forKey:@"interjection"];
+    [self setVerboseValue:POSNoun forKey:@"noun"];
+    [self setVerboseValue:POSPreposition forKey:@"preposition"];
+    [self setVerboseValue:POSPronoun forKey:@"pronoun"];
+    [self setVerboseValue:POSVerb forKey:@"verb"];
 }
 
 -(void)setValue:(PartOfSpeech)partOfSpeech forKey:(NSString *)pos
 {
     NSNumber* number = [NSNumber numberWithInt:partOfSpeech];
     [dictionary setValue:number forKey:pos];
+}
+
+-(void)setVerboseValue:(PartOfSpeech)partOfSpeech forKey:(NSString *)part_of_speech
+{
+    NSNumber* number = [NSNumber numberWithInt:partOfSpeech];
+    [verboseDictionary setValue:number forKey:part_of_speech];
 }
 
 @end

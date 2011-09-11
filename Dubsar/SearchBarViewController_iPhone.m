@@ -314,7 +314,7 @@
     [searchBar resignFirstResponder];
     [autocompleterTableView setHidden:YES];
     
-    NSString* text = [autocompleter.results objectAtIndex:indexPath.row];
+    NSString* text = [[autocompleter.results objectAtIndex:indexPath.row]lowercaseString];
     SearchViewController_iPhone* searchViewController = [[[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: text]autorelease];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }

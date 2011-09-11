@@ -18,6 +18,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "DubsarAppDelegate.h"
 
 @class JSONDecoder;
 @protocol LoadDelegate;
@@ -26,6 +27,7 @@
 @optional
 /* model-specific parsing method, not implemented in base class */
 -(void)parseData;
+-(void)loadResults:(DubsarAppDelegate*)appDelegate;
 @end
 
 @interface Model : NSObject <Model> {
@@ -44,7 +46,12 @@
 @property (nonatomic, retain) NSString* errorMessage;
 @property (nonatomic, assign) id<LoadDelegate> delegate;
 
++(NSString*)incrementString:(NSString*)string;
+
 -(void)load;
+-(void)databaseThread;
+-(void)loadFromServer;
+
 +(void)displayNetworkAlert:(NSString*)error;
 
 @end

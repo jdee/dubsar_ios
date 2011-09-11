@@ -19,10 +19,12 @@
 
 #import "Search.h"
 #import "JSONKit.h"
+#import "PartOfSpeechDictionary.h"
 #import "URLEncoding.h"
 #import "Word.h"
 
 static int _seqNum = 0;
+#define NUM_PER_PAGE 30
 
 @implementation Search
 
@@ -121,7 +123,6 @@ static int _seqNum = 0;
         [self set_url:__url];
     }
     return self;
-    
 }
 
 -(void)dealloc
@@ -131,6 +132,121 @@ static int _seqNum = 0;
     [results release];
 
     [super dealloc];
+}
+
+- (void)load
+{
+    [NSThread detachNewThreadSelector:@selector(databaseThread) toTarget:self withObject:nil];
+}
+
+- (void)loadResults:(DubsarAppDelegate*)appDelegate
+{    
+    NSCharacterSet* set = [NSCharacterSet characterSetWithCharactersInString:@"%_"];
+    NSRange range = [term rangeOfCharacterFromSet:set];
+    NSString* sql = @"SELECT w.id, w.name, w.part_of_speech, w.freq_cnt, i.name "
+        @"FROM words w INNER JOIN inflections i ON w.id = i.word_id ";
+    if (range.location != NSNotFound) {
+        NSLog(@"found wildcard character at location %d", range.location);
+        
+        /* wild card search */
+        NSRange baseRange;
+        baseRange.location = 0;
+        baseRange.length = range.location;
+        NSString* base = [term substringWithRange:baseRange];
+        NSLog(@"base is \"%@\"", base);
+        
+        NSString* countSql = @"SELECT COUNT(*) FROM words w ";
+        
+        NSString* where;
+        
+        if (base.length > 0) {
+            where = 
+                [NSString stringWithFormat:@"WHERE (w.name >= '%@' AND w.name < '%@' AND w.name LIKE '%@') ",
+                               [base uppercaseString], [[self.class incrementString:base]lowercaseString], term];
+        }
+        else {
+            where = [NSString stringWithFormat:@"WHERE w.name LIKE '%@' ", term];
+        }
+        sql = [sql stringByAppendingString:where];
+        countSql = [countSql stringByAppendingString:where];
+        
+        /* execute countSql to get number of rows */
+        sqlite3_stmt* countStmt;
+        int rc;
+        if ((rc=sqlite3_prepare_v2(appDelegate.database, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &countStmt, NULL))
+            != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error preparing count statement, error %d", rc];
+            return;
+        }
+        
+        NSLog(@"executing \"%@\"", countSql);
+        if (sqlite3_step(countStmt) == SQLITE_ROW) {
+            int totalRows = sqlite3_column_int(countStmt, 0);
+            NSLog(@"count statement returned %d total matching rows", totalRows);
+            totalPages = totalRows/NUM_PER_PAGE;
+            if (totalRows % NUM_PER_PAGE != 0) {
+                ++ totalPages;
+            }
+        }
+        sqlite3_finalize(countStmt);
+    }
+    else {
+        sql = [sql stringByAppendingFormat:
+                @"WHERE w.id IN (SELECT word_id FROM inflections WHERE name = '%@') ", term];
+    }
+    sql = [sql stringByAppendingString:@"ORDER BY w.name ASC, w.part_of_speech ASC "];
+    
+    if (range.location != NSNotFound) {
+        /* wildcard, add offset and limit */
+        sql = [sql stringByAppendingFormat:@"LIMIT %d ", NUM_PER_PAGE];
+        if (currentPage > 1) {
+            sql = [sql stringByAppendingFormat:@"OFFSET %d ", (currentPage-1)*NUM_PER_PAGE];
+        }
+    }
+
+    NSLog(@"preparing SQL statement \"%@\"", sql);
+
+    sqlite3_stmt* statement;
+    int rc;
+    if ((rc=sqlite3_prepare_v2(appDelegate.database,
+        [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
+        return;
+    }
+    else {
+        NSLog(@"prepared statement successfully");
+    }
+    
+    self.results = [NSMutableArray array];
+
+    while (sqlite3_step(statement) == SQLITE_ROW && results.count < NUM_PER_PAGE) {
+        NSLog(@"found matching row");
+        int _id = sqlite3_column_int(statement, 0);
+        char const* _name = (char const*)sqlite3_column_text(statement, 1);
+        char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
+        int freqCnt = sqlite3_column_int(statement, 3);
+        char const* _inflection = (char const*)sqlite3_column_text(statement, 4);
+        
+        NSLog(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d, INFLECTION=%s",
+              _id, _name, _part_of_speech, freqCnt, _inflection);
+        
+        PartOfSpeech partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
+        NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+        NSString* inflection = [NSString stringWithCString:_inflection encoding:NSUTF8StringEncoding];
+        
+        Word* currentWord = [results lastObject];
+        
+        if (currentWord == nil || _id != currentWord._id) {
+            currentWord = [Word wordWithId:_id name:name partOfSpeech:partOfSpeech];
+            currentWord.freqCnt = freqCnt;
+            [results addObject:currentWord];
+        }
+        [currentWord addInflection:inflection];
+    }
+    
+    sqlite3_finalize(statement);
+    
+    NSLog(@"completed database search (delegate is %@)", (self.delegate == nil ? @"nil" : @"not nil"));
 }
 
 - (void)parseData

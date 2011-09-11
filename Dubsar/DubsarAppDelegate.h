@@ -17,7 +17,11 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import <sqlite3.h>
+
 #import <UIKit/UIKit.h>
+
+#define PRODUCTION_DB_NAME @"production.sqlite3"
 
 @interface DubsarAppDelegate : NSObject <UIApplicationDelegate> {
     UIColor* dubsarTintColor;
@@ -28,5 +32,8 @@
 @property (nonatomic, retain) UIFont* dubsarNormalFont;
 @property (nonatomic, retain) UIFont* dubsarSmallFont;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic) sqlite3* database;
+
+- (void)prepareDatabase;
 
 @end

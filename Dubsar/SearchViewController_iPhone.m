@@ -68,13 +68,13 @@
 {
     if (self.loading) return;
 
-    [search load];
-
     search.complete = search.error = false;
     search.results = nil;
+    self.loading = true;
+    
+    [search load];
     
     [_tableView reloadData];
-    self.loading = true;
 }
 
 - (void)didReceiveMemoryWarning

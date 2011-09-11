@@ -27,15 +27,17 @@
 @synthesize dubsarFontFamily;
 @synthesize dubsarNormalFont;
 @synthesize dubsarSmallFont;
+@synthesize database;
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        dubsarTintColor = [[UIColor colorWithRed:0.110 green:0.580 blue:0.769 alpha:1.0]retain];
+        dubsarTintColor  = [[UIColor colorWithRed:0.110 green:0.580 blue:0.769 alpha:1.0]retain];
         dubsarFontFamily = [[NSString stringWithString:@"Trebuchet"] retain];
         dubsarNormalFont = [[UIFont fontWithName:@"TrebuchetMS" size:18.0]retain];
-        dubsarSmallFont = [[UIFont fontWithName:@"TrebuchetMS" size:14.0]retain];
+        dubsarSmallFont  = [[UIFont fontWithName:@"TrebuchetMS" size:14.0]retain];
+        [self prepareDatabase];
     }
     return self;
 }
@@ -88,11 +90,61 @@
 
 - (void)dealloc
 {
+    sqlite3_close(database);
     [dubsarFontFamily release];
     [dubsarNormalFont release];
     [dubsarTintColor release];
     [_window release];
     [super dealloc];
+}
+
+- (void)prepareDatabase
+{
+    /* copy to Documents folder */
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDir = [paths objectAtIndex: 0];
+    NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError* error;
+    NSString* srcPath = [resourcePath stringByAppendingPathComponent:PRODUCTION_DB_NAME];
+    NSString* dstPath = [documentsDir stringByAppendingPathComponent:PRODUCTION_DB_NAME];
+    
+    if (![fileManager fileExistsAtPath:srcPath]) {
+        NSLog(@"cannot find bundle DB file %@", srcPath);
+    }
+    else {
+        NSLog(@"found bundle DB file %@", srcPath);
+    }
+    
+    if (![fileManager fileExistsAtPath:dstPath]) {
+        NSLog(@"%@ does not exist, deploying", dstPath);
+    }
+    else {
+        /* TODO: Don't always need to replace. This runs every time the app starts. */
+        NSLog(@"%@ already deployed, removing", dstPath);
+        if (![fileManager removeItemAtPath:dstPath error:&error]) {
+            NSLog(@"could not remove DB %@: %@", dstPath, error.localizedDescription);
+            database = NULL;
+            return;
+        }
+        NSLog(@"removed old database, deploying to %@", dstPath);
+    }
+ 
+    if (![fileManager copyItemAtPath:srcPath toPath:dstPath error:&error]) {
+        NSLog(@"error copying database %@ to %@, %@", srcPath, dstPath, error.localizedDescription);
+        database = NULL;
+        return;
+    }
+    NSLog(@"successfully deployed database %@", dstPath);
+   
+    int rc;
+    if ((rc=sqlite3_open_v2([dstPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_NOMUTEX, NULL)) != SQLITE_OK) {
+        NSLog(@"error opening database %@, %d", dstPath, rc);
+        database = NULL;
+        return;
+    }
+    
+    NSLog(@"successfully opened database %@", PRODUCTION_DB_NAME);
 }
 
 @end

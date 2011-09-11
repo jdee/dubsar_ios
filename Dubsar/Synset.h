@@ -22,7 +22,7 @@
 
 
 @interface Synset : Model {
-    
+    sqlite3_stmt* semanticQuery;
 }
 
 @property int _id;
@@ -33,7 +33,7 @@
 @property (nonatomic, retain) NSMutableArray* samples;
 @property (nonatomic, retain) NSMutableArray* senses;
 @property (nonatomic, retain) NSMutableDictionary* pointers;
-
+@property (nonatomic, retain) NSMutableArray* sections;
 
 +(id)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 +(id)synsetWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
@@ -43,5 +43,10 @@
 -(void)parsePointers:(NSArray*)response;
 
 -(NSString*)synonymsAsString;
+
+-(void)prepareStatements;
+-(void)destroyStatements;
+-(Pointer*)pointerForRowAtIndexPath:(NSIndexPath*)indexPath;
+-(int)numberOfSections;
 
 @end

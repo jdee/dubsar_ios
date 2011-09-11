@@ -42,6 +42,11 @@
     [super dealloc];
 }
 
+- (void)load
+{
+    [self loadFromServer];
+}
+
 - (void)parseData
 {
     NSArray* wotd = [[self decoder] objectWithData:[self data]];

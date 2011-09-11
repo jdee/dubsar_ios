@@ -92,6 +92,9 @@
 		7B59C4D913E8AC9A006F5FDB /* WordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4D813E8AC9A006F5FDB /* WordTest.m */; };
 		7B59C4DC13E8B05C006F5FDB /* SenseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4DB13E8B05C006F5FDB /* SenseTest.m */; };
 		7B59C4E013E8CAF9006F5FDB /* SynsetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4DF13E8CAF9006F5FDB /* SynsetTest.m */; };
+		7B5ECF40141AAD5B00FD2D78 /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */; };
+		7B5ECF43141ABAD200FD2D78 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF42141ABAD200FD2D78 /* libsqlite3.dylib */; };
+		7B5ECF45141ABAF700FD2D78 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */; };
 		7B6953B613E6E3CC00B10519 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B69537B13E6E21700B10519 /* SenTestingKit.framework */; };
 		7B6953B713E6E3CC00B10519 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF113E3875400274E6C /* UIKit.framework */; };
 		7B6953B813E6E3CC00B10519 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF313E3875400274E6C /* Foundation.framework */; };
@@ -117,6 +120,8 @@
 		7B917A7B13EC3FFF00FBF365 /* DailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B917A7413EC3CD600FBF365 /* DailyWord.m */; };
 		7BB2270813E5A747005D454F /* AboutViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */; };
 		7BB2270913E5A747005D454F /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */; };
+		7BB9CEDC141C19F1000DD13B /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
+		7BB9CEDF141C21FA000DD13B /* Pointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDE141C21FA000DD13B /* Pointer.m */; };
 		7BCE75EA13E741C900D1CECC /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7BCE75E913E741C900D1CECC /* iTunesArtwork */; };
 		7BE9ABDF13E4C25500FB7402 /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */; };
 		7BE9ABE013E4C25500FB7402 /* DetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */; };
@@ -257,6 +262,9 @@
 		7B59C4DB13E8B05C006F5FDB /* SenseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SenseTest.m; sourceTree = "<group>"; };
 		7B59C4DE13E8CAF9006F5FDB /* SynsetTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetTest.h; sourceTree = "<group>"; };
 		7B59C4DF13E8CAF9006F5FDB /* SynsetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetTest.m; sourceTree = "<group>"; };
+		7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = production.sqlite3; sourceTree = "<group>"; };
+		7B5ECF42141ABAD200FD2D78 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7B69537B13E6E21700B10519 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		7B6953B513E6E3CC00B10519 /* DubsarTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6953BC13E6E3CC00B10519 /* DubsarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarTests-Info.plist"; sourceTree = "<group>"; };
@@ -289,6 +297,10 @@
 		7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_iPhone.m; sourceTree = "<group>"; };
 		7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPhone.xib; sourceTree = "<group>"; };
 		7BB2271713E5B93D005D454F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		7BB9CEDA141C19F1000DD13B /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Section.h; path = ../Section.h; sourceTree = "<group>"; };
+		7BB9CEDB141C19F1000DD13B /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Section.m; path = ../Section.m; sourceTree = "<group>"; };
+		7BB9CEDD141C21FA000DD13B /* Pointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pointer.h; sourceTree = "<group>"; };
+		7BB9CEDE141C21FA000DD13B /* Pointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pointer.m; sourceTree = "<group>"; };
 		7BCE75E913E741C900D1CECC /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		7BD5434A13EE23E400AACDD3 /* DubsarApplicationTests_iPad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarApplicationTests_iPad-Info.plist"; sourceTree = "<group>"; };
 		7BD5434C13EE23E400AACDD3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -315,6 +327,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B5ECF43141ABAD200FD2D78 /* libsqlite3.dylib in Frameworks */,
 				7B327FF213E3875400274E6C /* UIKit.framework in Frameworks */,
 				7B327FF413E3875400274E6C /* Foundation.framework in Frameworks */,
 				7B327FF613E3875400274E6C /* CoreGraphics.framework in Frameworks */,
@@ -325,6 +338,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B5ECF45141ABAF700FD2D78 /* libsqlite3.dylib in Frameworks */,
 				7B6953B613E6E3CC00B10519 /* SenTestingKit.framework in Frameworks */,
 				7B6953B713E6E3CC00B10519 /* UIKit.framework in Frameworks */,
 				7B6953B813E6E3CC00B10519 /* Foundation.framework in Frameworks */,
@@ -338,30 +352,9 @@
 		7B327FE213E3875400274E6C = {
 			isa = PBXGroup;
 			children = (
-				7BF51997140FE85C00994FC5 /* banner-handle-ipad.png */,
-				7B3D593D140E567A00EE838F /* banner-handle.png */,
-				7BF97904140D97AE00658F39 /* Default@2x.png */,
-				7BF97900140D976900658F39 /* Default-Portrait~ipad.png */,
-				7BF978FB140D975600658F39 /* Default-Landscape~ipad.png */,
-				7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */,
-				7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */,
-				7B917A4813EB5F1500FBF365 /* wedge-blue-l-hr.png */,
-				7B917A4913EB5F1500FBF365 /* wedge-blue-r-hr.png */,
-				7B917A4F13EB600600FBF365 /* wedge-blue-l.png */,
-				7B917A5013EB600600FBF365 /* wedge-blue-r.png */,
-				7BCE75E913E741C900D1CECC /* iTunesArtwork */,
-				7BB2271713E5B93D005D454F /* Default.png */,
-				7B32805113E3880700274E6C /* dubsar-ipad.png */,
-				7B32804B13E387E300274E6C /* dubsar-hr.png */,
-				7B32804913E387D500274E6C /* dubsar.png */,
-				7B32803313E387BF00274E6C /* dubsar-full.png */,
-				7B32803613E387BF00274E6C /* dubsar-link-hr.png */,
-				7B32803713E387BF00274E6C /* dubsar-link.png */,
-				7B32803813E387BF00274E6C /* dubsar-search-ipad.png */,
-				7B32803913E387BF00274E6C /* dubsar-spotlight-hr.png */,
-				7B32803A13E387BF00274E6C /* dubsar-spotlight.png */,
-				7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */,
-				7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */,
+				7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */,
+				7B5ECF42141ABAD200FD2D78 /* libsqlite3.dylib */,
+				7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */,
 				7B327FF713E3875400274E6C /* Dubsar */,
 				7B6953BA13E6E3CC00B10519 /* DubsarTests */,
 				7BF412BF13E8E81E00BAC92A /* DubsarApplicationTests_iPhone */,
@@ -413,8 +406,9 @@
 			isa = PBXGroup;
 			children = (
 				7B327FF913E3875400274E6C /* Dubsar-Info.plist */,
-				7B327FFA13E3875400274E6C /* InfoPlist.strings */,
 				7B327FFD13E3875400274E6C /* Dubsar-Prefix.pch */,
+				7B5ECF41141AAD8000FD2D78 /* Images */,
+				7B327FFA13E3875400274E6C /* InfoPlist.strings */,
 				7B327FFE13E3875400274E6C /* main.m */,
 			);
 			name = "Supporting Files";
@@ -530,10 +524,14 @@
 				7B32809613E38CEE00274E6C /* Model.m */,
 				7B32809713E38CEE00274E6C /* PartOfSpeechDictionary.h */,
 				7B32809813E38CEE00274E6C /* PartOfSpeechDictionary.m */,
+				7BB9CEDD141C21FA000DD13B /* Pointer.h */,
+				7BB9CEDE141C21FA000DD13B /* Pointer.m */,
 				7B32809913E38CEE00274E6C /* PointerDictionary.h */,
 				7B32809A13E38CEE00274E6C /* PointerDictionary.m */,
 				7B32809B13E38CEE00274E6C /* Search.h */,
 				7B32809C13E38CEE00274E6C /* Search.m */,
+				7BB9CEDA141C19F1000DD13B /* Section.h */,
+				7BB9CEDB141C19F1000DD13B /* Section.m */,
 				7B32809D13E38CEE00274E6C /* Sense.h */,
 				7B32809E13E38CEE00274E6C /* Sense.m */,
 				7B32809F13E38CEE00274E6C /* Synset.h */,
@@ -567,6 +565,38 @@
 				7B59C4D813E8AC9A006F5FDB /* WordTest.m */,
 			);
 			name = "Model Tests";
+			sourceTree = "<group>";
+		};
+		7B5ECF41141AAD8000FD2D78 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				7BF51997140FE85C00994FC5 /* banner-handle-ipad.png */,
+				7B3D593D140E567A00EE838F /* banner-handle.png */,
+				7BF97904140D97AE00658F39 /* Default@2x.png */,
+				7BF97900140D976900658F39 /* Default-Portrait~ipad.png */,
+				7BF978FB140D975600658F39 /* Default-Landscape~ipad.png */,
+				7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */,
+				7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */,
+				7B917A4813EB5F1500FBF365 /* wedge-blue-l-hr.png */,
+				7B917A4913EB5F1500FBF365 /* wedge-blue-r-hr.png */,
+				7B917A4F13EB600600FBF365 /* wedge-blue-l.png */,
+				7B917A5013EB600600FBF365 /* wedge-blue-r.png */,
+				7BCE75E913E741C900D1CECC /* iTunesArtwork */,
+				7BB2271713E5B93D005D454F /* Default.png */,
+				7B32805113E3880700274E6C /* dubsar-ipad.png */,
+				7B32804B13E387E300274E6C /* dubsar-hr.png */,
+				7B32804913E387D500274E6C /* dubsar.png */,
+				7B32803313E387BF00274E6C /* dubsar-full.png */,
+				7B32803613E387BF00274E6C /* dubsar-link-hr.png */,
+				7B32803713E387BF00274E6C /* dubsar-link.png */,
+				7B32803813E387BF00274E6C /* dubsar-search-ipad.png */,
+				7B32803913E387BF00274E6C /* dubsar-spotlight-hr.png */,
+				7B32803A13E387BF00274E6C /* dubsar-spotlight.png */,
+				7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */,
+				7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */,
+			);
+			name = Images;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		7B6953BA13E6E3CC00B10519 /* DubsarTests */ = {
@@ -749,6 +779,7 @@
 				7BF97905140D97AE00658F39 /* Default@2x.png in Resources */,
 				7B3D593E140E567A00EE838F /* banner-handle.png in Resources */,
 				7BF51998140FE85D00994FC5 /* banner-handle-ipad.png in Resources */,
+				7B5ECF40141AAD5B00FD2D78 /* production.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -822,6 +853,8 @@
 				7B8AEB3713E9D60600889E57 /* DubsarNavigationController_iPad.m in Sources */,
 				7B8AEB5113EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.m in Sources */,
 				7B917A7513EC3CD600FBF365 /* DailyWord.m in Sources */,
+				7BB9CEDC141C19F1000DD13B /* Section.m in Sources */,
+				7BB9CEDF141C21FA000DD13B /* Pointer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

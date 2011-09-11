@@ -83,7 +83,7 @@
     
     self.dailyWord = [[[DailyWord alloc]init]autorelease];
     dailyWord.delegate = self;
-    [dailyWord load];
+    [dailyWord loadFromServer];
     
     self.searchBar.text = @"";
     self.loading = true;

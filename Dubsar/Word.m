@@ -18,6 +18,7 @@
  */
 
 #import "JSONKit.h"
+#import "PartOfSpeechDictionary.h"
 #import "Sense.h"
 #import "Word.h"
 
@@ -48,6 +49,7 @@
         _id = theId;
         name = [theName retain];
         partOfSpeech = thePartOfSpeech;
+        inflections = [[NSString alloc]init];
         [self initUrl];
     }
     return self;
@@ -60,24 +62,7 @@
         _id = theId;
         name = [theName retain];
         
-        if ([posString isEqualToString:@"adj"]) {
-            partOfSpeech = POSAdjective;
-            
-        } else if ([posString isEqualToString:@"adv"]) {
-            partOfSpeech = POSAdverb;
-        } else if ([posString isEqualToString:@"conj"]) {
-            partOfSpeech = POSConjunction;
-        } else if ([posString isEqualToString:@"interj"]) {
-            partOfSpeech = POSInterjection;
-        } else if ([posString isEqualToString:@"n"]) {
-            partOfSpeech = POSNoun;
-        } else if ([posString isEqualToString:@"prep"]) {
-            partOfSpeech = POSPreposition;
-        } else if ([posString isEqualToString:@"pron"]) {
-            partOfSpeech = POSPronoun;
-        } else if ([posString isEqualToString:@"v"]) {
-            partOfSpeech = POSVerb;
-        }
+        partOfSpeech = [PartOfSpeechDictionary partOfSpeechFromPOS:posString];
         [self initUrl];
     }
     return self;
@@ -93,31 +78,113 @@
 
 -(NSString*)pos
 {
-    switch (partOfSpeech) {
-        case POSAdjective:
-            return @"adj";
-        case POSAdverb:
-            return @"adv";
-        case POSConjunction:
-            return @"conj";
-        case POSInterjection:
-            return @"interj";
-        case POSNoun:
-            return @"n";
-        case POSPreposition:
-            return @"prep";
-        case POSPronoun:
-            return @"pron";
-        case POSVerb:
-            return @"v";
-        default:
-            return @"..";
-    }
+    return [PartOfSpeechDictionary posFromPartOfSpeech:partOfSpeech];
 }
 
 -(NSString *)nameAndPos
 {
     return [NSString stringWithFormat:@"%@ (%@.)", name, self.pos];
+}
+
+-(void)loadResults:(DubsarAppDelegate *)appDelegate
+{
+    NSString* sql = [NSString stringWithFormat:
+                     @"SELECT w.name, w.part_of_speech, w.freq_cnt, i.name "
+                     @"FROM words w "
+                     @"INNER JOIN inflections i ON w.id = i.word_id "
+                     @"WHERE w.id = %d "
+                     @"ORDER BY i.name ASC ", _id];
+    int rc;
+    sqlite3_stmt* statement;
+    NSLog(@"preparing statement \"%@\"", sql);
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
+        NSLog(@"%@", self.errorMessage);
+        return;
+    }
+    
+    while ((rc=sqlite3_step(statement)) == SQLITE_ROW) {
+        char const* _name = (char const*)sqlite3_column_text(statement, 0);
+        char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 1);
+        freqCnt = sqlite3_column_int(statement, 2);
+        char const* _inflection = (char const*)sqlite3_column_text(statement, 3);
+        
+        self.name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+        
+        NSString* inflection = [NSString stringWithCString:_inflection encoding:NSUTF8StringEncoding];
+        [self addInflection:inflection];
+        
+        if (partOfSpeech == POSUnknown) {
+            partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
+        }
+    }
+    
+    sqlite3_finalize(statement);
+
+    sql = [NSString stringWithFormat:@"SELECT se.id, sy.definition, sy.lexname, se.freq_cnt, se.marker, sy.id "
+           @"FROM senses se "
+           @"INNER JOIN synsets sy ON se.synset_id = sy.id "
+           @"WHERE se.word_id = %d "
+           @"ORDER BY se.freq_cnt DESC ", _id];
+    
+    NSLog(@"preparing statement \"%@\"", sql);
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
+        NSLog(@"%@", self.errorMessage);
+        return;
+    }
+    
+    self.senses = [NSMutableArray array];
+    
+    while (sqlite3_step(statement) == SQLITE_ROW) {
+        int senseId = sqlite3_column_int(statement, 0);
+        char const* _definition = (char const*)sqlite3_column_text(statement, 1);
+        char const* _lexname = (char const*)sqlite3_column_text(statement, 2);
+        int senseFC = sqlite3_column_int(statement, 3);
+        char const* _marker = (char const*)sqlite3_column_text(statement, 4);
+        int synsetId = sqlite3_column_int(statement, 5);
+        
+        NSMutableArray* synonyms = [NSMutableArray array];
+        
+        NSString* synSql = [NSString stringWithFormat:@"SELECT s.id, w.name "
+                            @"FROM senses s "
+                            @"INNER JOIN words w ON w.id = s.word_id "
+                            @"WHERE s.synset_id = %d AND w.name != '%@' "
+                            @"ORDER BY w.name ASC ", synsetId, name];
+        
+        sqlite3_stmt* synStatement;
+        NSLog(@"preparing statement \"%@\"", synSql);
+        if ((rc=sqlite3_prepare_v2(appDelegate.database, [synSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &synStatement, NULL))
+            != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
+            sqlite3_finalize(statement);
+            return;
+        }
+        
+        while (sqlite3_step(synStatement) == SQLITE_ROW) {
+            int synonymSenseId = sqlite3_column_int(synStatement, 0);
+            char const* _synonym = (char const*)sqlite3_column_text(synStatement, 1);
+            
+            NSLog(@"synonym %s (%d)", _synonym, synonymSenseId);
+    
+            Sense* synonym = [Sense senseWithId:synonymSenseId name:[NSString stringWithCString:_synonym encoding:NSUTF8StringEncoding] partOfSpeech:partOfSpeech];
+            [synonyms addObject:synonym];
+        }
+        
+        NSString* definition = [NSString stringWithCString:_definition encoding:NSUTF8StringEncoding];
+        NSString* gloss = [[definition componentsSeparatedByString:@"; \""]objectAtIndex:0];
+        
+        Sense* sense = [Sense senseWithId:senseId gloss:gloss synonyms:synonyms word:self];
+        sense.lexname = [NSString stringWithCString:_lexname encoding:NSUTF8StringEncoding];
+        sense.freqCnt = senseFC;
+        sense.marker = _marker == NULL ? nil : [NSString stringWithCString:_marker encoding:NSUTF8StringEncoding];
+        [senses addObject:sense];
+        
+        NSLog(@"added sense ID %d, gloss \"%@\", lexname \"%@\", freq. cnt. %d", senseId, gloss, sense.lexname, senseFC);
+    }
+    
+    sqlite3_finalize(statement);
+    NSLog(@"completed word query");
 }
 
 -(void)parseData
@@ -169,6 +236,18 @@
     return freqCnt < word.freqCnt ? NSOrderedDescending : 
         freqCnt > word.freqCnt ? NSOrderedAscending : 
         NSOrderedSame;
+}
+
+- (void)addInflection:(NSString*)inflection
+{
+    if ([inflection compare:name options:NSCaseInsensitiveSearch] == NSOrderedSame) return;
+
+    if (inflections == nil || inflections.length == 0) {
+        self.inflections = inflection;
+    }
+    else {
+        self.inflections = [inflections stringByAppendingFormat:@", %@", inflection];
+    }
 }
 
 @end

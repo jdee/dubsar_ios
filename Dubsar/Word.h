@@ -40,6 +40,7 @@
 
 -(void)parseData;
 -(void)initUrl;
+-(void)addInflection:(NSString*)inflection;
 
 - (NSComparisonResult)compareFreqCnt:(Word*)word;
 

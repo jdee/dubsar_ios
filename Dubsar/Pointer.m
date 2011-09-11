@@ -17,21 +17,29 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Model.h"
+#import "Pointer.h"
 
+@implementation Pointer
+@synthesize targetType;
+@synthesize targetId;
+// @synthesize targetName;
+@synthesize targetText;
+@synthesize targetGloss;
 
-@interface Autocompleter : Model {
-    NSString* term;
-    NSMutableArray* _results;    
++ (id)pointer
+{
+    return [[[self alloc]init]autorelease];
 }
 
-@property (nonatomic) BOOL matchCase;
-@property (nonatomic) NSInteger seqNum;
-@property (nonatomic, retain) NSString* term;
-@property (nonatomic, retain) NSMutableArray* results;
-
-+(id)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
-
--(id)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase;
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        targetType = targetText = targetGloss =/* targetName =*/ nil;
+        targetId = 0;
+    }
+    
+    return self;
+}
 
 @end

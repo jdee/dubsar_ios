@@ -63,11 +63,6 @@
     if (self.loading) return;
     
     [word load];
-
-    tableView.hidden = NO;
-    word.complete = word.error = false;
-    inflectionsTextView.text = @"loading...";
-    [tableView reloadData];
     self.loading = true;
 }
 

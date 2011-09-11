@@ -40,8 +40,6 @@
 +(id)searchWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle;
 -(id)initWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum;
 
--(void)parseData;
-
 -(Search*)newSearchForPage:(int)page;
 
 @end

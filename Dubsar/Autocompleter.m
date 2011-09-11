@@ -57,6 +57,84 @@
     [super dealloc];
 }
 
+/*
+- (void)load
+{
+    [NSThread detachNewThreadSelector:@selector(databaseThread) toTarget:self withObject:nil];
+}
+ */
+
+- (void)loadResults:(DubsarAppDelegate*)appDelegate
+{
+    NSString* sql = [NSString stringWithFormat:@"SELECT w.name "
+                     @"FROM inflections i "
+                     @"INNER JOIN words w "
+                     @"ON w.id = i.word_id "
+                     @"WHERE i.name = '%@' "
+                     @"ORDER BY w.name ASC", _term];
+    NSLog(@"preparing statement \"%@\"", sql);
+    sqlite3_stmt* statement;
+    int rc;
+    if ((rc=sqlite3_prepare_v2(appDelegate.database,
+                               [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
+        return;
+    }
+    else {
+        NSLog(@"prepared statement successfully");
+    }
+    
+    NSString* exactMatch = nil;
+    while (sqlite3_step(statement) == SQLITE_ROW) {
+        char const* _wName = (char const*)sqlite3_column_text(statement, 0);
+        char const* _iName = (char const*)sqlite3_column_text(statement, 1);
+        NSLog(@"autocompleter matched WORD %s, INFLECTION %s", _wName, _iName);
+        NSString* wName = [NSString stringWithCString:_wName encoding:NSUTF8StringEncoding];
+
+        if (exactMatch == nil) exactMatch = _term;
+        
+        if ([wName compare:exactMatch options:NSCaseInsensitiveSearch] == NSOrderedSame &&
+            [wName compare:exactMatch] == NSOrderedAscending) {
+            exactMatch = wName;
+        }
+    }
+    sqlite3_finalize(statement);
+    
+    if (exactMatch != nil) {
+        self.results = [NSMutableArray arrayWithObject:exactMatch];
+    }
+    else {
+        self.results = [NSMutableArray array];
+    }
+    
+    sql = [NSString stringWithFormat:
+           @"SELECT DISTINCT name "
+           @"FROM words "
+           @"WHERE name > '%@' AND name < '%@' "
+           @"ORDER BY name ASC "
+           @"LIMIT %d", _term, [self.class incrementString:_term], (exactMatch != nil ? 9 : 10)];
+    NSLog(@"preparing statement \"%@\"", sql);
+
+    if ((rc=sqlite3_prepare_v2(appDelegate.database,
+                               [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
+        return;
+    }
+    else {
+        NSLog(@"prepared statement successfully");
+    }
+    
+    NSLog(@"searching DB for autcompleter matches");
+    while (sqlite3_step(statement) == SQLITE_ROW) {
+        char const* _name = (char const*)sqlite3_column_text(statement, 0);
+        NSString* match = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+        
+        [_results addObject:match];
+    }
+    sqlite3_finalize(statement);
+    NSLog(@"done searching for autocompleter matches");
+}
+
 - (void)parseData
 {
     NSArray* response = [[self decoder] objectWithData:[self data]];

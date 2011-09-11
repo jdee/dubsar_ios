@@ -19,24 +19,14 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Dubsar.h"
+@interface Pointer : NSObject
 
-@interface PartOfSpeechDictionary : NSObject {
-    NSMutableDictionary* dictionary;
-    NSMutableDictionary* verboseDictionary;
-}
+@property (nonatomic, retain) NSString* targetType;
+@property (nonatomic) int targetId;
+// @property (nonatomic, retain) NSString* targetName;
+@property (nonatomic, retain) NSString* targetText;
+@property (nonatomic, retain) NSString* targetGloss;
 
-@property (nonatomic, retain) NSDictionary* dictionary;
-
-- (PartOfSpeech)partOfSpeechFromPOS:(NSString*)pos;
-- (PartOfSpeech)partOfSpeechFrom_part_of_speech:(char const*)part_of_speech;
-- (NSString*)posFromPartOfSpeech:(PartOfSpeech)partOfSpeech;
-- (void)setupDictionary;
-- (void)setValue:(PartOfSpeech)partOfSpeech forKey:(NSString*)pos;
-- (void)setVerboseValue:(PartOfSpeech)partOfSpeech forKey:(NSString*)part_of_speech;
-+ (PartOfSpeechDictionary*)instance;
-+ (PartOfSpeech)partOfSpeechFromPOS:(NSString*)pos;
-+ (NSString*)posFromPartOfSpeech:(PartOfSpeech)partOfSpeech;
-+ (PartOfSpeech)partOfSpeechFrom_part_of_speech:(char const*)part_of_speech;
++ (id)pointer;
 
 @end

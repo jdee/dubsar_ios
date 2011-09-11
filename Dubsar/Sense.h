@@ -20,11 +20,15 @@
 #import "Dubsar.h"
 #import "Model.h"
 
+@class Pointer;
 @class Synset;
 @class Word;
 
 @interface Sense : Model {
     bool weakSynsetLink, weakWordLink;
+    sqlite3_stmt* pointerQuery;
+    sqlite3_stmt* lexicalQuery;
+    sqlite3_stmt* semanticQuery;
 }
 
 @property int _id;
@@ -44,6 +48,9 @@
 @property (nonatomic, retain) NSMutableArray* samples;
 @property (nonatomic, retain) NSMutableDictionary* pointers;
 
+@property (nonatomic) int numberOfSections;
+@property (nonatomic, retain) NSMutableArray* sections;
+
 +(id)senseWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
 +(id)senseWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 +(id)senseWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
@@ -62,5 +69,12 @@
 
 -(NSString*)synonymsAsString;
 -(void)parseNameAndPos:(NSString*)nameAndPos;
+
+// -(void)loadPointers:(DubsarAppDelegate*)appDelegate;
+// -(void)countPointers:(DubsarAppDelegate*)appDelegate;
+
+-(void)prepareStatements;
+-(void)destroyStatements;
+-(Pointer*)pointerForRowAtIndexPath:(NSIndexPath*)indexPath;
 
 @end

@@ -19,6 +19,9 @@
 
 #import "JSONKit.h"
 #import "PartOfSpeechDictionary.h"
+#import "Pointer.h"
+#import "PointerDictionary.h"
+#import "Section.h"
 #import "Sense.h"
 #import "Synset.h"
 #import "Word.h"
@@ -33,6 +36,7 @@
 @synthesize samples;
 @synthesize senses;
 @synthesize pointers;
+@synthesize sections;
 
 + (id)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
@@ -55,6 +59,7 @@
         samples = nil;
         senses = nil;
         [self set_url: [NSString stringWithFormat:@"/synsets/%d", _id]];
+        [self prepareStatements];
     }
     return self;
 
@@ -71,12 +76,14 @@
         samples = nil;
         senses = nil;
         [self set_url: [NSString stringWithFormat:@"/synsets/%d", _id]];
+        [self prepareStatements];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [self destroyStatements];
     [pointers release];
     [senses release];
     [samples release];
@@ -88,7 +95,7 @@
 - (void)parseData
 {
     NSArray* response = [[self decoder] objectWithData:[self data]];
-    partOfSpeech = [PartOfSpeechDictionary partofSpeechFromPOS:[response objectAtIndex:1]];
+    partOfSpeech = [PartOfSpeechDictionary partOfSpeechFromPOS:[response objectAtIndex:1]];
     lexname = [[response objectAtIndex:2] retain];
     NSLog(@"lexname: \"%@\"", lexname);
     if (!gloss) {
@@ -152,7 +159,6 @@
 
 -(NSString*)synonymsAsString
 {
-    
     NSString* synonymList = [NSString string];
     
     /* 
@@ -175,5 +181,229 @@
 #endif // AUTORELEASE_POOL_FOR_SYNONYMS    
     return synonymList;
 }
+
+
+- (void)loadResults:(DubsarAppDelegate *)appDelegate
+{
+    NSString* sql = [NSString stringWithFormat:
+                     @"SELECT sy.definition, sy.lexname, sy.part_of_speech, se.freq_cnt, se.id, w.name "
+                     @"FROM senses se "
+                     @"INNER JOIN synsets sy ON sy.id = se.synset_id "
+                     @"INNER JOIN words w ON se.word_id = w.id "
+                     @"WHERE sy.id = %d ", _id];
+    
+    int rc;
+    sqlite3_stmt* statement;
+    
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
+        return;
+    }
+    
+    NSLog(@"executing %@", sql);
+    freqCnt = 0;
+    self.senses = [NSMutableArray array];
+    while (sqlite3_step(statement) == SQLITE_ROW) {
+        char const* _definition = (char const*)sqlite3_column_text(statement, 0);
+        char const* _lexname = (char const*)sqlite3_column_text(statement, 1);
+        char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
+        freqCnt += sqlite3_column_int(statement, 3);
+        int senseId = sqlite3_column_int(statement, 4);
+        char const* _name = (char const*)sqlite3_column_text(statement, 5);
+ 
+        if (samples == nil) {
+            partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
+            
+            self.lexname = [NSString stringWithCString:_lexname encoding:NSUTF8StringEncoding];
+            
+            NSString* definition = [NSString stringWithCString:_definition encoding:NSUTF8StringEncoding];
+            NSArray* components = [definition componentsSeparatedByString:@"; \""];
+            self.gloss = [components objectAtIndex:0];
+            
+            self.samples = [NSMutableArray array];
+            if (components.count > 1) {
+                NSRange range;
+                range.location = 1;
+                range.length = components.count - 1;
+                NSArray* sampleArray = [components subarrayWithRange:range];
+                
+                for (int j=0; j<sampleArray.count; ++j) {
+                    NSString* sample = [sampleArray objectAtIndex:j];
+                    sample = [sample stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+                    if (sample.length > 0 && [sample characterAtIndex:sample.length-1] == '"') {
+                        sample = [sample substringToIndex:sample.length-1];
+                    }
+                    [samples addObject:sample];
+                }
+            }
+        }
+        
+        Sense* synonym = [Sense senseWithId:senseId name:[NSString stringWithCString:_name encoding:NSUTF8StringEncoding] partOfSpeech:partOfSpeech];
+        [senses addObject:synonym];
+    }
+    sqlite3_finalize(statement);
+}
+
+-(int)numberOfSections
+{
+    NSLog(@"in numberOfSections");
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)UIApplication.sharedApplication.delegate;
+    
+    NSString* sql;
+    int rc;
+    sqlite3_stmt* statement;
+    
+    self.sections = [NSMutableArray array];
+    
+    if (senses.count > 0) {
+        Section* section = [Section section];
+        section.header = @"Synonyms";
+        section.footer = [PointerDictionary helpWithPointerType:@"synonym"];
+        section.linkType = @"sense";
+        section.ptype = @"synonym";
+        section.numRows = senses.count;
+        [sections addObject:section];
+    }
+    if (samples.count > 0) {
+        Section* section = [Section section];
+        section.header = @"Samples";
+        section.footer = [PointerDictionary helpWithPointerType:@"sample sentence"];
+        section.linkType = @"sample";
+        section.ptype = @"sample sentence";
+        section.numRows = samples.count;
+        [sections addObject:section];
+    }
+    
+    sql = [NSString stringWithFormat:
+           @"SELECT DISTINCT ptype FROM pointers WHERE source_id = %d AND source_type = 'Synset' ", _id];
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
+        NSLog(@"%@", self.errorMessage);
+        return 1;
+    }
+    
+    NSLog(@"executing %@", sql);
+    while (sqlite3_step(statement) == SQLITE_ROW) {
+        char const* _ptype = (char const*)sqlite3_column_text(statement, 0);
+        
+        Section* section = [Section section];
+        section.ptype = [NSString stringWithCString:_ptype encoding:NSUTF8StringEncoding];
+        section.header = [PointerDictionary titleWithPointerType:section.ptype];
+        section.footer = [PointerDictionary helpWithPointerType:section.ptype];
+        section.ptype = [NSString stringWithCString:_ptype encoding:NSUTF8StringEncoding];
+        section.senseId = 0;
+        section.synsetId = _id;
+        section.linkType = @"pointer";
+        [sections addObject:section];
+    }
+    sqlite3_finalize(statement);
+    NSLog(@"%d sections in tableView", sections.count);
+    return sections.count;
+}
+
+- (Pointer*)pointerForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    Section* section = [sections objectAtIndex:indexPath.section];
+    Pointer* pointer = [Pointer pointer];
+    
+    if ([section.ptype isEqualToString:@"synonym"]) {
+        Sense* synonym = [senses objectAtIndex:indexPath.row];
+        NSLog(@"requesting synonym %@", synonym.name);
+        pointer.targetText = synonym.name;
+        pointer.targetId = synonym._id;
+        pointer.targetType = @"sense";
+    }
+    else if ([section.ptype isEqualToString:@"sample sentence"]) {
+        pointer.targetText = [samples objectAtIndex:indexPath.row];
+    }
+    else {
+        /* DEBT: Get text binding to work so that this query can be prepared in advance. */
+        DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)UIApplication.sharedApplication.delegate;
+        int rc;
+        sqlite3_stmt* statement;
+        NSString* sql = [NSString stringWithFormat:@"SELECT id, target_id, target_type "
+                         @"FROM pointers "
+                         @"WHERE source_id = %d AND source_type = 'Synset' AND "
+                         @"ptype = '%@' "
+                         @"ORDER BY id ASC "
+                         @"LIMIT 1 "
+                         @"OFFSET %d ", _id, section.ptype, indexPath.row];
+        if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"error %d preparing statement", rc);
+            return pointer;
+        }        
+        
+        if (sqlite3_step(statement) == SQLITE_ROW) {
+            pointer.targetId = sqlite3_column_int(statement, 1);
+            char const* _targetType = (char const*)sqlite3_column_text(statement, 2);
+            pointer.targetType = [NSString stringWithCString:_targetType encoding:NSUTF8StringEncoding];
+            
+            if ((rc=sqlite3_reset(semanticQuery)) != SQLITE_OK) {
+                NSLog(@"error %d resetting semantic query", rc);
+            }
+            if ((rc=sqlite3_bind_int(semanticQuery, 1, pointer.targetId)) != SQLITE_OK) {
+                NSLog(@"error %d binding semantic query", rc);
+            }
+            
+            /* semantic pointers */
+            NSMutableArray* wordList = [NSMutableArray array];
+            PartOfSpeech ptrPartOfSpeech=POSUnknown;
+            if (sqlite3_step(semanticQuery) == SQLITE_ROW) {
+                char const* _name;
+                char const* _part_of_speech;
+                if (pointer.targetGloss == nil) {
+                    _name = (char const*)sqlite3_column_text(semanticQuery, 0);
+                    _part_of_speech = (char const*)sqlite3_column_text(semanticQuery, 1);
+                    char const* _definition = (char const*)sqlite3_column_text(semanticQuery, 2);
+                    NSString* definition = [NSString stringWithCString:_definition encoding:NSUTF8StringEncoding];
+                    
+                    pointer.targetGloss = [[definition componentsSeparatedByString:@"; \""]objectAtIndex:0];
+                    ptrPartOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
+                }
+                
+                [wordList addObject:[NSString stringWithCString:_name encoding:NSUTF8StringEncoding]];
+            }
+            
+            NSString* words = [NSString string];
+            for (int j=0; j<wordList.count-1; ++j) {
+                words = [words stringByAppendingFormat:@"%@, ", [wordList objectAtIndex:j]];
+            }
+            if (wordList.count > 0) {
+                words = [words stringByAppendingString:[wordList objectAtIndex:wordList.count-1]];
+            }
+            
+            pointer.targetText = [NSString stringWithFormat:@"%@ (%@.)", words, [PartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
+        }
+        sqlite3_finalize(statement);
+        
+    }
+    
+    return pointer;
+}
+
+-(void)prepareStatements
+{
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)UIApplication.sharedApplication.delegate;
+    int rc;
+    
+    char const* csql = "SELECT w.name, w.part_of_speech, sy.definition "
+    "FROM synsets sy "
+    "INNER JOIN senses se ON se.synset_id = sy.id "
+    "INNER JOIN words w ON w.id = se.word_id "
+    "WHERE sy.id = ? "
+    "ORDER BY w.name ASC";
+    
+    NSLog(@"preparing semantic query %s", csql);
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
+        NSLog(@"error %d preparing semantic query", rc);
+        return;
+    }
+}
+
+-(void)destroyStatements
+{
+    sqlite3_finalize(semanticQuery);
+}
+
 
 @end

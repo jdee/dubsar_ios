@@ -17,21 +17,16 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Model.h"
+@interface Section : NSObject
 
+@property (nonatomic, retain) NSString* header;
+@property (nonatomic, retain) NSString* footer;
+@property (nonatomic, retain) NSString* linkType;
+@property (nonatomic, retain) NSString* ptype;
+@property (nonatomic) int numRows;
+@property (nonatomic) int senseId;
+@property (nonatomic) int synsetId;
 
-@interface Autocompleter : Model {
-    NSString* term;
-    NSMutableArray* _results;    
-}
-
-@property (nonatomic) BOOL matchCase;
-@property (nonatomic) NSInteger seqNum;
-@property (nonatomic, retain) NSString* term;
-@property (nonatomic, retain) NSMutableArray* results;
-
-+(id)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
-
--(id)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase;
++ (id)section;
 
 @end

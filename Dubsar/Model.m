@@ -18,6 +18,7 @@
  */
 
 #import "Dubsar.h"
+#import "DubsarAppDelegate.h"
 #import "JSONKit.h"
 #import "LoadDelegate.h"
 #import "Model.h"
@@ -59,14 +60,47 @@
     [super dealloc];
 }
 
--(void)load
-{   
+- (void)load
+{
+    [self loadResults:(DubsarAppDelegate*)UIApplication.sharedApplication.delegate];    
+    complete = true;
+    error = errorMessage != nil;
+    
+    if (delegate != nil) [delegate loadComplete:self withError:errorMessage];
+}
+
+- (void)databaseThread
+{
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
+    [self loadResults:(DubsarAppDelegate*)UIApplication.sharedApplication.delegate];
+    complete = true;
+    error = errorMessage != nil;
+    
+    if (delegate != nil) [delegate loadComplete:self withError:errorMessage];
+    [pool release];
+}
+
+/* temporary implementation */
+- (void)loadResults:(DubsarAppDelegate*)appDelegate
+{
+    
+}
+
++(NSString*)incrementString:(NSString*)string
+{
+    NSString* first = [string substringToIndex:[string length]-1];
+    unichar last = [string characterAtIndex:[string length]-1];
+    return [NSString stringWithFormat:@"%@%c", first, ++last];
+}
+
+-(void)loadFromServer
+{
     url = [[NSString stringWithFormat:@"%@%@", DubsarBaseUrl, _url]retain];
     NSURL* nsurl = [NSURL URLWithString:url];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:nsurl];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-   
+    
     connection = [[NSURLConnection connectionWithRequest:request delegate:self]retain];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -74,6 +108,9 @@
     NSLog(@"requesting %@", url);
 }
 
+/* 
+ * TODO: Migrate several methods to DailyWord class.
+ */
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
