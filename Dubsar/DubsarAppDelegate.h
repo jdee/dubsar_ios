@@ -33,6 +33,8 @@
 @property (nonatomic, retain) UIFont* dubsarSmallFont;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic) sqlite3* database;
+@property (nonatomic) sqlite3_stmt* exactAutocompleterStmt;
+@property (nonatomic) sqlite3_stmt* autocompleterStmt;
 
 - (void)prepareDatabase;
 

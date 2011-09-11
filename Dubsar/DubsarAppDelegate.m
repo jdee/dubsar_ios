@@ -28,6 +28,8 @@
 @synthesize dubsarNormalFont;
 @synthesize dubsarSmallFont;
 @synthesize database;
+@synthesize exactAutocompleterStmt;
+@synthesize autocompleterStmt;
 
 - (id)init
 {
@@ -90,6 +92,8 @@
 
 - (void)dealloc
 {
+    sqlite3_finalize(autocompleterStmt);
+    sqlite3_finalize(exactAutocompleterStmt);
     sqlite3_close(database);
     [dubsarFontFamily release];
     [dubsarNormalFont release];
@@ -154,6 +158,41 @@
     }
     
     NSLog(@"successfully opened database %@", PRODUCTION_DB_NAME);
+    NSString* sql = @"SELECT w.name "
+    @"FROM inflections i "
+    @"INNER JOIN words w "
+    @"ON w.id = i.word_id "
+    @"WHERE i.name = ? "
+    @"ORDER BY w.name ASC";
+    NSLog(@"preparing statement \"%@\"", sql);
+    if ((rc=sqlite3_prepare_v2(database,
+                               [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &exactAutocompleterStmt, NULL)) != SQLITE_OK) {
+        NSLog(@"error preparing exact match statement, error %d", rc);
+        return;
+    }
+    else {
+        NSLog(@"prepared statement successfully");
+    }
+    
+    /*
+     * This is a faster way to do case-insensitive autocompletion than joining the inflections table.
+     */
+    sql = @"SELECT DISTINCT name "
+    @"FROM words "
+    @"WHERE name > ? AND name < ? AND NOT name LIKE ? AND name LIKE ? "
+    @"ORDER BY name ASC "
+    @"LIMIT ?";
+    
+    NSLog(@"preparing statement \"%@\"", sql);
+    
+    if ((rc=sqlite3_prepare_v2(database,
+                               [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &autocompleterStmt, NULL)) != SQLITE_OK) {
+        NSLog(@"error preparing match statement, error %d", rc);
+        return;
+    }
+    else {
+        NSLog(@"prepared statement successfully");
+    }
 }
 
 @end

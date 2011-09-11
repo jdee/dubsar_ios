@@ -70,33 +70,18 @@
 
 - (void)loadResults:(DubsarAppDelegate*)appDelegate
 {
-    NSString* sql = @"SELECT w.name "
-                     @"FROM inflections i "
-                     @"INNER JOIN words w "
-                     @"ON w.id = i.word_id "
-                     @"WHERE i.name = ? "
-                     @"ORDER BY w.name ASC";
-    // NSLog(@"preparing statement \"%@\"", sql);
-    sqlite3_stmt* statement;
-    int rc;
-    if ((rc=sqlite3_prepare_v2(appDelegate.database,
-                               [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error preparing exact match statement, error %d", rc];
-        return;
-    }
-    else {
-        // NSLog(@"prepared statement successfully");
-    }
+    sqlite3_reset(appDelegate.exactAutocompleterStmt);
+    sqlite3_reset(appDelegate.autocompleterStmt);
     
-    if ((rc=sqlite3_bind_text(statement, 1, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+    int rc;
+    if ((rc=sqlite3_bind_text(appDelegate.exactAutocompleterStmt, 1, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        sqlite3_finalize(statement);
         return;
     }
     
     NSString* exactMatch = nil;
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-        char const* _wName = (char const*)sqlite3_column_text(statement, 0);
+    while (sqlite3_step(appDelegate.exactAutocompleterStmt) == SQLITE_ROW) {
+        char const* _wName = (char const*)sqlite3_column_text(appDelegate.exactAutocompleterStmt, 0);
         NSString* wName = [NSString stringWithCString:_wName encoding:NSUTF8StringEncoding];
 
         if (exactMatch == nil) exactMatch = _term;
@@ -106,7 +91,6 @@
             exactMatch = wName;
         }
     }
-    sqlite3_finalize(statement);
     
     if (exactMatch != nil) {
         NSLog(@"found exact match %@", exactMatch);
@@ -115,61 +99,36 @@
     else {
         self.results = [NSMutableArray array];
     }
-
-    /*
-     * This is a faster way to do case-insensitive autocompletion than joining the inflections table.
-     */
-    sql = @"SELECT DISTINCT name "
-           @"FROM words "
-           @"WHERE name > ? AND name < ? AND NOT name LIKE ? AND name LIKE ? "
-           @"ORDER BY name ASC "
-           @"LIMIT ?";
     
-    // NSLog(@"preparing statement \"%@\"", sql);
-
-    if ((rc=sqlite3_prepare_v2(appDelegate.database,
-                               [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error preparing match statement, error %d", rc];
+    if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 1, [[_term uppercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
         return;
     }
-    else {
-        // NSLog(@"prepared statement successfully");
-    }
-    
-    if ((rc=sqlite3_bind_text(statement, 1, [[_term uppercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+    if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 2, [[[self.class incrementString:_term]lowercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        sqlite3_finalize(statement);
         return;
     }
-    if ((rc=sqlite3_bind_text(statement, 2, [[[self.class incrementString:_term]lowercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+    if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 3, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        sqlite3_finalize(statement);
         return;
     }
-    if ((rc=sqlite3_bind_text(statement, 3, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+    if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 4, [[_term stringByAppendingString:@"%"]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        sqlite3_finalize(statement);
         return;
     }
-    if ((rc=sqlite3_bind_text(statement, 4, [[_term stringByAppendingString:@"%"]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+    if ((rc=sqlite3_bind_int(appDelegate.autocompleterStmt, 5, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        sqlite3_finalize(statement);
-        return;
-    }
-    if ((rc=sqlite3_bind_int(statement, 5, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        sqlite3_finalize(statement);
         return;    
     }
     
     // NSLog(@"searching DB for autcompleter matches");
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-        char const* _name = (char const*)sqlite3_column_text(statement, 0);
+    while (sqlite3_step(appDelegate.autocompleterStmt) == SQLITE_ROW) {
+        char const* _name = (char const*)sqlite3_column_text(appDelegate.autocompleterStmt, 0);
         NSString* match = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
         
         [_results addObject:match];
     }
-    sqlite3_finalize(statement);
+
     // NSLog(@"done searching for autocompleter matches");
     NSLog(@"found %d matches: ", _results.count);
     for (int j=0; j<_results.count; ++j) {
