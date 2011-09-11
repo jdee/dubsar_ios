@@ -108,13 +108,16 @@
     else {
         self.results = [NSMutableArray array];
     }
-    
+
+    /*
+     * This is a faster way to do case-insensitive autocompletion than joining the inflections table.
+     */
     sql = [NSString stringWithFormat:
            @"SELECT DISTINCT name "
            @"FROM words "
-           @"WHERE name > '%@' AND name < '%@' "
+           @"WHERE name > '%@' AND name < '%@' AND name LIKE '%@%%' "
            @"ORDER BY name ASC "
-           @"LIMIT %d", _term, [self.class incrementString:_term], (exactMatch != nil ? 9 : 10)];
+           @"LIMIT %d", [_term uppercaseString], [[self.class incrementString:_term]lowercaseString], _term, (exactMatch != nil ? 9 : 10)];
     NSLog(@"preparing statement \"%@\"", sql);
 
     if ((rc=sqlite3_prepare_v2(appDelegate.database,
