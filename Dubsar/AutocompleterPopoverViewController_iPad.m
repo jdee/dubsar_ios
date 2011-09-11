@@ -38,6 +38,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [autocompleter release];
+    [super dealloc];
+}
+
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -169,12 +175,12 @@
     [popoverController dismissPopoverAnimated:YES];
     
     NSString* text = [autocompleter.results objectAtIndex:indexPath.row];
-    [searchBar setText:text];
+    // [searchBar setText:text];
     [searchBar resignFirstResponder];
     
     NSLog(@"searching for \"%@\"", text);
     
-    SearchViewController_iPad* searchViewController = [[[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text: text matchCase:NO]autorelease];
+    SearchViewController_iPad* searchViewController = [[[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text:[text lowercaseString] matchCase:NO]autorelease];
     [searchViewController load];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }

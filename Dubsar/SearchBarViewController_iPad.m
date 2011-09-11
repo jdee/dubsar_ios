@@ -34,7 +34,6 @@
 @synthesize autocompleter;
 @synthesize searchBar;
 @synthesize autocompleterTableView;
-@synthesize caseSwitch;
 @synthesize wotdButton;
 @synthesize searchText=_searchText;
 @synthesize dailyWord;
@@ -68,7 +67,6 @@
     [_searchText release];
     [searchBar release];
     [autocompleterTableView release];
-    [caseSwitch release];
     [wotdButton release];
     [super dealloc];
 }
@@ -101,7 +99,6 @@
 {
     [self setSearchBar:nil];
     [self setAutocompleterTableView:nil];
-    [self setCaseSwitch:nil];
     [self setWotdButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -113,7 +110,7 @@
     [theSearchBar resignFirstResponder];
     [popoverController dismissPopoverAnimated:YES];
     
-    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil text:_searchText matchCase:caseSwitch.on];
+    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil text:_searchText matchCase:NO];
     [searchViewController load];
     [_navigationController pushViewController:searchViewController animated:YES];
 }
@@ -135,9 +132,14 @@
     if (!editing) return;
     
     if (theSearchText.length > 0) {
-        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:caseSwitch.on]retain];
+        Autocompleter* _autocompleter = [Autocompleter autocompleterWithTerm:theSearchText matchCase:NO];
         _autocompleter.delegate = self;
         [_autocompleter load];
+        AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
+        
+        viewController.autocompleter = _autocompleter;
+        [autocompleterTableView reloadData];
+        [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
 }
 
@@ -154,22 +156,7 @@
 }
 
 - (void)autocompleterFinished:(Autocompleter*)theAutocompleter
-{
-    /*
-     * Ignore old responses.
-     */
-    if (!editing || ![searchBar isFirstResponder] || 
-        theAutocompleter.seqNum <= autocompleter.seqNum || 
-        searchBar.text.length == 0) return ;
-    
-    [self setAutocompleter:theAutocompleter];
-    [theAutocompleter release];
-    
-    AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
-    
-    viewController.autocompleter = autocompleter;
-    [autocompleterTableView reloadData];
-    [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+{    
 }
 
 - (void)wotdFinished:(DailyWord *)theDailyWord
@@ -207,7 +194,6 @@
 - (IBAction)loadRootController:(id)sender 
 {
     searchBar.text = @"";
-    caseSwitch.on = NO;
     
     AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
     viewController.autocompleter = nil;
@@ -237,72 +223,72 @@
 
 - (IBAction)browseAB:(id)sender
 {
-    [self wildcardSearch:@"^[ABab]" title:@"AB"];
+    [self wildcardSearch:@"[ABab]*" title:@"AB"];
 }
 
 - (IBAction)browseCD:(id)sender
 {
-    [self wildcardSearch:@"^[CDcd]" title:@"CD"];
+    [self wildcardSearch:@"[CDcd]*" title:@"CD"];
 }
 
 - (IBAction)browseEF:(id)sender
 {
-    [self wildcardSearch:@"^[EFef]" title:@"EF"];
+    [self wildcardSearch:@"[EFef]*" title:@"EF"];
 }
 
 - (IBAction)browseGH:(id)sender
 {
-    [self wildcardSearch:@"^[GHgh]" title:@"GH"];
+    [self wildcardSearch:@"[GHgh]*" title:@"GH"];
 }
 
 - (IBAction)browseIJ:(id)sender
 {
-    [self wildcardSearch:@"^[IJij]" title:@"IJ"];
+    [self wildcardSearch:@"[IJij]*" title:@"IJ"];
 }
 
 - (IBAction)browseKL:(id)sender
 {
-    [self wildcardSearch:@"^[KLkl]" title:@"KL"];
+    [self wildcardSearch:@"[KLkl]*" title:@"KL"];
 }
 
 - (IBAction)browseMN:(id)sender
 {
-    [self wildcardSearch:@"^[MNmn]" title:@"MN"];
+    [self wildcardSearch:@"[MNmn]*" title:@"MN"];
 }
 
 - (IBAction)browseOP:(id)sender
 {
-    [self wildcardSearch:@"^[OPop]" title:@"OP"];
+    [self wildcardSearch:@"[OPop]*" title:@"OP"];
 }
 
 - (IBAction)browseQR:(id)sender
 {
-    [self wildcardSearch:@"^[QRqr]" title:@"QR"];
+    [self wildcardSearch:@"[QRqr]*" title:@"QR"];
 }
 
 - (IBAction)browseST:(id)sender
 {
-    [self wildcardSearch:@"^[STst]" title:@"ST"];
+    [self wildcardSearch:@"[STst]*" title:@"ST"];
 }
 
 - (IBAction)browseUV:(id)sender
 {
-    [self wildcardSearch:@"^[UVuv]" title:@"UV"];
+    [self wildcardSearch:@"[UVuv]*" title:@"UV"];
 }
 
 - (IBAction)browseWX:(id)sender
 {
-    [self wildcardSearch:@"^[WXwx]" title:@"WX"];
+    [self wildcardSearch:@"[WXwx]*" title:@"WX"];
 }
 
 - (IBAction)browseYZ:(id)sender
 {
-    [self wildcardSearch:@"^[YZyz]" title:@"YZ"];
+    [self wildcardSearch:@"[YZyz]*" title:@"YZ"];
 }
 
 - (IBAction)browseOther:(id)sender
 {
-    [self wildcardSearch:@"^[^A-Za-z]" title:@"..."];
+    [self wildcardSearch:@"[^A-Za-z]*" title:@"..."];
 }
 
 

@@ -93,7 +93,6 @@
 		7B59C4DC13E8B05C006F5FDB /* SenseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4DB13E8B05C006F5FDB /* SenseTest.m */; };
 		7B59C4E013E8CAF9006F5FDB /* SynsetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4DF13E8CAF9006F5FDB /* SynsetTest.m */; };
 		7B5ECF40141AAD5B00FD2D78 /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */; };
-		7B5ECF43141ABAD200FD2D78 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF42141ABAD200FD2D78 /* libsqlite3.dylib */; };
 		7B5ECF45141ABAF700FD2D78 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */; };
 		7B6953B613E6E3CC00B10519 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B69537B13E6E21700B10519 /* SenTestingKit.framework */; };
 		7B6953B713E6E3CC00B10519 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF113E3875400274E6C /* UIKit.framework */; };
@@ -122,6 +121,7 @@
 		7BB2270913E5A747005D454F /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */; };
 		7BB9CEDC141C19F1000DD13B /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
 		7BB9CEDF141C21FA000DD13B /* Pointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDE141C21FA000DD13B /* Pointer.m */; };
+		7BC537CD141D6D8700E6246B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */; };
 		7BCE75EA13E741C900D1CECC /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7BCE75E913E741C900D1CECC /* iTunesArtwork */; };
 		7BE9ABDF13E4C25500FB7402 /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */; };
 		7BE9ABE013E4C25500FB7402 /* DetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */; };
@@ -263,7 +263,6 @@
 		7B59C4DE13E8CAF9006F5FDB /* SynsetTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetTest.h; sourceTree = "<group>"; };
 		7B59C4DF13E8CAF9006F5FDB /* SynsetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetTest.m; sourceTree = "<group>"; };
 		7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = production.sqlite3; sourceTree = "<group>"; };
-		7B5ECF42141ABAD200FD2D78 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7B69537B13E6E21700B10519 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		7B6953B513E6E3CC00B10519 /* DubsarTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -327,10 +326,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B5ECF43141ABAD200FD2D78 /* libsqlite3.dylib in Frameworks */,
 				7B327FF213E3875400274E6C /* UIKit.framework in Frameworks */,
 				7B327FF413E3875400274E6C /* Foundation.framework in Frameworks */,
 				7B327FF613E3875400274E6C /* CoreGraphics.framework in Frameworks */,
+				7BC537CD141D6D8700E6246B /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,7 +352,6 @@
 			isa = PBXGroup;
 			children = (
 				7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */,
-				7B5ECF42141ABAD200FD2D78 /* libsqlite3.dylib */,
 				7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */,
 				7B327FF713E3875400274E6C /* Dubsar */,
 				7B6953BA13E6E3CC00B10519 /* DubsarTests */,

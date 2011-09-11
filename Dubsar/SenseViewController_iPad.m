@@ -19,6 +19,8 @@
 
 #import "DubsarAppDelegate_iPad.h"
 #import "PointerDictionary.h"
+#import "Pointer.h"
+#import "Section.h"
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
 #import "Synset.h"
@@ -201,41 +203,37 @@
 - (void)followTableLink:(NSIndexPath *)indexPath
 {
     int section = indexPath.section;
-    int row = indexPath.row;
     
-    NSDictionary* _section = [tableSections objectAtIndex:section];
-    id _linkType = [_section valueForKey:@"linkType"];
+    Section* _section = [sense.sections objectAtIndex:section];
+    id _linkType = _section.linkType;
     if (_linkType == NSNull.null) return;
     
-    NSArray* _collection = [_section valueForKey:@"collection"];
-    id _object = [_collection objectAtIndex:row];
-    
     Sense* targetSense=nil;
-    SenseViewController_iPad* senseViewController;    
+    
+    /* SQL query */
+    Pointer* pointer = [sense pointerForRowAtIndexPath:indexPath];
+    if (pointer == nil) return; // error
 
+    SenseViewController_iPad* senseViewController;
     if ([_linkType isEqualToString:@"sense"]) {
-        targetSense = _object;
+        targetSense = [sense.synonyms objectAtIndex:indexPath.row];
         senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
         [senseViewController load];
         [self.navigationController pushViewController:senseViewController animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
-        [self displayPopup:_object];
+        [self displayPopup:pointer.targetText];
     }
-    else if ([[_object objectAtIndex:0] isEqualToString:@"sense"]) {
-        NSArray* pointer = _object;
-        NSNumber* targetId = [pointer objectAtIndex:1];
+    else if ([pointer.targetType isEqualToString:@"sense"]) {
         /* sense pointer */
-        targetSense = [Sense senseWithId:targetId.intValue nameAndPos:[pointer objectAtIndex:2]];
+        targetSense = [Sense senseWithId:pointer.targetId nameAndPos:pointer.targetText];
         senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
         [senseViewController load];
         [self.navigationController pushViewController:senseViewController animated:YES];
     }
     else {
-        NSArray* pointer = _object;
-        NSNumber* targetId = [pointer objectAtIndex:1];
         /* synset pointer */
-        Synset* targetSynset = [Synset synsetWithId:targetId.intValue partOfSpeech:POSUnknown];
+        Synset* targetSynset = [Synset synsetWithId:pointer.targetId partOfSpeech:POSUnknown];
         SynsetViewController_iPad* synsetViewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset]autorelease];
         [synsetViewController load];
         [self.navigationController pushViewController:synsetViewController animated:YES];
@@ -244,16 +242,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
 {
-    NSInteger n = sense && sense.complete ? tableSections.count : 1;
-    return n;
+    return sense.numberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
 {
-    NSDictionary* _section = [tableSections objectAtIndex:section];
-    NSArray* _collection = [_section valueForKey:@"collection"];
-    NSInteger n = sense && sense.complete ? _collection.count : 1 ;
-    return n;
+    return ((Section*)[sense.sections objectAtIndex:section]).numRows;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -280,82 +274,53 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
+    
+    /* SQL query */
+    Pointer* pointer = [sense pointerForRowAtIndexPath:indexPath];
+    if (pointer == nil) {
+        NSLog(@"query failed");
+        return nil;
+    }
+    
+    int section = indexPath.section;
+    NSString* linkType = ((Section*)[sense.sections objectAtIndex:section]).linkType;
+    
+    cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"]autorelease];
+    }
+    cell.textLabel.text = pointer.targetText;
+    // NSLog(@"rendering cell for %@ at section %d, row %d", pointer.targetText, indexPath.section, indexPath.row);
+    
+    cell.detailTextLabel.text = pointer.targetGloss;
+    
+    if ([linkType isEqualToString:@"sample"]) {
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    }
     else {
-        int section = indexPath.section;
-        int row = indexPath.row;
-        NSDictionary* _section = [tableSections objectAtIndex:section];
-        NSArray* _collection = [_section valueForKey:@"collection"];
-        id _object = [_collection objectAtIndex:row];
-        bool hasLinks = [_section valueForKey:@"linkType"] != NSNull.null;
-        NSString* linkType = nil;
-        if (hasLinks) linkType = [_section valueForKey:@"linkType"];
-        
-        if ([_object respondsToSelector:@selector(name)]) {
-            cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];
-            if (cell == nil) {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"]autorelease];
-            }
-            
-            // synonyms (senses)
-            cell.textLabel.text = [_object name];
-            
-            NSString* detailLine = [NSString string];
-            
-#undef FREQ_CNT_FOR_SYNONYMS_IN_SENSE_VIEW
-#ifdef FREQ_CNT_FOR_SYNONYMS_IN_SENSE_VIEW
-            if ([_object respondsToSelector:@selector(freqCnt)] && [_object freqCnt] > 0) {
-                detailLine = [detailLine stringByAppendingFormat:@"freq. cnt.: %d", [_object freqCnt]];
-            }
-#endif
-            if ([_object respondsToSelector:@selector(marker)] && [_object marker]) {
-                detailLine = [detailLine stringByAppendingFormat:@" (%@)", [_object marker]];
-            }
-            cell.detailTextLabel.text = detailLine;
-        }
-        else if ([_object respondsToSelector:@selector(objectAtIndex:)]) {
-            cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];
-            if (cell == nil) {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"]autorelease];
-            }
-            
-            // pointers
-            cell.textLabel.text = [_object objectAtIndex:2];
-            cell.detailTextLabel.text = [_object objectAtIndex:3];
-        }
-        else {
-            // must be a string
-            cell.textLabel.text = _object;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        
-        if ([linkType isEqualToString:@"sample"]) {
-            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        }
-        else {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
     cell.textLabel.textColor = appDelegate.dubsarTintColor;
     cell.textLabel.font = appDelegate.dubsarNormalFont;
     cell.detailTextLabel.font = appDelegate.dubsarSmallFont;
-   
+    
+    // NSLog(@"cell text at section %d, row %d is %@", indexPath.section, indexPath.row, cell.textLabel.text);
+    
     return cell;
 }
 
 - (NSString*)tableView:(UITableView*)theTableView titleForHeaderInSection:(NSInteger)section
 {
-    NSDictionary* _section = [tableSections objectAtIndex:section];
-    NSString* title = sense && sense.complete ? [_section valueForKey:@"header"] : @"loading...";
-    return title;
+    Section* _section = [sense.sections objectAtIndex:section];
+    return _section.header;
 }
 
 - (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
 {
-    NSDictionary* _section = [tableSections objectAtIndex:section];
-    NSString* title = sense && sense.complete ? [_section valueForKey:@"footer"] : @"";
-    return title;
+    Section* _section = [sense.sections objectAtIndex:section];
+    return _section.footer;
 }
 
 - (void)adjustBannerLabel
@@ -390,13 +355,7 @@
     [glossTextView setText:gloss];
     [detailGlossTextView setText:sense.gloss];
     [self adjustBannerLabel];
-    [self setupTableSections];
-    if (tableSections.count > 0) {
-        [tableView reloadData];
-    }
-    else {
-        [tableView setHidden:YES];
-    }
+    [tableView reloadData];
 }
 
 - (void)loadRootController

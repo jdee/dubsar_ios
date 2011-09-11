@@ -104,18 +104,7 @@
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self initOrientation];
     if (preEditText != nil) searchBar.text = preEditText;
-    
-    // BUG: Why does this have to be reloaded every time?
-    // If I'm in airplane mode and tap a link to something, it comes
-    // back with a network error. Then I exit airplane mode and try
-    // again once the network is back. When I go back and forward
-    // again, the page is loaded correctly. Then I go back and forward
-    // again, with the network available, and the view comes back
-    // with stale data (network error) unless it's reloaded every time.
-    
-    // if (!self.loadedSuccessfully) {
-        [self load];
-    // }
+    [self load];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
@@ -158,8 +147,10 @@
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
 {
     if (theSearchText.length > 0) {
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
         Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
         _autocompleter.delegate = proxy;
+        _autocompleter.max = UIInterfaceOrientationIsPortrait(orientation) ? 3 : 1;
         [_autocompleter load];
     }
     else {

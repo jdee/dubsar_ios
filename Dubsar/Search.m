@@ -149,9 +149,55 @@ static int _seqNum = 0;
 {    
     NSCharacterSet* set = [NSCharacterSet characterSetWithCharactersInString:@"%_"];
     NSRange range = [term rangeOfCharacterFromSet:set];
-    NSString* sql = @"SELECT w.id, w.name, w.part_of_speech, w.freq_cnt, i.name "
-        @"FROM words w INNER JOIN inflections i ON w.id = i.word_id ";
-    if (range.location != NSNotFound) {
+    NSString* sql = @"SELECT w.id, w.name, w.part_of_speech, w.freq_cnt FROM WORDS w ";
+    
+    if (isWildCard) {
+        // globbing for iPad alphabet buttons, term is like "[ABab]*" or "[^A-Za-z]*".
+        unichar first = [term characterAtIndex:1];
+        
+        NSString* where;
+        switch (first) {
+            default:
+                // e.g., 
+                // WHERE (w.name >= 'A' AND w.name <'C') OR (w.name >= 'a' AND w.name < 'c') AND w.name GLOB '[ABab]*'
+                where = [NSString stringWithFormat:
+                       @"WHERE (w.name >= '%c' AND w.name < '%c') OR (w.name >= '%c' AND w.name < '%c') AND w.name GLOB '%@' ", 
+                       first, first+2, first+32, first+34, term];
+                       
+                break;
+            case '^':
+                // things that don't begin with a letter
+                where = @"WHERE (w.name < 'A' OR (w.name >= '[' AND w.name < 'a') OR w.name >= '{') AND w.name GLOB '[^A-Za-z]*' ";
+                break;
+        }
+        
+        
+        NSString* countSql = @"SELECT COUNT(*) FROM words w ";
+        countSql = [countSql stringByAppendingString:where];
+        
+        /* execute countSql to get number of rows */
+        sqlite3_stmt* countStmt;
+        int rc;
+        if ((rc=sqlite3_prepare_v2(appDelegate.database, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &countStmt, NULL))
+            != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error preparing count statement, error %d", rc];
+            return;
+        }
+        
+        NSLog(@"executing \"%@\"", countSql);
+        if (sqlite3_step(countStmt) == SQLITE_ROW) {
+            int totalRows = sqlite3_column_int(countStmt, 0);
+            NSLog(@"count statement returned %d total matching rows", totalRows);
+            totalPages = totalRows/NUM_PER_PAGE;
+            if (totalRows % NUM_PER_PAGE != 0) {
+                ++ totalPages;
+            }
+        }
+        sqlite3_finalize(countStmt);
+        
+        sql = [sql stringByAppendingString:where];
+    }
+    else if (range.location != NSNotFound) {
         NSLog(@"found wildcard character at location %d", range.location);
         
         /* wild card search */
@@ -197,12 +243,14 @@ static int _seqNum = 0;
         sqlite3_finalize(countStmt);
     }
     else {
-        sql = [sql stringByAppendingFormat:
-                @"WHERE w.id IN (SELECT word_id FROM inflections WHERE name = '%@') ", term];
+        sql = [NSString stringWithFormat:
+               @"SELECT DISTINCT w.id, w.name, w.part_of_speech, w.freq_cnt "
+               @"FROM words w INNER JOIN inflections i ON w.id = i.word_id "
+               @"WHERE w.id IN (SELECT word_id FROM inflections WHERE name = '%@') ", term];
     }
     sql = [sql stringByAppendingString:@"ORDER BY w.name ASC, w.part_of_speech ASC "];
     
-    if (range.location != NSNotFound) {
+    if (isWildCard || range.location != NSNotFound) {
         /* wildcard, add offset and limit */
         sql = [sql stringByAppendingFormat:@"LIMIT %d ", NUM_PER_PAGE];
         if (currentPage > 1) {
@@ -231,23 +279,36 @@ static int _seqNum = 0;
         char const* _name = (char const*)sqlite3_column_text(statement, 1);
         char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
         int freqCnt = sqlite3_column_int(statement, 3);
-        char const* _inflection = (char const*)sqlite3_column_text(statement, 4);
         
-        NSLog(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d, INFLECTION=%s",
-              _id, _name, _part_of_speech, freqCnt, _inflection);
+        NSLog(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d",
+              _id, _name, _part_of_speech, freqCnt);
         
         PartOfSpeech partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
         NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
-        NSString* inflection = [NSString stringWithCString:_inflection encoding:NSUTF8StringEncoding];
         
-        Word* currentWord = [results lastObject];
+        Word* word = [Word wordWithId:_id name:name partOfSpeech:partOfSpeech];
+        word.freqCnt = freqCnt;
+        [results addObject:word];
         
-        if (currentWord == nil || _id != currentWord._id) {
-            currentWord = [Word wordWithId:_id name:name partOfSpeech:partOfSpeech];
-            currentWord.freqCnt = freqCnt;
-            [results addObject:currentWord];
+        /* now get the inflections */
+        /* 
+         * We have this 1+N problem because of pagination. If we join inflections in wildcard searches,
+         * we get one row per inflection, and that doesn't work with pagination. So here we are.
+         */
+        NSString* isql = [NSString stringWithFormat:@"SELECT name FROM inflections WHERE word_id = %d", _id];
+        sqlite3_stmt* istmt;
+        if ((rc=sqlite3_prepare_v2(appDelegate.database, [isql cStringUsingEncoding:NSUTF8StringEncoding], -1, &istmt, NULL)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
+            return;
         }
-        [currentWord addInflection:inflection];
+        
+        while (sqlite3_step(istmt) == SQLITE_ROW) {
+            char const* _name = (char const*)sqlite3_column_text(istmt, 0);
+            NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+            [word addInflection:name];
+        }
+        
+        sqlite3_finalize(istmt);
     }
     
     sqlite3_finalize(statement);

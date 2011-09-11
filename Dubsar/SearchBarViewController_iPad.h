@@ -29,7 +29,6 @@
     UISearchBar *searchBar;
     UIPopoverController* popoverController;
     UITableView *autocompleterTableView;
-    UISwitch *caseSwitch;
     UIButton *wotdButton;
 }
 
@@ -40,7 +39,6 @@
 @property (nonatomic, retain) NSString* searchText;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
-@property (nonatomic, retain) IBOutlet UISwitch *caseSwitch;
 @property (nonatomic, retain) IBOutlet UIButton *wotdButton;
 
 - (IBAction)showWotd:(id)sender;

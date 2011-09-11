@@ -29,6 +29,7 @@
 @property (nonatomic) NSInteger seqNum;
 @property (nonatomic, retain) NSString* term;
 @property (nonatomic, retain) NSMutableArray* results;
+@property (nonatomic) int max;
 
 +(id)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
 

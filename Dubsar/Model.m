@@ -80,12 +80,6 @@
     [pool release];
 }
 
-/* temporary implementation */
-- (void)loadResults:(DubsarAppDelegate*)appDelegate
-{
-    
-}
-
 +(NSString*)incrementString:(NSString*)string
 {
     NSString* first = [string substringToIndex:[string length]-1];

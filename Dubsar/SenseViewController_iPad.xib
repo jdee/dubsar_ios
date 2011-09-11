@@ -71,10 +71,10 @@
 							<object class="IBUITableView" id="857507671">
 								<reference key="NSNextResponder" ref="715814224"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{0, 125}, {703, 579}}</string>
+								<string key="NSFrame">{{0, 132}, {703, 572}}</string>
 								<reference key="NSSuperview" ref="715814224"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="283837740"/>
+								<reference key="NSNextKeyView" ref="167803352"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC44Nzg0MzEzNzI1IDAuODc4NDMxMzcyNSAxAA</bytes>
@@ -126,7 +126,7 @@
 								<string key="NSFrame">{{0, 44}, {703, 44}}</string>
 								<reference key="NSSuperview" ref="715814224"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="857507671"/>
+								<reference key="NSNextKeyView" ref="283837740"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -205,7 +205,7 @@
 								<string key="NSFrame">{{567, 92}, {128, 36}}</string>
 								<reference key="NSSuperview" ref="715814224"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="167803352"/>
+								<reference key="NSNextKeyView" ref="857507671"/>
 								<string key="NSReuseIdentifierKey">_NS:237</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
