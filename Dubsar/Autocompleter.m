@@ -28,6 +28,7 @@
 @synthesize term=_term;
 @synthesize matchCase;
 @synthesize max;
+@synthesize aborted;
 
 + (id)autocompleterWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
 {
@@ -44,6 +45,7 @@
         _results = nil;
         matchCase = mustMatchCase;
         max = 10;
+        aborted = false;
         
         /*
         NSString* __url = [NSString stringWithFormat:@"/os?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
@@ -56,84 +58,89 @@
 
 - (void)dealloc
 {
+    NSLog(@"releasing autocompleter for term %@", _term);
     [_term release];
     [_results release];
     [super dealloc];
 }
 
-/*
 - (void)load
 {
-    [NSThread detachNewThreadSelector:@selector(databaseThread) toTarget:self withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(databaseThread:) toTarget:self withObject:UIApplication.sharedApplication.delegate];
 }
- */
 
 - (void)loadResults:(DubsarAppDelegate*)appDelegate
 {
-    sqlite3_reset(appDelegate.exactAutocompleterStmt);
-    sqlite3_reset(appDelegate.autocompleterStmt);
-    
-    int rc;
-    if ((rc=sqlite3_bind_text(appDelegate.exactAutocompleterStmt, 1, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        return;
-    }
-    
-    NSString* exactMatch = nil;
-    while (sqlite3_step(appDelegate.exactAutocompleterStmt) == SQLITE_ROW) {
-        char const* _wName = (char const*)sqlite3_column_text(appDelegate.exactAutocompleterStmt, 0);
-        NSString* wName = [NSString stringWithCString:_wName encoding:NSUTF8StringEncoding];
-
-        if (exactMatch == nil) exactMatch = _term;
+    @synchronized(appDelegate) {
+        sqlite3_reset(appDelegate.exactAutocompleterStmt);
+        sqlite3_reset(appDelegate.autocompleterStmt);
         
-        if ([wName compare:exactMatch options:NSCaseInsensitiveSearch] == NSOrderedSame &&
-            [wName compare:exactMatch] == NSOrderedAscending) {
-            exactMatch = wName;
+        int rc;
+        if ((rc=sqlite3_bind_text(appDelegate.exactAutocompleterStmt, 1, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return;
         }
-    }
-    
-    if (exactMatch != nil) {
-        NSLog(@"found exact match %@", exactMatch);
-        self.results = [NSMutableArray arrayWithObject:exactMatch];
-    }
-    else {
-        self.results = [NSMutableArray array];
-    }
-    
-    if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 1, [[_term uppercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        return;
-    }
-    if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 2, [[[self.class incrementString:_term]lowercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        return;
-    }
-    if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 3, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        return;
-    }
-    if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 4, [[_term stringByAppendingString:@"%"]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        return;
-    }
-    if ((rc=sqlite3_bind_int(appDelegate.autocompleterStmt, 5, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-        return;    
-    }
-    
-    // NSLog(@"searching DB for autcompleter matches");
-    while (sqlite3_step(appDelegate.autocompleterStmt) == SQLITE_ROW) {
-        char const* _name = (char const*)sqlite3_column_text(appDelegate.autocompleterStmt, 0);
-        NSString* match = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
         
-        [_results addObject:match];
-    }
-
-    // NSLog(@"done searching for autocompleter matches");
-    NSLog(@"found %d matches: ", _results.count);
-    for (int j=0; j<_results.count; ++j) {
-        NSString* result = [_results objectAtIndex:j];
-        NSLog(@" \"%@\"", result);
+        NSString* exactMatch = nil;
+        while (sqlite3_step(appDelegate.exactAutocompleterStmt) == SQLITE_ROW) {
+            if (aborted) return;
+            
+            char const* _wName = (char const*)sqlite3_column_text(appDelegate.exactAutocompleterStmt, 0);            
+            NSString* wName = [NSString stringWithCString:_wName encoding:NSUTF8StringEncoding];
+            
+            if (exactMatch == nil) exactMatch = _term;
+            
+            if ([wName compare:exactMatch options:NSCaseInsensitiveSearch] == NSOrderedSame &&
+                [wName compare:exactMatch] == NSOrderedAscending) {
+                exactMatch = wName;
+            }
+        }
+        
+        if (exactMatch != nil) {
+            // NSLog(@"found exact match %@", exactMatch);
+            self.results = [NSMutableArray arrayWithObject:exactMatch];
+        }
+        else {
+            self.results = [NSMutableArray array];
+        }
+        
+        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 1, [[_term uppercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return;
+        }
+        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 2, [[[self.class incrementString:_term]lowercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return;
+        }
+        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 3, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return;
+        }
+        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 4, [[_term stringByAppendingString:@"%"]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return;
+        }
+        if ((rc=sqlite3_bind_int(appDelegate.autocompleterStmt, 5, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return;    
+        }
+        
+        NSLog(@"searching DB for autocompleter matches for %@", _term);
+        while (sqlite3_step(appDelegate.autocompleterStmt) == SQLITE_ROW) {
+            if (aborted) return;
+            char const* _name = (char const*)sqlite3_column_text(appDelegate.autocompleterStmt, 0);
+            NSString* match = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+            
+            [_results addObject:match];
+        }
+        
+        /* NSLog(@"done searching for autocompleter matches");
+         NSLog(@"found %d matches: ", _results.count);
+         for (int j=0; j<_results.count; ++j) {
+         NSString* result = [_results objectAtIndex:j];
+         NSLog(@" \"%@\"", result);
+         }
+         */
     }
 }
 

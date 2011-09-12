@@ -147,6 +147,9 @@
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
 {
     if (theSearchText.length > 0) {
+        // cancel any ongoing search
+        autocompleter.aborted = true;
+        
         UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
         Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
         _autocompleter.delegate = proxy;
@@ -190,7 +193,6 @@
     }
 }
 
-
 - (void)initOrientation
 {
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
@@ -221,18 +223,14 @@
 
 - (void)autocompleterFinished:(Autocompleter *)theAutocompleter withError:(NSString *)error
 {
-    /*
-     * Ignore old responses.
-     */
-    if (preEditText == nil || (autocompleter && theAutocompleter.seqNum <= autocompleter.seqNum) || 
-        searchBar.text.length == 0) {
+    if (autocompleter.seqNum >= theAutocompleter.seqNum) {
         [theAutocompleter release];
         return;
     }
     
-    [autocompleter release];
-    autocompleter = theAutocompleter;
-    
+    self.autocompleter = theAutocompleter;
+    [theAutocompleter release];
+
     [autocompleterTableView setHidden:NO];
     [autocompleterTableView reloadData];
 }

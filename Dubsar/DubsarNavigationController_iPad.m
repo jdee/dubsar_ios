@@ -204,15 +204,16 @@
     if (!editing) return;
     
     if (theSearchText.length > 0) {
-        Autocompleter* _autocompleter = [Autocompleter autocompleterWithTerm:theSearchText matchCase:NO];
+        // cancel any ongoing search
+        autocompleter.aborted = true;
+        
+        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
         _autocompleter.delegate = self;
-        // synchronous load call
         [_autocompleter load];
-        AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
-        viewController.autocompleter = _autocompleter;
-        [autocompleterTableView reloadData];
-        [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-   }
+    }
+    else {
+        [popoverController dismissPopoverAnimated:YES];
+    }
 }
 
 - (BOOL)searchBar:(UISearchBar*)theSearchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -222,6 +223,14 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {    
+    Autocompleter* theAutocompleter = (Autocompleter*)model;
+    self.autocompleter = theAutocompleter;
+    [theAutocompleter release];
+    
+    AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
+    viewController.autocompleter = autocompleter;
+    [autocompleterTableView reloadData];
+    [popoverController presentPopoverFromRect:searchBar.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void)addGestureRecognizerToView:(UIView *)view

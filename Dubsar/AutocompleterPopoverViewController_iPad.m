@@ -40,7 +40,6 @@
 
 - (void)dealloc
 {
-    [autocompleter release];
     [super dealloc];
 }
 

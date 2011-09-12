@@ -49,7 +49,7 @@
 +(NSString*)incrementString:(NSString*)string;
 
 -(void)load;
--(void)databaseThread;
+-(void)databaseThread:(id)appDelegate;
 -(void)loadFromServer;
 
 +(void)displayNetworkAlert:(NSString*)error;

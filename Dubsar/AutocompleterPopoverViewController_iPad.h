@@ -23,7 +23,7 @@
 
 @interface AutocompleterPopoverViewController_iPad : UITableViewController
 
-@property (nonatomic, retain) Autocompleter* autocompleter;
+@property (nonatomic, assign) Autocompleter* autocompleter;
 @property (nonatomic, assign) UISearchBar* searchBar;
 @property (nonatomic, assign) UINavigationController* navigationController;
 @property (nonatomic, assign) UIPopoverController* popoverController;

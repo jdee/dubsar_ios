@@ -142,7 +142,7 @@ static int _seqNum = 0;
 
 - (void)load
 {
-    [NSThread detachNewThreadSelector:@selector(databaseThread) toTarget:self withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(databaseThread:) toTarget:self withObject:UIApplication.sharedApplication.delegate];
 }
 
 - (void)loadResults:(DubsarAppDelegate*)appDelegate

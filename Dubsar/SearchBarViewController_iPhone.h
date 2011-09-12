@@ -41,4 +41,5 @@
 -(bool)loadedSuccessfully;
 -(void)load;
 -(void)addGestureRecognizers;
+
 @end

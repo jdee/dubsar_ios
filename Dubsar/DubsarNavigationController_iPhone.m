@@ -189,7 +189,7 @@
         // snap back
         NSTimeInterval duration = (newFrame.origin.x/newFrame.size.width)*0.5;
         [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            sender.view.frame = originalFrame;          
+            sender.view.frame = originalFrame;
         } completion:nil];
     }
 }

@@ -69,10 +69,10 @@
     if (delegate != nil) [delegate loadComplete:self withError:errorMessage];
 }
 
-- (void)databaseThread
+- (void)databaseThread:(id)appDelegate
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
-    [self loadResults:(DubsarAppDelegate*)UIApplication.sharedApplication.delegate];
+    [self loadResults:(DubsarAppDelegate*)appDelegate];
     complete = true;
     error = errorMessage != nil;
     

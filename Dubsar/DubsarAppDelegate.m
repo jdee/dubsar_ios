@@ -151,7 +151,7 @@
      */
    
     int rc;
-    if ((rc=sqlite3_open_v2([srcPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_NOMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_open_v2([srcPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
         NSLog(@"error opening database %@, %d", srcPath, rc);
         database = NULL;
         return;
