@@ -31,6 +31,7 @@
 @synthesize preEditText;
 @synthesize navigationGestureRecognizer;
 @synthesize loading;
+@synthesize executingAutocompleter;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,6 +46,7 @@
         preEditText = nil;
         navigationGestureRecognizer = nil;
         loading = false;
+        executingAutocompleter = nil;
     }
     return self;
 }
@@ -148,13 +150,22 @@
 {
     if (theSearchText.length > 0) {
         // cancel any ongoing search
-        autocompleter.aborted = true;
+        @synchronized(self) {
+            Autocompleter* theAutocompleter = self.executingAutocompleter;
+            if (theAutocompleter != nil) {
+                if (theAutocompleter != nil) {
+                    theAutocompleter.aborted = true;
+                }
+            }
+        }
         
         UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
         Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
         _autocompleter.delegate = proxy;
         _autocompleter.max = UIInterfaceOrientationIsPortrait(orientation) ? 3 : 1;
+        _autocompleter.lock = self;
         [_autocompleter load];
+        self.executingAutocompleter = _autocompleter;
     }
     else {
         [autocompleterTableView setHidden:YES];
@@ -223,7 +234,13 @@
 
 - (void)autocompleterFinished:(Autocompleter *)theAutocompleter withError:(NSString *)error
 {
-    if (autocompleter.seqNum >= theAutocompleter.seqNum) {
+    @synchronized(self) {
+        if (theAutocompleter == executingAutocompleter) {
+            self.executingAutocompleter = nil;
+        }
+    }
+    
+    if (theAutocompleter.aborted || autocompleter.seqNum >= theAutocompleter.seqNum) {
         [theAutocompleter release];
         return;
     }

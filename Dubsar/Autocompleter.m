@@ -29,6 +29,7 @@
 @synthesize matchCase;
 @synthesize max;
 @synthesize aborted;
+@synthesize lock;
 
 + (id)autocompleterWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
 {
@@ -62,6 +63,20 @@
     [_term release];
     [_results release];
     [super dealloc];
+}
+
+/* Called in loadResults: to terminate a search */
+- (bool)aborted
+{
+    @synchronized(lock) {
+        return aborted;
+    }
+}
+
+/* Don't synchronize this; leave that to the caller, so termination can be atomic */
+- (void)setAborted:(bool)isAborted
+{
+    aborted = isAborted;
 }
 
 - (void)load

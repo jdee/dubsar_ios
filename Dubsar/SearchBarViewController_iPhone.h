@@ -34,6 +34,7 @@
 @property (nonatomic, retain) NSString* preEditText;
 @property (nonatomic, assign) UIGestureRecognizer* navigationGestureRecognizer;
 @property bool loading;
+@property (assign) Autocompleter* executingAutocompleter;
 
 -(void)createToolbarItems;
 -(void)loadRootController;

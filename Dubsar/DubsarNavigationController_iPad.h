@@ -46,6 +46,7 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* titleLabel;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* backBarButtonItem;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* fwdBarButtonItem;
+@property (assign) Autocompleter* executingAutocompleter;
 
 - (void)addToolbar:(UIViewController*)viewController;
 - (IBAction)forward:(id)sender;

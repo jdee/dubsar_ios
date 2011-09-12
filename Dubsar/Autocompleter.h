@@ -31,6 +31,7 @@
 @property (nonatomic, retain) NSMutableArray* results;
 @property (nonatomic) int max;
 @property bool aborted;
+@property (nonatomic, assign) id lock;
 
 +(id)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
 

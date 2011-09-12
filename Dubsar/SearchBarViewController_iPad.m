@@ -38,6 +38,7 @@
 @synthesize searchText=_searchText;
 @synthesize dailyWord;
 @synthesize wordPopoverController;
+@synthesize executingAutocompleter;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,6 +54,7 @@
         popoverController.popoverContentSize = CGSizeMake(320.0, 440.0);
         
         editing = false;
+        executingAutocompleter = nil;
     }
     return self;
 }
@@ -133,11 +135,20 @@
     
     if (theSearchText.length > 0) {
         // cancel any ongoing search
-        autocompleter.aborted = true;
+        @synchronized(self) {
+            Autocompleter* theAutocompleter = self.executingAutocompleter;
+            if (theAutocompleter != nil) {
+                if (theAutocompleter != nil) {
+                    theAutocompleter.aborted = true;
+                }
+            }
+        }
         
         Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
         _autocompleter.delegate = self;
+        _autocompleter.lock = self;
         [_autocompleter load];
+        self.executingAutocompleter = _autocompleter;
     }
     else {
         [popoverController dismissPopoverAnimated:YES];
@@ -158,9 +169,20 @@
 
 - (void)autocompleterFinished:(Autocompleter*)theAutocompleter
 {
+    @synchronized(self) {
+        if (theAutocompleter == executingAutocompleter) {
+            self.executingAutocompleter = nil;
+        }
+    }
+    
+    if (theAutocompleter.aborted) {
+        [theAutocompleter release];
+        return;
+    }
+        
     self.autocompleter = theAutocompleter;
     [theAutocompleter release];
-    
+        
     AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
     
     viewController.autocompleter = autocompleter;

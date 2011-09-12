@@ -40,6 +40,7 @@
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
 @property (nonatomic, retain) IBOutlet UIButton *wotdButton;
+@property (assign) Autocompleter* executingAutocompleter;
 
 - (IBAction)showWotd:(id)sender;
 - (IBAction)showFAQ:(id)sender;
