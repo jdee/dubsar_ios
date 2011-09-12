@@ -89,7 +89,7 @@
 -(void)loadResults:(DubsarAppDelegate *)appDelegate
 {
     NSString* sql = [NSString stringWithFormat:
-                     @"SELECT w.name, w.part_of_speech, w.freq_cnt, i.name "
+                     @"SELECT DISTINCT w.name, w.part_of_speech, w.freq_cnt, i.name "
                      @"FROM words w "
                      @"INNER JOIN inflections i ON w.id = i.word_id "
                      @"WHERE w.id = %d "
@@ -103,6 +103,7 @@
         return;
     }
     
+    self.inflections = nil;
     while ((rc=sqlite3_step(statement)) == SQLITE_ROW) {
         char const* _name = (char const*)sqlite3_column_text(statement, 0);
         char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 1);
@@ -113,11 +114,14 @@
         
         NSString* inflection = [NSString stringWithCString:_inflection encoding:NSUTF8StringEncoding];
         [self addInflection:inflection];
+        NSLog(@"added inflection %@", inflection);
         
         if (partOfSpeech == POSUnknown) {
             partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
         }
     }
+    
+    NSLog(@"inflections = \"%@\"", inflections);
     
     sqlite3_finalize(statement);
 

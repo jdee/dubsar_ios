@@ -93,9 +93,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (word.complete) {
-        [self loadComplete:word withError:word.errorMessage];
-    }
     [self setTableViewFrame];
 }
 
@@ -239,6 +236,8 @@
         [inflectionsTextView setText:error];
         return;
     }
+    
+    NSLog(@"word %@ inflections \"%@\"", word.nameAndPos, word.inflections);
    
     [self adjustInflections];
     [self setTableViewFrame];

@@ -62,6 +62,8 @@
 
 - (void)load
 {
+    complete = error = false;
+    errorMessage = nil;
     [self loadResults:(DubsarAppDelegate*)UIApplication.sharedApplication.delegate];    
     complete = true;
     error = errorMessage != nil;
@@ -72,6 +74,8 @@
 - (void)databaseThread:(id)appDelegate
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
+    complete = error = false;
+    errorMessage = nil;
     [self loadResults:(DubsarAppDelegate*)appDelegate];
     complete = true;
     error = errorMessage != nil;
