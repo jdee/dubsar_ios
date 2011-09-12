@@ -612,7 +612,7 @@
                 /* semantic pointers */
                 NSMutableArray* wordList = [NSMutableArray array];
                 PartOfSpeech ptrPartOfSpeech=POSUnknown;
-                if (sqlite3_step(semanticQuery) == SQLITE_ROW) {
+                while (sqlite3_step(semanticQuery) == SQLITE_ROW) {
                     char const* _name;
                     char const* _part_of_speech;
                     if (pointer.targetGloss == nil) {
@@ -625,7 +625,8 @@
                         ptrPartOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
                     }
                     
-                    [wordList addObject:[NSString stringWithCString:_name encoding:NSUTF8StringEncoding]];
+                    NSString* synonym = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+                    [wordList addObject:synonym];
                 }
                                 
                 NSString* words = [NSString string];
@@ -657,7 +658,7 @@
                      @"FROM pointers "
                      @"WHERE ((source_id = %d AND source_type = 'Sense') OR "
                      @"(source_id = %d AND source_type = 'Synset')) AND "
-                     @"ptype = ':ptype' "
+                     @"ptype = :ptype "
                      @"ORDER BY id ASC "
                      @"LIMIT 1 "
                      @"OFFSET :offset ", _id, synset._id];

@@ -270,7 +270,7 @@
     else if ([_linkType isEqualToString:@"sample"]) {
         [self displayPopup:pointer.targetText];
     }
-    else if ([pointer.targetType isEqualToString:@"sense"]) {
+    else if ([pointer.targetType isEqualToString:@"Sense"]) {
         /* sense pointer */
         targetSense = [Sense senseWithId:pointer.targetId nameAndPos:pointer.targetText];
         [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];

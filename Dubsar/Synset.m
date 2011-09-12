@@ -348,7 +348,7 @@
             /* semantic pointers */
             NSMutableArray* wordList = [NSMutableArray array];
             PartOfSpeech ptrPartOfSpeech=POSUnknown;
-            if (sqlite3_step(semanticQuery) == SQLITE_ROW) {
+            while (sqlite3_step(semanticQuery) == SQLITE_ROW) {
                 char const* _name;
                 char const* _part_of_speech;
                 if (pointer.targetGloss == nil) {

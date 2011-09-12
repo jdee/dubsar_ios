@@ -224,7 +224,7 @@
     else if ([_linkType isEqualToString:@"sample"]) {
         [self displayPopup:pointer.targetText];
     }
-    else if ([pointer.targetType isEqualToString:@"sense"]) {
+    else if ([pointer.targetType isEqualToString:@"Sense"]) {
         /* sense pointer */
         targetSense = [Sense senseWithId:pointer.targetId nameAndPos:pointer.targetText];
         senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
