@@ -35,7 +35,9 @@
 @property (nonatomic) sqlite3* database;
 @property (nonatomic) sqlite3_stmt* exactAutocompleterStmt;
 @property (nonatomic) sqlite3_stmt* autocompleterStmt;
+@property bool databaseReady;
 
 - (void)prepareDatabase;
+- (void)databasePrepFinished;
 
 @end

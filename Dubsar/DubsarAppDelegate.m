@@ -30,6 +30,7 @@
 @synthesize database;
 @synthesize exactAutocompleterStmt;
 @synthesize autocompleterStmt;
+@synthesize databaseReady;
 
 - (id)init
 {
@@ -39,7 +40,8 @@
         dubsarFontFamily = [[NSString stringWithString:@"Trebuchet"] retain];
         dubsarNormalFont = [[UIFont fontWithName:@"TrebuchetMS" size:18.0]retain];
         dubsarSmallFont  = [[UIFont fontWithName:@"TrebuchetMS" size:14.0]retain];
-        [self prepareDatabase];
+        databaseReady = false;
+        [self performSelectorInBackground:@selector(prepareDatabase) withObject:nil];
     }
     return self;
 }
@@ -104,61 +106,208 @@
 
 - (void)prepareDatabase
 {
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
+    
     NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
     NSString* srcPath = [resourcePath stringByAppendingPathComponent:PRODUCTION_DB_NAME];
     
     /* copy to Documents folder */
-    /*
-     * This is only necessary for writing to the database. For now, Dubsar does not
-     * write to the DB, but it will sooner or later use this for WOTD persistence.
-     * For now, all this does is add a couple extra seconds to the required launch
-     * time, so we'll just read it in situ until then.
-     */
-    /*
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDir = [paths objectAtIndex: 0];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError* error;
     NSString* dstPath = [documentsDir stringByAppendingPathComponent:PRODUCTION_DB_NAME];
     
+    NSDictionary* attrs;
+    NSDate* bundleDBCreationDate = nil;
+    
+    bool deploying = false;
+    
     if (![fileManager fileExistsAtPath:srcPath]) {
         NSLog(@"cannot find bundle DB file %@", srcPath);
     }
     else {
         NSLog(@"found bundle DB file %@", srcPath);
+        attrs = [fileManager attributesOfItemAtPath:srcPath error:&error];
+        bundleDBCreationDate = [attrs valueForKey:NSFileCreationDate];
+        NSLog(@"created at %@", bundleDBCreationDate);
+        NSLog(@"modified at %@", [attrs valueForKey:NSFileModificationDate]);
     }
     
     if (![fileManager fileExistsAtPath:dstPath]) {
         NSLog(@"%@ does not exist, deploying", dstPath);
-    }
-    else {
-        // TODO: Don't always need to replace. This runs every time the app starts.
-        NSLog(@"%@ already deployed, removing", dstPath);
-        if (![fileManager removeItemAtPath:dstPath error:&error]) {
-            NSLog(@"could not remove DB %@: %@", dstPath, error.localizedDescription);
+        if (![fileManager copyItemAtPath:srcPath toPath:dstPath error:&error]) {
+            NSLog(@"error copying database %@ to %@, %@", srcPath, dstPath, error.localizedDescription);
             database = NULL;
             return;
         }
-        NSLog(@"removed old database, deploying to %@", dstPath);
+        deploying = true;
+        NSLog(@"successfully deployed database %@", dstPath);
     }
- 
-    if (![fileManager copyItemAtPath:srcPath toPath:dstPath error:&error]) {
-        NSLog(@"error copying database %@ to %@, %@", srcPath, dstPath, error.localizedDescription);
-        database = NULL;
-        return;
+    else {
+        attrs = [fileManager attributesOfItemAtPath:dstPath error:&error];
+        NSLog(@"%@ created at %@", dstPath, [attrs valueForKey:NSFileCreationDate]);
+        NSLog(@"%@ modified at %@", dstPath, [attrs valueForKey:NSFileModificationDate]);
+    
+        if ([bundleDBCreationDate compare:[attrs valueForKey:NSFileModificationDate]] != NSOrderedAscending) {
+            NSLog(@"%@ already deployed, removing", dstPath);
+            if (![fileManager removeItemAtPath:dstPath error:&error]) {
+                NSLog(@"could not remove DB %@: %@", dstPath, error.localizedDescription);
+                database = NULL;
+                return;
+            }
+            NSLog(@"removed old database, deploying to %@", dstPath);
+            
+            if (![fileManager copyItemAtPath:srcPath toPath:dstPath error:&error]) {
+                NSLog(@"error copying database %@ to %@, %@", srcPath, dstPath, error.localizedDescription);
+                database = NULL;
+                return;
+            }
+            deploying = true;
+            NSLog(@"successfully deployed database %@", dstPath);
+        }
+        else {
+            NSLog(@"not deploying, using existing DB");
+        }
     }
-    NSLog(@"successfully deployed database %@", dstPath);
-     */
+    
+    attrs = [fileManager attributesOfItemAtPath:dstPath error:&error];
+    NSLog(@"%@ created at %@", dstPath, [attrs valueForKey:NSFileCreationDate]);
+    NSLog(@"%@ modified at %@", dstPath, [attrs valueForKey:NSFileModificationDate]);
    
     int rc;
-    if ((rc=sqlite3_open_v2([srcPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
-        NSLog(@"error opening database %@, %d", srcPath, rc);
+    if ((rc=sqlite3_open_v2([dstPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READWRITE, NULL)) != SQLITE_OK) {
+        NSLog(@"error opening database %@, %d", dstPath, rc);
         database = NULL;
         return;
     }
     
     NSLog(@"successfully opened database %@", PRODUCTION_DB_NAME);
-    NSString* sql = @"SELECT w.name "
+    NSString* sql;
+    sqlite3_stmt* statement;
+    
+    if (deploying) {
+        /*
+         * Create virtual FTS tables
+         */
+        
+        /*
+         * Inflections FTS table
+         */ 
+        
+        sql = @"CREATE VIRTUAL TABLE inflections_fts USING fts4(name, id, word_id)";
+        
+        if ((rc=sqlite3_prepare_v2(database,
+                                   [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"error preparing CREATE VIRTUAL TABLE statement, error %d", rc);
+            return;
+        }
+        
+        if ((rc=sqlite3_step(statement)) == SQLITE_ERROR) {
+            NSLog(@"CREATE VIRTUAL TABLE statement returned error");
+            sqlite3_finalize(statement);
+            return;
+        }
+        else {
+            NSLog(@"created virtual table inflections_fts");
+        }
+        sqlite3_finalize(statement);
+        
+        sql = @"INSERT INTO inflections_fts (name, id, word_id) SELECT name, id, word_id FROM inflections";
+        if ((rc=sqlite3_prepare_v2(database,
+                                   [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"error preparing INSERT statement, error %d", rc);
+            sqlite3_finalize(statement);
+            return;
+        }
+        
+        if (sqlite3_step(statement) == SQLITE_ERROR) {
+            NSLog(@"INSERT statement returned error");
+            sqlite3_finalize(statement);
+            return;
+        }
+        sqlite3_finalize(statement);
+        
+        sql = @"INSERT INTO inflections_fts(inflections_fts) VALUES('optimize')";
+        if ((rc=sqlite3_prepare_v2(database,
+                                   [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"error preparing INSERT statement, error %d", rc);
+            sqlite3_finalize(statement);
+            return;
+        }
+        
+        if (sqlite3_step(statement) == SQLITE_ERROR) {
+            NSLog(@"INSERT statement returned error");
+            sqlite3_finalize(statement);
+            return;
+        }
+        sqlite3_finalize(statement);
+        
+        attrs = [fileManager attributesOfItemAtPath:dstPath error:&error];
+        NSLog(@"%@ created at %@", dstPath, [attrs valueForKey:NSFileCreationDate]);
+        NSLog(@"%@ modified at %@", dstPath, [attrs valueForKey:NSFileModificationDate]);
+        
+        /*
+         * Words FTS table
+         
+         sql = @"CREATE VIRTUAL TABLE words_fts USING fts3(id, name, part_of_speech, freq_cnt)";
+         
+         if ((rc=sqlite3_prepare_v2(database,
+         [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+         NSLog(@"error preparing CREATE VIRTUAL TABLE statement, error %d", rc);
+         return;
+         }
+         
+         if ((rc=sqlite3_step(statement)) == SQLITE_ERROR) {
+         NSLog(@"CREATE VIRTUAL TABLE statement returned error");
+         sqlite3_finalize(statement);
+         return;
+         }
+         else {
+         NSLog(@"created virtual table words_fts");
+         }
+         sqlite3_finalize(statement);
+         
+         sql = @"INSERT INTO words_fts (id, name, part_of_speech, freq_cnt) SELECT id, name, part_of_speech, freq_cnt FROM words";
+         if ((rc=sqlite3_prepare_v2(database,
+         [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+         NSLog(@"error preparing INSERT statement, error %d", rc);
+         sqlite3_finalize(statement);
+         return;
+         }
+         
+         if (sqlite3_step(statement) == SQLITE_ERROR) {
+         NSLog(@"INSERT statement returned error");
+         sqlite3_finalize(statement);
+         return;
+         }
+         sqlite3_finalize(statement);
+         
+         sql = @"INSERT INTO words_fts(words_fts) VALUES('optimize')";
+         if ((rc=sqlite3_prepare_v2(database,
+         [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+         NSLog(@"error preparing INSERT statement, error %d", rc);
+         sqlite3_finalize(statement);
+         return;
+         }
+         
+         if (sqlite3_step(statement) == SQLITE_ERROR) {
+         NSLog(@"INSERT statement returned error");
+         sqlite3_finalize(statement);
+         return;
+         }
+         sqlite3_finalize(statement);
+         */
+    }
+    
+    /*
+     * Prepared statements for the Autocompleter
+     */
+    
+    /*
+     * Exact match first
+     */
+    sql = @"SELECT w.name "
     @"FROM inflections i "
     @"INNER JOIN words w "
     @"ON w.id = i.word_id "
@@ -170,17 +319,16 @@
         NSLog(@"error preparing exact match statement, error %d", rc);
         return;
     }
-    else {
-        NSLog(@"prepared statement successfully");
-    }
     
     /*
      * This is a faster way to do case-insensitive autocompletion than joining the inflections table.
      */
-    sql = @"SELECT DISTINCT name "
-    @"FROM words "
-    @"WHERE name > ? AND name < ? AND NOT name LIKE ? AND name LIKE ? "
-    @"ORDER BY name ASC "
+    sql = @"SELECT DISTINCT ifts.name "
+    @"FROM inflections_fts ifts "
+    @"INNER JOIN inflections i USING (id) "
+    @"INNER JOIN words w ON w.id = i.word_id "
+    @"WHERE ifts.name MATCH ? AND w.name != ? AND i.name != ? "
+    @"ORDER BY ifts.name ASC "
     @"LIMIT ?";
     
     NSLog(@"preparing statement \"%@\"", sql);
@@ -193,6 +341,11 @@
     else {
         NSLog(@"prepared statement successfully");
     }
+    
+    self.databaseReady = true;
+    [self databasePrepFinished];
+    
+    [pool release];
 }
 
 @end

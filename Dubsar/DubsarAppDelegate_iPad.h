@@ -20,6 +20,8 @@
 #import <UIKit/UIKit.h>
 #import "DubsarAppDelegate.h"
 
+@class SearchBarViewController_iPad;
+
 @interface DubsarAppDelegate_iPad : DubsarAppDelegate {
     
     UISplitViewController *_splitViewController;
@@ -27,5 +29,6 @@
 
 @property (nonatomic, retain) UINavigationController* navigationController;
 @property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
+@property (nonatomic, retain) SearchBarViewController_iPad* searchBarViewController;
 
 @end

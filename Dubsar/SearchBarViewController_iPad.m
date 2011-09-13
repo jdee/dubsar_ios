@@ -39,6 +39,22 @@
 @synthesize dailyWord;
 @synthesize wordPopoverController;
 @synthesize executingAutocompleter;
+@synthesize abButton;
+@synthesize cdButton;
+@synthesize efButton;
+@synthesize ghButton;
+@synthesize ijButton;
+@synthesize klButton;
+@synthesize mnButton;
+@synthesize opButton;
+@synthesize qrButton;
+@synthesize stButton;
+@synthesize uvButton;
+@synthesize wxButton;
+@synthesize yzButton;
+@synthesize dotsButton;
+@synthesize homeButton;
+@synthesize toolbar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -70,6 +86,22 @@
     [searchBar release];
     [autocompleterTableView release];
     [wotdButton release];
+    [abButton release];
+    [cdButton release];
+    [efButton release];
+    [ghButton release];
+    [ijButton release];
+    [klButton release];
+    [mnButton release];
+    [opButton release];
+    [qrButton release];
+    [stButton release];
+    [uvButton release];
+    [wxButton release];
+    [yzButton release];
+    [dotsButton release];
+    [homeButton release];
+    [toolbar release];
     [super dealloc];
 }
 
@@ -102,6 +134,22 @@
     [self setSearchBar:nil];
     [self setAutocompleterTableView:nil];
     [self setWotdButton:nil];
+    [self setAbButton:nil];
+    [self setCdButton:nil];
+    [self setEfButton:nil];
+    [self setGhButton:nil];
+    [self setIjButton:nil];
+    [self setKlButton:nil];
+    [self setMnButton:nil];
+    [self setOpButton:nil];
+    [self setQrButton:nil];
+    [self setStButton:nil];
+    [self setUvButton:nil];
+    [self setWxButton:nil];
+    [self setYzButton:nil];
+    [self setDotsButton:nil];
+    [self setHomeButton:nil];
+    [self setToolbar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -335,6 +383,50 @@
     [searchBar resignFirstResponder];
     [popoverController dismissPopoverAnimated:YES];
     [wordPopoverController dismissPopoverAnimated:YES];
+}
+
+- (void)disable
+{
+    searchBar.hidden = YES;
+    abButton.enabled = NO;
+    cdButton.enabled = NO;
+    efButton.enabled = NO;
+    ghButton.enabled = NO;
+    ijButton.enabled = NO;
+    klButton.enabled = NO;
+    mnButton.enabled = NO;
+    opButton.enabled = NO;
+    qrButton.enabled = NO;
+    stButton.enabled = NO;
+    uvButton.enabled = NO;
+    wxButton.enabled = NO;
+    yzButton.enabled = NO;
+    dotsButton.enabled = NO;
+    homeButton.enabled = NO;
+    wotdButton.enabled = NO;
+    toolbar.hidden = YES;
+}
+
+- (void)enable
+{
+    searchBar.hidden = NO;
+    abButton.enabled = YES;
+    cdButton.enabled = YES;
+    efButton.enabled = YES;
+    ghButton.enabled = YES;
+    ijButton.enabled = YES;
+    klButton.enabled = YES;
+    mnButton.enabled = YES;
+    opButton.enabled = YES;
+    qrButton.enabled = YES;
+    stButton.enabled = YES;
+    uvButton.enabled = YES;
+    wxButton.enabled = YES;
+    yzButton.enabled = YES;
+    dotsButton.enabled = YES;
+    homeButton.enabled = YES;
+    wotdButton.enabled = YES;
+    toolbar.hidden = NO;
 }
 
 @end

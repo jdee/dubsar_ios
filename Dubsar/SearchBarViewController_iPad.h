@@ -30,6 +30,22 @@
     UIPopoverController* popoverController;
     UITableView *autocompleterTableView;
     UIButton *wotdButton;
+    UIButton *abButton;
+    UIButton *cdButton;
+    UIButton *efButton;
+    UIButton *ghButton;
+    UIButton *ijButton;
+    UIButton *klButton;
+    UIButton *mnButton;
+    UIButton *opButton;
+    UIButton *qrButton;
+    UIButton *stButton;
+    UIButton *uvButton;
+    UIButton *wxButton;
+    UIButton *yzButton;
+    UIButton *dotsButton;
+    UIButton *homeButton;
+    UIToolbar *toolbar;
 }
 
 @property (nonatomic, retain) UIPopoverController* wordPopoverController;
@@ -41,6 +57,23 @@
 @property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
 @property (nonatomic, retain) IBOutlet UIButton *wotdButton;
 @property (assign) Autocompleter* executingAutocompleter;
+
+@property (nonatomic, retain) IBOutlet UIButton *abButton;
+@property (nonatomic, retain) IBOutlet UIButton *cdButton;
+@property (nonatomic, retain) IBOutlet UIButton *efButton;
+@property (nonatomic, retain) IBOutlet UIButton *ghButton;
+@property (nonatomic, retain) IBOutlet UIButton *ijButton;
+@property (nonatomic, retain) IBOutlet UIButton *klButton;
+@property (nonatomic, retain) IBOutlet UIButton *mnButton;
+@property (nonatomic, retain) IBOutlet UIButton *opButton;
+@property (nonatomic, retain) IBOutlet UIButton *qrButton;
+@property (nonatomic, retain) IBOutlet UIButton *stButton;
+@property (nonatomic, retain) IBOutlet UIButton *uvButton;
+@property (nonatomic, retain) IBOutlet UIButton *wxButton;
+@property (nonatomic, retain) IBOutlet UIButton *yzButton;
+@property (nonatomic, retain) IBOutlet UIButton *dotsButton;
+@property (nonatomic, retain) IBOutlet UIButton *homeButton;
+@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
 
 - (IBAction)showWotd:(id)sender;
 - (IBAction)showFAQ:(id)sender;
@@ -65,5 +98,8 @@
 - (void)wotdFinished:(DailyWord*)theDailyWord;
 
 - (void)wildcardSearch:(NSString*)regexp title:(NSString*)title;
+
+- (void)disable;
+- (void)enable;
 
 @end

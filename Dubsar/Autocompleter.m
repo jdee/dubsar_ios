@@ -59,7 +59,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"releasing autocompleter for term %@", _term);
+    // NSLog(@"releasing autocompleter for term %@", _term);
     [_term release];
     [_results release];
     [super dealloc];
@@ -119,11 +119,11 @@
             self.results = [NSMutableArray array];
         }
         
-        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 1, [[_term uppercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 1, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
-        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 2, [[[self.class incrementString:_term]lowercaseString]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 2, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
@@ -131,16 +131,12 @@
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
-        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 4, [[_term stringByAppendingString:@"%"]cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-            return;
-        }
-        if ((rc=sqlite3_bind_int(appDelegate.autocompleterStmt, 5, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_int(appDelegate.autocompleterStmt, 4, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;    
         }
         
-        NSLog(@"searching DB for autocompleter matches for %@", _term);
+        // NSLog(@"searching DB for autocompleter matches for %@", _term);
         while (sqlite3_step(appDelegate.autocompleterStmt) == SQLITE_ROW) {
             if (aborted) return;
             char const* _name = (char const*)sqlite3_column_text(appDelegate.autocompleterStmt, 0);

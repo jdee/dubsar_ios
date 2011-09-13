@@ -20,27 +20,36 @@
 #import "DubsarAppDelegate_iPad.h"
 #import "DubsarNavigationController_iPad.h"
 #import "DubsarViewController_iPad.h"
+#import "LoadingViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 
 @implementation DubsarAppDelegate_iPad
 
 @synthesize navigationController = _navigationController;
 @synthesize splitViewController = _splitViewController;
+@synthesize searchBarViewController = _searchBarViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
-    SearchBarViewController_iPad* searchBarViewController = [[[SearchBarViewController_iPad alloc]initWithNibName:@"SearchBarViewController_iPad" bundle:nil]autorelease];
+    _searchBarViewController = [[[SearchBarViewController_iPad alloc]initWithNibName:@"SearchBarViewController_iPad" bundle:nil]autorelease];
     DubsarViewController_iPad* dubsarViewController = [[[DubsarViewController_iPad alloc]initWithNibName:@"DubsarViewController_iPad" bundle:nil]autorelease];
     
     _navigationController = [[DubsarNavigationController_iPad alloc]initWithRootViewController:dubsarViewController];
-    searchBarViewController.navigationController = _navigationController;
+    _searchBarViewController.navigationController = _navigationController;
     
     _splitViewController = [[UISplitViewController alloc]init];
-    _splitViewController.viewControllers = [NSArray arrayWithObjects:searchBarViewController, _navigationController, nil];
+    _splitViewController.viewControllers = [NSArray arrayWithObjects:_searchBarViewController, _navigationController, nil];
     
     self.window.rootViewController = _splitViewController;    
     
     [super application:application didFinishLaunchingWithOptions:launchOptions];
+    
+    if (!self.databaseReady) {
+        LoadingViewController_iPad* loadingController = [[[LoadingViewController_iPad alloc]initWithNibName:@"LoadingViewController_iPad" bundle:nil]autorelease];
+        [dubsarViewController presentModalViewController:loadingController animated:YES];
+        // [_searchBarViewController disable];
+    }
+    
     return YES;
 }
 
@@ -49,6 +58,12 @@
     [_navigationController release];
     [_splitViewController release];
 	[super dealloc];
+}
+
+- (void)databasePrepFinished
+{
+    [_navigationController.topViewController dismissModalViewControllerAnimated:YES];
+    // [_searchBarViewController enable];
 }
 
 @end
