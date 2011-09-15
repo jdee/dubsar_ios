@@ -195,7 +195,7 @@
          * Inflections FTS table
          */ 
         
-        sql = @"CREATE VIRTUAL TABLE inflections_fts USING fts4(name, id, word_id)";
+        sql = @"CREATE VIRTUAL TABLE inflections_fts USING fts3(name, id, word_id)";
         
         if ((rc=sqlite3_prepare_v2(database,
                                    [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
