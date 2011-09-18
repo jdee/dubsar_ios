@@ -41,7 +41,9 @@
         dubsarNormalFont = [[UIFont fontWithName:@"TrebuchetMS" size:18.0]retain];
         dubsarSmallFont  = [[UIFont fontWithName:@"TrebuchetMS" size:14.0]retain];
         databaseReady = false;
-        [self performSelectorInBackground:@selector(prepareDatabase) withObject:nil];
+        // [self performSelectorInBackground:@selector(prepareDatabase) withObject:nil];
+        [self prepareDatabase];
+        databaseReady = true;
     }
     return self;
 }
@@ -111,7 +113,7 @@
     NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
     NSString* srcPath = [resourcePath stringByAppendingPathComponent:PRODUCTION_DB_NAME];
     
-    /* copy to Documents folder */
+    /* copy to Documents folder
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDir = [paths objectAtIndex: 0];
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -174,131 +176,33 @@
     attrs = [fileManager attributesOfItemAtPath:dstPath error:&error];
     NSLog(@"%@ created at %@", dstPath, [attrs valueForKey:NSFileCreationDate]);
     NSLog(@"%@ modified at %@", dstPath, [attrs valueForKey:NSFileModificationDate]);
+     */
    
     int rc;
-    if ((rc=sqlite3_open_v2([dstPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READWRITE, NULL)) != SQLITE_OK) {
-        NSLog(@"error opening database %@, %d", dstPath, rc);
+    if ((rc=sqlite3_open_v2([srcPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
+        NSLog(@"error opening database %@, %d", srcPath, rc);
         database = NULL;
         return;
     }
     
     NSLog(@"successfully opened database %@", PRODUCTION_DB_NAME);
     NSString* sql;
-    sqlite3_stmt* statement;
     
-    if (deploying) {
-        /*
-         * Create virtual FTS tables
-         */
-        
-        /*
-         * Inflections FTS table
-         */ 
-        
-        sql = @"CREATE VIRTUAL TABLE inflections_fts USING fts3(name, id, word_id)";
-        
-        if ((rc=sqlite3_prepare_v2(database,
-                                   [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-            NSLog(@"error preparing CREATE VIRTUAL TABLE statement, error %d", rc);
-            return;
-        }
-        
-        if ((rc=sqlite3_step(statement)) == SQLITE_ERROR) {
-            NSLog(@"CREATE VIRTUAL TABLE statement returned error");
-            sqlite3_finalize(statement);
-            return;
-        }
-        else {
-            NSLog(@"created virtual table inflections_fts");
-        }
-        sqlite3_finalize(statement);
-        
-        sql = @"INSERT INTO inflections_fts (name, id, word_id) SELECT name, id, word_id FROM inflections";
-        if ((rc=sqlite3_prepare_v2(database,
-                                   [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-            NSLog(@"error preparing INSERT statement, error %d", rc);
-            sqlite3_finalize(statement);
-            return;
-        }
-        
-        if (sqlite3_step(statement) == SQLITE_ERROR) {
-            NSLog(@"INSERT statement returned error");
-            sqlite3_finalize(statement);
-            return;
-        }
-        sqlite3_finalize(statement);
-        
-        sql = @"INSERT INTO inflections_fts(inflections_fts) VALUES('optimize')";
-        if ((rc=sqlite3_prepare_v2(database,
-                                   [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-            NSLog(@"error preparing INSERT statement, error %d", rc);
-            sqlite3_finalize(statement);
-            return;
-        }
-        
-        if (sqlite3_step(statement) == SQLITE_ERROR) {
-            NSLog(@"INSERT statement returned error");
-            sqlite3_finalize(statement);
-            return;
-        }
-        sqlite3_finalize(statement);
-        
-        attrs = [fileManager attributesOfItemAtPath:dstPath error:&error];
-        NSLog(@"%@ created at %@", dstPath, [attrs valueForKey:NSFileCreationDate]);
-        NSLog(@"%@ modified at %@", dstPath, [attrs valueForKey:NSFileModificationDate]);
-        
-        /*
-         * Words FTS table
-         
-         sql = @"CREATE VIRTUAL TABLE words_fts USING fts3(id, name, part_of_speech, freq_cnt)";
-         
-         if ((rc=sqlite3_prepare_v2(database,
-         [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-         NSLog(@"error preparing CREATE VIRTUAL TABLE statement, error %d", rc);
-         return;
-         }
-         
-         if ((rc=sqlite3_step(statement)) == SQLITE_ERROR) {
-         NSLog(@"CREATE VIRTUAL TABLE statement returned error");
-         sqlite3_finalize(statement);
-         return;
-         }
-         else {
-         NSLog(@"created virtual table words_fts");
-         }
-         sqlite3_finalize(statement);
-         
-         sql = @"INSERT INTO words_fts (id, name, part_of_speech, freq_cnt) SELECT id, name, part_of_speech, freq_cnt FROM words";
-         if ((rc=sqlite3_prepare_v2(database,
-         [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-         NSLog(@"error preparing INSERT statement, error %d", rc);
-         sqlite3_finalize(statement);
-         return;
-         }
-         
-         if (sqlite3_step(statement) == SQLITE_ERROR) {
-         NSLog(@"INSERT statement returned error");
-         sqlite3_finalize(statement);
-         return;
-         }
-         sqlite3_finalize(statement);
-         
-         sql = @"INSERT INTO words_fts(words_fts) VALUES('optimize')";
-         if ((rc=sqlite3_prepare_v2(database,
-         [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-         NSLog(@"error preparing INSERT statement, error %d", rc);
-         sqlite3_finalize(statement);
-         return;
-         }
-         
-         if (sqlite3_step(statement) == SQLITE_ERROR) {
-         NSLog(@"INSERT statement returned error");
-         sqlite3_finalize(statement);
-         return;
-         }
-         sqlite3_finalize(statement);
-         */
+    /*
+    sqlite3_stmt* statement;
+    if ((rc=sqlite3_prepare_v2(database, "INSERT INTO inflections_fts(inflections_fts) VALUES('optimize')", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"error %d preparing statement", rc);
+        return;
     }
+    
+    if (sqlite3_step(statement) == SQLITE_ERROR) {
+        NSLog(@"error optimizing FTS table");
+        return;
+    }
+    
+    sqlite3_finalize(statement);
+    NSLog(@"optimized FTS table successfully");
+     */
     
     /*
      * Prepared statements for the Autocompleter
@@ -320,9 +224,6 @@
         return;
     }
     
-    /*
-     * This is a faster way to do case-insensitive autocompletion than joining the inflections table.
-     */
     sql = @"SELECT DISTINCT ifts.name "
     @"FROM inflections_fts ifts "
     @"INNER JOIN inflections i USING (id) "
@@ -346,6 +247,11 @@
     [self databasePrepFinished];
     
     [pool release];
+}
+
+-(void)databasePrepFinished
+{
+    // implemented in child classes
 }
 
 @end

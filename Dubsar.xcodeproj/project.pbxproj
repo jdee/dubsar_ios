@@ -1002,16 +1002,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: James Dee";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: James Dee";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jimmy Dee (492446EY7H)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "39A2D70D-9CAF-46E8-B1B5-DCE42C0639F0";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "39A2D70D-9CAF-46E8-B1B5-DCE42C0639F0";
+				PROVISIONING_PROFILE = "8460A91E-2713-454B-B8C5-F917DF916D60";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8460A91E-2713-454B-B8C5-F917DF916D60";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1020,15 +1020,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: James Dee";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: James Dee";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jimmy Dee (492446EY7H)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "39A2D70D-9CAF-46E8-B1B5-DCE42C0639F0";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "39A2D70D-9CAF-46E8-B1B5-DCE42C0639F0";
+				PROVISIONING_PROFILE = "8460A91E-2713-454B-B8C5-F917DF916D60";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8460A91E-2713-454B-B8C5-F917DF916D60";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

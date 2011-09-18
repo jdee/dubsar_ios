@@ -44,11 +44,13 @@
     
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     
+    /*
     if (!self.databaseReady) {
         LoadingViewController_iPad* loadingController = [[[LoadingViewController_iPad alloc]initWithNibName:@"LoadingViewController_iPad" bundle:nil]autorelease];
         [dubsarViewController presentModalViewController:loadingController animated:YES];
         // [_searchBarViewController disable];
     }
+     */
     
     return YES;
 }

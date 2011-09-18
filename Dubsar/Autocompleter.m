@@ -144,14 +144,6 @@
             
             [_results addObject:match];
         }
-        
-        /* NSLog(@"done searching for autocompleter matches");
-         NSLog(@"found %d matches: ", _results.count);
-         for (int j=0; j<_results.count; ++j) {
-         NSString* result = [_results objectAtIndex:j];
-         NSLog(@" \"%@\"", result);
-         }
-         */
     }
 }
 

@@ -41,10 +41,12 @@
 
     [super application:application didFinishLaunchingWithOptions:launchOptions];
 
+    /*
     if (!self.databaseReady) {
         LoadingViewController_iPhone* loadingController = [[[LoadingViewController_iPhone alloc]initWithNibName:@"LoadingViewController_iPhone" bundle:nil]autorelease];
         [rootViewController presentModalViewController:loadingController animated:YES];
     }
+     */
     
     return YES;
 }
