@@ -60,7 +60,7 @@
 
 - (void)load
 {
-    if (self.loading) return;
+    if (self.loading || self.loadedSuccessfully) return;
     
     [word load];
     self.loading = true;

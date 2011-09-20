@@ -25,6 +25,7 @@
     UISearchBar *searchBar;
     UITableView *autocompleterTableView;
     AutocompleterProxy* proxy;
+    bool editing;
 }
 
 @property (nonatomic, retain) Autocompleter* autocompleter;

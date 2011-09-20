@@ -116,6 +116,8 @@
     [theSearchBar resignFirstResponder];
     [autocompleterTableView setHidden:YES];
     
+    editing = false;
+    
     // new SearchViewController for this search
     SearchViewController_iPhone* searchViewController = [[[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: theSearchBar.text]autorelease];
     [self.navigationController pushViewController:searchViewController animated: YES];
@@ -124,6 +126,9 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar 
 {
     if (theSearchBar != searchBar) return;
+    
+    editing = false;
+    
     theSearchBar.text = preEditText;
     NSLog(@"canceled, restored search text to \"%@\"", preEditText);
     self.preEditText = nil;
@@ -134,6 +139,8 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
 {
     if (theSearchBar != searchBar) return;
+    editing = true;
+    
     self.preEditText = [NSString stringWithString:searchBar.text];
     NSLog(@"editing began, started with \"%@\"", preEditText);
     theSearchBar.showsCancelButton = YES;
@@ -144,6 +151,7 @@
     if (theSearchBar != searchBar) return;
     self.preEditText = nil;
     theSearchBar.showsCancelButton = NO;
+    editing = false;
 }
 
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
@@ -158,6 +166,8 @@
                 }
             }
         }
+        
+        if (!editing) return;
         
         UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
         Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
@@ -240,7 +250,7 @@
         }
     }
     
-    if (theAutocompleter.aborted || autocompleter.seqNum >= theAutocompleter.seqNum) {
+    if (theAutocompleter.aborted || autocompleter.seqNum >= theAutocompleter.seqNum || !editing) {
         [theAutocompleter release];
         return;
     }

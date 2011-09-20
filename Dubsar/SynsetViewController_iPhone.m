@@ -109,7 +109,7 @@
 
 - (void)load
 {
-    if (self.loading) return;
+    if (self.loading || (synset.complete && !synset.error)) return;
     
     [synset load];
     self.loading = true;

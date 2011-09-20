@@ -106,7 +106,7 @@
 
 - (void)load
 {
-    if (self.loading) return;
+    if (self.loading || (sense.complete && !sense.error)) return;
     
     [sense load];
 

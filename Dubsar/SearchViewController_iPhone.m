@@ -66,7 +66,7 @@
 
 - (void)load
 {
-    if (self.loading) return;
+    if (self.loading || (search.complete && !search.error)) return;
 
     self.loading = true;
     
