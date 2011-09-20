@@ -119,7 +119,7 @@
             self.results = [NSMutableArray array];
         }
         
-        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 1, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 1, [[_term stringByAppendingString:@"*"] cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }

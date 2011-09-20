@@ -147,8 +147,6 @@ static int _seqNum = 0;
 
 - (void)loadResults:(DubsarAppDelegate*)appDelegate
 {    
-    NSCharacterSet* set = [NSCharacterSet characterSetWithCharactersInString:@"%_"];
-    NSRange range = [term rangeOfCharacterFromSet:set];
     NSString* sql = @"SELECT w.id, w.name, w.part_of_speech, w.freq_cnt FROM WORDS w ";
     
     NSString* capital1;
