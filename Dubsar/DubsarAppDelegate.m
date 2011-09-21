@@ -224,12 +224,10 @@
         return;
     }
     
-    sql = @"SELECT DISTINCT ifts.name "
-    @"FROM inflections_fts ifts "
-    @"INNER JOIN inflections i USING (id) "
-    @"INNER JOIN words w ON w.id = i.word_id "
-    @"WHERE ifts.name MATCH ? AND w.name != ? AND i.name != ? "
-    @"ORDER BY ifts.name ASC "
+    sql = @"SELECT DISTINCT name "
+    @"FROM inflections_fts "
+    @"WHERE name MATCH ? AND NOT name LIKE ? "
+    @"ORDER BY name ASC "
     @"LIMIT ?";
     
     NSLog(@"preparing statement \"%@\"", sql);

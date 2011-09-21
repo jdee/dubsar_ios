@@ -127,11 +127,7 @@
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
-        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 3, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-            return;
-        }
-        if ((rc=sqlite3_bind_int(appDelegate.autocompleterStmt, 4, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_int(appDelegate.autocompleterStmt, 3, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;    
         }
