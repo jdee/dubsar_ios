@@ -289,6 +289,8 @@
     
     tableView.contentSize = CGSizeMake(frame.size.width, height);
     tableView.frame = frame;
+    
+    inflectionsTextView.hidden = !inflectionsShowing;
 }
 
 @end
