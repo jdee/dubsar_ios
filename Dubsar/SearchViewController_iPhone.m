@@ -103,7 +103,12 @@
 {
     [super viewWillAppear:animated];
     [self searchBar].text = [_searchText copy];
-    [_tableView reloadData];
+    if (search.complete && !search.error) {
+        [self loadComplete:search withError:nil];
+    }
+    else {
+        [self load];
+    }
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar

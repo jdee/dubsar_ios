@@ -160,8 +160,11 @@
     tableView.hidden = NO;
     detailView.hidden = YES;
 
-    if (synset.complete) {
-        [self loadComplete:synset withError:synset.errorMessage];
+    if (synset.complete && !synset.error) {
+        [self loadComplete:synset withError:nil];
+    }
+    else {
+        [self load];
     }
 }
 

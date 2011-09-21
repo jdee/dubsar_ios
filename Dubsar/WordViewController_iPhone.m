@@ -93,7 +93,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setTableViewFrame];
+
+    if (word.complete && !word.error) {
+        [self loadComplete:word withError:nil];
+    }
+    else {
+        [self load];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView

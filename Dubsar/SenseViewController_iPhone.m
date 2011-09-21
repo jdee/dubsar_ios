@@ -158,8 +158,11 @@
     glossTextView.hidden = NO;
     tableView.hidden = NO;
     detailView.hidden = YES;
-    if (sense.complete) {
-        [self loadComplete:sense withError:sense.errorMessage];
+    if (sense.complete && !sense.error) {
+        [self loadComplete:sense withError:nil];
+    }
+    else {
+        [self load];
     }
         
 }
@@ -187,6 +190,7 @@
     [self adjustBannerLabel];
     glossTextView.text = sense.gloss;
     detailGlossTextView.text = sense.gloss;
+    [tableView reloadData];
 }
 
 - (void)adjustBannerLabel
