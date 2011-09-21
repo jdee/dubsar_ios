@@ -154,6 +154,8 @@ static int _seqNum = 0;
     NSString* lower1;
     NSString* lower2;
     
+    self.results = [NSMutableArray array];
+
     if (isWildCard) {
         // globbing for iPad alphabet buttons, term is like "[ABab]*" or "[^A-Za-z]*".
         unichar first = [term characterAtIndex:1];
@@ -242,12 +244,13 @@ static int _seqNum = 0;
         sql = [sql stringByAppendingString:where];
     }
     else {
-        sql =  @"SELECT DISTINCT w.id, w.name, w.part_of_speech, w.freq_cnt "
-               @"FROM words w INNER JOIN inflections i ON w.id = i.word_id "
-               @"WHERE w.id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term) ";
-        NSString* countSql = @"SELECT COUNT(*) FROM words WHERE id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term )";
         int rc;
         sqlite3_stmt* statement;
+
+        sql =  @"SELECT DISTINCT w.id, w.name, w.part_of_speech, w.freq_cnt "
+               @"FROM words w "
+               @"WHERE w.id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term) ";
+        NSString* countSql = @"SELECT COUNT(*) FROM words WHERE id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term )";
         if ((rc=sqlite3_prepare_v2(appDelegate.database, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
             return;
@@ -335,8 +338,6 @@ static int _seqNum = 0;
         }
         NSLog(@"bound :lower2 to \"%@\"", lower2);
     }
-    
-    self.results = [NSMutableArray array];
 
     while (sqlite3_step(statement) == SQLITE_ROW && results.count < NUM_PER_PAGE) {
         NSLog(@"found matching row");
