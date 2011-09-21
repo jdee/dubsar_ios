@@ -82,7 +82,6 @@
         weakSynsetLink = true;
         weakWordLink = false;
         [self initUrl];
-        [self prepareStatements];
     }
     return self;
 }
@@ -104,7 +103,6 @@
         pointers = nil;
         weakWordLink = weakSynsetLink = false;
         [self initUrl];
-        [self prepareStatements];
     }
     return self;
    
@@ -128,7 +126,6 @@
         weakSynsetLink = false;
         weakWordLink = true;
         [self initUrl];
-        [self prepareStatements];
     }
     return self;
 }
@@ -149,7 +146,6 @@
         weakSynsetLink = false;
         weakWordLink = false;
         [self initUrl];
-        [self prepareStatements];
         [self parseNameAndPos:nameAndPos];
     }
     return self;
@@ -465,10 +461,7 @@
     
     sqlite3_finalize(statement);
     
-    /*
-    [self loadPointers:appDelegate];
-    [self countPointers:appDelegate];
-     */
+    [self prepareStatements];
 }
 
 -(int)numberOfSections
@@ -557,26 +550,26 @@
         pointer.targetText = [samples objectAtIndex:indexPath.row];
     }
     else {
-        /* DEBT: Get text binding to work so that this query can be prepared in advance. */
-        DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)UIApplication.sharedApplication.delegate;
-        int rc;
-        sqlite3_stmt* statement;
-        NSString* sql = [NSString stringWithFormat:@"SELECT id, target_id, target_type "
-                         @"FROM pointers "
-                         @"WHERE ((source_id = %d AND source_type = 'Sense') OR "
-                         @"(source_id = %d AND source_type = 'Synset')) AND "
-                         @"ptype = '%@' "
-                         @"ORDER BY id ASC "
-                         @"LIMIT 1 "
-                         @"OFFSET %d ", _id, synset._id, section.ptype, indexPath.row];
-        if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-            NSLog(@"error %d preparing statement", rc);
-            return pointer;
-        }        
+        int rc;        
+        int ptypeIdx = sqlite3_bind_parameter_index(pointerQuery, ":ptype");
+        int offsetIdx = sqlite3_bind_parameter_index(pointerQuery, ":offset");
         
-        if (sqlite3_step(statement) == SQLITE_ROW) {
-            pointer.targetId = sqlite3_column_int(statement, 1);
-            char const* _targetType = (char const*)sqlite3_column_text(statement, 2);
+        if ((rc=sqlite3_reset(pointerQuery)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error resetting statement, error %d", rc];
+            return nil;
+        }
+        if ((rc=sqlite3_bind_int(pointerQuery, offsetIdx, indexPath.row)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return nil;
+        }
+        if ((rc=sqlite3_bind_text(pointerQuery, ptypeIdx, [section.ptype cStringUsingEncoding:NSUTF8StringEncoding], -1, NULL)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return nil;          
+        }
+        
+        if (sqlite3_step(pointerQuery) == SQLITE_ROW) {
+            pointer.targetId = sqlite3_column_int(pointerQuery, 1);
+            char const* _targetType = (char const*)sqlite3_column_text(pointerQuery, 2);
             pointer.targetType = [NSString stringWithCString:_targetType encoding:NSUTF8StringEncoding];
             
             if ([pointer.targetType isEqualToString:@"Sense"]) {
@@ -640,7 +633,6 @@
                 pointer.targetText = [NSString stringWithFormat:@"%@ (%@.)", words, [PartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
             }
         }
-        sqlite3_finalize(statement);
         
     }
     
@@ -652,7 +644,6 @@
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)UIApplication.sharedApplication.delegate;
     int rc;
 
-    /*
     NSString* sql = [NSString stringWithFormat:
                      @"SELECT id, target_id, target_type "
                      @"FROM pointers "
@@ -667,7 +658,6 @@
         NSLog(@"error %d preparing pointer query", rc);
         return;
     }
-     */
     
     char const* csql = "SELECT w.name, w.part_of_speech, sy.definition, se.marker "
               "FROM words w "
@@ -699,317 +689,7 @@
 {
     sqlite3_finalize(semanticQuery);
     sqlite3_finalize(lexicalQuery);
-    // sqlite3_finalize(pointerQuery);
+    sqlite3_finalize(pointerQuery);
 }
-
-#if 0
-/* Code to load everything up front */
--(void)countPointers:(DubsarAppDelegate*)appDelegate
-{
-    // number of different pointer types
-    NSString* sql = [NSString stringWithFormat:
-                     @"SELECT COUNT (*) "
-                     @"FROM (SELECT DISTINCT ptype FROM pointers "
-                     @"WHERE (source_id = %d AND source_type = 'Sense') OR "
-                     @"(source_id = %d AND source_type = 'Synset')) ", _id, synset._id];
-    
-    int rc;
-    sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-        return;
-    }
-    
-    self.sections = [NSMutableArray array];
-    if (sqlite3_step(statement) == SQLITE_ROW) {
-        int count = sqlite3_column_int(statement, 0);
-        NSLog(@"%d pointer types", count);
-        
-        _numberOfSections = count;
-        if (synonyms.count > 0) {
-            ++_numberOfSections;
-            Section* section = [Section section];
-            section.header = @"Synonyms";
-            section.footer = [PointerDictionary helpWithPointerType:@"synonym"];
-            section.linkType = @"sense";
-            section.ptype = @"synonym";
-            section.numRows = synonyms.count;
-            [sections addObject:section];
-        }
-        if (verbFrames.count > 0) {
-            ++_numberOfSections;
-            Section* section = [Section section];
-            section.header = @"Verb Frames";
-            section.footer = [PointerDictionary helpWithPointerType:@"verb frame"];
-            section.linkType = @"sample";
-            section.ptype = @"verb frame";
-            section.numRows = verbFrames.count;
-            [sections addObject:section];
-        }
-        if (samples.count > 0) {
-            ++_numberOfSections;
-            Section* section = [Section section];
-            section.header = @"Samples";
-            section.footer = [PointerDictionary helpWithPointerType:@"sample sentence"];
-            section.linkType = @"sample";
-            section.ptype = @"sample sentence";
-            section.numRows = samples.count;
-            [sections addObject:section];
-        }
-        NSLog(@"%d sections in tableView", _numberOfSections);
-    }
-    
-    sqlite3_finalize(statement);
-    
-    sql = [NSString stringWithFormat:@"SELECT DISTINCT ptype FROM pointers "
-           @"WHERE (source_id = %d AND source_type = 'Sense') OR "
-           @"(source_id = %d AND source_type = 'Synset') "
-           @"ORDER BY ptype ASC", _id, synset._id];
-    
-    NSMutableArray* types = [NSMutableArray array];
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-        return;
-    }
-    
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-        char const* _ptype = (char const*)sqlite3_column_text(statement, 0);
-        NSString* ptype = [NSString stringWithCString:_ptype encoding:NSUTF8StringEncoding];
-        [types addObject:ptype];
-    }
-    
-    sqlite3_finalize(statement);
-    
-    for (int j=0; j<types.count; ++j) {
-        NSString* type = [types objectAtIndex:j];
-        sql = [NSString stringWithFormat:
-               @"SELECT COUNT(*) FROM "
-               @"(SELECT DISTINCT target_id, target_type FROM pointers WHERE "
-               @"(ptype = '%@' AND ((source_id = %d AND source_type = 'Sense') OR "
-               @"(source_id = %d AND source_type = 'Synset'))))", type, _id, synset._id];
-        if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-            self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-            return;
-        }
-        
-        Section* section = [Section section];
-        section.header = [PointerDictionary titleWithPointerType:type];
-        section.footer = [PointerDictionary helpWithPointerType:type];
-        section.ptype = type;
-        section.linkType = @"pointer";
-        section.senseId = _id;
-        section.synsetId = synset._id;
-        
-        NSLog(@"executing %@", sql);
-        if (sqlite3_step(statement) == SQLITE_ROW) {
-            section.numRows = sqlite3_column_int(statement, 0);
-            NSLog(@"%d rows of type %@", section.numRows, section.ptype);
-        }
-        
-        sqlite3_finalize(statement);
-        [sections addObject:section];
-    }
-}
-
--(void)loadPointers:(DubsarAppDelegate*)appDelegate
-{
-    
-    NSLog(@"loading pointers");
-    self.pointers = [NSMutableDictionary dictionary];
-    
-    /* lexical pointers */
-    NSString* sql = [NSString stringWithFormat:
-                     @"SELECT p.ptype, p.target_id, w.name, w.part_of_speech, sy.definition "
-                     @"FROM pointers p "
-                     @"INNER JOIN senses s ON s.id = p.target_id "
-                     @"INNER JOIN words w ON w.id = s.word_id "
-                     @"INNER JOIN synsets sy ON sy.id = s.synset_id "
-                     @"WHERE p.source_id = %d AND p.source_type = 'Sense' "
-                     @"ORDER BY p.ptype ASC, w.name ASC, w.part_of_speech ASC ", _id];
-    
-    int rc;
-    sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-        NSLog(@"%@", self.errorMessage);
-        return;
-    }
-    
-    NSLog(@"executing %@", sql);
-    while (sqlite3_step(statement) == SQLITE_ROW) {
-        char const* _ptype = (char const*)sqlite3_column_text(statement, 0);
-        int targetId = sqlite3_column_int(statement, 1);
-        char const* _name = (char const*)sqlite3_column_text(statement, 2);
-        char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 3);
-        char const* _definition = (char const*)sqlite3_column_text(statement, 4);
-        
-        // NSLog(@"matching row> %d %s: %s (%s) %s", targetId, _ptype, _name, _part_of_speech, _definition);
-        
-        NSString* ptype = [NSString stringWithCString:_ptype encoding:NSUTF8StringEncoding];
-        NSString* definition = [NSString stringWithCString:_definition encoding:NSUTF8StringEncoding];
-        NSString* targetGloss = [[definition componentsSeparatedByString:@"; \""]objectAtIndex:0];
-        PartOfSpeech _partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
-        NSString* nameAndPos = [NSString stringWithFormat:@"%s (%@)", _name, [PartOfSpeechDictionary posFromPartOfSpeech:_partOfSpeech]];
-        
-        NSMutableArray* _pointersByType = [pointers valueForKey:ptype];
-        if (_pointersByType == nil) {
-            _pointersByType = [NSMutableArray array];
-            [pointers setValue:_pointersByType forKey:ptype];
-        }
-        
-        NSMutableArray* _ptr = [NSMutableArray array];
-        [_ptr addObject:@"sense"];
-        [_ptr addObject:[NSNumber numberWithInt:targetId]];
-        [_ptr addObject:nameAndPos];
-        [_ptr addObject:targetGloss];
-        
-        [_pointersByType addObject:_ptr];
-        [pointers setValue:_pointersByType forKey:ptype];
-        
-        // NSLog(@"added lexical pointer %@: %@, %@", ptype, nameAndPos, targetGloss);
-    }
-    
-    sqlite3_finalize(statement);
-    
-    /* semantic pointers */
-    sql = [NSString stringWithFormat:
-           @"SELECT p.ptype, p.target_id, w.name, w.part_of_speech, sy.definition, p.id "
-           @"FROM pointers p "
-           @"INNER JOIN synsets sy ON sy.id = p.target_id "
-           @"INNER JOIN senses se ON se.synset_id = sy.id "
-           @"INNER JOIN words w ON w.id = se.word_id "
-           @"WHERE p.source_id = %d AND p.source_type = 'Synset' "
-           @"ORDER BY p.ptype ASC, w.name ASC, w.part_of_speech ASC ", synset._id];
-    
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-        self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-        NSLog(@"%@", self.errorMessage);
-        return;
-    }
-    
-    int currentPointerId = 0;
-    NSString* currentPtype = nil;
-    NSMutableArray* wordList = [NSMutableArray array];
-    int currentTargetId = 0;
-    NSString* currentTargetGloss = nil;
-    char const* current_part_of_speech = nil;
-    
-    NSLog(@"executing %@", sql);
-    while ((rc=sqlite3_step(statement)) == SQLITE_ROW) {
-        char const* _ptype = (char const*)sqlite3_column_text(statement, 0);
-        int targetId = sqlite3_column_int(statement, 1);
-        char const* _name = (char const*)sqlite3_column_text(statement, 2);
-        char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 3);
-        char const* _definition = (char const*)sqlite3_column_text(statement, 4);
-        int pointerId = sqlite3_column_int(statement, 5);
-        
-        // NSLog(@"matching row> %d %s: %s (%s) %s", targetId, _ptype, _name, _part_of_speech, _definition);
-        
-        NSString* ptype = [NSString stringWithCString:_ptype encoding:NSUTF8StringEncoding];
-        NSString* definition = [NSString stringWithCString:_definition encoding:NSUTF8StringEncoding];
-        NSString* targetGloss = [[definition componentsSeparatedByString:@"; \""]objectAtIndex:0];
-        
-        if (pointerId != currentPointerId) {
-            if (currentPointerId != 0) {
-                NSMutableArray* _pointersByType = [pointers valueForKey:currentPtype];
-                if (_pointersByType == nil) {
-                    _pointersByType = [NSMutableArray array];
-                    [pointers setValue:_pointersByType forKey:currentPtype];
-                }
-                
-                NSString* words = [NSString string];
-                for (int j=0; j<wordList.count-1; ++j) {
-                    words = [words stringByAppendingFormat:@"%@, ", [wordList objectAtIndex:j]];
-                }
-                if (wordList.count > 0) {
-                    words = [words stringByAppendingString:[wordList objectAtIndex:wordList.count-1]];
-                }
-                
-                NSMutableArray* _ptr = [NSMutableArray array];
-                [_ptr addObject:@"synset"];
-                [_ptr addObject:[NSNumber numberWithInt:currentTargetId]];
-                [_ptr addObject:[NSString stringWithFormat:@"%@ (%@.)", words, [PartOfSpeechDictionary posFromPartOfSpeech:[PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:current_part_of_speech]]]];
-                [_ptr addObject:currentTargetGloss];
-                
-                [_pointersByType addObject:_ptr];
-                [pointers setValue:_pointersByType forKey:currentPtype];
-                // NSLog(@"added semantic pointer %@: %@ (%s), %@", currentPtype, words, current_part_of_speech, currentTargetGloss);
-            }
-            
-            currentPointerId = pointerId;
-            currentPtype = ptype;
-            currentTargetId = targetId;
-            currentTargetGloss = targetGloss;
-            if (current_part_of_speech != NULL) free((void*)current_part_of_speech);
-            current_part_of_speech = strdup(_part_of_speech);
-            [wordList removeAllObjects];
-        }
-        
-        [wordList addObject:[NSString stringWithCString:_name encoding:NSUTF8StringEncoding]];
-    }
-    
-    if (rc == SQLITE_DONE) {
-        if (currentPointerId != 0) {
-            NSMutableArray* _pointersByType = [pointers valueForKey:currentPtype];
-            if (_pointersByType == nil) {
-                _pointersByType = [NSMutableArray array];
-                [pointers setValue:_pointersByType forKey:currentPtype];
-            }
-            
-            NSString* words = [NSString string];
-            for (int j=0; j<(int)wordList.count-1; ++j) {
-                words = [words stringByAppendingFormat:@"%@, ", [wordList objectAtIndex:j]];
-            }
-            if (wordList.count > 0) {
-                words = [words stringByAppendingString:[wordList objectAtIndex:wordList.count-1]];
-            }
-            
-            NSMutableArray* _ptr = [NSMutableArray array];
-            [_ptr addObject:@"synset"];
-            [_ptr addObject:[NSNumber numberWithInt:currentTargetId]];
-            [_ptr addObject:[NSString stringWithFormat:@"%@ (%@.)", words, [PartOfSpeechDictionary posFromPartOfSpeech:[PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:current_part_of_speech]]]];
-            [_ptr addObject:currentTargetGloss];
-            
-            [_pointersByType addObject:_ptr];
-            [pointers setValue:_pointersByType forKey:currentPtype];
-            NSLog(@"added semantic pointer %@: %@ (%s), %@", currentPtype, words, current_part_of_speech, currentTargetGloss);
-        }
-    }
-    
-    sqlite3_finalize(statement);
-    NSLog(@"finished loading pointers");
-}
-
--(Pointer*)pointerForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    Section* section = [sections objectAtIndex:indexPath.section];
-    Pointer* pointer = [Pointer pointer];
-    
-    if ([section.ptype isEqualToString:@"synonym"]) {
-        Sense* synonym = [synonyms objectAtIndex:indexPath.row];
-        pointer.targetText = synonym.name;
-        pointer.targetId = synonym._id;
-        pointer.targetType = @"sense";
-    }
-    else if ([section.ptype isEqualToString:@"verb frame"]) {
-        pointer.targetText = [verbFrames objectAtIndex:indexPath.row];
-    }
-    else if ([section.ptype isEqualToString:@"sample sentence"]) {
-        pointer.targetText = [samples objectAtIndex:indexPath.row];
-    }
-    else {
-        NSArray* ptrs = [pointers valueForKey:section.ptype];
-        NSArray* ptr = [ptrs objectAtIndex:indexPath.row];
-        
-        pointer.targetType = [ptr objectAtIndex:0];
-        NSNumber* numericId = [ptr objectAtIndex:1];
-        pointer.targetId = numericId.intValue;
-        pointer.targetText = [ptr objectAtIndex:2];
-        pointer.targetGloss = [ptr objectAtIndex:3];
-    }
-    
-    return pointer;
-}
-#endif
 
 @end

@@ -217,6 +217,7 @@
     @"ON w.id = i.word_id "
     @"WHERE i.name = ? "
     @"ORDER BY w.name ASC";
+    
     NSLog(@"preparing statement \"%@\"", sql);
     if ((rc=sqlite3_prepare_v2(database,
                                [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &exactAutocompleterStmt, NULL)) != SQLITE_OK) {
@@ -224,6 +225,7 @@
         return;
     }
     
+    /* FTS search */
     sql = @"SELECT DISTINCT name "
     @"FROM inflections_fts "
     @"WHERE name MATCH ? AND NOT name LIKE ? "
@@ -231,14 +233,10 @@
     @"LIMIT ?";
     
     NSLog(@"preparing statement \"%@\"", sql);
-    
     if ((rc=sqlite3_prepare_v2(database,
                                [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &autocompleterStmt, NULL)) != SQLITE_OK) {
         NSLog(@"error preparing match statement, error %d", rc);
         return;
-    }
-    else {
-        NSLog(@"prepared statement successfully");
     }
     
     self.databaseReady = true;

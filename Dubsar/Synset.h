@@ -22,6 +22,7 @@
 
 
 @interface Synset : Model {
+    sqlite3_stmt* pointerQuery;
     sqlite3_stmt* semanticQuery;
 }
 

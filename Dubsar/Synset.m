@@ -317,25 +317,26 @@
         pointer.targetText = [samples objectAtIndex:indexPath.row];
     }
     else {
-        /* DEBT: Get text binding to work so that this query can be prepared in advance. */
-        DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)UIApplication.sharedApplication.delegate;
         int rc;
-        sqlite3_stmt* statement;
-        NSString* sql = [NSString stringWithFormat:@"SELECT id, target_id, target_type "
-                         @"FROM pointers "
-                         @"WHERE source_id = %d AND source_type = 'Synset' AND "
-                         @"ptype = '%@' "
-                         @"ORDER BY id ASC "
-                         @"LIMIT 1 "
-                         @"OFFSET %d ", _id, section.ptype, indexPath.row];
-        if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_reset(pointerQuery)) != SQLITE_OK) {
             NSLog(@"error %d preparing statement", rc);
             return pointer;
-        }        
+        }
+
+        int ptypeIdx = sqlite3_bind_parameter_index(pointerQuery, ":ptype");
+        int offsetIdx = sqlite3_bind_parameter_index(pointerQuery, ":offset");
+        if ((rc=sqlite3_bind_int(pointerQuery, offsetIdx, indexPath.row)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return nil;
+        }
+        if ((rc=sqlite3_bind_text(pointerQuery, ptypeIdx, [section.ptype cStringUsingEncoding:NSUTF8StringEncoding], -1, NULL)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return nil;          
+        }
         
-        if (sqlite3_step(statement) == SQLITE_ROW) {
-            pointer.targetId = sqlite3_column_int(statement, 1);
-            char const* _targetType = (char const*)sqlite3_column_text(statement, 2);
+        if (sqlite3_step(pointerQuery) == SQLITE_ROW) {
+            pointer.targetId = sqlite3_column_int(pointerQuery, 1);
+            char const* _targetType = (char const*)sqlite3_column_text(pointerQuery, 2);
             pointer.targetType = [NSString stringWithCString:_targetType encoding:NSUTF8StringEncoding];
             
             if ((rc=sqlite3_reset(semanticQuery)) != SQLITE_OK) {
@@ -374,7 +375,6 @@
             
             pointer.targetText = [NSString stringWithFormat:@"%@ (%@.)", words, [PartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
         }
-        sqlite3_finalize(statement);
         
     }
     
@@ -385,6 +385,18 @@
 {
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)UIApplication.sharedApplication.delegate;
     int rc;
+    
+    NSString* sql = [NSString stringWithFormat:@"SELECT id, target_id, target_type "
+                     @"FROM pointers "
+                     @"WHERE source_id = %d AND source_type = 'Synset' AND "
+                     @"ptype = :ptype "
+                     @"ORDER BY id ASC "
+                     @"LIMIT 1 "
+                     @"OFFSET :offset ", _id];
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &pointerQuery, NULL)) != SQLITE_OK) {
+        NSLog(@"error %d preparing statement", rc);
+        return;
+    }        
     
     char const* csql = "SELECT w.name, w.part_of_speech, sy.definition "
     "FROM synsets sy "
@@ -403,6 +415,7 @@
 -(void)destroyStatements
 {
     sqlite3_finalize(semanticQuery);
+    sqlite3_finalize(pointerQuery);
 }
 
 
