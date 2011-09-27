@@ -512,7 +512,6 @@ static int _seqNum = 0;
          */
         NSString* isql = [NSString stringWithFormat:@"SELECT DISTINCT name FROM inflections WHERE word_id = %d", word._id];
         sqlite3_stmt* istmt;
-        NSLog(@"preparing statement %@", isql);
         if ((rc=sqlite3_prepare_v2(appDelegate.database, [isql cStringUsingEncoding:NSUTF8StringEncoding], -1, &istmt, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
             NSLog(@"%@", self.errorMessage);

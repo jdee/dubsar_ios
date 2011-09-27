@@ -181,6 +181,14 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
 {
+    // cancel any ongoing search
+    @synchronized(self) {
+        Autocompleter* theAutocompleter = self.executingAutocompleter;
+        if (theAutocompleter != nil) {
+            theAutocompleter.aborted = true;
+        }
+    }
+    
     [theSearchBar resignFirstResponder];
     [popoverController dismissPopoverAnimated:YES];
     

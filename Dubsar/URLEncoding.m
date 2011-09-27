@@ -4,7 +4,13 @@
 @implementation NSString (URLEncoding)
 -(NSString *)urlEncodeUsingEncoding:(NSStringEncoding)encoding 
 {
-	return (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", CFStringConvertNSStringEncodingToEncoding(encoding));
+	CFStringRef cvalue = CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", CFStringConvertNSStringEncodingToEncoding(encoding));
+    
+    // autoreleased string
+    NSString* svalue = [NSString stringWithString:(NSString*)cvalue];
+    CFRelease(cvalue);
+    
+    return svalue;
 }
 
 @end

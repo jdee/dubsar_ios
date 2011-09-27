@@ -55,7 +55,6 @@ static PartOfSpeechDictionary* theInstance=nil;
     self = [super init];
     if (self) {
         [self setupDictionary];
-        NSLog(@"dictionary has %d entries", dictionary.count);
     }
     return self;
 }

@@ -69,7 +69,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"in viewWillAppear:");
     [super viewWillAppear:animated];
     [self initOrientation];
     [self load];

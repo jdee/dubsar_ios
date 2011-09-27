@@ -157,6 +157,14 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
 {
+    // cancel any ongoing search
+    @synchronized(self) {
+        Autocompleter* theAutocompleter = self.executingAutocompleter;
+        if (theAutocompleter != nil) {
+            theAutocompleter.aborted = true;
+        }
+    }
+    
     [theSearchBar resignFirstResponder];
     [popoverController dismissPopoverAnimated:YES];
     
@@ -379,7 +387,6 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    NSLog(@"master panel rotating, hiding popovers");
     [searchBar resignFirstResponder];
     [popoverController dismissPopoverAnimated:YES];
     [wordPopoverController dismissPopoverAnimated:YES];
