@@ -147,6 +147,18 @@ static int _seqNum = 0;
 
 - (void)loadResults:(DubsarAppDelegate*)appDelegate
 {    
+    self.results = [NSMutableArray array];
+
+    if (isWildCard) {
+        [self loadWildcardResults:appDelegate];
+    }
+    else {
+        [self loadFulltextResults:appDelegate];
+    }
+}
+
+- (void)loadWildcardResults:(DubsarAppDelegate *)appDelegate
+{
     NSString* sql = @"SELECT w.id, w.name, w.part_of_speech, w.freq_cnt FROM WORDS w ";
     
     NSString* capital1;
@@ -154,137 +166,103 @@ static int _seqNum = 0;
     NSString* lower1;
     NSString* lower2;
     
-    self.results = [NSMutableArray array];
-
-    if (isWildCard) {
-        // globbing for iPad alphabet buttons, term is like "[ABab]*" or "[^A-Za-z]*".
-        unichar first = [term characterAtIndex:1];
-        
-        NSString* where;
-        switch (first) {
-            default:
-                // e.g., 
-                // WHERE (w.name >= 'A' AND w.name <'C') OR (w.name >= 'a' AND w.name < 'c') AND w.name GLOB '[ABab]*'
-                where = @"WHERE (w.name >= :capital1 AND w.name < :capital2) OR "
-                @"(w.name >= :lower1 AND w.name < :lower2) AND w.name GLOB :term ";
-                
-                capital1 = [NSString stringWithCharacters:&first length:1];
-                first += 2;
-                capital2 = [NSString stringWithCharacters:&first length:1];
-                first += 30;
-                lower1 = [NSString stringWithCharacters:&first length:1];
-                first += 2;
-                lower2 = [NSString stringWithCharacters:&first length:1];
-                
-                break;
-            case '^':
-                // things that don't begin with a letter
-                where = @"WHERE (w.name < 'A' OR (w.name >= '[' AND w.name < 'a') OR w.name >= '{') AND w.name GLOB '[^A-Za-z]*' ";
-                break;
-        }
-        
-        
-        NSString* countSql = @"SELECT COUNT(*) FROM words w ";
-        countSql = [countSql stringByAppendingString:where];
-        
-        /* execute countSql to get number of rows */
-        sqlite3_stmt* countStmt;
-        int rc;
-        if ((rc=sqlite3_prepare_v2(appDelegate.database, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &countStmt, NULL))
-            != SQLITE_OK) {
-            self.errorMessage = [NSString stringWithFormat:@"error preparing count statement, error %d", rc];
-            return;
-        }
-        
-        if (sqlite3_bind_parameter_count(countStmt) != 0) {
-            int c1Idx = sqlite3_bind_parameter_index(countStmt, ":capital1");
-            int c2Idx = sqlite3_bind_parameter_index(countStmt, ":capital2");
-            int l1Idx = sqlite3_bind_parameter_index(countStmt, ":lower1");
-            int l2Idx = sqlite3_bind_parameter_index(countStmt, ":lower2");
-            int termIdx = sqlite3_bind_parameter_index(countStmt, ":term");
+    // globbing for iPad alphabet buttons, term is like "[ABab]*" or "[^A-Za-z]*".
+    unichar first = [term characterAtIndex:1];
+    
+    NSString* where;
+    switch (first) {
+        default:
+            // e.g., 
+            // WHERE (w.name >= 'A' AND w.name <'C') OR (w.name >= 'a' AND w.name < 'c') AND w.name GLOB '[ABab]*'
+            where = @"WHERE (w.name >= :capital1 AND w.name < :capital2) OR "
+            @"(w.name >= :lower1 AND w.name < :lower2) AND w.name GLOB :term ";
             
-            if ((rc=sqlite3_bind_text(countStmt, c1Idx, [capital1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-                sqlite3_finalize(countStmt);
-                return;
-            }
-            if ((rc=sqlite3_bind_text(countStmt, c2Idx, [capital2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-                sqlite3_finalize(countStmt);
-                return;
-            }
-            if ((rc=sqlite3_bind_text(countStmt, l1Idx, [lower1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-                sqlite3_finalize(countStmt);
-                return;
-            }
-            if ((rc=sqlite3_bind_text(countStmt, l2Idx, [lower2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-                sqlite3_finalize(countStmt);
-                return;
-            }
-            if ((rc=sqlite3_bind_text(countStmt, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-                sqlite3_finalize(countStmt);
-                return;
-            }
-        }
-        
-        NSLog(@"executing \"%@\"", countSql);
-        if (sqlite3_step(countStmt) == SQLITE_ROW) {
-            int totalRows = sqlite3_column_int(countStmt, 0);
-            NSLog(@"count statement returned %d total matching rows", totalRows);
-            totalPages = totalRows/NUM_PER_PAGE;
-            if (totalRows % NUM_PER_PAGE != 0) {
-                ++ totalPages;
-            }
-        }
-        sqlite3_finalize(countStmt);
-        
-        sql = [sql stringByAppendingString:where];
+            capital1 = [NSString stringWithCharacters:&first length:1];
+            first += 2;
+            capital2 = [NSString stringWithCharacters:&first length:1];
+            first += 30;
+            lower1 = [NSString stringWithCharacters:&first length:1];
+            first += 2;
+            lower2 = [NSString stringWithCharacters:&first length:1];
+            
+            break;
+        case '^':
+            // things that don't begin with a letter
+            where = @"WHERE (w.name < 'A' OR (w.name >= '[' AND w.name < 'a') OR w.name >= '{') AND w.name GLOB '[^A-Za-z]*' ";
+            break;
     }
-    else {
-        int rc;
-        sqlite3_stmt* statement;
-
-        sql =  @"SELECT DISTINCT w.id, w.name, w.part_of_speech, w.freq_cnt "
-               @"FROM words w "
-               @"WHERE w.id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term) ";
-        NSString* countSql = @"SELECT COUNT(*) FROM words WHERE id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term )";
-        if ((rc=sqlite3_prepare_v2(appDelegate.database, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-            self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
+    
+    
+    NSString* countSql = @"SELECT COUNT(*) FROM words w ";
+    countSql = [countSql stringByAppendingString:where];
+    
+    /* execute countSql to get number of rows */
+    sqlite3_stmt* countStmt;
+    int rc;
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &countStmt, NULL))
+        != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error preparing count statement, error %d", rc];
+        return;
+    }
+    
+    if (sqlite3_bind_parameter_count(countStmt) != 0) {
+        int c1Idx = sqlite3_bind_parameter_index(countStmt, ":capital1");
+        int c2Idx = sqlite3_bind_parameter_index(countStmt, ":capital2");
+        int l1Idx = sqlite3_bind_parameter_index(countStmt, ":lower1");
+        int l2Idx = sqlite3_bind_parameter_index(countStmt, ":lower2");
+        int termIdx = sqlite3_bind_parameter_index(countStmt, ":term");
+        
+        if ((rc=sqlite3_bind_text(countStmt, c1Idx, [capital1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            sqlite3_finalize(countStmt);
             return;
         }
-        
-        int termIdx = sqlite3_bind_parameter_index(statement, ":term");
-        if ((rc=sqlite3_bind_text(statement, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(countStmt, c2Idx, [capital2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-            sqlite3_finalize(statement);
-            return;            
+            sqlite3_finalize(countStmt);
+            return;
         }
-        
-        if (sqlite3_step(statement) == SQLITE_ROW) {
-            int totalRows = sqlite3_column_int(statement, 0);
-            NSLog(@"count statement returned %d total matching rows", totalRows);
-            totalPages = totalRows/NUM_PER_PAGE;
-            if (totalRows % NUM_PER_PAGE != 0) {
-                ++ totalPages;
-            }           
+        if ((rc=sqlite3_bind_text(countStmt, l1Idx, [lower1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            sqlite3_finalize(countStmt);
+            return;
         }
-        sqlite3_finalize(statement);
+        if ((rc=sqlite3_bind_text(countStmt, l2Idx, [lower2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            sqlite3_finalize(countStmt);
+            return;
+        }
+        if ((rc=sqlite3_bind_text(countStmt, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            sqlite3_finalize(countStmt);
+            return;
+        }
     }
+    
+    NSLog(@"executing \"%@\"", countSql);
+    if (sqlite3_step(countStmt) == SQLITE_ROW) {
+        int totalRows = sqlite3_column_int(countStmt, 0);
+        NSLog(@"count statement returned %d total matching rows", totalRows);
+        totalPages = totalRows/NUM_PER_PAGE;
+        if (totalRows % NUM_PER_PAGE != 0) {
+            ++ totalPages;
+        }
+    }
+    sqlite3_finalize(countStmt);
+    
+    sql = [sql stringByAppendingString:where];
+    
     sql = [sql stringByAppendingString:@"ORDER BY w.name ASC, w.part_of_speech ASC "];
     sql = [sql stringByAppendingFormat:@"LIMIT %d ", NUM_PER_PAGE];
     if (currentPage > 1) {
         sql = [sql stringByAppendingFormat:@"OFFSET %d ", (currentPage-1)*NUM_PER_PAGE];
     }
-
+    
     NSLog(@"preparing SQL statement \"%@\"", sql);
-
+    
     sqlite3_stmt* statement;
-    int rc;
     if ((rc=sqlite3_prepare_v2(appDelegate.database,
-        [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+                               [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;
     }
@@ -297,7 +275,7 @@ static int _seqNum = 0;
     int c2Idx = sqlite3_bind_parameter_index(statement, ":capital2");
     int l1Idx = sqlite3_bind_parameter_index(statement, ":lower1");
     int l2Idx = sqlite3_bind_parameter_index(statement, ":lower2");
-
+    
     if (termIdx != 0) {
         if ((rc=sqlite3_bind_text(statement, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
@@ -338,7 +316,7 @@ static int _seqNum = 0;
         }
         NSLog(@"bound :lower2 to \"%@\"", lower2);
     }
-
+    
     while (sqlite3_step(statement) == SQLITE_ROW && results.count < NUM_PER_PAGE) {
         NSLog(@"found matching row");
         int _id = sqlite3_column_int(statement, 0);
@@ -363,6 +341,178 @@ static int _seqNum = 0;
          */
         NSString* isql = [NSString stringWithFormat:@"SELECT DISTINCT name FROM inflections WHERE word_id = %d", _id];
         sqlite3_stmt* istmt;
+        if ((rc=sqlite3_prepare_v2(appDelegate.database, [isql cStringUsingEncoding:NSUTF8StringEncoding], -1, &istmt, NULL)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
+            NSLog(@"%@", self.errorMessage);
+            return;
+        }
+        
+        while (sqlite3_step(istmt) == SQLITE_ROW) {
+            char const* _name = (char const*)sqlite3_column_text(istmt, 0);
+            NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+            [word addInflection:name];
+        }
+        
+        sqlite3_finalize(istmt);
+    }
+    
+    sqlite3_finalize(statement);
+    
+    NSLog(@"completed database search (delegate is %@)", (self.delegate == nil ? @"nil" : @"not nil"));
+}
+
+- (void)loadFulltextResults:(DubsarAppDelegate *)appDelegate
+{
+    NSString* sql;
+    int rc;
+    sqlite3_stmt* statement;
+    
+    NSString* countSql = @"SELECT COUNT(*) FROM words WHERE id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term )";
+    NSLog(@"preparing statement %@", countSql);
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
+        return;
+    }
+    
+    int termIdx = sqlite3_bind_parameter_index(statement, ":term");
+    if ((rc=sqlite3_bind_text(statement, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;            
+    }
+    
+    if (sqlite3_step(statement) == SQLITE_ROW) {
+        int totalRows = sqlite3_column_int(statement, 0);
+        NSLog(@"count statement returned %d total matching rows", totalRows);
+        totalPages = totalRows/NUM_PER_PAGE;
+        if (totalRows % NUM_PER_PAGE != 0) {
+            ++ totalPages;
+        }           
+    }
+    sqlite3_finalize(statement);
+    
+    // number of exact matches
+    int numExact = 0;
+    sql = @"SELECT COUNT(*) FROM words w WHERE name = ?";
+    NSLog(@"preparing statement %@", sql);
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
+        return;        
+    }
+    if ((rc=sqlite3_bind_text(statement, 1, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+        sqlite3_finalize(statement);
+        return;            
+    }
+    
+    if (sqlite3_step(statement) == SQLITE_ROW) {
+        numExact = sqlite3_column_int(statement, 0);
+    }
+    sqlite3_finalize(statement);
+   
+    
+    sql =  @"SELECT DISTINCT w.id, w.name, w.part_of_speech, w.freq_cnt "
+    @"FROM words w "
+    @"INNER JOIN inflections i ON i.word_id = w.id AND w.name != :term "
+    @"WHERE w.id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term) "
+    @"ORDER BY w.name ASC, w.part_of_speech ASC ";
+    
+    if (currentPage > 1) {
+        sql = [sql stringByAppendingFormat:@"LIMIT %d OFFSET %d ", NUM_PER_PAGE, (currentPage-1)*NUM_PER_PAGE-numExact];
+    }
+    else {
+        sql = [sql stringByAppendingFormat:@"LIMIT %d ", NUM_PER_PAGE - numExact];
+        
+        /*
+         * Load the exact matches first
+         */
+        NSString* exactSql = @"SELECT DISTINCT w.id, w.name, w.part_of_speech, w.freq_cnt "
+        @"FROM words w "
+        @"INNER JOIN inflections i ON i.word_id = w.id "
+        @"WHERE i.name = ? "
+        @"ORDER BY w.part_of_speech ASC";
+        NSLog(@"preparing statement %@", exactSql);
+        if ((rc=sqlite3_prepare_v2(appDelegate.database, [exactSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
+            return;          
+        }
+        if ((rc=sqlite3_bind_text(statement, 1, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            sqlite3_finalize(statement);
+            return;           
+        }
+        
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            NSLog(@"found matching row");
+            int _id = sqlite3_column_int(statement, 0);
+            char const* _name = (char const*)sqlite3_column_text(statement, 1);
+            char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
+            int freqCnt = sqlite3_column_int(statement, 3);
+            
+            NSLog(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d",
+                  _id, _name, _part_of_speech, freqCnt);
+            
+            PartOfSpeech partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
+            NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+            
+            Word* word = [Word wordWithId:_id name:name partOfSpeech:partOfSpeech];
+            word.freqCnt = freqCnt;
+            [results addObject:word];
+        }
+        
+        sqlite3_finalize(statement);
+    }
+    
+    NSLog(@"preparing SQL statement \"%@\"", sql);
+    
+    if ((rc=sqlite3_prepare_v2(appDelegate.database,
+                               [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
+        return;
+    }
+    else {
+        NSLog(@"prepared statement successfully");
+    }
+    
+    termIdx = sqlite3_bind_parameter_index(statement, ":term");    
+    if (termIdx != 0) {
+        if ((rc=sqlite3_bind_text(statement, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            sqlite3_finalize(statement);
+            return;   
+        }
+        NSLog(@"bound :term to \"%@\"", term);
+    }
+    
+    while (sqlite3_step(statement) == SQLITE_ROW && results.count < NUM_PER_PAGE) {
+        NSLog(@"found matching row");
+        int _id = sqlite3_column_int(statement, 0);
+        char const* _name = (char const*)sqlite3_column_text(statement, 1);
+        char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
+        int freqCnt = sqlite3_column_int(statement, 3);
+        
+        NSLog(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d",
+              _id, _name, _part_of_speech, freqCnt);
+        
+        PartOfSpeech partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
+        NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+        
+        Word* word = [Word wordWithId:_id name:name partOfSpeech:partOfSpeech];
+        word.freqCnt = freqCnt;
+        [results addObject:word];
+    }
+    
+    for (int j=0; j<results.count; ++j) {
+        Word* word = [results objectAtIndex:j];
+        
+        /* now get the inflections */
+        /* 
+         * We have this 1+N problem because of pagination. If we join inflections in wildcard searches,
+         * we get one row per inflection, and that doesn't work with pagination. So here we are.
+         */
+        NSString* isql = [NSString stringWithFormat:@"SELECT DISTINCT name FROM inflections WHERE word_id = %d", word._id];
+        sqlite3_stmt* istmt;
+        NSLog(@"preparing statement %@", isql);
         if ((rc=sqlite3_prepare_v2(appDelegate.database, [isql cStringUsingEncoding:NSUTF8StringEncoding], -1, &istmt, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
             NSLog(@"%@", self.errorMessage);

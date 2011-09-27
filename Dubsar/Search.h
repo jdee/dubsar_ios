@@ -42,4 +42,7 @@
 
 -(Search*)newSearchForPage:(int)page;
 
+-(void)loadWildcardResults:(DubsarAppDelegate*)appDelegate;
+-(void)loadFulltextResults:(DubsarAppDelegate*)appDelegate;
+
 @end

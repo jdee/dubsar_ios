@@ -254,8 +254,6 @@
 		7B3280D813E3900600274E6C /* SearchBarViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarViewController_iPhone.h; sourceTree = "<group>"; };
 		7B3280D913E3900700274E6C /* SearchBarViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarViewController_iPhone.m; sourceTree = "<group>"; };
 		7B3D593D140E567A00EE838F /* banner-handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "banner-handle.png"; sourceTree = "<group>"; };
-		7B495C5B13EF753F00DAD2A9 /* AutocompleterApplicationTest_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterApplicationTest_iPhone.h; sourceTree = "<group>"; };
-		7B495C5C13EF754000DAD2A9 /* AutocompleterApplicationTest_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterApplicationTest_iPhone.m; sourceTree = "<group>"; };
 		7B59C4CC13E8A5E8006F5FDB /* SearchTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTest.h; sourceTree = "<group>"; };
 		7B59C4CD13E8A5E8006F5FDB /* SearchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTest.m; sourceTree = "<group>"; };
 		7B59C4D413E8A7BE006F5FDB /* ModelTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelTestCase.h; sourceTree = "<group>"; };
@@ -266,7 +264,7 @@
 		7B59C4DB13E8B05C006F5FDB /* SenseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SenseTest.m; sourceTree = "<group>"; };
 		7B59C4DE13E8CAF9006F5FDB /* SynsetTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetTest.h; sourceTree = "<group>"; };
 		7B59C4DF13E8CAF9006F5FDB /* SynsetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetTest.m; sourceTree = "<group>"; };
-		7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = production.sqlite3; sourceTree = "<group>"; };
+		7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; name = production.sqlite3; path = ../production.sqlite3; sourceTree = "<group>"; };
 		7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		7B69537B13E6E21700B10519 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		7B6953B513E6E3CC00B10519 /* DubsarTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -311,20 +309,8 @@
 		7BC537D4141FF8C700E6246B /* LoadingViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController_iPad.m; sourceTree = "<group>"; };
 		7BC537D5141FF8C800E6246B /* LoadingViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingViewController_iPad.xib; sourceTree = "<group>"; };
 		7BCE75E913E741C900D1CECC /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
-		7BD5434A13EE23E400AACDD3 /* DubsarApplicationTests_iPad-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarApplicationTests_iPad-Info.plist"; sourceTree = "<group>"; };
-		7BD5434C13EE23E400AACDD3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7BD5434E13EE23E400AACDD3 /* DubsarApplicationTests_iPad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarApplicationTests_iPad.h; sourceTree = "<group>"; };
-		7BD5435013EE23E400AACDD3 /* DubsarApplicationTests_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarApplicationTests_iPad.m; sourceTree = "<group>"; };
-		7BD5435213EE23E400AACDD3 /* DubsarApplicationTests_iPad-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarApplicationTests_iPad-Prefix.pch"; sourceTree = "<group>"; };
-		7BD5435A13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchApplicationTest_iPhone.h; sourceTree = "<group>"; };
-		7BD5435B13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchApplicationTest_iPhone.m; sourceTree = "<group>"; };
 		7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPad.xib; sourceTree = "<group>"; };
 		7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPhone.xib; sourceTree = "<group>"; };
-		7BF412C113E8E81E00BAC92A /* DubsarApplicationTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarApplicationTests-Info.plist"; sourceTree = "<group>"; };
-		7BF412C313E8E81E00BAC92A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7BF412C513E8E81E00BAC92A /* DubsarApplicationTests_iPhone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarApplicationTests_iPhone.h; sourceTree = "<group>"; };
-		7BF412C713E8E81E00BAC92A /* DubsarApplicationTests_iPhone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarApplicationTests_iPhone.m; sourceTree = "<group>"; };
-		7BF412C913E8E81E00BAC92A /* DubsarApplicationTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarApplicationTests-Prefix.pch"; sourceTree = "<group>"; };
 		7BF51997140FE85C00994FC5 /* banner-handle-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "banner-handle-ipad.png"; sourceTree = "<group>"; };
 		7BF978FB140D975600658F39 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		7BF97900140D976900658F39 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
@@ -361,12 +347,8 @@
 		7B327FE213E3875400274E6C = {
 			isa = PBXGroup;
 			children = (
-				7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */,
-				7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */,
 				7B327FF713E3875400274E6C /* Dubsar */,
 				7B6953BA13E6E3CC00B10519 /* DubsarTests */,
-				7BF412BF13E8E81E00BAC92A /* DubsarApplicationTests_iPhone */,
-				7BD5434813EE23E400AACDD3 /* DubsarApplicationTests_iPad */,
 				7B327FF013E3875400274E6C /* Frameworks */,
 				7B327FEE13E3875400274E6C /* Products */,
 			);
@@ -384,6 +366,7 @@
 		7B327FF013E3875400274E6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */,
 				7B327FF113E3875400274E6C /* UIKit.framework */,
 				7B327FF313E3875400274E6C /* Foundation.framework */,
 				7B327FF513E3875400274E6C /* CoreGraphics.framework */,
@@ -418,6 +401,7 @@
 				7B5ECF41141AAD8000FD2D78 /* Images */,
 				7B327FFA13E3875400274E6C /* InfoPlist.strings */,
 				7B327FFE13E3875400274E6C /* main.m */,
+				7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -628,51 +612,6 @@
 				7B6953BC13E6E3CC00B10519 /* DubsarTests-Info.plist */,
 				7B6953BD13E6E3CC00B10519 /* InfoPlist.strings */,
 				7B6953C413E6E3CC00B10519 /* DubsarTests-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7BD5434813EE23E400AACDD3 /* DubsarApplicationTests_iPad */ = {
-			isa = PBXGroup;
-			children = (
-				7BD5434E13EE23E400AACDD3 /* DubsarApplicationTests_iPad.h */,
-				7BD5435013EE23E400AACDD3 /* DubsarApplicationTests_iPad.m */,
-				7BD5434913EE23E400AACDD3 /* Supporting Files */,
-			);
-			path = DubsarApplicationTests_iPad;
-			sourceTree = "<group>";
-		};
-		7BD5434913EE23E400AACDD3 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				7BD5434A13EE23E400AACDD3 /* DubsarApplicationTests_iPad-Info.plist */,
-				7BD5434B13EE23E400AACDD3 /* InfoPlist.strings */,
-				7BD5435213EE23E400AACDD3 /* DubsarApplicationTests_iPad-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7BF412BF13E8E81E00BAC92A /* DubsarApplicationTests_iPhone */ = {
-			isa = PBXGroup;
-			children = (
-				7B495C5B13EF753F00DAD2A9 /* AutocompleterApplicationTest_iPhone.h */,
-				7B495C5C13EF754000DAD2A9 /* AutocompleterApplicationTest_iPhone.m */,
-				7BF412C513E8E81E00BAC92A /* DubsarApplicationTests_iPhone.h */,
-				7BF412C713E8E81E00BAC92A /* DubsarApplicationTests_iPhone.m */,
-				7BD5435A13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.h */,
-				7BD5435B13EE2A7C00AACDD3 /* SearchApplicationTest_iPhone.m */,
-				7BF412C013E8E81E00BAC92A /* Supporting Files */,
-			);
-			name = DubsarApplicationTests_iPhone;
-			path = DubsarApplicationTests;
-			sourceTree = "<group>";
-		};
-		7BF412C013E8E81E00BAC92A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				7BF412C113E8E81E00BAC92A /* DubsarApplicationTests-Info.plist */,
-				7BF412C213E8E81E00BAC92A /* InfoPlist.strings */,
-				7BF412C913E8E81E00BAC92A /* DubsarApplicationTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -935,22 +874,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				7B6953BE13E6E3CC00B10519 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		7BD5434B13EE23E400AACDD3 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7BD5434C13EE23E400AACDD3 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		7BF412C213E8E81E00BAC92A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7BF412C313E8E81E00BAC92A /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

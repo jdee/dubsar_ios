@@ -228,7 +228,7 @@
     /* FTS search */
     sql = @"SELECT DISTINCT name "
     @"FROM inflections_fts "
-    @"WHERE name MATCH ? AND NOT name LIKE ? "
+    @"WHERE name MATCH ? AND name != ? "
     @"ORDER BY name ASC "
     @"LIMIT ?";
     
