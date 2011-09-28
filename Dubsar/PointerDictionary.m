@@ -132,6 +132,7 @@ static PointerDictionary* theDictionary = nil;
     [helpDictionary setValue:@"adj: pertinent noun; adv: source noun" forKey:@"derived from/pertains to"];
     [helpDictionary setValue:@"words that share this meaning" forKey:@"synonym"];
     [helpDictionary setValue:@"examples of usage for this word and synonyms" forKey:@"sample sentence"];
+    [helpDictionary setValue:@"examples of usage" forKey:@"synset sample"];
     [helpDictionary setValue:@"generic templates for this verb sense" forKey:@"verb frame"];
 }
 
@@ -166,6 +167,7 @@ static PointerDictionary* theDictionary = nil;
     [titleDictionary setValue:@"Derived From/Pertains To" forKey:@"derived from/pertains to"];
     [titleDictionary setValue:@"Synonyms" forKey:@"synonym"];
     [titleDictionary setValue:@"Sample Sentences" forKey:@"sample sentence"];
+    [titleDictionary setValue:@"Sample Sentences" forKey:@"synset sample"];
     [titleDictionary setValue:@"Verb Frames" forKey:@"verb frame"];
 }
 

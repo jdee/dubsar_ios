@@ -41,9 +41,8 @@
         dubsarNormalFont = [[UIFont fontWithName:@"TrebuchetMS" size:18.0]retain];
         dubsarSmallFont  = [[UIFont fontWithName:@"TrebuchetMS" size:14.0]retain];
         databaseReady = false;
-        // [self performSelectorInBackground:@selector(prepareDatabase) withObject:nil];
+
         [self prepareDatabase];
-        databaseReady = true;
     }
     return self;
 }
@@ -121,71 +120,7 @@
     
     NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
     NSString* srcPath = [resourcePath stringByAppendingPathComponent:PRODUCTION_DB_NAME];
-    
-    /* copy to Documents folder
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDir = [paths objectAtIndex: 0];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError* error;
-    NSString* dstPath = [documentsDir stringByAppendingPathComponent:PRODUCTION_DB_NAME];
-    
-    NSDictionary* attrs;
-    NSDate* bundleDBCreationDate = nil;
-    
-    bool deploying = false;
-    if (![fileManager fileExistsAtPath:srcPath]) {
-        NSLog(@"cannot find bundle DB file %@", srcPath);
-    }
-    else {
-        NSLog(@"found bundle DB file %@", srcPath);
-        attrs = [fileManager attributesOfItemAtPath:srcPath error:&error];
-        bundleDBCreationDate = [attrs valueForKey:NSFileCreationDate];
-        NSLog(@"created at %@", bundleDBCreationDate);
-        NSLog(@"modified at %@", [attrs valueForKey:NSFileModificationDate]);
-    }
-    
-    if (![fileManager fileExistsAtPath:dstPath]) {
-        NSLog(@"%@ does not exist, deploying", dstPath);
-        if (![fileManager copyItemAtPath:srcPath toPath:dstPath error:&error]) {
-            NSLog(@"error copying database %@ to %@, %@", srcPath, dstPath, error.localizedDescription);
-            database = NULL;
-            return;
-        }
-        deploying = true;
-        NSLog(@"successfully deployed database %@", dstPath);
-    }
-    else {
-        attrs = [fileManager attributesOfItemAtPath:dstPath error:&error];
-        NSLog(@"%@ created at %@", dstPath, [attrs valueForKey:NSFileCreationDate]);
-        NSLog(@"%@ modified at %@", dstPath, [attrs valueForKey:NSFileModificationDate]);
-    
-        if ([bundleDBCreationDate compare:[attrs valueForKey:NSFileModificationDate]] != NSOrderedAscending) {
-            NSLog(@"%@ already deployed, removing", dstPath);
-            if (![fileManager removeItemAtPath:dstPath error:&error]) {
-                NSLog(@"could not remove DB %@: %@", dstPath, error.localizedDescription);
-                database = NULL;
-                return;
-            }
-            NSLog(@"removed old database, deploying to %@", dstPath);
-            
-            if (![fileManager copyItemAtPath:srcPath toPath:dstPath error:&error]) {
-                NSLog(@"error copying database %@ to %@, %@", srcPath, dstPath, error.localizedDescription);
-                database = NULL;
-                return;
-            }
-            deploying = true;
-            NSLog(@"successfully deployed database %@", dstPath);
-        }
-        else {
-            NSLog(@"not deploying, using existing DB");
-        }
-    }
-    
-    attrs = [fileManager attributesOfItemAtPath:dstPath error:&error];
-    NSLog(@"%@ created at %@", dstPath, [attrs valueForKey:NSFileCreationDate]);
-    NSLog(@"%@ modified at %@", dstPath, [attrs valueForKey:NSFileModificationDate]);
-     */
-   
+       
     int rc;
     if ((rc=sqlite3_open_v2([srcPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
         NSLog(@"error opening database %@, %d", srcPath, rc);
@@ -195,22 +130,6 @@
     
     NSLog(@"successfully opened database %@", PRODUCTION_DB_NAME);
     NSString* sql;
-    
-    /*
-    sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(database, "INSERT INTO inflections_fts(inflections_fts) VALUES('optimize')", -1, &statement, NULL)) != SQLITE_OK) {
-        NSLog(@"error %d preparing statement", rc);
-        return;
-    }
-    
-    if (sqlite3_step(statement) == SQLITE_ERROR) {
-        NSLog(@"error optimizing FTS table");
-        return;
-    }
-    
-    sqlite3_finalize(statement);
-    NSLog(@"optimized FTS table successfully");
-     */
     
     /*
      * Prepared statements for the Autocompleter
@@ -248,14 +167,8 @@
     }
     
     self.databaseReady = true;
-    [self databasePrepFinished];
     
     [pool release];
-}
-
--(void)databasePrepFinished
-{
-    // implemented in child classes
 }
 
 @end

@@ -52,7 +52,6 @@
 - (void)adjustTitle;
 - (void)adjustGlossLabel;
 - (void)adjustBannerLabel;
-- (void)setupTableSections;
 - (void)loadRootController;
 - (void)load;
 - (void)followTableLink:(NSIndexPath*)indexPath;

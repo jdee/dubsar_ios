@@ -38,7 +38,6 @@
 @property bool databaseReady;
 
 - (void)prepareDatabase;
-- (void)databasePrepFinished;
 - (id)initForTest;
 
 @end

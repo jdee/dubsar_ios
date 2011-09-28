@@ -20,7 +20,6 @@
 #import "DubsarAppDelegate_iPhone.h"
 #import "DubsarNavigationController_iPhone.h"
 #import "DubsarViewController_iPhone.h"
-#import "LoadingViewController_iPhone.h"
 
 @implementation DubsarAppDelegate_iPhone
 
@@ -40,13 +39,6 @@
     [self.window setRootViewController:_navigationController];
 
     [super application:application didFinishLaunchingWithOptions:launchOptions];
-
-    /*
-    if (!self.databaseReady) {
-        LoadingViewController_iPhone* loadingController = [[[LoadingViewController_iPhone alloc]initWithNibName:@"LoadingViewController_iPhone" bundle:nil]autorelease];
-        [rootViewController presentModalViewController:loadingController animated:YES];
-    }
-     */
     
     return YES;
 }
@@ -64,13 +56,6 @@
 {
     [_navigationController release];
 	[super dealloc];
-}
-
-- (void)databasePrepFinished
-{
-    [_navigationController.topViewController dismissModalViewControllerAnimated:YES];
-    // [_navigationController.topViewController.view setNeedsDisplay];
-    // [_navigationController.topViewController.view setNeedsLayout];
 }
 
 @end

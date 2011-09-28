@@ -59,7 +59,7 @@
     STAssertNotNil(dictionary, @"PointerDictionary should not be nil");
     STAssertNotNil(dictionary.helpDictionary, @"help dictionary should not be nil");
     
-    STAssertEquals((unsigned int)29, dictionary.helpDictionary.count, @"expected 29 entries in help dictionary, found %d", dictionary.helpDictionary.count);
+    STAssertEquals((unsigned int)30, dictionary.helpDictionary.count, @"expected 29 entries in help dictionary, found %d", dictionary.helpDictionary.count);
     
     [self singleHelpCase:@"antonym" expected:@"words opposite in meaning"];
     [self singleHelpCase:@"hypernym" expected:@"more generic terms"];
@@ -89,6 +89,7 @@
     [self singleHelpCase:@"derived from/pertains to" expected:@"adj: pertinent noun; adv: source noun"];
     [self singleHelpCase:@"synonym" expected:@"words that share this meaning"];
     [self singleHelpCase:@"sample sentence" expected:@"examples of usage for this word and synonyms"];
+    [self singleHelpCase:@"synset sample" expected:@"examples of usage"];
     [self singleHelpCase:@"verb frame" expected:@"generic templates for this verb sense"];
 }
 
@@ -99,7 +100,7 @@
     STAssertNotNil(dictionary, @"PointerDictionary should not be nil");
     STAssertNotNil(dictionary.titleDictionary, @"title dictionary should not be nil");
     
-    STAssertEquals((unsigned int)29, dictionary.titleDictionary.count, @"expected 29 entries in title dictionary, found %d", dictionary.titleDictionary.count);
+    STAssertEquals((unsigned int)30, dictionary.titleDictionary.count, @"expected 29 entries in title dictionary, found %d", dictionary.titleDictionary.count);
     
     [self singleTitleCase:@"antonym" expected:@"Antonyms"];
     [self singleTitleCase:@"hypernym" expected:@"Hypernyms"];
@@ -129,6 +130,7 @@
     [self singleTitleCase:@"derived from/pertains to" expected:@"Derived From/Pertains To"];
     [self singleTitleCase:@"synonym" expected:@"Synonyms"];
     [self singleTitleCase:@"sample sentence" expected:@"Sample Sentences"];
+    [self singleTitleCase:@"synset sample" expected:@"Sample Sentences"];
     [self singleTitleCase:@"verb frame" expected:@"Verb Frames"];
 }
 

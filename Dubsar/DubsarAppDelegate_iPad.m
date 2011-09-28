@@ -20,7 +20,6 @@
 #import "DubsarAppDelegate_iPad.h"
 #import "DubsarNavigationController_iPad.h"
 #import "DubsarViewController_iPad.h"
-#import "LoadingViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 
 @implementation DubsarAppDelegate_iPad
@@ -44,14 +43,6 @@
     
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     
-    /*
-    if (!self.databaseReady) {
-        LoadingViewController_iPad* loadingController = [[[LoadingViewController_iPad alloc]initWithNibName:@"LoadingViewController_iPad" bundle:nil]autorelease];
-        [dubsarViewController presentModalViewController:loadingController animated:YES];
-        // [_searchBarViewController disable];
-    }
-     */
-    
     return YES;
 }
 
@@ -60,12 +51,6 @@
     [_navigationController release];
     [_splitViewController release];
 	[super dealloc];
-}
-
-- (void)databasePrepFinished
-{
-    [_navigationController.topViewController dismissModalViewControllerAnimated:YES];
-    // [_searchBarViewController enable];
 }
 
 @end

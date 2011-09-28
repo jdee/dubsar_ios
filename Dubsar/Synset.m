@@ -267,7 +267,7 @@
     if (samples.count > 0) {
         Section* section = [Section section];
         section.header = @"Samples";
-        section.footer = [PointerDictionary helpWithPointerType:@"sample sentence"];
+        section.footer = [PointerDictionary helpWithPointerType:@"synset sample"];
         section.linkType = @"sample";
         section.ptype = @"sample sentence";
         section.numRows = samples.count;

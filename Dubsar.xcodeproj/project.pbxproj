@@ -126,10 +126,6 @@
 		7BBE26CF14329AF000720EDA /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
 		7BBE26D014329C1D00720EDA /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */; };
 		7BC537CD141D6D8700E6246B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */; };
-		7BC537D1141FE98F00E6246B /* LoadingViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC537CF141FE98E00E6246B /* LoadingViewController_iPhone.m */; };
-		7BC537D2141FE98F00E6246B /* LoadingViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC537D0141FE98E00E6246B /* LoadingViewController_iPhone.xib */; };
-		7BC537D6141FF8CA00E6246B /* LoadingViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC537D4141FF8C700E6246B /* LoadingViewController_iPad.m */; };
-		7BC537D7141FF8CA00E6246B /* LoadingViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC537D5141FF8C800E6246B /* LoadingViewController_iPad.xib */; };
 		7BCE75EA13E741C900D1CECC /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7BCE75E913E741C900D1CECC /* iTunesArtwork */; };
 		7BE9ABDF13E4C25500FB7402 /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */; };
 		7BE9ABE013E4C25500FB7402 /* DetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */; };
@@ -306,12 +302,6 @@
 		7BB9CEDB141C19F1000DD13B /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Section.m; path = ../Section.m; sourceTree = "<group>"; };
 		7BB9CEDD141C21FA000DD13B /* Pointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pointer.h; sourceTree = "<group>"; };
 		7BB9CEDE141C21FA000DD13B /* Pointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pointer.m; sourceTree = "<group>"; };
-		7BC537CE141FE98D00E6246B /* LoadingViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingViewController_iPhone.h; sourceTree = "<group>"; };
-		7BC537CF141FE98E00E6246B /* LoadingViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController_iPhone.m; sourceTree = "<group>"; };
-		7BC537D0141FE98E00E6246B /* LoadingViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingViewController_iPhone.xib; sourceTree = "<group>"; };
-		7BC537D3141FF8C600E6246B /* LoadingViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingViewController_iPad.h; sourceTree = "<group>"; };
-		7BC537D4141FF8C700E6246B /* LoadingViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController_iPad.m; sourceTree = "<group>"; };
-		7BC537D5141FF8C800E6246B /* LoadingViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingViewController_iPad.xib; sourceTree = "<group>"; };
 		7BCE75E913E741C900D1CECC /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPad.xib; sourceTree = "<group>"; };
 		7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPhone.xib; sourceTree = "<group>"; };
@@ -428,9 +418,6 @@
 				7B3280CE13E38F8200274E6C /* FAQViewController_iPhone.h */,
 				7B3280CF13E38F8200274E6C /* FAQViewController_iPhone.m */,
 				7B3280D013E38F8200274E6C /* FAQViewController_iPhone.xib */,
-				7BC537CE141FE98D00E6246B /* LoadingViewController_iPhone.h */,
-				7BC537CF141FE98E00E6246B /* LoadingViewController_iPhone.m */,
-				7BC537D0141FE98E00E6246B /* LoadingViewController_iPhone.xib */,
 				7B32800713E3875400274E6C /* MainWindow_iPhone.xib */,
 				7B3280D813E3900600274E6C /* SearchBarViewController_iPhone.h */,
 				7B3280D913E3900700274E6C /* SearchBarViewController_iPhone.m */,
@@ -474,9 +461,6 @@
 				7B32806F13E38B8F00274E6C /* LicenseViewController_iPad.h */,
 				7B32807013E38B8F00274E6C /* LicenseViewController_iPad.m */,
 				7B32807113E38B8F00274E6C /* LicenseViewController_iPad.xib */,
-				7BC537D3141FF8C600E6246B /* LoadingViewController_iPad.h */,
-				7BC537D4141FF8C700E6246B /* LoadingViewController_iPad.m */,
-				7BC537D5141FF8C800E6246B /* LoadingViewController_iPad.xib */,
 				7B32805B13E3899100274E6C /* MainWindow_iPad.xib */,
 				7B32806013E38A0D00274E6C /* SearchBarViewController_iPad.h */,
 				7B32806113E38A0D00274E6C /* SearchBarViewController_iPad.m */,
@@ -737,8 +721,6 @@
 				7B3D593E140E567A00EE838F /* banner-handle.png in Resources */,
 				7BF51998140FE85D00994FC5 /* banner-handle-ipad.png in Resources */,
 				7B5ECF40141AAD5B00FD2D78 /* production.sqlite3 in Resources */,
-				7BC537D2141FE98F00E6246B /* LoadingViewController_iPhone.xib in Resources */,
-				7BC537D7141FF8CA00E6246B /* LoadingViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,8 +797,6 @@
 				7B917A7513EC3CD600FBF365 /* DailyWord.m in Sources */,
 				7BB9CEDC141C19F1000DD13B /* Section.m in Sources */,
 				7BB9CEDF141C21FA000DD13B /* Pointer.m in Sources */,
-				7BC537D1141FE98F00E6246B /* LoadingViewController_iPhone.m in Sources */,
-				7BC537D6141FF8CA00E6246B /* LoadingViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
