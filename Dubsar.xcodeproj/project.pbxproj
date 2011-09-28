@@ -121,6 +121,10 @@
 		7BB2270913E5A747005D454F /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */; };
 		7BB9CEDC141C19F1000DD13B /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
 		7BB9CEDF141C21FA000DD13B /* Pointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDE141C21FA000DD13B /* Pointer.m */; };
+		7BBE26CD14329AF000720EDA /* DubsarAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32800113E3875400274E6C /* DubsarAppDelegate.m */; };
+		7BBE26CE14329AF000720EDA /* Pointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDE141C21FA000DD13B /* Pointer.m */; };
+		7BBE26CF14329AF000720EDA /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
+		7BBE26D014329C1D00720EDA /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */; };
 		7BC537CD141D6D8700E6246B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */; };
 		7BC537D1141FE98F00E6246B /* LoadingViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC537CF141FE98E00E6246B /* LoadingViewController_iPhone.m */; };
 		7BC537D2141FE98F00E6246B /* LoadingViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC537D0141FE98E00E6246B /* LoadingViewController_iPhone.xib */; };
@@ -545,9 +549,9 @@
 			children = (
 				7B00DF5913E6F03C00E80FCC /* AutocompleterTest.h */,
 				7B00DF5A13E6F03C00E80FCC /* AutocompleterTest.m */,
-				7B59C4D413E8A7BE006F5FDB /* ModelTestCase.h */,
 				7B824E5613EC540100CDC665 /* DailyWordTest.h */,
 				7B824E5713EC540100CDC665 /* DailyWordTest.m */,
+				7B59C4D413E8A7BE006F5FDB /* ModelTestCase.h */,
 				7B59C4D513E8A7BE006F5FDB /* ModelTestCase.m */,
 				7B00DF5413E6EEB900E80FCC /* PartOfSpeechDictionaryTest.h */,
 				7B00DF5513E6EEB900E80FCC /* PartOfSpeechDictionaryTest.m */,
@@ -742,6 +746,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BBE26D014329C1D00720EDA /* production.sqlite3 in Resources */,
 				7B6953BF13E6E3CC00B10519 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -819,6 +824,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BBE26CD14329AF000720EDA /* DubsarAppDelegate.m in Sources */,
+				7BBE26CE14329AF000720EDA /* Pointer.m in Sources */,
+				7BBE26CF14329AF000720EDA /* Section.m in Sources */,
 				7B917A7B13EC3FFF00FBF365 /* DailyWord.m in Sources */,
 				7B59C4D313E8A775006F5FDB /* Synset.m in Sources */,
 				7B59C4D213E8A76D006F5FDB /* Sense.m in Sources */,
@@ -886,7 +894,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jimmy Dee (492446EY7H)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -896,7 +903,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PROVISIONING_PROFILE = "8460A91E-2713-454B-B8C5-F917DF916D60";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8460A91E-2713-454B-B8C5-F917DF916D60";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -907,7 +913,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jimmy Dee (492446EY7H)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -915,7 +920,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "8460A91E-2713-454B-B8C5-F917DF916D60";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8460A91E-2713-454B-B8C5-F917DF916D60";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -925,16 +929,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jimmy Dee (492446EY7H)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8460A91E-2713-454B-B8C5-F917DF916D60";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8460A91E-2713-454B-B8C5-F917DF916D60";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -943,15 +943,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jimmy Dee (492446EY7H)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8460A91E-2713-454B-B8C5-F917DF916D60";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8460A91E-2713-454B-B8C5-F917DF916D60";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

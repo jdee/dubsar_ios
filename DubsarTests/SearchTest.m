@@ -24,7 +24,7 @@
 
 @implementation SearchTest
 
-
+/*
 -(void)testParsing
 {
     NSString* stringData = @"[\"food\",[[26063,\"food\",\"n\",29,\"foods\"]],1]";
@@ -45,6 +45,16 @@
     STAssertEquals(29, word.freqCnt, @"word frequency count failed");
     STAssertNotNil(word.inflections, @"word inflections failed");
     STAssertEqualObjects(@"foods", word.inflections, @"word inflection content failed");
+}
+ */
+
+-(void)testExactInflectionMatch
+{
+    Search* search = [Search searchWithTerm:@"recommended" matchCase:NO];
+    [search loadResults:self.appDelegate];
+    
+    NSLog(@"search for recommended returned %d results", search.results.count);
+    STAssertEquals((unsigned int)1, search.results.count, @"search count failed");
 }
 
 -(void)testInitialization

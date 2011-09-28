@@ -17,9 +17,11 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarAppDelegate.h"
 #import "ModelTestCase.h"
 
 @implementation ModelTestCase
+@synthesize appDelegate;
 
 + (NSMutableData*)dataWithString:(NSString*)stringData
 {
@@ -35,14 +37,16 @@
     return [NSData dataWithBytes:buffer length:length];
 }
 
-- (id)init
+- (void)setUp
 {
-    self = [super init];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
+    // open the database
+    appDelegate = [[DubsarAppDelegate alloc]initForTest];
+}
+
+- (void)tearDown
+{
+    // close the database
+    [appDelegate release];
 }
 
 @end

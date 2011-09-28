@@ -48,6 +48,15 @@
     return self;
 }
 
+- (id)initForTest
+{
+    self = [super init];
+    if (self) {
+        [self prepareDatabase];
+    }
+    return self;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
@@ -124,7 +133,6 @@
     NSDate* bundleDBCreationDate = nil;
     
     bool deploying = false;
-    
     if (![fileManager fileExistsAtPath:srcPath]) {
         NSLog(@"cannot find bundle DB file %@", srcPath);
     }

@@ -393,7 +393,7 @@ static int _seqNum = 0;
     
     // number of exact matches
     int numExact = 0;
-    sql = @"SELECT COUNT(*) FROM words w WHERE name = ?";
+    sql = @"SELECT COUNT(*) FROM words w INNER JOIN inflections i ON i.word_id = w.id WHERE i.name = ?";
     NSLog(@"preparing statement %@", sql);
     if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
@@ -407,14 +407,15 @@ static int _seqNum = 0;
     
     if (sqlite3_step(statement) == SQLITE_ROW) {
         numExact = sqlite3_column_int(statement, 0);
+        NSLog(@"%d exact matches", numExact);
     }
     sqlite3_finalize(statement);
    
     
     sql =  @"SELECT DISTINCT w.id, w.name, w.part_of_speech, w.freq_cnt "
     @"FROM words w "
-    @"INNER JOIN inflections i ON i.word_id = w.id AND w.name != :term "
-    @"WHERE w.id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term) "
+    @"INNER JOIN inflections_fts ifts ON ifts.word_id = w.id "
+    @"WHERE ifts.name MATCH :term AND ifts.name != :term "
     @"ORDER BY w.name ASC, w.part_of_speech ASC ";
     
     if (currentPage > 1) {

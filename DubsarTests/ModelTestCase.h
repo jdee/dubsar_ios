@@ -25,7 +25,11 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import <UIKit/UIKit.h>
 
+@class DubsarAppDelegate;
+
 @interface ModelTestCase : SenTestCase
+
+@property (nonatomic, retain) DubsarAppDelegate* appDelegate;
 
 + (NSMutableData*) dataWithString:(NSString*)stringData;
 

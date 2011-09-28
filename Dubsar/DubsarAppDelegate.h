@@ -39,5 +39,6 @@
 
 - (void)prepareDatabase;
 - (void)databasePrepFinished;
+- (id)initForTest;
 
 @end

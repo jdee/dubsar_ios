@@ -20,6 +20,7 @@
 #import "Dubsar.h"
 #import "Model.h"
 
+@class Pointer;
 
 @interface Synset : Model {
     sqlite3_stmt* pointerQuery;
