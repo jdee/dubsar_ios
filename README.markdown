@@ -23,7 +23,6 @@ Further information on Dubsar is available on the [Dubsar site](http://dubsar-di
 Also see:
 
 - [Dubsar group on Google](http://groups.google.com/group/dubsar)
-- [Dubsar subscribed links on Google](http://www.google.com/coop/profile?user=012127914215357268281)
 - [Dubsar on Facebook](http://www.facebook.com/pages/Dubsar/155561501154946)
 - [Dubsar on Twitter](http://twitter.com/#!/dubsar)
 - [Dubsar for Android](https://github.com/jdee/dubsar_android)
