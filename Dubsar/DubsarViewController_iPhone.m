@@ -34,7 +34,7 @@
     if (self) {
         // Custom initialization
         self.title = @"Home";
-        UIImage* image = [UIImage imageNamed:@"dubsar-link-hr.png"];
+        UIImage* image = [UIImage imageNamed:@"dubsar-full.png"];
         UIImageView* titleView = [[[UIImageView alloc]initWithImage:image]autorelease];
         titleView.autoresizingMask = UIViewAutoresizingNone;
         
@@ -44,7 +44,7 @@
         }
         
         CGRect bounds = titleView.bounds;
-        bounds.size = CGSizeMake(88.0, 20.0);
+        bounds.size = CGSizeMake(82.5, 30.0);
         titleView.bounds = bounds;
 
         self.navigationItem.titleView = titleView;
