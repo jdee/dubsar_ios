@@ -110,7 +110,14 @@
 }
 
 - (IBAction)dismiss:(id)sender {
-    [self.parentViewController dismissModalViewControllerAnimated:YES];
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
+        // iOS 5.0+
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else {
+        // iOS 4.x
+        [self.parentViewController dismissModalViewControllerAnimated:YES];
+    }
 }
 
 - (void)displayMessage:(NSString *)text url:(NSURL *)baseUrl

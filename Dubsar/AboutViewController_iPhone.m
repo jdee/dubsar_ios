@@ -62,12 +62,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [licenseScrollView setContentSize:CGSizeMake(320.0, 475.0)];
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    // NSLog(@"screen height: %f", bounds.size.height);
+    
+    [licenseScrollView setContentSize:CGSizeMake(bounds.size.width, bounds.size.height-5.0)];
     [licenseScrollView addSubview:licenseText];
     [licenseView setHidden:YES];
     [self.view addSubview:licenseView];
     
-    [aboutScrollView setContentSize:CGSizeMake(320.0, 416.0)];
+    [aboutScrollView setContentSize:CGSizeMake(bounds.size.width, bounds.size.height-64.0)];
     [aboutScrollView addSubview:aboutText];
     
     
@@ -117,15 +120,27 @@
                         copyrightLabel.hidden = YES;
                         aboutToolbar.hidden = YES;
                         licenseView.hidden = NO;
-                    } completion:nil];
+                    } completion:^(BOOL finished){
+                        if (finished) {
+                            NSLog(@"licenseToolbar.hidden = %s", licenseToolbar.hidden ? "YES" : "NO");
+                            NSLog(@"licenseToolbar.frame.origin.y = %f", licenseToolbar.frame.origin.y);
+                        }
+                    }];
 }
 
 - (IBAction)dismiss:(id)sender 
 {
-    [self.parentViewController dismissModalViewControllerAnimated:YES];
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
+        // iOS 5.0+
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else {
+        // iOS 4.x
+        [self.parentViewController dismissModalViewControllerAnimated:YES];
+    }
 }
 
-- (IBAction)showAbout:(id)sender 
+- (IBAction)showAbout:(id)sender
 {
     [UIView transitionWithView:self.view duration:0.4 
                        options:UIViewAnimationOptionTransitionFlipFromLeft 

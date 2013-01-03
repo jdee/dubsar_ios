@@ -217,7 +217,11 @@
 - (void)initOrientation
 {
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    if (UIDeviceOrientationIsPortrait(deviceOrientation))
+    // NSLog(@"device orientation: %d", deviceOrientation);
+    
+    // Can start with unknown orientation in iOS 6
+    if (deviceOrientation == UIDeviceOrientationUnknown ||
+        UIDeviceOrientationIsPortrait(deviceOrientation))
     {
         [self.navigationController setToolbarHidden:NO animated:NO];
     }
