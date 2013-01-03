@@ -280,8 +280,10 @@
     bool inflectionsShowing = word.freqCnt > 0 || word.inflections.length > 0;
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
     
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    
     // BUG: Where do these extra 12 points come from? Should be 212 in landscape.
-    float maxHeight = UIInterfaceOrientationIsPortrait(orientation) ? 328.0 : 224.0 ;
+    float maxHeight = UIInterfaceOrientationIsPortrait(orientation) ? bounds.size.height - 152.0 : 224.0 ;
     if (inflectionsShowing) maxHeight -= 44.0;
     
     float height = 66.0*[self numberOfSectionsInTableView:tableView];  
@@ -289,7 +291,7 @@
     CGRect frame = tableView.frame;        
     
     frame.size.height = height > maxHeight ? maxHeight : height;
-    frame.size.width = UIInterfaceOrientationIsPortrait(orientation) ? 320.0 : 480.0;
+    frame.size.width = UIInterfaceOrientationIsPortrait(orientation) ? bounds.size.width : bounds.size.height;
     frame.origin.x = 0.0;
     frame.origin.y = inflectionsShowing ? 88.0 : 44.0;
     

@@ -73,7 +73,6 @@
     [aboutScrollView setContentSize:CGSizeMake(bounds.size.width, bounds.size.height-64.0)];
     [aboutScrollView addSubview:aboutText];
     
-    
     NSString* version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
     versionLabel.text = [NSString stringWithFormat:@"Version %@", version];
 }
@@ -120,12 +119,7 @@
                         copyrightLabel.hidden = YES;
                         aboutToolbar.hidden = YES;
                         licenseView.hidden = NO;
-                    } completion:^(BOOL finished){
-                        if (finished) {
-                            NSLog(@"licenseToolbar.hidden = %s", licenseToolbar.hidden ? "YES" : "NO");
-                            NSLog(@"licenseToolbar.frame.origin.y = %f", licenseToolbar.frame.origin.y);
-                        }
-                    }];
+                    } completion:nil];
 }
 
 - (IBAction)dismiss:(id)sender 

@@ -172,7 +172,7 @@
         UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
         Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
         _autocompleter.delegate = proxy;
-        _autocompleter.max = UIInterfaceOrientationIsPortrait(orientation) ? 3 : 1;
+        _autocompleter.max = UIInterfaceOrientationIsPortrait(orientation) ? [UIScreen mainScreen].bounds.size.height == 568.0 ? 5 : 3 : 1;
         _autocompleter.lock = self;
         [_autocompleter load];
         self.executingAutocompleter = _autocompleter;
@@ -279,8 +279,12 @@
             return 1;
         case 2:
             return 2;
-        default:
+        case 3:
             return 3;
+        case 4:
+            return 4;
+        default:
+            return 5;
     }
 }
 

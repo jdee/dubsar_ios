@@ -209,7 +209,7 @@
         self.title = [NSString stringWithFormat:@"Synset: %@", synset.gloss];
     }
     else {
-        self.title = [NSString stringWithString:@"Synset"];
+        self.title = @"Synset";
     }
 }
 

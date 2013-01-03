@@ -36,9 +36,11 @@
         self.title = @"Home";
         UIImage* image = [UIImage imageNamed:@"dubsar-link-hr.png"];
         UIImageView* titleView = [[[UIImageView alloc]initWithImage:image]autorelease];
+        /*
         CGRect frame = titleView.frame;
         frame.size = CGSizeMake(88.0, 20.0);
         titleView.frame = frame;
+         */
         self.navigationItem.titleView = titleView;
     }
     return self;

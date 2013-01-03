@@ -288,7 +288,10 @@
 - (void)setTableViewHeight
 {
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
-    float height = UIInterfaceOrientationIsPortrait(orientation) ? 328.0 : 225.0 ;
+    
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    
+    float height = UIInterfaceOrientationIsPortrait(orientation) ? bounds.size.height - 152.0 : 225.0 ;
     
     CGRect frame = _tableView.frame;        
     
@@ -300,7 +303,6 @@
     _tableView.frame = frame;
  
     NSLog(@"table view origin y: %f", _tableView.frame.origin.y);
-    
 }
 
 - (void)setSearchTitle:(NSString *)theTitle
@@ -311,7 +313,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    NSLog(@"device rotated");
+    // NSLog(@"device rotated");
     [self setTableViewHeight];
 }
 
