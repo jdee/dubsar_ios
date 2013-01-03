@@ -431,7 +431,7 @@ static int _seqNum = 0;
         @"FROM words w "
         @"INNER JOIN inflections i ON i.word_id = w.id "
         @"WHERE i.name = ? "
-        @"ORDER BY w.part_of_speech ASC";
+        @"ORDER BY w.name ASC, w.part_of_speech ASC";
         NSLog(@"preparing statement %@", exactSql);
         if ((rc=sqlite3_prepare_v2(appDelegate.database, [exactSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
