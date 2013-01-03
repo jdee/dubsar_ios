@@ -36,11 +36,17 @@
         self.title = @"Home";
         UIImage* image = [UIImage imageNamed:@"dubsar-link-hr.png"];
         UIImageView* titleView = [[[UIImageView alloc]initWithImage:image]autorelease];
-        /*
-        CGRect frame = titleView.frame;
-        frame.size = CGSizeMake(88.0, 20.0);
-        titleView.frame = frame;
-         */
+        titleView.autoresizingMask = UIViewAutoresizingNone;
+        
+        if ([[[UIDevice currentDevice] systemVersion] compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending) {
+            // iOS 6.0+
+            [titleView setTranslatesAutoresizingMaskIntoConstraints:YES];
+        }
+        
+        CGRect bounds = titleView.bounds;
+        bounds.size = CGSizeMake(88.0, 20.0);
+        titleView.bounds = bounds;
+
         self.navigationItem.titleView = titleView;
     }
     return self;
