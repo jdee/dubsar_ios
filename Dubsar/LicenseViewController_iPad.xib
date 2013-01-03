@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
-		<int key="IBDocument.SystemTarget">1056</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<int key="IBDocument.SystemTarget">1536</int>
+		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<string key="IBDocument.AppKitVersion">1187.34</string>
+		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">534</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>IBProxyObject</string>
-			<string>IBUIView</string>
 			<string>IBUILabel</string>
+			<string>IBUIView</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys" id="0">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
-			<reference key="dict.values" ref="0"/>
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -55,11 +52,6 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">Dubsar is free, open-source software distributed under version 2 of the GNU General Public License.</string>
-						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">TrebuchetMS</string>
-							<double key="NSSize">24</double>
-							<int key="NSfFlags">16</int>
-						</object>
 						<object class="NSColor" key="IBUITextColor" id="202073999">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
@@ -67,6 +59,17 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<object class="IBUIFontDescription" key="IBUIFontDescription">
+							<string key="name">TrebuchetMS</string>
+							<string key="family">Trebuchet MS</string>
+							<int key="traits">0</int>
+							<double key="pointSize">24</double>
+						</object>
+						<object class="NSFont" key="IBUIFont">
+							<string key="NSName">TrebuchetMS</string>
+							<double key="NSSize">24</double>
+							<int key="NSfFlags">16</int>
+						</object>
 					</object>
 					<object class="IBUILabel" id="535854683">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -88,10 +91,20 @@
 						<object class="NSColor" key="IBUITextColor" id="627374740">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
+							<string key="IBUIColorCocoaTouchKeyPath">darkTextColor</string>
 						</object>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="363894791">
+							<int key="type">1</int>
+							<double key="pointSize">17</double>
+						</object>
+						<object class="NSFont" key="IBUIFont" id="23337015">
+							<string key="NSName">Helvetica</string>
+							<double key="NSSize">17</double>
+							<int key="NSfFlags">16</int>
+						</object>
 					</object>
 					<object class="IBUILabel" id="870483650">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -106,15 +119,21 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">Dubsar Dictionary Project</string>
+						<reference key="IBUITextColor" ref="202073999"/>
+						<nil key="IBUIHighlightedColor"/>
+						<int key="IBUIBaselineAdjustment">1</int>
+						<float key="IBUIMinimumFontSize">10</float>
+						<object class="IBUIFontDescription" key="IBUIFontDescription">
+							<string key="name">TrebuchetMS-Bold</string>
+							<string key="family">Trebuchet MS</string>
+							<int key="traits">2</int>
+							<double key="pointSize">24</double>
+						</object>
 						<object class="NSFont" key="IBUIFont">
 							<string key="NSName">TrebuchetMS-Bold</string>
 							<double key="NSSize">24</double>
 							<int key="NSfFlags">16</int>
 						</object>
-						<reference key="IBUITextColor" ref="202073999"/>
-						<nil key="IBUIHighlightedColor"/>
-						<int key="IBUIBaselineAdjustment">1</int>
-						<float key="IBUIMinimumFontSize">10</float>
 					</object>
 					<object class="IBUILabel" id="309038209">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -128,16 +147,22 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<string key="IBUIText">Copyright © 2010-11 Jimmy Dee</string>
+						<string key="IBUIText">Copyright © 2010-13 Jimmy Dee</string>
+						<reference key="IBUITextColor" ref="202073999"/>
+						<nil key="IBUIHighlightedColor"/>
+						<int key="IBUIBaselineAdjustment">1</int>
+						<float key="IBUIMinimumFontSize">10</float>
+						<object class="IBUIFontDescription" key="IBUIFontDescription">
+							<string key="name">TrebuchetMS-Bold</string>
+							<string key="family">Trebuchet MS</string>
+							<int key="traits">2</int>
+							<double key="pointSize">18</double>
+						</object>
 						<object class="NSFont" key="IBUIFont">
 							<string key="NSName">TrebuchetMS-Bold</string>
 							<double key="NSSize">18</double>
 							<int key="NSfFlags">16</int>
 						</object>
-						<reference key="IBUITextColor" ref="202073999"/>
-						<nil key="IBUIHighlightedColor"/>
-						<int key="IBUIBaselineAdjustment">1</int>
-						<float key="IBUIMinimumFontSize">10</float>
 					</object>
 					<object class="IBUILabel" id="674881952">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -152,17 +177,24 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</string>
-						<object class="NSFont" key="IBUIFont" id="347054982">
-							<string key="NSName">TrebuchetMS</string>
-							<double key="NSSize">18</double>
-							<int key="NSfFlags">16</int>
-						</object>
 						<reference key="IBUITextColor" ref="202073999"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUINumberOfLines">4</int>
 						<int key="IBUILineBreakMode">0</int>
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="95199580">
+							<string key="name">TrebuchetMS</string>
+							<string key="family">Trebuchet MS</string>
+							<int key="traits">0</int>
+							<double key="pointSize">18</double>
+						</object>
+						<object class="NSFont" key="IBUIFont" id="347054982">
+							<string key="NSName">TrebuchetMS</string>
+							<double key="NSSize">18</double>
+							<int key="NSfFlags">16</int>
+						</object>
+						<double key="preferredMaxLayoutWidth">687</double>
 					</object>
 					<object class="IBUILabel" id="706232741">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -177,14 +209,16 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.</string>
-						<reference key="IBUIFont" ref="347054982"/>
 						<reference key="IBUITextColor" ref="202073999"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
-						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUINumberOfLines">3</int>
 						<int key="IBUILineBreakMode">0</int>
+						<reference key="IBUIFontDescription" ref="95199580"/>
+						<reference key="IBUIFont" ref="347054982"/>
+						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
+						<double key="preferredMaxLayoutWidth">687</double>
 					</object>
 					<object class="IBUILabel" id="704326858">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -204,6 +238,8 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<reference key="IBUIFontDescription" ref="363894791"/>
+						<reference key="IBUIFont" ref="23337015"/>
 					</object>
 					<object class="IBUILabel" id="102787815">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -217,13 +253,14 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<string key="IBUIText">WordNet® © 2011 The Trustees of Princeton University</string>
-						<reference key="IBUIFont" ref="347054982"/>
+						<string key="IBUIText">WordNet® © 2013 The Trustees of Princeton University</string>
 						<reference key="IBUITextColor" ref="202073999"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUILineBreakMode">0</int>
+						<reference key="IBUIFontDescription" ref="95199580"/>
+						<reference key="IBUIFont" ref="347054982"/>
 					</object>
 					<object class="IBUILabel" id="772510016">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -238,11 +275,12 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">WordNet® is available under the WordNet 3.0 License.</string>
-						<reference key="IBUIFont" ref="347054982"/>
 						<reference key="IBUITextColor" ref="202073999"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<reference key="IBUIFontDescription" ref="95199580"/>
+						<reference key="IBUIFont" ref="347054982"/>
 					</object>
 					<object class="IBUILabel" id="539929783">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -266,6 +304,8 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<reference key="IBUIFontDescription" ref="363894791"/>
+						<reference key="IBUIFont" ref="23337015"/>
 					</object>
 					<object class="IBUILabel" id="229381593">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -281,17 +321,24 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</string>
-						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">TrebuchetMS</string>
-							<double key="NSSize">17</double>
-							<int key="NSfFlags">16</int>
-						</object>
 						<reference key="IBUITextColor" ref="202073999"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUINumberOfLines">3</int>
 						<int key="IBUILineBreakMode">0</int>
+						<object class="IBUIFontDescription" key="IBUIFontDescription">
+							<string key="name">TrebuchetMS</string>
+							<string key="family">Trebuchet MS</string>
+							<int key="traits">0</int>
+							<double key="pointSize">17</double>
+						</object>
+						<object class="NSFont" key="IBUIFont">
+							<string key="NSName">TrebuchetMS</string>
+							<double key="NSSize">17</double>
+							<int key="NSfFlags">16</int>
+						</object>
+						<double key="preferredMaxLayoutWidth">687</double>
 					</object>
 					<object class="IBUILabel" id="846455658">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -315,6 +362,8 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<reference key="IBUIFontDescription" ref="363894791"/>
+						<reference key="IBUIFont" ref="23337015"/>
 					</object>
 					<object class="IBUILabel" id="709541979">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -330,7 +379,6 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">JSONKit © 2011 John Engelhart</string>
-						<reference key="IBUIFont" ref="347054982"/>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
@@ -338,6 +386,8 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<reference key="IBUIFontDescription" ref="95199580"/>
+						<reference key="IBUIFont" ref="347054982"/>
 					</object>
 					<object class="IBUILabel" id="38848739">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -345,6 +395,7 @@
 						<string key="NSFrame">{{8, 620}, {687, 60}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:327</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -352,7 +403,6 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">JSONKit is dual licensed under either the terms of the BSD License, or alternatively under the terms of the Apache License, Version 2.0.</string>
-						<reference key="IBUIFont" ref="347054982"/>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
@@ -362,6 +412,9 @@
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUINumberOfLines">2</int>
 						<int key="IBUILineBreakMode">0</int>
+						<reference key="IBUIFontDescription" ref="95199580"/>
+						<reference key="IBUIFont" ref="347054982"/>
+						<double key="preferredMaxLayoutWidth">687</double>
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 20}, {703, 748}}</string>
@@ -389,7 +442,7 @@
 							<integer value="1"/>
 							<integer value="3"/>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>{768, 1024}</string>
 							<string>{703, 768}</string>
@@ -423,7 +476,9 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
-						<reference key="object" ref="0"/>
+						<object class="NSArray" key="object" id="0">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="children" ref="1000"/>
 						<nil key="parent"/>
 					</object>
@@ -556,7 +611,7 @@
 					<string>7.IBPluginDependency</string>
 					<string>9.IBPluginDependency</string>
 				</object>
-				<object class="NSMutableArray" key="dict.values">
+				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>LicenseViewController_iPad</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -614,6 +669,6 @@
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">534</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>

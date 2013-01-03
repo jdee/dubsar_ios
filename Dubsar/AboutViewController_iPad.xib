@@ -1,32 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
-		<int key="IBDocument.SystemTarget">1056</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<int key="IBDocument.SystemTarget">1536</int>
+		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<string key="IBDocument.AppKitVersion">1187.34</string>
+		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">534</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>IBUIButton</string>
-			<string>IBUIView</string>
-			<string>IBUILabel</string>
 			<string>IBProxyObject</string>
+			<string>IBUIButton</string>
+			<string>IBUILabel</string>
+			<string>IBUIView</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys" id="0">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
-			<reference key="dict.values" ref="0"/>
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -56,22 +53,29 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">Version Label</string>
-						<object class="NSFont" key="IBUIFont" id="1065742380">
-							<string key="NSName">TrebuchetMS-Bold</string>
-							<double key="NSSize">24</double>
-							<int key="NSfFlags">16</int>
-						</object>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
 						</object>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
-						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUINumberOfLines">4</int>
 						<int key="IBUITextAlignment">1</int>
 						<int key="IBUILineBreakMode">0</int>
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="778687525">
+							<string key="name">TrebuchetMS-Bold</string>
+							<string key="family">Trebuchet MS</string>
+							<int key="traits">2</int>
+							<double key="pointSize">24</double>
+						</object>
+						<object class="NSFont" key="IBUIFont" id="1065742380">
+							<string key="NSName">TrebuchetMS-Bold</string>
+							<double key="NSSize">24</double>
+							<int key="NSfFlags">16</int>
+						</object>
+						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
+						<double key="preferredMaxLayoutWidth">350</double>
 					</object>
 					<object class="IBUIButton" id="707617821">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -84,11 +88,6 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<object class="NSFont" key="IBUIFont" id="814692257">
-							<string key="NSName">TrebuchetMS-Bold</string>
-							<double key="NSSize">15</double>
-							<int key="NSfFlags">16</int>
-						</object>
 						<int key="IBUIButtonType">1</int>
 						<string key="IBUINormalTitle">License</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="790902991">
@@ -107,6 +106,17 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="682240634">
+							<string key="name">TrebuchetMS-Bold</string>
+							<string key="family">Trebuchet MS</string>
+							<int key="traits">2</int>
+							<double key="pointSize">15</double>
+						</object>
+						<object class="NSFont" key="IBUIFont" id="814692257">
+							<string key="NSName">TrebuchetMS-Bold</string>
+							<double key="NSSize">15</double>
+							<int key="NSfFlags">16</int>
+						</object>
 					</object>
 					<object class="IBUILabel" id="365291493">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -120,12 +130,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<string key="IBUIText">© 2011 Jimmy Dee</string>
-						<object class="NSFont" key="IBUIFont" id="328005110">
-							<string key="NSName">TrebuchetMS</string>
-							<double key="NSSize">17</double>
-							<int key="NSfFlags">16</int>
-						</object>
+						<string key="IBUIText">© 2013 Jimmy Dee</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
@@ -134,6 +139,17 @@
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="77339530">
+							<string key="name">TrebuchetMS</string>
+							<string key="family">Trebuchet MS</string>
+							<int key="traits">0</int>
+							<double key="pointSize">17</double>
+						</object>
+						<object class="NSFont" key="IBUIFont" id="328005110">
+							<string key="NSName">TrebuchetMS</string>
+							<double key="NSSize">17</double>
+							<int key="NSfFlags">16</int>
+						</object>
 					</object>
 					<object class="IBUILabel" id="1018892431">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -149,7 +165,6 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">Dubsar for iPad</string>
-						<reference key="IBUIFont" ref="1065742380"/>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
@@ -160,6 +175,9 @@
 						<int key="IBUINumberOfLines">2</int>
 						<int key="IBUITextAlignment">1</int>
 						<int key="IBUILineBreakMode">0</int>
+						<reference key="IBUIFontDescription" ref="778687525"/>
+						<reference key="IBUIFont" ref="1065742380"/>
+						<double key="preferredMaxLayoutWidth">663</double>
 					</object>
 					<object class="IBUILabel" id="428760180">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -174,8 +192,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<string key="IBUIText">WordNet® © 2011 The Trustees of Princeton University</string>
-						<reference key="IBUIFont" ref="328005110"/>
+						<string key="IBUIText">WordNet® © 2013 The Trustees of Princeton University</string>
 						<object class="NSColor" key="IBUITextColor" id="779979501">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
@@ -184,6 +201,8 @@
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
+						<reference key="IBUIFontDescription" ref="77339530"/>
+						<reference key="IBUIFont" ref="328005110"/>
 					</object>
 					<object class="IBUILabel" id="216062308">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -199,12 +218,13 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">JSONKit © 2011 John Engelhart</string>
-						<reference key="IBUIFont" ref="328005110"/>
 						<reference key="IBUITextColor" ref="779979501"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
+						<reference key="IBUIFontDescription" ref="77339530"/>
+						<reference key="IBUIFont" ref="328005110"/>
 					</object>
 					<object class="IBUILabel" id="746019907">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -220,7 +240,6 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">For Support:</string>
-						<reference key="IBUIFont" ref="328005110"/>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
@@ -229,6 +248,8 @@
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
+						<reference key="IBUIFontDescription" ref="77339530"/>
+						<reference key="IBUIFont" ref="328005110"/>
 					</object>
 					<object class="IBUILabel" id="520726150">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -244,7 +265,6 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">http://m.dubsar-dictionary.com/m_support</string>
-						<reference key="IBUIFont" ref="328005110"/>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
@@ -253,6 +273,8 @@
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
+						<reference key="IBUIFontDescription" ref="77339530"/>
+						<reference key="IBUIFont" ref="328005110"/>
 					</object>
 					<object class="IBUILabel" id="425308608">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -260,6 +282,7 @@
 						<string key="NSFrame">{{20, 576}, {663, 30}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:327</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -267,7 +290,6 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">support@dubsar-dictionary.com</string>
-						<reference key="IBUIFont" ref="328005110"/>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
@@ -276,6 +298,8 @@
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
+						<reference key="IBUIFontDescription" ref="77339530"/>
+						<reference key="IBUIFont" ref="328005110"/>
 					</object>
 					<object class="IBUIButton" id="575635669">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -289,7 +313,6 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<reference key="IBUIFont" ref="814692257"/>
 						<int key="IBUIButtonType">1</int>
 						<string key="IBUINormalTitle">View in App Store</string>
 						<reference key="IBUIHighlightedTitleColor" ref="790902991"/>
@@ -298,6 +321,8 @@
 							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="108841984"/>
+						<reference key="IBUIFontDescription" ref="682240634"/>
+						<reference key="IBUIFont" ref="814692257"/>
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 20}, {703, 748}}</string>
@@ -325,7 +350,7 @@
 							<integer value="1"/>
 							<integer value="3"/>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>{768, 1024}</string>
 							<string>{703, 768}</string>
@@ -354,6 +379,22 @@
 					<int key="connectionID">3</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">versionLabel</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="443206602"/>
+					</object>
+					<int key="connectionID">8</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">appStoreButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="575635669"/>
+					</object>
+					<int key="connectionID">20</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showLicense:</string>
 						<reference key="source" ref="707617821"/>
@@ -361,14 +402,6 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">7</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">versionLabel</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="443206602"/>
-					</object>
-					<int key="connectionID">8</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -379,21 +412,15 @@
 					</object>
 					<int key="connectionID">19</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">appStoreButton</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="575635669"/>
-					</object>
-					<int key="connectionID">20</int>
-				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
-						<reference key="object" ref="0"/>
+						<object class="NSArray" key="object" id="0">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="children" ref="1000"/>
 						<nil key="parent"/>
 					</object>
@@ -499,7 +526,7 @@
 					<string>5.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>6.IBPluginDependency</string>
 				</object>
-				<object class="NSMutableArray" key="dict.values">
+				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>AboutViewController_iPad</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -546,7 +573,7 @@
 							<string>showLicense:</string>
 							<string>viewInAppStore:</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
 							<string>id</string>
@@ -559,7 +586,7 @@
 							<string>showLicense:</string>
 							<string>viewInAppStore:</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
 								<string key="name">showLicense:</string>
@@ -578,7 +605,7 @@
 							<string>appStoreButton</string>
 							<string>versionLabel</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIButton</string>
 							<string>UILabel</string>
@@ -591,7 +618,7 @@
 							<string>appStoreButton</string>
 							<string>versionLabel</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">appStoreButton</string>
@@ -618,6 +645,6 @@
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">534</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>
