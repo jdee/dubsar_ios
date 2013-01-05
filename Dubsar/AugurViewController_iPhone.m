@@ -119,7 +119,7 @@
 
 - (void)loadPage:(NSString*)html
 {
-    NSString* format = @"<!DOCTYPE html><html><head><title>Augury</title></head><body style=\"background-color: #e0e0ff;\"><h1 style=\"color: #1c94c4; text-align: center; margin-top: 2ex; font: bold 24pt Trebuchet MS\">%@</body></html>";
+    NSString* format = @"<!DOCTYPE html><html><head><title>Augury</title></head><body style=\"background-color: #e0e0ff;\"><h1 style=\"color: #1c94c4; text-align: center; margin-top: 2ex; font: bold 18pt Trebuchet MS\">%@<script>window.scrollTo(0, document.body.scrollHeig;</script></body></html>";
     NSString* page = [NSString stringWithFormat:format, html];
     [auguryWebView loadHTMLString:page baseURL:[NSURL URLWithString:@"http://localhost/augury"]];
 }
