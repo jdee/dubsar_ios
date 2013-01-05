@@ -36,6 +36,7 @@
 {
     self = [super init];
     if (self) {
+        sranddev();
         dubsarTintColor  = [[UIColor colorWithRed:0.110 green:0.580 blue:0.769 alpha:1.0]retain];
         dubsarFontFamily = [[NSString stringWithString:@"Trebuchet"] retain];
         dubsarNormalFont = [[UIFont fontWithName:@"TrebuchetMS" size:18.0]retain];

@@ -17,21 +17,13 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "SearchBarViewController_iPhone.h"
+#import <UIKit/UIKit.h>
 
-@class DailyWord;
+@interface AugurViewController_iPhone : UIViewController
 
-@interface DubsarViewController_iPhone : SearchBarViewController_iPhone {
-    UIButton *wotdButton;
-}
+@property (nonatomic, retain) IBOutlet UITextView* auguryText;
 
-@property (nonatomic, retain) DailyWord* dailyWord;
-@property (nonatomic, retain) IBOutlet UIButton *wotdButton;
-
-- (void)displayFAQ;
-- (void)displayAbout;
-- (void)displayAugury;
-- (IBAction)loadWotd:(id)sender;
-- (void)load;
+- (IBAction) augur:(id)sender;
+- (IBAction) dismiss:(id)sender;
 
 @end

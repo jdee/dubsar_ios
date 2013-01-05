@@ -105,6 +105,8 @@
 		7B6953BF13E6E3CC00B10519 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B6953BD13E6E3CC00B10519 /* InfoPlist.strings */; };
 		7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */; };
 		7B824E5813EC540100CDC665 /* DailyWordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B824E5713EC540100CDC665 /* DailyWordTest.m */; };
+		7B862DE31697CF1C0064F66B /* AugurViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B862DE11697CF1C0064F66B /* AugurViewController_iPhone.m */; };
+		7B862DE41697CF1C0064F66B /* AugurViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B862DE21697CF1C0064F66B /* AugurViewController_iPhone.xib */; };
 		7B8AEB0913E9A39F00889E57 /* ForwardStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB0813E9A39F00889E57 /* ForwardStack.m */; };
 		7B8AEB1713E9ACA800889E57 /* DubsarNavigationController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB1613E9ACA800889E57 /* DubsarNavigationController_iPhone.m */; };
 		7B8AEB3713E9D60600889E57 /* DubsarNavigationController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB3613E9D60600889E57 /* DubsarNavigationController_iPad.m */; };
@@ -276,6 +278,9 @@
 		7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterView_iPhone.xib; sourceTree = "<group>"; };
 		7B824E5613EC540100CDC665 /* DailyWordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWordTest.h; sourceTree = "<group>"; };
 		7B824E5713EC540100CDC665 /* DailyWordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWordTest.m; sourceTree = "<group>"; };
+		7B862DE01697CF1C0064F66B /* AugurViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AugurViewController_iPhone.h; sourceTree = "<group>"; };
+		7B862DE11697CF1C0064F66B /* AugurViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AugurViewController_iPhone.m; sourceTree = "<group>"; };
+		7B862DE21697CF1C0064F66B /* AugurViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AugurViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B8AEB0713E9A39F00889E57 /* ForwardStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForwardStack.h; sourceTree = "<group>"; };
 		7B8AEB0813E9A39F00889E57 /* ForwardStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForwardStack.m; sourceTree = "<group>"; };
 		7B8AEB1513E9ACA800889E57 /* DubsarNavigationController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarNavigationController_iPhone.h; sourceTree = "<group>"; };
@@ -408,6 +413,9 @@
 				7BB2270513E5A746005D454F /* AboutViewController_iPhone.h */,
 				7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */,
 				7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */,
+				7B862DE01697CF1C0064F66B /* AugurViewController_iPhone.h */,
+				7B862DE11697CF1C0064F66B /* AugurViewController_iPhone.m */,
+				7B862DE21697CF1C0064F66B /* AugurViewController_iPhone.xib */,
 				7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */,
 				7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */,
 				7B32800413E3875400274E6C /* DubsarAppDelegate_iPhone.h */,
@@ -725,6 +733,7 @@
 				7B36217B1694FCA600D9CA53 /* Default.png in Resources */,
 				7B36217D1694FCAD00D9CA53 /* Default@2x.png in Resources */,
 				7B36217F1694FD8000D9CA53 /* Default-568h@2x.png in Resources */,
+				7B862DE41697CF1C0064F66B /* AugurViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -801,6 +810,7 @@
 				7B917A7513EC3CD600FBF365 /* DailyWord.m in Sources */,
 				7BB9CEDC141C19F1000DD13B /* Section.m in Sources */,
 				7BB9CEDF141C21FA000DD13B /* Pointer.m in Sources */,
+				7B862DE31697CF1C0064F66B /* AugurViewController_iPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,7 +887,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: James Dee";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -886,7 +896,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PROVISIONING_PROFILE = "CE83994F-A9A4-4861-A7E9-3309D9AEFECE";
+				PROVISIONING_PROFILE = "BBFDD11F-DE51-478A-BB4F-E7FAB02FC82A";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -896,14 +906,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: James Dee";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "CE83994F-A9A4-4861-A7E9-3309D9AEFECE";
+				PROVISIONING_PROFILE = "BBFDD11F-DE51-478A-BB4F-E7FAB02FC82A";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -18,6 +18,7 @@
  */
 
 #import "AboutViewController_iPhone.h"
+#import "AugurViewController_iPhone.h"
 #import "DailyWord.h"
 #import "DubsarViewController_iPhone.h"
 #import "FAQViewController_iPhone.h"
@@ -112,6 +113,12 @@
     [self presentModalViewController:aboutViewController animated: YES];
 }
 
+- (void)displayAugury
+{
+    [self presentModalViewController:[[[AugurViewController_iPhone alloc]
+                                       initWithNibName:@"AugurViewController_iPhone" bundle:nil]autorelease] animated: YES];
+}
+
 - (IBAction)loadWotd:(id)sender
 {
     if (!dailyWord.complete || dailyWord.error) return;
@@ -124,10 +131,12 @@
 {
     UIBarButtonItem* faqButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)]autorelease];
     UIBarButtonItem* aboutButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAbout)]autorelease];
+    UIBarButtonItem* augurButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Augur" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAugury)]autorelease];
     
     NSMutableArray* buttonItems = [NSMutableArray array];
     [buttonItems addObject:faqButtonItem];
     [buttonItems addObject:aboutButtonItem];
+    [buttonItems addObject:augurButtonItem];
     
     self.toolbarItems = buttonItems.retain;
 }
