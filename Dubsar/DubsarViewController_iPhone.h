@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "AugurViewController_iPhone.h"
 #import "SearchBarViewController_iPhone.h"
 
 @class DailyWord;
@@ -27,6 +28,7 @@
 
 @property (nonatomic, retain) DailyWord* dailyWord;
 @property (nonatomic, retain) IBOutlet UIButton *wotdButton;
+@property (nonatomic, retain) AugurViewController_iPhone* augurViewController;
 
 - (void)displayFAQ;
 - (void)displayAbout;

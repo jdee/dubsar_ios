@@ -28,6 +28,7 @@
 @implementation DubsarViewController_iPhone
 @synthesize wotdButton;
 @synthesize dailyWord;
+@synthesize augurViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,6 +50,10 @@
         titleView.bounds = bounds;
 
         self.navigationItem.titleView = titleView;
+        self.augurViewController = [[AugurViewController_iPhone alloc]
+                                     initWithNibName:@"AugurViewController_iPhone" bundle:nil];
+        // augurViewController has retain semantics, so will retain this after init.
+        [self.augurViewController release];
     }
     return self;
 }
@@ -115,8 +120,7 @@
 
 - (void)displayAugury
 {
-    [self presentModalViewController:[[[AugurViewController_iPhone alloc]
-                                       initWithNibName:@"AugurViewController_iPhone" bundle:nil]autorelease] animated: YES];
+    [self presentModalViewController:self.augurViewController animated: YES];
 }
 
 - (IBAction)loadWotd:(id)sender
