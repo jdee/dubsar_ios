@@ -26,13 +26,15 @@
 
 @implementation AugurViewController_iPhone
 
-@synthesize auguryText;
+@synthesize auguryWebView;
+@synthesize augury;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.augury = [NSString string];
     }
     return self;
 }
@@ -83,13 +85,18 @@
     }
     sqlite3_finalize(statement);
     
+    NSString* wordLink = [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iPhone/words/%d'>%@</a>",
+                          verbId, word.name];
+    
     /*
      * The selected verb frames are all xxx %s xxx, so we convert the NSString word.name to
      * a C string and use it with the verb frame as a format.
      */
-    NSString* augury = [NSString stringWithFormat:frameFormat, [word.name cStringUsingEncoding:NSUTF8StringEncoding]];
+    NSString* _augury = [NSString stringWithFormat:frameFormat, [wordLink cStringUsingEncoding:NSUTF8StringEncoding]];
 
-    auguryText.text = [auguryText.text stringByAppendingFormat:@"\n%@", augury];
+    self.augury = [augury stringByAppendingFormat:@"<p>%@</p>", _augury];
+    
+    [self loadPage:augury];
 }
 
 - (IBAction) dismiss:(id)sender
@@ -106,7 +113,21 @@
 
 - (IBAction) clear:(id)sender
 {
-    auguryText.text = @"";
+    self.augury = [NSString string];
+    [self loadPage:augury];
+}
+
+- (void)loadPage:(NSString*)html
+{
+    NSString* format = @"<!DOCTYPE html><html><head><title>Augury</title></head><body style=\"background-color: #e0e0ff;\"><h1 style=\"color: #1c94c4; text-align: center; margin-top: 2ex; font: bold 24pt Trebuchet MS\">%@</body></html>";
+    NSString* page = [NSString stringWithFormat:format, html];
+    [auguryWebView loadHTMLString:page baseURL:[NSURL URLWithString:@"http://localhost/augury"]];
+}
+
+- (void)webView:(UIWebView *)theWebView didFailLoadWithError:(NSError *)error
+{
+    NSString* errMsg = [error localizedDescription];
+    NSLog(@"web view fail: %@", errMsg);
 }
 
 @end
