@@ -23,6 +23,7 @@
 
 @property (nonatomic, retain) IBOutlet UITextView* auguryText;
 
+- (IBAction) clear:(id)sender;
 - (IBAction) augur:(id)sender;
 - (IBAction) dismiss:(id)sender;
 

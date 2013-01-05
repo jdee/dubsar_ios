@@ -78,15 +78,18 @@
     }
     else {
         NSLog(@"failed to find verb frame %d", rc);
+        sqlite3_finalize(statement);
         return;
     }
+    sqlite3_finalize(statement);
     
     /*
      * The selected verb frames are all xxx %s xxx, so we convert the NSString word.name to
      * a C string and use it with the verb frame as a format.
      */
-    NSString* augury = [[NSString stringWithFormat:frameFormat, [word.name cStringUsingEncoding:NSUTF8StringEncoding]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    auguryText.text = [augury stringByAppendingString:@"."];
+    NSString* augury = [NSString stringWithFormat:frameFormat, [word.name cStringUsingEncoding:NSUTF8StringEncoding]];
+
+    auguryText.text = [auguryText.text stringByAppendingFormat:@"\n%@", augury];
 }
 
 - (IBAction) dismiss:(id)sender
@@ -99,6 +102,11 @@
         // iOS 4.x
         [self.parentViewController dismissModalViewControllerAnimated:YES];
     }
+}
+
+- (IBAction) clear:(id)sender
+{
+    auguryText.text = @"";
 }
 
 @end
