@@ -119,12 +119,37 @@
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
     
-    NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
-    NSString* srcPath = [resourcePath stringByAppendingPathComponent:PRODUCTION_DB_NAME];
+    NSURL* resourceURL = [[NSBundle mainBundle] resourceURL];
+    NSURL* srcURL = [resourceURL URLByAppendingPathComponent:PRODUCTION_DB_NAME];
+    
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSArray* urls = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+    NSURL* url = [urls objectAtIndex:0];
+    NSString* appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+    NSURL* appDataDir = [[url URLByAppendingPathComponent:appBundleID]
+                         URLByAppendingPathComponent:@"Data"];
+    NSString* installedDBPath = [[appDataDir path] stringByAppendingPathComponent:PRODUCTION_DB_NAME];
+    
+    if (![fileManager fileExistsAtPath:[appDataDir path]]) {
+        NSError* error;
+        if (![fileManager createDirectoryAtURL:appDataDir withIntermediateDirectories:YES attributes:nil error:&error]) {
+            NSLog(@"creating app data dir: %@", error.localizedDescription);
+            return;
+        }
+    }
+    
+    if (![fileManager fileExistsAtPath:installedDBPath]) {
+        NSError* error;
+        if (![fileManager copyItemAtURL:srcURL toURL:[NSURL fileURLWithPath:installedDBPath] error:&error]) {
+            NSLog(@"copying DB: %@", error.localizedDescription);
+            return;
+        }
+        NSLog(@"Copied DB to application data directory");
+    }
        
     int rc;
-    if ((rc=sqlite3_open_v2([srcPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
-        NSLog(@"error opening database %@, %d", srcPath, rc);
+    if ((rc=sqlite3_open_v2([installedDBPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READWRITE, NULL)) != SQLITE_OK) {
+        NSLog(@"error opening database %@, %d", installedDBPath, rc);
         database = NULL;
         return;
     }
