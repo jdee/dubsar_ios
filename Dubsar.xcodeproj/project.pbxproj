@@ -17,6 +17,10 @@
 		7B00DF5F13E6F0B800E80FCC /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32808C13E38C9300274E6C /* URLEncoding.m */; };
 		7B00DF6213E6F0E200E80FCC /* PointerDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B00DF6113E6F0E200E80FCC /* PointerDictionaryTest.m */; };
 		7B00DF6313E6F11F00E80FCC /* PointerDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809A13E38CEE00274E6C /* PointerDictionary.m */; };
+		7B145C901698E7C4003DF963 /* ReviewViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C8E1698E7C4003DF963 /* ReviewViewController_iPhone.m */; };
+		7B145C911698E7C4003DF963 /* ReviewViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B145C8F1698E7C4003DF963 /* ReviewViewController_iPhone.xib */; };
+		7B145C951698EFAC003DF963 /* Inflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C941698EFAC003DF963 /* Inflection.m */; };
+		7B145C981698F22E003DF963 /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C971698F22C003DF963 /* Review.m */; };
 		7B30646413E5A06000B2A1B1 /* AboutViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B30646213E5A06000B2A1B1 /* AboutViewController_iPad.m */; };
 		7B30646513E5A06000B2A1B1 /* AboutViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B30646313E5A06000B2A1B1 /* AboutViewController_iPad.xib */; };
 		7B327FF213E3875400274E6C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF113E3875400274E6C /* UIKit.framework */; };
@@ -155,6 +159,13 @@
 		7B00DF5A13E6F03C00E80FCC /* AutocompleterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterTest.m; sourceTree = "<group>"; };
 		7B00DF6013E6F0E200E80FCC /* PointerDictionaryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerDictionaryTest.h; sourceTree = "<group>"; };
 		7B00DF6113E6F0E200E80FCC /* PointerDictionaryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointerDictionaryTest.m; sourceTree = "<group>"; };
+		7B145C8D1698E7C4003DF963 /* ReviewViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewViewController_iPhone.h; sourceTree = "<group>"; };
+		7B145C8E1698E7C4003DF963 /* ReviewViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewViewController_iPhone.m; sourceTree = "<group>"; };
+		7B145C8F1698E7C4003DF963 /* ReviewViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewViewController_iPhone.xib; sourceTree = "<group>"; };
+		7B145C931698EFAC003DF963 /* Inflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inflection.h; sourceTree = "<group>"; };
+		7B145C941698EFAC003DF963 /* Inflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inflection.m; sourceTree = "<group>"; };
+		7B145C961698F22C003DF963 /* Review.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Review.h; sourceTree = "<group>"; };
+		7B145C971698F22C003DF963 /* Review.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Review.m; sourceTree = "<group>"; };
 		7B30646113E5A06000B2A1B1 /* AboutViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController_iPad.h; sourceTree = "<group>"; };
 		7B30646213E5A06000B2A1B1 /* AboutViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_iPad.m; sourceTree = "<group>"; };
 		7B30646313E5A06000B2A1B1 /* AboutViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPad.xib; sourceTree = "<group>"; };
@@ -429,6 +440,9 @@
 				7B3280CF13E38F8200274E6C /* FAQViewController_iPhone.m */,
 				7B3280D013E38F8200274E6C /* FAQViewController_iPhone.xib */,
 				7B32800713E3875400274E6C /* MainWindow_iPhone.xib */,
+				7B145C8D1698E7C4003DF963 /* ReviewViewController_iPhone.h */,
+				7B145C8E1698E7C4003DF963 /* ReviewViewController_iPhone.m */,
+				7B145C8F1698E7C4003DF963 /* ReviewViewController_iPhone.xib */,
 				7B3280D813E3900600274E6C /* SearchBarViewController_iPhone.h */,
 				7B3280D913E3900700274E6C /* SearchBarViewController_iPhone.m */,
 				7B3280BA13E38EFE00274E6C /* SearchViewController_iPhone.h */,
@@ -515,6 +529,8 @@
 				7B32809413E38CEE00274E6C /* AutocompleterProxy.m */,
 				7B917A7313EC3CD600FBF365 /* DailyWord.h */,
 				7B917A7413EC3CD600FBF365 /* DailyWord.m */,
+				7B145C931698EFAC003DF963 /* Inflection.h */,
+				7B145C941698EFAC003DF963 /* Inflection.m */,
 				7B3280AC13E38D1700274E6C /* LoadDelegate.h */,
 				7B32809513E38CEE00274E6C /* Model.h */,
 				7B32809613E38CEE00274E6C /* Model.m */,
@@ -524,6 +540,8 @@
 				7BB9CEDE141C21FA000DD13B /* Pointer.m */,
 				7B32809913E38CEE00274E6C /* PointerDictionary.h */,
 				7B32809A13E38CEE00274E6C /* PointerDictionary.m */,
+				7B145C961698F22C003DF963 /* Review.h */,
+				7B145C971698F22C003DF963 /* Review.m */,
 				7B32809B13E38CEE00274E6C /* Search.h */,
 				7B32809C13E38CEE00274E6C /* Search.m */,
 				7BB9CEDA141C19F1000DD13B /* Section.h */,
@@ -734,6 +752,7 @@
 				7B36217D1694FCAD00D9CA53 /* Default@2x.png in Resources */,
 				7B36217F1694FD8000D9CA53 /* Default-568h@2x.png in Resources */,
 				7B862DE41697CF1C0064F66B /* AugurViewController_iPhone.xib in Resources */,
+				7B145C911698E7C4003DF963 /* ReviewViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -811,6 +830,9 @@
 				7BB9CEDC141C19F1000DD13B /* Section.m in Sources */,
 				7BB9CEDF141C21FA000DD13B /* Pointer.m in Sources */,
 				7B862DE31697CF1C0064F66B /* AugurViewController_iPhone.m in Sources */,
+				7B145C901698E7C4003DF963 /* ReviewViewController_iPhone.m in Sources */,
+				7B145C951698EFAC003DF963 /* Inflection.m in Sources */,
+				7B145C981698F22E003DF963 /* Review.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,6 +34,10 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLIconFile</key>
+			<string>dubsar-ipad</string>
 			<key>CFBundleURLName</key>
 			<string>com.dubsar-dictionary.${PRODUCT_NAME}</string>
 			<key>CFBundleURLSchemes</key>
