@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 - (void)startEditingTableView;
 - (void)finishEditingTableView;
 - (void)updateInflection;
+- (void)deleteInflectionAtRow:(int)row;
 
 - (IBAction)dismissSelectView:(id)sender;
 - (IBAction)selectPage:(id)sender;

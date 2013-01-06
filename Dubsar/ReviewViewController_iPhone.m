@@ -63,7 +63,7 @@
 
 - (void)load
 {
-    if (self.loading || (review.complete && !review.error)) return;
+    if (self.loading) return;
  
     [review load];
 
@@ -267,6 +267,32 @@
     editingRow = -1;
 }
 
+- (void)deleteInflectionAtRow:(int)row
+{
+    Inflection* inflection = [review.inflections objectAtIndex:row];
+    
+    // TODO: Delete from local DB
+    
+    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarBaseUrl, inflection._url]retain];
+    
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"DELETE"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    NSLog(@"DELETE %@", url);
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSHTTPURLResponse* response;
+    NSError* error;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    NSLog(@"HTTP status code %d", response.statusCode);   
+
+    [review.inflections removeObjectAtIndex:row];
+}
+
 # pragma mark - Table View Management
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -301,9 +327,12 @@
     return NO;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)theTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"deleting row at %d", indexPath.row);
+    [self deleteInflectionAtRow:indexPath.row];
+    [self load];
+    [tableView reloadData];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
