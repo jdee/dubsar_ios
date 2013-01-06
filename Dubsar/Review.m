@@ -25,12 +25,14 @@
 @implementation Review
 @synthesize inflections;
 @synthesize page;
+@synthesize totalPages;
 
 - (id) initWithPage:(int)thePage
 {
     self = [super init];
     if (self) {
         self.page = thePage;
+        self.totalPages = 0; // set by server response
         self._url = [NSString stringWithFormat:@"/review?page=%d", thePage];
     }
     return self;
@@ -50,6 +52,8 @@
 {
     NSDictionary* response = [[self decoder] objectWithData:[self data]];
     NSArray* _inflections = [response valueForKey:@"inflections"];
+    
+    self.totalPages = [[response valueForKey:@"total_pages"]intValue];
     
     self.inflections = [NSMutableArray arrayWithCapacity:_inflections.count];
     for (int j=0; j<_inflections.count; ++j) {

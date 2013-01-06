@@ -88,7 +88,42 @@
     
     NSLog(@"Reloading table view");
 
+    [self createToolbarItems];
     [tableView reloadData];
+}
+
+- (void)createToolbarItems
+{
+    if (!review || !review.complete) return;
+    
+    NSMutableArray* buttonItems = [NSMutableArray array];
+    
+    if (review.page > 1) {
+        UIBarButtonItem* item = [[[UIBarButtonItem alloc]initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(loadPrev)]autorelease];
+        [buttonItems addObject:item];
+    }
+    if (review.page < review.totalPages) {
+        UIBarButtonItem* item = [[[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(loadNext)]autorelease];
+        [buttonItems addObject:item];
+    }
+    
+    self.toolbarItems = buttonItems;
+}
+
+- (void) loadPrev
+{
+    int prevPage = review.page - 1;
+    ReviewViewController_iPhone* viewController = [[[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:prevPage] autorelease];
+    [viewController load];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void) loadNext
+{
+    int nextPage = review.page + 1;
+    ReviewViewController_iPhone* viewController = [[[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:nextPage] autorelease];
+    [viewController load];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 # pragma mark - Table View Management
