@@ -32,6 +32,7 @@
         self.word = theWord;
         self._id = theId;
         self.name = theName;
+        [self set_url:[NSString stringWithFormat:@"/inflections/%d", self._id]];
     }
     return self;
 }

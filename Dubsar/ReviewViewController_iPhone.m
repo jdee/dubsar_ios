@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "Dubsar.h"
 #import "DubsarViewController_iPhone.h"
 #import "Inflection.h"
 #import "ReviewViewController_iPhone.h"
@@ -134,7 +135,7 @@
         [buttonItems addObject:item];        
     }
     else {
-        item = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(startEditingTableView)]autorelease];
+        item = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(startEditingTableView)]autorelease];
         [buttonItems addObject:item];
     }
     
@@ -181,14 +182,7 @@
     [self dismissSelectView:sender];
 
     if (editingRow >= 0) {
-        Inflection* inflection = [review.inflections objectAtIndex:editingRow];
-        inflection.name = selectField.text;
-        
-        [tableView reloadData];
-        
-        // TODO: PUT This back to the server and update our local DB.
-        
-        editingRow = -1;
+        [self updateInflection];
         return;
     }
     
@@ -202,6 +196,7 @@
 {
     selectLabel.text = @"Select page";
     selectField.placeholder = @"page number";
+    selectField.keyboardType = UIKeyboardTypeNumberPad;
     selectButton.titleLabel.text = @"Go";
     selectView.hidden = NO;
     [selectField becomeFirstResponder];
@@ -211,6 +206,65 @@
 {
     [selectField resignFirstResponder];
     selectView.hidden = YES;
+}
+
+- (void)updateInflection
+{
+    // update our copy in memory
+    Inflection* inflection = [review.inflections objectAtIndex:editingRow];
+    inflection.name = selectField.text;
+    
+    // and reload the table view
+    [tableView reloadData];
+    
+#if 0
+    // Currently a read-only DB
+    // now update the local DB
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSString* sql = @"UPDATE inflections SET name = ? WHERE id = ?";
+    int rc;
+    sqlite3_stmt* statement;
+    NSLog(@"preparing statement \"%@\"", sql);
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"error %d preparing statement", rc);
+        return;
+    }
+    if ((rc=sqlite3_bind_text(statement, 1, [inflection.name cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        NSLog(@"error %d binding parameter", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    if ((rc=sqlite3_bind_int(statement, 2, inflection._id)) != SQLITE_OK) {
+        NSLog(@"error %d binding parameter", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    
+    sqlite3_step(statement);
+    sqlite3_finalize(statement);
+#endif
+    
+    // PUT back to the server
+    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarBaseUrl, inflection._url]retain];
+    
+    NSString* jsonPayload = [NSString stringWithFormat:@"{\"name\":\"%@\"}", inflection.name];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"PUT"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPBody:[jsonPayload dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSLog(@"PUT %@", url);
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSHTTPURLResponse* response;
+    NSError* error;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    NSLog(@"HTTP status code %d", response.statusCode);
+
+    editingRow = -1;
 }
 
 # pragma mark - Table View Management
@@ -264,6 +318,7 @@
     selectLabel.text = @"Change inflection";
     selectField.placeholder = @"new inflection";
     selectField.text = inflection.name;
+    selectField.keyboardType = UIKeyboardTypeDefault;
     selectButton.titleLabel.text = @"Save";
     selectView.hidden = NO;
     self.editingRow = indexPath.row;
