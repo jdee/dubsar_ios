@@ -29,8 +29,12 @@
 @end
 
 @implementation ReviewViewController_iPhone
+@synthesize editing;
+@synthesize editingRow;
 @synthesize loading;
+@synthesize selectButton;
 @synthesize selectField;
+@synthesize selectLabel;
 @synthesize selectView;
 @synthesize tableView;
 @synthesize review;
@@ -42,7 +46,8 @@
         self.review = [Review reviewWithPage:page];
         self.review.delegate = self;
         self.title = [NSString stringWithFormat:@"Review p. %d", page];
-        self.loading = false;
+        self.loading = self.editing = false;
+        self.editingRow = -1;
         
         [self createToolbarItems];
     }
@@ -124,6 +129,15 @@
     item = [[[UIBarButtonItem alloc] initWithTitle:@"Select" style: UIBarButtonItemStyleBordered target:self action:@selector(displaySelectView)]autorelease];
     [buttonItems addObject:item];
     
+    if (editing) {
+        item = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(finishEditingTableView)] autorelease];
+        [buttonItems addObject:item];        
+    }
+    else {
+        item = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(startEditingTableView)]autorelease];
+        [buttonItems addObject:item];
+    }
+    
     self.toolbarItems = buttonItems;
 }
 
@@ -148,6 +162,57 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+- (void)startEditingTableView
+{
+    editing = true;
+    [self createToolbarItems];
+    [tableView setEditing:YES animated:YES];
+}
+
+- (void)finishEditingTableView
+{
+    editing = false;
+    [self createToolbarItems];
+    [tableView setEditing:NO animated:YES];
+}
+
+- (IBAction)selectPage:(id)sender
+{
+    [self dismissSelectView:sender];
+
+    if (editingRow >= 0) {
+        Inflection* inflection = [review.inflections objectAtIndex:editingRow];
+        inflection.name = selectField.text;
+        
+        [tableView reloadData];
+        
+        // TODO: PUT This back to the server and update our local DB.
+        
+        editingRow = -1;
+        return;
+    }
+    
+    int pageNo = [selectField.text intValue];
+    ReviewViewController_iPhone* viewController = [[[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:pageNo] autorelease];
+    [viewController load];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)displaySelectView
+{
+    selectLabel.text = @"Select page";
+    selectField.placeholder = @"page number";
+    selectButton.titleLabel.text = @"Go";
+    selectView.hidden = NO;
+    [selectField becomeFirstResponder];
+}
+
+- (IBAction)dismissSelectView:(id)sender
+{
+    [selectField resignFirstResponder];
+    selectView.hidden = YES;
+}
+
 # pragma mark - Table View Management
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -165,6 +230,44 @@
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return loading ? 1 : review.inflections.count;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NO;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"deleting row at %d", indexPath.row);
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Inflection* inflection = [review.inflections objectAtIndex:indexPath.row];
+    
+    selectLabel.text = @"Change inflection";
+    selectField.placeholder = @"new inflection";
+    selectField.text = inflection.name;
+    selectButton.titleLabel.text = @"Save";
+    selectView.hidden = NO;
+    self.editingRow = indexPath.row;
+    [selectField becomeFirstResponder];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -195,11 +298,10 @@
     int row = indexPath.row;
     
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
-
+    
     cell.textLabel.textColor = appDelegate.dubsarTintColor;
     cell.textLabel.font = appDelegate.dubsarNormalFont;
     cell.detailTextLabel.font = appDelegate.dubsarSmallFont;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
     Inflection* inflection = [review.inflections objectAtIndex:row];
@@ -217,27 +319,6 @@
 - (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
 {
     return nil;
-}
-
-- (IBAction)selectPage:(id)sender
-{
-    [self dismissSelectView:sender];
-    int pageNo = [selectField.text intValue];
-    ReviewViewController_iPhone* viewController = [[[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:pageNo] autorelease];
-    [viewController load];
-    [self.navigationController pushViewController:viewController animated:YES];
-}
-
-- (void)displaySelectView
-{
-    selectView.hidden = NO;
-    [selectField becomeFirstResponder];
-}
-
-- (IBAction)dismissSelectView:(id)sender
-{
-    [selectField resignFirstResponder];
-    selectView.hidden = YES;
 }
 
 @end

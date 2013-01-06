@@ -31,13 +31,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 - (void)loadPrev;
 - (void)loadNext;
 - (void)displaySelectView;
+- (void)startEditingTableView;
+- (void)finishEditingTableView;
 - (IBAction)dismissSelectView:(id)sender;
 - (IBAction)selectPage:(id)sender;
 
 @property (nonatomic, retain) IBOutlet UITableView* tableView;
 @property (nonatomic, retain) IBOutlet UIView* selectView;
+@property (nonatomic, retain) IBOutlet UIButton* selectButton;
 @property (nonatomic, retain) IBOutlet UITextField* selectField;
+@property (nonatomic, retain) IBOutlet UILabel* selectLabel;
 @property (nonatomic, retain) Review* review;
 @property bool loading;
+@property bool editing;
+@property int editingRow;
 
 @end
