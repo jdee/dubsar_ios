@@ -17,25 +17,33 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "SearchBarViewController_iPhone.h"
+#import <UIKit/UIKit.h>
 
 @class Word;
 
-@interface WordViewController_iPhone : SearchBarViewController_iPhone {
-    
-    UITableView *tableView;
-    UITextView *inflectionsTextView;
+@interface EditInflectionsViewController_iPhone : UIViewController<UITableViewDataSource,UITableViewDelegate> {
+    NSDictionary* editingInflection;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UITextView *inflectionsTextView;
-
+@property (nonatomic, retain) IBOutlet UITableView* tableView;
+@property (nonatomic, retain) IBOutlet UIView* dialogView;
+@property (nonatomic, retain) IBOutlet UITextField* dialogTextField;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem* editButton;
 @property (nonatomic, retain) Word* word;
+@property (nonatomic, retain) NSMutableArray* inflections;
+@property bool editing;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 
-- (void)adjustInflections;
-- (void)setTableViewFrame;
-- (void)editInflections;
+- (void)load;
+- (void)createInflection;
+- (void)updateInflection;
+- (void)deleteInflection:(int)row;
+
+- (IBAction)close:(id)sender;
+- (IBAction)edit:(id)sender;
+- (IBAction)cancel:(id)sender;
+- (IBAction)update:(id)sender;
+- (IBAction)newInflection:(id)sender;
 
 @end

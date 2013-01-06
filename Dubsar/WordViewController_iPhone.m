@@ -18,6 +18,7 @@
  */
 
 #import "DubsarAppDelegate_iPhone.h"
+#import "EditInflectionsViewController_iPhone.h"
 #import "WordViewController_iPhone.h"
 #import "Sense.h"
 #import "SenseViewController_iPhone.h"
@@ -64,6 +65,16 @@
     
     [word load];
     self.loading = true;
+}
+
+- (void)createToolbarItems
+{
+    UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
+    UIBarButtonItem* editButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editInflections)]autorelease];
+    
+    NSMutableArray* buttonItems = [NSMutableArray arrayWithObjects:homeButtonItem, editButtonItem, nil];
+    
+    self.toolbarItems = buttonItems;
 }
 
 - (void)didReceiveMemoryWarning
@@ -273,6 +284,12 @@
         text = [text stringByAppendingFormat:@"also %@", word.inflections];
     }
     inflectionsTextView.text = text;
+}
+
+- (void)editInflections
+{
+    EditInflectionsViewController_iPhone* viewController = [[[EditInflectionsViewController_iPhone alloc] initWithNibName:@"EditInflectionsViewController_iPhone" bundle:nil word:word]autorelease];
+    [self presentModalViewController:viewController animated:YES];
 }
 
 - (void)setTableViewFrame

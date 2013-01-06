@@ -17,6 +17,8 @@
 		7B00DF5F13E6F0B800E80FCC /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32808C13E38C9300274E6C /* URLEncoding.m */; };
 		7B00DF6213E6F0E200E80FCC /* PointerDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B00DF6113E6F0E200E80FCC /* PointerDictionaryTest.m */; };
 		7B00DF6313E6F11F00E80FCC /* PointerDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809A13E38CEE00274E6C /* PointerDictionary.m */; };
+		7B0101431699F648008FC876 /* EditInflectionsViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0101411699F648008FC876 /* EditInflectionsViewController_iPhone.m */; };
+		7B0101441699F648008FC876 /* EditInflectionsViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B0101421699F648008FC876 /* EditInflectionsViewController_iPhone.xib */; };
 		7B145C901698E7C4003DF963 /* ReviewViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C8E1698E7C4003DF963 /* ReviewViewController_iPhone.m */; };
 		7B145C911698E7C4003DF963 /* ReviewViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B145C8F1698E7C4003DF963 /* ReviewViewController_iPhone.xib */; };
 		7B145C951698EFAC003DF963 /* Inflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C941698EFAC003DF963 /* Inflection.m */; };
@@ -159,6 +161,9 @@
 		7B00DF5A13E6F03C00E80FCC /* AutocompleterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterTest.m; sourceTree = "<group>"; };
 		7B00DF6013E6F0E200E80FCC /* PointerDictionaryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerDictionaryTest.h; sourceTree = "<group>"; };
 		7B00DF6113E6F0E200E80FCC /* PointerDictionaryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointerDictionaryTest.m; sourceTree = "<group>"; };
+		7B0101401699F648008FC876 /* EditInflectionsViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditInflectionsViewController_iPhone.h; sourceTree = "<group>"; };
+		7B0101411699F648008FC876 /* EditInflectionsViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditInflectionsViewController_iPhone.m; sourceTree = "<group>"; };
+		7B0101421699F648008FC876 /* EditInflectionsViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditInflectionsViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B145C8D1698E7C4003DF963 /* ReviewViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewViewController_iPhone.h; sourceTree = "<group>"; };
 		7B145C8E1698E7C4003DF963 /* ReviewViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewViewController_iPhone.m; sourceTree = "<group>"; };
 		7B145C8F1698E7C4003DF963 /* ReviewViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -436,6 +441,9 @@
 				7B3280B513E38EE800274E6C /* DubsarViewController_iPhone.h */,
 				7B3280B613E38EE800274E6C /* DubsarViewController_iPhone.m */,
 				7B3280B713E38EE800274E6C /* DubsarViewController_iPhone.xib */,
+				7B0101401699F648008FC876 /* EditInflectionsViewController_iPhone.h */,
+				7B0101411699F648008FC876 /* EditInflectionsViewController_iPhone.m */,
+				7B0101421699F648008FC876 /* EditInflectionsViewController_iPhone.xib */,
 				7B3280CE13E38F8200274E6C /* FAQViewController_iPhone.h */,
 				7B3280CF13E38F8200274E6C /* FAQViewController_iPhone.m */,
 				7B3280D013E38F8200274E6C /* FAQViewController_iPhone.xib */,
@@ -753,6 +761,7 @@
 				7B36217F1694FD8000D9CA53 /* Default-568h@2x.png in Resources */,
 				7B862DE41697CF1C0064F66B /* AugurViewController_iPhone.xib in Resources */,
 				7B145C911698E7C4003DF963 /* ReviewViewController_iPhone.xib in Resources */,
+				7B0101441699F648008FC876 /* EditInflectionsViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,6 +842,7 @@
 				7B145C901698E7C4003DF963 /* ReviewViewController_iPhone.m in Sources */,
 				7B145C951698EFAC003DF963 /* Inflection.m in Sources */,
 				7B145C981698F22E003DF963 /* Review.m in Sources */,
+				7B0101431699F648008FC876 /* EditInflectionsViewController_iPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
