@@ -145,6 +145,7 @@
 - (IBAction)newInflection:(id)sender
 {
     editingInflection = nil;
+    dialogTextField.text = word.name;
     dialogView.hidden = NO;
     [dialogTextField becomeFirstResponder];
 }
@@ -250,6 +251,7 @@
     int row = indexPath.row;
     NSDictionary* container = [inflections objectAtIndex:row];
     editingInflection = [container valueForKey:@"inflection"];
+    dialogTextField.text = [editingInflection valueForKey:@"name"];
     dialogView.hidden = NO;
     [dialogTextField becomeFirstResponder];
 }
