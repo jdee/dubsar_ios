@@ -21,6 +21,7 @@
 #import "ReviewViewController_iPhone.h"
 #import "Review.h"
 #import "Word.h"
+#import "WordViewController_iPhone.h"
 
 @interface ReviewViewController_iPhone ()
 
@@ -128,6 +129,13 @@
 
 # pragma mark - Table View Management
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    Inflection* inflection = [review.inflections objectAtIndex:indexPath.row];
+    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc] initWithNibName:@"WordViewController_iPhone" bundle:nil word:inflection.word]autorelease];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -144,7 +152,7 @@
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType]autorelease];
     }
     
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -170,9 +178,12 @@
     cell.textLabel.textColor = appDelegate.dubsarTintColor;
     cell.textLabel.font = appDelegate.dubsarNormalFont;
     cell.detailTextLabel.font = appDelegate.dubsarSmallFont;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
     Inflection* inflection = [review.inflections objectAtIndex:row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@.) %@", inflection.word.name, inflection.word.pos, inflection.name];
+    cell.textLabel.text = inflection.name;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@.)", inflection.word.name, inflection.word.pos];
     
     return cell;
 }

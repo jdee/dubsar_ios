@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 @interface ReviewViewController_iPhone : UIViewController<UITableViewDataSource,UITableViewDelegate,LoadDelegate>
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil page:(int)page;
+- (void)createToolbarItems;
 - (void)load;
 - (void)loadPrev;
 - (void)loadNext;
