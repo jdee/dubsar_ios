@@ -27,10 +27,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil page:(int)page;
 - (void)createToolbarItems;
 - (void)load;
+- (void)loadMain;
 - (void)loadPrev;
 - (void)loadNext;
+- (void)displaySelectView;
+- (IBAction)dismissSelectView:(id)sender;
+- (IBAction)selectPage:(id)sender;
 
 @property (nonatomic, retain) IBOutlet UITableView* tableView;
+@property (nonatomic, retain) IBOutlet UIView* selectView;
+@property (nonatomic, retain) IBOutlet UITextField* selectField;
 @property (nonatomic, retain) Review* review;
 @property bool loading;
 

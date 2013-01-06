@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarViewController_iPhone.h"
 #import "Inflection.h"
 #import "ReviewViewController_iPhone.h"
 #import "Review.h"
@@ -29,6 +30,8 @@
 
 @implementation ReviewViewController_iPhone
 @synthesize loading;
+@synthesize selectField;
+@synthesize selectView;
 @synthesize tableView;
 @synthesize review;
 
@@ -40,6 +43,8 @@
         self.review.delegate = self;
         self.title = [NSString stringWithFormat:@"Review p. %d", page];
         self.loading = false;
+        
+        [self createToolbarItems];
     }
     return self;
 }
@@ -57,6 +62,11 @@
     [review load];
 
     self.loading = true;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.selectView.hidden = YES;
 }
 
 - (void)viewDidLoad
@@ -88,6 +98,8 @@
     }
     
     NSLog(@"Reloading table view");
+    
+    self.title = [NSString stringWithFormat:@"Review p. %d/%d", review.page, review.totalPages];
 
     [self createToolbarItems];
     [tableView reloadData];
@@ -95,18 +107,22 @@
 
 - (void)createToolbarItems
 {
-    if (!review || !review.complete) return;
-    
     NSMutableArray* buttonItems = [NSMutableArray array];
     
-    if (review.page > 1) {
-        UIBarButtonItem* item = [[[UIBarButtonItem alloc]initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(loadPrev)]autorelease];
+    UIBarButtonItem* item = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style: UIBarButtonItemStyleBordered target:self action:@selector(loadMain)]autorelease];
+    [buttonItems addObject:item];
+    
+    if (review && review.complete && review.page > 1) {
+        item = [[[UIBarButtonItem alloc]initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(loadPrev)]autorelease];
         [buttonItems addObject:item];
     }
-    if (review.page < review.totalPages) {
-        UIBarButtonItem* item = [[[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(loadNext)]autorelease];
+    if (review && review.complete && review.page < review.totalPages) {
+        item = [[[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(loadNext)]autorelease];
         [buttonItems addObject:item];
     }
+    
+    item = [[[UIBarButtonItem alloc] initWithTitle:@"Select" style: UIBarButtonItemStyleBordered target:self action:@selector(displaySelectView)]autorelease];
+    [buttonItems addObject:item];
     
     self.toolbarItems = buttonItems;
 }
@@ -125,6 +141,11 @@
     ReviewViewController_iPhone* viewController = [[[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:nextPage] autorelease];
     [viewController load];
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void) loadMain
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 # pragma mark - Table View Management
@@ -196,6 +217,26 @@
 - (NSString*)tableView:(UITableView*)theTableView titleForFooterInSection:(NSInteger)section
 {
     return nil;
+}
+
+- (IBAction)selectPage:(id)sender
+{
+    [self dismissSelectView:sender];
+    int pageNo = [selectField.text intValue];
+    ReviewViewController_iPhone* viewController = [[[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:pageNo] autorelease];
+    [viewController load];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)displaySelectView
+{
+    selectView.hidden = NO;
+}
+
+- (IBAction)dismissSelectView:(id)sender
+{
+    [selectField resignFirstResponder];
+    selectView.hidden = YES;
 }
 
 @end
