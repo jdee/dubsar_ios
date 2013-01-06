@@ -41,6 +41,11 @@
     return [[[self alloc] initWithPage:thePage] autorelease];
 }
 
+- (void) load
+{
+    [self loadFromServer];
+}
+
 - (void) parseData
 {
     NSDictionary* response = [[self decoder] objectWithData:[self data]];

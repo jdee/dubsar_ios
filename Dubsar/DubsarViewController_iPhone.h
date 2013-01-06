@@ -33,6 +33,7 @@
 - (void)displayFAQ;
 - (void)displayAbout;
 - (void)displayAugury;
+- (void)displayReview;
 - (IBAction)loadWotd:(id)sender;
 - (void)load;
 

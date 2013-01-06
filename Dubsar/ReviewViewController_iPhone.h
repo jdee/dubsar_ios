@@ -29,5 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 @property (nonatomic, retain) IBOutlet UITableView* tableView;
 @property (nonatomic, retain) Review* review;
+@property bool loading;
 
 @end

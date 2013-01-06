@@ -22,6 +22,7 @@
 #import "DailyWord.h"
 #import "DubsarViewController_iPhone.h"
 #import "FAQViewController_iPhone.h"
+#import "ReviewViewController_iPhone.h"
 #import "Word.h"
 #import "WordViewController_iPhone.h"
 
@@ -123,6 +124,13 @@
     [self presentModalViewController:self.augurViewController animated: YES];
 }
 
+- (void)displayReview
+{
+    ReviewViewController_iPhone* viewController = [[[ReviewViewController_iPhone alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:1] autorelease];
+    [viewController load];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
 - (IBAction)loadWotd:(id)sender
 {
     if (!dailyWord.complete || dailyWord.error) return;
@@ -136,11 +144,13 @@
     UIBarButtonItem* faqButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)]autorelease];
     UIBarButtonItem* aboutButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAbout)]autorelease];
     UIBarButtonItem* augurButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Augur" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAugury)]autorelease];
+    UIBarButtonItem* reviewButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Review" style:UIBarButtonItemStyleBordered target:self action:@selector(displayReview)]autorelease];
     
     NSMutableArray* buttonItems = [NSMutableArray array];
     [buttonItems addObject:faqButtonItem];
     [buttonItems addObject:aboutButtonItem];
     [buttonItems addObject:augurButtonItem];
+    [buttonItems addObject:reviewButtonItem];
     
     self.toolbarItems = buttonItems.retain;
 }
