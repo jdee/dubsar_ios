@@ -231,6 +231,7 @@
 - (void)displaySelectView
 {
     selectView.hidden = NO;
+    [selectField becomeFirstResponder];
 }
 
 - (IBAction)dismissSelectView:(id)sender
