@@ -37,7 +37,7 @@
 @property (nonatomic) sqlite3_stmt* autocompleterStmt;
 @property bool databaseReady;
 
-- (void)prepareDatabase;
+- (void)prepareDatabase:(bool)recreateFTSTables;
 - (id)initForTest;
 
 @end

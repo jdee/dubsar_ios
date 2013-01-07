@@ -17,25 +17,23 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "AugurViewController_iPhone.h"
-#import "SearchBarViewController_iPhone.h"
+#import <UIKit/UIKit.h>
 
-@class DailyWord;
-
-@interface DubsarViewController_iPhone : SearchBarViewController_iPhone {
-    UIButton *wotdButton;
+@interface SyncViewController_iPhone : UIViewController<NSURLConnectionDelegate> {
+    NSMutableData* buffer;
+    int totalPages;
+    int insertFinished;
 }
 
-@property (nonatomic, retain) DailyWord* dailyWord;
-@property (nonatomic, retain) IBOutlet UIButton *wotdButton;
-@property (nonatomic, retain) AugurViewController_iPhone* augurViewController;
+@property (nonatomic, retain) IBOutlet UIProgressView* fetchProgressView;
+@property (nonatomic, retain) IBOutlet UIProgressView* insertProgressView;
 
-- (void)displayFAQ;
-- (void)displayAbout;
-- (void)displayAugury;
-- (void)displayReview;
-- (void)displaySync;
-- (IBAction)loadWotd:(id)sender;
-- (void)load;
+- (void) backupDatabase;
+- (void) restoreBackup;
+- (void) deleteBackup;
+- (void) startSync;
+- (void) loadInflections:(int)page;
+- (void) insertInflections:(NSArray*)inflections;
+- (void) buildFTSTable;
 
 @end

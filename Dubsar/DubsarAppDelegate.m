@@ -43,7 +43,7 @@
         dubsarSmallFont  = [[UIFont fontWithName:@"TrebuchetMS" size:14.0]retain];
         databaseReady = false;
 
-        [self prepareDatabase];
+        [self prepareDatabase:false];
     }
     return self;
 }
@@ -52,7 +52,7 @@
 {
     self = [super init];
     if (self) {
-        [self prepareDatabase];
+        [self prepareDatabase:false];
     }
     return self;
 }
@@ -115,7 +115,7 @@
     [super dealloc];
 }
 
-- (void)prepareDatabase
+- (void)prepareDatabase:(bool)recreateFTSTables
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
     
@@ -146,6 +146,13 @@
         }
         NSLog(@"Copied DB to application data directory");
     }
+    
+    if (database) {
+        sqlite3_finalize(autocompleterStmt);
+        sqlite3_finalize(exactAutocompleterStmt);
+        sqlite3_close(database);
+        database = NULL;
+    }
        
     int rc;
     if ((rc=sqlite3_open_v2([installedDBPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READWRITE, NULL)) != SQLITE_OK) {
@@ -156,6 +163,57 @@
     
     NSLog(@"successfully opened database %@", PRODUCTION_DB_NAME);
     NSString* sql;
+    
+    if (recreateFTSTables) {
+        sqlite3_stmt* statement;
+        if ((rc=sqlite3_prepare_v2(database,
+                                   "DELETE FROM inflections", -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"sqlite3 error %d", rc);
+            return;
+        }
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
+
+        if ((rc=sqlite3_prepare_v2(database,
+                                   "DROP TABLE IF EXISTS inflections_fts", -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"sqlite3 error %d", rc);
+            return;
+        }
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
+        
+        if ((rc=sqlite3_prepare_v2(database,
+                                   "DROP TABLE IF EXISTS inflections_fts_content", -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"sqlite3 error %d", rc);
+            return;
+        }
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
+        
+        if ((rc=sqlite3_prepare_v2(database,
+                                   "DROP TABLE IF EXISTS inflections_fts_segdir", -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"sqlite3 error %d", rc);
+            return;
+        }
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
+        
+        if ((rc=sqlite3_prepare_v2(database,
+                                   "DROP TABLE IF EXISTS inflections_fts_segments", -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"sqlite3 error %d", rc);
+            return;
+        }
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
+        
+        if ((rc=sqlite3_prepare_v2(database,
+                                   "CREATE VIRTUAL TABLE inflections_fts USING fts3(id, name, word_id)", -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"sqlite3 error %d", rc);
+            return;
+        }
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
+    }
     
     /*
      * Prepared statements for the Autocompleter
