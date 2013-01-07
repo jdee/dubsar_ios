@@ -170,6 +170,37 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     NSLog(@"HTTP status code %d", response.statusCode);
+    
+    NSDictionary* headers = [response allHeaderFields];
+    NSString* location = [headers valueForKey:@"Location"];
+    NSLog(@"Location: %@", location);
+    int id = [[location lastPathComponent]intValue];
+    NSLog(@"ID: %d", id);
+    
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    int rc;
+    sqlite3_stmt* statement;
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, "INSERT INTO inflections(id, name, word_id) VALUES (?, ?, ?)", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"preparing delete statement: %d", rc);
+        return;
+    }
+    if ((rc=sqlite3_bind_int(statement, 1, id)) != SQLITE_OK) {
+        NSLog(@"sqlite3_bind_int: %d", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    if ((rc=sqlite3_bind_text(statement, 2, [dialogTextField.text cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        NSLog(@"sqlite3_bind_int: %d", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    if ((rc=sqlite3_bind_int(statement, 3, word._id)) != SQLITE_OK) {
+        NSLog(@"sqlite3_bind_int: %d", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    sqlite3_step(statement);
+    sqlite3_finalize(statement);
 }
 
 - (void)deleteInflection:(int)row
@@ -177,6 +208,21 @@
     NSDictionary* container = [inflections objectAtIndex:row];
     NSDictionary* inflection = [container valueForKey:@"inflection"];
     
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    int rc;
+    sqlite3_stmt* statement;
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, "DELETE FROM inflections WHERE id = ?", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"preparing delete statement: %d", rc);
+        return;
+    }
+    if ((rc=sqlite3_bind_int(statement, 1, [[inflection valueForKey:@"id"]intValue])) != SQLITE_OK) {
+        NSLog(@"sqlite3_bind_int: %d", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    sqlite3_step(statement);
+    sqlite3_finalize(statement);
+
     NSString* url = [NSString stringWithFormat:@"%@/inflections/%d", DubsarBaseUrl, [[inflection valueForKey:@"id"] intValue]];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -196,6 +242,28 @@
 
 - (void)updateInflection
 {
+    // now update the local DB
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    int rc;
+    sqlite3_stmt* statement;
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, "UPDATE inflections SET name = ? WHERE id = ?", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"error %d preparing statement", rc);
+        return;
+    }
+    if ((rc=sqlite3_bind_text(statement, 1, [dialogTextField.text cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        NSLog(@"error %d binding parameter", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    if ((rc=sqlite3_bind_int(statement, 2, [[editingInflection valueForKey:@"id"]intValue])) != SQLITE_OK) {
+        NSLog(@"error %d binding parameter", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    
+    sqlite3_step(statement);
+    sqlite3_finalize(statement);
+
     NSString* url = [NSString stringWithFormat:@"%@/inflections/%d", DubsarBaseUrl, [[editingInflection valueForKey:@"id"] intValue]];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];

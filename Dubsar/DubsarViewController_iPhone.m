@@ -159,7 +159,7 @@
     [buttonItems addObject:aboutButtonItem];
     [buttonItems addObject:augurButtonItem];
     [buttonItems addObject:reviewButtonItem];
-    [buttonItems addObject:syncButtonItem];
+    // [buttonItems addObject:syncButtonItem];
     
     self.toolbarItems = buttonItems.retain;
 }
