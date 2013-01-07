@@ -237,7 +237,7 @@
     insertProgressView.progress = ((float)insertFinished/(float)(totalPages+1));
     
     if (insertFinished >= totalPages) {
-        [self buildFTSTable];
+        [self.class buildFTSTable];
         [self deleteBackup];
         
         ++insertFinished;
@@ -254,7 +254,7 @@
     }
 }
 
-- (void)buildFTSTable
++ (void)buildFTSTable
 {
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     sqlite3_stmt* statement;

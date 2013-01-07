@@ -214,6 +214,36 @@
         sqlite3_step(statement);
         sqlite3_finalize(statement);
     }
+#if 0
+    // recovering from an error
+    else {
+        sqlite3_stmt* statement;
+        int rc;
+        if ((rc=sqlite3_prepare_v2(database,
+                                   "DELETE FROM inflections_fts", -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"sqlite3 error %d", rc);
+            return;
+        }
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
+
+        if ((rc=sqlite3_prepare_v2(database,
+                               "INSERT INTO inflections_fts(id, name, word_id) SELECT id, name, word_id FROM inflections", -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"sqlite3 error %d", rc);
+            return;
+        }
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
+    
+        if ((rc=sqlite3_prepare_v2(database,
+                               "INSERT INTO inflections_fts(inflections_fts) VALUES('optimize')", -1, &statement, NULL)) != SQLITE_OK) {
+            NSLog(@"sqlite3 error %d", rc);
+            return;
+        }
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
+    }
+#endif
     
     /*
      * Prepared statements for the Autocompleter

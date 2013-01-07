@@ -217,8 +217,6 @@
     // and reload the table view
     [tableView reloadData];
     
-#if 1
-    // No longer a read-only DB
     // now update the local DB
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     int rc;
@@ -240,7 +238,24 @@
     
     sqlite3_step(statement);
     sqlite3_finalize(statement);
-#endif
+    
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, "UPDATE inflections_fts SET name = ? WHERE id = ?", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"error %d preparing statement", rc);
+        return;
+    }
+    if ((rc=sqlite3_bind_text(statement, 1, [inflection.name cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        NSLog(@"error %d binding parameter", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    if ((rc=sqlite3_bind_int(statement, 2, inflection._id)) != SQLITE_OK) {
+        NSLog(@"error %d binding parameter", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    
+    sqlite3_step(statement);
+    sqlite3_finalize(statement);
     
     // PUT back to the server
     NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarBaseUrl, inflection._url]retain];
@@ -273,6 +288,18 @@
     int rc;
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(appDelegate.database, "DELETE FROM inflections WHERE id = ?", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"preparing delete statement: %d", rc);
+        return;
+    }
+    if ((rc=sqlite3_bind_int(statement, 1, inflection._id)) != SQLITE_OK) {
+        NSLog(@"sqlite3_bind_int: %d", rc);
+        sqlite3_finalize(statement);
+        return;
+    }
+    sqlite3_step(statement);
+    sqlite3_finalize(statement);
+    
+    if ((rc=sqlite3_prepare_v2(appDelegate.database, "DELETE FROM inflections_fts WHERE id = ?", -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"preparing delete statement: %d", rc);
         return;
     }

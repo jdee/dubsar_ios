@@ -34,6 +34,6 @@
 - (void) startSync;
 - (void) loadInflections:(int)page;
 - (void) insertInflections:(NSArray*)inflections;
-- (void) buildFTSTable;
++ (void) buildFTSTable;
 
 @end
