@@ -18,6 +18,7 @@
  */
 
 #import "Dubsar.h"
+#import "DubsarAppDelegate.h"
 #import "EditInflectionsViewController_iPhone.h"
 #import "Inflection.h"
 #import "JSONKit.h"
@@ -152,7 +153,8 @@
 
 - (void)createInflection
 {
-    NSString* url = [NSString stringWithFormat:@"%@/inflections", DubsarBaseUrl];
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSString* url = [NSString stringWithFormat:@"%@/inflections?auth_token=%@", DubsarBaseUrl, appDelegate.authToken];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
@@ -177,7 +179,6 @@
     int id = [[location lastPathComponent]intValue];
     NSLog(@"ID: %d", id);
     
-    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     int rc;
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(appDelegate.database, "INSERT INTO inflections(id, name, word_id) VALUES (?, ?, ?)", -1, &statement, NULL)) != SQLITE_OK) {
@@ -257,7 +258,7 @@
     sqlite3_step(statement);
     sqlite3_finalize(statement);
     
-    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d", DubsarBaseUrl, [[inflection valueForKey:@"id"] intValue]];
+    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d&auth_token=%@", DubsarBaseUrl, [[inflection valueForKey:@"id"] intValue], appDelegate.authToken];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
@@ -316,7 +317,7 @@
     sqlite3_step(statement);
     sqlite3_finalize(statement);
     
-    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d", DubsarBaseUrl, [[editingInflection valueForKey:@"id"] intValue]];
+    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d?auth_token=%@", DubsarBaseUrl, [[editingInflection valueForKey:@"id"] intValue], appDelegate.authToken];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];

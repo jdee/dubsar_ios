@@ -20,8 +20,11 @@
 #import "AboutViewController_iPhone.h"
 #import "AugurViewController_iPhone.h"
 #import "DailyWord.h"
+#import "Dubsar.h"
 #import "DubsarViewController_iPhone.h"
 #import "FAQViewController_iPhone.h"
+#import "JSONKit.h"
+#import "KeychainWrapper.h"
 #import "ReviewViewController_iPhone.h"
 #import "SyncViewController_iPhone.h"
 #import "Word.h"
@@ -31,6 +34,7 @@
 @synthesize wotdButton;
 @synthesize dailyWord;
 @synthesize augurViewController;
+@synthesize emailTextField, loginView, passwordTextField;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -72,7 +76,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.loginView.hidden = YES;
+    [self checkForCredentials];
 }
 
 - (void)viewDidUnload
@@ -138,12 +143,73 @@
     [self presentModalViewController:viewController animated:YES];
 }
 
+- (void)checkForCredentials
+{
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.authToken == nil) {
+        // see if we have the password.
+        KeychainWrapper* passwordWrapper = [[KeychainWrapper alloc] initWithIdentifier:@"com.dubsar-dictionary.Dubsar" requestClass:kSecClassGenericPassword];
+        
+        NSString* password = [passwordWrapper myObjectForKey:(NSString*)kSecValueData];
+        
+        if (![password isEqualToString:@"none"]) {
+            NSLog(@"found password");
+            // have email and password. fetch the auth token.
+            appDelegate.authToken = [self authenticateEmail:@"jgvdthree@gmail.com" password:password];
+            
+            return;
+        }
+        
+        NSLog(@"didn't find password");
+
+        // prompt the user
+        loginView.hidden = NO;
+    }
+}
+
 - (IBAction)loadWotd:(id)sender
 {
     if (!dailyWord.complete || dailyWord.error) return;
     
     WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:dailyWord.word]autorelease];
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (IBAction)login:(id)sender
+{
+    loginView.hidden = YES;
+    [emailTextField resignFirstResponder];
+    [passwordTextField resignFirstResponder];
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    appDelegate.authToken = [self authenticateEmail:emailTextField.text password:passwordTextField.text];
+
+    KeychainWrapper* passwordWrapper = [[KeychainWrapper alloc] initWithIdentifier:@"com.dubsar-dictionary.Dubsar" requestClass:kSecClassGenericPassword];
+    [passwordWrapper mySetObject:passwordTextField.text forKey:(NSString*)kSecValueData];
+}
+
+- (NSString*)authenticateEmail:(NSString *)email password:(NSString *)password
+{
+    NSString* url = [NSString stringWithFormat:@"%@/tokens", DubsarBaseUrl];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
+    [request setHTTPMethod:@"POST"];
+    
+    NSString* payload = [NSString stringWithFormat:@"{\"email\":\"%@\",\"password\":\"%@\"}", email, password];
+    [request setHTTPBody:[payload dataUsingEncoding:NSUTF8StringEncoding]];
+    NSHTTPURLResponse* response;
+    NSError* error;
+    
+    NSLog(@"POST %@", url);
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSData* body = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    NSLog(@"HTTP status code %d", response.statusCode);
+    
+    JSONDecoder* decoder = [JSONDecoder decoder];
+    NSDictionary* jsonResponse = [decoder objectWithData:body];
+    return [jsonResponse valueForKey:@"token"];
 }
 
 - (void)createToolbarItems

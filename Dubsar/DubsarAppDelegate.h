@@ -36,6 +36,7 @@
 @property (nonatomic) sqlite3_stmt* exactAutocompleterStmt;
 @property (nonatomic) sqlite3_stmt* autocompleterStmt;
 @property bool databaseReady;
+@property (nonatomic, retain) NSString* authToken;
 
 - (void)prepareDatabase:(bool)recreateFTSTables;
 - (id)initForTest;

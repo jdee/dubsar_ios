@@ -31,6 +31,7 @@
 @synthesize exactAutocompleterStmt;
 @synthesize autocompleterStmt;
 @synthesize databaseReady;
+@synthesize authToken;
 
 - (id)init
 {
@@ -42,6 +43,8 @@
         dubsarNormalFont = [[UIFont fontWithName:@"TrebuchetMS" size:18.0]retain];
         dubsarSmallFont  = [[UIFont fontWithName:@"TrebuchetMS" size:14.0]retain];
         databaseReady = false;
+        
+        self.authToken = nil;
 
         [self prepareDatabase:false];
     }

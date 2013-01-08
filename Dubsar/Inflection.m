@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarAppDelegate.h"
 #import "Inflection.h"
 #import "Word.h"
 
@@ -29,10 +30,11 @@
 {
     self = [super init];
     if (self) {
+        DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication]delegate];
         self.word = theWord;
         self._id = theId;
         self.name = theName;
-        [self set_url:[NSString stringWithFormat:@"/inflections/%d", self._id]];
+        [self set_url:[NSString stringWithFormat:@"/inflections/%d?auth_token=%@", self._id, appDelegate.authToken]];
     }
     return self;
 }

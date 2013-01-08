@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarAppDelegate.h"
 #import "Inflection.h"
 #import "JSONKit.h"
 #import "Review.h"
@@ -31,9 +32,10 @@
 {
     self = [super init];
     if (self) {
+        DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication]delegate];
         self.page = thePage;
         self.totalPages = 0; // set by server response
-        self._url = [NSString stringWithFormat:@"/review?page=%d", thePage];
+        self._url = [NSString stringWithFormat:@"/review?page=%d&auth_token=%@", thePage, appDelegate.authToken];
     }
     return self;
 }

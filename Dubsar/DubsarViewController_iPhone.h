@@ -28,6 +28,9 @@
 
 @property (nonatomic, retain) DailyWord* dailyWord;
 @property (nonatomic, retain) IBOutlet UIButton *wotdButton;
+@property (nonatomic, retain) IBOutlet UIView* loginView;
+@property (nonatomic, retain) IBOutlet UITextField* emailTextField;
+@property (nonatomic, retain) IBOutlet UITextField* passwordTextField;
 @property (nonatomic, retain) AugurViewController_iPhone* augurViewController;
 
 - (void)displayFAQ;
@@ -36,6 +39,9 @@
 - (void)displayReview;
 - (void)displaySync;
 - (IBAction)loadWotd:(id)sender;
+- (IBAction)login:(id)sender;
 - (void)load;
+- (void)checkForCredentials;
+- (NSString*)authenticateEmail:(NSString*)email password:(NSString*)password;
 
 @end
