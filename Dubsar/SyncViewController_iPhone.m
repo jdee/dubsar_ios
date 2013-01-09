@@ -69,7 +69,8 @@
 
 - (void)loadInflections:(int)page
 {
-    NSString* urlString = [NSString stringWithFormat:@"%@/inflections?page=%d", DubsarBaseUrl, page];
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
+    NSString* urlString = [NSString stringWithFormat:@"%@/inflections?page=%d&auth_token=%@", DubsarBaseUrl, page, appDelegate.authToken];
     NSURL* url = [NSURL URLWithString:urlString];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];

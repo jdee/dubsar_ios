@@ -57,7 +57,8 @@
 - (void)load
 {
     // Retrieve inflections for the specified word from the server
-    NSString* url = [NSString stringWithFormat:@"%@/words/%d/inflections", DubsarBaseUrl, word._id];
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSString* url = [NSString stringWithFormat:@"%@/words/%d/inflections?auth_token=%@", DubsarBaseUrl, word._id, appDelegate.authToken];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
@@ -258,7 +259,7 @@
     sqlite3_step(statement);
     sqlite3_finalize(statement);
     
-    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d&auth_token=%@", DubsarBaseUrl, [[inflection valueForKey:@"id"] intValue], appDelegate.authToken];
+    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d?auth_token=%@", DubsarBaseUrl, [[inflection valueForKey:@"id"] intValue], appDelegate.authToken];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
