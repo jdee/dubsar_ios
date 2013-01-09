@@ -132,7 +132,8 @@
 
 - (void)displayReview
 {
-    ReviewViewController_iPhone* viewController = [[[ReviewViewController_iPhone alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:1] autorelease];
+    // Page 0: Load the saved page if present. Otherwise, page 1.
+    ReviewViewController_iPhone* viewController = [[[ReviewViewController_iPhone alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:0] autorelease];
     [viewController load];
     [self.navigationController pushViewController:viewController animated:YES];
 }

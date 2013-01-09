@@ -73,6 +73,21 @@
     return NO;
 }
 
+- (void)prepareDatabase:(bool)recreateFTSTables
+{
+    [super prepareDatabase:recreateFTSTables];
+
+    sqlite3_stmt* statement;
+    int rc = 0;
+    if ((rc=sqlite3_prepare_v2(super.database,
+                               "CREATE TABLE IF NOT EXISTS bookmarks (id INTEGER PRIMARY KEY ASC, page INTEGER)", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"sqlite3 error %d", rc);
+        return;
+    }
+    sqlite3_step(statement);
+    sqlite3_finalize(statement);
+}
+
 - (void)dealloc
 {
     [_navigationController release];

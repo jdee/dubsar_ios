@@ -17,6 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#include <errno.h>
+#include <stdio.h>
+
 #import "Dubsar.h"
 #import "DubsarViewController_iPhone.h"
 #import "Inflection.h"
@@ -24,6 +27,72 @@
 #import "Review.h"
 #import "Word.h"
 #import "WordViewController_iPhone.h"
+
+static int loadLastPage()
+{
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    sqlite3_stmt* statement;
+    int rc = 0;
+    if ((rc=sqlite3_prepare_v2(appDelegate.database,
+                               "SELECT page FROM bookmarks ORDER BY id DESC LIMIT 1", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"sqlite3 error %d", rc);
+        return 0;
+    }
+    
+    int page = 0;
+    if (sqlite3_step(statement) == SQLITE_ROW) {
+        page = sqlite3_column_int(statement, 0);
+    }
+    sqlite3_finalize(statement);
+    return page;
+}
+
+static void saveLastPage(int page)
+{
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    sqlite3_stmt* statement;
+    int rc = 0;
+    if ((rc=sqlite3_prepare_v2(appDelegate.database,
+                               "INSERT INTO bookmarks (page) VALUES (?)", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"preparing INSERT: %d", rc);
+        return;
+    }
+    
+    if (sqlite3_bind_int(statement, 1, page) != SQLITE_OK) {
+        NSLog(@"sqlite3_bind_int: %d", rc);
+        return;
+    }
+    
+    sqlite3_step(statement);
+    sqlite3_finalize(statement);
+    
+    // is there a better way to get the new id back?
+    if ((rc=sqlite3_prepare_v2(appDelegate.database,
+                               "SELECT id FROM bookmarks ORDER BY id DESC LIMIT 1", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"preparing SELECT: %d", rc);
+        return;
+    }
+    
+    int _id = 0;
+    if (sqlite3_step(statement) == SQLITE_ROW) {
+        _id = sqlite3_column_int(statement, 0);
+    }
+    sqlite3_finalize(statement);
+    
+    if ((rc=sqlite3_prepare_v2(appDelegate.database,
+                               "DELETE FROM bookmarks WHERE id < ?", -1, &statement, NULL)) != SQLITE_OK) {
+        NSLog(@"preparing DELETE: %d", rc);
+        return;
+    }
+    
+    if (sqlite3_bind_int(statement, 1, _id) != SQLITE_OK) {
+        NSLog(@"sqlite3_bind_int: %d", rc);
+        return;
+    }
+    
+    sqlite3_step(statement);
+    sqlite3_finalize(statement);
+}
 
 @interface ReviewViewController_iPhone ()
 
@@ -39,11 +108,37 @@
 @synthesize selectView;
 @synthesize tableView;
 @synthesize review;
+@synthesize page;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil page:(int)page
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil page:(int)thePage
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        page = thePage;
+        
+        // If called with page 0, try to start where we left off.
+        if (page == 0) {
+            page = loadLastPage();
+            if (page) {
+                NSLog(@"last page was %d", page);
+            }
+            else {
+                NSLog(@"no last page available");
+            }
+        }
+        
+        // If this is the first time, we won't have a last page, so
+        // start at 1.
+        if (page == 0) {
+            NSLog(@"starting at page 1");
+            page = 1;
+        }
+        
+        // Now this is our last page, whether we just now loaded from storage or
+        // are being launched by a Next or Prev button tap.
+        NSLog(@"saving last page %d", page);
+        saveLastPage(page);
+        
         self.review = [Review reviewWithPage:page];
         self.review.delegate = self;
         self.title = [NSString stringWithFormat:@"Review p. %d", page];
@@ -73,12 +168,17 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.selectView.hidden = YES;
+    saveLastPage(page);
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void)viewWillUnload
+{
 }
 
 - (void)didReceiveMemoryWarning
