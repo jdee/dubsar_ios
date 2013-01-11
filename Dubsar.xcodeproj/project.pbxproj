@@ -175,6 +175,7 @@
 		7B145C941698EFAC003DF963 /* Inflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inflection.m; sourceTree = "<group>"; };
 		7B145C961698F22C003DF963 /* Review.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Review.h; sourceTree = "<group>"; };
 		7B145C971698F22C003DF963 /* Review.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Review.m; sourceTree = "<group>"; };
+		7B29BB4B169FB91900D7C241 /* ModalViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModalViewControllerDelegate.h; sourceTree = "<group>"; };
 		7B30646113E5A06000B2A1B1 /* AboutViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController_iPad.h; sourceTree = "<group>"; };
 		7B30646213E5A06000B2A1B1 /* AboutViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_iPad.m; sourceTree = "<group>"; };
 		7B30646313E5A06000B2A1B1 /* AboutViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPad.xib; sourceTree = "<group>"; };
@@ -407,6 +408,7 @@
 		7B327FF713E3875400274E6C /* Dubsar */ = {
 			isa = PBXGroup;
 			children = (
+				7B29BB4B169FB91900D7C241 /* ModalViewControllerDelegate.h */,
 				7B3280AD13E38D9A00274E6C /* Dubsar.h */,
 				7B3280AE13E38D9A00274E6C /* Dubsar.m */,
 				7B32800013E3875400274E6C /* DubsarAppDelegate.h */,

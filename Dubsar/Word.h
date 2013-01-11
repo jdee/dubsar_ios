@@ -30,6 +30,7 @@
 
 @property (nonatomic, retain) NSString* inflections;
 @property (nonatomic, retain) NSMutableArray* senses;
+@property bool dirty;
 
 +(id)wordWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 +(id)wordWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;

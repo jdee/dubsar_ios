@@ -161,13 +161,16 @@ static void saveLastPage(int page)
     if (self.loading) return;
  
     [review load];
-
+    
     self.loading = true;
+    [tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     self.selectView.hidden = YES;
+    [self load];
+    [tableView reloadData];
     saveLastPage(page);
 }
 
@@ -503,7 +506,7 @@ static void saveLastPage(int page)
     
     cell.accessoryType = UITableViewCellAccessoryNone;
     
-    if (!review || !review.complete) {
+    if (loading || !review || !review.complete) {
         NSLog(@"review is not complete");
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {

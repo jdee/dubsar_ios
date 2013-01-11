@@ -17,26 +17,11 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "ModalViewControllerDelegate.h"
-#import "SearchBarViewController_iPhone.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@class Word;
+@protocol ModalViewControllerDelegate <NSObject>
 
-@interface WordViewController_iPhone : SearchBarViewController_iPhone<ModalViewControllerDelegate,LoadDelegate> {
-    
-    UITableView *tableView;
-    UITextView *inflectionsTextView;
-}
-
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UITextView *inflectionsTextView;
-
-@property (nonatomic, retain) Word* word;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
-
-- (void)adjustInflections;
-- (void)setTableViewFrame;
-- (void)editInflections;
+- (void)modalViewControllerDismissed:(UIViewController*)viewController;
 
 @end

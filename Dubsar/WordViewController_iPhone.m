@@ -61,10 +61,10 @@
 
 - (void)load
 {
-    if (self.loading || self.loadedSuccessfully) return;
-    
-    [word load];
+    if (self.loading) return;
     self.loading = true;
+    if (word.dirty) [word load];
+    [tableView reloadData];
 }
 
 - (void)createToolbarItems
@@ -87,11 +87,6 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
 - (void)viewDidUnload
 {
     [self setTableView:nil];
@@ -104,13 +99,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
-    if (word.complete && !word.error) {
-        [self loadComplete:word withError:nil];
-    }
-    else {
-        [self load];
-    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
@@ -248,6 +236,8 @@
     self.loading = false;
     if (model != word) return;
     
+    assert(!word.dirty);
+    
     if (error) {
         [tableView setHidden:YES];
         [inflectionsTextView setText:error];
@@ -289,6 +279,7 @@
 - (void)editInflections
 {
     EditInflectionsViewController_iPhone* viewController = [[[EditInflectionsViewController_iPhone alloc] initWithNibName:@"EditInflectionsViewController_iPhone" bundle:nil word:word]autorelease];
+    viewController.delegate = self;
     [self presentModalViewController:viewController animated:YES];
 }
 
@@ -316,6 +307,11 @@
     tableView.frame = frame;
     
     inflectionsTextView.hidden = !inflectionsShowing;
+}
+
+- (void)modalViewControllerDismissed:(UIViewController *)viewController
+{
+    [self load];
 }
 
 @end

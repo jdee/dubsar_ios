@@ -17,7 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "ModalViewControllerDelegate.h"
 
 @class Word;
 
@@ -32,6 +32,7 @@
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, retain) NSMutableArray* inflections;
 @property bool editing;
+@property (nonatomic, retain) id<ModalViewControllerDelegate> delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 

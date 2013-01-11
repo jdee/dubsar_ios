@@ -36,6 +36,7 @@
 @synthesize inflections;
 @synthesize tableView;
 @synthesize word;
+@synthesize delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord
 {
@@ -121,6 +122,7 @@
         // iOS 4.x
         [self.parentViewController dismissModalViewControllerAnimated:YES];
     }
+    [delegate modalViewControllerDismissed:self];
 }
 
 - (IBAction)cancel:(id)sender
@@ -154,6 +156,9 @@
 
 - (void)createInflection
 {
+    word.dirty = true;
+    NSLog(@"set dirty to true");
+    
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     NSString* url = [NSString stringWithFormat:@"%@/inflections?auth_token=%@", DubsarBaseUrl, appDelegate.authToken];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -229,6 +234,9 @@
 
 - (void)deleteInflection:(int)row
 {
+    word.dirty = true;
+    NSLog(@"set dirty to true");
+    
     NSDictionary* container = [inflections objectAtIndex:row];
     NSDictionary* inflection = [container valueForKey:@"inflection"];
     
@@ -278,7 +286,10 @@
 
 - (void)updateInflection
 {
-    // now update the local DB
+    word.dirty = true;
+    NSLog(@"set dirty to true");
+    
+    // update the local DB
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     int rc;
     sqlite3_stmt* statement;

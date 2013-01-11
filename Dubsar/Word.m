@@ -28,6 +28,7 @@
 @synthesize name;
 @synthesize partOfSpeech;
 @synthesize freqCnt;
+@synthesize dirty;
 
 @synthesize inflections;
 @synthesize senses;
@@ -50,6 +51,7 @@
         name = [theName retain];
         partOfSpeech = thePartOfSpeech;
         inflections = [[NSString alloc]init];
+        dirty = true; // set to false once load completes and object is in synch
         [self initUrl];
     }
     return self;
@@ -63,6 +65,7 @@
         name = [theName retain];
         
         partOfSpeech = [PartOfSpeechDictionary partOfSpeechFromPOS:posString];
+        dirty = true; // set to false once load completes and object is in synch
         [self initUrl];
     }
     return self;
@@ -196,6 +199,7 @@
     
     sqlite3_finalize(statement);
     NSLog(@"completed word query");
+    dirty = false;
 }
 
 -(void)parseData
