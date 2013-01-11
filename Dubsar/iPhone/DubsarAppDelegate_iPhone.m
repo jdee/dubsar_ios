@@ -94,4 +94,10 @@
 	[super dealloc];
 }
 
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+;
+}
+
 @end
