@@ -47,6 +47,7 @@
 
 - (void) load
 {
+    self.complete = false;
     [self loadFromServer];
 }
 

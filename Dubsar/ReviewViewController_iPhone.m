@@ -158,11 +158,11 @@ static void saveLastPage(int page)
 
 - (void)load
 {
-    if (self.loading) return;
+    if (self.loading || review.complete) return;
+
+    self.loading = true;
  
     [review load];
-    
-    self.loading = true;
     [tableView reloadData];
 }
 
@@ -170,7 +170,6 @@ static void saveLastPage(int page)
 {
     self.selectView.hidden = YES;
     if (!review.complete) [self load];
-    [tableView reloadData];
     saveLastPage(page);
 }
 

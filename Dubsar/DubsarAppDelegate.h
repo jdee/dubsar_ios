@@ -39,6 +39,8 @@
 @property (nonatomic, retain) NSString* authToken;
 
 - (void)prepareDatabase:(bool)recreateFTSTables;
+- (void)prepareDatabase:(bool)recreateFTSTables name:(NSString*)dbName;
+- (void)closeDB;
 - (id)initForTest;
 
 @end

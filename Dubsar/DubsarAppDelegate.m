@@ -39,7 +39,7 @@
     if (self) {
         sranddev();
         dubsarTintColor  = [[UIColor colorWithRed:0.110 green:0.580 blue:0.769 alpha:1.0]retain];
-        dubsarFontFamily = [[NSString stringWithString:@"Trebuchet"] retain];
+        dubsarFontFamily = @"Trebuchet";
         dubsarNormalFont = [[UIFont fontWithName:@"TrebuchetMS" size:18.0]retain];
         dubsarSmallFont  = [[UIFont fontWithName:@"TrebuchetMS" size:14.0]retain];
         databaseReady = false;
@@ -108,9 +108,7 @@
 
 - (void)dealloc
 {
-    sqlite3_finalize(autocompleterStmt);
-    sqlite3_finalize(exactAutocompleterStmt);
-    sqlite3_close(database);
+    [self closeDB];
     [dubsarFontFamily release];
     [dubsarNormalFont release];
     [dubsarTintColor release];
@@ -118,12 +116,36 @@
     [super dealloc];
 }
 
+- (void)closeDB
+{
+    if (!database) return;
+    
+    sqlite3_finalize(autocompleterStmt);
+    sqlite3_finalize(exactAutocompleterStmt);
+    sqlite3_close(database);
+    
+    autocompleterStmt = exactAutocompleterStmt = NULL;
+    database = NULL;
+}
+
 - (void)prepareDatabase:(bool)recreateFTSTables
+{
+    [self prepareDatabase:recreateFTSTables name:nil];
+}
+
+- (void)prepareDatabase:(bool)recreateFTSTables name:(NSString *)dbName
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
     
     NSURL* resourceURL = [[NSBundle mainBundle] resourceURL];
-    NSURL* srcURL = [resourceURL URLByAppendingPathComponent:PRODUCTION_DB_NAME];
+    
+    NSURL* srcURL = nil;
+    if (dbName) {
+        srcURL = [resourceURL URLByAppendingPathComponent:dbName];
+    }
+    else {
+        srcURL = [resourceURL URLByAppendingPathComponent:PRODUCTION_DB_NAME];
+    }
     
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSArray* urls = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
@@ -131,7 +153,13 @@
     NSString* appBundleID = [[NSBundle mainBundle] bundleIdentifier];
     NSURL* appDataDir = [[url URLByAppendingPathComponent:appBundleID]
                          URLByAppendingPathComponent:@"Data"];
-    NSString* installedDBPath = [[appDataDir path] stringByAppendingPathComponent:PRODUCTION_DB_NAME];
+    
+    NSString* installedDBPath = nil;
+    if (dbName) {
+        installedDBPath = [[appDataDir path] stringByAppendingPathComponent:dbName];
+    } else {
+        installedDBPath = [[appDataDir path] stringByAppendingPathComponent:PRODUCTION_DB_NAME];
+    }
     
     if (![fileManager fileExistsAtPath:[appDataDir path]]) {
         NSError* error;
@@ -150,12 +178,7 @@
         NSLog(@"Copied DB to application data directory");
     }
     
-    if (database) {
-        sqlite3_finalize(autocompleterStmt);
-        sqlite3_finalize(exactAutocompleterStmt);
-        sqlite3_close(database);
-        database = NULL;
-    }
+    [self closeDB];
        
     int rc;
     if ((rc=sqlite3_open_v2([installedDBPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READWRITE, NULL)) != SQLITE_OK) {
@@ -164,7 +187,7 @@
         return;
     }
     
-    NSLog(@"successfully opened database %@", PRODUCTION_DB_NAME);
+    NSLog(@"successfully opened database %@", dbName);
     NSString* sql;
     
     if (recreateFTSTables) {

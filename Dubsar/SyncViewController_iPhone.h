@@ -27,10 +27,15 @@
 
 @property (nonatomic, retain) IBOutlet UIProgressView* fetchProgressView;
 @property (nonatomic, retain) IBOutlet UIProgressView* insertProgressView;
+@property (nonatomic, retain) IBOutlet UIButton* button;
+@property bool synching;
+@property bool mustStop;
+
+- (IBAction) start:(id)sender;
 
 - (void) backupDatabase;
 - (void) restoreBackup;
-- (void) deleteBackup;
+- (void) deleteDatabase:(NSString*)dbName;
 - (void) startSync;
 - (void) loadInflections:(int)page;
 - (void) insertInflections:(NSArray*)inflections;

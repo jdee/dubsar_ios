@@ -29,6 +29,9 @@
 @implementation SyncViewController_iPhone
 @synthesize fetchProgressView;
 @synthesize insertProgressView;
+@synthesize button;
+@synthesize synching;
+@synthesize mustStop;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,8 +40,9 @@
         // Custom initialization
         buffer = [[NSMutableData alloc]init];
         totalPages = insertFinished = 0;
+        self.synching = false;
+        self.mustStop = false;
         [self loadInflections:1];
-        [self performSelectorInBackground:@selector(startSync) withObject:nil];
     }
     return self;
 }
@@ -49,16 +53,43 @@
     [super dealloc];
 }
 
-- (void)viewDidLoad
+- (IBAction)start:(id)sender
 {
-    [super viewDidLoad];
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
+    if (!synching) {
+        synching = true;
+        [button setTitle:@"Cancel" forState:UIControlStateNormal];
+        [button setTitle:@"Cancel" forState:UIControlStateHighlighted];
+        [button setTitle:@"Cancel" forState:UIControlStateSelected];
+        [self performSelectorInBackground:@selector(startSync) withObject:nil];
+    }
+    else {
+        mustStop = true;
+        synching = false;
+        [button setTitle:@"Start" forState:UIControlStateNormal];
+        [button setTitle:@"Start" forState:UIControlStateHighlighted];
+        [button setTitle:@"Start" forState:UIControlStateSelected];
+        
+        // reopen the main DB
+        [appDelegate closeDB];
+        [appDelegate prepareDatabase:false];
+        
+        if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
+            // iOS 5.0+
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        else {
+            // iOS 4.x
+            [self.parentViewController dismissModalViewControllerAnimated:YES];
+        }
+    }
 }
 
 - (void)startSync
 {
     [self backupDatabase];
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate prepareDatabase:true];
+    [appDelegate prepareDatabase:true name:@"backup.sqlite3"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,7 +101,7 @@
 - (void)loadInflections:(int)page
 {
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
-    NSString* urlString = [NSString stringWithFormat:@"%@/inflections?page=%d&auth_token=%@", DubsarBaseUrl, page, appDelegate.authToken];
+    NSString* urlString = [NSString stringWithFormat:@"%@/inflections?page=%d&auth_token=%@", DubsarSecureUrl, page, appDelegate.authToken];
     NSURL* url = [NSURL URLWithString:urlString];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -126,7 +157,7 @@
     [fileManager removeItemAtPath:installedDBPath error:nil];
     
     NSLog(@"Restoring DB backup");
-    if ([fileManager copyItemAtPath:backupPath toPath:installedDBPath error:&error]) {
+    if ([fileManager moveItemAtPath:backupPath toPath:installedDBPath error:&error]) {
         NSLog(@"Restored backup");
     }
     else {
@@ -134,7 +165,7 @@
     }    
 }
 
-- (void)deleteBackup
+- (void)deleteDatabase:(NSString *)dbName
 {
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSArray* urls = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
@@ -143,9 +174,9 @@
     NSURL* appDataDir = [[url URLByAppendingPathComponent:appBundleID]
                          URLByAppendingPathComponent:@"Data"];
     
-    NSString* backupPath = [[appDataDir path] stringByAppendingPathComponent:@"backup.sqlite3"];
+    NSString* backupPath = [[appDataDir path] stringByAppendingPathComponent:dbName];
     [fileManager removeItemAtPath:backupPath error:nil];
-    NSLog(@"purged backup DB");
+    NSLog(@"deleted %@", backupPath);
 }
 
 - (void)insertInflections:(NSArray*)inflections
@@ -160,7 +191,7 @@
         NSLog(@"preparing insert statement: %d", rc);
         return;
     }
-    for (int j=0; j<inflections.count; ++j) {
+    for (int j=0; !mustStop && j<inflections.count; ++j) {
         NSDictionary* inflection = [inflections objectAtIndex:j];
         NSDictionary* word = [inflection valueForKey:@"word"];
         
@@ -234,12 +265,23 @@
     
     [inflections release];
     
+    if (mustStop) {
+        return;
+    }
+    
     ++ insertFinished;
     insertProgressView.progress = ((float)insertFinished/(float)(totalPages+1));
     
     if (insertFinished >= totalPages) {
         [self.class buildFTSTable];
-        [self deleteBackup];
+        
+        // Successfully finished sync.
+        
+        // now move backup to production and reopen
+        [appDelegate closeDB];
+        [self deleteDatabase:@"production.sqlite3"];
+        [self restoreBackup];
+        [appDelegate prepareDatabase:false];
         
         ++insertFinished;
         insertProgressView.progress = 1.0;
@@ -305,7 +347,7 @@
     
     NSLog(@"Received inflections response, page %d", page);
     
-    if (page < totalPages) {
+    if (!mustStop && page < totalPages) {
         // request the next page
         ++ page;
         [self loadInflections:page];

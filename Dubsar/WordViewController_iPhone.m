@@ -259,6 +259,8 @@
     
     NSLog(@"word %@ inflections \"%@\"", word.nameAndPos, word.inflections);
    
+    self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
+
     [self adjustInflections];
     
     NSLog(@"Load complete; adjusting table view");

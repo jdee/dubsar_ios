@@ -154,14 +154,14 @@
         NSString* password = [passwordWrapper myObjectForKey:(NSString*)kSecValueData];
         
         if (![password isEqualToString:@"none"]) {
-            NSLog(@"found password");
+            NSLog(@"found password in keychain");
             // have email and password. fetch the auth token.
             appDelegate.authToken = [self authenticateEmail:@"jgvdthree@gmail.com" password:password];
             
             return;
         }
         
-        NSLog(@"didn't find password");
+        NSLog(@"didn't find password in keychain");
 
         // prompt the user
         loginView.hidden = NO;
@@ -233,7 +233,7 @@
     [buttonItems addObject:aboutButtonItem];
     [buttonItems addObject:augurButtonItem];
     [buttonItems addObject:reviewButtonItem];
-    // [buttonItems addObject:syncButtonItem];
+    [buttonItems addObject:syncButtonItem];
     
     self.toolbarItems = buttonItems.retain;
 }
