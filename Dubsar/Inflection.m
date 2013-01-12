@@ -51,4 +51,19 @@
     [super dealloc];
 }
 
+-(void)loadFromServer
+{
+    super.url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, _url]retain];
+    NSURL* nsurl = [NSURL URLWithString:super.url];
+    
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:nsurl];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    connection = [[NSURLConnection connectionWithRequest:request delegate:self]retain];
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    NSLog(@"requesting %@", super.url);
+}
+
 @end

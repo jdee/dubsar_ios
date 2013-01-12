@@ -59,7 +59,7 @@
 {
     // Retrieve inflections for the specified word from the server
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
-    NSString* url = [NSString stringWithFormat:@"%@/words/%d/inflections?auth_token=%@", DubsarBaseUrl, word._id, appDelegate.authToken];
+    NSString* url = [NSString stringWithFormat:@"%@/words/%d/inflections?auth_token=%@", DubsarSecureUrl, word._id, appDelegate.authToken];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
@@ -160,7 +160,7 @@
     NSLog(@"set dirty to true");
     
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
-    NSString* url = [NSString stringWithFormat:@"%@/inflections?auth_token=%@", DubsarBaseUrl, appDelegate.authToken];
+    NSString* url = [NSString stringWithFormat:@"%@/inflections?auth_token=%@", DubsarSecureUrl, appDelegate.authToken];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
@@ -267,7 +267,7 @@
     sqlite3_step(statement);
     sqlite3_finalize(statement);
     
-    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d?auth_token=%@", DubsarBaseUrl, [[inflection valueForKey:@"id"] intValue], appDelegate.authToken];
+    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d?auth_token=%@", DubsarSecureUrl, [[inflection valueForKey:@"id"] intValue], appDelegate.authToken];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
@@ -329,7 +329,7 @@
     sqlite3_step(statement);
     sqlite3_finalize(statement);
     
-    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d?auth_token=%@", DubsarBaseUrl, [[editingInflection valueForKey:@"id"] intValue], appDelegate.authToken];
+    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d?auth_token=%@", DubsarSecureUrl, [[editingInflection valueForKey:@"id"] intValue], appDelegate.authToken];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];

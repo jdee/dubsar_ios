@@ -20,6 +20,7 @@
 #import <Foundation/Foundation.h>
 
 extern const NSString* DubsarBaseUrl;
+extern const NSString* DubsarSecureUrl;
 extern NSString* iTunesLink;
 
 typedef enum  {

@@ -190,7 +190,7 @@
 
 - (NSString*)authenticateEmail:(NSString *)email password:(NSString *)password
 {
-    NSString* url = [NSString stringWithFormat:@"%@/tokens", DubsarBaseUrl];
+    NSString* url = [NSString stringWithFormat:@"%@/tokens", DubsarSecureUrl];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
@@ -207,6 +207,13 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     NSLog(@"HTTP status code %d", response.statusCode);
+    
+    // why 0?
+    if (response.statusCode == 0 || response.statusCode >= 400) {
+        NSLog(@"login failed");
+        // Prompt user for password and start over
+        [self login:nil];
+   }
     
     JSONDecoder* decoder = [JSONDecoder decoder];
     NSDictionary* jsonResponse = [decoder objectWithData:body];

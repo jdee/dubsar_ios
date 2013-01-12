@@ -174,22 +174,6 @@ static void saveLastPage(int page)
     saveLastPage(page);
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)viewWillUnload
-{
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
     NSLog(@"Review response received");
@@ -313,14 +297,9 @@ static void saveLastPage(int page)
 
 - (void)updateInflection
 {
-    // update our copy in memory
     Inflection* inflection = [review.inflections objectAtIndex:editingRow];
-    inflection.name = selectField.text;
     
-    // and reload the table view
-    [tableView reloadData];
-    
-    // now update the local DB
+    // update the local DB
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     int rc;
     sqlite3_stmt* statement;
@@ -328,7 +307,7 @@ static void saveLastPage(int page)
         NSLog(@"error %d preparing statement", rc);
         return;
     }
-    if ((rc=sqlite3_bind_text(statement, 1, [inflection.name cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+    if ((rc=sqlite3_bind_text(statement, 1, [selectField.text cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
         NSLog(@"error %d binding parameter", rc);
         sqlite3_finalize(statement);
         return;
@@ -346,7 +325,7 @@ static void saveLastPage(int page)
         NSLog(@"error %d preparing statement", rc);
         return;
     }
-    if ((rc=sqlite3_bind_text(statement, 1, [inflection.name cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+    if ((rc=sqlite3_bind_text(statement, 1, [selectField.text cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
         NSLog(@"error %d binding parameter", rc);
         sqlite3_finalize(statement);
         return;
@@ -361,9 +340,9 @@ static void saveLastPage(int page)
     sqlite3_finalize(statement);
     
     // PUT back to the server
-    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarBaseUrl, inflection._url]retain];
+    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, inflection._url]retain];
     
-    NSString* jsonPayload = [NSString stringWithFormat:@"{\"name\":\"%@\"}", inflection.name];
+    NSString* jsonPayload = [NSString stringWithFormat:@"{\"name\":\"%@\"}", selectField.text];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"PUT"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -381,6 +360,9 @@ static void saveLastPage(int page)
     NSLog(@"HTTP status code %d", response.statusCode);
 
     editingRow = -1;
+    
+    [self load];
+    [tableView reloadData];
 }
 
 - (void)deleteInflectionAtRow:(int)row
@@ -414,7 +396,7 @@ static void saveLastPage(int page)
     sqlite3_step(statement);
     sqlite3_finalize(statement);
     
-    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarBaseUrl, inflection._url]retain];
+    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, inflection._url]retain];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"DELETE"];
