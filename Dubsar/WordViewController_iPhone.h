@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "Model.h"
 #import "ModalViewControllerDelegate.h"
 #import "SearchBarViewController_iPhone.h"
 
@@ -32,6 +33,7 @@
 @property (nonatomic, retain) IBOutlet UITextView *inflectionsTextView;
 
 @property (nonatomic, retain) Word* word;
+@property (nonatomic, assign) Model* parentDataSource;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 

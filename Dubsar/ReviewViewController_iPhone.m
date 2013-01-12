@@ -169,7 +169,7 @@ static void saveLastPage(int page)
 - (void)viewWillAppear:(BOOL)animated
 {
     self.selectView.hidden = YES;
-    [self load];
+    if (!review.complete) [self load];
     [tableView reloadData];
     saveLastPage(page);
 }
@@ -432,6 +432,7 @@ static void saveLastPage(int page)
 {
     Inflection* inflection = [review.inflections objectAtIndex:indexPath.row];
     WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc] initWithNibName:@"WordViewController_iPhone" bundle:nil word:inflection.word]autorelease];
+    viewController.parentDataSource = self.review;
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

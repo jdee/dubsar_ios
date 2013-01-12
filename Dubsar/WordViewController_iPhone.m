@@ -28,6 +28,7 @@
 @synthesize tableView;
 @synthesize inflectionsTextView;
 @synthesize word;
+@synthesize parentDataSource;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord
 {
@@ -37,6 +38,7 @@
         word = [theWord retain];
         word.delegate = self;
         self.loading = false;
+        self.parentDataSource = nil;
 
         self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
         
@@ -64,7 +66,8 @@
 {
     if (self.loading) return;
     self.loading = true;
-    if (word.dirty) [word load];
+    NSLog(@"loading: word is%s complete", word.complete ? "" : " not");
+    if (!word.complete) [word load];
     [tableView reloadData];
 }
 
@@ -246,7 +249,7 @@
     self.loading = false;
     if (model != word) return;
     
-    assert(!word.dirty);
+    assert(word.complete);
     
     if (error) {
         [tableView setHidden:YES];
@@ -317,14 +320,13 @@
     tableView.contentSize = CGSizeMake(frame.size.width, height);
     tableView.frame = frame;
     
-    NSLog(@"Set table view frame.origin.y to %f", frame.origin.y);
-    
     inflectionsTextView.hidden = !inflectionsShowing;
 }
 
-- (void)modalViewControllerDismissed:(UIViewController *)viewController
+- (void)modalViewControllerDismissed:(UIViewController *)viewController mustReload:(BOOL)reload
 {
-    [self load];
+    [parentDataSource setComplete:!reload];
+    if (reload) [self load];
 }
 
 @end

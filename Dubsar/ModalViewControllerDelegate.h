@@ -21,6 +21,6 @@
 
 @protocol ModalViewControllerDelegate <NSObject>
 
-- (void)modalViewControllerDismissed:(UIViewController*)viewController;
+- (void)modalViewControllerDismissed:(UIViewController*)viewController mustReload:(BOOL)reload;
 
 @end

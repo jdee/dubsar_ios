@@ -32,7 +32,7 @@
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, retain) NSMutableArray* inflections;
 @property bool editing;
-@property (nonatomic, retain) id<ModalViewControllerDelegate> delegate;
+@property (nonatomic, assign) id<ModalViewControllerDelegate> delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 

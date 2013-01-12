@@ -114,6 +114,8 @@
 
 - (IBAction)close:(id)sender
 {
+    NSLog(@"Dismissing modal view controller. Word is%s complete", word.complete ? "" : " not");
+    [delegate modalViewControllerDismissed:self mustReload:!word.complete];
     if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
         // iOS 5.0+
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -122,7 +124,6 @@
         // iOS 4.x
         [self.parentViewController dismissModalViewControllerAnimated:YES];
     }
-    [delegate modalViewControllerDismissed:self];
 }
 
 - (IBAction)cancel:(id)sender
@@ -156,8 +157,8 @@
 
 - (void)createInflection
 {
-    word.dirty = true;
-    NSLog(@"set dirty to true");
+    word.complete = false;
+    NSLog(@"set complete to false");
     
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     NSString* url = [NSString stringWithFormat:@"%@/inflections?auth_token=%@", DubsarSecureUrl, appDelegate.authToken];
@@ -234,8 +235,8 @@
 
 - (void)deleteInflection:(int)row
 {
-    word.dirty = true;
-    NSLog(@"set dirty to true");
+    word.complete = false;
+    NSLog(@"set complete to false");
     
     NSDictionary* container = [inflections objectAtIndex:row];
     NSDictionary* inflection = [container valueForKey:@"inflection"];
@@ -286,8 +287,8 @@
 
 - (void)updateInflection
 {
-    word.dirty = true;
-    NSLog(@"set dirty to true");
+    word.complete = false;
+    NSLog(@"set complete to false");
     
     // update the local DB
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
