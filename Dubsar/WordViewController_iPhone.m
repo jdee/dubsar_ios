@@ -36,6 +36,7 @@
         // Custom initialization
         word = [theWord retain];
         word.delegate = self;
+        self.loading = false;
 
         self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
         
@@ -99,6 +100,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (word.complete) {
+        // If we are loaded with a word that is already complete, we aren't
+        // going to get another chance to adjust things. Ordinarily, you
+        // should call [viewController load] when you push it onto the
+        // navigation stack though.
+        [self adjustInflections];
+        [self setTableViewFrame];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
@@ -247,8 +257,9 @@
     NSLog(@"word %@ inflections \"%@\"", word.nameAndPos, word.inflections);
    
     [self adjustInflections];
-    [self setTableViewFrame];
     
+    NSLog(@"Load complete; adjusting table view");
+    [self setTableViewFrame];
     [tableView reloadData];
 }
 
@@ -305,6 +316,8 @@
     
     tableView.contentSize = CGSizeMake(frame.size.width, height);
     tableView.frame = frame;
+    
+    NSLog(@"Set table view frame.origin.y to %f", frame.origin.y);
     
     inflectionsTextView.hidden = !inflectionsShowing;
 }

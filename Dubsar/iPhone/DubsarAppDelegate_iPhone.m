@@ -64,9 +64,10 @@
     if ([url.path hasPrefix:@"/words/"]) {
         int wordId = [[url lastPathComponent] intValue];
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
-        [word load];
         [_navigationController dismissViewControllerAnimated:YES completion:nil];
-        [_navigationController pushViewController:[[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word]autorelease] animated:YES];
+        WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word]autorelease];
+        [viewController load];
+        [_navigationController pushViewController:viewController animated:YES];
         return YES;
     }
     
