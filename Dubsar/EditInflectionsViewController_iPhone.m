@@ -114,8 +114,9 @@
 
 - (IBAction)close:(id)sender
 {
-    NSLog(@"Dismissing modal view controller. Word is%s complete", word.complete ? "" : " not");
-    [delegate modalViewControllerDismissed:self mustReload:!word.complete];
+    bool complete = word.complete;
+    NSLog(@"Dismissing modal view controller. Word is%s complete", complete ? "" : " not");
+    [delegate modalViewControllerDismissed:self mustReload:!complete];
     if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
         // iOS 5.0+
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -180,6 +181,10 @@
     
     NSLog(@"HTTP status code %d", response.statusCode);
     
+    if (response.statusCode == 0 || response.statusCode >= 400) {
+        return;
+    }
+    
     NSDictionary* headers = [response allHeaderFields];
     NSString* location = [headers valueForKey:@"Location"];
     NSLog(@"Location: %@", location);
@@ -242,6 +247,27 @@
     NSDictionary* inflection = [container valueForKey:@"inflection"];
     
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d?auth_token=%@", DubsarSecureUrl, [[inflection valueForKey:@"id"] intValue], appDelegate.authToken];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
+    [request setHTTPMethod:@"DELETE"];
+    
+    NSLog(@"DELETE %@", url);
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSHTTPURLResponse* response;
+    NSError* error;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    NSLog(@"HTTP status code %d", response.statusCode);
+    
+    if (response.statusCode == 0 || response.statusCode >= 400) {
+        return;
+    }
+
     int rc;
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(appDelegate.database, "DELETE FROM inflections WHERE id = ?", -1, &statement, NULL)) != SQLITE_OK) {
@@ -267,22 +293,6 @@
     }
     sqlite3_step(statement);
     sqlite3_finalize(statement);
-    
-    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d?auth_token=%@", DubsarSecureUrl, [[inflection valueForKey:@"id"] intValue], appDelegate.authToken];
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
-    [request setHTTPMethod:@"DELETE"];
-    
-    NSLog(@"DELETE %@", url);
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSHTTPURLResponse* response;
-    NSError* error;
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    NSLog(@"HTTP status code %d", response.statusCode);
 }
 
 - (void)updateInflection
@@ -292,6 +302,30 @@
     
     // update the local DB
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d?auth_token=%@", DubsarSecureUrl, [[editingInflection valueForKey:@"id"] intValue], appDelegate.authToken];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
+    [request setHTTPMethod:@"PUT"];
+    
+    NSString* payload = [NSString stringWithFormat:@"{\"name\":\"%@\"}", dialogTextField.text];
+    [request setHTTPBody:[payload dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSLog(@"PUT %@", url);
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSHTTPURLResponse* response;
+    NSError* error;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    NSLog(@"HTTP status code %d", response.statusCode);
+    
+    if (response.statusCode == 0 || response.statusCode >= 400) {
+        return;
+    }
+
     int rc;
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(appDelegate.database, "UPDATE inflections SET name = ? WHERE id = ?", -1, &statement, NULL)) != SQLITE_OK) {
@@ -329,25 +363,6 @@
     
     sqlite3_step(statement);
     sqlite3_finalize(statement);
-    
-    NSString* url = [NSString stringWithFormat:@"%@/inflections/%d?auth_token=%@", DubsarSecureUrl, [[editingInflection valueForKey:@"id"] intValue], appDelegate.authToken];
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
-    [request setHTTPMethod:@"PUT"];
-    
-    NSString* payload = [NSString stringWithFormat:@"{\"name\":\"%@\"}", dialogTextField.text];
-    [request setHTTPBody:[payload dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    NSLog(@"PUT %@", url);
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSHTTPURLResponse* response;
-    NSError* error;
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    NSLog(@"HTTP status code %d", response.statusCode);
 }
 
 # pragma mark - table view management

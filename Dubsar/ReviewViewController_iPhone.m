@@ -305,6 +305,32 @@ static void saveLastPage(int page)
     
     // update the local DB
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    // PUT back to the server
+    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, inflection._url]retain];
+    
+    NSString* jsonPayload = [NSString stringWithFormat:@"{\"name\":\"%@\"}", selectField.text];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"PUT"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPBody:[jsonPayload dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSLog(@"PUT %@", url);
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSHTTPURLResponse* response;
+    NSError* error;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    NSLog(@"HTTP status code %d", response.statusCode);
+    
+    if (response.statusCode == 0 || response.statusCode >= 400) {
+        editingRow = -1;
+        return;
+    }
+
     int rc;
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(appDelegate.database, "UPDATE inflections SET name = ? WHERE id = ?", -1, &statement, NULL)) != SQLITE_OK) {
@@ -343,26 +369,6 @@ static void saveLastPage(int page)
     sqlite3_step(statement);
     sqlite3_finalize(statement);
     
-    // PUT back to the server
-    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, inflection._url]retain];
-    
-    NSString* jsonPayload = [NSString stringWithFormat:@"{\"name\":\"%@\"}", selectField.text];
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"PUT"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setHTTPBody:[jsonPayload dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    NSLog(@"PUT %@", url);
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSHTTPURLResponse* response;
-    NSError* error;
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    NSLog(@"HTTP status code %d", response.statusCode);
-
     editingRow = -1;
     
     review.complete = false;
@@ -375,6 +381,28 @@ static void saveLastPage(int page)
     Inflection* inflection = [review.inflections objectAtIndex:row];
     
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, inflection._url]retain];
+    
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"DELETE"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    NSLog(@"DELETE %@", url);
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSHTTPURLResponse* response;
+    NSError* error;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    NSLog(@"HTTP status code %d", response.statusCode);
+    
+    if (response.statusCode == 0 || response.statusCode >= 400) {
+        return;
+    }
+    
     int rc;
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(appDelegate.database, "DELETE FROM inflections WHERE id = ?", -1, &statement, NULL)) != SQLITE_OK) {
@@ -400,23 +428,6 @@ static void saveLastPage(int page)
     }
     sqlite3_step(statement);
     sqlite3_finalize(statement);
-    
-    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, inflection._url]retain];
-    
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"DELETE"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    
-    NSLog(@"DELETE %@", url);
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSHTTPURLResponse* response;
-    NSError* error;
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    NSLog(@"HTTP status code %d", response.statusCode);   
 
     [review.inflections removeObjectAtIndex:row];
 }
@@ -500,15 +511,6 @@ static void saveLastPage(int page)
 
 - (UITableViewCell*)tableView:(UITableView*)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString* cellType = @"inflection";
-    
-    UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType]autorelease];
-    }
-    
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    
     int row = indexPath.row;
     
     if ((loading || !review || !review.complete) && row >= review.inflections.count) {
@@ -524,6 +526,15 @@ static void saveLastPage(int page)
         return cell;
     }
     
+    static NSString* cellType = @"inflection";
+    
+    UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellType]autorelease];
+    }
+    
+    cell.accessoryType = UITableViewCellAccessoryNone;
+        
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     
     cell.textLabel.textColor = appDelegate.dubsarTintColor;
@@ -532,9 +543,24 @@ static void saveLastPage(int page)
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     cell.selectionStyle = loading ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
     
+    // transparent backgrounds for these
+    cell.textLabel.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0];
+    cell.detailTextLabel.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0];
+    
+    cell.backgroundView = loading ? [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cell-bg.png"]]autorelease]: nil;
+    
     Inflection* inflection = [review.inflections objectAtIndex:row];
     cell.textLabel.text = inflection.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@.)", inflection.word.name, inflection.word.pos];
+    
+    NSString* prefix = [inflection.name commonPrefixWithString:inflection.word.name options:NSLiteralSearch];
+    
+    int prefixLen = prefix.length;
+    
+    NSString* suffix = [inflection.word.name substringFromIndex:prefixLen > 4 ? prefixLen-4 : 0];
+    
+    NSString* abbreviated = suffix.length < inflection.word.name.length ? [NSString stringWithFormat:@"-%@", suffix] : suffix;
+    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@.)", abbreviated, inflection.word.pos];
     
     return cell;
 }

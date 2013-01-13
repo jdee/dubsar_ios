@@ -64,6 +64,7 @@
 
 - (void)load
 {
+    NSLog(@"in [WordViewController_iPhone load]");
     if (self.loading) return;
     self.loading = true;
     NSLog(@"loading: word is%s complete", word.complete ? "" : " not");
@@ -102,6 +103,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"entering viewWillAppear:");
     [super viewWillAppear:animated];
     
     if (word.complete) {
@@ -112,6 +114,8 @@
         [self adjustInflections];
         [self setTableViewFrame];
     }
+    
+    NSLog(@"exiting viewWillAppear:");
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
@@ -327,8 +331,12 @@
 
 - (void)modalViewControllerDismissed:(UIViewController *)viewController mustReload:(BOOL)reload
 {
+    NSLog(@"entering modalViewControllerDismissed:mustReload:");
+    NSLog(@"Word controller %s reload", reload ? "must" : "need not");
     [parentDataSource setComplete:!reload];
+    self.loading = false;
     if (reload) [self load];
+    NSLog(@"exiting modalViewControllerDismissed:mustReload:");
 }
 
 @end

@@ -139,6 +139,7 @@
 		7BBE26CE14329AF000720EDA /* Pointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDE141C21FA000DD13B /* Pointer.m */; };
 		7BBE26CF14329AF000720EDA /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
 		7BBE26D014329C1D00720EDA /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */; };
+		7BC2152D16A31F2800FA8096 /* cell-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC2152C16A31F2800FA8096 /* cell-bg.png */; };
 		7BC4472A169A488800BE18DC /* SyncViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC44728169A488800BE18DC /* SyncViewController_iPhone.m */; };
 		7BC4472B169A488800BE18DC /* SyncViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC44729169A488800BE18DC /* SyncViewController_iPhone.xib */; };
 		7BC537CD141D6D8700E6246B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */; };
@@ -333,6 +334,7 @@
 		7BB9CEDB141C19F1000DD13B /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
 		7BB9CEDD141C21FA000DD13B /* Pointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pointer.h; sourceTree = "<group>"; };
 		7BB9CEDE141C21FA000DD13B /* Pointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pointer.m; sourceTree = "<group>"; };
+		7BC2152C16A31F2800FA8096 /* cell-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cell-bg.png"; path = "Images/cell-bg.png"; sourceTree = SOURCE_ROOT; };
 		7BC44727169A488800BE18DC /* SyncViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncViewController_iPhone.h; sourceTree = "<group>"; };
 		7BC44728169A488800BE18DC /* SyncViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncViewController_iPhone.m; sourceTree = "<group>"; };
 		7BC44729169A488800BE18DC /* SyncViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SyncViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 		7B327FF813E3875400274E6C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7BC2152C16A31F2800FA8096 /* cell-bg.png */,
 				7B327FF913E3875400274E6C /* Dubsar-Info.plist */,
 				7B327FFD13E3875400274E6C /* Dubsar-Prefix.pch */,
 				7B5ECF41141AAD8000FD2D78 /* Images */,
@@ -782,6 +785,7 @@
 				7B145C911698E7C4003DF963 /* ReviewViewController_iPhone.xib in Resources */,
 				7B0101441699F648008FC876 /* EditInflectionsViewController_iPhone.xib in Resources */,
 				7BC4472B169A488800BE18DC /* SyncViewController_iPhone.xib in Resources */,
+				7BC2152D16A31F2800FA8096 /* cell-bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
