@@ -109,6 +109,7 @@ static void saveLastPage(int page)
 @synthesize tableView;
 @synthesize review;
 @synthesize page;
+@synthesize deleting;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil page:(int)thePage
 {
@@ -144,6 +145,7 @@ static void saveLastPage(int page)
         self.title = [NSString stringWithFormat:@"Review p. %d", page];
         self.loading = self.editing = false;
         self.editingRow = -1;
+        self.deleting = false;
         
         [self createToolbarItems];
     }
@@ -192,6 +194,8 @@ static void saveLastPage(int page)
     NSLog(@"Reloading table view");
     
     self.title = [NSString stringWithFormat:@"Review p. %d/%d", review.page, review.totalPages];
+    
+    self.deleting = false;
 
     [self createToolbarItems];
     [tableView reloadData];
@@ -297,6 +301,7 @@ static void saveLastPage(int page)
 - (void)updateInflection
 {
     Inflection* inflection = [review.inflections objectAtIndex:editingRow];
+    inflection.name = selectField.text;
     
     // update the local DB
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
@@ -360,6 +365,7 @@ static void saveLastPage(int page)
 
     editingRow = -1;
     
+    review.complete = false;
     [self load];
     [tableView reloadData];
 }
@@ -442,7 +448,8 @@ static void saveLastPage(int page)
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return loading ? 1 : review.inflections.count;
+    // If deleting, we're about to fill in the space at the bottom, so show a spinner there
+    return review.inflections.count <= 1 ? 1 : deleting ? review.inflections.count + 1 : review.inflections.count;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -463,7 +470,9 @@ static void saveLastPage(int page)
 - (void)tableView:(UITableView *)theTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"deleting row at %d", indexPath.row);
+    self.deleting = true;
     [self deleteInflectionAtRow:indexPath.row];
+    review.complete = false;
     [self load];
     [tableView reloadData];
 }
@@ -498,8 +507,9 @@ static void saveLastPage(int page)
     
     cell.accessoryType = UITableViewCellAccessoryNone;
     
-    if (loading || !review || !review.complete) {
-        NSLog(@"review is not complete");
+    int row = indexPath.row;
+    
+    if ((loading || !review || !review.complete) && row >= review.inflections.count) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
@@ -511,8 +521,6 @@ static void saveLastPage(int page)
         [indicator startAnimating];
         return cell;
     }
-    
-    int row = indexPath.row;
     
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     

@@ -27,11 +27,12 @@
 
 @property (nonatomic, retain) IBOutlet UIProgressView* fetchProgressView;
 @property (nonatomic, retain) IBOutlet UIProgressView* insertProgressView;
-@property (nonatomic, retain) IBOutlet UIButton* button;
+@property (nonatomic, retain) IBOutlet UIButton* startButton;
 @property bool synching;
 @property bool mustStop;
 
 - (IBAction) start:(id)sender;
+- (IBAction) cancel:(id)sender;
 
 - (void) backupDatabase;
 - (void) restoreBackup;

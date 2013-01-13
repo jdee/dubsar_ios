@@ -29,7 +29,7 @@
 @implementation SyncViewController_iPhone
 @synthesize fetchProgressView;
 @synthesize insertProgressView;
-@synthesize button;
+@synthesize startButton;
 @synthesize synching;
 @synthesize mustStop;
 
@@ -53,35 +53,48 @@
     [super dealloc];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [startButton setEnabled:YES];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return toInterfaceOrientation == UIInterfaceOrientationPortrait;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (IBAction)start:(id)sender
 {
-    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     if (!synching) {
         synching = true;
-        [button setTitle:@"Cancel" forState:UIControlStateNormal];
-        [button setTitle:@"Cancel" forState:UIControlStateHighlighted];
-        [button setTitle:@"Cancel" forState:UIControlStateSelected];
+        [startButton setEnabled:NO];
         [self performSelectorInBackground:@selector(startSync) withObject:nil];
     }
+}
+
+- (IBAction)cancel:(id)sender
+{
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
+    mustStop = true;
+    synching = false;
+    
+    // reopen the main DB
+    [appDelegate closeDB];
+    [self deleteDatabase:@"backup.sqlite3"];
+    [appDelegate prepareDatabase:false];
+    
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
+        // iOS 5.0+
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
     else {
-        mustStop = true;
-        synching = false;
-        [button setTitle:@"Start" forState:UIControlStateNormal];
-        [button setTitle:@"Start" forState:UIControlStateHighlighted];
-        [button setTitle:@"Start" forState:UIControlStateSelected];
-        
-        // reopen the main DB
-        [appDelegate closeDB];
-        [appDelegate prepareDatabase:false];
-        
-        if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
-            // iOS 5.0+
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-        else {
-            // iOS 4.x
-            [self.parentViewController dismissModalViewControllerAnimated:YES];
-        }
+        // iOS 4.x
+        [self.parentViewController dismissModalViewControllerAnimated:YES];
     }
 }
 
