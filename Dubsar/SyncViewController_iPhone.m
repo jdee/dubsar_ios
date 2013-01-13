@@ -42,7 +42,6 @@
         totalPages = insertFinished = 0;
         self.synching = false;
         self.mustStop = false;
-        [self loadInflections:1];
     }
     return self;
 }
@@ -79,7 +78,27 @@
 
 - (IBAction)cancel:(id)sender
 {
+    if (synching) {
+        UIAlertView *alertView = [[[UIAlertView alloc]initWithTitle:@"Confirm cancel" message:@"Really cancel sync?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease];
+        [alertView show];
+    }
+    else {
+        [self reallyCancel];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        NSLog(@"Canceled");
+        [self reallyCancel];
+    }
+}
+
+- (void)reallyCancel
+{
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
+    
     mustStop = true;
     synching = false;
     
@@ -100,6 +119,7 @@
 
 - (void)startSync
 {
+    [self loadInflections:1];
     [self backupDatabase];
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     [appDelegate prepareDatabase:true name:@"backup.sqlite3"];

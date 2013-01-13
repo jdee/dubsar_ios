@@ -19,7 +19,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SyncViewController_iPhone : UIViewController<NSURLConnectionDelegate> {
+@interface SyncViewController_iPhone : UIViewController<NSURLConnectionDelegate,UIAlertViewDelegate> {
     NSMutableData* buffer;
     int totalPages;
     int insertFinished;
@@ -29,11 +29,12 @@
 @property (nonatomic, retain) IBOutlet UIProgressView* insertProgressView;
 @property (nonatomic, retain) IBOutlet UIButton* startButton;
 @property bool synching;
-@property bool mustStop;
+@property bool volatile mustStop;
 
 - (IBAction) start:(id)sender;
 - (IBAction) cancel:(id)sender;
 
+- (void) reallyCancel;
 - (void) backupDatabase;
 - (void) restoreBackup;
 - (void) deleteDatabase:(NSString*)dbName;
