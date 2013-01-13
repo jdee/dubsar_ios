@@ -448,8 +448,8 @@ static void saveLastPage(int page)
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // If deleting, we're about to fill in the space at the bottom, so show a spinner there
-    return review.inflections.count <= 1 ? 1 : deleting ? review.inflections.count + 1 : review.inflections.count;
+    // If deleting, we're about to fill in the space at the bottom, so spinners down to ten rows
+    return review.inflections.count <= 1 ? 1 : deleting ? 10 : review.inflections.count;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -484,6 +484,8 @@ static void saveLastPage(int page)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (loading) return;
+    
     Inflection* inflection = [review.inflections objectAtIndex:indexPath.row];
     
     selectLabel.text = @"Change inflection";
@@ -528,6 +530,7 @@ static void saveLastPage(int page)
     cell.textLabel.font = appDelegate.dubsarNormalFont;
     cell.detailTextLabel.font = appDelegate.dubsarSmallFont;
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    cell.selectionStyle = loading ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
     
     Inflection* inflection = [review.inflections objectAtIndex:row];
     cell.textLabel.text = inflection.name;
