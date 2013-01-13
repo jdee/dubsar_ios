@@ -72,6 +72,7 @@
     if (!synching) {
         synching = true;
         [startButton setEnabled:NO];
+        [self loadInflections:1];
         [self performSelectorInBackground:@selector(startSync) withObject:nil];
     }
 }
@@ -119,7 +120,6 @@
 
 - (void)startSync
 {
-    [self loadInflections:1];
     [self backupDatabase];
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     [appDelegate prepareDatabase:true name:@"backup.sqlite3"];
