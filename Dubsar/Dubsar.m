@@ -19,9 +19,11 @@
 
 #import "Dubsar.h"
 
-const NSString* DubsarBaseUrl = @"http://dubsar-dictionary.com";
+// const NSString* DubsarBaseUrl = @"http://dubsar-dictionary.com";
 // const NSString* DubsarBaseUrl = @"http://fatman:3000";
+
 const NSString* DubsarSecureUrl = @"https://dubsar-dictionary.com";
+const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS by default
 
 NSString* iTunesLink = @"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=453868483&mt=8";
 

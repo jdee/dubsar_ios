@@ -558,7 +558,7 @@ static void saveLastPage(int page)
     
     NSString* suffix = [inflection.word.name substringFromIndex:prefixLen > 4 ? prefixLen-4 : 0];
     
-    NSString* abbreviated = suffix.length < inflection.word.name.length ? [NSString stringWithFormat:@"-%@", suffix] : suffix;
+    NSString* abbreviated = suffix.length < inflection.word.name.length && inflection.word.name.length > suffix.length + 1 ? [NSString stringWithFormat:@"-%@", suffix] : inflection.word.name;
     
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@.)", abbreviated, inflection.word.pos];
     
