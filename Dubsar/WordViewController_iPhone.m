@@ -65,10 +65,11 @@
 - (void)load
 {
     NSLog(@"in [WordViewController_iPhone load]");
-    if (self.loading) return;
-    self.loading = true;
-    NSLog(@"loading: word is%s complete", word.complete ? "" : " not");
-    if (!word.complete) [word load];
+    if (!self.loading && !word.complete) {
+        self.loading = true;
+        [word load];
+    }
+    [self setTableViewFrame];
     [tableView reloadData];
 }
 
