@@ -17,6 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "UAirship.h"
+#import "UAPush.h"
+
 #import "DubsarAppDelegate.h"
 
 @implementation DubsarAppDelegate
@@ -64,6 +67,19 @@
 {
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
+    
+    //Init Airship launch options
+    NSMutableDictionary *takeOffOptions = [[[NSMutableDictionary alloc] init] autorelease];
+    [takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
+    
+    // Create Airship singleton that's used to talk to Urban Airship servers.
+    [UAirship takeOff:takeOffOptions];
+    
+    // Register for notifications
+    [[UAPush shared]
+     registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                         UIRemoteNotificationTypeSound |
+                                         UIRemoteNotificationTypeAlert)];
     return YES;
 }
 
@@ -104,6 +120,15 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+    [UAirship land];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // Updates the device token and registers the token with UA
+    
+    NSLog(@"--- device token received ---");
+    
+    [[UAPush shared] registerDeviceToken:deviceToken];
 }
 
 - (void)dealloc

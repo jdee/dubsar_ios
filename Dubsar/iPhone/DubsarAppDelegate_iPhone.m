@@ -45,6 +45,20 @@
     return YES;
 }
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"push received");
+    NSString* url = [userInfo valueForKey:@"dubsar_url"];
+    if (url) {
+        NSLog(@"dubsar_url: %@", url);
+
+        if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) return;
+        
+        [self application:application openURL:[NSURL URLWithString:url]
+        sourceApplication:nil annotation:nil];
+    }
+}
+
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     UIViewController* controller = _navigationController.topViewController;

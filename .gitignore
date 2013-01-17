@@ -1,3 +1,4 @@
 .DS_Store
 *.sqlite3
 !production.sqlite3
+AirshipConfig.plist
