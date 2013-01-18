@@ -46,12 +46,17 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* titleLabel;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* backBarButtonItem;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* fwdBarButtonItem;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem* wotdBarButtonItem;
 @property (assign) Autocompleter* executingAutocompleter;
 
 - (void)addToolbar:(UIViewController*)viewController;
 - (IBAction)forward:(id)sender;
 - (IBAction)back:(id)sender;
 - (IBAction)home:(id)sender;
+
+- (IBAction) viewWotd:(id)sender;
+
+- (void) addWotdButton;
 
 - (void)addGestureRecognizerToView:(UIView*)view;
 

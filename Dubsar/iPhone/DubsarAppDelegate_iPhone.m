@@ -27,6 +27,7 @@
 
 @synthesize navigationController=_navigationController;
 @synthesize wotdUrl;
+@synthesize wotdUnread;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
@@ -40,6 +41,8 @@
     _navigationController.toolbar.tintColor = tint;
    
     [self.window setRootViewController:_navigationController];
+    
+    wotdUnread = false;
 
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     
@@ -59,8 +62,9 @@
 
         if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
         {
-            UIAlertView* alertView = [[[UIAlertView alloc] initWithTitle:@"Word of the Day" message:[userInfo valueForKey:@"word_and_pos"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"View", nil] autorelease];
-            [alertView show];
+            self.wotdUnread = true;
+            [_navigationController addWotdButton];
+            
             return;
         }
         

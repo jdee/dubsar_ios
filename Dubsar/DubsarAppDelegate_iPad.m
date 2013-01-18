@@ -21,12 +21,16 @@
 #import "DubsarNavigationController_iPad.h"
 #import "DubsarViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
+#import "Word.h"
+#import "WordViewController_iPad.h"
 
 @implementation DubsarAppDelegate_iPad
 
 @synthesize navigationController = _navigationController;
 @synthesize splitViewController = _splitViewController;
 @synthesize searchBarViewController = _searchBarViewController;
+@synthesize wotdUrl;
+@synthesize wotdUnread;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
@@ -43,7 +47,56 @@
     
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     
+    wotdUnread = false;
+    
     return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [super application:application didReceiveRemoteNotification:userInfo];
+    NSLog(@"push received");
+    
+    NSString* url = [userInfo valueForKey:@"dubsar_url"];
+    if (url) {
+        NSLog(@"dubsar_url: %@", url);
+        
+        self.wotdUrl = url;
+        
+        if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+        {
+            self.wotdUnread = true;
+            [_navigationController addWotdButton];
+            
+            return;
+        }
+        
+        [self application:application openURL:[NSURL URLWithString:url]
+        sourceApplication:nil annotation:nil];
+    }
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([url.scheme compare:@"dubsar"] != NSOrderedSame) {
+        NSLog(@"can't handle URL scheme %@", url.scheme);
+        return NO;
+    }
+    
+    if ([url.path hasPrefix:@"/words/"]) {
+        NSLog(@"Opening %@", url);
+        
+        int wordId = [[url lastPathComponent] intValue];
+        Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
+        [word load];
+        [_navigationController dismissViewControllerAnimated:YES completion:nil];
+        WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
+        [viewController load];
+        [_navigationController pushViewController:viewController animated:YES];
+        return YES;
+    }
+    
+    return NO;
 }
 
 - (void)dealloc

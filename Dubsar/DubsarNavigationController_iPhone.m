@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarAppDelegate_iPhone.h"
 #import "DubsarNavigationController_iPhone.h"
 
 @implementation DubsarNavigationController_iPhone
@@ -40,14 +41,17 @@
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)[UIApplication sharedApplication].delegate;
     [super pushViewController:viewController animated:animated];
  
     if (viewController != forwardStack.topViewController) {
         [forwardStack clear];
+        if (appDelegate.wotdUnread) [self addWotdButton];
     }
     else {
         [forwardStack popViewController];
-        if (forwardStack.count > 0) [self addForwardButton];
+        if (forwardStack.count > 0 && !appDelegate.wotdUnread) [self addForwardButton];
+        else if (appDelegate.wotdUnread) [self addWotdButton];
     }
     
     if (self.viewControllers.count > 1) [self addBackButton];
@@ -65,12 +69,16 @@
         [self.topViewController.view removeGestureRecognizer:recognizer];
     }
      */
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)[UIApplication sharedApplication].delegate;
 
     [forwardStack pushViewController:self.topViewController];
     NSLog(@"pushed view controller %@ onto forward stack", self.topViewController.title);
     
     [super popViewControllerAnimated:animated];
-    [self addForwardButton];
+    
+    if (appDelegate.wotdUnread) [self addWotdButton];
+    else [self addForwardButton];
+    
     [self addGestureRecognizerToView:self.topViewController.view];
     
     originalFrame = self.topViewController.view.frame;
@@ -87,11 +95,14 @@
         [self.topViewController.view removeGestureRecognizer:recognizer];
     }
      */
-    
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)[UIApplication sharedApplication].delegate;
+      
     [forwardStack clear];
     NSArray* stack = [super popToRootViewControllerAnimated:animated];
     self.topViewController.navigationItem.leftBarButtonItem = nil;
     self.topViewController.navigationItem.rightBarButtonItem = nil;
+    
+    if (appDelegate.wotdUnread) [self addWotdButton];
     
     originalFrame = self.topViewController.view.frame;
     [self addGestureRecognizerToView:self.topViewController.view];
@@ -143,6 +154,46 @@
     self.topViewController.navigationItem.rightBarButtonItem = fwdButtonItem;
 }
 
+- (void)addWotdButton
+{
+    UIImage* wotdButtonImage = [UIImage imageNamed:@"wotd-button-hr.png"];
+    UIImage* highlightedWotdButtonImage = [UIImage imageNamed:@"wotd-button-hihglighted-hr.png"];
+    
+    UIButton* wotdButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [wotdButton setImage:wotdButtonImage forState:UIControlStateNormal];
+    [wotdButton setImage:highlightedWotdButtonImage forState:UIControlStateHighlighted];
+    [wotdButton setImage:wotdButtonImage forState:UIControlStateSelected];
+    [wotdButton addTarget:self action:@selector(viewWotd) forControlEvents:UIControlEventTouchUpInside];
+    wotdButton.showsTouchWhenHighlighted = NO;
+    
+    CGRect frame = wotdButton.frame;
+    frame.size = CGSizeMake(37.0, 37.0);
+    wotdButton.frame = frame;
+    
+    UIBarButtonItem* wotdButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:wotdButton] autorelease];
+    if (forwardStack.count == 0) {
+        self.topViewController.navigationItem.rightBarButtonItem = wotdButtonItem;
+    }
+    else {
+        UIImage* fwdButtonImage = [UIImage imageNamed:@"wedge-blue-r-hr.png"];
+        UIImage* highlightedImage = [UIImage imageNamed:@"wedge-white-r-hr.png"];
+        
+        UIButton* fwdButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [fwdButton setImage:fwdButtonImage forState:UIControlStateNormal];
+        [fwdButton setImage:highlightedImage forState:UIControlStateHighlighted];
+        [fwdButton setImage:fwdButtonImage forState:UIControlStateSelected];
+        [fwdButton addTarget:self action:@selector(forward) forControlEvents:UIControlEventTouchUpInside];
+        fwdButton.showsTouchWhenHighlighted = NO;
+        
+        fwdButton.frame = frame;
+        
+        UIBarButtonItem* fwdButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:fwdButton] autorelease];
+        
+        self.topViewController.navigationItem.rightBarButtonItems =
+            [NSArray arrayWithObjects:fwdButtonItem, wotdButtonItem, nil];
+    }
+}
+
 - (void)forward
 {
     [self pushViewController:forwardStack.topViewController animated:YES];
@@ -154,6 +205,13 @@
     if (self.viewControllers.count == 1) {
         self.topViewController.navigationItem.leftBarButtonItem = nil;
     }
+}
+
+- (void)viewWotd
+{
+    DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)[UIApplication sharedApplication].delegate;
+    appDelegate.wotdUnread = false;
+    [appDelegate application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:appDelegate.wotdUrl] sourceApplication:nil annotation:nil];
 }
 
 - (UIGestureRecognizer*)addGestureRecognizerToView:(UIView *)view

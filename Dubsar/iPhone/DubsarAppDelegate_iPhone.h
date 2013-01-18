@@ -20,10 +20,13 @@
 #import <UIKit/UIKit.h>
 #import "DubsarAppDelegate.h"
 
+@class DubsarNavigationController_iPhone;
+
 @interface DubsarAppDelegate_iPhone : DubsarAppDelegate<UIAlertViewDelegate> {
 }
 
-@property (nonatomic, retain) UINavigationController* navigationController;
+@property (nonatomic, retain) DubsarNavigationController_iPhone* navigationController;
 @property (nonatomic, retain) NSString* wotdUrl;
+@property bool wotdUnread;
 
 @end

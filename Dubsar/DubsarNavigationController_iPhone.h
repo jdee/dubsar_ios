@@ -29,9 +29,11 @@
 
 - (void)addBackButton;
 - (void)addForwardButton;
+- (void)addWotdButton;
 
 - (void)back;
 - (void)forward;
+- (void)viewWotd;
 
 - (UIGestureRecognizer*)addGestureRecognizerToView:(UIView*)view;
 

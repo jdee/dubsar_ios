@@ -19,6 +19,7 @@
 
 #import "Autocompleter.h"
 #import "AutocompleterPopoverViewController_iPad.h"
+#import "DubsarAppDelegate_iPad.h"
 #import "DubsarNavigationController_iPad.h"
 #import "SearchViewController_iPad.h"
 
@@ -33,6 +34,7 @@
 @synthesize autocompleter;
 @synthesize popoverController;
 @synthesize executingAutocompleter;
+@synthesize wotdBarButtonItem;
 
 - (id)initWithRootViewController:(UIViewController *)rootViewController
 {
@@ -67,6 +69,7 @@
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
+    DubsarAppDelegate_iPad* appDelegate = [UIApplication sharedApplication].delegate;
     NSLog(@"called pushViewController");
     [super pushViewController:viewController animated:animated];
     
@@ -86,6 +89,7 @@
         fwdBarButtonItem.enabled = forwardStack.count > 0;
     }
     
+    if (appDelegate.wotdUnread) [self addWotdButton];
     backBarButtonItem.enabled = YES;
     [self addToolbar:viewController];
     
@@ -303,6 +307,20 @@
         [self.topViewController handleTouch:touch];
     }
     return /* ![touch.view isKindOfClass:UIScrollView.class] */ YES;
+}
+
+- (void)viewWotd:(id)sender
+{
+    NSLog(@"viewWotd called");
+    DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)[UIApplication sharedApplication].delegate;
+    appDelegate.wotdUnread = false;
+    [wotdBarButtonItem setEnabled:NO];
+    [appDelegate application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:appDelegate.wotdUrl] sourceApplication:nil annotation:nil];
+}
+
+- (void)addWotdButton
+{
+    [wotdBarButtonItem setEnabled:YES];
 }
 
 @end

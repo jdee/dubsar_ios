@@ -21,14 +21,17 @@
 #import "DubsarAppDelegate.h"
 
 @class SearchBarViewController_iPad;
+@class DubsarNavigationController_iPad;
 
 @interface DubsarAppDelegate_iPad : DubsarAppDelegate {
     
     UISplitViewController *_splitViewController;
 }
 
-@property (nonatomic, retain) UINavigationController* navigationController;
 @property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
 @property (nonatomic, retain) SearchBarViewController_iPad* searchBarViewController;
+@property (nonatomic, retain) DubsarNavigationController_iPad* navigationController;
+@property (nonatomic, retain) NSString* wotdUrl;
+@property bool wotdUnread;
 
 @end

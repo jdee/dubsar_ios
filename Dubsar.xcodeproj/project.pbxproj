@@ -23,6 +23,10 @@
 		7B145C911698E7C4003DF963 /* ReviewViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B145C8F1698E7C4003DF963 /* ReviewViewController_iPhone.xib */; };
 		7B145C951698EFAC003DF963 /* Inflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C941698EFAC003DF963 /* Inflection.m */; };
 		7B145C981698F22E003DF963 /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C971698F22C003DF963 /* Review.m */; };
+		7B2C2EC516A9C6A9000BC87B /* wotd-button-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC416A9C6A9000BC87B /* wotd-button-hr.png */; };
+		7B2C2EC716A9CD07000BC87B /* wotd-button-highlighted-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted-hr.png */; };
+		7B2C2ECA16AA02D3000BC87B /* wotd-button-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC816AA02D3000BC87B /* wotd-button-highlighted.png */; };
+		7B2C2ECB16AA02D3000BC87B /* wotd-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC916AA02D3000BC87B /* wotd-button.png */; };
 		7B30646413E5A06000B2A1B1 /* AboutViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B30646213E5A06000B2A1B1 /* AboutViewController_iPad.m */; };
 		7B30646513E5A06000B2A1B1 /* AboutViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B30646313E5A06000B2A1B1 /* AboutViewController_iPad.xib */; };
 		7B327FF213E3875400274E6C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF113E3875400274E6C /* UIKit.framework */; };
@@ -185,6 +189,10 @@
 		7B145C961698F22C003DF963 /* Review.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Review.h; sourceTree = "<group>"; };
 		7B145C971698F22C003DF963 /* Review.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Review.m; sourceTree = "<group>"; };
 		7B29BB4B169FB91900D7C241 /* ModalViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModalViewControllerDelegate.h; sourceTree = "<group>"; };
+		7B2C2EC416A9C6A9000BC87B /* wotd-button-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-hr.png"; path = "Images/wotd-button-hr.png"; sourceTree = "<group>"; };
+		7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-highlighted-hr.png"; path = "Images/wotd-button-highlighted-hr.png"; sourceTree = "<group>"; };
+		7B2C2EC816AA02D3000BC87B /* wotd-button-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-highlighted.png"; path = "Images/wotd-button-highlighted.png"; sourceTree = SOURCE_ROOT; };
+		7B2C2EC916AA02D3000BC87B /* wotd-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button.png"; path = "Images/wotd-button.png"; sourceTree = SOURCE_ROOT; };
 		7B30646113E5A06000B2A1B1 /* AboutViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController_iPad.h; sourceTree = "<group>"; };
 		7B30646213E5A06000B2A1B1 /* AboutViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_iPad.m; sourceTree = "<group>"; };
 		7B30646313E5A06000B2A1B1 /* AboutViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPad.xib; sourceTree = "<group>"; };
@@ -653,12 +661,6 @@
 				7BF97900140D976900658F39 /* Default-Portrait~ipad.png */,
 				7BF978FB140D975600658F39 /* Default-Landscape~ipad.png */,
 				7B36217E1694FD8000D9CA53 /* Default-568h@2x.png */,
-				7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */,
-				7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */,
-				7B917A4813EB5F1500FBF365 /* wedge-blue-l-hr.png */,
-				7B917A4913EB5F1500FBF365 /* wedge-blue-r-hr.png */,
-				7B917A4F13EB600600FBF365 /* wedge-blue-l.png */,
-				7B917A5013EB600600FBF365 /* wedge-blue-r.png */,
 				7BCE75E913E741C900D1CECC /* iTunesArtwork */,
 				7BB2271713E5B93D005D454F /* Default.png */,
 				7B32805113E3880700274E6C /* dubsar-ipad.png */,
@@ -672,6 +674,16 @@
 				7B32803A13E387BF00274E6C /* dubsar-spotlight.png */,
 				7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */,
 				7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */,
+				7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */,
+				7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */,
+				7B917A4813EB5F1500FBF365 /* wedge-blue-l-hr.png */,
+				7B917A4913EB5F1500FBF365 /* wedge-blue-r-hr.png */,
+				7B917A4F13EB600600FBF365 /* wedge-blue-l.png */,
+				7B917A5013EB600600FBF365 /* wedge-blue-r.png */,
+				7B2C2EC816AA02D3000BC87B /* wotd-button-highlighted.png */,
+				7B2C2EC916AA02D3000BC87B /* wotd-button.png */,
+				7B2C2EC416A9C6A9000BC87B /* wotd-button-hr.png */,
+				7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted-hr.png */,
 			);
 			name = Images;
 			path = ..;
@@ -820,6 +832,10 @@
 				7BC4472B169A488800BE18DC /* SyncViewController_iPhone.xib in Resources */,
 				7BC2152D16A31F2800FA8096 /* cell-bg.png in Resources */,
 				7BC2153F16A7AEEB00FA8096 /* AirshipConfig.plist in Resources */,
+				7B2C2EC516A9C6A9000BC87B /* wotd-button-hr.png in Resources */,
+				7B2C2EC716A9CD07000BC87B /* wotd-button-highlighted-hr.png in Resources */,
+				7B2C2ECA16AA02D3000BC87B /* wotd-button-highlighted.png in Resources */,
+				7B2C2ECB16AA02D3000BC87B /* wotd-button.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
