@@ -80,7 +80,16 @@
      registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                          UIRemoteNotificationTypeSound |
                                          UIRemoteNotificationTypeAlert)];
+    
+    [[UAPush shared] setAutobadgeEnabled:YES];
+    [[UAPush shared] resetBadge];
+    
     return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [[UAPush shared] resetBadge];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -115,19 +124,11 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    /*
-     Called when the application is about to terminate.
-     Save data if appropriate.
-     See also applicationDidEnterBackground:.
-     */
     [UAirship land];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // Updates the device token and registers the token with UA
-    
-    NSLog(@"--- device token received ---");
-    
     [[UAPush shared] registerDeviceToken:deviceToken];
 }
 

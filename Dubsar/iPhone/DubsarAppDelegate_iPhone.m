@@ -26,6 +26,7 @@
 @implementation DubsarAppDelegate_iPhone
 
 @synthesize navigationController=_navigationController;
+@synthesize wotdUrl;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
@@ -47,15 +48,24 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    [super application:application didReceiveRemoteNotification:userInfo];
     NSLog(@"push received");
+    
     NSString* url = [userInfo valueForKey:@"dubsar_url"];
     if (url) {
         NSLog(@"dubsar_url: %@", url);
+        
+        self.wotdUrl = url;
 
-        if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) return;
+        if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+        {
+            UIAlertView* alertView = [[[UIAlertView alloc] initWithTitle:@"Word of the Day" message:[userInfo valueForKey:@"word_and_pos"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"View", nil] autorelease];
+            [alertView show];
+            return;
+        }
         
         [self application:application openURL:[NSURL URLWithString:url]
-        sourceApplication:nil annotation:nil];
+            sourceApplication:nil annotation:nil];
     }
 }
 
@@ -76,6 +86,8 @@
     }
     
     if ([url.path hasPrefix:@"/words/"]) {
+        NSLog(@"Opening %@", url);
+        
         int wordId = [[url lastPathComponent] intValue];
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
         [_navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -113,6 +125,23 @@
 {
     return UIInterfaceOrientationMaskAllButUpsideDown;
 ;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            // do nothing
+            break;
+        case 1:
+            NSLog(@"tapped button at index 1");
+            [self application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:wotdUrl]
+                sourceApplication:nil annotation:nil];
+            break;
+        default:
+            NSLog(@"invalid button index: %d", buttonIndex);
+            break;
+    }
 }
 
 @end
