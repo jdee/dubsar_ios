@@ -41,36 +41,15 @@
     _navigationController.toolbar.tintColor = tint;
    
     [self.window setRootViewController:_navigationController];
-    
-    wotdUnread = false;
 
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     
     return YES;
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+- (void)addWotdButton
 {
-    [super application:application didReceiveRemoteNotification:userInfo];
-    NSLog(@"push received");
-    
-    NSString* url = [userInfo valueForKey:@"dubsar_url"];
-    if (url) {
-        NSLog(@"dubsar_url: %@", url);
-        
-        self.wotdUrl = url;
-
-        if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
-        {
-            self.wotdUnread = true;
-            [_navigationController addWotdButton];
-            
-            return;
-        }
-        
-        [self application:application openURL:[NSURL URLWithString:url]
-            sourceApplication:nil annotation:nil];
-    }
+    [_navigationController addWotdButton];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

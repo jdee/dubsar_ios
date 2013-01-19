@@ -26,7 +26,5 @@
 }
 
 @property (nonatomic, retain) DubsarNavigationController_iPhone* navigationController;
-@property (nonatomic, retain) NSString* wotdUrl;
-@property bool wotdUnread;
 
 @end

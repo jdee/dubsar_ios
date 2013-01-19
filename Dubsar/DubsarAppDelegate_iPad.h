@@ -31,7 +31,5 @@
 @property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
 @property (nonatomic, retain) SearchBarViewController_iPad* searchBarViewController;
 @property (nonatomic, retain) DubsarNavigationController_iPad* navigationController;
-@property (nonatomic, retain) NSString* wotdUrl;
-@property bool wotdUnread;
 
 @end

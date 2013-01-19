@@ -18,7 +18,6 @@
  */
 
 #import "UAirship.h"
-#import "UAPush.h"
 
 #import "DubsarAppDelegate.h"
 
@@ -34,6 +33,7 @@
 @synthesize autocompleterStmt;
 @synthesize databaseReady;
 @synthesize authToken;
+@synthesize wotdUrl, wotdUnread;
 
 - (id)init
 {
@@ -45,6 +45,7 @@
         dubsarNormalFont = [[UIFont fontWithName:@"TrebuchetMS" size:18.0]retain];
         dubsarSmallFont  = [[UIFont fontWithName:@"TrebuchetMS" size:14.0]retain];
         databaseReady = false;
+        wotdUnread = false;
         
         self.authToken = nil;
 
@@ -76,6 +77,7 @@
     
     // Register for notifications
     UAPush* uaPush = [UAPush shared];
+    uaPush.delegate = self;
     
     [uaPush
      registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
@@ -90,7 +92,30 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    [[UAPush shared] handleNotification:userInfo applicationState:application.applicationState];
     [[UAPush shared] resetBadge];
+}
+
+// Called when user taps an iOS notification
+- (void)handleBackgroundNotification:(NSDictionary *)notification
+{
+    [self application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:[notification valueForKey:@"dubsar_url"]] sourceApplication:nil annotation:nil];
+}
+
+// Called when a notification is received in the foreground
+- (void)handleNotification:(NSDictionary *)notification withCustomPayload:(NSDictionary *)customPayload
+{
+    NSLog(@"push received");
+    
+    NSString* url = [customPayload valueForKey:@"dubsar_url"];
+    if (url) {
+        NSLog(@"dubsar_url: %@", url);
+        
+        self.wotdUrl = url;
+        
+        self.wotdUnread = true;
+        [self addWotdButton];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

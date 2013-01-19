@@ -21,9 +21,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "UAPush.h"
+
 #define PRODUCTION_DB_NAME @"production.sqlite3"
 
-@interface DubsarAppDelegate : NSObject <UIApplicationDelegate> {
+@interface DubsarAppDelegate : NSObject <UIApplicationDelegate,UAPushNotificationDelegate> {
     UIColor* dubsarTintColor;
 }
 
@@ -37,10 +39,13 @@
 @property (nonatomic) sqlite3_stmt* autocompleterStmt;
 @property bool databaseReady;
 @property (nonatomic, retain) NSString* authToken;
+@property (nonatomic, retain) NSString* wotdUrl;
+@property bool wotdUnread;
 
 - (void)prepareDatabase:(bool)recreateFTSTables;
 - (void)prepareDatabase:(bool)recreateFTSTables name:(NSString*)dbName;
 - (void)closeDB;
 - (id)initForTest;
+- (void)addWotdButton;
 
 @end
