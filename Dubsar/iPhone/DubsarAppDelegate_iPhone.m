@@ -131,21 +131,4 @@
 ;
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (buttonIndex) {
-        case 0:
-            // do nothing
-            break;
-        case 1:
-            NSLog(@"tapped button at index 1");
-            [self application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:wotdUrl]
-                sourceApplication:nil annotation:nil];
-            break;
-        default:
-            NSLog(@"invalid button index: %d", buttonIndex);
-            break;
-    }
-}
-
 @end

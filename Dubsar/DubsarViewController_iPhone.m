@@ -146,10 +146,12 @@
 
 - (void)checkForCredentials
 {
-    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];    
     if (appDelegate.authToken == nil) {
         // see if we have the password.
-        KeychainWrapper* passwordWrapper = [[KeychainWrapper alloc] initWithIdentifier:@"com.dubsar-dictionary.Dubsar" requestClass:kSecClassGenericPassword];
+        NSLog(@"Looking in keychain for password for bundle ID %@", [[NSBundle mainBundle] bundleIdentifier]);
+        
+        KeychainWrapper* passwordWrapper = [[KeychainWrapper alloc] initWithIdentifier:[[NSBundle mainBundle] bundleIdentifier] requestClass:kSecClassGenericPassword];
         
         NSString* password = [passwordWrapper myObjectForKey:(NSString*)kSecValueData];
         
@@ -165,6 +167,7 @@
 
         // prompt the user
         loginView.hidden = NO;
+        [passwordTextField becomeFirstResponder];
     }
 }
 
@@ -204,7 +207,7 @@
     NSLog(@"POST %@", url);
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     NSData* body = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     NSLog(@"HTTP status code %d", response.statusCode);
     

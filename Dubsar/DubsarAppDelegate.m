@@ -24,7 +24,6 @@
 
 @implementation DubsarAppDelegate
 
-
 @synthesize window=_window;
 @synthesize dubsarTintColor;
 @synthesize dubsarFontFamily;
@@ -76,13 +75,15 @@
     [UAirship takeOff:takeOffOptions];
     
     // Register for notifications
-    [[UAPush shared]
+    UAPush* uaPush = [UAPush shared];
+    
+    [uaPush
      registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                          UIRemoteNotificationTypeSound |
                                          UIRemoteNotificationTypeAlert)];
     
-    [[UAPush shared] setAutobadgeEnabled:YES];
-    [[UAPush shared] resetBadge];
+    [uaPush setAutobadgeEnabled:YES];
+    [uaPush resetBadge];
     
     return YES;
 }

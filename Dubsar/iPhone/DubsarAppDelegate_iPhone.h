@@ -22,7 +22,7 @@
 
 @class DubsarNavigationController_iPhone;
 
-@interface DubsarAppDelegate_iPhone : DubsarAppDelegate<UIAlertViewDelegate> {
+@interface DubsarAppDelegate_iPhone : DubsarAppDelegate {
 }
 
 @property (nonatomic, retain) DubsarNavigationController_iPhone* navigationController;
