@@ -20,8 +20,12 @@
 #import "DubsarAppDelegate_iPhone.h"
 #import "DubsarNavigationController_iPhone.h"
 #import "DubsarViewController_iPhone.h"
-#import "WordViewController_iPhone.h"
+#import "Sense.h"
+#import "SenseViewController_iPhone.h"
+#import "Synset.h"
+#import "SynsetViewController_iPhone.h"
 #import "Word.h"
+#import "WordViewController_iPhone.h"
 
 @implementation DubsarAppDelegate_iPhone
 
@@ -74,6 +78,32 @@
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
         [_navigationController dismissViewControllerAnimated:YES completion:nil];
         WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word]autorelease];
+        [viewController load];
+        [_navigationController pushViewController:viewController animated:YES];
+        return YES;
+    }
+    
+    if ([url.path hasPrefix:@"/senses/"]) {
+        NSLog(@"Opening %@", url);
+        
+        int senseId = [[url lastPathComponent] intValue];
+        Sense* sense = [Sense senseWithId:senseId name:nil partOfSpeech:POSUnknown];
+        [sense load];
+        
+        SenseViewController_iPhone* viewController = [[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense] autorelease];
+        [viewController load];
+        [_navigationController pushViewController:viewController animated:YES];
+        return YES;
+    }
+    
+    if ([url.path hasPrefix:@"/synsets/"]) {
+        NSLog(@"Opening %@", url);
+        
+        int synsetId = [[url lastPathComponent] intValue];
+        Synset* synset = [Synset synsetWithId:synsetId partOfSpeech:POSUnknown];
+        [synset load];
+        
+        SynsetViewController_iPhone* viewController = [[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:synset] autorelease];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         return YES;

@@ -21,6 +21,10 @@
 #import "DubsarNavigationController_iPad.h"
 #import "DubsarViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
+#import "Sense.h"
+#import "SenseViewController_iPad.h"
+#import "Synset.h"
+#import "SynsetViewController_iPad.h"
 #import "Word.h"
 #import "WordViewController_iPad.h"
 
@@ -67,8 +71,33 @@
         int wordId = [[url lastPathComponent] intValue];
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
         [word load];
-        [_navigationController dismissViewControllerAnimated:YES completion:nil];
-        WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
+
+        WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word] autorelease];
+        [viewController load];
+        [_navigationController pushViewController:viewController animated:YES];
+        return YES;
+    }
+    
+    if ([url.path hasPrefix:@"/senses/"]) {
+        NSLog(@"Opening %@", url);
+        
+        int senseId = [[url lastPathComponent] intValue];
+        Sense* sense = [Sense senseWithId:senseId name:nil partOfSpeech:POSUnknown];
+        [sense load];
+
+        SenseViewController_iPad* viewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense] autorelease];
+        [viewController load];
+        [_navigationController pushViewController:viewController animated:YES];
+        return YES;
+    }
+    
+    if ([url.path hasPrefix:@"/synsets/"]) {
+        NSLog(@"Opening %@", url);
+        
+        int synsetId = [[url lastPathComponent] intValue];
+        Synset* synset = [Synset synsetWithId:synsetId partOfSpeech:POSUnknown];
+        
+        SynsetViewController_iPad* viewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:synset] autorelease];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         return YES;
