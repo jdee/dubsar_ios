@@ -57,6 +57,7 @@
 - (IBAction) viewWotd:(id)sender;
 
 - (void) addWotdButton;
+- (void) disableWotdButton;
 
 - (void)addGestureRecognizerToView:(UIView*)view;
 

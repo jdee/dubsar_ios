@@ -323,4 +323,9 @@
     [wotdBarButtonItem setEnabled:YES];
 }
 
+- (void)disableWotdButton
+{
+    [wotdBarButtonItem setEnabled:NO];
+}
+
 @end

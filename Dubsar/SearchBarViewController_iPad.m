@@ -268,6 +268,9 @@
 
 - (IBAction)showWotd:(id)sender 
 {
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
+    appDelegate.wotdUnread = false;
+    [_navigationController disableWotdButton];
     dailyWord = [[DailyWord alloc]init];
     dailyWord.delegate = self;
     [dailyWord load];

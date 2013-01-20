@@ -22,6 +22,7 @@
 
 @class Autocompleter;
 @class DailyWord;
+@class DubsarNavigationController_iPad;
 
 @interface SearchBarViewController_iPad : UIViewController <LoadDelegate, UISearchBarDelegate, UISplitViewControllerDelegate, UIPopoverControllerDelegate> {
     
@@ -49,7 +50,7 @@
 }
 
 @property (nonatomic, retain) UIPopoverController* wordPopoverController;
-@property (nonatomic, assign) UINavigationController* navigationController;
+@property (nonatomic, assign) DubsarNavigationController_iPad* navigationController;
 @property (nonatomic, retain) Autocompleter* autocompleter;
 @property (nonatomic, retain) DailyWord* dailyWord;
 @property (nonatomic, retain) NSString* searchText;

@@ -18,6 +18,7 @@
  */
 
 #import "DailyWord.h"
+#import "DubsarNavigationController_iPad.h"
 #import "DubsarViewController_iPad.h"
 #import "Word.h"
 #import "WordPopoverViewController_iPad.h"
@@ -138,6 +139,11 @@
     dailyWord = [[DailyWord alloc]init];
     dailyWord.delegate = self;
     [dailyWord load];
+    
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
+    DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
+    [navigationController disableWotdButton];
+    appDelegate.wotdUnread = false;
 }
 
 @end

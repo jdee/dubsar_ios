@@ -102,7 +102,7 @@
     self.topViewController.navigationItem.leftBarButtonItem = nil;
     self.topViewController.navigationItem.rightBarButtonItem = nil;
     
-    if (appDelegate.wotdUnread) [self addWotdButton];
+    appDelegate.wotdUnread = false;
     
     originalFrame = self.topViewController.view.frame;
     [self addGestureRecognizerToView:self.topViewController.view];
