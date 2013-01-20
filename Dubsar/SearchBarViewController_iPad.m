@@ -18,6 +18,7 @@
  */
 
 #import "AboutViewController_iPad.h"
+#import "AuguryViewController_iPad.h"
 #import "AutocompleterPopoverViewController_iPad.h"
 #import "Autocompleter.h"
 #import "DailyWord.h"
@@ -434,6 +435,25 @@
     homeButton.enabled = YES;
     wotdButton.enabled = YES;
     toolbar.hidden = NO;
+}
+
+- (void)resetWotd:(id)sender
+{
+    [DailyWord resetWotd];
+}
+
+- (void)augur:(id)sender
+{
+    AuguryViewController_iPad* viewController = nil;
+    if ([_navigationController.topViewController isKindOfClass:AuguryViewController_iPad.class]) {
+        viewController = (AuguryViewController_iPad*)[_navigationController topViewController];
+    }
+    else {
+        viewController = [[[AuguryViewController_iPad alloc] initWithNibName:@"AuguryViewController_iPad" bundle:nil] autorelease];
+        [_navigationController pushViewController:viewController animated:YES];
+    }
+    
+    [viewController augur];
 }
 
 @end

@@ -17,14 +17,15 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "AugurViewController_iPhone.h"
+#import "Augury.h"
+#import "AuguryViewController_iPhone.h"
 #import "Word.h"
 
-@interface AugurViewController_iPhone ()
+@interface AuguryViewController_iPhone ()
 
 @end
 
-@implementation AugurViewController_iPhone
+@implementation AuguryViewController_iPhone
 
 @synthesize auguryWebView;
 @synthesize augury;
@@ -55,47 +56,9 @@
 
 - (IBAction) augur:(id)sender
 {
-    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)UIApplication.sharedApplication.delegate;
-
-    int frameId = rand()%170 + 36;
-    int verbId = rand()%11531 + 145054;
-    
-    Word *word = [Word wordWithId:verbId name:nil partOfSpeech:POSVerb];
-    [word loadResults:appDelegate];
-
-    NSString* sql = [NSString stringWithFormat:@"SELECT frame FROM verb_frames WHERE id = %d",
-                     frameId];
-    int rc;
-    sqlite3_stmt* statement;
-    NSLog(@"preparing statement \"%@\"", sql);
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-        NSLog(@"sqlite3_prepare_v2: %d", rc);
-        return;
-    }
-    
-    NSString* frameFormat = nil;
-    if ((rc=sqlite3_step(statement)) == SQLITE_ROW) {
-        char const* _frame = (char const*)sqlite3_column_text(statement, 0);
-        frameFormat = [NSString stringWithCString:_frame encoding:NSUTF8StringEncoding];
-    }
-    else {
-        NSLog(@"failed to find verb frame %d", rc);
-        sqlite3_finalize(statement);
-        return;
-    }
-    sqlite3_finalize(statement);
-    
-    NSString* wordLink = [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iPhone/words/%d'>%@</a>",
-                          verbId, word.name];
-    
-    /*
-     * The selected verb frames are all xxx %s xxx, so we convert the NSString word.name to
-     * a C string and use it with the verb frame as a format.
-     */
-    NSString* _augury = [NSString stringWithFormat:frameFormat, [wordLink cStringUsingEncoding:NSUTF8StringEncoding]];
-
-    self.augury = [augury stringByAppendingFormat:@"<p>%@</p>", _augury];
-    
+    Augury* _augury = [Augury augury];
+    [_augury load];
+    self.augury = [self.augury stringByAppendingFormat:@"<p>%@</p>", _augury.text];
     [self loadPage:augury];
 }
 

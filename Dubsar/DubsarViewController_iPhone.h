@@ -17,7 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "AugurViewController_iPhone.h"
+#import "AuguryViewController_iPhone.h"
 #import "SearchBarViewController_iPhone.h"
 
 @class DailyWord;
@@ -31,7 +31,7 @@
 @property (nonatomic, retain) IBOutlet UIView* loginView;
 @property (nonatomic, retain) IBOutlet UITextField* emailTextField;
 @property (nonatomic, retain) IBOutlet UITextField* passwordTextField;
-@property (nonatomic, retain) AugurViewController_iPhone* augurViewController;
+@property (nonatomic, retain) AuguryViewController_iPhone* augurViewController;
 
 - (void)displayFAQ;
 - (void)displayAbout;
@@ -41,6 +41,7 @@
 - (IBAction)loadWotd:(id)sender;
 - (IBAction)login:(id)sender;
 - (void)load;
+- (void)resetWotd;
 - (void)checkForCredentials;
 - (NSString*)authenticateEmail:(NSString*)email password:(NSString*)password;
 

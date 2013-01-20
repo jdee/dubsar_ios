@@ -18,7 +18,7 @@
  */
 
 #import "AboutViewController_iPhone.h"
-#import "AugurViewController_iPhone.h"
+#import "AuguryViewController_iPhone.h"
 #import "DailyWord.h"
 #import "Dubsar.h"
 #import "DubsarViewController_iPhone.h"
@@ -56,7 +56,7 @@
         titleView.bounds = bounds;
 
         self.navigationItem.titleView = titleView;
-        self.augurViewController = [[AugurViewController_iPhone alloc]
+        self.augurViewController = [[AuguryViewController_iPhone alloc]
                                      initWithNibName:@"AugurViewController_iPhone" bundle:nil];
         // augurViewController has retain semantics, so will retain this after init.
         [self.augurViewController release];
@@ -230,6 +230,7 @@
     UIBarButtonItem* augurButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Augur" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAugury)]autorelease];
     UIBarButtonItem* reviewButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Review" style:UIBarButtonItemStyleBordered target:self action:@selector(displayReview)]autorelease];
     UIBarButtonItem* syncButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Sync" style:UIBarButtonItemStyleBordered target:self action:@selector(displaySync)]autorelease];
+    UIBarButtonItem* resetButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Reset" style:UIBarButtonItemStyleBordered target:self action:@selector(resetWotd)]autorelease];
    
     NSMutableArray* buttonItems = [NSMutableArray array];
     [buttonItems addObject:faqButtonItem];
@@ -237,6 +238,7 @@
     [buttonItems addObject:augurButtonItem];
     [buttonItems addObject:reviewButtonItem];
     [buttonItems addObject:syncButtonItem];
+    [buttonItems addObject:resetButtonItem];
     
     self.toolbarItems = buttonItems.retain;
 }
@@ -269,6 +271,12 @@
     [wotdButton setTitle:title forState:UIControlStateNormal];
     [wotdButton setTitle:title forState:UIControlStateHighlighted];
     [wotdButton setTitle:title forState:UIControlStateSelected];
+}
+
+- (void)resetWotd
+{
+    [DailyWord resetWotd];
+    [dailyWord load]; // kick off a server request
 }
 
 @end

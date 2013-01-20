@@ -19,16 +19,12 @@
 
 #import "Model.h"
 
-@class Word;
+@interface Augury : Model
 
-@interface DailyWord : Model
-@property (nonatomic, retain) Word* word;
++ (id) augury;
 
-+ (id)dailyWord;
-+ (void)updateWotdId:(int)wotdId;
-+ (void)resetWotd;
+- (id) init;
 
-- (bool)loadFromUserDefaults;
-- (void)saveToUserDefaults;
+@property (nonatomic, retain) NSString* text;
 
 @end

@@ -17,18 +17,16 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Model.h"
+#import <UIKit/UIKit.h>
 
-@class Word;
+@interface AuguryViewController_iPhone : UIViewController<UIWebViewDelegate>
 
-@interface DailyWord : Model
-@property (nonatomic, retain) Word* word;
+@property (nonatomic, retain) IBOutlet UIWebView* auguryWebView;
+@property (nonatomic, retain) NSString* augury;
 
-+ (id)dailyWord;
-+ (void)updateWotdId:(int)wotdId;
-+ (void)resetWotd;
-
-- (bool)loadFromUserDefaults;
-- (void)saveToUserDefaults;
+- (IBAction) clear:(id)sender;
+- (IBAction) augur:(id)sender;
+- (IBAction) dismiss:(id)sender;
+- (void)loadPage:(NSString*)html;
 
 @end

@@ -19,14 +19,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AugurViewController_iPhone : UIViewController<UIWebViewDelegate>
-
-@property (nonatomic, retain) IBOutlet UIWebView* auguryWebView;
+@interface AuguryViewController_iPad : UIViewController<UIWebViewDelegate>
+@property (nonatomic, retain) IBOutlet UIWebView* webView;
 @property (nonatomic, retain) NSString* augury;
-
+- (void) augur;
 - (IBAction) clear:(id)sender;
-- (IBAction) augur:(id)sender;
-- (IBAction) dismiss:(id)sender;
-- (void)loadPage:(NSString*)html;
-
+- (void) loadPage:(NSString*)html;
 @end

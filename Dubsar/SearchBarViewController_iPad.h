@@ -94,6 +94,9 @@
 - (IBAction)browseYZ:(id)sender;
 - (IBAction)browseOther:(id)sender;
 
+- (IBAction)resetWotd:(id)sender;
+- (IBAction)augur:(id)sender;
+
 - (void)autocompleterFinished:(Autocompleter*)theAutocompleter;
 - (void)wotdFinished:(DailyWord*)theDailyWord;
 

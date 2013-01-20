@@ -40,6 +40,11 @@
     [wotd saveToUserDefaults];   
 }
 
++ (void)resetWotd
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:DubsarDailyWordIdKey];
+}
+
 - (id)init
 {
     self = [super init];

@@ -117,8 +117,8 @@
 		7B6953BF13E6E3CC00B10519 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B6953BD13E6E3CC00B10519 /* InfoPlist.strings */; };
 		7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */; };
 		7B824E5813EC540100CDC665 /* DailyWordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B824E5713EC540100CDC665 /* DailyWordTest.m */; };
-		7B862DE31697CF1C0064F66B /* AugurViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B862DE11697CF1C0064F66B /* AugurViewController_iPhone.m */; };
-		7B862DE41697CF1C0064F66B /* AugurViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B862DE21697CF1C0064F66B /* AugurViewController_iPhone.xib */; };
+		7B862DE31697CF1C0064F66B /* AuguryViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B862DE11697CF1C0064F66B /* AuguryViewController_iPhone.m */; };
+		7B862DE41697CF1C0064F66B /* AuguryViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B862DE21697CF1C0064F66B /* AuguryViewController_iPhone.xib */; };
 		7B8AEB0913E9A39F00889E57 /* ForwardStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB0813E9A39F00889E57 /* ForwardStack.m */; };
 		7B8AEB1713E9ACA800889E57 /* DubsarNavigationController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB1613E9ACA800889E57 /* DubsarNavigationController_iPhone.m */; };
 		7B8AEB3713E9D60600889E57 /* DubsarNavigationController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB3613E9D60600889E57 /* DubsarNavigationController_iPad.m */; };
@@ -135,6 +135,9 @@
 		7B917A7113EC18AC00FBF365 /* wedge-white-r-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */; };
 		7B917A7513EC3CD600FBF365 /* DailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B917A7413EC3CD600FBF365 /* DailyWord.m */; };
 		7B917A7B13EC3FFF00FBF365 /* DailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B917A7413EC3CD600FBF365 /* DailyWord.m */; };
+		7B9D2C6516AB8E4C00F31AE8 /* Augury.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6416AB8E4C00F31AE8 /* Augury.m */; };
+		7B9D2C6916AB912200F31AE8 /* AuguryViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6716AB912200F31AE8 /* AuguryViewController_iPad.m */; };
+		7B9D2C6A16AB912200F31AE8 /* AuguryViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6816AB912200F31AE8 /* AuguryViewController_iPad.xib */; };
 		7BB2270813E5A747005D454F /* AboutViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */; };
 		7BB2270913E5A747005D454F /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */; };
 		7BB9CEDC141C19F1000DD13B /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
@@ -319,9 +322,9 @@
 		7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterView_iPhone.xib; sourceTree = "<group>"; };
 		7B824E5613EC540100CDC665 /* DailyWordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWordTest.h; sourceTree = "<group>"; };
 		7B824E5713EC540100CDC665 /* DailyWordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWordTest.m; sourceTree = "<group>"; };
-		7B862DE01697CF1C0064F66B /* AugurViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AugurViewController_iPhone.h; sourceTree = "<group>"; };
-		7B862DE11697CF1C0064F66B /* AugurViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AugurViewController_iPhone.m; sourceTree = "<group>"; };
-		7B862DE21697CF1C0064F66B /* AugurViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AugurViewController_iPhone.xib; sourceTree = "<group>"; };
+		7B862DE01697CF1C0064F66B /* AuguryViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuguryViewController_iPhone.h; sourceTree = "<group>"; };
+		7B862DE11697CF1C0064F66B /* AuguryViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuguryViewController_iPhone.m; sourceTree = "<group>"; };
+		7B862DE21697CF1C0064F66B /* AuguryViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuguryViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B8AEB0713E9A39F00889E57 /* ForwardStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForwardStack.h; sourceTree = "<group>"; };
 		7B8AEB0813E9A39F00889E57 /* ForwardStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForwardStack.m; sourceTree = "<group>"; };
 		7B8AEB1513E9ACA800889E57 /* DubsarNavigationController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarNavigationController_iPhone.h; sourceTree = "<group>"; };
@@ -342,6 +345,11 @@
 		7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-white-r-hr.png"; path = "Images/wedge-white-r-hr.png"; sourceTree = "<group>"; };
 		7B917A7313EC3CD600FBF365 /* DailyWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWord.h; sourceTree = "<group>"; };
 		7B917A7413EC3CD600FBF365 /* DailyWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWord.m; sourceTree = "<group>"; };
+		7B9D2C6316AB8E4C00F31AE8 /* Augury.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Augury.h; sourceTree = "<group>"; };
+		7B9D2C6416AB8E4C00F31AE8 /* Augury.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Augury.m; sourceTree = "<group>"; };
+		7B9D2C6616AB912100F31AE8 /* AuguryViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuguryViewController_iPad.h; sourceTree = "<group>"; };
+		7B9D2C6716AB912200F31AE8 /* AuguryViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuguryViewController_iPad.m; sourceTree = "<group>"; };
+		7B9D2C6816AB912200F31AE8 /* AuguryViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuguryViewController_iPad.xib; sourceTree = "<group>"; };
 		7BB2270513E5A746005D454F /* AboutViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController_iPhone.h; sourceTree = "<group>"; };
 		7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_iPhone.m; sourceTree = "<group>"; };
 		7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -489,9 +497,9 @@
 				7BB2270513E5A746005D454F /* AboutViewController_iPhone.h */,
 				7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */,
 				7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */,
-				7B862DE01697CF1C0064F66B /* AugurViewController_iPhone.h */,
-				7B862DE11697CF1C0064F66B /* AugurViewController_iPhone.m */,
-				7B862DE21697CF1C0064F66B /* AugurViewController_iPhone.xib */,
+				7B862DE01697CF1C0064F66B /* AuguryViewController_iPhone.h */,
+				7B862DE11697CF1C0064F66B /* AuguryViewController_iPhone.m */,
+				7B862DE21697CF1C0064F66B /* AuguryViewController_iPhone.xib */,
 				7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */,
 				7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */,
 				7B32800413E3875400274E6C /* DubsarAppDelegate_iPhone.h */,
@@ -538,6 +546,9 @@
 				7B30646113E5A06000B2A1B1 /* AboutViewController_iPad.h */,
 				7B30646213E5A06000B2A1B1 /* AboutViewController_iPad.m */,
 				7B30646313E5A06000B2A1B1 /* AboutViewController_iPad.xib */,
+				7B9D2C6616AB912100F31AE8 /* AuguryViewController_iPad.h */,
+				7B9D2C6716AB912200F31AE8 /* AuguryViewController_iPad.m */,
+				7B9D2C6816AB912200F31AE8 /* AuguryViewController_iPad.xib */,
 				7B8AEB4E13EA0E4B00889E57 /* AutocompleterPopoverViewController_iPad.h */,
 				7B8AEB4F13EA0E5000889E57 /* AutocompleterPopoverViewController_iPad.m */,
 				7B8AEB5013EA0E5200889E57 /* AutocompleterPopoverViewController_iPad.xib */,
@@ -593,6 +604,8 @@
 		7B32808F13E38C9B00274E6C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7B9D2C6316AB8E4C00F31AE8 /* Augury.h */,
+				7B9D2C6416AB8E4C00F31AE8 /* Augury.m */,
 				7B32809013E38CEE00274E6C /* Autocompleter.h */,
 				7B32809113E38CEE00274E6C /* Autocompleter.m */,
 				7B32809213E38CEE00274E6C /* AutocompleterDelegate.h */,
@@ -752,6 +765,9 @@
 /* Begin PBXProject section */
 		7B327FE413E3875400274E6C /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+			};
 			buildConfigurationList = 7B327FE713E3875400274E6C /* Build configuration list for PBXProject "Dubsar" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -826,7 +842,7 @@
 				7B36217B1694FCA600D9CA53 /* Default.png in Resources */,
 				7B36217D1694FCAD00D9CA53 /* Default@2x.png in Resources */,
 				7B36217F1694FD8000D9CA53 /* Default-568h@2x.png in Resources */,
-				7B862DE41697CF1C0064F66B /* AugurViewController_iPhone.xib in Resources */,
+				7B862DE41697CF1C0064F66B /* AuguryViewController_iPhone.xib in Resources */,
 				7B145C911698E7C4003DF963 /* ReviewViewController_iPhone.xib in Resources */,
 				7B0101441699F648008FC876 /* EditInflectionsViewController_iPhone.xib in Resources */,
 				7BC4472B169A488800BE18DC /* SyncViewController_iPhone.xib in Resources */,
@@ -836,6 +852,7 @@
 				7B2C2EC716A9CD07000BC87B /* wotd-button-highlighted-hr.png in Resources */,
 				7B2C2ECA16AA02D3000BC87B /* wotd-button-highlighted.png in Resources */,
 				7B2C2ECB16AA02D3000BC87B /* wotd-button.png in Resources */,
+				7B9D2C6A16AB912200F31AE8 /* AuguryViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -912,13 +929,15 @@
 				7B917A7513EC3CD600FBF365 /* DailyWord.m in Sources */,
 				7BB9CEDC141C19F1000DD13B /* Section.m in Sources */,
 				7BB9CEDF141C21FA000DD13B /* Pointer.m in Sources */,
-				7B862DE31697CF1C0064F66B /* AugurViewController_iPhone.m in Sources */,
+				7B862DE31697CF1C0064F66B /* AuguryViewController_iPhone.m in Sources */,
 				7B145C901698E7C4003DF963 /* ReviewViewController_iPhone.m in Sources */,
 				7B145C951698EFAC003DF963 /* Inflection.m in Sources */,
 				7B145C981698F22E003DF963 /* Review.m in Sources */,
 				7B0101431699F648008FC876 /* EditInflectionsViewController_iPhone.m in Sources */,
 				7BC4472A169A488800BE18DC /* SyncViewController_iPhone.m in Sources */,
 				7B3F43E6169BAAB3005EF93B /* KeychainWrapper.m in Sources */,
+				7B9D2C6516AB8E4C00F31AE8 /* Augury.m in Sources */,
+				7B9D2C6916AB912200F31AE8 /* AuguryViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1083,6 +1102,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				INFOPLIST_FILE = "DubsarTests/DubsarTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1101,6 +1121,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DubsarTests/DubsarTests-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				INFOPLIST_FILE = "DubsarTests/DubsarTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
