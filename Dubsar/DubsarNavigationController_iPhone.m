@@ -211,7 +211,7 @@
 {
     DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)[UIApplication sharedApplication].delegate;
     appDelegate.wotdUnread = false;
-    [appDelegate application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:appDelegate.wotdUrl] sourceApplication:nil annotation:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appDelegate.wotdUrl]];
 }
 
 - (UIGestureRecognizer*)addGestureRecognizerToView:(UIView *)view

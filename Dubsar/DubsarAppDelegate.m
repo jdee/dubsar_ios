@@ -85,8 +85,13 @@
                                          UIRemoteNotificationTypeAlert)];
     
     [uaPush setAutobadgeEnabled:YES];
-    [uaPush resetBadge];
     
+    if (launchOptions) {
+        NSDictionary* remoteNotif = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        [[UAPush shared]handleNotification:remoteNotif applicationState:application.applicationState];
+    }
+    
+    [uaPush resetBadge];
     return YES;
 }
 

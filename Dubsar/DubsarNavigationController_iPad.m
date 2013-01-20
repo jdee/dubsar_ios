@@ -315,7 +315,7 @@
     DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)[UIApplication sharedApplication].delegate;
     appDelegate.wotdUnread = false;
     [wotdBarButtonItem setEnabled:NO];
-    [appDelegate application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:appDelegate.wotdUrl] sourceApplication:nil annotation:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appDelegate.wotdUrl]];
 }
 
 - (void)addWotdButton

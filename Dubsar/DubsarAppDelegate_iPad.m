@@ -58,8 +58,7 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     if ([url.scheme compare:@"dubsar"] != NSOrderedSame) {
-        NSLog(@"can't handle URL scheme %@", url.scheme);
-        return NO;
+        return [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     }
     
     if ([url.path hasPrefix:@"/words/"]) {
