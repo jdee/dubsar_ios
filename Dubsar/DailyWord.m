@@ -101,6 +101,7 @@
     int wotdId = [[[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey] intValue];
 
     if (wotdId <= 0) {
+        NSLog(@"User defaults value for %@: %@", DubsarDailyWordIdKey, [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey]);
         return false;
     }
     

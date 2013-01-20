@@ -156,6 +156,11 @@
 
 - (void)addWotdButton
 {
+    if ([self.topViewController respondsToSelector:@selector(handleWotd)]) {
+        [self.topViewController handleWotd];
+        return;
+    }
+    
     UIImage* wotdButtonImage = [UIImage imageNamed:@"wotd-button-hr.png"];
     UIImage* highlightedWotdButtonImage = [UIImage imageNamed:@"wotd-button-hihglighted-hr.png"];
     

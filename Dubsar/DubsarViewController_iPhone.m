@@ -105,7 +105,7 @@
     
     self.dailyWord = [[[DailyWord alloc]init]autorelease];
     dailyWord.delegate = self;
-    [dailyWord loadFromServer];
+    [dailyWord load];
     
     self.searchBar.text = @"";
     self.loading = true;
@@ -287,7 +287,17 @@
 - (void)resetWotd
 {
     [DailyWord resetWotd];
-    [dailyWord load]; // kick off a server request
+    [self handleWotd];
+}
+
+- (void)handleWotd
+{
+    if (dailyWord.fresh) return; // hack
+    
+    [wotdButton setTitle:@"loading..." forState:UIControlStateNormal];
+    [wotdButton setTitle:@"loading..." forState:UIControlStateHighlighted];
+    [wotdButton setTitle:@"loading..." forState:UIControlStateSelected];
+    [dailyWord load];
 }
 
 @end
