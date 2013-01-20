@@ -19,11 +19,26 @@
 
 #import "DailyWord.h"
 #import "JSONkit.h"
+#import "LoadDelegate.h"
 #import "Word.h"
+
+#define DubsarDailyWordIdKey @"com.dubsar-dictionary.Dubsar.wotdId"
 
 @implementation DailyWord
 
 @synthesize word;
+
++ (id)dailyWord
+{
+    return [[[DailyWord alloc] init] autorelease];
+}
+
++ (void)updateWotdId:(int)wotdId
+{
+    DailyWord* wotd = [DailyWord dailyWord];
+    wotd.word = [Word wordWithId:wotdId name:nil partOfSpeech:POSUnknown];
+    [wotd saveToUserDefaults];   
+}
 
 - (id)init
 {
@@ -44,7 +59,16 @@
 
 - (void)load
 {
-    [self loadFromServer];
+    if (![self loadFromUserDefaults]) {
+        [self loadFromServer];
+        return;
+    }
+    
+    self.complete = true;
+    self.error = false;
+    self.errorMessage = nil;
+    
+    [self.delegate loadComplete:self withError:self.errorMessage];
 }
 
 - (void)parseData
@@ -58,6 +82,26 @@
     word.freqCnt = fc.intValue;
     
     word.inflections = [wotd objectAtIndex:4];
+    
+    [self saveToUserDefaults];
+}
+
+- (bool) loadFromUserDefaults
+{
+    int wotdId = [[[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey] intValue];
+
+    if (wotdId <= 0) {
+        return false;
+    }
+    
+    word = [Word wordWithId:wotdId name:nil partOfSpeech:POSUnknown];
+    [word load];
+    return true;
+}
+
+- (void) saveToUserDefaults
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:word._id forKey:DubsarDailyWordIdKey];
 }
 
 @end

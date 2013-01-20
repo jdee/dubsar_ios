@@ -19,6 +19,7 @@
 
 #import "UAirship.h"
 
+#import "DailyWord.h"
 #import "DubsarAppDelegate.h"
 
 @implementation DubsarAppDelegate
@@ -103,7 +104,9 @@
 // Called when user taps an iOS notification
 - (void)handleBackgroundNotification:(NSDictionary *)notification
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[notification valueForKey:@"dubsar_url"]]];
+    NSString* url = [notification valueForKey:@"dubsar_url"];
+    [self updateWotdByUrl:url];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 
 // Called when a notification is received in the foreground
@@ -114,12 +117,18 @@
     NSString* url = [customPayload valueForKey:@"dubsar_url"];
     if (url) {
         NSLog(@"dubsar_url: %@", url);
+        [self updateWotdByUrl:url];
         
         self.wotdUrl = url;
-        
         self.wotdUnread = true;
         [self addWotdButton];
     }
+}
+
+- (void)updateWotdByUrl:(NSString *)url
+{
+    int wotdId = [[url lastPathComponent]intValue];
+    [DailyWord updateWotdId:wotdId];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

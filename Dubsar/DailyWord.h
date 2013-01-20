@@ -22,7 +22,12 @@
 @class Word;
 
 @interface DailyWord : Model
-
 @property (nonatomic, retain) Word* word;
+
++ (id)dailyWord;
++ (void)updateWotdId:(int)wotdId;
+
+- (bool)loadFromUserDefaults;
+- (void)saveToUserDefaults;
 
 @end
