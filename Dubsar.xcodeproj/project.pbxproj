@@ -367,7 +367,6 @@
 		7BC2154916A7B6AB00FA8096 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		7BC2154B16A7B6BF00FA8096 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		7BC2154D16A7B70900FA8096 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		7BC2154F16A7BBD500FA8096 /* libUAirship-1.3.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirship-1.3.7.a"; path = "Airship/libUAirship-1.3.7.a"; sourceTree = "<group>"; };
 		7BC44727169A488800BE18DC /* SyncViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncViewController_iPhone.h; sourceTree = "<group>"; };
 		7BC44728169A488800BE18DC /* SyncViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncViewController_iPhone.m; sourceTree = "<group>"; };
 		7BC44729169A488800BE18DC /* SyncViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SyncViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -418,7 +417,6 @@
 		7B327FE213E3875400274E6C = {
 			isa = PBXGroup;
 			children = (
-				7BC2154F16A7BBD500FA8096 /* libUAirship-1.3.7.a */,
 				7B327FF713E3875400274E6C /* Dubsar */,
 				7B6953BA13E6E3CC00B10519 /* DubsarTests */,
 				7B327FF013E3875400274E6C /* Frameworks */,
