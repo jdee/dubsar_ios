@@ -86,10 +86,9 @@
     
     [uaPush setAutobadgeEnabled:YES];
     
-    if (launchOptions) {
-        NSDictionary* remoteNotif = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        [[UAPush shared]handleNotification:remoteNotif applicationState:application.applicationState];
-    }
+    // If cold launched from a push, this is how we get to the right screen,
+    // via a call to handleBackgroundNotification:.
+    [uaPush handleNotification:[launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey] applicationState:application.applicationState];
     
     [uaPush resetBadge];
     return YES;
@@ -104,7 +103,7 @@
 // Called when user taps an iOS notification
 - (void)handleBackgroundNotification:(NSDictionary *)notification
 {
-    [self application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:[notification valueForKey:@"dubsar_url"]] sourceApplication:nil annotation:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[notification valueForKey:@"dubsar_url"]]];
 }
 
 // Called when a notification is received in the foreground
