@@ -23,6 +23,7 @@
 
 @interface DailyWord : Model
 @property (nonatomic, retain) Word* word;
+@property bool fresh;
 
 + (id)dailyWord;
 + (void)updateWotdId:(int)wotdId;

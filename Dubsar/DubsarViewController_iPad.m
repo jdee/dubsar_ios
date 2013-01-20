@@ -26,6 +26,7 @@
 @synthesize dailyWord;
 @synthesize wotdButton;
 @synthesize wordPopoverController;
+@synthesize dailyWordIsLive;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +34,7 @@
     if (self) {
         // Custom initialization
         self.title = @"Home";
+        dailyWordIsLive = false;
     }
     return self;
 }
@@ -58,7 +60,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+    [self showWotd:nil];
 }
 
 - (void)viewDidUnload
@@ -104,6 +107,21 @@
         theDailyWord.word = word;
     }    
     
+    if (dailyWord.fresh) {
+        // turn on the wotd indicator if we're starting fresh
+        DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
+        appDelegate.wotdUrl = [NSString stringWithFormat:@"dubsar://iPad/words/%d", dailyWord.word._id];
+        appDelegate.wotdUnread = true;
+        [appDelegate addWotdButton];
+        
+        // TODO: Display help the first time
+    }
+    
+    if (!dailyWordIsLive) {
+        // don't display the popover if we're just probing on startup
+        return;
+    }
+    
     WordPopoverViewController_iPad* viewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:theDailyWord.word]autorelease];
     [viewController load];
     self.wordPopoverController = [[[UIPopoverController alloc]initWithContentViewController:viewController]autorelease];
@@ -115,6 +133,8 @@
 
 - (IBAction)showWotd:(id)sender 
 {
+    dailyWordIsLive = sender != nil;
+    
     dailyWord = [[DailyWord alloc]init];
     dailyWord.delegate = self;
     [dailyWord load];

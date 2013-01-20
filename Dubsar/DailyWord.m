@@ -26,6 +26,7 @@
 
 @implementation DailyWord
 
+@synthesize fresh;
 @synthesize word;
 
 + (id)dailyWord
@@ -51,6 +52,7 @@
     if (self) {
         [self set_url:@"/wotd"];
         word = nil;
+        fresh = false;
     }
     
     return self;
@@ -65,6 +67,9 @@
 - (void)load
 {
     if (![self loadFromUserDefaults]) {
+        // fresh is set to true when the wotd is not in the defaults.
+        // this results in the WOTD indicator appearing in the app.
+        fresh = true;
         [self loadFromServer];
         return;
     }

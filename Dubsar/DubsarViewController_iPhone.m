@@ -237,14 +237,15 @@
     [buttonItems addObject:aboutButtonItem];
     [buttonItems addObject:augurButtonItem];
     [buttonItems addObject:reviewButtonItem];
-    [buttonItems addObject:syncButtonItem];
     [buttonItems addObject:resetButtonItem];
+    [buttonItems addObject:syncButtonItem];
     
     self.toolbarItems = buttonItems.retain;
 }
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     self.loading = false;
     if (![model isMemberOfClass:DailyWord.class]) {
         return;
@@ -266,6 +267,16 @@
          title = [title stringByAppendingFormat:@"; also %@", word.inflections];
          }
          */
+    }
+    
+    // If this is the first time the app is being run, the daily word will be retrieved
+    // fresh from the server. Light up the wotd indicator.
+    if (dailyWord.fresh) {
+        appDelegate.wotdUrl = [NSString stringWithFormat:@"dubsar://iPhone/words/%d", dailyWord.word._id];
+        appDelegate.wotdUnread = true;
+        [appDelegate addWotdButton];
+        
+        // TODO: Display an explanation this first time.
     }
     
     [wotdButton setTitle:title forState:UIControlStateNormal];
