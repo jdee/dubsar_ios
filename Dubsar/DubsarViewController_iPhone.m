@@ -249,7 +249,6 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
-    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     self.loading = false;
     if (![model isKindOfClass:DailyWord.class]) {
         return;
@@ -281,13 +280,6 @@
 - (void)resetWotd
 {
     [DailyWord resetWotd];
-    [self handleWotd];
-}
-
-- (void)handleWotd
-{
-    if (dailyWord.fresh) return; // hack
-    
     [wotdButton setTitle:@"loading..." forState:UIControlStateNormal];
     [wotdButton setTitle:@"loading..." forState:UIControlStateHighlighted];
     [wotdButton setTitle:@"loading..." forState:UIControlStateSelected];

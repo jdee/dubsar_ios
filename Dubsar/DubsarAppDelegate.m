@@ -144,6 +144,11 @@
     [DailyWord updateWotdId:wotdId];
 }
 
+- (void)addWotdButton
+{
+    // squelch compiler warning
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*

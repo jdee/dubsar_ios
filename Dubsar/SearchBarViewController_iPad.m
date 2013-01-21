@@ -108,7 +108,7 @@
 
 - (void)setNavigationController:(UINavigationController *)navigationController
 {
-    _navigationController = navigationController;
+    _navigationController = (DubsarNavigationController_iPad*)navigationController;
     AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
     viewController.navigationController = navigationController;
 }

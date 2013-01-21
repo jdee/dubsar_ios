@@ -114,7 +114,7 @@
     if (self) {
         _id = theId;
         gloss = [theGloss retain];
-        synonyms = [theSynonyms retain];
+        synonyms = [theSynonyms copy];
         word = theWord;
         partOfSpeech = word.partOfSpeech;
         name = [word.name retain];
@@ -266,7 +266,7 @@
 
     NSObject* _marker = [response objectAtIndex:4];
     if (_marker != NSNull.null) {
-        marker = [_marker retain];
+        marker = (NSString*)[_marker retain];
     }
     
     NSNumber* fc = [response objectAtIndex:5];

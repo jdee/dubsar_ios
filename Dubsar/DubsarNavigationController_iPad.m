@@ -69,7 +69,7 @@
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    DubsarAppDelegate_iPad* appDelegate = [UIApplication sharedApplication].delegate;
+    DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)[UIApplication sharedApplication].delegate;
     NSLog(@"called pushViewController");
     [super pushViewController:viewController animated:animated];
     
