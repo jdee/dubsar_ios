@@ -41,6 +41,7 @@
         self.loading = false;
         self.parentDataSource = nil;
         inflectionsViewController = nil;
+        inflectionsShowing = false;
 
         self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
         
@@ -78,6 +79,7 @@
 
 - (void)createToolbarItems
 {
+    NSLog(@"In createToolbarItems");
     UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
     
 #ifdef DUBSAR_EDITORIAL_BUILD
@@ -86,11 +88,13 @@
     self.toolbarItems = [NSArray arrayWithObjects:homeButtonItem, editButtonItem, nil];
 #else
     if (word.inflections.count > 0) {
-        UIBarButtonItem* inflectionsButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"others" style:UIBarButtonItemStyleBordered target:self action:@selector(showInflections)] autorelease];
+        UIBarButtonItem* inflectionsButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPageCurl target:self action:@selector(toggleInflections)] autorelease];
         self.toolbarItems = [NSArray arrayWithObjects:homeButtonItem, inflectionsButtonItem, nil];
+        NSLog(@"Added two toolbar items");
     }
     else {
         self.toolbarItems = [NSArray arrayWithObject:homeButtonItem];
+        NSLog(@"Added one toolbar item");
     }
 #endif // DUBSAR_EDITORIAL_BUILD
 }
@@ -104,6 +108,15 @@
 }
 
 #pragma mark - View lifecycle
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    inflectionsViewController = [[InflectionsViewController_iPhone alloc] initWithNibName:@"InflectionsViewController_iPhone" bundle:nil word:word parent:self];
+    
+    [inflectionsViewController.view setHidden:YES];
+    [self.view addSubview:inflectionsViewController.view];
+}
 
 - (void)viewDidUnload
 {
@@ -311,21 +324,32 @@
 
 - (void)showInflections
 {
-    inflectionsViewController = [[InflectionsViewController_iPhone alloc] initWithNibName:@"InflectionsViewController_iPhone" bundle:nil word:word parent:self];
-    
-    CGRect frame = inflectionsViewController.view.frame;
-    frame.origin.x = 8;
-    frame.origin.y = 8;
-    inflectionsViewController.view.frame = frame;
-    
-    [self.view addSubview:inflectionsViewController.view];
+    [UIView transitionWithView:self.view duration:0.4
+                       options:UIViewAnimationOptionTransitionCurlUp
+                    animations:^{
+                        [self searchBar].hidden = YES;
+                        tableView.hidden = YES;
+                        inflectionsViewController.view.hidden = NO;
+                    } completion:nil];
+    inflectionsShowing = true;
 }
 
 - (void)dismissInflections
 {
-    [inflectionsViewController.view removeFromSuperview];
-    [inflectionsViewController release];
-    inflectionsViewController = nil;
+    [UIView transitionWithView:self.view duration:0.4
+                       options:UIViewAnimationOptionTransitionCurlDown
+                    animations:^{
+                        [self searchBar].hidden = NO;
+                        tableView.hidden = NO;
+                        inflectionsViewController.view.hidden = YES;
+                    } completion:nil];
+    inflectionsShowing = false;
+}
+
+- (void)toggleInflections
+{
+    if (inflectionsShowing) [self dismissInflections];
+    else [self showInflections];
 }
 
 - (void)setTableViewFrame

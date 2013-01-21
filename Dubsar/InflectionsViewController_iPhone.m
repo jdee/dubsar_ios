@@ -60,6 +60,7 @@
 
 - (void)setViewFrame
 {
+    /*
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     
     int max = UIInterfaceOrientationIsLandscape(orientation) ? 4 : 7;
@@ -68,6 +69,7 @@
     CGRect frame = self.view.frame;
     frame.size.height = count * 44.0 + 74.0;
     self.view.frame = frame;
+     */
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

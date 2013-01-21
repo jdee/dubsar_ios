@@ -29,6 +29,7 @@
     UITableView *tableView;
     UITextView *inflectionsTextView;
     InflectionsViewController_iPhone* inflectionsViewController;
+    bool inflectionsShowing;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
@@ -42,6 +43,7 @@
 - (void)adjustInflections;
 - (void)setTableViewFrame;
 - (void)editInflections;
+- (void)toggleInflections;
 - (void)showInflections;
 - (void)dismissInflections;
 
