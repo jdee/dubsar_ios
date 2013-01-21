@@ -308,7 +308,7 @@
     NSLog(@"initial table view frame: (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
     
     // the inflections label is hidden if it would be empty
-    if (word.complete && word.inflections.length == 0 && word.freqCnt == 0 && !word.error) {
+    if (word.freqCnt == 0 && !word.error) {
         [inflectionsTextView setHidden:YES];
     }
 
@@ -337,7 +337,7 @@
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
     float screenHeight = UIInterfaceOrientationIsPortrait(orientation) ? 1004.0 : 748.0;
     
-    float offset = (word.inflections.length == 0 && word.freqCnt == 0 && !word.error) ? 44.0 : 88.0;
+    float offset = (word.freqCnt == 0 && !word.error) ? 44.0 : 88.0;
     float height = offset + (word.error ? 0.0 : 66.0*word.senses.count);
     float popoverHeight = height > screenHeight ? screenHeight : height;
     
@@ -358,18 +358,11 @@
 
 - (void)adjustInflections
 {
-    if (word.freqCnt == 0 && word.inflections.length == 0) return;
+    if (word.freqCnt == 0) return;
     
     NSString* text = [NSString string];
     if (word.freqCnt > 0) {
-        text = [text stringByAppendingFormat:@"freq. cnt.: %d ", word.freqCnt];
-        if (word.inflections.length > 0) {
-            text = [text stringByAppendingString:@";"];
-        }
-        text = [text stringByAppendingString:@" "];
-    }
-    if (word.inflections.length > 0) {
-        text = [text stringByAppendingFormat:@"also %@", word.inflections];
+        text = [text stringByAppendingFormat:@"freq. cnt.: %d", word.freqCnt];
     }
     inflectionsTextView.text = text;
 }

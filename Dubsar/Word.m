@@ -49,7 +49,7 @@
         _id = theId;
         name = [theName retain];
         partOfSpeech = thePartOfSpeech;
-        inflections = [[NSString alloc]init];
+        inflections = nil;
         [self initUrl];
     }
     return self;
@@ -121,7 +121,7 @@
         }
     }
     
-    NSLog(@"inflections = \"%@\"", inflections);
+    NSLog(@"%d inflections", inflections.count);
     
     sqlite3_finalize(statement);
 
@@ -202,6 +202,7 @@
 {
     NSArray* response =[[self decoder] objectWithData:[self data]];
     
+    // DEBT: Currently broken. Will crash when loading from server.
     inflections = [[response objectAtIndex:3]retain];
 
     NSNumber* _freqCnt;
@@ -252,13 +253,10 @@
 - (void)addInflection:(NSString*)inflection
 {
     if ([inflection compare:name options:NSCaseInsensitiveSearch] == NSOrderedSame) return;
+    
+    if (!inflections) self.inflections = [NSMutableArray array];
 
-    if (inflections == nil || inflections.length == 0) {
-        self.inflections = inflection;
-    }
-    else {
-        self.inflections = [inflections stringByAppendingFormat:@", %@", inflection];
-    }
+    [inflections addObject:inflection];
 }
 
 @end

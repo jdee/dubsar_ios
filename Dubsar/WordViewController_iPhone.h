@@ -21,12 +21,14 @@
 #import "ModalViewControllerDelegate.h"
 #import "SearchBarViewController_iPhone.h"
 
+@class InflectionsViewController_iPhone;
 @class Word;
 
 @interface WordViewController_iPhone : SearchBarViewController_iPhone<ModalViewControllerDelegate,LoadDelegate> {
     
     UITableView *tableView;
     UITextView *inflectionsTextView;
+    InflectionsViewController_iPhone* inflectionsViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
@@ -40,5 +42,7 @@
 - (void)adjustInflections;
 - (void)setTableViewFrame;
 - (void)editInflections;
+- (void)showInflections;
+- (void)dismissInflections;
 
 @end

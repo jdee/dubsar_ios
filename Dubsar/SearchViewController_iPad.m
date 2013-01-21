@@ -219,12 +219,20 @@
         NSString* subtitle = [NSString string];
         if (word.freqCnt > 0) {
             subtitle = [subtitle stringByAppendingFormat:@"freq. cnt.: %d", word.freqCnt];
-            if (word.inflections && word.inflections.length > 0) {
+            if (word.inflections && word.inflections.count > 0) {
                 subtitle = [subtitle stringByAppendingString:@"; "];
             }
         }
-        if (word.inflections && word.inflections.length > 0) {
-            subtitle = [subtitle stringByAppendingFormat:@"also %@", word.inflections];
+        if (word.inflections && word.inflections.count > 0) {
+            NSString* inflections = [NSString string];
+            int j;
+            for (j=0; j<word.inflections.count-1; ++j) {
+                inflections = [inflections stringByAppendingFormat:@"%@, ", [word.inflections objectAtIndex:j]];
+            }
+            if (word.inflections.count > 1) {
+                inflections = [inflections stringByAppendingString:[word.inflections objectAtIndex:j]];
+            }
+            subtitle = [subtitle stringByAppendingFormat:@"also %@", inflections];
         }
         
         if (subtitle.length > 0) {

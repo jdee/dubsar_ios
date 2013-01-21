@@ -138,6 +138,8 @@
 		7B9D2C6516AB8E4C00F31AE8 /* Augury.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6416AB8E4C00F31AE8 /* Augury.m */; };
 		7B9D2C6916AB912200F31AE8 /* AuguryViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6716AB912200F31AE8 /* AuguryViewController_iPad.m */; };
 		7B9D2C6A16AB912200F31AE8 /* AuguryViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6816AB912200F31AE8 /* AuguryViewController_iPad.xib */; };
+		7B9D2C7A16ADC37A00F31AE8 /* InflectionsViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C7816ADC37A00F31AE8 /* InflectionsViewController_iPhone.m */; };
+		7B9D2C7B16ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B9D2C7916ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib */; };
 		7BB2270813E5A747005D454F /* AboutViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */; };
 		7BB2270913E5A747005D454F /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */; };
 		7BB9CEDC141C19F1000DD13B /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
@@ -350,6 +352,9 @@
 		7B9D2C6616AB912100F31AE8 /* AuguryViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuguryViewController_iPad.h; sourceTree = "<group>"; };
 		7B9D2C6716AB912200F31AE8 /* AuguryViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuguryViewController_iPad.m; sourceTree = "<group>"; };
 		7B9D2C6816AB912200F31AE8 /* AuguryViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuguryViewController_iPad.xib; sourceTree = "<group>"; };
+		7B9D2C7716ADC37A00F31AE8 /* InflectionsViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InflectionsViewController_iPhone.h; sourceTree = "<group>"; };
+		7B9D2C7816ADC37A00F31AE8 /* InflectionsViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InflectionsViewController_iPhone.m; sourceTree = "<group>"; };
+		7B9D2C7916ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InflectionsViewController_iPhone.xib; sourceTree = "<group>"; };
 		7BB2270513E5A746005D454F /* AboutViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController_iPhone.h; sourceTree = "<group>"; };
 		7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_iPhone.m; sourceTree = "<group>"; };
 		7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -513,6 +518,9 @@
 				7B3280CE13E38F8200274E6C /* FAQViewController_iPhone.h */,
 				7B3280CF13E38F8200274E6C /* FAQViewController_iPhone.m */,
 				7B3280D013E38F8200274E6C /* FAQViewController_iPhone.xib */,
+				7B9D2C7716ADC37A00F31AE8 /* InflectionsViewController_iPhone.h */,
+				7B9D2C7816ADC37A00F31AE8 /* InflectionsViewController_iPhone.m */,
+				7B9D2C7916ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib */,
 				7B32800713E3875400274E6C /* MainWindow_iPhone.xib */,
 				7B145C8D1698E7C4003DF963 /* ReviewViewController_iPhone.h */,
 				7B145C8E1698E7C4003DF963 /* ReviewViewController_iPhone.m */,
@@ -851,6 +859,7 @@
 				7B2C2ECA16AA02D3000BC87B /* wotd-button-highlighted.png in Resources */,
 				7B2C2ECB16AA02D3000BC87B /* wotd-button.png in Resources */,
 				7B9D2C6A16AB912200F31AE8 /* AuguryViewController_iPad.xib in Resources */,
+				7B9D2C7B16ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -936,6 +945,7 @@
 				7B3F43E6169BAAB3005EF93B /* KeychainWrapper.m in Sources */,
 				7B9D2C6516AB8E4C00F31AE8 /* Augury.m in Sources */,
 				7B9D2C6916AB912200F31AE8 /* AuguryViewController_iPad.m in Sources */,
+				7B9D2C7A16ADC37A00F31AE8 /* InflectionsViewController_iPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

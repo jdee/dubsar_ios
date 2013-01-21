@@ -19,6 +19,7 @@
 
 #import "DubsarAppDelegate_iPhone.h"
 #import "EditInflectionsViewController_iPhone.h"
+#import "InflectionsViewController_iPhone.h"
 #import "WordViewController_iPhone.h"
 #import "Sense.h"
 #import "SenseViewController_iPhone.h"
@@ -39,6 +40,7 @@
         word.delegate = self;
         self.loading = false;
         self.parentDataSource = nil;
+        inflectionsViewController = nil;
 
         self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
         
@@ -50,6 +52,7 @@
 
 - (void)dealloc
 {
+    [inflectionsViewController release];
     word.delegate = nil;
     [word release];
     [tableView release];
@@ -76,12 +79,19 @@
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
+    
 #ifdef DUBSAR_EDITORIAL_BUILD
     UIBarButtonItem* editButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editInflections)]autorelease];
     
     self.toolbarItems = [NSArray arrayWithObjects:homeButtonItem, editButtonItem, nil];
 #else
-    self.toolbarItems = [NSArray arrayWithObject:homeButtonItem];
+    if (word.inflections.count > 0) {
+        UIBarButtonItem* inflectionsButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"others" style:UIBarButtonItemStyleBordered target:self action:@selector(showInflections)] autorelease];
+        self.toolbarItems = [NSArray arrayWithObjects:homeButtonItem, inflectionsButtonItem, nil];
+    }
+    else {
+        self.toolbarItems = [NSArray arrayWithObject:homeButtonItem];
+    }
 #endif // DUBSAR_EDITORIAL_BUILD
 }
 
@@ -277,7 +287,7 @@
 
 - (void)adjustInflections
 {
-    if (word.freqCnt == 0 && word.inflections.length == 0) {
+    if (word.freqCnt == 0) {
         inflectionsTextView.hidden = YES;
         CGRect frame = tableView.frame;
         frame.origin.y = 44.0;
@@ -288,13 +298,6 @@
     NSString* text = [NSString string];
     if (word.freqCnt > 0) {
         text = [text stringByAppendingFormat:@"freq. cnt.: %d", word.freqCnt];
-        if (word.inflections.length > 0) {
-            text = [text stringByAppendingString:@";"];
-        }
-        text = [text stringByAppendingString:@" "];
-    }
-    if (word.inflections.length > 0) {
-        text = [text stringByAppendingFormat:@"also %@", word.inflections];
     }
     inflectionsTextView.text = text;
 }
@@ -306,9 +309,28 @@
     [self presentModalViewController:viewController animated:YES];
 }
 
+- (void)showInflections
+{
+    inflectionsViewController = [[InflectionsViewController_iPhone alloc] initWithNibName:@"InflectionsViewController_iPhone" bundle:nil word:word parent:self];
+    
+    CGRect frame = inflectionsViewController.view.frame;
+    frame.origin.x = 8;
+    frame.origin.y = 8;
+    inflectionsViewController.view.frame = frame;
+    
+    [self.view addSubview:inflectionsViewController.view];
+}
+
+- (void)dismissInflections
+{
+    [inflectionsViewController.view removeFromSuperview];
+    [inflectionsViewController release];
+    inflectionsViewController = nil;
+}
+
 - (void)setTableViewFrame
 {
-    bool inflectionsShowing = word.freqCnt > 0 || word.inflections.length > 0;
+    bool inflectionsShowing = word.freqCnt > 0;
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
     
     CGRect bounds = [[UIScreen mainScreen] bounds];

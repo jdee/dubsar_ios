@@ -232,7 +232,7 @@
 
 - (void)adjustInflections
 {
-    if (word.inflections.length == 0 && word.freqCnt == 0 && !word.error) {
+    if (word.freqCnt == 0 && !word.error) {
         inflectionsLabel.hidden = YES;
         CGRect frame = _tableView.frame;
         frame.origin.y = 44.0;
@@ -242,13 +242,6 @@
     NSString* text = [NSString string];
     if (word.freqCnt > 0) {
         text = [text stringByAppendingFormat:@"freq. cnt.: %d", word.freqCnt];
-        if (word.inflections.length > 0) {
-            text = [text stringByAppendingString:@";"];
-        }
-        text = [text stringByAppendingString:@" "];
-    }
-    if (word.inflections.length > 0) {
-        text = [text stringByAppendingFormat:@"also %@", word.inflections];
     }
     
     inflectionsLabel.text = text;
@@ -264,7 +257,7 @@
     UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
     
     float maxHeight = UIInterfaceOrientationIsPortrait(currentOrientation) ? 960.0 : 704.0 ;
-    if (word.inflections.length > 0 || word.freqCnt > 0 || word.error) maxHeight -= 44.0;
+    if (word.freqCnt > 0 || word.error) maxHeight -= 44.0;
     
     float height = 66.0 * [self numberOfSectionsInTableView:_tableView];
         
