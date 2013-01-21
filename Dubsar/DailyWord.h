@@ -24,9 +24,10 @@
 @interface DailyWord : Model
 @property (nonatomic, retain) Word* word;
 @property bool fresh;
+@property time_t expiration;
 
 + (id)dailyWord;
-+ (void)updateWotdId:(int)wotdId;
++ (void)updateWotdId:(int)wotdId expiration:(time_t)expiration;
 + (void)resetWotd;
 
 - (bool)loadFromUserDefaults;

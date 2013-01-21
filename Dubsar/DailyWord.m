@@ -23,21 +23,24 @@
 #import "Word.h"
 
 #define DubsarDailyWordIdKey @"com.dubsar-dictionary.Dubsar.wotdId"
+#define DubsarDailyWordExpirationKey @"com.dubsar-dictionary.Dubsar.wotdExpiration"
 
 @implementation DailyWord
 
 @synthesize fresh;
 @synthesize word;
+@synthesize expiration;
 
 + (id)dailyWord
 {
     return [[[DailyWord alloc] init] autorelease];
 }
 
-+ (void)updateWotdId:(int)wotdId
++ (void)updateWotdId:(int)wotdId expiration:(time_t)expiration
 {
     DailyWord* wotd = [DailyWord dailyWord];
     wotd.word = [Word wordWithId:wotdId name:nil partOfSpeech:POSUnknown];
+    wotd.expiration = expiration;
     [wotd saveToUserDefaults];   
 }
 
@@ -53,6 +56,7 @@
         [self set_url:@"/wotd"];
         word = nil;
         fresh = false;
+        expiration = 0;
     }
     
     return self;
@@ -66,7 +70,12 @@
 
 - (void)load
 {
-    if (![self loadFromUserDefaults]) {
+    if (![self loadFromUserDefaults] || !expiration || expiration <= time(0)) {
+        
+        if (expiration && expiration <= time(0)) {
+            NSLog(@"cached wotd expired, requesting");
+        }
+        
         // fresh is set to true when the wotd is not in the defaults.
         // this results in the WOTD indicator appearing in the app.
         fresh = true;
@@ -93,12 +102,14 @@
     
     word.inflections = [wotd objectAtIndex:4];
     
+    expiration = [[wotd objectAtIndex:5]intValue];
+    
     [self saveToUserDefaults];
 }
 
 - (bool) loadFromUserDefaults
 {
-    int wotdId = [[[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey] intValue];
+    int wotdId = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordIdKey];
 
     if (wotdId <= 0) {
         NSLog(@"User defaults value for %@: %@", DubsarDailyWordIdKey, [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey]);
@@ -107,12 +118,17 @@
     
     self.word = [Word wordWithId:wotdId name:nil partOfSpeech:POSUnknown];
     [word load];
+    
+    expiration = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordExpirationKey];
+    
     return true;
 }
 
 - (void) saveToUserDefaults
 {
+    NSLog(@"Saving WOTD: ID: %d, expiration: %ld", word._id, expiration);
     [[NSUserDefaults standardUserDefaults] setInteger:word._id forKey:DubsarDailyWordIdKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:expiration forKey:DubsarDailyWordExpirationKey];
 }
 
 @end

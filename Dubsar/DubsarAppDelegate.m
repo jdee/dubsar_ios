@@ -112,7 +112,7 @@
     }
 
     NSString* url = [dubsarPayload valueForKey:@"url"];
-    [self updateWotdByUrl:url];
+    [self updateWotdByUrl:url expiration:[dubsarPayload valueForKey:@"expiration"]];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 
@@ -130,7 +130,7 @@
     NSString* url = [dubsarPayload valueForKey:@"url"];
     if (url) {
         NSLog(@"dubsar url: %@", url);
-        [self updateWotdByUrl:url];
+        [self updateWotdByUrl:url expiration:[dubsarPayload valueForKey:@"expiration"]];
         
         self.wotdUrl = url;
         self.wotdUnread = true;
@@ -138,15 +138,26 @@
     }
 }
 
-- (void)updateWotdByUrl:(NSString *)url
+- (void)updateWotdByUrl:(NSString *)url expiration:(id)expiration
 {
     int wotdId = [[url lastPathComponent]intValue];
-    [DailyWord updateWotdId:wotdId];
+    
+    time_t texpiration = 0;
+    
+    if ([expiration isKindOfClass:NSString.class] && [expiration hasPrefix:@"+"]) {
+        NSLog(@"push has relative expiration: %@", expiration);
+        texpiration = time(0) + [expiration intValue];
+    }
+    else {
+        texpiration = [expiration intValue];
+    }
+    
+    [DailyWord updateWotdId:wotdId expiration:texpiration];
 }
 
 - (void)addWotdButton
 {
-    // squelch compiler warning
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

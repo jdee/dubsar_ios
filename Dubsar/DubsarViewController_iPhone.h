@@ -44,5 +44,6 @@
 - (void)resetWotd;
 - (void)checkForCredentials;
 - (NSString*)authenticateEmail:(NSString*)email password:(NSString*)password;
+- (void)handleWotd;
 
 @end

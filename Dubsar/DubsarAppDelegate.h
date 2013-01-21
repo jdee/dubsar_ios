@@ -47,6 +47,6 @@
 - (void)closeDB;
 - (id)initForTest;
 - (void)addWotdButton;
-- (void)updateWotdByUrl:(NSString*)url;
+- (void)updateWotdByUrl:(NSString*)url expiration:(id)expiration;
 
 @end

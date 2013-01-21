@@ -280,6 +280,11 @@
 - (void)resetWotd
 {
     [DailyWord resetWotd];
+    [self handleWotd];
+}
+
+- (void)handleWotd
+{
     [wotdButton setTitle:@"loading..." forState:UIControlStateNormal];
     [wotdButton setTitle:@"loading..." forState:UIControlStateHighlighted];
     [wotdButton setTitle:@"loading..." forState:UIControlStateSelected];
