@@ -69,7 +69,7 @@
 - (void)load
 {
     NSLog(@"in [WordViewController_iPhone load]");
-    if (!self.loading && !word.complete) {
+    if (!self.loading) {
         self.loading = true;
         [word load];
     }
