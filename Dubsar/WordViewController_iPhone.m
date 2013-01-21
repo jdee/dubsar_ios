@@ -292,6 +292,7 @@
     self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
 
     [self adjustInflections];
+    [inflectionsViewController loadComplete];
     
     NSLog(@"Load complete; adjusting table view");
     [self setTableViewFrame];

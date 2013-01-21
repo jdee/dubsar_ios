@@ -26,7 +26,7 @@
 @end
 
 @implementation InflectionsViewController_iPhone
-@synthesize tableView;
+@synthesize webView;
 @synthesize word;
 @synthesize parent;
 
@@ -36,84 +36,39 @@
     if (self) {
         self.word = theWord;
         self.parent = theParent; // assign, not retain
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setViewFrame) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
 }
 
-- (void)viewDidLoad
+- (void)loadComplete
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self setViewFrame];
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self setViewFrame];
-}
-
-- (void)setViewFrame
-{
-    /*
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    
-    int max = UIInterfaceOrientationIsLandscape(orientation) ? 4 : 7;
-    int count = word.inflections.count > max ? max : word.inflections.count;
-    
-    CGRect frame = self.view.frame;
-    frame.size.height = count * 44.0 + 74.0;
-    self.view.frame = frame;
-     */
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return [NSString stringWithFormat:@"Other forms of %@", word.nameAndPos];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return word.inflections.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    int row = indexPath.row;
-    
-    NSString* inflection = [word.inflections objectAtIndex:row];
-    static NSString* cellType = @"inflection";
-    
-    UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
-    }
-    
-    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
-    
-    cell.textLabel.textColor = appDelegate.dubsarTintColor;
-    cell.textLabel.font = appDelegate.dubsarNormalFont;
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    cell.textLabel.text = inflection;
-    
-    return cell;
+    [webView loadHTMLString:self.htmlInflections baseURL:nil];
 }
 
 - (IBAction)dismiss:(id)sender
 {
     [parent dismissInflections];
+}
+
+- (NSString *)htmlInflections
+{
+    NSString* html = @"<!DOCTYPE html><html><body style='color:#f85400; background-color:#000; font: bold 12pt Trebuchet MS'><h3>Other forms for ";
+    html = [html stringByAppendingFormat:@"%@", word.nameAndPos];
+    
+    if (word.freqCnt > 0) {
+        html = [html stringByAppendingFormat:@" freq. cnt.: %d", word.freqCnt];
+    }
+    
+    html = [html stringByAppendingString:@"</h3><ul style='list-style: none;'>"];
+    
+    int j;
+    for (j=0;j<word.inflections.count; ++j) {
+        NSString* inflection = [word.inflections objectAtIndex:j];
+        html = [html stringByAppendingFormat:@"<li>%@</li>", inflection];
+    }
+    
+    html = [html stringByAppendingString:@"</ul></body></html>"];
+    return html;
 }
 
 @end

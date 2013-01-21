@@ -22,14 +22,15 @@
 @class Word;
 @class WordViewController_iPhone;
 
-@interface InflectionsViewController_iPhone : UIViewController<UITableViewDataSource,UITabBarDelegate>
-@property (nonatomic, retain) IBOutlet UITableView* tableView;
+@interface InflectionsViewController_iPhone : UIViewController<UIWebViewDelegate>
+@property (nonatomic, retain) IBOutlet UIWebView* webView;
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, retain) WordViewController_iPhone* parent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord parent:(WordViewController_iPhone*)theParent;
 
 - (IBAction)dismiss:(id)sender;
-- (void)setViewFrame;
+- (NSString*)htmlInflections;
+- (void)loadComplete;
 
 @end
