@@ -105,7 +105,7 @@
         return false;
     }
     
-    word = [Word wordWithId:wotdId name:nil partOfSpeech:POSUnknown];
+    self.word = [Word wordWithId:wotdId name:nil partOfSpeech:POSUnknown];
     [word load];
     return true;
 }

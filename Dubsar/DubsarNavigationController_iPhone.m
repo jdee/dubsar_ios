@@ -19,6 +19,7 @@
 
 #import "DubsarAppDelegate_iPhone.h"
 #import "DubsarNavigationController_iPhone.h"
+#import "DubsarViewController_iPhone.h"
 
 @implementation DubsarNavigationController_iPhone
 @synthesize forwardStack;
@@ -107,6 +108,10 @@
     originalFrame = self.topViewController.view.frame;
     [self addGestureRecognizerToView:self.topViewController.view];
     
+    DubsarViewController_iPhone* viewController = (DubsarViewController_iPhone*)self.topViewController;
+    viewController.loading = false;
+    [viewController load];
+    
     return stack;
 }
 
@@ -156,10 +161,12 @@
 
 - (void)addWotdButton
 {
+    /*
     if ([self.topViewController respondsToSelector:@selector(handleWotd)]) {
         [self.topViewController handleWotd];
         return;
     }
+     */
     
     UIImage* wotdButtonImage = [UIImage imageNamed:@"wotd-button-hr.png"];
     UIImage* highlightedWotdButtonImage = [UIImage imageNamed:@"wotd-button-hihglighted-hr.png"];

@@ -60,6 +60,9 @@
                                      initWithNibName:@"AugurViewController_iPhone" bundle:nil];
         // augurViewController has retain semantics, so will retain this after init.
         [self.augurViewController release];
+        
+        dailyWord = [[DailyWord alloc]init];
+        dailyWord.delegate = self;
     }
     return self;
 }
@@ -103,8 +106,6 @@
     [wotdButton setTitle:@"loading..." forState:UIControlStateHighlighted];
     [wotdButton setTitle:@"loading..." forState:UIControlStateSelected];
     
-    self.dailyWord = [[[DailyWord alloc]init]autorelease];
-    dailyWord.delegate = self;
     [dailyWord load];
     
     self.searchBar.text = @"";
@@ -215,7 +216,10 @@
     if (response.statusCode == 0 || response.statusCode >= 400) {
         NSLog(@"login failed");
         // Prompt user for password and start over
-        [self login:nil];
+        
+        loginView.hidden = NO;
+        passwordTextField.text = @"";
+        [passwordTextField becomeFirstResponder];
    }
     
     JSONDecoder* decoder = [JSONDecoder decoder];
@@ -247,7 +251,7 @@
 {
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     self.loading = false;
-    if (![model isMemberOfClass:DailyWord.class]) {
+    if (![model isKindOfClass:DailyWord.class]) {
         return;
     }
     
@@ -267,16 +271,6 @@
          title = [title stringByAppendingFormat:@"; also %@", word.inflections];
          }
          */
-    }
-    
-    // If this is the first time the app is being run, the daily word will be retrieved
-    // fresh from the server. Light up the wotd indicator.
-    if (dailyWord.fresh) {
-        appDelegate.wotdUrl = [NSString stringWithFormat:@"dubsar://iPhone/words/%d", dailyWord.word._id];
-        appDelegate.wotdUnread = true;
-        [appDelegate addWotdButton];
-        
-        // TODO: Display an explanation this first time.
     }
     
     [wotdButton setTitle:title forState:UIControlStateNormal];

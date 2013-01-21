@@ -104,13 +104,14 @@
 // Called when user taps an iOS notification
 - (void)handleBackgroundNotification:(NSDictionary *)notification
 {
-    NSString* type = [notification valueForKey:@"dubsar_type"];
+    NSDictionary* dubsarPayload = [notification valueForKey:@"dubsar"];
+    NSString* type = [dubsarPayload valueForKey:@"type"];
     if (![type isEqualToString:@"wotd"]) {
         NSLog(@"Unrecognized message type: \"%@\"", type);
         return;
     }
 
-    NSString* url = [notification valueForKey:@"dubsar_url"];
+    NSString* url = [dubsarPayload valueForKey:@"url"];
     [self updateWotdByUrl:url];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
@@ -119,15 +120,16 @@
 - (void)handleNotification:(NSDictionary *)notification withCustomPayload:(NSDictionary *)customPayload
 {
     NSLog(@"push received");
-    NSString* type = [customPayload valueForKey:@"dubsar_type"];
+    NSDictionary *dubsarPayload = [notification valueForKey:@"dubsar"];
+    NSString* type = [dubsarPayload valueForKey:@"type"];
     if (![type isEqualToString:@"wotd"]) {
         NSLog(@"Unrecognized message type: \"%@\"", type);
         return;
     }
         
-    NSString* url = [customPayload valueForKey:@"dubsar_url"];
+    NSString* url = [dubsarPayload valueForKey:@"url"];
     if (url) {
-        NSLog(@"dubsar_url: %@", url);
+        NSLog(@"dubsar url: %@", url);
         [self updateWotdByUrl:url];
         
         self.wotdUrl = url;
