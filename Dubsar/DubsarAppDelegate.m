@@ -241,13 +241,13 @@
         srcURL = [resourceURL URLByAppendingPathComponent:PRODUCTION_DB_NAME];
     }
     
+#ifdef DUBSAR_EDITORIAL_BUILD
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSArray* urls = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
     NSURL* url = [urls objectAtIndex:0];
     NSString* appBundleID = [[NSBundle mainBundle] bundleIdentifier];
     NSURL* appDataDir = [[url URLByAppendingPathComponent:appBundleID]
                          URLByAppendingPathComponent:@"Data"];
-    
     NSString* installedDBPath = nil;
     if (dbName) {
         installedDBPath = [[appDataDir path] stringByAppendingPathComponent:dbName];
@@ -273,17 +273,28 @@
     }
     
     [self closeDB];
-       
+    
     int rc;
     if ((rc=sqlite3_open_v2([installedDBPath cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READWRITE, NULL)) != SQLITE_OK) {
         NSLog(@"error opening database %@, %d", installedDBPath, rc);
         database = NULL;
         return;
     }
+#else
+    [self closeDB];
+    
+    int rc;
+    if ((rc=sqlite3_open_v2([srcURL.path cStringUsingEncoding:NSUTF8StringEncoding], &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
+        NSLog(@"error opening database %@, %d", srcURL.path, rc);
+        database = NULL;
+        return;
+    }
+#endif // DUBSAR_EDITORIAL_BUILD
     
     NSLog(@"successfully opened database %@", dbName);
     NSString* sql;
-    
+   
+#ifdef DUBSAR_EDITORIAL_BUILD
     if (recreateFTSTables) {
         sqlite3_stmt* statement;
         if ((rc=sqlite3_prepare_v2(database,
@@ -364,6 +375,7 @@
         sqlite3_finalize(statement);
     }
 #endif
+#endif // DUBSAR_EDITORIAL_BUILD
     
     /*
      * Prepared statements for the Autocompleter

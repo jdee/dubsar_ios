@@ -33,7 +33,7 @@
 @implementation DubsarViewController_iPhone
 @synthesize wotdButton;
 @synthesize dailyWord;
-@synthesize augurViewController;
+@synthesize auguryViewController;
 @synthesize emailTextField, loginView, passwordTextField;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -56,10 +56,10 @@
         titleView.bounds = bounds;
 
         self.navigationItem.titleView = titleView;
-        self.augurViewController = [[AuguryViewController_iPhone alloc]
+        self.auguryViewController = [[AuguryViewController_iPhone alloc]
                                      initWithNibName:@"AugurViewController_iPhone" bundle:nil];
         // augurViewController has retain semantics, so will retain this after init.
-        [self.augurViewController release];
+        [self.auguryViewController release];
         
         dailyWord = [[DailyWord alloc]init];
         dailyWord.delegate = self;
@@ -80,7 +80,9 @@
 {
     [super viewDidLoad];
     self.loginView.hidden = YES;
+#ifdef DUBSAR_EDITORIAL_BUILD
     [self checkForCredentials];
+#endif // DUBSAR_EDITORIAL_BUILD
 }
 
 - (void)viewDidUnload
@@ -128,7 +130,7 @@
 
 - (void)displayAugury
 {
-    [self presentModalViewController:self.augurViewController animated: YES];
+    [self presentModalViewController:self.auguryViewController animated: YES];
 }
 
 - (void)displayReview
@@ -231,18 +233,22 @@
 {
     UIBarButtonItem* faqButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)]autorelease];
     UIBarButtonItem* aboutButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAbout)]autorelease];
-    UIBarButtonItem* augurButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Augur" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAugury)]autorelease];
+    UIBarButtonItem* auguryButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Augur" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAugury)]autorelease];
+#ifdef DUBSAR_EDITORIAL_BUILD
     UIBarButtonItem* reviewButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Review" style:UIBarButtonItemStyleBordered target:self action:@selector(displayReview)]autorelease];
     UIBarButtonItem* syncButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Sync" style:UIBarButtonItemStyleBordered target:self action:@selector(displaySync)]autorelease];
     UIBarButtonItem* resetButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Reset" style:UIBarButtonItemStyleBordered target:self action:@selector(resetWotd)]autorelease];
+#endif // DUBSAR_EDITORIAL_BUILD
    
     NSMutableArray* buttonItems = [NSMutableArray array];
     [buttonItems addObject:faqButtonItem];
     [buttonItems addObject:aboutButtonItem];
-    [buttonItems addObject:augurButtonItem];
+    [buttonItems addObject:auguryButtonItem];
+#ifdef DUBSAR_EDITORIAL_BUILD
     [buttonItems addObject:reviewButtonItem];
     [buttonItems addObject:resetButtonItem];
     [buttonItems addObject:syncButtonItem];
+#endif // DUBSAR_EDITORIAL_BUILDs
     
     self.toolbarItems = buttonItems.retain;
 }

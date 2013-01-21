@@ -76,11 +76,13 @@
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
+#ifdef DUBSAR_EDITORIAL_BUILD
     UIBarButtonItem* editButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editInflections)]autorelease];
     
-    NSMutableArray* buttonItems = [NSMutableArray arrayWithObjects:homeButtonItem, editButtonItem, nil];
-    
-    self.toolbarItems = buttonItems;
+    self.toolbarItems = [NSArray arrayWithObjects:homeButtonItem, editButtonItem, nil];
+#else
+    self.toolbarItems = [NSArray arrayWithObject:homeButtonItem];
+#endif // DUBSAR_EDITORIAL_BUILD
 }
 
 - (void)didReceiveMemoryWarning

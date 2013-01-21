@@ -31,7 +31,7 @@
 @property (nonatomic, retain) IBOutlet UIView* loginView;
 @property (nonatomic, retain) IBOutlet UITextField* emailTextField;
 @property (nonatomic, retain) IBOutlet UITextField* passwordTextField;
-@property (nonatomic, retain) AuguryViewController_iPhone* augurViewController;
+@property (nonatomic, retain) AuguryViewController_iPhone* auguryViewController;
 
 - (void)displayFAQ;
 - (void)displayAbout;
