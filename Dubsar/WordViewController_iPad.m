@@ -32,7 +32,7 @@
 @synthesize tableView=_tableView;
 @synthesize toolbar;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord title:(NSString*)title
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -42,7 +42,14 @@
         inflectionsShowing = false;
         inflectionsViewController = [[InflectionsViewController_iPad alloc] initWithNibName:@"InflectionsViewController_iPad" bundle:nil word:word];
         
-        self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
+        if (title) {
+            customTitle = true;
+            self.title = title;
+        }
+        else {
+            customTitle = false;
+            self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
+        }
     }
     return self;
 }

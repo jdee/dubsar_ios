@@ -178,7 +178,7 @@
 {
     if (!dailyWord.complete || dailyWord.error) return;
     
-    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:dailyWord.word]autorelease];
+    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:dailyWord.word title:@"Word of the Day"]autorelease];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

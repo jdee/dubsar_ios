@@ -21,13 +21,11 @@
 #import "DubsarNavigationController_iPad.h"
 #import "DubsarViewController_iPad.h"
 #import "Word.h"
-#import "WordPopoverViewController_iPad.h"
+#import "WordViewController_iPad.h"
 
 @implementation DubsarViewController_iPad
 @synthesize dailyWord;
 @synthesize wotdButton;
-@synthesize wordPopoverController;
-@synthesize dailyWordIsLive;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,7 +33,8 @@
     if (self) {
         // Custom initialization
         self.title = @"Home";
-        dailyWordIsLive = false;
+        self.dailyWord = DailyWord.dailyWord;
+        self.dailyWord.delegate = self;
     }
     return self;
 }
@@ -43,7 +42,6 @@
 - (void)dealloc
 {
     [dailyWord release];
-    [wordPopoverController release];
     [wotdButton release];
     [super dealloc];
 }
@@ -61,8 +59,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    [self showWotd:nil];
+    [dailyWord load];
 }
 
 - (void)viewDidUnload
@@ -75,6 +72,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    appDelegate.wotdUnread = false;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -83,21 +82,9 @@
 	return YES;
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    if (popoverWasVisible) {
-        [wordPopoverController presentPopoverFromRect:wotdButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    popoverWasVisible = wordPopoverController.popoverVisible;
-    [wordPopoverController dismissPopoverAnimated:YES];        
-}
-
 - (void)loadComplete:(Model *)model withError:(NSString *)error
-{    
+{
+    NSLog(@"daily word load complete");
     DailyWord* theDailyWord = (DailyWord*)model;
 
     if (theDailyWord.error) {
@@ -112,38 +99,28 @@
         // turn on the wotd indicator if we're starting fresh
         DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
         appDelegate.wotdUrl = [NSString stringWithFormat:@"dubsar://iPad/words/%d", dailyWord.word._id];
-        appDelegate.wotdUnread = true;
-        [appDelegate addWotdButton];
+        // appDelegate.wotdUnread = true;
+        // [appDelegate addWotdButton];
         
         // TODO: Display help the first time
     }
     
-    if (!dailyWordIsLive) {
-        // don't display the popover if we're just probing on startup
-        return;
+    NSString* title = dailyWord.word.nameAndPos;
+    if (dailyWord.word.freqCnt > 0) {
+        title = [title stringByAppendingFormat:@" freq. cnt.: %d", dailyWord.word.freqCnt];
     }
     
-    WordPopoverViewController_iPad* viewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:theDailyWord.word]autorelease];
-    [viewController load];
-    self.wordPopoverController = [[[UIPopoverController alloc]initWithContentViewController:viewController]autorelease];
-    viewController.popoverController = wordPopoverController;
-    viewController.navigationController = self.navigationController;
-    
-    [wordPopoverController presentPopoverFromRect:wotdButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [wotdButton setTitle:title forState:UIControlStateNormal];
+    [wotdButton setTitle:title forState:UIControlStateHighlighted];
+    [wotdButton setTitle:title forState:UIControlStateDisabled];
 }
 
 - (IBAction)showWotd:(id)sender 
 {
-    dailyWordIsLive = sender != nil;
-    
-    dailyWord = [[DailyWord alloc]init];
-    dailyWord.delegate = self;
     [dailyWord load];
-    
-    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
-    DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
-    [navigationController disableWotdButton];
-    appDelegate.wotdUnread = false;
+    WordViewController_iPad* viewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:dailyWord.word title:@"Word of the Day"] autorelease];
+    [viewController load];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 @end

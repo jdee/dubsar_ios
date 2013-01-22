@@ -555,7 +555,9 @@ static int _seqNum = 0;
         
         Word* word = [Word wordWithId:numericId.intValue name:name posString:posString];
         word.freqCnt = numericFc.intValue;
-        word.inflections = otherForms;
+        
+        // DEBT: Fix this before working with the server again
+        // word.inflections = otherForms;
         
         [results insertObject:word atIndex:j];
     }

@@ -30,6 +30,7 @@
     UITextView *bannerTextView;
     InflectionsViewController_iPhone* inflectionsViewController;
     bool inflectionsShowing;
+    bool customTitle;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
@@ -38,7 +39,7 @@
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, assign) Model* parentDataSource;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord title:(NSString*)theTitle;
 
 - (void)adjustBanner;
 - (void)setTableViewFrame;

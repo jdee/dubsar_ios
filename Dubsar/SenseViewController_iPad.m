@@ -412,7 +412,7 @@
 
 - (IBAction)showWordView:(id)sender 
 {
-    WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word]autorelease];
+    WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word title:nil]autorelease];
     [wordViewController load];
     [self.navigationController pushViewController:wordViewController animated:YES];
 }

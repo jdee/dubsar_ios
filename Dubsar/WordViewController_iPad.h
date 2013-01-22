@@ -28,6 +28,7 @@
     UILabel *bannerLabel;
     bool inflectionsShowing;
     InflectionsViewController_iPad* inflectionsViewController;
+    bool customTitle;
 }
 
 @property (nonatomic, retain) Word* word;
@@ -35,7 +36,7 @@
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIToolbar* toolbar;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord title:(NSString*)theTitle;
 - (void)adjustBanner;
 - (void)loadRootController;
 - (void)load;

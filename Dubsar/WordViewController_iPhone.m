@@ -31,7 +31,7 @@
 @synthesize word;
 @synthesize parentDataSource;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord title:(NSString*)theTitle
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -43,7 +43,14 @@
         inflectionsViewController = nil;
         inflectionsShowing = false;
 
-        self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
+        if (theTitle) {
+            customTitle = true;
+            self.title = theTitle;
+        }
+        else {
+            customTitle = false;
+            self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
+        }
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setTableViewFrame) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
@@ -289,7 +296,7 @@
     
     NSLog(@"word %@ inflections \"%@\"", word.nameAndPos, word.inflections);
    
-    self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
+    if (!customTitle) self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
 
     [self adjustBanner];
     [inflectionsViewController loadComplete];

@@ -71,13 +71,27 @@
         return [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     }
     
+    if ([url.path hasPrefix:@"/wotd/"]) {
+        NSLog(@"Opening %@", url);
+        
+        int wordId = [[url lastPathComponent] intValue];
+        Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
+        [_navigationController dismissViewControllerAnimated:YES completion:nil];
+        WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word title:@"Word of the Day"]autorelease];
+        [viewController load];
+        [_navigationController pushViewController:viewController animated:YES];
+        
+        self.wotdUnread = false;
+        return YES;
+    }
+    
     if ([url.path hasPrefix:@"/words/"]) {
         NSLog(@"Opening %@", url);
         
         int wordId = [[url lastPathComponent] intValue];
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
         [_navigationController dismissViewControllerAnimated:YES completion:nil];
-        WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word]autorelease];
+        WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word title:nil]autorelease];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         return YES;

@@ -248,7 +248,7 @@
     if (!search || !search.complete || search.error || search.results.count == 0) return;
     
     Word* word = [search.results objectAtIndex:indexPath.row];
-    WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
+    WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:nil]autorelease];
     [wordViewController load];
     [self.navigationController pushViewController:wordViewController animated:YES];
 }

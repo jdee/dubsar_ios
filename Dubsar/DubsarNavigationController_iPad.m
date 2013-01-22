@@ -105,6 +105,9 @@
     [self addToolbar:self.topViewController];
     
     originalFrame = self.topViewController.view.frame;
+    
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    appDelegate.wotdUnread = false;
 
     return stack;
 }

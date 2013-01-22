@@ -82,7 +82,7 @@
         
     [popoverController dismissPopoverAnimated:YES];
     
-    WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word]autorelease];
+    WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:nil]autorelease];
     [viewController load];
     [navigationController pushViewController:viewController animated:YES];
     
