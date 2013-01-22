@@ -20,10 +20,14 @@
 #import "SearchBarViewController_iPhone.h"
 
 @class Search;
+@class WordViewController_iPhone;
 
 @interface SearchViewController_iPhone : SearchBarViewController_iPhone {
 
     UIPageControl *_pageControl;
+    WordViewController_iPhone* firstWordViewController;
+    bool detailShowing;
+    UIColor* originalColor;
 }
 
 @property (nonatomic, retain) Search* search;
@@ -36,5 +40,7 @@
 - (void)setSearchTitle:(NSString*)theTitle;
 
 - (IBAction)pageChanged:(id)sender;
+
+- (void)toggleDetail;
 
 @end

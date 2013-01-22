@@ -30,6 +30,7 @@
 @synthesize bannerTextView;
 @synthesize word;
 @synthesize parentDataSource;
+@synthesize actualNavigationController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord title:(NSString*)theTitle
 {
@@ -123,6 +124,8 @@
     
     [inflectionsViewController.view setHidden:YES];
     [self.view addSubview:inflectionsViewController.view];
+
+    if (!actualNavigationController) self.actualNavigationController = self.navigationController;
 }
 
 - (void)viewDidUnload
@@ -229,7 +232,7 @@
     
     int index = indexPath.section;
     Sense* sense = [word.senses objectAtIndex:index];
-    [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense]autorelease] animated:YES];
+    [actualNavigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense]autorelease] animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
@@ -374,7 +377,7 @@
     tableView.contentSize = CGSizeMake(frame.size.width, height);
     tableView.frame = frame;
     
-    bannerTextView.hidden = NO;
+    // bannerTextView.hidden = NO;
 }
 
 - (void)modalViewControllerDismissed:(UIViewController *)viewController mustReload:(BOOL)reload

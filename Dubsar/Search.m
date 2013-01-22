@@ -431,7 +431,7 @@ static int _seqNum = 0;
         @"FROM words w "
         @"INNER JOIN inflections i ON i.word_id = w.id "
         @"WHERE i.name = ? "
-        @"ORDER BY w.name ASC, w.part_of_speech ASC";
+        @"ORDER BY w.name ASC, w.freq_cnt DESC, w.part_of_speech ASC";
         NSLog(@"preparing statement %@", exactSql);
         if ((rc=sqlite3_prepare_v2(appDelegate.database, [exactSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
@@ -551,12 +551,12 @@ static int _seqNum = 0;
         NSString* name = [entry objectAtIndex:1];
         NSString* posString = [entry objectAtIndex:2];
         NSNumber* numericFc = [entry objectAtIndex:3];
-        NSString* otherForms = [entry objectAtIndex:4];
         
         Word* word = [Word wordWithId:numericId.intValue name:name posString:posString];
         word.freqCnt = numericFc.intValue;
         
         // DEBT: Fix this before working with the server again
+        // NSString* otherForms = [entry objectAtIndex:4];
         // word.inflections = otherForms;
         
         [results insertObject:word atIndex:j];

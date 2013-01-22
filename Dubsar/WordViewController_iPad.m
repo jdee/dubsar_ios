@@ -326,9 +326,11 @@
     CGRect frame = inflectionsViewController.view.frame;
     if (UIInterfaceOrientationIsLandscape(orientation)) {
         frame.size.height = 704.0;
+        frame.size.width = 703.0;
     }
     else {
         frame.size.height = 960.0;
+        frame.size.width = 768.0;
     }
     inflectionsViewController.view.frame = frame;
 }

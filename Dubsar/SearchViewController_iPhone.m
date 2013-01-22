@@ -45,12 +45,16 @@
         search.delegate = self;
                 
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", _searchText];
+        firstWordViewController = nil;
+        detailShowing = false;
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [originalColor release];
+    [firstWordViewController release];
     [_tableView release];
     search.delegate = nil;
     [search release];
@@ -73,12 +77,14 @@
     [search load];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)createToolbarItems
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+    UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
+    UIBarButtonItem* detailButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Detail" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleDetail)] autorelease];
     
-    // Release any cached data, images, etc that aren't in use.
+    NSMutableArray* buttonItems = [NSMutableArray arrayWithObjects:homeButtonItem, detailButtonItem, nil];
+    
+    self.toolbarItems = buttonItems;
 }
 
 #pragma mark - View lifecycle
@@ -86,7 +92,35 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    firstWordViewController = [[WordViewController_iPhone alloc] initWithNibName:@"WordViewController_iPhone" bundle:nil word:nil title:nil];
+    firstWordViewController.view.hidden = YES;
+    firstWordViewController.searchBar.hidden = YES;
+    firstWordViewController.autocompleterTableView.hidden = YES;
+    firstWordViewController.bannerTextView.hidden = YES;
+    
+    [self.view addSubview:firstWordViewController.view];
+    
+    CGRect frame = firstWordViewController.view.frame;
+    CGRect bounds = firstWordViewController.view.bounds;
+    
+    // clip this many points off the top of the embedded view
+    double clip = 88.0;
+    
+    // offset for the clipped embedded view in the main one
+    double offset = 88.0;
+    
+    bounds.origin.y = clip;
+    bounds.size.height -= clip;
+    
+    frame.origin.y = offset;
+    frame.size.height -= offset;
+    
+    firstWordViewController.view.bounds = bounds;
+    firstWordViewController.view.frame = frame;
+    
+    NSLog(@"bounds: origin.x=%f, origin.y=%f, size.width=%f, size.height=%f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+    NSLog(@"frame: origin.x=%f, origin.y=%f, size.width=%f, size.height=%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
 }
 
 - (void)viewDidUnload
@@ -280,12 +314,16 @@
         _pageControl.enabled = YES;
         
         int rows = search.results.count > 1 ? search.results.count : 1 ;
-        float height = (rows)*44.0;
+        float height = rows * 44.0;
         
         _tableView.contentSize = CGSizeMake(_tableView.frame.size.width, height);
         [self setTableViewHeight];
         if (search.totalPages > 1) {
             [self setSearchTitle:[NSString stringWithFormat:@"\"%@\" p. %d of %d", search.title, search.currentPage, search.totalPages]];
+        }
+        
+        if (search.results.count > 0 && search.currentPage <= 1 && !detailShowing) {
+            [self toggleDetail];
         }
     }
     [_tableView reloadData];
@@ -321,6 +359,35 @@
 {
     // NSLog(@"device rotated");
     [self setTableViewHeight];
+}
+
+- (void)toggleDetail
+{
+    if (!detailShowing && search.results.count > 0) {
+        firstWordViewController.actualNavigationController = self.navigationController;
+        firstWordViewController.word = [search.results objectAtIndex:0];
+        firstWordViewController.loading = false;
+        [firstWordViewController load];
+        
+        firstWordViewController.view.hidden = NO;
+        detailShowing = true;
+        
+        originalColor = [_tableView.backgroundColor retain];
+        _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.89 blue:0.62 alpha:1.0];
+    }
+    else {
+        firstWordViewController.view.hidden = YES;
+        detailShowing = false;
+        _tableView.backgroundColor = originalColor;
+        [originalColor release];
+        originalColor = nil;
+    }
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    if (detailShowing) [self toggleDetail];
+    [super searchBarTextDidBeginEditing:searchBar];
 }
 
 @end

@@ -213,7 +213,9 @@
 
 - (void)loadWordView
 {
-    [self.navigationController pushViewController:[[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:sense.word title:nil]autorelease] animated:YES];
+    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:sense.word title:nil]autorelease];
+    [viewController load];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)createToolbarItems
