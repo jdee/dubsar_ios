@@ -25,18 +25,18 @@
 
 @interface WordViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
     
-    UILabel *inflectionsLabel;
+    UILabel *bannerLabel;
     bool inflectionsShowing;
     InflectionsViewController_iPad* inflectionsViewController;
 }
 
 @property (nonatomic, retain) Word* word;
-@property (nonatomic, retain) IBOutlet UILabel *inflectionsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIToolbar* toolbar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
-- (void)adjustInflections;
+- (void)adjustBanner;
 - (void)loadRootController;
 - (void)load;
 - (void)setTableViewHeight;

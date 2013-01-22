@@ -27,7 +27,7 @@
 
 @implementation WordViewController_iPhone
 @synthesize tableView;
-@synthesize inflectionsTextView;
+@synthesize bannerTextView;
 @synthesize word;
 @synthesize parentDataSource;
 
@@ -57,7 +57,7 @@
     word.delegate = nil;
     [word release];
     [tableView release];
-    [inflectionsTextView release];
+    [bannerTextView release];
     [super dealloc];
 }
 
@@ -121,7 +121,7 @@
 - (void)viewDidUnload
 {
     [self setTableView:nil];
-    [self setInflectionsTextView:nil];
+    [self setBannerTextView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -137,7 +137,7 @@
         // going to get another chance to adjust things. Ordinarily, you
         // should call [viewController load] when you push it onto the
         // navigation stack though.
-        [self adjustInflections];
+        [self adjustBanner];
         [self setTableViewFrame];
     }
     
@@ -283,7 +283,7 @@
     
     if (error) {
         [tableView setHidden:YES];
-        [inflectionsTextView setText:error];
+        [bannerTextView setText:error];
         return;
     }
     
@@ -291,7 +291,7 @@
    
     self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
 
-    [self adjustInflections];
+    [self adjustBanner];
     [inflectionsViewController loadComplete];
     
     NSLog(@"Load complete; adjusting table view");
@@ -299,21 +299,13 @@
     [tableView reloadData];
 }
 
-- (void)adjustInflections
+- (void)adjustBanner
 {
-    if (word.freqCnt == 0) {
-        inflectionsTextView.hidden = YES;
-        CGRect frame = tableView.frame;
-        frame.origin.y = 44.0;
-        tableView.frame = frame;
-        return;
-    }
-    
-    NSString* text = [NSString string];
+    NSString* text = word.nameAndPos;
     if (word.freqCnt > 0) {
-        text = [text stringByAppendingFormat:@"freq. cnt.: %d", word.freqCnt];
+        text = [text stringByAppendingFormat:@" freq. cnt.: %d", word.freqCnt];
     }
-    inflectionsTextView.text = text;
+    bannerTextView.text = text;
 }
 
 - (void)editInflections
@@ -355,14 +347,13 @@
 
 - (void)setTableViewFrame
 {
-    bool inflectionsShowing = word.freqCnt > 0;
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
     
     CGRect bounds = [[UIScreen mainScreen] bounds];
     
     // BUG: Where do these extra 12 points come from? Should be 212 in landscape.
     float maxHeight = UIInterfaceOrientationIsPortrait(orientation) ? bounds.size.height - 152.0 : 224.0 ;
-    if (inflectionsShowing) maxHeight -= 44.0;
+    maxHeight -= 44.0;
     
     float height = 66.0*[self numberOfSectionsInTableView:tableView];  
     
@@ -371,12 +362,12 @@
     frame.size.height = height > maxHeight ? maxHeight : height;
     frame.size.width = UIInterfaceOrientationIsPortrait(orientation) ? bounds.size.width : bounds.size.height;
     frame.origin.x = 0.0;
-    frame.origin.y = inflectionsShowing ? 88.0 : 44.0;
+    frame.origin.y = 88.0;
     
     tableView.contentSize = CGSizeMake(frame.size.width, height);
     tableView.frame = frame;
     
-    inflectionsTextView.hidden = !inflectionsShowing;
+    bannerTextView.hidden = NO;
 }
 
 - (void)modalViewControllerDismissed:(UIViewController *)viewController mustReload:(BOOL)reload

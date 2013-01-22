@@ -27,20 +27,20 @@
 @interface WordViewController_iPhone : SearchBarViewController_iPhone<ModalViewControllerDelegate,LoadDelegate> {
     
     UITableView *tableView;
-    UITextView *inflectionsTextView;
+    UITextView *bannerTextView;
     InflectionsViewController_iPhone* inflectionsViewController;
     bool inflectionsShowing;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UITextView *inflectionsTextView;
+@property (nonatomic, retain) IBOutlet UITextView *bannerTextView;
 
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, assign) Model* parentDataSource;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 
-- (void)adjustInflections;
+- (void)adjustBanner;
 - (void)setTableViewFrame;
 - (void)editInflections;
 - (void)toggleInflections;

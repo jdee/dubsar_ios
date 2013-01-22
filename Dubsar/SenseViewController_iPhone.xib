@@ -39,7 +39,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="191373211">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -170,7 +170,6 @@
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 64}, {320, 372}}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="382841296"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>

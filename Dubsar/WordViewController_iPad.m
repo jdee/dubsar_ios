@@ -28,7 +28,7 @@
 @implementation WordViewController_iPad
 
 @synthesize word;
-@synthesize inflectionsLabel;
+@synthesize bannerLabel;
 @synthesize tableView=_tableView;
 @synthesize toolbar;
 
@@ -53,7 +53,7 @@
     
     word.delegate = nil;
     [word release];
-    [inflectionsLabel release];
+    [bannerLabel release];
     [_tableView release];
     [super dealloc];
 }
@@ -84,7 +84,7 @@
 
 - (void)viewDidUnload
 {
-    [self setInflectionsLabel:nil];
+    [self setBannerLabel:nil];
     [self setTableView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -225,7 +225,7 @@
     
     if (error) {
         [_tableView setHidden:YES];
-        [inflectionsLabel setText:error];
+        [bannerLabel setText:error];
         return;
     }
     
@@ -233,7 +233,7 @@
     
     [self setTableViewHeight];
 
-    [self adjustInflections];
+    [self adjustBanner];
     [self adjustInflectionsView];
     
     if (word.inflections.count > 0) {
@@ -246,21 +246,14 @@
     [_tableView reloadData];
 }
 
-- (void)adjustInflections
+- (void)adjustBanner
 {
-    if (word.freqCnt == 0 && !word.error) {
-        inflectionsLabel.hidden = YES;
-        CGRect frame = _tableView.frame;
-        frame.origin.y = 44.0;
-        _tableView.frame = frame;
-    }
-    
-    NSString* text = [NSString string];
+    NSString* text = word.nameAndPos;
     if (word.freqCnt > 0) {
-        text = [text stringByAppendingFormat:@"freq. cnt.: %d", word.freqCnt];
+        text = [text stringByAppendingFormat:@" freq. cnt.: %d", word.freqCnt];
     }
     
-    inflectionsLabel.text = text;
+    bannerLabel.text = text;
 }
 
 - (void)loadRootController
@@ -273,7 +266,7 @@
     UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
     
     float maxHeight = UIInterfaceOrientationIsPortrait(currentOrientation) ? 960.0 : 704.0 ;
-    if (word.freqCnt > 0 || word.error) maxHeight -= 44.0;
+    maxHeight -= 44.0;
     
     float height = 66.0 * [self numberOfSectionsInTableView:_tableView];
         
@@ -303,7 +296,7 @@
     inflectionsShowing = true;
     [self adjustInflectionsView];
     [UIView transitionWithView:self.view duration:0.4 options:UIViewAnimationOptionTransitionCurlUp animations:^{
-        inflectionsLabel.hidden = YES;
+        bannerLabel.hidden = YES;
         _tableView.hidden = YES;
         inflectionsViewController.view.hidden = NO;
     } completion:nil];
@@ -313,7 +306,7 @@
 {
     inflectionsShowing = false;
     [UIView transitionWithView:self.view duration:0.4 options:UIViewAnimationOptionTransitionCurlDown animations:^{
-        inflectionsLabel.hidden = NO;
+        bannerLabel.hidden = NO;
         _tableView.hidden = NO;
         inflectionsViewController.view.hidden = YES;
         
