@@ -18,6 +18,7 @@
  */
 
 #import "DubsarAppDelegate_iPad.h"
+#import "InflectionsViewController_iPad.h"
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
 #import "Word.h"
@@ -29,6 +30,7 @@
 @synthesize word;
 @synthesize inflectionsLabel;
 @synthesize tableView=_tableView;
+@synthesize toolbar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord
 {
@@ -37,6 +39,8 @@
         // Custom initialization
         word = [theWord retain];
         word.delegate = self;
+        inflectionsShowing = false;
+        inflectionsViewController = [[InflectionsViewController_iPad alloc] initWithNibName:@"InflectionsViewController_iPad" bundle:nil word:word];
         
         self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
     }
@@ -45,6 +49,8 @@
 
 - (void)dealloc
 {
+    [inflectionsViewController release];
+    
     word.delegate = nil;
     [word release];
     [inflectionsLabel release];
@@ -71,7 +77,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+    [self.view addSubview:inflectionsViewController.view];
+    [inflectionsViewController.view setHidden:YES];
 }
 
 - (void)viewDidUnload
@@ -226,6 +234,14 @@
     [self setTableViewHeight];
 
     [self adjustInflections];
+    [self adjustInflectionsView];
+    
+    if (word.inflections.count > 0) {
+        [inflectionsViewController load];
+    }
+    else {
+        [toolbar setHidden:YES];
+    }
 
     [_tableView reloadData];
 }
@@ -273,7 +289,48 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self setTableViewHeight];
+    [self adjustInflectionsView];
 }
 
+- (void)toggleInflections:(id)sender
+{
+    if (inflectionsShowing) [self dismissInflections];
+    else [self showInflections];
+}
+
+- (void)showInflections
+{
+    inflectionsShowing = true;
+    [self adjustInflectionsView];
+    [UIView transitionWithView:self.view duration:0.4 options:UIViewAnimationOptionTransitionCurlUp animations:^{
+        inflectionsLabel.hidden = YES;
+        _tableView.hidden = YES;
+        inflectionsViewController.view.hidden = NO;
+    } completion:nil];
+}
+
+- (void)dismissInflections
+{
+    inflectionsShowing = false;
+    [UIView transitionWithView:self.view duration:0.4 options:UIViewAnimationOptionTransitionCurlDown animations:^{
+        inflectionsLabel.hidden = NO;
+        _tableView.hidden = NO;
+        inflectionsViewController.view.hidden = YES;
+        
+    } completion:nil];
+}
+
+- (void)adjustInflectionsView
+{
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    CGRect frame = inflectionsViewController.view.frame;
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        frame.size.height = 704.0;
+    }
+    else {
+        frame.size.height = 960.0;
+    }
+    inflectionsViewController.view.frame = frame;
+}
 
 @end

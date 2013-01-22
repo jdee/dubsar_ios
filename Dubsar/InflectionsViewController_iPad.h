@@ -18,32 +18,15 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "LoadDelegate.h"
 
-@class InflectionsViewController_iPad;
 @class Word;
 
-@interface WordViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
-    
-    UILabel *inflectionsLabel;
-    bool inflectionsShowing;
-    InflectionsViewController_iPad* inflectionsViewController;
-}
-
+@interface InflectionsViewController_iPad : UIViewController<UIWebViewDelegate>
+@property (nonatomic, retain) IBOutlet UIWebView* webView;
 @property (nonatomic, retain) Word* word;
-@property (nonatomic, retain) IBOutlet UILabel *inflectionsLabel;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UIToolbar* toolbar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
-- (void)adjustInflections;
-- (void)loadRootController;
-- (void)load;
-- (void)setTableViewHeight;
-- (void)adjustInflectionsView;
 
-- (IBAction)toggleInflections:(id)sender;
-- (void)showInflections;
-- (void)dismissInflections;
+- (void)load;
 
 @end

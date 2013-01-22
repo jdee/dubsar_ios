@@ -33,6 +33,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.augury = [NSString string];
+        self.title = @"Augury";
     }
     return self;
 }
