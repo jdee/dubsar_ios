@@ -49,9 +49,10 @@
 							<object class="IBUISearchBar" id="904500334">
 								<reference key="NSNextResponder" ref="816494190"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{489, 0}, {264, 44}}</string>
+								<string key="NSFrame">{{489, 0}, {212, 44}}</string>
 								<reference key="NSSuperview" ref="816494190"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:573</string>
 								<int key="IBUIContentMode">3</int>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>

@@ -94,12 +94,6 @@
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="428224154"/>
 							</object>
-							<object class="IBUIBarButtonItem" id="494800054">
-								<string key="IBUITitle">Reset</string>
-								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<int key="IBUIStyle">1</int>
-								<reference key="IBUIToolbar" ref="428224154"/>
-							</object>
 						</object>
 						<object class="NSColor" key="IBUITintColor">
 							<int key="NSColorSpace">1</int>
@@ -883,14 +877,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">resetWotd:</string>
-						<reference key="source" ref="494800054"/>
-						<reference key="destination" ref="841351856"/>
-					</object>
-					<int key="connectionID">86</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">augur:</string>
 						<reference key="source" ref="977090729"/>
 						<reference key="destination" ref="841351856"/>
@@ -958,7 +944,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="914653212"/>
 							<reference ref="673673077"/>
-							<reference ref="494800054"/>
 							<reference ref="977090729"/>
 						</object>
 						<reference key="parent" ref="766721923"/>
@@ -1054,11 +1039,6 @@
 						<reference key="parent" ref="766721923"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">85</int>
-						<reference key="object" ref="494800054"/>
-						<reference key="parent" ref="428224154"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">87</int>
 						<reference key="object" ref="977090729"/>
 						<reference key="parent" ref="428224154"/>
@@ -1110,7 +1090,6 @@
 					<string>64.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>66.IBPluginDependency</string>
 					<string>66.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
-					<string>85.IBPluginDependency</string>
 					<string>87.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
@@ -1156,7 +1135,6 @@
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="0.0"/>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
