@@ -43,6 +43,9 @@
         self.parentDataSource = nil;
         inflectionsViewController = nil;
         inflectionsShowing = false;
+        previewShowing = false;
+        
+        firstSenseViewController = [[SenseViewController_iPhone alloc] initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:nil];
 
         if (theTitle) {
             customTitle = true;
@@ -61,6 +64,8 @@
 
 - (void)dealloc
 {
+    [originalColor release];
+    [firstSenseViewController release];
     [inflectionsViewController release];
     word.delegate = nil;
     [word release];
@@ -88,23 +93,25 @@
 - (void)createToolbarItems
 {
     NSLog(@"In createToolbarItems");
+    NSMutableArray* buttons = [NSMutableArray array];
     UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
+    [buttons addObject:homeButtonItem];
     
 #ifdef DUBSAR_EDITORIAL_BUILD
     UIBarButtonItem* editButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editInflections)]autorelease];
     
-    self.toolbarItems = [NSArray arrayWithObjects:homeButtonItem, editButtonItem, nil];
+    [buttons addObject:editButtonItem];
 #else
     if (word.inflections.count > 0) {
         UIBarButtonItem* inflectionsButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPageCurl target:self action:@selector(toggleInflections)] autorelease];
-        self.toolbarItems = [NSArray arrayWithObjects:homeButtonItem, inflectionsButtonItem, nil];
-        NSLog(@"Added two toolbar items");
-    }
-    else {
-        self.toolbarItems = [NSArray arrayWithObject:homeButtonItem];
-        NSLog(@"Added one toolbar item");
+        [buttons addObject:inflectionsButtonItem];
     }
 #endif // DUBSAR_EDITORIAL_BUILD
+    
+    UIBarButtonItem* previewButton = [[[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)] autorelease];
+    [buttons addObject:previewButton];
+    
+    self.toolbarItems = buttons;
 }
 
 - (void)didReceiveMemoryWarning
@@ -126,6 +133,36 @@
     [self.view addSubview:inflectionsViewController.view];
 
     if (!actualNavigationController) self.actualNavigationController = self.navigationController;
+    
+    firstSenseViewController.view.hidden = YES;
+    [self.view addSubview:firstSenseViewController.view];
+    CGRect frame = firstSenseViewController.view.frame;
+    CGRect bounds = firstSenseViewController.view.bounds;
+    
+    // clip this many points off the top of the embedded view
+    double clip = 132.0;
+    
+    // offset for the clipped embedded view in the main one
+    double offset = 154.0;
+    
+    bounds.origin.y = clip;
+    bounds.size.height -= clip;
+    
+    frame.origin.y = offset;
+    // frame.size.height -= offset;
+    
+    firstSenseViewController.view.bounds = bounds;
+    firstSenseViewController.view.frame = frame;
+    
+    NSLog(@"bounds: origin.x=%f, origin.y=%f, size.width=%f, size.height=%f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+    NSLog(@"frame: origin.x=%f, origin.y=%f, size.width=%f, size.height=%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+    
+    firstSenseViewController.autocompleterTableView.hidden = YES;
+    firstSenseViewController.searchBar.hidden = YES;
+    firstSenseViewController.bannerLabel.hidden = YES;
+    firstSenseViewController.glossTextView.hidden = YES;
+    
+    originalColor = [tableView.backgroundColor retain];
 }
 
 - (void)viewDidUnload
@@ -307,6 +344,10 @@
     NSLog(@"Load complete; adjusting table view");
     [self setTableViewFrame];
     [tableView reloadData];
+    
+    if (!previewShowing) {
+        [self togglePreview];
+    }
 }
 
 - (void)adjustBanner
@@ -333,6 +374,7 @@
                         [self searchBar].hidden = YES;
                         tableView.hidden = YES;
                         inflectionsViewController.view.hidden = NO;
+                        firstSenseViewController.view.hidden = YES;
                     } completion:nil];
     inflectionsShowing = true;
 }
@@ -345,7 +387,13 @@
                         [self searchBar].hidden = NO;
                         tableView.hidden = NO;
                         inflectionsViewController.view.hidden = YES;
-                    } completion:nil];
+                        firstSenseViewController.view.hidden = previewShowing;
+                    } completion:^(BOOL finished) {
+                        if (previewShowing) {
+                            previewShowing = false;
+                            [self togglePreview];
+                        }
+                    }];
     inflectionsShowing = false;
 }
 
@@ -388,6 +436,44 @@
     self.loading = false;
     if (reload) [self load];
     NSLog(@"exiting modalViewControllerDismissed:mustReload:");
+}
+
+- (void)togglePreview
+{
+    if (previewShowing) {
+        // hide the preview
+        CGRect frame = firstSenseViewController.view.frame;
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44.0;
+        [UIView animateWithDuration:0.4 animations:^{
+            firstSenseViewController.view.frame = frame;
+        }completion:^(BOOL finished){
+            firstSenseViewController.view.hidden = YES;
+        }];
+        previewShowing = false;
+        tableView.backgroundColor = originalColor;
+    }
+    else {
+        Sense* sense = [word.senses objectAtIndex:0];
+        
+        firstSenseViewController.sense = [Sense senseWithId:sense._id name:nil partOfSpeech:POSUnknown];
+        firstSenseViewController.sense.preview = true;
+        firstSenseViewController.sense.delegate = firstSenseViewController;
+        firstSenseViewController.loading = false;
+        [firstSenseViewController load];
+        
+        // show the preview
+        CGRect frame = firstSenseViewController.view.frame;
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44.0;
+        firstSenseViewController.view.frame = frame;
+        firstSenseViewController.view.hidden = NO;
+        tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.78 blue:0.24 alpha:1.0];
+        
+        frame.origin.y = 154.0;
+        [UIView animateWithDuration:0.4 animations:^{
+            firstSenseViewController.view.frame = frame;
+        }];
+        previewShowing = true;
+    }
 }
 
 @end

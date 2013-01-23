@@ -447,7 +447,7 @@ static void saveLastPage(int page)
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     Inflection* inflection = [review.inflections objectAtIndex:indexPath.row];
-    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc] initWithNibName:@"WordViewController_iPhone" bundle:nil word:inflection.word]autorelease];
+    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc] initWithNibName:@"WordViewController_iPhone" bundle:nil word:inflection.word title:nil]autorelease];
     viewController.parentDataSource = self.review;
     [self.navigationController pushViewController:viewController animated:YES];
 }

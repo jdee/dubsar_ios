@@ -31,7 +31,6 @@
     UITextView *detailGlossTextView;
     UIImageView *bannerHandle;
     UILabel *bannerLabel;
-    NSMutableArray* tableSections;
     UINib* detailNib;
     UITextView *glossTextView;
     float initialLabelPosition;
@@ -58,8 +57,6 @@
 -(void)loadWordView;
 
 -(void)followTableLink:(NSIndexPath*)indexPath;
-
-- (void)setupTableSections;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender;
 - (void)handleTapGesture:(UITapGestureRecognizer*)sender;

@@ -26,7 +26,7 @@
 
     UIPageControl *_pageControl;
     WordViewController_iPhone* firstWordViewController;
-    bool detailShowing;
+    bool previewShowing;
     UIColor* originalColor;
 }
 
@@ -41,6 +41,6 @@
 
 - (IBAction)pageChanged:(id)sender;
 
-- (void)toggleDetail;
+- (void)togglePreview;
 
 @end

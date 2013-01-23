@@ -22,6 +22,7 @@
 #import "SearchBarViewController_iPhone.h"
 
 @class InflectionsViewController_iPhone;
+@class SenseViewController_iPhone;
 @class Word;
 
 @interface WordViewController_iPhone : SearchBarViewController_iPhone<ModalViewControllerDelegate,LoadDelegate> {
@@ -29,8 +30,11 @@
     UITableView *tableView;
     UITextView *bannerTextView;
     InflectionsViewController_iPhone* inflectionsViewController;
+    SenseViewController_iPhone* firstSenseViewController;
     bool inflectionsShowing;
     bool customTitle;
+    bool previewShowing;
+    UIColor* originalColor;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
@@ -49,5 +53,7 @@
 - (void)toggleInflections;
 - (void)showInflections;
 - (void)dismissInflections;
+
+- (void)togglePreview;
 
 @end

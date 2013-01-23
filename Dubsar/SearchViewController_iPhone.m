@@ -46,7 +46,7 @@
                 
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", _searchText];
         firstWordViewController = nil;
-        detailShowing = false;
+        previewShowing = false;
     }
     return self;
 }
@@ -80,7 +80,7 @@
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
-    UIBarButtonItem* detailButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Detail" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleDetail)] autorelease];
+    UIBarButtonItem* detailButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)] autorelease];
     
     NSMutableArray* buttonItems = [NSMutableArray arrayWithObjects:homeButtonItem, detailButtonItem, nil];
     
@@ -114,7 +114,7 @@
     bounds.size.height -= clip;
     
     frame.origin.y = offset;
-    frame.size.height -= offset;
+    // frame.size.height -= offset;
     
     firstWordViewController.view.bounds = bounds;
     firstWordViewController.view.frame = frame;
@@ -322,8 +322,8 @@
             [self setSearchTitle:[NSString stringWithFormat:@"\"%@\" p. %d of %d", search.title, search.currentPage, search.totalPages]];
         }
         
-        if (search.results.count > 0 && search.currentPage <= 1 && !detailShowing) {
-            [self toggleDetail];
+        if (search.results.count > 0 && search.currentPage <= 1 && !previewShowing) {
+            [self togglePreview];
         }
     }
     [_tableView reloadData];
@@ -361,19 +361,21 @@
     [self setTableViewHeight];
 }
 
-- (void)toggleDetail
+- (void)togglePreview
 {
-    if (!detailShowing && search.results.count > 0) {
+    if (!previewShowing && search.results.count > 0) {
         firstWordViewController.actualNavigationController = self.navigationController;
         firstWordViewController.word = [search.results objectAtIndex:0];
         firstWordViewController.loading = false;
+        // firstWordViewController.word.delegate = firstWordViewController;
         [firstWordViewController load];
         
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
         CGRect frame = firstWordViewController.view.frame;
         frame.origin.y = screenBounds.size.height - 44.0;
+        firstWordViewController.view.frame = frame;
         firstWordViewController.view.hidden = NO;
-        detailShowing = true;
+        previewShowing = true;
         
         frame.origin.y = 88.0;
         [UIView animateWithDuration:0.4 animations:^{
@@ -393,7 +395,7 @@
             if (finished) firstWordViewController.view.hidden = YES;
         }];
         
-        detailShowing = false;
+        previewShowing = false;
         _tableView.backgroundColor = originalColor;
         [originalColor release];
         originalColor = nil;
@@ -402,7 +404,7 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
 {
-    if (detailShowing) [self toggleDetail];
+    if (previewShowing) [self togglePreview];
     [super searchBarTextDidBeginEditing:theSearchBar];
 }
 
