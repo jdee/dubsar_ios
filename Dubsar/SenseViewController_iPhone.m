@@ -38,10 +38,12 @@
 @synthesize bannerLabel;
 @synthesize glossTextView;
 @synthesize sense;
+@synthesize actualNavigationController;
 
 - (void)displayPopup:(NSString*)text
 {
     [detailLabel setText:text];
+    
     [UIView transitionWithView:self.view duration:0.4 
         options:UIViewAnimationOptionTransitionFlipFromRight 
         animations:^{
@@ -77,6 +79,7 @@
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
 
         detailNib = [[UINib nibWithNibName:@"DetailView_iPhone" bundle:nil]retain];
+        self.actualNavigationController = self.navigationController;
     }
     return self;
 }
@@ -206,14 +209,14 @@
 
 - (void)loadSynsetView
 {
-    [self.navigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:sense.synset]autorelease] animated:YES];
+    [actualNavigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:sense.synset]autorelease] animated:YES];
 }
 
 - (void)loadWordView
 {
     WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:sense.word title:nil]autorelease];
     [viewController load];
-    [self.navigationController pushViewController:viewController animated:YES];
+    [actualNavigationController pushViewController:viewController animated:YES];
 }
 
 - (void)createToolbarItems
@@ -269,20 +272,20 @@
     
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = [sense.synonyms objectAtIndex:indexPath.row];
-        [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
+        [actualNavigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
-        [self displayPopup:pointer.targetText];
+        if (!sense.preview) [self displayPopup:pointer.targetText];
     }
     else if ([pointer.targetType isEqualToString:@"Sense"]) {
         /* sense pointer */
         targetSense = [Sense senseWithId:pointer.targetId nameAndPos:pointer.targetText];
-        [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
+        [actualNavigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
     }
     else {
         /* synset pointer */
         Synset* targetSynset = [Synset synsetWithId:pointer.targetId partOfSpeech:POSUnknown];
-        [self.navigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset]autorelease] animated:YES];
+        [actualNavigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset]autorelease] animated:YES];
     }
 }
 
@@ -354,7 +357,12 @@
     cell.detailTextLabel.text = pointer.targetGloss;
     
     if ([linkType isEqualToString:@"sample"]) {
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        if (sense.preview) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        }
     }
     else {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

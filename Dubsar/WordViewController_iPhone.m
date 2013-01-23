@@ -459,6 +459,7 @@
         firstSenseViewController.sense.preview = true;
         firstSenseViewController.sense.delegate = firstSenseViewController;
         firstSenseViewController.loading = false;
+        firstSenseViewController.actualNavigationController = actualNavigationController;
         [firstSenseViewController load];
         
         // show the preview
@@ -475,6 +476,12 @@
         }];
         previewShowing = true;
     }
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
+{
+    if (previewShowing) [self togglePreview];
+    [super searchBarTextDidBeginEditing:theSearchBar];
 }
 
 @end
