@@ -369,14 +369,30 @@
         firstWordViewController.loading = false;
         [firstWordViewController load];
         
+        CGRect screenBounds = [[UIScreen mainScreen] bounds];
+        CGRect frame = firstWordViewController.view.frame;
+        frame.origin.y = screenBounds.size.height - 44.0;
         firstWordViewController.view.hidden = NO;
         detailShowing = true;
+        
+        frame.origin.y = 88.0;
+        [UIView animateWithDuration:0.4 animations:^{
+            firstWordViewController.view.frame = frame;
+        }];
         
         originalColor = [_tableView.backgroundColor retain];
         _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.89 blue:0.62 alpha:1.0];
     }
     else {
-        firstWordViewController.view.hidden = YES;
+        CGRect frame = firstWordViewController.view.frame;
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44.0;
+        
+        [UIView animateWithDuration:0.4 animations:^{
+            firstWordViewController.view.frame = frame;
+        } completion:^(BOOL finished) {
+            if (finished) firstWordViewController.view.hidden = YES;
+        }];
+        
         detailShowing = false;
         _tableView.backgroundColor = originalColor;
         [originalColor release];
@@ -384,10 +400,10 @@
     }
 }
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
 {
     if (detailShowing) [self toggleDetail];
-    [super searchBarTextDidBeginEditing:searchBar];
+    [super searchBarTextDidBeginEditing:theSearchBar];
 }
 
 @end
