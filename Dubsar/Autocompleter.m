@@ -81,7 +81,14 @@
 
 - (void)load
 {
+#if 1
+    // Seems to perform better this way
     [NSThread detachNewThreadSelector:@selector(databaseThread:) toTarget:self withObject:UIApplication.sharedApplication.delegate];
+#else
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self databaseThread:UIApplication.sharedApplication.delegate];
+    });
+#endif
 }
 
 - (void)loadResults:(DubsarAppDelegate*)appDelegate

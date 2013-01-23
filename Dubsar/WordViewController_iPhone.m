@@ -466,7 +466,8 @@
         frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44.0;
         firstSenseViewController.view.frame = frame;
         firstSenseViewController.view.hidden = NO;
-        tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.78 blue:0.24 alpha:1.0];
+        tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.89 blue:0.62 alpha:1.0];
+        // tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.78 blue:0.24 alpha:1.0];
         
         frame.origin.y = 154.0;
         [UIView animateWithDuration:0.4 animations:^{

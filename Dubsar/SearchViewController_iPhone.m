@@ -365,9 +365,11 @@
 {
     if (!previewShowing && search.results.count > 0) {
         firstWordViewController.actualNavigationController = self.navigationController;
-        firstWordViewController.word = [search.results objectAtIndex:0];
+        Word* word = [search.results objectAtIndex:0];
+        
+        firstWordViewController.word = [Word wordWithId:word._id name:nil partOfSpeech:POSUnknown];
         firstWordViewController.loading = false;
-        // firstWordViewController.word.delegate = firstWordViewController;
+        firstWordViewController.word.delegate = firstWordViewController;
         [firstWordViewController load];
         
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
