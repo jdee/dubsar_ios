@@ -43,7 +43,6 @@
 @synthesize pointers;
 @synthesize numberOfSections=_numberOfSections;
 @synthesize sections;
-@synthesize preview;
 
 +(id)senseWithId:(int)theId name:(NSString *)theName synset:(Synset *)theSynset
 {
@@ -82,7 +81,6 @@
         pointers = nil;
         weakSynsetLink = true;
         weakWordLink = false;
-        preview = false;
         [self initUrl];
     }
     return self;
@@ -104,7 +102,6 @@
         samples = nil;
         pointers = nil;
         weakWordLink = weakSynsetLink = false;
-        preview = false;
         [self initUrl];
     }
     return self;
@@ -128,7 +125,6 @@
         pointers = nil;
         weakSynsetLink = false;
         weakWordLink = true;
-        preview = false;
         [self initUrl];
     }
     return self;
@@ -149,7 +145,6 @@
         pointers = nil;
         weakSynsetLink = false;
         weakWordLink = false;
-        preview = false;
         [self initUrl];
         [self parseNameAndPos:nameAndPos];
     }
@@ -436,7 +431,7 @@
     }
     sqlite3_finalize(statement);
     
-    if (preview) {
+    if (self.preview) {
         self.synonyms = [NSMutableArray array];
         [self prepareStatements];
         return;

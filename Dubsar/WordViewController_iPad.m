@@ -31,6 +31,7 @@
 @synthesize bannerLabel;
 @synthesize tableView=_tableView;
 @synthesize toolbar;
+@synthesize actualNavigationController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord title:(NSString*)title
 {
@@ -62,6 +63,7 @@
     [word release];
     [bannerLabel release];
     [_tableView release];
+    [toolbar release];
     [super dealloc];
 }
 
@@ -87,6 +89,8 @@
 
     [self.view addSubview:inflectionsViewController.view];
     [inflectionsViewController.view setHidden:YES];
+    
+    if (!actualNavigationController) self.actualNavigationController = self.navigationController;
 }
 
 - (void)viewDidUnload
@@ -223,7 +227,7 @@
     Sense* sense = [word.senses objectAtIndex:indexPath.section];
     SenseViewController_iPad* senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense]autorelease];
     [senseViewController load];
-    [self.navigationController pushViewController:senseViewController animated:YES];
+    [actualNavigationController pushViewController:senseViewController animated:YES];
 }
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
@@ -243,7 +247,7 @@
     [self adjustBanner];
     [self adjustInflectionsView];
     
-    if (word.inflections.count > 0) {
+    if (!word.preview && word.inflections.count > 0) {
         [inflectionsViewController load];
     }
     else {
@@ -265,15 +269,16 @@
 
 - (void)loadRootController
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [actualNavigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)setTableViewHeight
 {    
     UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+    bool toolbarShowing = !word.preview && word.inflections.count > 0;
     
     float maxHeight = UIInterfaceOrientationIsPortrait(currentOrientation) ? 960.0 : 704.0 ;
-    maxHeight -= 44.0;
+    if (toolbarShowing) maxHeight -= 44.0;
     
     float height = 66.0 * [self numberOfSectionsInTableView:_tableView];
         

@@ -35,6 +35,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIToolbar* toolbar;
+@property (nonatomic, assign) UINavigationController* actualNavigationController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord title:(NSString*)theTitle;
 - (void)adjustBanner;

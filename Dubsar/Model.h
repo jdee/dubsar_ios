@@ -46,6 +46,8 @@
 @property (nonatomic, retain) NSString* errorMessage;
 @property (nonatomic, assign) id<LoadDelegate> delegate;
 
+@property bool preview;
+
 +(NSString*)incrementString:(NSString*)string;
 
 -(void)load;

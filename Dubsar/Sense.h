@@ -51,8 +51,6 @@
 @property (nonatomic) int numberOfSections;
 @property (nonatomic, retain) NSMutableArray* sections;
 
-@property bool preview;
-
 +(id)senseWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
 +(id)senseWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 +(id)senseWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;

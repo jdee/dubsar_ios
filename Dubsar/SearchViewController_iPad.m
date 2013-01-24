@@ -39,6 +39,10 @@
         search = [[Search searchWithTerm:text matchCase:matchCase]retain];
         search.delegate = self;
         
+        previewShowing = false;
+        previewViewController = nil;
+        originalColor = nil;
+        
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", text];
     }
     return self;
@@ -51,6 +55,10 @@
         search = [[Search searchWithWildcard:wildcard page:1 title:theTitle]retain];
         search.delegate = self;
         
+        previewShowing = false;
+        previewViewController = nil;
+        originalColor = nil;
+        
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", theTitle];
     }
     return self;    
@@ -58,6 +66,7 @@
 
 - (void)dealloc
 {
+    [originalColor release];
     search.delegate = nil;
     [search release];
     [tableView release];
@@ -105,6 +114,43 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    previewViewController = [[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:nil title:nil];
+    
+    UIView* previewView = previewViewController.view;
+    CGRect bounds = previewView.bounds;
+    CGRect frame = previewView.frame;
+    
+    bounds.origin.y = 88.0;
+    bounds.size.height -= 132.0; // extra 44 off the bottom for the toolbar in the word view
+    frame.origin.y = 88.0;
+    frame.size.height -= 88.0;
+    
+    previewView.bounds = bounds;
+    previewView.frame = frame;
+    
+    previewViewController.bannerLabel.hidden = YES;
+    // transparent background
+    previewView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0];
+    
+    UITableView* previewTableView = previewViewController.tableView;
+    frame = previewTableView.frame;
+    frame.origin.y = 88.0;
+    previewTableView.frame = frame;
+    
+    bounds = previewTableView.bounds;
+    double height = bounds.size.height;
+    if (height > UIScreen.mainScreen.bounds.size.height-132.0) {
+        bounds.size.height = UIScreen.mainScreen.bounds.size.height-132.0;
+    }
+    previewTableView.bounds = bounds;
+    
+    previewTableView.hidden = YES;
+    
+    [self.view addSubview:previewTableView];
+    
+    originalColor = [tableView.backgroundColor retain];
+    
     [self setTableViewHeight];
 }
 
@@ -282,6 +328,10 @@
         if (search.totalPages > 1) {
             [self setSearchTitle:[NSString stringWithFormat:@"Search: \"%@\" p. %d of %d", search.title, search.currentPage, search.totalPages]];
         }
+        
+        if (search.results.count > 0 && !previewShowing) {
+            [self togglePreview:nil];
+        }
     }
     
     [tableView reloadData];
@@ -320,6 +370,44 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self setTableViewHeight];
+}
+
+- (IBAction)togglePreview:(id)sender
+{
+    if (previewShowing) {
+        // hide preview
+        CGRect frame = previewViewController.tableView.frame;
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44.0;
+        [UIView animateWithDuration:0.4 animations:^{
+            previewViewController.tableView.frame = frame;
+        } completion:^(BOOL finished) {
+            if (finished) previewViewController.tableView.hidden = YES;
+        }];
+        previewShowing = false;
+    }
+    else {
+        // show preview
+        if (search.results.count < 1) return;
+        
+        Word* word = [search.results objectAtIndex:0];
+        word.preview = true;
+        previewViewController.word = word;
+        word.delegate = previewViewController;
+        previewViewController.actualNavigationController = self.navigationController;
+        [word load];
+        tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.89 blue:0.62 alpha:1.0];
+        
+        CGRect frame = previewViewController.tableView.frame;
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height-44.0;
+        previewViewController.tableView.frame = frame;
+        
+        frame.origin.y = 88.0;
+        previewViewController.tableView.hidden = NO;
+        [UIView animateWithDuration:0.4 animations:^{
+            previewViewController.tableView.frame = frame;
+        }];
+        previewShowing = true;
+    }
 }
 
 @end

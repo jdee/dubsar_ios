@@ -33,6 +33,7 @@
 @synthesize errorMessage;
 @synthesize delegate;
 @synthesize url;
+@synthesize preview;
 
 -(id)init
 {
@@ -45,6 +46,7 @@
         complete = false;
         error = false;
         errorMessage = nil;
+        preview = false;
     }
     return self;
 }

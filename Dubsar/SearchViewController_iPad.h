@@ -21,11 +21,15 @@
 #import "LoadDelegate.h"
 
 @class Search;
+@class WordViewController_iPad;
 
 @interface SearchViewController_iPad : UIViewController<LoadDelegate> {
     
     UITableView *tableView;
     UIPageControl *pageControl;
+    bool previewShowing;
+    WordViewController_iPad* previewViewController;
+    UIColor* originalColor;
 }
 
 @property (nonatomic, retain) Search* search;
@@ -40,5 +44,7 @@
 - (void)setTableViewHeight;
 - (void)setSearchTitle:(NSString*)title;
 - (void)load;
+
+- (IBAction)togglePreview:(id)sender;
 
 @end
