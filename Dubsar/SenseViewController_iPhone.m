@@ -180,7 +180,7 @@
         [bannerLabel setHidden:YES];
         [tableView setHidden:YES];
         [glossTextView setText:error];
-        [self.navigationController.toolbar setItems:[NSArray arrayWithObject:    [[[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease]]];
+        [self.navigationController.toolbar setItems:[NSArray arrayWithObject: [[[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease]]];
 
         return;
     }

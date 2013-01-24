@@ -42,5 +42,6 @@
 - (IBAction)pageChanged:(id)sender;
 
 - (void)togglePreview;
+- (void)togglePreview:(bool)animated;
 
 @end

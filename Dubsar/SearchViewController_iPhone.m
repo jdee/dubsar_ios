@@ -143,6 +143,10 @@
     else {
         [self load];
     }
+    
+    if (previewShowing) {
+        [firstWordViewController.tableView reloadData];
+    }
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar
@@ -323,7 +327,7 @@
         }
         
         if (search.results.count > 0 && search.currentPage <= 1 && !previewShowing) {
-            [self togglePreview];
+            [self togglePreview:true];
         }
     }
     [_tableView reloadData];
@@ -363,14 +367,21 @@
 
 - (void)togglePreview
 {
+    [self togglePreview:true];
+}
+
+- (void)togglePreview:(bool)animated
+{
     if (!previewShowing && search.results.count > 0) {
         firstWordViewController.actualNavigationController = self.navigationController;
         Word* word = [search.results objectAtIndex:0];
         
-        firstWordViewController.word = [Word wordWithId:word._id name:nil partOfSpeech:POSUnknown];
-        firstWordViewController.loading = false;
-        firstWordViewController.word.delegate = firstWordViewController;
-        [firstWordViewController load];
+        if (!firstWordViewController.word) {
+            firstWordViewController.word = [Word wordWithId:word._id name:nil partOfSpeech:POSUnknown];
+            firstWordViewController.loading = false;
+            firstWordViewController.word.delegate = firstWordViewController;
+            [firstWordViewController load];
+        }
         
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
         CGRect frame = firstWordViewController.view.frame;
@@ -380,33 +391,53 @@
         previewShowing = true;
         
         frame.origin.y = 88.0;
-        [UIView animateWithDuration:0.4 animations:^{
+        if (animated) {
+            [UIView animateWithDuration:0.4 animations:^{
+                firstWordViewController.view.frame = frame;
+            } completion:^(BOOL finished) {
+                if (finished) [firstWordViewController.tableView reloadData];
+            }];
+        }
+        else {
             firstWordViewController.view.frame = frame;
-        }];
+            [firstWordViewController.tableView reloadData];
+        }
         
         originalColor = [_tableView.backgroundColor retain];
         _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.89 blue:0.62 alpha:1.0];
+        
+        UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:1];
+        detailButtonItem.title = @"Hide";
     }
     else {
         CGRect frame = firstWordViewController.view.frame;
         frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44.0;
         
-        [UIView animateWithDuration:0.4 animations:^{
+        if (animated) {
+            [UIView animateWithDuration:0.4 animations:^{
+                firstWordViewController.view.frame = frame;
+            } completion:^(BOOL finished) {
+                if (finished) firstWordViewController.view.hidden = YES;
+            }];
+        }
+        else {
             firstWordViewController.view.frame = frame;
-        } completion:^(BOOL finished) {
-            if (finished) firstWordViewController.view.hidden = YES;
-        }];
+            firstWordViewController.view.hidden = YES;
+        }
         
         previewShowing = false;
         _tableView.backgroundColor = originalColor;
         [originalColor release];
         originalColor = nil;
+        
+        UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:1];
+        detailButtonItem.title = @"Show";
     }
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar
 {
-    if (previewShowing) [self togglePreview];
+    if (previewShowing) [self togglePreview:false];
     [super searchBarTextDidBeginEditing:theSearchBar];
 }
 

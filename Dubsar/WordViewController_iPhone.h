@@ -35,6 +35,7 @@
     bool customTitle;
     bool previewShowing;
     UIColor* originalColor;
+    UIBarButtonItem* previewButton;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
@@ -55,5 +56,6 @@
 - (void)dismissInflections;
 
 - (void)togglePreview;
+- (void)togglePreview:(bool)animated;
 
 @end
