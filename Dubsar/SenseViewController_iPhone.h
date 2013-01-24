@@ -46,7 +46,7 @@
 @property (nonatomic, retain) IBOutlet UITextView *detailGlossTextView;
 @property (nonatomic, retain) IBOutlet UIImageView *bannerHandle;
 @property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
-@property (nonatomic, retain) UINavigationController* actualNavigationController;
+@property (nonatomic, assign) UINavigationController* actualNavigationController;
 
 - (void)displayPopup:(NSString*)text;
 - (IBAction)dismissPopup:(id)sender;

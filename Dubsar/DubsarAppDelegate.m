@@ -202,6 +202,9 @@
 
 - (void)dealloc
 {
+    [authToken release];
+    [wotdUrl release];
+    
     [self closeDB];
     [dubsarFontFamily release];
     [dubsarNormalFont release];

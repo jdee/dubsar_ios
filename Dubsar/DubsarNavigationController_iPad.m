@@ -131,6 +131,7 @@
 {
     [_searchText release];
     [popoverController release];
+    [wotdBarButtonItem release];
     [backBarButtonItem release];
     [fwdBarButtonItem release];
     [forwardStack release];

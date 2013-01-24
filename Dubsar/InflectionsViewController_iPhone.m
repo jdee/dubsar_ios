@@ -40,6 +40,13 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [webView release];
+    [word release];
+    [super dealloc];
+}
+
 - (void)loadComplete
 {
     [webView loadHTMLString:self.htmlInflections baseURL:nil];

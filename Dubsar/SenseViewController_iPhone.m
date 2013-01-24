@@ -134,6 +134,8 @@
     
     initialLabelPosition = bannerLabel.frame.origin.y;
     currentLabelPosition = initialLabelPosition;
+    
+    if (!actualNavigationController) self.actualNavigationController = self.navigationController;
 }
 
 - (void)viewDidUnload

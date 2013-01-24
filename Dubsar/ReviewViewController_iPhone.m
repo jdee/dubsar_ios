@@ -154,6 +154,12 @@ static void saveLastPage(int page)
 
 - (void)dealloc
 {
+    [selectButton release];
+    [selectField release];
+    [selectLabel release];
+    [selectView release];
+    [tableView release];
+    
     [review release];
     [super dealloc];
 }

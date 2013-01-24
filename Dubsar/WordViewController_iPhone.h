@@ -43,7 +43,7 @@
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, assign) Model* parentDataSource;
 
-@property (nonatomic, retain) UINavigationController* actualNavigationController;
+@property (nonatomic, assign) UINavigationController* actualNavigationController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord title:(NSString*)theTitle;
 

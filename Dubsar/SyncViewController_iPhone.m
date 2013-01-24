@@ -48,6 +48,10 @@
 
 - (void)dealloc
 {
+    [fetchProgressView release];
+    [insertProgressView release];
+    [startButton release];
+
     [buffer release];
     [super dealloc];
 }
@@ -216,7 +220,6 @@
 {
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
 
-#if 1
     const char* sql = "INSERT INTO inflections(id, word_id, name) VALUES (?, ?, ?)";
     int rc;
     sqlite3_stmt* statement;
@@ -250,51 +253,6 @@
         sqlite3_step(statement);
     }
     sqlite3_finalize(statement);
-#else
-    // This should be faster but has problems like properly escaping inflection names
-    // and a very long SQL statement.
-    NSString* sql = @"INSERT INTO inflections(id, name, word_id) VALUES ";
-    int j;
-    for (j=0; j<inflections.count; ++j) {
-        NSDictionary* inflection = [inflections objectAtIndex:j];
-        NSDictionary* word = [inflection valueForKey:@"word"];
-        
-        sql = [sql stringByAppendingFormat:@"(%d, \"%@\", %d),", [[inflection valueForKey:@"id"]intValue], [inflection valueForKey:@"name"], [[word valueForKey:@"id"]intValue]];
-        
-        if (j % 1000 == 0) {
-            sql = [sql stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-            
-            // flush
-            int rc;
-            sqlite3_stmt* statement;
-            if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-                NSLog(@"preparing insert statement: %d", rc);
-                return;
-            }
-            
-            if ((rc=sqlite3_step(statement)) != SQLITE_OK) {
-                NSLog(@"insert statement: error %d", rc);
-            }
-            sqlite3_finalize(statement);
-            
-            sql = @"INSERT INTO inflections(id, name, word_id) VALUES ";
-        }
-    }
-    
-    sql = [sql stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-        
-    int rc;
-    sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
-        NSLog(@"preparing insert statement: %d", rc);
-        return;
-    }
-    
-    if ((rc=sqlite3_step(statement)) != SQLITE_OK) {
-        NSLog(@"insert statement: error %d", rc);
-    }
-    sqlite3_finalize(statement);
-#endif
     
     [inflections release];
     

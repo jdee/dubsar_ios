@@ -52,6 +52,12 @@
 
 - (void)dealloc
 {
+    [dialogTextField release];
+    [dialogView release];
+    [editButton release];
+    [inflections release];
+    [tableView release];
+    [word release];
     [super dealloc];
 }
 

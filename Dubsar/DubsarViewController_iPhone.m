@@ -69,6 +69,10 @@
 
 - (void)dealloc
 {
+    [auguryViewController release];
+    [emailTextField release];
+    [passwordTextField release];
+    [loginView release];
     [dailyWord release];
     [wotdButton release];
     [super dealloc];
