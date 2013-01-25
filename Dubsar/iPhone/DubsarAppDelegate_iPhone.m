@@ -76,7 +76,7 @@
         
         int wordId = [[url lastPathComponent] intValue];
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
-        [_navigationController dismissViewControllerAnimated:YES completion:nil];
+        [_navigationController dismissViewControllerAnimated:NO completion:nil];
         WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word title:@"Word of the Day"]autorelease];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
@@ -90,7 +90,7 @@
         
         int wordId = [[url lastPathComponent] intValue];
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
-        [_navigationController dismissViewControllerAnimated:YES completion:nil];
+        [_navigationController dismissViewControllerAnimated:NO completion:nil];
         WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word title:nil]autorelease];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
@@ -103,7 +103,7 @@
         int senseId = [[url lastPathComponent] intValue];
         Sense* sense = [Sense senseWithId:senseId name:nil partOfSpeech:POSUnknown];
         [sense load];
-        [_navigationController dismissViewControllerAnimated:YES completion:nil];
+        [_navigationController dismissViewControllerAnimated:NO completion:nil];
         SenseViewController_iPhone* viewController = [[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense] autorelease];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
@@ -116,7 +116,7 @@
         int synsetId = [[url lastPathComponent] intValue];
         Synset* synset = [Synset synsetWithId:synsetId partOfSpeech:POSUnknown];
         [synset load];
-        [_navigationController dismissViewControllerAnimated:YES completion:nil];
+        [_navigationController dismissViewControllerAnimated:NO completion:nil];
         SynsetViewController_iPhone* viewController = [[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:synset] autorelease];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];

@@ -45,6 +45,7 @@
         inflectionsShowing = false;
         previewShowing = false;
         previewButton = nil;
+        originalColor = nil;
         
         firstSenseViewController = [[SenseViewController_iPhone alloc] initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:nil];
 
@@ -99,7 +100,7 @@
     UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
     [buttons addObject:homeButtonItem];
     
-    previewButton = [[[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)] autorelease];
+    previewButton = [[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)];
     [buttons addObject:previewButton];
     
 #ifdef DUBSAR_EDITORIAL_BUILD
@@ -172,8 +173,6 @@
     [self setTableView:nil];
     [self setBannerTextView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -191,7 +190,7 @@
     }
     
     if (previewShowing) {
-        [firstSenseViewController.tableView reloadData];
+       [firstSenseViewController.tableView reloadData];
     }
     
     NSLog(@"exiting viewWillAppear:");
@@ -456,8 +455,8 @@
         if (animated) {
             [UIView animateWithDuration:0.4 animations:^{
                 firstSenseViewController.view.frame = frame;
-            }completion:^(BOOL finished){
-                firstSenseViewController.view.hidden = YES;
+            } completion:^(BOOL finished){
+                if (finished) firstSenseViewController.view.hidden = YES;
             }];
         }
         else {
@@ -467,6 +466,7 @@
         previewShowing = false;
         tableView.backgroundColor = originalColor;
         previewButton.title = @"Show";
+        NSLog(@"Hid preview");
     }
     else {
         if (!firstSenseViewController.sense) {
@@ -499,6 +499,7 @@
             firstSenseViewController.view.frame = frame;
         }
         previewShowing = true;
+        NSLog(@"Set previewShowing to true");
         previewButton.title = @"Hide";
     }
 }

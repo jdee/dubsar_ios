@@ -364,10 +364,12 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         } else {
             cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         }
     }
     else {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
     
     DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;

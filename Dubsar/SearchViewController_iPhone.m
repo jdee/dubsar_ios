@@ -47,6 +47,8 @@
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", _searchText];
         firstWordViewController = nil;
         previewShowing = false;
+        
+        originalColor = nil;
     }
     return self;
 }
@@ -404,7 +406,7 @@
         }
         
         originalColor = [_tableView.backgroundColor retain];
-        _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.89 blue:0.62 alpha:1.0];
+        _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
         
         UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:1];
         detailButtonItem.title = @"Hide";

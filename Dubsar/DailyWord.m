@@ -115,8 +115,12 @@
         NSLog(@"User defaults value for %@: %@", DubsarDailyWordIdKey, [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey]);
         return false;
     }
+    else {
+        NSLog(@"Found wotd in user defaults, id %d", wotdId);
+    }
     
     self.word = [Word wordWithId:wotdId name:nil partOfSpeech:POSUnknown];
+    self.word.delegate = self;
     [word load];
     
     expiration = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordExpirationKey];
@@ -129,6 +133,12 @@
     NSLog(@"Saving WOTD: ID: %d, expiration: %ld", word._id, expiration);
     [[NSUserDefaults standardUserDefaults] setInteger:word._id forKey:DubsarDailyWordIdKey];
     [[NSUserDefaults standardUserDefaults] setInteger:expiration forKey:DubsarDailyWordExpirationKey];
+}
+
+- (void)loadComplete:(Model *)model withError:(NSString *)error
+{
+    NSLog(@"Loaded WOTD");
+    [self.delegate loadComplete:self withError:error];
 }
 
 @end

@@ -17,11 +17,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "LoadDelegate.h"
 #import "Model.h"
 
 @class Word;
 
-@interface DailyWord : Model
+@interface DailyWord : Model<LoadDelegate>
 @property (nonatomic, retain) Word* word;
 @property bool fresh;
 @property time_t expiration;

@@ -44,4 +44,6 @@
 
 - (NSComparisonResult)compareFreqCnt:(Word*)word;
 
+- (void)load:(bool)mainThread;
+
 @end

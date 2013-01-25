@@ -86,6 +86,24 @@
     return [NSString stringWithFormat:@"%@ (%@.)", name, self.pos];
 }
 
+- (void)load:(bool)mainThread
+{
+    if (mainThread) {
+        // dispatch on the main thread in the background
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self databaseThread:UIApplication.sharedApplication.delegate];
+        });
+    }
+    else {
+        [NSThread detachNewThreadSelector:@selector(databaseThread:) toTarget:self withObject:UIApplication.sharedApplication.delegate];
+    }
+}
+
+- (void)load
+{
+    [self load:true];
+}
+
 -(void)loadResults:(DubsarAppDelegate *)appDelegate
 {
     NSString* sql = [NSString stringWithFormat:
