@@ -302,6 +302,12 @@
     
     // kick the app back to a loading state.
     search.complete = false;
+    
+    // don't show the preview by default when paging
+    if (previewShowing) [self togglePreview];
+    // when the preview is shown, reload for current page
+    firstWordViewController.word = nil;
+    
     [_tableView reloadData];
 }
 
