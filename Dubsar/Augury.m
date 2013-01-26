@@ -45,7 +45,7 @@
 {
     Word* verb = [self randomVerb];
     NSLog(@"random infinitive: %@", verb.name);
-    return [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iOS/words/%d'>%@</a>", verb._id, verb.name];
+    return [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar:///words/%d'>%@</a>", verb._id, verb.name];
 }
 
 - (Word*)randomVerb
@@ -94,7 +94,7 @@
     }
     sqlite3_finalize(statement);
     
-    NSString* wordLink = [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iOS/words/%d'>%@</a>",
+    NSString* wordLink = [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar:///words/%d'>%@</a>",
                           word._id, word.name];
     
     /*
@@ -199,7 +199,7 @@
     NSLog(@"somebody.name = %@", name);
     if ([name rangeOfCharacterFromSet:[NSCharacterSet uppercaseLetterCharacterSet]].location == 0) {
         // if capitalized, no article
-        NSString* senseLink = [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iOS/senses/%d'>%@</a>",
+        NSString* senseLink = [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar:///senses/%d'>%@</a>",
                                senseId, name];
         return senseLink;
     }
@@ -225,7 +225,7 @@
     
     NSString* somebody = [article stringByAppendingString: name];
     
-    NSString* senseLink = [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iOS/senses/%d'>%@</a>",
+    NSString* senseLink = [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar:///senses/%d'>%@</a>",
                           senseId, somebody];
     
     return senseLink;
@@ -296,7 +296,7 @@
     NSString* tps = [self thirdPersonSingularForId:verbId];
     
     NSLog(@"random verb (%d) is %@", frameNo, tps);
-    return [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iOS/senses/%d'>%@</a>", senseId, tps];
+    return [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar:///senses/%d'>%@</a>", senseId, tps];
 }
 
 - (NSString*)thirdPersonSingularForId:(int)verbId
