@@ -42,7 +42,7 @@
 @synthesize moreButton;
 @synthesize mainView;
 @synthesize detailBannerLabel;
-
+@synthesize actualNavigationController;
 
 - (void)displayPopup:(NSString*)text
 {
@@ -78,6 +78,7 @@
         detailNib = [[UINib nibWithNibName:@"DetailView_iPad" bundle:nil]retain];
 
         popoverController = nil;
+        self.actualNavigationController = nil;
     }
     return self;
 }
@@ -132,6 +133,7 @@
     
     currentLabelPosition = initialLabelPosition = bannerLabel.frame.origin.y;
     [self addGestureRecognizers];
+    if (actualNavigationController == nil) self.actualNavigationController = self.navigationController;
 }
 
 - (void)viewDidUnload
@@ -219,7 +221,7 @@
         targetSense = [sense.synonyms objectAtIndex:indexPath.row];
         senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
         [senseViewController load];
-        [self.navigationController pushViewController:senseViewController animated:YES];
+        [actualNavigationController pushViewController:senseViewController animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
         [self displayPopup:pointer.targetText];
@@ -229,14 +231,14 @@
         targetSense = [Sense senseWithId:pointer.targetId nameAndPos:pointer.targetText];
         senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
         [senseViewController load];
-        [self.navigationController pushViewController:senseViewController animated:YES];
+        [actualNavigationController pushViewController:senseViewController animated:YES];
     }
     else {
         /* synset pointer */
         Synset* targetSynset = [Synset synsetWithId:pointer.targetId partOfSpeech:POSUnknown];
         SynsetViewController_iPad* synsetViewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset]autorelease];
         [synsetViewController load];
-        [self.navigationController pushViewController:synsetViewController animated:YES];
+        [actualNavigationController pushViewController:synsetViewController animated:YES];
     }
 }
 
@@ -360,7 +362,7 @@
 
 - (void)loadRootController
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [actualNavigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)setupTableSections
@@ -414,14 +416,14 @@
 {
     WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word title:nil]autorelease];
     [wordViewController load];
-    [self.navigationController pushViewController:wordViewController animated:YES];
+    [actualNavigationController pushViewController:wordViewController animated:YES];
 }
 
 - (IBAction)showSynsetView:(id)sender 
 {
     SynsetViewController_iPad* synsetViewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset]autorelease];
     [synsetViewController load];
-    [self.navigationController pushViewController:synsetViewController animated:YES];
+    [actualNavigationController pushViewController:synsetViewController animated:YES];
 }
 
 - (IBAction)morePopover:(id)sender 
@@ -435,7 +437,7 @@
         
         popoverController = [[[UIPopoverController alloc]initWithContentViewController:wordViewController]retain];
         wordViewController.popoverController = popoverController;
-        wordViewController.navigationController = self.navigationController;
+        wordViewController.navigationController = self.actualNavigationController;
     }
     else {
         wordViewController = (WordPopoverViewController_iPad*)popoverController.contentViewController;

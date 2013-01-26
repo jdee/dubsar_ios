@@ -55,6 +55,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *moreButton;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
+@property (nonatomic, assign) UINavigationController* actualNavigationController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil sense:(Sense*)theSense;
 - (void)loadRootController;

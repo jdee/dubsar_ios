@@ -56,7 +56,7 @@
 								<string key="NSReuseIdentifierKey">_NS:573</string>
 								<int key="IBUIContentMode">3</int>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBPlaceholder">quick search</string>
+								<string key="IBPlaceholder">search term(s)</string>
 								<object class="IBUITextInputTraits" key="IBTextInputTraits">
 									<int key="IBUIAutocorrectionType">1</int>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>

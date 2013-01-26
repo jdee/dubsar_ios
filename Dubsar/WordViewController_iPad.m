@@ -32,6 +32,7 @@
 @synthesize tableView=_tableView;
 @synthesize toolbar;
 @synthesize actualNavigationController;
+@synthesize previewButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord title:(NSString*)title
 {
@@ -42,6 +43,11 @@
         word.delegate = self;
         inflectionsShowing = false;
         inflectionsViewController = [[InflectionsViewController_iPad alloc] initWithNibName:@"InflectionsViewController_iPad" bundle:nil word:word];
+        
+        previewViewController = nil;
+        previewShowing = false;
+        
+        originalColor = nil;
         
         if (title) {
             customTitle = true;
@@ -91,6 +97,18 @@
     [inflectionsViewController.view setHidden:YES];
     
     if (!actualNavigationController) self.actualNavigationController = self.navigationController;
+    
+    previewViewController = [[SenseViewController_iPad alloc] initWithNibName:@"SenseViewController_iPad" bundle:nil sense:nil];
+    previewViewController.moreButton.hidden = YES;
+    previewViewController.bannerLabel.hidden = YES;
+    previewViewController.glossTextView.hidden = YES;
+    previewViewController.actualNavigationController = self.actualNavigationController;
+    
+    [_tableView addSubview:previewViewController.view];
+    
+    previewViewController.view.hidden = YES;
+    
+    originalColor = _tableView.backgroundColor.retain;
 }
 
 - (void)viewDidUnload
@@ -253,6 +271,11 @@
     else {
         [toolbar setHidden:YES];
     }
+    
+    if (!previewShowing) {
+        NSLog(@"Showing preview");
+        [self togglePreview:nil];
+    }
 
     [_tableView reloadData];
 }
@@ -338,6 +361,44 @@
         frame.size.width = 768.0;
     }
     inflectionsViewController.view.frame = frame;
+}
+
+- (void)togglePreview:(id)sender
+{
+    if (previewShowing) {
+        CGRect frame = previewViewController.view.frame;
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44.0;
+        [UIView animateWithDuration:0.4 animations:^{
+            previewViewController.view.frame = frame;
+        } completion:^(BOOL finished) {
+            if (finished) previewViewController.view.hidden = YES;
+        }];
+        _tableView.backgroundColor = originalColor;
+        previewShowing = false;
+    }
+    else {
+        if (!previewViewController.sense) {
+            Sense* sense = [word.senses objectAtIndex:0];
+            sense.preview = true;
+            previewViewController.sense = sense;
+            sense.delegate = previewViewController;
+            [previewViewController load];
+            NSLog(@"sense view controller loading");
+        }
+        
+        CGRect frame = previewViewController.view.frame;
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44.0;
+        previewViewController.view.frame = frame;
+        previewViewController.view.hidden = NO;
+        
+        frame.origin.y = 88.0;
+        [UIView animateWithDuration:0.4 animations:^{
+            previewViewController.view.frame = frame;
+        }];
+        _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.89 blue:0.62 alpha:1.00];
+        
+        previewShowing = true;
+    }
 }
 
 @end

@@ -21,6 +21,7 @@
 #import "LoadDelegate.h"
 
 @class InflectionsViewController_iPad;
+@class SenseViewController_iPad;
 @class Word;
 
 @interface WordViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
@@ -28,7 +29,10 @@
     UILabel *bannerLabel;
     bool inflectionsShowing;
     InflectionsViewController_iPad* inflectionsViewController;
+    SenseViewController_iPad* previewViewController;
     bool customTitle;
+    bool previewShowing;
+    UIColor* originalColor;
 }
 
 @property (nonatomic, retain) Word* word;
@@ -36,6 +40,7 @@
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIToolbar* toolbar;
 @property (nonatomic, assign) UINavigationController* actualNavigationController;
+@property (nonatomic, assign) IBOutlet UIBarButtonItem* previewButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord title:(NSString*)theTitle;
 - (void)adjustBanner;
@@ -47,5 +52,7 @@
 - (IBAction)toggleInflections:(id)sender;
 - (void)showInflections;
 - (void)dismissInflections;
+
+- (IBAction)togglePreview:(id)sender;
 
 @end
