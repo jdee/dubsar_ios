@@ -33,7 +33,7 @@
 - (void) type1:(int)frameId;
 - (void) type2:(int)frameId;
 
-- (NSString*)randomVerbForFrame28;
+- (NSString*)randomVerbForFrame:(int)frameNo;
 
 @property (nonatomic, retain) NSString* text;
 

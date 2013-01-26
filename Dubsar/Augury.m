@@ -58,19 +58,14 @@
 
 - (void)loadResults:(DubsarAppDelegate *)appDelegate
 {
-#if 0
-    // for testing, do this all the time
-    [self type2:35];
-#else
-    int frameId = rand()%171 + 35;
+    int frameId = rand() % 205 + 1;
     
-    if (frameId == 35) { // 28
+    if (frameId <= 35) {
         [self type2:frameId];
     }
     else {
         [self type1:frameId];
     }
-#endif
 }
 
 - (void)type1:(int)frameId
@@ -111,12 +106,49 @@
 
 - (void)type2:(int)frameId
 {
-    // verb frame 28: Somebody ----s to INFINITIVE
     NSString* somebody = self.somebody;
-    NSString* verb = self.randomVerbForFrame28;
-    NSString* infinitive = self.infinitive;
-    
-    self.text = [NSString stringWithFormat:@"<span>%@ %@ %@</span>", somebody, verb, infinitive];
+    if (frameId <= 6) {
+        // 24: Somebody ----s somebody to INFINITIVE
+        NSString* anotherSomebody = self.somebody;
+        NSString* verb = [self randomVerbForFrame:24];
+        NSString* infinitive = self.infinitive;
+        
+        self.text = [NSString stringWithFormat:@"<span>%@ %@ %@ to %@</span>", somebody, verb, anotherSomebody, infinitive];
+    }
+    else if (frameId <= 12) {
+        // 25: Somebody ----s somebody INFINITIVE
+        NSString* anotherSomebody = self.somebody;
+        NSString* verb = [self randomVerbForFrame:25];
+        NSString* infinitive = self.infinitive;
+        
+        self.text = [NSString stringWithFormat:@"<span>%@ %@ %@ %@</span>", somebody, verb, anotherSomebody, infinitive];
+    }
+    else if (frameId <= 18) {
+        // 27: Somebody ----s to somebody
+        NSString* verb = [self randomVerbForFrame:27];
+        NSString* anotherSomebody = self.somebody;
+        
+        self.text = [NSString stringWithFormat:@"<span>%@ %@ to %@</span>", somebody, verb, anotherSomebody];
+    }
+    else if (frameId <= 24) {
+        // 28: Somebody ----s to INFINITIVE
+        NSString* verb = [self randomVerbForFrame:28];
+        NSString* infinitive = self.infinitive;
+        
+        self.text = [NSString stringWithFormat:@"<span>%@ %@ to %@</span>", somebody, verb, infinitive];
+    }
+    else if (frameId <= 30) {
+        // 29: Somebody ----s whether INFINITIVE
+        NSString* verb = [self randomVerbForFrame:29];
+        NSString* infinitive = self.infinitive;
+        
+        self.text = [NSString stringWithFormat:@"<span>%@ %@ whether %@</span>", somebody, verb, infinitive];
+    }
+    else {
+        // 32: Somebody ----s INFINITIVE
+        NSString* verb = [self randomVerbForFrame:32];
+        self.text = [NSString stringWithFormat:@"<span>%@ %@ %@</span>", somebody, verb, self.infinitive];
+    }
     
     NSLog(@"self.text = %@", self.text);
 }
@@ -203,20 +235,42 @@
     return senseLink;
 }
 
-- (NSString*)randomVerbForFrame28
+- (NSString*)randomVerbForFrame:(int)frameNo
 {
     /*
      * SELECT COUNT(se.id) FROM senses se
      *   JOIN senses_verb_frames svf ON svf.sense_id = se.id 
-     *   WHERE svf.verb_frame_id = 28
+     *   WHERE svf.verb_frame_id = ?
      */
-    int count = 192;
+    int count = 0;
+    
+    switch (frameNo) {
+        case 24:
+            count = 198;
+            break;
+        case 25:
+            count = 19;
+            break;
+        case 27:
+            count = 64;
+            break;
+        case 28:
+            count = 192;
+            break;
+        case 29:
+            count = 51;
+            break;
+        case 32:
+            count = 9;
+            break;
+    }
+    
     int rowNumber = rand() % count;
     
-    NSString* sql = @"SELECT w.id, se.id FROM words w "
-    "JOIN senses se ON se.word_id = w.id "
-    "JOIN senses_verb_frames svf ON svf.sense_id = se.id "
-    "WHERE svf.verb_frame_id = 28";
+    NSString* sql = [NSString stringWithFormat:@"SELECT w.id, se.id FROM words w "
+                     "JOIN senses se ON se.word_id = w.id "
+                     "JOIN senses_verb_frames svf ON svf.sense_id = se.id "
+                     "WHERE svf.verb_frame_id = %d", frameNo];
     sqlite3_stmt* statement;
     int rc;
     
@@ -262,7 +316,7 @@
         tps = [NSString stringWithCString:(const char*)sqlite3_column_text(statement, 0) encoding:NSUTF8StringEncoding];
     }
     
-    NSLog(@"random verb (28) is %@", tps);
+    NSLog(@"random verb (%d) is %@", frameNo, tps);
     sqlite3_finalize(statement);
     return [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iOS/senses/%d'>%@</a>", senseId, tps];
 }
