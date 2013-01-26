@@ -302,7 +302,10 @@
 - (NSString*)thirdPersonSingularForId:(int)verbId
 {
     // now find the third-person singular
-    NSString* sql = [NSString stringWithFormat:@"SELECT name FROM inflections WHERE word_id = %d AND name LIKE '%%s' LIMIT 1", verbId];
+    // This GLOB avoids matching things like "make a pass," which ends in s but is
+    // not the present tense.
+    NSString* sql = [NSString stringWithFormat:@"SELECT name FROM inflections WHERE word_id = %d "
+                     "AND name >= 'a' AND name < '{' AND name GLOB '[a-z]*s' LIMIT 1", verbId];
     int rc;
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(self.appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
