@@ -30,11 +30,14 @@
 #import "Word.h"
 #import "WordViewController_iPhone.h"
 
+#define DubsarAuguryIntroSeenKey @"com.dubsar-dictionary.Dubsar.auguryIntroSeen"
+
 @implementation DubsarViewController_iPhone
 @synthesize wotdButton;
 @synthesize dailyWord;
 @synthesize auguryViewController;
 @synthesize emailTextField, loginView, passwordTextField;
+@synthesize auguryIntroView, auguryIntroWebView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,18 +60,23 @@
 
         self.navigationItem.titleView = titleView;
         self.auguryViewController = [[AuguryViewController_iPhone alloc]
-                                     initWithNibName:@"AugurViewController_iPhone" bundle:nil];
+                                     initWithNibName:@"AuguryViewController_iPhone" bundle:nil];
         // augurViewController has retain semantics, so will retain this after init.
         [self.auguryViewController release];
         
         dailyWord = [[DailyWord alloc]init];
         dailyWord.delegate = self;
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideAuguryIntroInLandscape) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [auguryIntroWebView release];
+    [auguryIntroView release];
     [auguryViewController release];
     [emailTextField release];
     [passwordTextField release];
@@ -134,6 +142,7 @@
 
 - (void)displayAugury
 {
+    auguryIntroView.hidden = YES;
     [self presentModalViewController:self.auguryViewController animated: YES];
 }
 
@@ -299,6 +308,58 @@
     [wotdButton setTitle:@"loading..." forState:UIControlStateHighlighted];
     [wotdButton setTitle:@"loading..." forState:UIControlStateSelected];
     [dailyWord load];
+}
+
+- (NSString*)htmlForAuguryIntro
+{
+    return
+        @"<!DOCTYPE html>"
+        "<html>"
+            "<body style='color:#1c94c4; background-color:#fff; font: bold 12pt Trebuchet MS; text-align: center;'>"
+                "Augury was one of the main occupations of the ancient <em>dubsar</em>, "
+                "cataloging omens in order to predict the future. The Dubsar app now also speaks "
+                "mysteriously when asked, using WordNet&reg;&apos;s generic verb frames and "
+                "randomly-selected words to construct arbitrary sentences. Tap the Augur button "
+                "to try it. See the FAQ for further information."
+            "</body>"
+        "</html>";
+}
+
+- (void)initOrientation
+{
+    [super initOrientation];
+    
+    // BOOL value defaults to NO if not present
+    if (!self.navigationController.toolbarHidden &&
+        ![[NSUserDefaults standardUserDefaults] boolForKey:DubsarAuguryIntroSeenKey]) {
+        [auguryIntroWebView loadHTMLString:[self htmlForAuguryIntro] baseURL:nil];
+        auguryIntroView.hidden = NO;
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:DubsarAuguryIntroSeenKey];
+    }
+    else {
+        [self hideAuguryIntro];
+    }
+}
+
+- (void)hideAuguryIntro
+{
+    auguryIntroView.hidden = YES;
+}
+
+- (void)hideAuguryIntroInLandscape
+{
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        [self hideAuguryIntro];
+    }
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+        [self hideAuguryIntro];
+    }    
 }
 
 @end

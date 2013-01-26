@@ -22,7 +22,7 @@
 
 @class DailyWord;
 
-@interface DubsarViewController_iPhone : SearchBarViewController_iPhone {
+@interface DubsarViewController_iPhone : SearchBarViewController_iPhone<UIWebViewDelegate> {
     UIButton *wotdButton;
 }
 
@@ -32,6 +32,8 @@
 @property (nonatomic, retain) IBOutlet UITextField* emailTextField;
 @property (nonatomic, retain) IBOutlet UITextField* passwordTextField;
 @property (nonatomic, retain) AuguryViewController_iPhone* auguryViewController;
+@property (nonatomic, retain) IBOutlet UIView* auguryIntroView;
+@property (nonatomic, retain) IBOutlet UIWebView* auguryIntroWebView;
 
 - (void)displayFAQ;
 - (void)displayAbout;
@@ -45,5 +47,9 @@
 - (void)checkForCredentials;
 - (NSString*)authenticateEmail:(NSString*)email password:(NSString*)password;
 - (void)handleWotd;
+
+- (NSString*)htmlForAuguryIntro;
+- (void)hideAuguryIntro;
+- (void)hideAuguryIntroInLandscape;
 
 @end
