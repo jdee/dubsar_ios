@@ -50,6 +50,5 @@
 
 - (NSString*)htmlForAuguryIntro;
 - (void)hideAuguryIntro;
-- (void)hideAuguryIntroInLandscape;
 
 @end

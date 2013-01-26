@@ -66,9 +66,6 @@
         
         dailyWord = [[DailyWord alloc]init];
         dailyWord.delegate = self;
-        
-        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideAuguryIntroInLandscape) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
 }
@@ -142,7 +139,7 @@
 
 - (void)displayAugury
 {
-    auguryIntroView.hidden = YES;
+    [self hideAuguryIntro];
     [self presentModalViewController:self.auguryViewController animated: YES];
 }
 
@@ -329,36 +326,28 @@
 {
     [super initOrientation];
     
+    // useful testing hook
+    // [[NSUserDefaults standardUserDefaults] setBool:NO forKey:DubsarAuguryIntroSeenKey];
+    
     // BOOL value defaults to NO if not present
     if (!self.navigationController.toolbarHidden &&
         ![[NSUserDefaults standardUserDefaults] boolForKey:DubsarAuguryIntroSeenKey]) {
         [auguryIntroWebView loadHTMLString:[self htmlForAuguryIntro] baseURL:nil];
         auguryIntroView.hidden = NO;
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:DubsarAuguryIntroSeenKey];
-    }
-    else {
-        [self hideAuguryIntro];
     }
 }
 
 - (void)hideAuguryIntro
 {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:DubsarAuguryIntroSeenKey];
     auguryIntroView.hidden = YES;
-}
-
-- (void)hideAuguryIntroInLandscape
-{
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
-        [self hideAuguryIntro];
-    }
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-        [self hideAuguryIntro];
+        auguryIntroView.hidden = YES;
     }    
 }
 
