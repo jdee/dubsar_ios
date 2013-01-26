@@ -45,7 +45,7 @@
 {
     Word* verb = [self randomVerb];
     NSLog(@"random infinitive: %@", verb.name);
-    return [NSString stringWithFormat:@"to <a style='text-decoration: none;' href='dubsar://iOS/words/%d'>%@</a>", verb._id, verb.name];
+    return [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iOS/words/%d'>%@</a>", verb._id, verb.name];
 }
 
 - (Word*)randomVerb
@@ -121,7 +121,7 @@
         NSString* verb = [self randomVerbForFrame:25];
         NSString* infinitive = self.infinitive;
         
-        self.text = [NSString stringWithFormat:@"<span>%@ %@ %@ %@</span>", somebody, verb, anotherSomebody, infinitive];
+        self.text = [NSString stringWithFormat:@"<span>%@ %@ %@ to %@</span>", somebody, verb, anotherSomebody, infinitive];
     }
     else if (frameId <= 18) {
         // 27: Somebody ----s to somebody
@@ -142,12 +142,12 @@
         NSString* verb = [self randomVerbForFrame:29];
         NSString* infinitive = self.infinitive;
         
-        self.text = [NSString stringWithFormat:@"<span>%@ %@ whether %@</span>", somebody, verb, infinitive];
+        self.text = [NSString stringWithFormat:@"<span>%@ %@ whether to %@</span>", somebody, verb, infinitive];
     }
     else {
         // 32: Somebody ----s INFINITIVE
         NSString* verb = [self randomVerbForFrame:32];
-        self.text = [NSString stringWithFormat:@"<span>%@ %@ %@</span>", somebody, verb, self.infinitive];
+        self.text = [NSString stringWithFormat:@"<span>%@ %@ to %@</span>", somebody, verb, self.infinitive];
     }
     
     NSLog(@"self.text = %@", self.text);
@@ -204,15 +204,11 @@
         return senseLink;
     }
     
-    int articleIndex = rand() % 3;
+    int articleIndex = rand() % 2;
     
     NSString* article = nil;
     switch (articleIndex) {
         case 0:
-            // none
-            article = [NSString string];
-            break;
-        case 1:
             // a/an
             if ([name rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"aeiou"]].location == 0) {
                 article = @"an ";
@@ -297,28 +293,72 @@
     int senseId = sqlite3_column_int(statement, 1);
     sqlite3_finalize(statement);
     
+    NSString* tps = [self thirdPersonSingularForId:verbId];
+    
+    NSLog(@"random verb (%d) is %@", frameNo, tps);
+    return [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iOS/senses/%d'>%@</a>", senseId, tps];
+}
+
+- (NSString*)thirdPersonSingularForId:(int)verbId
+{
     // now find the third-person singular
-    sql = [NSString stringWithFormat:@"SELECT name FROM inflections WHERE word_id = %d AND name LIKE '%%s' LIMIT 1", verbId];
+    NSString* sql = [NSString stringWithFormat:@"SELECT name FROM inflections WHERE word_id = %d AND name LIKE '%%s' LIMIT 1", verbId];
+    int rc;
+    sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(self.appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"preparing inflections select: %d", rc);
         return nil;
     }
     
     NSString* tps = nil;
-    if ((rc=sqlite3_step(statement)) != SQLITE_ROW) {
-        NSLog(@"No result found");
-        Word* word = [Word wordWithId:verbId name:nil partOfSpeech:POSVerb];
-        [word loadResults:self.appDelegate];
-        tps = [word.name stringByAppendingString:@"s"]; // punt
-    }
-    else {
-        // take the first match, regardless
+    // take the first match, regardless
+    if (sqlite3_step(statement) == SQLITE_ROW) {
         tps = [NSString stringWithCString:(const char*)sqlite3_column_text(statement, 0) encoding:NSUTF8StringEncoding];
     }
+    else {
+        // Didn't find it. Probably capitalized, hyphenated or a verb phrase
+        
+        // find the word (we only have the ID)
+        Word* word = [Word wordWithId:verbId name:nil partOfSpeech:POSVerb];
+        [word loadResults:self.appDelegate];
+        
+        NSRange firstWS = [word.name rangeOfCharacterFromSet:NSCharacterSet.whitespaceCharacterSet];
+        if (firstWS.location != NSNotFound) {
+            // Verb phrase. Recursively call this method for the first word
+            // in the phrase. Once we have the ID.
+            NSLog(@"No third-person singular inflection found for verb phrase %@", word.name);
+            NSString* firstWord = [word.name substringToIndex:firstWS.location];
+            NSLog(@"Root verb is %@", firstWord);
+            
+            const char* _sql = "SELECT id FROM words WHERE name = ?";
+            sqlite3_stmt* localStmt;
+            if ((rc=sqlite3_prepare_v2(self.appDelegate.database, _sql, -1, &localStmt, NULL)) != SQLITE_OK) {
+                NSLog(@"sqlite3_prepare_v2: %d", rc);
+                return nil;
+            }
+            if ((rc=sqlite3_bind_text(localStmt, 1, [firstWord cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+                NSLog(@"sqlite3_bind_text: %d", rc);
+                return nil;
+            }
+            if (sqlite3_step(localStmt) != SQLITE_ROW) {
+                NSLog(@"could not find target verb");
+                return nil;
+            }
+            
+            verbId = sqlite3_column_int(localStmt, 0);
+            sqlite3_finalize(localStmt);
+            tps = [[self thirdPersonSingularForId:verbId] stringByAppendingString:[word.name substringFromIndex:firstWS.location]];
+        }
+        else {
+            // Probably capitalized or hyphenated, but only one word
+            NSLog(@"No third-person singular inflection found and no white space in %@", word.name);
+            tps = [word.name stringByAppendingString:@"s"];
+        }
+    }
     
-    NSLog(@"random verb (%d) is %@", frameNo, tps);
     sqlite3_finalize(statement);
-    return [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar://iOS/senses/%d'>%@</a>", senseId, tps];
+    
+    return tps;
 }
 
 @end

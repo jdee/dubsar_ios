@@ -29,6 +29,7 @@
 - (Word*) randomVerb;
 - (NSString*) infinitive;
 - (NSString*) somebody;
+- (NSString*) thirdPersonSingularForId:(int)verbId;
 
 - (void) type1:(int)frameId;
 - (void) type2:(int)frameId;
