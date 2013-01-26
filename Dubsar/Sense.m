@@ -360,7 +360,7 @@
 - (void)loadResults:(DubsarAppDelegate *)appDelegate
 {
     NSString* sql = [NSString stringWithFormat:
-                     @"SELECT sy.id, sy.definition, sy.lexname, se.marker, se.freq_cnt, w.id, w.part_of_speech, vf.frame, vf.number "
+                     @"SELECT sy.id, sy.definition, sy.lexname, se.marker, se.freq_cnt, w.id, w.part_of_speech, vf.frame, vf.number, w.name "
                      @"FROM senses se "
                      @"INNER JOIN synsets sy ON sy.id = se.synset_id "
                      @"INNER JOIN words w ON w.id = se.word_id "
@@ -388,6 +388,8 @@
         int wordId = sqlite3_column_int(statement, 5);
         char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 6);
         char const* _frame = (char const*)sqlite3_column_text(statement, 7);
+        char const* _name = (char const*)sqlite3_column_text(statement, 9);
+        self.name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
         
         NSLog(@"matching row: synsetId = %d, wordId = %d", synsetId, wordId);
         

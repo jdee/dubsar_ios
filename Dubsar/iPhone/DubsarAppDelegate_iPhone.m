@@ -102,7 +102,6 @@
         
         int senseId = [[url lastPathComponent] intValue];
         Sense* sense = [Sense senseWithId:senseId name:nil partOfSpeech:POSUnknown];
-        [sense load];
         [_navigationController dismissViewControllerAnimated:NO completion:nil];
         SenseViewController_iPhone* viewController = [[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense] autorelease];
         [viewController load];
@@ -115,7 +114,6 @@
         
         int synsetId = [[url lastPathComponent] intValue];
         Synset* synset = [Synset synsetWithId:synsetId partOfSpeech:POSUnknown];
-        [synset load];
         [_navigationController dismissViewControllerAnimated:NO completion:nil];
         SynsetViewController_iPhone* viewController = [[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:synset] autorelease];
         [viewController load];

@@ -34,6 +34,7 @@
 @synthesize delegate;
 @synthesize url;
 @synthesize preview;
+@synthesize appDelegate;
 
 -(id)init
 {
@@ -47,6 +48,7 @@
         error = false;
         errorMessage = nil;
         preview = false;
+        appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     }
     return self;
 }
@@ -66,19 +68,19 @@
 {
     complete = error = false;
     errorMessage = nil;
-    [self loadResults:(DubsarAppDelegate*)UIApplication.sharedApplication.delegate];    
+    [self loadResults:appDelegate];
     complete = true;
     error = errorMessage != nil;
     
     if (delegate != nil) [delegate loadComplete:self withError:errorMessage];
 }
 
-- (void)databaseThread:(id)appDelegate
+- (void)databaseThread:(id)theAppDelegate
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
     complete = error = false;
     errorMessage = nil;
-    [self loadResults:(DubsarAppDelegate*)appDelegate];
+    [self loadResults:(DubsarAppDelegate*)theAppDelegate];
     complete = true;
     error = errorMessage != nil;
     

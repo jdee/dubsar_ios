@@ -45,6 +45,7 @@
 @property (nonatomic) bool error;
 @property (nonatomic, retain) NSString* errorMessage;
 @property (nonatomic, assign) id<LoadDelegate> delegate;
+@property (nonatomic, assign) DubsarAppDelegate* appDelegate;
 
 @property bool preview;
 

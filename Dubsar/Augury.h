@@ -19,11 +19,21 @@
 
 #import "Model.h"
 
+@class Word;
+
 @interface Augury : Model
 
 + (id) augury;
 
 - (id) init;
+- (Word*) randomVerb;
+- (NSString*) infinitive;
+- (NSString*) somebody;
+
+- (void) type1:(int)frameId;
+- (void) type2:(int)frameId;
+
+- (NSString*)randomVerbForFrame28;
 
 @property (nonatomic, retain) NSString* text;
 
