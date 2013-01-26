@@ -258,7 +258,7 @@
     [buttonItems addObject:reviewButtonItem];
     [buttonItems addObject:resetButtonItem];
     [buttonItems addObject:syncButtonItem];
-#endif // DUBSAR_EDITORIAL_BUILDs
+#endif // DUBSAR_EDITORIAL_BUILD
     
     self.toolbarItems = buttonItems.retain;
 }
