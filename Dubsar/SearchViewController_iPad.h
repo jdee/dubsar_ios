@@ -47,4 +47,6 @@
 
 - (IBAction)togglePreview:(id)sender;
 
+- (void)adjustPreview;
+
 @end

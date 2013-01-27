@@ -24,7 +24,6 @@
 @class Sense;
 
 @interface SenseViewController_iPad : UIViewController <UITableViewDataSource, UITableViewDelegate, LoadDelegate, UIGestureRecognizerDelegate> {
-    NSMutableArray* tableSections;    
     UITableView *tableView;
     UILabel *bannerLabel;
     UILabel *detailLabel;
@@ -61,7 +60,6 @@
 - (void)loadRootController;
 - (void)load;
 
-- (void)setupTableSections;
 - (IBAction)showWordView:(id)sender;
 - (IBAction)showSynsetView:(id)sender;
 - (IBAction)morePopover:(id)sender;

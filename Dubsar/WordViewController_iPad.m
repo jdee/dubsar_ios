@@ -332,6 +332,7 @@
 {
     [self setTableViewHeight];
     [self adjustInflectionsView];
+    [self adjustPreview];
 }
 
 - (void)toggleInflections:(id)sender
@@ -418,6 +419,23 @@
         previewShowing = true;
         [_tableView reloadData];
     }
+}
+
+- (void)adjustPreview
+{
+    CGRect frame = previewViewController.view.frame;
+    CGRect bounds = previewViewController.view.bounds;
+    
+    frame.size.width = self.view.bounds.size.width;
+    frame.size.height = self.view.bounds.size.height;
+    
+    bounds.size.width = self.view.bounds.size.width;
+    bounds.size.height = self.view.bounds.size.height;
+    
+    previewViewController.view.frame = frame;
+    previewViewController.view.bounds = bounds;
+    
+    NSLog(@"Set preview (sense) view size to %f x %f", previewViewController.view.frame.size.width, previewViewController.view.frame.size.height);
 }
 
 @end

@@ -95,7 +95,6 @@
 
 - (void)dealloc
 {
-    [tableSections release];
     [popoverController release];
     [detailNib release];
     sense.delegate = nil;
@@ -225,7 +224,7 @@
         [actualNavigationController pushViewController:senseViewController animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
-        [self displayPopup:pointer.targetText];
+        if (!sense.preview) [self displayPopup:pointer.targetText];
     }
     else if ([pointer.targetType isEqualToString:@"Sense"]) {
         /* sense pointer */
@@ -298,10 +297,18 @@
     cell.detailTextLabel.text = pointer.targetGloss;
     
     if ([linkType isEqualToString:@"sample"]) {
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        if (sense.preview) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        }
     }
     else {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
     
     DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
@@ -366,53 +373,6 @@
 - (void)loadRootController
 {
     [actualNavigationController popToRootViewControllerAnimated:YES];
-}
-
-- (void)setupTableSections
-{
-    tableSections = [[NSMutableArray array]retain];
-    NSMutableDictionary* section;
-    if (sense.synonyms && sense.synonyms.count > 0) {
-        section = [NSMutableDictionary dictionary];
-        [section setValue:@"Synonyms" forKey:@"header"];
-        [section setValue:[PointerDictionary helpWithPointerType:@"synonym"]  forKey:@"footer"];
-        [section setValue:sense.synonyms forKey:@"collection"];
-        [section setValue:@"sense" forKey:@"linkType"];
-        [tableSections addObject:section];
-    }
-    
-    if (sense.verbFrames && sense.verbFrames.count > 0) {
-        section = [NSMutableDictionary dictionary];
-        [section setValue:@"Verb Frames" forKey:@"header"];
-        [section setValue:[PointerDictionary helpWithPointerType:@"verb frame"] forKey:@"footer"];
-        [section setValue:sense.verbFrames forKey:@"collection"];
-        [section setValue:@"sample" forKey:@"linkType"];
-        [tableSections addObject:section];
-    }
-    
-    if (sense.samples && sense.samples.count > 0) {
-        section = [NSMutableDictionary dictionary];
-        [section setValue:@"Sample Sentences" forKey:@"header"];
-        [section setValue:[PointerDictionary helpWithPointerType:@"sample sentence"] forKey:@"footer"];
-        [section setValue:sense.samples forKey:@"collection"];
-        [section setValue:@"sample" forKey:@"linkType"];
-        [tableSections addObject:section];
-    }
-    
-    if (sense.pointers && sense.pointers.count > 0) {
-        NSArray* keys = [sense.pointers allKeys];
-        for (int j=0; j<keys.count; ++j) {
-            NSString* key = [keys objectAtIndex:j];
-            NSString* title = [PointerDictionary titleWithPointerType:key];
-            
-            section = [NSMutableDictionary dictionary];
-            [section setValue:title forKey:@"header"];
-            [section setValue:[PointerDictionary helpWithPointerType:key] forKey:@"footer"];
-            [section setValue:[sense.pointers valueForKey:key] forKey:@"collection"];
-            [section setValue:@"pointer" forKey:@"linkType"];
-            [tableSections addObject:section];
-        }
-    }
 }
 
 - (IBAction)showWordView:(id)sender 
