@@ -54,7 +54,7 @@
 @property (nonatomic, assign) DubsarNavigationController_iPad* navigationController;
 @property (nonatomic, retain) Autocompleter* autocompleter;
 @property (nonatomic, retain) DailyWord* dailyWord;
-@property (nonatomic, retain) NSString* searchText;
+@property (nonatomic, copy) NSString* searchText;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
 @property (nonatomic, retain) IBOutlet UIButton *wotdButton;

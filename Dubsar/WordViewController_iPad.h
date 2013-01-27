@@ -58,4 +58,6 @@
 
 - (void)reload;
 
+- (void)setActualNavigationController:(UINavigationController *)theActualNavigationController;
+
 @end

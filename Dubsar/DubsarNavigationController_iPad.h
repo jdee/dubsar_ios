@@ -39,7 +39,7 @@
 
 @property (nonatomic, retain) UIPopoverController* popoverController;
 @property (nonatomic, retain) Autocompleter* autocompleter;
-@property (nonatomic, retain) NSString* _searchText;
+@property (nonatomic, copy) NSString* _searchText;
 @property (nonatomic, retain) ForwardStack* forwardStack;
 @property (nonatomic, retain) IBOutlet UIToolbar *searchToolbar;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;

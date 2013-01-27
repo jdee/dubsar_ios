@@ -205,7 +205,7 @@
 
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)theSearchText
 {
-    _searchText = [theSearchText copy];
+    self.searchText = theSearchText;
     
     if (!editing) return;
     

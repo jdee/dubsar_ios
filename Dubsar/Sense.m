@@ -154,6 +154,7 @@
 -(void)dealloc
 {
     [self destroyStatements];
+    [sections release];
     [name release];
     [pointers release];
     [samples release];
@@ -528,7 +529,6 @@
         section.ptype = [NSString stringWithCString:_ptype encoding:NSUTF8StringEncoding];
         section.header = [PointerDictionary titleWithPointerType:section.ptype];
         section.footer = [PointerDictionary helpWithPointerType:section.ptype];
-        section.ptype = [NSString stringWithCString:_ptype encoding:NSUTF8StringEncoding];
         section.senseId = _id;
         section.synsetId = synset._id;
         section.linkType = @"pointer";

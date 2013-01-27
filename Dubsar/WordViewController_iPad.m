@@ -451,4 +451,10 @@
     [previewViewController.tableView reloadData];
 }
 
+- (void)setActualNavigationController:(UINavigationController *)theActualNavigationController
+{
+    previewViewController.actualNavigationController = theActualNavigationController;
+    actualNavigationController = [theActualNavigationController retain];
+}
+
 @end
