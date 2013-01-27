@@ -222,8 +222,8 @@
 		7B327FFE13E3875400274E6C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7B32800013E3875400274E6C /* DubsarAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarAppDelegate.h; sourceTree = "<group>"; };
 		7B32800113E3875400274E6C /* DubsarAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarAppDelegate.m; sourceTree = "<group>"; };
-		7B32800413E3875400274E6C /* DubsarAppDelegate_iPhone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DubsarAppDelegate_iPhone.h; path = iPhone/DubsarAppDelegate_iPhone.h; sourceTree = "<group>"; };
-		7B32800513E3875400274E6C /* DubsarAppDelegate_iPhone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DubsarAppDelegate_iPhone.m; path = iPhone/DubsarAppDelegate_iPhone.m; sourceTree = "<group>"; };
+		7B32800413E3875400274E6C /* DubsarAppDelegate_iPhone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarAppDelegate_iPhone.h; sourceTree = "<group>"; };
+		7B32800513E3875400274E6C /* DubsarAppDelegate_iPhone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarAppDelegate_iPhone.m; sourceTree = "<group>"; };
 		7B32800813E3875400274E6C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPhone/en.lproj/MainWindow_iPhone.xib; sourceTree = "<group>"; };
 		7B32803313E387BF00274E6C /* dubsar-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-full.png"; path = "Images/dubsar-full.png"; sourceTree = "<group>"; };
 		7B32803613E387BF00274E6C /* dubsar-link-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-link-hr.png"; path = "Images/dubsar-link-hr.png"; sourceTree = "<group>"; };
