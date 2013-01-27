@@ -132,6 +132,7 @@
     
     CGRect bounds = previewView.bounds;
     bounds.origin.y = 88.0;
+    bounds.size.height += 88.0;
     previewView.bounds = bounds;
     
     originalColor = [tableView.backgroundColor retain];    
