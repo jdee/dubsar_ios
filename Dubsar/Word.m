@@ -88,6 +88,7 @@
 
 - (void)load:(bool)mainThread
 {
+    /*
     if (mainThread) {
         // dispatch on the main thread in the background
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -95,8 +96,11 @@
         });
     }
     else {
-        [NSThread detachNewThreadSelector:@selector(databaseThread:) toTarget:self withObject:UIApplication.sharedApplication.delegate];
+     */
+        [self performSelectorInBackground:@selector(databaseThread:) withObject:UIApplication.sharedApplication.delegate];
+    /*
     }
+     */
 }
 
 - (void)load

@@ -84,7 +84,11 @@
     complete = true;
     error = errorMessage != nil;
     
-    if (delegate != nil) [delegate loadComplete:self withError:errorMessage];
+    if (delegate != nil) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [delegate loadComplete:self withError:errorMessage];
+        });
+    }
     [pool release];
 }
 
