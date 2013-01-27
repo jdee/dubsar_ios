@@ -339,6 +339,8 @@
         return;
     }
     
+    [self createToolbarItems];
+    
     NSLog(@"word %@ inflections \"%@\"", word.nameAndPos, word.inflections);
    
     if (!customTitle) self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
