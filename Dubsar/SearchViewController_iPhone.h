@@ -31,7 +31,7 @@
 }
 
 @property (nonatomic, retain) Search* search;
-@property (nonatomic, retain) NSString* searchText;
+@property (nonatomic, copy) NSString* searchText;
 @property (nonatomic, retain) IBOutlet UITableView *searchResultsTableView;
 @property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
 

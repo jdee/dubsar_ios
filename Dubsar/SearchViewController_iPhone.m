@@ -138,7 +138,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self searchBar].text = [_searchText copy];
+    [self searchBar].text = [[_searchText copy]autorelease];
     if (search.complete && !search.error) {
         [self loadComplete:search withError:nil];
     }
@@ -162,7 +162,7 @@
 - (void)searchBar:(UISearchBar*)theSearchBar textDidChange:(NSString *)searchText
 {
     if (theSearchBar != [self searchBar]) return;
-    _searchText = [searchText copy];
+    self.searchText = searchText;
     [super searchBar:theSearchBar textDidChange:searchText];
 }
 
