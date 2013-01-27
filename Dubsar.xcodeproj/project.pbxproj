@@ -25,6 +25,8 @@
 		7B145C981698F22E003DF963 /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C971698F22C003DF963 /* Review.m */; };
 		7B2AEDD916B4C20D0058958F /* IntroViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2AEDD716B4C20B0058958F /* IntroViewController_iPad.m */; };
 		7B2AEDDA16B4C20D0058958F /* IntroViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B2AEDD816B4C20C0058958F /* IntroViewController_iPad.xib */; };
+		7B2AEDE516B4E25C0058958F /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2AEDE416B4E25C0058958F /* Default-Portrait@2x~ipad.png */; };
+		7B2AEDE816B4E26A0058958F /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2AEDE716B4E26A0058958F /* Default-Landscape@2x~ipad.png */; };
 		7B2C2EC516A9C6A9000BC87B /* wotd-button-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC416A9C6A9000BC87B /* wotd-button-hr.png */; };
 		7B2C2EC716A9CD07000BC87B /* wotd-button-highlighted-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted-hr.png */; };
 		7B2C2ECA16AA02D3000BC87B /* wotd-button-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC816AA02D3000BC87B /* wotd-button-highlighted.png */; };
@@ -201,6 +203,8 @@
 		7B2AEDD616B4C20B0058958F /* IntroViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroViewController_iPad.h; sourceTree = "<group>"; };
 		7B2AEDD716B4C20B0058958F /* IntroViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController_iPad.m; sourceTree = "<group>"; };
 		7B2AEDD816B4C20C0058958F /* IntroViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IntroViewController_iPad.xib; sourceTree = "<group>"; };
+		7B2AEDE416B4E25C0058958F /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		7B2AEDE716B4E26A0058958F /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		7B2C2EC416A9C6A9000BC87B /* wotd-button-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-hr.png"; path = "Images/wotd-button-hr.png"; sourceTree = "<group>"; };
 		7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-highlighted-hr.png"; path = "Images/wotd-button-highlighted-hr.png"; sourceTree = "<group>"; };
 		7B2C2EC816AA02D3000BC87B /* wotd-button-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-highlighted.png"; path = "Images/wotd-button-highlighted.png"; sourceTree = SOURCE_ROOT; };
@@ -693,6 +697,8 @@
 				7BF51997140FE85C00994FC5 /* banner-handle-ipad.png */,
 				7B3D593D140E567A00EE838F /* banner-handle.png */,
 				7BF97904140D97AE00658F39 /* Default@2x.png */,
+				7B2AEDE716B4E26A0058958F /* Default-Landscape@2x~ipad.png */,
+				7B2AEDE416B4E25C0058958F /* Default-Portrait@2x~ipad.png */,
 				7BF97900140D976900658F39 /* Default-Portrait~ipad.png */,
 				7BF978FB140D975600658F39 /* Default-Landscape~ipad.png */,
 				7B36217E1694FD8000D9CA53 /* Default-568h@2x.png */,
@@ -878,6 +884,8 @@
 				7B9D2C7B16ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib in Resources */,
 				7B9D2C8116AE05D800F31AE8 /* InflectionsViewController_iPad.xib in Resources */,
 				7B2AEDDA16B4C20D0058958F /* IntroViewController_iPad.xib in Resources */,
+				7B2AEDE516B4E25C0058958F /* Default-Portrait@2x~ipad.png in Resources */,
+				7B2AEDE816B4E26A0058958F /* Default-Landscape@2x~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
