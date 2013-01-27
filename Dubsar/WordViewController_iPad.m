@@ -389,8 +389,9 @@
             if (finished) previewViewController.view.hidden = YES;
         }];
         _tableView.backgroundColor = originalColor;
-        previewShowing = false;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        previewShowing = false;
+        [previewButton setTitle:@"Show"];
     }
     else {
         if (!previewViewController.sense) {
@@ -415,11 +416,11 @@
             previewViewController.view.frame = frame;
         }];
         _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.89 blue:0.62 alpha:1.00];
-        // _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.00];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         previewShowing = true;
         [self adjustPreview];
+        [previewButton setTitle:@"Hide"];
     }
     [_tableView reloadData];
 }

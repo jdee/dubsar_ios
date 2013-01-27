@@ -31,6 +31,7 @@
 @synthesize search;
 @synthesize tableView;
 @synthesize pageControl;
+@synthesize previewButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString *)text matchCase:(BOOL)matchCase
 {
@@ -392,6 +393,7 @@
         previewShowing = false;
         
         tableView.backgroundColor = originalColor;
+        [previewButton setTitle:@"Show"];
     }
     else {
         // show preview
@@ -418,6 +420,7 @@
         previewShowing = true;
         [self adjustPreview];
         [previewViewController reload];
+        [previewButton setTitle:@"Hide"];
     }
     [tableView reloadData];
 }
