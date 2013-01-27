@@ -85,9 +85,14 @@
     error = errorMessage != nil;
     
     if (delegate != nil) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        if ([NSThread currentThread] != [NSThread mainThread]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [delegate loadComplete:self withError:errorMessage];
+            });
+        }
+        else {
             [delegate loadComplete:self withError:errorMessage];
-        });
+        }
     }
     [pool release];
 }

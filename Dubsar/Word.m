@@ -88,7 +88,7 @@
 
 - (void)load:(bool)mainThread
 {
-    /*
+    // either way, [delegate loadComplete:withError:] is called on the main thread
     if (mainThread) {
         // dispatch on the main thread in the background
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -96,11 +96,8 @@
         });
     }
     else {
-     */
         [self performSelectorInBackground:@selector(databaseThread:) withObject:UIApplication.sharedApplication.delegate];
-    /*
     }
-     */
 }
 
 - (void)load

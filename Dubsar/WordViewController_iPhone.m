@@ -353,6 +353,10 @@
     if (!previewShowing) {
         [self togglePreview:true];
     }
+    else {
+        previewShowing = false;
+        [self togglePreview:false];
+    }
 }
 
 - (void)adjustBanner
@@ -386,6 +390,7 @@
 
 - (void)dismissInflections
 {
+    inflectionsShowing = false;
     [UIView transitionWithView:self.view duration:0.4
                        options:UIViewAnimationOptionTransitionCurlDown
                     animations:^{
@@ -397,7 +402,6 @@
                             [self togglePreview:false];
                         }
                     } completion:nil];
-    inflectionsShowing = false;
 }
 
 - (void)toggleInflections
@@ -413,6 +417,7 @@
     CGRect bounds = [[UIScreen mainScreen] bounds];
     
     // BUG: Where do these extra 12 points come from? Should be 212 in landscape.
+    // Update a year or so later: The nav bar in landscape seems to be narrower.
     float maxHeight = UIInterfaceOrientationIsPortrait(orientation) ? bounds.size.height - 152.0 : 224.0 ;
     maxHeight -= 44.0;
     
@@ -443,6 +448,8 @@
 
 - (void)togglePreview
 {
+    if (inflectionsShowing) return;
+    
     [self togglePreview:true];
 }
 
@@ -466,7 +473,6 @@
         previewShowing = false;
         tableView.backgroundColor = originalColor;
         previewButton.title = @"Show";
-        NSLog(@"Hid preview");
     }
     else {
         if (!firstSenseViewController.sense) {
@@ -500,7 +506,6 @@
             firstSenseViewController.view.frame = frame;
         }
         previewShowing = true;
-        NSLog(@"Set previewShowing to true");
         previewButton.title = @"Hide";
     }
 }

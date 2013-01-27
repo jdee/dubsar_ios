@@ -180,7 +180,10 @@
     int index = indexPath.section;
     
     Word* word = [search.results objectAtIndex:index];
-    [self.navigationController pushViewController:[[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word title:nil]autorelease] animated:YES];
+    Word* wordCopy = [Word wordWithId:word._id name:word.name partOfSpeech:word.partOfSpeech];
+    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:wordCopy title:nil]autorelease];
+    [wordCopy setDelegate:viewController];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
