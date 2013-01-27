@@ -150,6 +150,8 @@
 {
     [super viewWillAppear:animated];
     
+    [previewViewController reload];
+    
     if (search.complete && !search.error) {
         [self loadComplete:search withError:nil];
     }
@@ -191,7 +193,7 @@
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section
 {
-    if (!search || !search.complete || search.error || search.results.count == 0) {
+    if (!search || !search.complete || search.error || search.results.count == 0 || previewShowing) {
         return 1;  
     }
     
@@ -414,7 +416,10 @@
             previewViewController.view.frame = frame;
         }];
         previewShowing = true;
+        [self adjustPreview];
+        [previewViewController reload];
     }
+    [tableView reloadData];
 }
 
 @end

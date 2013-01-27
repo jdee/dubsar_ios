@@ -58,4 +58,6 @@
 - (void)togglePreview;
 - (void)togglePreview:(bool)animated;
 
+- (void)reload;
+
 @end

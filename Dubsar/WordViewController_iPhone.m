@@ -511,4 +511,10 @@
     [super searchBarTextDidBeginEditing:theSearchBar];
 }
 
+- (void)reload
+{
+    [tableView reloadData];
+    [firstSenseViewController.tableView reloadData];
+}
+
 @end

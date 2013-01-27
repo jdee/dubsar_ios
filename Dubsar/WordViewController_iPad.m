@@ -132,6 +132,10 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    // reset table views, including preview
+    [self reload];
+    
     if (word.complete && !word.error) {
         [self loadComplete:word withError:nil];
     }
@@ -150,7 +154,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSInteger count = word.complete ? word.senses.count : 1;
+    NSInteger count = word.complete && !previewShowing ? word.senses.count : 1;
     return count;
 }
 
@@ -187,10 +191,6 @@
 {
     if (!word.complete) {
         return @"loading...";
-    }
-    
-    if (previewShowing) {
-        return @"";
     }
     
     Sense* sense = [word.senses objectAtIndex:section];
@@ -390,7 +390,7 @@
         }];
         _tableView.backgroundColor = originalColor;
         previewShowing = false;
-        [_tableView reloadData];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     }
     else {
         if (!previewViewController.sense) {
@@ -399,6 +399,7 @@
             
             previewViewController.sense.preview = true;
             previewViewController.sense.delegate = previewViewController;
+            previewViewController.actualNavigationController = self.navigationController;
             [previewViewController load];
             NSLog(@"sense view controller loading");
         }
@@ -409,16 +410,18 @@
         previewViewController.view.frame = frame;
         previewViewController.view.hidden = NO;
         
-        frame.origin.y = 44.0;
+        frame.origin.y = 66.0;
         [UIView animateWithDuration:0.4 animations:^{
             previewViewController.view.frame = frame;
         }];
         _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.89 blue:0.62 alpha:1.00];
         // _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.00];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         previewShowing = true;
-        [_tableView reloadData];
+        [self adjustPreview];
     }
+    [_tableView reloadData];
 }
 
 - (void)adjustPreview
@@ -435,7 +438,16 @@
     previewViewController.view.frame = frame;
     previewViewController.view.bounds = bounds;
     
+    [previewViewController.view setNeedsLayout];
+    [previewViewController.view setNeedsDisplay];
+    
     NSLog(@"Set preview (sense) view size to %f x %f", previewViewController.view.frame.size.width, previewViewController.view.frame.size.height);
+}
+
+- (void)reload
+{
+    [_tableView reloadData];
+    [previewViewController.tableView reloadData];
 }
 
 @end

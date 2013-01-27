@@ -147,7 +147,7 @@
     }
     
     if (previewShowing) {
-        [firstWordViewController.tableView reloadData];
+        [firstWordViewController reload];
     }
 }
 
@@ -408,7 +408,7 @@
         }
         else {
             firstWordViewController.view.frame = frame;
-            [firstWordViewController.tableView reloadData];
+            [firstWordViewController reload];
         }
         
         originalColor = [_tableView.backgroundColor retain];

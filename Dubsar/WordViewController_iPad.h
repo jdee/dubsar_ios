@@ -56,4 +56,6 @@
 - (IBAction)togglePreview:(id)sender;
 - (void)adjustPreview;
 
+- (void)reload;
+
 @end
