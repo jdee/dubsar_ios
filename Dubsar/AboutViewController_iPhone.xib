@@ -68,7 +68,6 @@
 						<string key="NSFrame">{{0, 416}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -4851,7 +4850,6 @@ dG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuCg</string>
 						<string key="NSFrame">{{4, 406}, {312, 42}}</string>
 						<reference key="NSSuperview" ref="38766819"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:311</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -5110,7 +5108,7 @@ dG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuCg</string>
 					</object>
 					<object class="IBUITextView" id="557994562">
 						<reference key="NSNextResponder" ref="345931380"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{20, 356}, {280, 37}}</string>
 						<reference key="NSSuperview" ref="345931380"/>
 						<reference key="NSWindow"/>
@@ -5145,11 +5143,10 @@ dG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuCg</string>
 					</object>
 					<object class="IBUITextView" id="914073864">
 						<reference key="NSNextResponder" ref="345931380"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{20, 393}, {280, 37}}</string>
 						<reference key="NSSuperview" ref="345931380"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -5207,7 +5204,6 @@ dG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuCg</string>
 						<string key="NSFrame">{{0, 416}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="85580958"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:345</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>

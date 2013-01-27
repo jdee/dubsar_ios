@@ -481,8 +481,6 @@
 				7B32800113E3875400274E6C /* DubsarAppDelegate.m */,
 				7B8AEB0713E9A39F00889E57 /* ForwardStack.h */,
 				7B8AEB0813E9A39F00889E57 /* ForwardStack.m */,
-				7B3F43E4169BAAB3005EF93B /* KeychainWrapper.h */,
-				7B3F43E5169BAAB3005EF93B /* KeychainWrapper.m */,
 				7B29BB4B169FB91900D7C241 /* ModalViewControllerDelegate.h */,
 				7B32808813E38C4200274E6C /* External */,
 				7B32808F13E38C9B00274E6C /* Models */,
@@ -621,6 +619,8 @@
 			children = (
 				7B32808913E38C9300274E6C /* JSONKit.h */,
 				7B32808A13E38C9300274E6C /* JSONKit.m */,
+				7B3F43E4169BAAB3005EF93B /* KeychainWrapper.h */,
+				7B3F43E5169BAAB3005EF93B /* KeychainWrapper.m */,
 				7B32808B13E38C9300274E6C /* URLEncoding.h */,
 				7B32808C13E38C9300274E6C /* URLEncoding.m */,
 			);

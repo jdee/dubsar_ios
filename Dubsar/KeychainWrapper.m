@@ -98,8 +98,8 @@
         NSMutableDictionary *tmpDictionary =
         [self dictionaryToSecItemFormat:keychainData];
         // Delete the keychain item in preparation for resetting the values:
-        NSAssert(SecItemDelete((CFDictionaryRef)tmpDictionary) == noErr,
-                 @"Problem deleting current keychain item." );
+        OSStatus status = SecItemDelete((CFDictionaryRef)tmpDictionary);
+        NSAssert(status == noErr, @"Problem deleting current keychain item." );
     }
     
     // Default generic data for Keychain Item:

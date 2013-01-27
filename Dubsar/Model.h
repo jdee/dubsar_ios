@@ -51,7 +51,6 @@
 
 +(NSString*)incrementString:(NSString*)string;
 
--(void)load:(bool)mainThread;
 -(void)load;
 -(void)databaseThread:(id)appDelegate;
 -(void)loadFromServer;
