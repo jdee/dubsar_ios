@@ -31,6 +31,7 @@
 @synthesize word;
 @synthesize parentDataSource;
 @synthesize actualNavigationController;
+@synthesize previewButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord title:(NSString*)theTitle
 {
@@ -100,7 +101,7 @@
     UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
     [buttons addObject:homeButtonItem];
     
-    previewButton = [[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)];
+    self.previewButton = [[[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)]autorelease];;
     [buttons addObject:previewButton];
     
 #ifdef DUBSAR_EDITORIAL_BUILD

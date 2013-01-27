@@ -43,6 +43,7 @@
 
 @property (nonatomic, retain) Word* word;
 @property (nonatomic, assign) Model* parentDataSource;
+@property (nonatomic, retain) UIBarButtonItem* previewButton;
 
 @property (nonatomic, assign) UINavigationController* actualNavigationController;
 
