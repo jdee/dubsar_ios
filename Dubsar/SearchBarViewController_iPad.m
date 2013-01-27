@@ -25,10 +25,13 @@
 #import "DubsarAppDelegate_iPad.h"
 #import "DubsarNavigationController_iPad.h"
 #import "FAQViewController_iPad.h"
+#import "IntroViewController_iPad.h"
 #import "SearchBarViewController_iPad.h"
 #import "SearchViewController_iPad.h"
 #import "Word.h"
 #import "WordPopoverViewController_iPad.h"
+
+#define DubsarAuguryIntroSeenKey @"com.dubsar-dictionary.Dubsar.auguryIntroSeen"
 
 @implementation SearchBarViewController_iPad
 @synthesize navigationController=_navigationController;
@@ -56,6 +59,7 @@
 @synthesize dotsButton;
 @synthesize homeButton;
 @synthesize toolbar;
+@synthesize auguryButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -70,6 +74,11 @@
         viewController.popoverController = popoverController;
         popoverController.popoverContentSize = CGSizeMake(320.0, 440.0);
         
+        IntroViewController_iPad* introViewController = [[[IntroViewController_iPad alloc] initWithNibName:@"IntroViewController_iPad" bundle:nil] autorelease];
+        introPopoverController = [[UIPopoverController alloc] initWithContentViewController:introViewController];
+        introPopoverController.delegate = self;
+        introPopoverController.popoverContentSize = CGSizeMake(320.0, 225.0);
+        
         editing = false;
         executingAutocompleter = nil;
     }
@@ -78,6 +87,7 @@
 
 - (void)dealloc
 {
+    [introPopoverController release];
     [wordPopoverController release];
     [dailyWord release];
     [popoverController release];
@@ -154,6 +164,14 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        [self displayIntro];
+    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar
@@ -396,6 +414,22 @@
     [wordPopoverController dismissPopoverAnimated:YES];
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    if (UIInterfaceOrientationIsPortrait(fromInterfaceOrientation)) {
+        [self displayIntro];
+    }
+}
+
+- (void)displayIntro
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:DubsarAuguryIntroSeenKey]) {
+        return;
+    }
+    
+    [introPopoverController presentPopoverFromBarButtonItem:auguryButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
 - (void)disable
 {
     searchBar.hidden = YES;
@@ -447,6 +481,8 @@
 
 - (void)augur:(id)sender
 {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:DubsarAuguryIntroSeenKey];
+    
     AuguryViewController_iPad* viewController = nil;
     if ([_navigationController.topViewController isKindOfClass:AuguryViewController_iPad.class]) {
         viewController = (AuguryViewController_iPad*)[_navigationController topViewController];

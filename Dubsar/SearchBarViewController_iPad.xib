@@ -709,6 +709,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">auguryButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="977090729"/>
+					</object>
+					<int key="connectionID">89</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="225063161"/>
 						<reference key="destination" ref="841351856"/>
@@ -1150,7 +1158,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">88</int>
+			<int key="maxID">89</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1321,6 +1329,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>abButton</string>
+							<string>auguryButton</string>
 							<string>autocompleterTableView</string>
 							<string>cdButton</string>
 							<string>dotsButton</string>
@@ -1343,6 +1352,7 @@
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIButton</string>
+							<string>UIBarButtonItem</string>
 							<string>UITableView</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
@@ -1368,6 +1378,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>abButton</string>
+							<string>auguryButton</string>
 							<string>autocompleterTableView</string>
 							<string>cdButton</string>
 							<string>dotsButton</string>
@@ -1392,6 +1403,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">abButton</string>
 								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">auguryButton</string>
+								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">autocompleterTableView</string>

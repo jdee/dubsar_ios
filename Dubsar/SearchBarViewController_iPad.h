@@ -29,6 +29,7 @@
     bool editing;
     UISearchBar *searchBar;
     UIPopoverController* popoverController;
+    UIPopoverController* introPopoverController;
     UITableView *autocompleterTableView;
     UIButton *wotdButton;
     UIButton *abButton;
@@ -75,6 +76,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *dotsButton;
 @property (nonatomic, retain) IBOutlet UIButton *homeButton;
 @property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem* auguryButton;
 
 - (IBAction)showWotd:(id)sender;
 - (IBAction)showFAQ:(id)sender;
@@ -105,5 +107,7 @@
 
 - (void)disable;
 - (void)enable;
+
+- (void)displayIntro;
 
 @end
