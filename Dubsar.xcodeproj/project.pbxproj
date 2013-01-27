@@ -203,8 +203,8 @@
 		7B2AEDD616B4C20B0058958F /* IntroViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroViewController_iPad.h; sourceTree = "<group>"; };
 		7B2AEDD716B4C20B0058958F /* IntroViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController_iPad.m; sourceTree = "<group>"; };
 		7B2AEDD816B4C20C0058958F /* IntroViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IntroViewController_iPad.xib; sourceTree = "<group>"; };
-		7B2AEDE416B4E25C0058958F /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
-		7B2AEDE716B4E26A0058958F /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		7B2AEDE416B4E25C0058958F /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x~ipad.png"; path = "Images/Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		7B2AEDE716B4E26A0058958F /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "Images/Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		7B2C2EC416A9C6A9000BC87B /* wotd-button-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-hr.png"; path = "Images/wotd-button-hr.png"; sourceTree = "<group>"; };
 		7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-highlighted-hr.png"; path = "Images/wotd-button-highlighted-hr.png"; sourceTree = "<group>"; };
 		7B2C2EC816AA02D3000BC87B /* wotd-button-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-highlighted.png"; path = "Images/wotd-button-highlighted.png"; sourceTree = SOURCE_ROOT; };
