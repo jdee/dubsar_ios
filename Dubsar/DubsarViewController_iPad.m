@@ -98,7 +98,7 @@
     if (dailyWord.fresh) {
         // turn on the wotd indicator if we're starting fresh
         DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
-        appDelegate.wotdUrl = [NSString stringWithFormat:@"dubsar:///words/%d", dailyWord.word._id];
+        appDelegate.wotdUrl = [NSString stringWithFormat:@"dubsar:///wotd/%d", dailyWord.word._id];
         // appDelegate.wotdUnread = true;
         // [appDelegate addWotdButton];
         

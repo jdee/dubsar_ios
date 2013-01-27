@@ -85,10 +85,11 @@
 
 - (void)load
 {
-    [bannerLabel setHidden:NO];
-    [moreButton setHidden:NO];
+    [bannerLabel setHidden:sense.preview];
+    [moreButton setHidden:sense.preview];
+    [senseToolbar setHidden:sense.preview];
+
     [tableView setHidden:NO];
-    [senseToolbar setHidden:NO];
     [sense load];
 }
 
@@ -335,6 +336,7 @@
         text = [text stringByAppendingString:[NSString stringWithFormat:@" freq. cnt.: %d", sense.freqCnt]];
     }
     bannerLabel.text = text;
+    bannerLabel.hidden = sense.preview;
     detailBannerLabel.text = text;
 }
 
@@ -356,6 +358,7 @@
     // gloss = [gloss stringByAppendingFormat:@" (in %@)", glossTextView.font.fontName];
     [glossTextView setText:gloss];
     [detailGlossTextView setText:sense.gloss];
+    glossTextView.hidden = sense.preview;
     [self adjustBannerLabel];
     [tableView reloadData];
 }

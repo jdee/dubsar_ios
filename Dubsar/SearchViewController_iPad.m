@@ -128,6 +128,11 @@
     previewView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0];
     
     [self.tableView addSubview:previewView];
+    
+    CGRect bounds = previewView.bounds;
+    bounds.origin.y = 88.0;
+    previewView.bounds = bounds;
+    
     originalColor = [tableView.backgroundColor retain];    
     [self setTableViewHeight];
 }
@@ -359,7 +364,7 @@
     if (previewShowing) {
         // hide preview
         CGRect frame = previewViewController.view.frame;
-        frame.origin.y = UIScreen.mainScreen.bounds.size.height - 132.0;
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44.0;
         [UIView animateWithDuration:0.4 animations:^{
             previewViewController.view.frame = frame;
         } completion:^(BOOL finished) {
@@ -374,18 +379,19 @@
         if (search.results.count < 1) return;
         
         Word* word = [search.results objectAtIndex:0];
-        word.preview = true;
-        previewViewController.word = word;
-        word.delegate = previewViewController;
+        
+        previewViewController.word = [Word wordWithId:word._id name:word.name partOfSpeech:word.partOfSpeech];
+        previewViewController.word.preview = true;
+        previewViewController.word.delegate = previewViewController;
         previewViewController.actualNavigationController = self.navigationController;
-        [word load];
+        [previewViewController load];
         tableView.backgroundColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.00];
         
         CGRect frame = previewViewController.view.frame;
-        frame.origin.y = UIScreen.mainScreen.bounds.size.height-132.0;
+        frame.origin.y = UIScreen.mainScreen.bounds.size.height-44.0;
         previewViewController.view.frame = frame;
         
-        frame.origin.y = -44.0;
+        frame.origin.y = 44.0;
         previewViewController.view.hidden = NO;
         [UIView animateWithDuration:0.4 animations:^{
             previewViewController.view.frame = frame;

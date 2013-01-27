@@ -104,7 +104,16 @@
     previewViewController.glossTextView.hidden = YES;
     previewViewController.actualNavigationController = self.actualNavigationController;
     
+    // transparent background
+    previewViewController.view.backgroundColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.00];
+    previewViewController.mainView.backgroundColor = previewViewController.view.backgroundColor;
+    
     [_tableView addSubview:previewViewController.view];
+    
+    CGRect bounds = previewViewController.view.bounds;
+    bounds.origin.y = 132.0;
+    bounds.size.height = UIScreen.mainScreen.bounds.size.height;
+    previewViewController.view.bounds = bounds;
     
     previewViewController.view.hidden = YES;
     
@@ -148,7 +157,7 @@
 - (NSArray*)sectionIndexTitlesForTableView:(UITableView*)theTableView
 {
     NSMutableArray* titles = [NSMutableArray array];
-    if (!word || !word.complete || word.senses.count < 20) {
+    if (!word || !word.complete || word.senses.count < 20 || previewShowing) {
         return titles;
     }
     
@@ -178,6 +187,10 @@
 {
     if (!word.complete) {
         return @"loading...";
+    }
+    
+    if (previewShowing) {
+        return @"";
     }
     
     Sense* sense = [word.senses objectAtIndex:section];
@@ -307,7 +320,8 @@
         
     CGRect frame = _tableView.frame;
     
-    frame.size.height = height < maxHeight ? height : maxHeight;
+    frame.size.height = maxHeight;
+    // frame.size.height = height < maxHeight ? height : maxHeight;
     
     _tableView.frame = frame;
     
@@ -375,29 +389,34 @@
         }];
         _tableView.backgroundColor = originalColor;
         previewShowing = false;
+        [_tableView reloadData];
     }
     else {
         if (!previewViewController.sense) {
             Sense* sense = [word.senses objectAtIndex:0];
-            sense.preview = true;
-            previewViewController.sense = sense;
-            sense.delegate = previewViewController;
+            previewViewController.sense = [Sense senseWithId:sense._id name:sense.name partOfSpeech:sense.partOfSpeech];
+            
+            previewViewController.sense.preview = true;
+            previewViewController.sense.delegate = previewViewController;
             [previewViewController load];
             NSLog(@"sense view controller loading");
         }
         
         CGRect frame = previewViewController.view.frame;
         frame.origin.y = UIScreen.mainScreen.bounds.size.height - 44.0;
+        frame.size.height = UIScreen.mainScreen.bounds.size.height;
         previewViewController.view.frame = frame;
         previewViewController.view.hidden = NO;
         
-        frame.origin.y = 88.0;
+        frame.origin.y = 44.0;
         [UIView animateWithDuration:0.4 animations:^{
             previewViewController.view.frame = frame;
         }];
         _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:0.89 blue:0.62 alpha:1.00];
+        // _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.00];
         
         previewShowing = true;
+        [_tableView reloadData];
     }
 }
 
