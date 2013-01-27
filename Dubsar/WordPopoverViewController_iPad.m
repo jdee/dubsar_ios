@@ -308,9 +308,8 @@
     NSLog(@"initial table view frame: (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
     
     // the inflections label is hidden if it would be empty
-    if (word.freqCnt == 0 && !word.error) {
-        [inflectionsTextView setHidden:YES];
-    }
+    
+    [inflectionsTextView setHidden:word.freqCnt == 0 && !word.error];
 
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
     float screenHeight = UIInterfaceOrientationIsPortrait(orientation) ? 1004.0 : 748.0;
@@ -321,7 +320,7 @@
     _tableView.contentSize = CGSizeMake(frame.size.width, height);
  
     frame.origin.x = 0.0;
-    frame.origin.y = inflectionsTextView.hidden ? 44.0 : 88.0;
+    frame.origin.y = word.freqCnt == 0 && !word.error ? 44.0 : 88.0;
     frame.size.width = 320;    
     frame.size.height = height < maxHeight ? height : maxHeight;
 
