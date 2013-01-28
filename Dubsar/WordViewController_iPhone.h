@@ -61,4 +61,6 @@
 
 - (void)reload;
 
+- (void)reset;
+
 @end

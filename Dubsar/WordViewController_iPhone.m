@@ -94,6 +94,12 @@
     [tableView reloadData];
 }
 
+- (void)reset
+{
+    self.word = nil;
+    firstSenseViewController.sense = nil;
+}
+
 - (void)createToolbarItems
 {
     NSLog(@"In createToolbarItems");

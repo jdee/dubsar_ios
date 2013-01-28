@@ -309,7 +309,7 @@
     // don't show the preview by default when paging
     if (previewShowing) [self togglePreview];
     // when the preview is shown, reload for current page
-    firstWordViewController.word = nil;
+    [firstWordViewController reset];
     
     [_tableView reloadData];
 }
