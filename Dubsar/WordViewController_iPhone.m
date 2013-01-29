@@ -184,7 +184,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"entering viewWillAppear:");
+    NSLog(@"entering [WordViewController_iPhone viewWillAppear:]");
     [super viewWillAppear:animated];
     
     if (word.complete) {
@@ -200,7 +200,7 @@
        [firstSenseViewController.tableView reloadData];
     }
     
-    NSLog(@"exiting viewWillAppear:");
+    NSLog(@"exiting [WordViewController_iPhone viewWillAppear:]");
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
@@ -358,6 +358,8 @@
     NSLog(@"Load complete; adjusting table view");
     [self setTableViewFrame];
     [tableView reloadData];
+    
+    if (inflectionsShowing) return;
     
     if (!previewShowing) {
         [self togglePreview:true];
@@ -527,6 +529,7 @@
 
 - (void)reload
 {
+    [self setTableViewFrame];
     [tableView reloadData];
     [firstSenseViewController.tableView reloadData];
 }
