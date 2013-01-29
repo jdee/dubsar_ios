@@ -182,7 +182,7 @@
     int rowCount;
     for (rowCount=0; rowCount < rowNumber && (rc=sqlite3_step(statement)) == SQLITE_ROW; ++rowCount);
     
-    if (rc != SQLITE_ROW) {
+    if (rowNumber > 0 && rc != SQLITE_ROW) {
         NSLog(@"Did not get to row %d, %d", rowNumber, rc);
         return nil;
     }
@@ -261,6 +261,8 @@
             break;
     }
     
+    if (count == 0) return nil;
+    
     int rowNumber = rand() % count;
     
     NSString* sql = [NSString stringWithFormat:@"SELECT w.id, se.id FROM words w "
@@ -279,7 +281,7 @@
     int rowCount;
     for (rowCount=0; rowCount < rowNumber && (rc=sqlite3_step(statement)) == SQLITE_ROW; ++rowCount);
     
-    if (rc != SQLITE_ROW) {
+    if (rowNumber && rc != SQLITE_ROW) {
         NSLog(@"Did not get to row %d, %d", rowNumber, rc);
         return nil;
     }
@@ -333,7 +335,7 @@
             NSString* firstWord = [word.name substringToIndex:firstWS.location];
             NSLog(@"Root verb is %@", firstWord);
             
-            const char* _sql = "SELECT id FROM words WHERE name = ?";
+            const char* _sql = "SELECT id FROM words WHERE name = ? AND part_of_speech = 'verb'";
             sqlite3_stmt* localStmt;
             if ((rc=sqlite3_prepare_v2(self.appDelegate.database, _sql, -1, &localStmt, NULL)) != SQLITE_OK) {
                 NSLog(@"sqlite3_prepare_v2: %d", rc);
