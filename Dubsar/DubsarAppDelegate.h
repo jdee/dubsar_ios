@@ -25,7 +25,7 @@
 
 #define PRODUCTION_DB_NAME @"production.sqlite3"
 
-@interface DubsarAppDelegate : NSObject <UIApplicationDelegate,UAPushNotificationDelegate> {
+@interface DubsarAppDelegate : NSObject <UIApplicationDelegate,UAPushNotificationDelegate,UARegistrationObserver> {
     UIColor* dubsarTintColor;
 }
 

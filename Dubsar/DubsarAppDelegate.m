@@ -78,6 +78,7 @@
     
     // Register for notifications
     UAPush* uaPush = [UAPush shared];
+    [uaPush addObserver:self];
     uaPush.delegate = self;
     
     [uaPush
@@ -92,6 +93,8 @@
     [uaPush handleNotification:[launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey] applicationState:application.applicationState];
     
     [uaPush resetBadge];
+    
+    NSLog(@"After takeOff, push is%s enabled", (uaPush.pushEnabled ? "" : " not"));
     return YES;
 }
 
@@ -153,6 +156,16 @@
     }
     
     [DailyWord updateWotdId:wotdId expiration:texpiration];
+}
+
+- (void)registerDeviceTokenSucceeded
+{
+    NSLog(@"Registered device token: %@", [UAPush shared].deviceToken);
+}
+
+- (void)registerDeviceTokenFailed:(UA_ASIHTTPRequest*)request
+{
+    NSLog(@"Device token registration failed");
 }
 
 - (void)addWotdButton

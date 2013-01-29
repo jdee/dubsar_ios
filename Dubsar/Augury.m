@@ -338,6 +338,12 @@
             const char* _sql = "SELECT id FROM words WHERE name = ? AND part_of_speech = 'verb'";
             sqlite3_stmt* localStmt;
             if ((rc=sqlite3_prepare_v2(self.appDelegate.database, _sql, -1, &localStmt, NULL)) != SQLITE_OK) {
+                /*
+                 * DEBT: This and some of the other error handlers here (the ones that return nil) should probably
+                 * be assertions. They should not happen unless there's a coding error. Let them be leaky for
+                 * now. (no sqlite3_finalize in these cases)
+                 */
+                
                 NSLog(@"sqlite3_prepare_v2: %d", rc);
                 return nil;
             }
@@ -349,12 +355,13 @@
                 NSLog(@"could not find target verb");
                 // We'll end up here for something like "had better," which will reduce to "had." Return the
                 // root verb (in that case, we'll get "had better" as the defective present tense).
-                return word.name;
+                tps = word.name;
             }
-            
-            verbId = sqlite3_column_int(localStmt, 0);
+            else {
+                verbId = sqlite3_column_int(localStmt, 0);
+                tps = [[self thirdPersonSingularForId:verbId] stringByAppendingString:[word.name substringFromIndex:firstWS.location]];
+            }
             sqlite3_finalize(localStmt);
-            tps = [[self thirdPersonSingularForId:verbId] stringByAppendingString:[word.name substringFromIndex:firstWS.location]];
         }
         else {
             // Probably capitalized or hyphenated, but only one word
