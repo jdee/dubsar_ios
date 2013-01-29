@@ -161,8 +161,10 @@
 
 - (void)addWotdButton
 {
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     if ([self.topViewController respondsToSelector:@selector(handleWotd)]) {
         [self.topViewController handleWotd];
+        appDelegate.wotdUnread = false;
         return;
     }
     
@@ -174,7 +176,7 @@
     [wotdButton setImage:highlightedWotdButtonImage forState:UIControlStateHighlighted];
     [wotdButton setImage:wotdButtonImage forState:UIControlStateSelected];
     [wotdButton addTarget:self action:@selector(viewWotd) forControlEvents:UIControlEventTouchUpInside];
-    wotdButton.showsTouchWhenHighlighted = NO;
+    wotdButton.showsTouchWhenHighlighted = YES;
     
     CGRect frame = wotdButton.frame;
     frame.size = CGSizeMake(37.0, 37.0);
