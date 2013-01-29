@@ -345,7 +345,9 @@
             }
             if (sqlite3_step(localStmt) != SQLITE_ROW) {
                 NSLog(@"could not find target verb");
-                return nil;
+                // We'll end up here for something like "had better," which will reduce to "had." Return the
+                // root verb (in that case, we'll get "had better" as the defective present tense).
+                return word.name;
             }
             
             verbId = sqlite3_column_int(localStmt, 0);
