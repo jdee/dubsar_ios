@@ -72,8 +72,10 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"In [DubsarViewController_iPad viewWillAppear:]");
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     appDelegate.wotdUnread = false;
+    [dailyWord load];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
