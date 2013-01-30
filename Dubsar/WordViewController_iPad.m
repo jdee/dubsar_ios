@@ -288,7 +288,7 @@
          * Can't hide a UIBarButtonItem. Obviously no one would ever want to do that.
          * So find the one we don't want and remove it.
          */
-        NSMutableArray* buttons = toolbar.items.mutableCopy;
+        NSMutableArray* buttons = [toolbar.items.mutableCopy autorelease];
         for (int j=0; j<buttons.count; ++j) {
             UIBarButtonItem* button = [buttons objectAtIndex:j];
             if (button.action == @selector(toggleInflections:)) {
@@ -472,7 +472,7 @@
 
 - (void)reset
 {
-    word = nil;
+    self.word = nil;
     previewViewController.sense = nil;
 }
 
