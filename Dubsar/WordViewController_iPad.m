@@ -282,6 +282,25 @@
         [inflectionsViewController load];
     }
     else {
+        /*
+         * New sense entry for hack, v.: This shit, thanks to the brain trust at
+         * Apple:
+         * Can't hide a UIBarButtonItem. Obviously no one would ever want to do that.
+         * So find the one we don't want and remove it.
+         */
+        NSMutableArray* buttons = toolbar.items.mutableCopy;
+        for (int j=0; j<buttons.count; ++j) {
+            UIBarButtonItem* button = [buttons objectAtIndex:j];
+            if (button.action == @selector(toggleInflections:)) {
+                [buttons removeObject:button];
+                break; // from for loop
+            }
+        }
+        
+        toolbar.items = buttons;
+    }
+    
+    if (word.preview) {
         [toolbar setHidden:YES];
     }
     
@@ -311,7 +330,7 @@
 - (void)setTableViewHeight
 {    
     UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
-    bool toolbarShowing = !word.preview && word.inflections.count > 0;
+    bool toolbarShowing = !word.preview;
     
     float maxHeight = UIInterfaceOrientationIsPortrait(currentOrientation) ? 960.0 : 704.0 ;
     if (toolbarShowing) maxHeight -= 44.0;
@@ -449,6 +468,12 @@
 {
     [_tableView reloadData];
     [previewViewController.tableView reloadData];
+}
+
+- (void)reset
+{
+    word = nil;
+    previewViewController.sense = nil;
 }
 
 - (void)setActualNavigationController:(UINavigationController *)theActualNavigationController

@@ -104,6 +104,7 @@
     
     // kick the app back to a loading state.
     search.complete = false;
+    [previewViewController reset];
     [tableView reloadData];
 }
 

@@ -57,6 +57,7 @@
 - (void)adjustPreview;
 
 - (void)reload;
+- (void)reset;
 
 - (void)setActualNavigationController:(UINavigationController *)theActualNavigationController;
 
