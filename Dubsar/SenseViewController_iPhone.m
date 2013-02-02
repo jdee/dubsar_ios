@@ -80,6 +80,11 @@
 
         detailNib = [[UINib nibWithNibName:@"DetailView_iPhone" bundle:nil]retain];
         self.actualNavigationController = self.navigationController;
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustGlossHeight) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+        
+        hasBeenDragged = false;
     }
     return self;
 }
@@ -239,7 +244,7 @@
 
 - (void)adjustGlossHeight
 {
-    if (sense.preview) return;
+    if (sense.preview || hasBeenDragged) return;
     
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     CGSize textSize = [glossTextView.text sizeWithFont:appDelegate.dubsarNormalFont constrainedToSize:self.view.bounds.size lineBreakMode:NSLineBreakByWordWrapping];
@@ -476,6 +481,8 @@
     tableViewFrame.origin.y = position + bannerFrame.size.height + 4.0;
     tableViewFrame.size.height = self.view.bounds.size.height - tableViewFrame.origin.y;
     tableView.frame = tableViewFrame;
+    
+    hasBeenDragged = true;
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)sender

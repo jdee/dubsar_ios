@@ -35,6 +35,7 @@
     UILabel *bannerLabel;
     float initialLabelPosition;
     float currentLabelPosition;
+    bool hasBeenDragged;
 }
 
 @property (nonatomic, retain) Synset* synset;

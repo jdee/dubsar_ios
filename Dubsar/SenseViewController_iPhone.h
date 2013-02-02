@@ -35,6 +35,7 @@
     UITextView *glossTextView;
     float initialLabelPosition;
     float currentLabelPosition;
+    bool hasBeenDragged;
 }
 @property (nonatomic, retain) IBOutlet UITextView *glossTextView;
 

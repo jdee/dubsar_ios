@@ -78,9 +78,14 @@
         synset = [theSynset retain];
         synset.delegate = self;
         
+        hasBeenDragged = false;
+        
         [self adjustTitle];
         
         detailNib = [[UINib nibWithNibName:@"DetailView_iPhone" bundle:nil]retain];
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustGlossHeight) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
 }
@@ -199,7 +204,7 @@
 
 - (void)adjustGlossLabel
 {
-    if (synset.preview) return;
+    if (synset.preview || hasBeenDragged) return;
     
     glossTextView.text = synset.gloss;
     detailGlossTextView.text = [synset.synonymsAsString stringByAppendingFormat:@" (%@.)", [PartOfSpeechDictionary posFromPartOfSpeech:synset.partOfSpeech]];
@@ -433,6 +438,8 @@
     tableViewFrame.origin.y = position + bannerFrame.size.height + 4.0;
     tableViewFrame.size.height = self.view.bounds.size.height - tableViewFrame.origin.y;
     tableView.frame = tableViewFrame;
+    
+    hasBeenDragged = true;
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)sender
