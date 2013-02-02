@@ -56,6 +56,7 @@
 -(void)adjustBannerLabel;
 -(void)loadSynsetView;
 -(void)loadWordView;
+-(void)adjustGlossHeight;
 
 -(void)followTableLink:(NSIndexPath*)indexPath;
 
