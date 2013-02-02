@@ -40,7 +40,8 @@
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIToolbar* toolbar;
 @property (nonatomic, assign) UINavigationController* actualNavigationController;
-@property (nonatomic, assign) IBOutlet UIBarButtonItem* previewButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem* previewButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem* inflectionsButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord title:(NSString*)theTitle;
 - (void)adjustBanner;

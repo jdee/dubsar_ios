@@ -299,6 +299,9 @@
     // not interested in the old search any more
     search.delegate = nil;
     
+    // when the preview is shown, reload for current page
+    [firstWordViewController reset];
+    
     self.search = [search newSearchForPage:newPage];
     search.delegate = self;
     [search load];
@@ -308,8 +311,6 @@
     
     // don't show the preview by default when paging
     if (previewShowing) [self togglePreview];
-    // when the preview is shown, reload for current page
-    [firstWordViewController reset];
     
     [_tableView reloadData];
 }

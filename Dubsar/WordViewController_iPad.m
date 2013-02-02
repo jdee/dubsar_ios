@@ -33,6 +33,7 @@
 @synthesize toolbar;
 @synthesize actualNavigationController;
 @synthesize previewButton;
+@synthesize inflectionsButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word *)theWord title:(NSString*)title
 {
@@ -63,6 +64,8 @@
 
 - (void)dealloc
 {
+    [inflectionsButton release];
+    [previewButton release];
     [inflectionsViewController release];
     
     word.delegate = nil;
@@ -282,21 +285,8 @@
         [inflectionsViewController load];
     }
     else {
-        /*
-         * New sense entry for hack, v.: This shit, thanks to the brain trust at
-         * Apple:
-         * Can't hide a UIBarButtonItem. Obviously no one would ever want to do that.
-         * So find the one we don't want and remove it.
-         */
         NSMutableArray* buttons = [toolbar.items.mutableCopy autorelease];
-        for (int j=0; j<buttons.count; ++j) {
-            UIBarButtonItem* button = [buttons objectAtIndex:j];
-            if (button.action == @selector(toggleInflections:)) {
-                [buttons removeObject:button];
-                break; // from for loop
-            }
-        }
-        
+        [buttons removeObject:inflectionsButton];
         toolbar.items = buttons;
     }
     
@@ -472,6 +462,7 @@
 
 - (void)reset
 {
+    previewShowing = false;
     self.word = nil;
     previewViewController.sense = nil;
 }

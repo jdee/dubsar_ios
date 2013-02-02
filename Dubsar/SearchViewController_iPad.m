@@ -95,6 +95,7 @@
     
     self.search = [search newSearchForPage:newPage];
     search.delegate = self;
+    [previewViewController reset];
     [search load];
     
     if (previewShowing) {
@@ -104,7 +105,6 @@
     
     // kick the app back to a loading state.
     search.complete = false;
-    [previewViewController reset];
     [tableView reloadData];
 }
 
