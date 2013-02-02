@@ -85,7 +85,7 @@
         detailNib = [[UINib nibWithNibName:@"DetailView_iPhone" bundle:nil]retain];
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustGlossHeight) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustGlossLabel) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
 }
