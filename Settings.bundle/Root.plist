@@ -20,6 +20,12 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>help_text</string>
+		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Root</string>
