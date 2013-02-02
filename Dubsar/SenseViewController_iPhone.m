@@ -79,7 +79,7 @@
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
 
         detailNib = [[UINib nibWithNibName:@"DetailView_iPhone" bundle:nil]retain];
-        self.actualNavigationController = self.navigationController;
+        self.actualNavigationController = nil;
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustGlossHeight) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
@@ -139,8 +139,6 @@
     
     initialLabelPosition = bannerLabel.frame.origin.y;
     currentLabelPosition = initialLabelPosition;
-    
-    if (!actualNavigationController) self.actualNavigationController = self.navigationController;
 }
 
 - (void)viewDidUnload
@@ -172,7 +170,8 @@
     else {
         [self load];
     }
-        
+    
+    if (!actualNavigationController) self.actualNavigationController = self.navigationController;
 }
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error

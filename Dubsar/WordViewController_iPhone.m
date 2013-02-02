@@ -47,6 +47,7 @@
         previewShowing = false;
         previewButton = nil;
         originalColor = nil;
+        actualNavigationController = nil;
         
         firstSenseViewController = [[SenseViewController_iPhone alloc] initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:nil];
 
@@ -141,8 +142,6 @@
     
     [inflectionsViewController.view setHidden:YES];
     [self.view addSubview:inflectionsViewController.view];
-
-    if (!actualNavigationController) self.actualNavigationController = self.navigationController;
     
     firstSenseViewController.view.hidden = YES;
     [self.view addSubview:firstSenseViewController.view];
@@ -199,6 +198,8 @@
     if (previewShowing) {
        [firstSenseViewController.tableView reloadData];
     }
+        
+    if (!actualNavigationController) self.actualNavigationController = self.navigationController;
     
     NSLog(@"exiting [WordViewController_iPhone viewWillAppear:]");
 }
