@@ -93,7 +93,7 @@
     [uaPush handleNotification:[launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey] applicationState:application.applicationState];
     
     [uaPush resetBadge];
-    
+     
     NSLog(@"After takeOff, push is%s enabled", (uaPush.pushEnabled ? "" : " not"));
     return YES;
 }

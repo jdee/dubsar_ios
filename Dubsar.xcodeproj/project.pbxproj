@@ -169,6 +169,7 @@
 		7BCE75EA13E741C900D1CECC /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7BCE75E913E741C900D1CECC /* iTunesArtwork */; };
 		7BDDDC8016B8CE4F0054BC3B /* dubsar-big.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC7F16B8CE4F0054BC3B /* dubsar-big.png */; };
 		7BDDDC8216B8D2FB0054BC3B /* dubsar-big-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8116B8D2FB0054BC3B /* dubsar-big-highlighted.png */; };
+		7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8716BCD8430054BC3B /* Settings.bundle */; };
 		7BE9ABDF13E4C25500FB7402 /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */; };
 		7BE9ABE013E4C25500FB7402 /* DetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */; };
 		7BF51998140FE85D00994FC5 /* banner-handle-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BF51997140FE85C00994FC5 /* banner-handle-ipad.png */; };
@@ -394,6 +395,7 @@
 		7BCE75E913E741C900D1CECC /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		7BDDDC7F16B8CE4F0054BC3B /* dubsar-big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-big.png"; path = "Images/dubsar-big.png"; sourceTree = "<group>"; };
 		7BDDDC8116B8D2FB0054BC3B /* dubsar-big-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-big-highlighted.png"; path = "Images/dubsar-big-highlighted.png"; sourceTree = "<group>"; };
+		7BDDDC8716BCD8430054BC3B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPad.xib; sourceTree = "<group>"; };
 		7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPhone.xib; sourceTree = "<group>"; };
 		7BF51997140FE85C00994FC5 /* banner-handle-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "banner-handle-ipad.png"; path = "Images/banner-handle-ipad.png"; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 		7B327FE213E3875400274E6C = {
 			isa = PBXGroup;
 			children = (
+				7BDDDC8716BCD8430054BC3B /* Settings.bundle */,
 				7B327FF713E3875400274E6C /* Dubsar */,
 				7B6953BA13E6E3CC00B10519 /* DubsarTests */,
 				7B327FF013E3875400274E6C /* Frameworks */,
@@ -894,6 +897,7 @@
 				7B2AEDE816B4E26A0058958F /* Default-Landscape@2x~ipad.png in Resources */,
 				7BDDDC8016B8CE4F0054BC3B /* dubsar-big.png in Resources */,
 				7BDDDC8216B8D2FB0054BC3B /* dubsar-big-highlighted.png in Resources */,
+				7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1063,7 +1067,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -1079,7 +1083,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -1098,7 +1102,6 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
-				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "Airship/**";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -1117,7 +1120,6 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
-				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "Airship/**";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
