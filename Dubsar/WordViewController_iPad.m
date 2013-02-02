@@ -99,8 +99,6 @@
     [self.view addSubview:inflectionsViewController.view];
     [inflectionsViewController.view setHidden:YES];
     
-    if (!actualNavigationController) self.actualNavigationController = self.navigationController;
-    
     previewViewController = [[SenseViewController_iPad alloc] initWithNibName:@"SenseViewController_iPad" bundle:nil sense:nil];
     previewViewController.moreButton.hidden = YES;
     previewViewController.bannerLabel.hidden = YES;
@@ -147,6 +145,8 @@
         word.complete = word.error = false;
         [self load];
     }
+    
+    if (!actualNavigationController) self.actualNavigationController = self.navigationController;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

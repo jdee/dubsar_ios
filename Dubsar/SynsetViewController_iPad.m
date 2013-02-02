@@ -81,6 +81,7 @@
                 
         detailNib = [[UINib nibWithNibName:@"DetailView_iPad" bundle:nil]retain];
         
+        hasBeenDragged = false;
     }
     return self;
 }
@@ -151,6 +152,11 @@
 	return YES;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self adjustGlossLabel];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -202,8 +208,31 @@
 
 - (void)adjustGlossLabel
 {
+    if (synset.preview || hasBeenDragged) return;
+    
     glossTextView.text = synset.gloss;
     detailGlossTextView.text = [synset.synonymsAsString stringByAppendingFormat:@" (%@.)", [PartOfSpeechDictionary posFromPartOfSpeech:synset.partOfSpeech]];
+    
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
+    CGSize textSize = [glossTextView.text sizeWithFont:appDelegate.dubsarNormalFont constrainedToSize:self.view.bounds.size lineBreakMode:NSLineBreakByWordWrapping];
+    CGRect frame = glossTextView.frame;
+    frame.size.height = textSize.height + 16.0;
+    glossTextView.frame = frame;
+    
+    frame = bannerLabel.frame;
+    frame.origin.y = glossTextView.frame.origin.y + glossTextView.frame.size.height;
+    bannerLabel.frame = frame;
+    
+    currentLabelPosition = frame.origin.y;
+    
+    frame = bannerHandle.frame;
+    frame.origin.y = glossTextView.frame.origin.y + glossTextView.frame.size.height + 4.0;
+    bannerHandle.frame = frame;
+    
+    frame = tableView.frame;
+    frame.origin.y = bannerLabel.frame.origin.y + bannerLabel.frame.size.height;
+    frame.size.height = self.view.bounds.size.height - frame.origin.y;
+    tableView.frame = frame;
 }
 
 - (void)adjustTitle
@@ -392,8 +421,10 @@
     
     CGRect tableViewFrame = tableView.frame;
     tableViewFrame.origin.y = position + bannerFrame.size.height + 4.0;
+    tableViewFrame.size.height = self.view.bounds.size.height - tableViewFrame.origin.y;
     tableView.frame = tableViewFrame;
     
+    hasBeenDragged = true;
 }
 
 

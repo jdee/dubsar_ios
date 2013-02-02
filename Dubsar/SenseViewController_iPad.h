@@ -39,6 +39,7 @@
     bool popoverWasVisible;
     float currentLabelPosition;
     float initialLabelPosition;
+    bool hasBeenDragged;
 }
 @property (nonatomic, retain) IBOutlet UITextView *detailGlossTextView;
 @property (nonatomic, retain) IBOutlet UITextView *glossTextView;
@@ -73,5 +74,6 @@
 - (void)handleTapGesture:(UITapGestureRecognizer*)sender;
 - (void)handleTouch:(UITouch*)touch; 
 - (void)addGestureRecognizers;
+- (void)adjustGlossHeight;
 
 @end

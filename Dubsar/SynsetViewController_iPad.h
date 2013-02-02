@@ -34,6 +34,7 @@
     UIImageView *bannerHandle;
     float initialLabelPosition;
     float currentLabelPosition;
+    bool hasBeenDragged;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *bannerHandle;

@@ -79,6 +79,7 @@
 
         popoverController = nil;
         self.actualNavigationController = nil;
+        hasBeenDragged = false;
     }
     return self;
 }
@@ -133,7 +134,6 @@
     
     currentLabelPosition = initialLabelPosition = bannerLabel.frame.origin.y;
     [self addGestureRecognizers];
-    if (actualNavigationController == nil) self.actualNavigationController = self.navigationController;
 }
 
 - (void)viewDidUnload
@@ -165,6 +165,7 @@
         sense.complete = sense.error = false;
         [self load];
     }
+    if (actualNavigationController == nil) self.actualNavigationController = self.navigationController;
 }
         
 - (void)viewDidDisappear:(BOOL)animated
@@ -184,6 +185,8 @@
     if (popoverWasVisible) {
         [popoverController presentPopoverFromRect:moreButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
+    
+    [self adjustGlossHeight];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -347,6 +350,35 @@
     detailBannerLabel.text = text;
 }
 
+- (void)adjustGlossHeight
+{
+    if (sense.preview || hasBeenDragged) return;
+    
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
+    CGSize textSize = [glossTextView.text sizeWithFont:appDelegate.dubsarNormalFont constrainedToSize:self.view.bounds.size lineBreakMode:NSLineBreakByWordWrapping];
+    CGRect frame = glossTextView.frame;
+    frame.size.height = textSize.height + 16.0;
+    glossTextView.frame = frame;
+    
+    frame = bannerLabel.frame;
+    frame.origin.y = glossTextView.frame.origin.y + glossTextView.frame.size.height;
+    bannerLabel.frame = frame;
+    
+    currentLabelPosition = frame.origin.y;
+    
+    frame = bannerHandle.frame;
+    frame.origin.y = glossTextView.frame.origin.y + glossTextView.frame.size.height + 4.0;
+    bannerHandle.frame = frame;
+    
+    frame = moreButton.frame;
+    frame.origin.y = bannerHandle.frame.origin.y;
+    moreButton.frame = frame;
+    
+    frame = tableView.frame;
+    frame.origin.y = bannerLabel.frame.origin.y + bannerLabel.frame.size.height;
+    frame.size.height = self.view.bounds.size.height - frame.origin.y;
+    tableView.frame = frame;
+}
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
@@ -368,6 +400,7 @@
     glossTextView.hidden = sense.preview;
     [self adjustBannerLabel];
     [tableView reloadData];
+    [self adjustGlossHeight];
 }
 
 - (void)loadRootController
@@ -462,8 +495,10 @@
     
     CGRect tableViewFrame = tableView.frame;
     tableViewFrame.origin.y = position + bannerFrame.size.height + 4.0;
+    tableViewFrame.size.height = self.view.bounds.size.height - tableViewFrame.origin.y;
     tableView.frame = tableViewFrame;
     
+    hasBeenDragged = true;
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)sender
@@ -499,7 +534,5 @@
         }
     }
 }
-
-
 
 @end
