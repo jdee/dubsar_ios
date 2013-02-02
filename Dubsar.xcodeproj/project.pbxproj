@@ -170,6 +170,7 @@
 		7BDDDC8016B8CE4F0054BC3B /* dubsar-big.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC7F16B8CE4F0054BC3B /* dubsar-big.png */; };
 		7BDDDC8216B8D2FB0054BC3B /* dubsar-big-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8116B8D2FB0054BC3B /* dubsar-big-highlighted.png */; };
 		7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8716BCD8430054BC3B /* Settings.bundle */; };
+		7BDDDC8B16BD8BE00054BC3B /* ForegroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8A16BD8BE00054BC3B /* ForegroundViewController.m */; };
 		7BE9ABDF13E4C25500FB7402 /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */; };
 		7BE9ABE013E4C25500FB7402 /* DetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */; };
 		7BF51998140FE85D00994FC5 /* banner-handle-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BF51997140FE85C00994FC5 /* banner-handle-ipad.png */; };
@@ -396,6 +397,8 @@
 		7BDDDC7F16B8CE4F0054BC3B /* dubsar-big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-big.png"; path = "Images/dubsar-big.png"; sourceTree = "<group>"; };
 		7BDDDC8116B8D2FB0054BC3B /* dubsar-big-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-big-highlighted.png"; path = "Images/dubsar-big-highlighted.png"; sourceTree = "<group>"; };
 		7BDDDC8716BCD8430054BC3B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		7BDDDC8916BD8BE00054BC3B /* ForegroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForegroundViewController.h; sourceTree = "<group>"; };
+		7BDDDC8A16BD8BE00054BC3B /* ForegroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForegroundViewController.m; sourceTree = "<group>"; };
 		7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPad.xib; sourceTree = "<group>"; };
 		7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView_iPhone.xib; sourceTree = "<group>"; };
 		7BF51997140FE85C00994FC5 /* banner-handle-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "banner-handle-ipad.png"; path = "Images/banner-handle-ipad.png"; sourceTree = "<group>"; };
@@ -486,6 +489,8 @@
 				7B3280AE13E38D9A00274E6C /* Dubsar.m */,
 				7B32800013E3875400274E6C /* DubsarAppDelegate.h */,
 				7B32800113E3875400274E6C /* DubsarAppDelegate.m */,
+				7BDDDC8916BD8BE00054BC3B /* ForegroundViewController.h */,
+				7BDDDC8A16BD8BE00054BC3B /* ForegroundViewController.m */,
 				7B8AEB0713E9A39F00889E57 /* ForwardStack.h */,
 				7B8AEB0813E9A39F00889E57 /* ForwardStack.m */,
 				7B29BB4B169FB91900D7C241 /* ModalViewControllerDelegate.h */,
@@ -986,6 +991,7 @@
 				7B9D2C7A16ADC37A00F31AE8 /* InflectionsViewController_iPhone.m in Sources */,
 				7B9D2C8016AE05D800F31AE8 /* InflectionsViewController_iPad.m in Sources */,
 				7B2AEDD916B4C20D0058958F /* IntroViewController_iPad.m in Sources */,
+				7BDDDC8B16BD8BE00054BC3B /* ForegroundViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

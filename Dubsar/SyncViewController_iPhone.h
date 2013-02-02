@@ -17,9 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "ForegroundViewController.h"
 
-@interface SyncViewController_iPhone : UIViewController<NSURLConnectionDelegate,UIAlertViewDelegate> {
+@interface SyncViewController_iPhone : ForegroundViewController<NSURLConnectionDelegate,UIAlertViewDelegate> {
     NSMutableData* buffer;
     int totalPages;
     int insertFinished;

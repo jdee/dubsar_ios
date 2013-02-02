@@ -19,14 +19,27 @@
 
 #import "ForegroundViewController.h"
 
-@interface AuguryViewController_iPhone : ForegroundViewController<UIWebViewDelegate>
+#import "UAPush.h"
 
-@property (nonatomic, retain) IBOutlet UIWebView* auguryWebView;
-@property (nonatomic, retain) NSString* augury;
+@interface ForegroundViewController ()
 
-- (IBAction) clear:(id)sender;
-- (IBAction) augur:(id)sender;
-- (IBAction) dismiss:(id)sender;
-- (void)loadPage:(NSString*)html;
+@end
+
+@implementation ForegroundViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[UAPush shared] updateRegistration];
+    [super viewWillAppear:animated];
+}
 
 @end

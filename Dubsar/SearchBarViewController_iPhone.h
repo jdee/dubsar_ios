@@ -17,11 +17,10 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
-
 #import "AutocompleterProxy.h"
+#import "ForegroundViewController.h"
 
-@interface SearchBarViewController_iPhone : UIViewController <LoadDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AutocompleterDelegate> {
+@interface SearchBarViewController_iPhone : ForegroundViewController <LoadDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AutocompleterDelegate> {
     UISearchBar *searchBar;
     UITableView *autocompleterTableView;
     AutocompleterProxy* proxy;

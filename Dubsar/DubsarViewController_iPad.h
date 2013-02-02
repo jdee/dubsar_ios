@@ -17,13 +17,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
-
+#import "ForegroundViewController.h"
 #import "LoadDelegate.h"
 
 @class DailyWord;
 
-@interface DubsarViewController_iPad : UIViewController <LoadDelegate> {
+@interface DubsarViewController_iPad : ForegroundViewController <LoadDelegate> {
     
     UIButton *wotdButton;
 }

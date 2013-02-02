@@ -17,9 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "ForegroundViewController.h"
 
-@interface IntroViewController_iPad : UIViewController<UIWebViewDelegate>
+@interface IntroViewController_iPad : ForegroundViewController<UIWebViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWebView* webView;
 

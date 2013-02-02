@@ -17,10 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "ForegroundViewController.h"
 
-
-@interface FAQViewController_iPhone : UIViewController <UIWebViewDelegate> {
+@interface FAQViewController_iPhone : ForegroundViewController <UIWebViewDelegate> {
     
     UIWebView *webView;
     bool ready;

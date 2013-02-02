@@ -17,10 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "ForegroundViewController.h"
 
-
-@interface AboutViewController_iPhone : UIViewController {
+@interface AboutViewController_iPhone : ForegroundViewController {
     
     UILabel *versionLabel;
     UILabel *copyrightLabel;

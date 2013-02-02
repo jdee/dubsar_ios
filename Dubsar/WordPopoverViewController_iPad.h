@@ -17,12 +17,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "ForegroundViewController.h"
 #import "LoadDelegate.h"
 
 @class Word;
 
-@interface WordPopoverViewController_iPad : UIViewController<LoadDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface WordPopoverViewController_iPad : ForegroundViewController<LoadDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate> {
     
     UITextView *inflectionsTextView;
     UILabel *headerLabel;

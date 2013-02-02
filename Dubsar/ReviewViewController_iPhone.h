@@ -17,13 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#import <UIKit/UIKit.h>
+#import "ForegroundViewController.h"
 #import "LoadDelegate.h"
 
 @class Word;
 @class Review;
 
-@interface ReviewViewController_iPhone : UIViewController<UITableViewDataSource,UITableViewDelegate,LoadDelegate>
+@interface ReviewViewController_iPhone : ForegroundViewController<UITableViewDataSource,UITableViewDelegate,LoadDelegate>
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil page:(int)thePage;
 - (void)createToolbarItems;

@@ -17,13 +17,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
-
+#import "ForegroundViewController.h"
 #import "LoadDelegate.h"
 
 @class Sense;
 
-@interface SenseViewController_iPad : UIViewController <UITableViewDataSource, UITableViewDelegate, LoadDelegate, UIGestureRecognizerDelegate> {
+@interface SenseViewController_iPad : ForegroundViewController <UITableViewDataSource, UITableViewDelegate, LoadDelegate, UIGestureRecognizerDelegate> {
     UITableView *tableView;
     UILabel *bannerLabel;
     UILabel *detailLabel;

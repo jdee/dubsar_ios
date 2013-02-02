@@ -17,16 +17,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "ForegroundViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface AuguryViewController_iPhone : ForegroundViewController<UIWebViewDelegate>
-
-@property (nonatomic, retain) IBOutlet UIWebView* auguryWebView;
-@property (nonatomic, retain) NSString* augury;
-
-- (IBAction) clear:(id)sender;
-- (IBAction) augur:(id)sender;
-- (IBAction) dismiss:(id)sender;
-- (void)loadPage:(NSString*)html;
+@interface ForegroundViewController : UIViewController
 
 @end

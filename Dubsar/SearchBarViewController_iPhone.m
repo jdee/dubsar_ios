@@ -107,8 +107,6 @@
     [self initOrientation];
     if (preEditText != nil) searchBar.text = preEditText;
     [self load];
-    
-    [[UAPush shared] updateRegistration];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar

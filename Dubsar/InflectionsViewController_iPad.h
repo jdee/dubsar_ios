@@ -17,11 +17,11 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "ForegroundViewController.h"
 
 @class Word;
 
-@interface InflectionsViewController_iPad : UIViewController<UIWebViewDelegate>
+@interface InflectionsViewController_iPad : ForegroundViewController<UIWebViewDelegate>
 @property (nonatomic, retain) IBOutlet UIWebView* webView;
 @property (nonatomic, retain) Word* word;
 

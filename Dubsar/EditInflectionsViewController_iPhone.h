@@ -17,11 +17,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "ForegroundViewController.h"
 #import "ModalViewControllerDelegate.h"
 
 @class Word;
 
-@interface EditInflectionsViewController_iPhone : UIViewController<UITableViewDataSource,UITableViewDelegate> {
+@interface EditInflectionsViewController_iPhone : ForegroundViewController<UITableViewDataSource,UITableViewDelegate> {
     NSDictionary* editingInflection;
 }
 

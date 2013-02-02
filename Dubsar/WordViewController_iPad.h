@@ -17,14 +17,14 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import "ForegroundViewController.h"
 #import "LoadDelegate.h"
 
 @class InflectionsViewController_iPad;
 @class SenseViewController_iPad;
 @class Word;
 
-@interface WordViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface WordViewController_iPad : ForegroundViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
     
     UILabel *bannerLabel;
     bool inflectionsShowing;

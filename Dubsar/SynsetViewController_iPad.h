@@ -17,13 +17,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
-
+#import "ForegroundViewController.h"
 #import "LoadDelegate.h"
 
 @class Synset;
 
-@interface SynsetViewController_iPad : UIViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate> {
+@interface SynsetViewController_iPad : ForegroundViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate> {
     
     UITableView *tableView;
     UILabel *bannerLabel;
