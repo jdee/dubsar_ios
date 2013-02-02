@@ -24,7 +24,7 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>help_text</string>
+			<string>Use the Notification Center to control how, when and whether notifications are delivered to you. Use this switch to prevent Dubsar from registering with Urban Airship, disabling push notifications altogether. Changes to this setting only take effect the next time you launch or foreground the Dubsar application by tapping its icon.</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>
