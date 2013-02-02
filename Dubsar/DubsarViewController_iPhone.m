@@ -243,8 +243,8 @@
 {
     UIBarButtonItem* faqButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)]autorelease];
     UIBarButtonItem* aboutButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAbout)]autorelease];
-    UIBarButtonItem* auguryButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Augur" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAugury)]autorelease];
 #ifdef DUBSAR_EDITORIAL_BUILD
+    UIBarButtonItem* auguryButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Augur" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAugury)]autorelease];
     UIBarButtonItem* reviewButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Review" style:UIBarButtonItemStyleBordered target:self action:@selector(displayReview)]autorelease];
     UIBarButtonItem* syncButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Sync" style:UIBarButtonItemStyleBordered target:self action:@selector(displaySync)]autorelease];
     UIBarButtonItem* resetButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Reset" style:UIBarButtonItemStyleBordered target:self action:@selector(resetWotd)]autorelease];
@@ -253,8 +253,8 @@
     NSMutableArray* buttonItems = [NSMutableArray array];
     [buttonItems addObject:faqButtonItem];
     [buttonItems addObject:aboutButtonItem];
-    [buttonItems addObject:auguryButtonItem];
 #ifdef DUBSAR_EDITORIAL_BUILD
+    [buttonItems addObject:auguryButtonItem];
     [buttonItems addObject:reviewButtonItem];
     [buttonItems addObject:resetButtonItem];
     [buttonItems addObject:syncButtonItem];
@@ -330,11 +330,13 @@
     // [[NSUserDefaults standardUserDefaults] setBool:NO forKey:DubsarAuguryIntroSeenKey];
     
     // BOOL value defaults to NO if not present
+    /*
     if (!self.navigationController.toolbarHidden &&
         ![[NSUserDefaults standardUserDefaults] boolForKey:DubsarAuguryIntroSeenKey]) {
         [auguryIntroWebView loadHTMLString:[self htmlForAuguryIntro] baseURL:nil];
         auguryIntroView.hidden = NO;
     }
+     */
 }
 
 - (void)hideAuguryIntro

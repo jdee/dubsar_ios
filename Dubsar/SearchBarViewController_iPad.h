@@ -76,7 +76,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *dotsButton;
 @property (nonatomic, retain) IBOutlet UIButton *homeButton;
 @property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem* auguryButton;
+// @property (nonatomic, retain) IBOutlet UIBarButtonItem* auguryButton;
 
 - (IBAction)showWotd:(id)sender;
 - (IBAction)showFAQ:(id)sender;

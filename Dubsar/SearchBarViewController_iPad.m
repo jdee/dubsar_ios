@@ -59,7 +59,7 @@
 @synthesize dotsButton;
 @synthesize homeButton;
 @synthesize toolbar;
-@synthesize auguryButton;
+// @synthesize auguryButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -428,7 +428,7 @@
         return;
     }
     
-    [introPopoverController presentPopoverFromBarButtonItem:auguryButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    // [introPopoverController presentPopoverFromBarButtonItem:auguryButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void)disable
