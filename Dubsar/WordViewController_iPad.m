@@ -339,6 +339,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self setTableViewHeight];
     [self adjustInflectionsView];
     [self adjustPreview];
