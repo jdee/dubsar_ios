@@ -108,14 +108,15 @@
 - (void)handleBackgroundNotification:(NSDictionary *)notification
 {
     NSDictionary* dubsarPayload = [notification valueForKey:@"dubsar"];
+    if (!dubsarPayload) return;
+    
+    NSString* url = [dubsarPayload valueForKey:@"url"];
+    
     NSString* type = [dubsarPayload valueForKey:@"type"];
-    if (![type isEqualToString:@"wotd"]) {
-        NSLog(@"Unrecognized message type: \"%@\"", type);
-        return;
+    if ([type isEqualToString:@"wotd"]) {
+        [self updateWotdByUrl:url expiration:[dubsarPayload valueForKey:@"expiration"]];
     }
 
-    NSString* url = [dubsarPayload valueForKey:@"url"];
-    [self updateWotdByUrl:url expiration:[dubsarPayload valueForKey:@"expiration"]];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 

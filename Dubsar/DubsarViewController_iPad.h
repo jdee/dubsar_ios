@@ -33,4 +33,6 @@
 - (IBAction)showWotd:(id)sender;
 - (void)setViewSize;
 
+- (void)handleWotd;
+
 @end

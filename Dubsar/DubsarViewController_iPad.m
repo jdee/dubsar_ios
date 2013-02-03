@@ -148,4 +148,10 @@
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
+- (void)handleWotd
+{
+    // Update the wotd button live
+    [dailyWord load]; // from user defaults
+}
+
 @end

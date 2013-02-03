@@ -21,6 +21,7 @@
 #import "AutocompleterPopoverViewController_iPad.h"
 #import "DubsarAppDelegate_iPad.h"
 #import "DubsarNavigationController_iPad.h"
+#import "DubsarViewController_iPad.h"
 #import "SearchViewController_iPad.h"
 
 @implementation DubsarNavigationController_iPad
@@ -98,7 +99,12 @@
 }
 
 - (NSArray*)popToRootViewControllerAnimated:(BOOL)animated
-{
+{    
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
+    appDelegate.wotdUnread = false;
+    
+    [self disableWotdButton];
+    
     [forwardStack clear];
     backBarButtonItem.enabled = NO;
     fwdBarButtonItem.enabled = NO;
@@ -106,9 +112,6 @@
     [self addToolbar:self.topViewController];
     
     originalFrame = self.topViewController.view.frame;
-    
-    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
-    appDelegate.wotdUnread = false;
 
     return stack;
 }
@@ -325,6 +328,13 @@
 
 - (void)addWotdButton
 {
+    DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
+    if ([self.topViewController respondsToSelector:@selector(handleWotd)]) {
+        [self.topViewController handleWotd];
+        appDelegate.wotdUnread = false;
+        return;
+    }
+    
     [wotdBarButtonItem setEnabled:YES];
 }
 
