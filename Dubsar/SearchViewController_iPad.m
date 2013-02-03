@@ -164,6 +164,8 @@
         search.results = nil;
         [self load];
     }
+    
+    [self adjustPreview];
 }
 
 - (void)viewDidAppear:(BOOL)animated
