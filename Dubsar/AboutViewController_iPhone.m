@@ -75,7 +75,9 @@
     CGRect bounds = [[UIScreen mainScreen] bounds];
     // NSLog(@"screen height: %f", bounds.size.height);
     
-    [licenseScrollView setContentSize:CGSizeMake(bounds.size.width, bounds.size.height-5.0)];
+    // UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    [licenseScrollView setContentSize:CGSizeMake(bounds.size.width, 743.0)];
     [licenseScrollView addSubview:licenseText];
     [licenseView setHidden:YES];
     [self.view addSubview:licenseView];
@@ -107,7 +109,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [self.navigationController setToolbarHidden:NO animated:animated];    
+    [self.navigationController setToolbarHidden:NO animated:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

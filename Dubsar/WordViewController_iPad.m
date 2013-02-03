@@ -103,7 +103,7 @@
     previewViewController.moreButton.hidden = YES;
     previewViewController.bannerLabel.hidden = YES;
     previewViewController.glossTextView.hidden = YES;
-    previewViewController.actualNavigationController = self.actualNavigationController;
+    previewViewController.actualNavigationController = nil;
     
     // transparent background
     previewViewController.view.backgroundColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.00];
