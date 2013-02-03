@@ -166,6 +166,9 @@
         [self load];
     }
     if (actualNavigationController == nil) self.actualNavigationController = self.navigationController;
+    
+    WordViewController_iPad* viewController = (WordViewController_iPad*)popoverController.contentViewController;
+    [viewController.tableView reloadData];
 }
         
 - (void)viewDidDisappear:(BOOL)animated
@@ -183,6 +186,9 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     if (popoverWasVisible) {
+        WordPopoverViewController_iPad* viewController = (WordPopoverViewController_iPad*)popoverController.contentViewController;
+        [viewController adjustPopoverSize];
+        [viewController adjustTableViewFrame];
         [popoverController presentPopoverFromRect:moreButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
     

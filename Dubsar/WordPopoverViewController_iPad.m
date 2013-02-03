@@ -312,17 +312,14 @@
     [inflectionsTextView setHidden:word.freqCnt == 0 && !word.error];
 
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
-    float screenHeight = UIInterfaceOrientationIsPortrait(orientation) ? 1004.0 : 748.0;
-  
-    float height = word.complete ? 66.0 * word.senses.count : 66.0;
-    float maxHeight = screenHeight - frame.origin.y;
-    
-    _tableView.contentSize = CGSizeMake(frame.size.width, height);
- 
+    float screenHeight = UIInterfaceOrientationIsPortrait(orientation) ? 960.0 : 704.0;
     frame.origin.x = 0.0;
     frame.origin.y = word.freqCnt == 0 && !word.error ? 44.0 : 88.0;
     frame.size.width = 320;    
-    frame.size.height = height < maxHeight ? height : maxHeight;
+    frame.size.height = screenHeight - frame.origin.y;
+    
+    float height = word.complete ? 66.0 * word.senses.count : 66.0;
+    _tableView.contentSize = CGSizeMake(frame.size.width, height);
 
     NSLog(@"adjusting origin to %f; tableView height is %f", frame.origin.y, frame.size.height);
     NSLog(@"%d section(s) in tableView", [self numberOfSectionsInTableView:_tableView]);
@@ -334,11 +331,11 @@
 - (void)adjustPopoverSize
 {    
     UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
-    float screenHeight = UIInterfaceOrientationIsPortrait(orientation) ? 1004.0 : 748.0;
-    
+    float screenHeight = UIInterfaceOrientationIsPortrait(orientation) ? 960.0 : 704.0;
     float offset = (word.freqCnt == 0 && !word.error) ? 44.0 : 88.0;
-    float height = offset + (word.error ? 0.0 : 66.0*word.senses.count);
-    float popoverHeight = height > screenHeight ? screenHeight : height;
+    float popoverHeight = offset + (word.error ? 0.0 : 66.0*word.senses.count);
+    
+    if (popoverHeight > screenHeight) popoverHeight = screenHeight;
     
     NSLog(@"adjusting popoverHeight to %f", popoverHeight);
     

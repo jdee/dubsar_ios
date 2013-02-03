@@ -322,22 +322,21 @@
 
 - (void)setTableViewHeight
 {    
-    UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
-    bool toolbarShowing = !word.preview;
+    CGRect bounds = self.view.bounds;
     
-    float maxHeight = UIInterfaceOrientationIsPortrait(currentOrientation) ? 960.0 : 704.0 ;
-    if (toolbarShowing) maxHeight -= 44.0;
+    float maxHeight = bounds.size.height - 132.0;
     
-    float height = 66.0 * [self numberOfSectionsInTableView:_tableView];
-        
+    float height = 66.0*[self numberOfSectionsInTableView:_tableView];
+    
     CGRect frame = _tableView.frame;
     
     frame.size.height = maxHeight;
-    // frame.size.height = height < maxHeight ? height : maxHeight;
+    frame.size.width = bounds.size.width;
+    frame.origin.x = 0.0;
+    frame.origin.y = 88.0;
     
+    _tableView.contentSize = CGSizeMake(frame.size.width, height);
     _tableView.frame = frame;
-    
-    _tableView.contentSize = CGSizeMake(_tableView.frame.size.width, height);
 }
 
 - (void)straightenAllTheShitOut
