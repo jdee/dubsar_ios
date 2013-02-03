@@ -82,9 +82,10 @@
 - (void)createToolbarItems
 {
     UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
+    UIBarButtonItem* spacer = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
     UIBarButtonItem* detailButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)] autorelease];
     
-    NSMutableArray* buttonItems = [NSMutableArray arrayWithObjects:homeButtonItem, detailButtonItem, nil];
+    NSMutableArray* buttonItems = [NSMutableArray arrayWithObjects:homeButtonItem, spacer, detailButtonItem, nil];
     
     self.toolbarItems = buttonItems;
 }
@@ -418,7 +419,7 @@
         originalColor = [_tableView.backgroundColor retain];
         _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
         
-        UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:1];
+        UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:2];
         detailButtonItem.title = @"Hide";
     }
     else {
@@ -442,7 +443,7 @@
         [originalColor release];
         originalColor = nil;
         
-        UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:1];
+        UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:2];
         detailButtonItem.title = @"Show";
     }
 }
