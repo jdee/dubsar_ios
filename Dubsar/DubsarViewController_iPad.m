@@ -35,6 +35,9 @@
         self.title = @"Home";
         self.dailyWord = DailyWord.dailyWord;
         self.dailyWord.delegate = self;
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setViewSize) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
 }
@@ -76,6 +79,26 @@
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     appDelegate.wotdUnread = false;
     [dailyWord load];
+    
+    [self setViewSize];
+}
+
+- (void)setViewSize
+{
+    UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
+    CGRect frame = self.view.frame;
+    if (UIInterfaceOrientationIsPortrait(orientation)) {
+        frame.size.width = 768.0;
+        frame.size.height = 1004.0;
+    }
+    else {
+        frame.size.width = 703.0;
+        frame.size.height = 748.0;
+    }
+    self.view.frame = frame;
+    
+    DubsarNavigationController_iPad* navController = (DubsarNavigationController_iPad*)self.navigationController;
+    navController.originalFrame = frame;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

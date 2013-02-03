@@ -35,6 +35,7 @@
 @synthesize popoverController;
 @synthesize executingAutocompleter;
 @synthesize wotdBarButtonItem;
+@synthesize originalFrame;
 
 - (id)initWithRootViewController:(UIViewController *)rootViewController
 {

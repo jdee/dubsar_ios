@@ -31,5 +31,6 @@
 @property (nonatomic, retain) IBOutlet UIButton *wotdButton;
 
 - (IBAction)showWotd:(id)sender;
+- (void)setViewSize;
 
 @end

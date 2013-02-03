@@ -48,6 +48,7 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* fwdBarButtonItem;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* wotdBarButtonItem;
 @property (assign) Autocompleter* executingAutocompleter;
+@property CGRect originalFrame;
 
 - (void)addToolbar:(UIViewController*)viewController;
 - (IBAction)forward:(id)sender;
