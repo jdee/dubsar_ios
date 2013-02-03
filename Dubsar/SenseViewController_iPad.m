@@ -218,6 +218,8 @@
     /* SQL query */
     Pointer* pointer = [sense pointerForRowAtIndexPath:indexPath];
     if (pointer == nil) return; // error
+    
+    NSLog(@"Table view row tapped. actualNavigationController is%s nil", actualNavigationController == nil ? "" : " not");
 
     SenseViewController_iPad* senseViewController;
     if ([_linkType isEqualToString:@"sense"]) {

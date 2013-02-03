@@ -410,7 +410,7 @@
             
             previewViewController.sense.preview = true;
             previewViewController.sense.delegate = previewViewController;
-            previewViewController.actualNavigationController = self.navigationController;
+            previewViewController.actualNavigationController = self.actualNavigationController;
             [previewViewController load];
             NSLog(@"sense view controller loading");
         }
