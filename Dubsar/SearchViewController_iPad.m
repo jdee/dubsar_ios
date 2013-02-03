@@ -25,6 +25,41 @@
 #import "Word.h"
 #import "WordViewController_iPad.h"
 
+@interface SearchSpinnerCell : UITableViewCell
+@property (nonatomic, retain) UIActivityIndicatorView* indicator;
+- (id) initWithIdentifier:(NSString*)identifier;
+@end
+
+@implementation SearchSpinnerCell
+@synthesize indicator;
+- (id) initWithIdentifier:(NSString*)identifier
+{
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    if (self) {
+        indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        
+        indicator.frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
+        indicator.autoresizingMask = UIViewAutoresizingNone;
+        [indicator startAnimating];
+        
+        [self.contentView addSubview:indicator];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [indicator release];
+    [super dealloc];
+}
+
+- (void) layoutSubviews
+{
+    [super layoutSubviews];
+    indicator.frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
+}
+@end
 
 @implementation SearchViewController_iPad
 
@@ -215,18 +250,12 @@
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!search || !search.complete) {
-        static NSString* indicatorType = @"indicator";
+        static NSString* indicatorType = @"search_indicator";
         UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:indicatorType];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indicatorType]autorelease];
+            cell = [[[SearchSpinnerCell alloc] initWithIdentifier:indicatorType]autorelease];
         }
         
-        CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
-        indicator.frame = frame;
-        [indicator startAnimating];
-        [cell.contentView addSubview:indicator];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     
@@ -345,7 +374,7 @@
         height -= 36.0;          
     }
     frame.size.height = height;
-    
+
     tableView.frame = frame;
 }
 
@@ -382,8 +411,6 @@
     
     previewViewController.view.frame = frame;
     previewViewController.view.bounds = bounds;
-    
-    NSLog(@"Set preview (word) view size to %f x %f", previewViewController.view.frame.size.width, previewViewController.view.frame.size.height);
     
     [previewViewController adjustPreview];
     [previewViewController setTableViewHeight];

@@ -452,8 +452,6 @@
     
     [previewViewController.view setNeedsLayout];
     [previewViewController.view setNeedsDisplay];
-    
-    NSLog(@"Set preview (sense) view size to %f x %f", previewViewController.view.frame.size.width, previewViewController.view.frame.size.height);
 }
 
 - (void)reload

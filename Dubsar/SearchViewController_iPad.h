@@ -23,7 +23,7 @@
 @class Search;
 @class WordViewController_iPad;
 
-@interface SearchViewController_iPad : ForegroundViewController<LoadDelegate> {
+@interface SearchViewController_iPad : ForegroundViewController<LoadDelegate,UITableViewDataSource,UITableViewDelegate> {
     
     UITableView *tableView;
     UIPageControl *pageControl;
