@@ -58,6 +58,9 @@
             customTitle = false;
             self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
         }
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(straightenAllTheShitOut) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
 }
@@ -337,9 +340,8 @@
     _tableView.contentSize = CGSizeMake(_tableView.frame.size.width, height);
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+- (void)straightenAllTheShitOut
 {
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self setTableViewHeight];
     [self adjustInflectionsView];
     [self adjustPreview];

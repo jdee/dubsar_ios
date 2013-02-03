@@ -62,4 +62,6 @@
 
 - (void)setActualNavigationController:(UINavigationController *)theActualNavigationController;
 
+- (void)straightenAllTheShitOut;
+
 @end

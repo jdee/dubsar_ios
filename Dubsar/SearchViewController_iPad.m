@@ -45,6 +45,9 @@
         originalColor = nil;
         
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", text];
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(straightenAllTheShitOut) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
 }
@@ -61,6 +64,9 @@
         originalColor = nil;
         
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", theTitle];
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(straightenAllTheShitOut) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;    
 }
@@ -341,7 +347,6 @@
     frame.size.height = height;
     
     tableView.frame = frame;
-
 }
 
 - (void)loadRootController
@@ -358,9 +363,8 @@
     navigationController.titleLabel.title = theTitle;
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+- (void)straightenAllTheShitOut
 {
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self setTableViewHeight];
     [self adjustPreview];
 }

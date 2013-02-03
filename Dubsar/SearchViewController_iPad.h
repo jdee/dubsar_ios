@@ -50,4 +50,6 @@
 
 - (void)adjustPreview;
 
+- (void)straightenAllTheShitOut;
+
 @end
