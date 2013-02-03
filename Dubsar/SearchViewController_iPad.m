@@ -166,6 +166,7 @@
     }
     
     [self adjustPreview];
+    [self setTableViewHeight];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -370,10 +371,10 @@
     CGRect bounds = previewViewController.view.bounds;
     
     frame.size.width = self.view.bounds.size.width;
-    frame.size.height = self.view.bounds.size.height;
+    frame.size.height = self.view.bounds.size.height + 88.0;
     
     bounds.size.width = self.view.bounds.size.width;
-    bounds.size.height = self.view.bounds.size.height;
+    bounds.size.height = self.view.bounds.size.height + 88.0;
     
     previewViewController.view.frame = frame;
     previewViewController.view.bounds = bounds;
@@ -381,6 +382,7 @@
     NSLog(@"Set preview (word) view size to %f x %f", previewViewController.view.frame.size.width, previewViewController.view.frame.size.height);
     
     [previewViewController adjustPreview];
+    [previewViewController setTableViewHeight];
 }
 
 - (IBAction)togglePreview:(id)sender
