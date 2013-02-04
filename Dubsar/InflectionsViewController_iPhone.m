@@ -60,13 +60,13 @@
 - (NSString *)htmlInflections
 {
     NSString* html = @"<!DOCTYPE html><html><body style='color:#f85400; background-color:#000; font: bold 12pt Trebuchet MS'><h3>Other forms for ";
-    html = [html stringByAppendingFormat:@"%@", word.nameAndPos];
+    html = [html stringByAppendingFormat:@"%@</h3>", word.nameAndPos];
     
     if (word.freqCnt > 0) {
-        html = [html stringByAppendingFormat:@" freq. cnt.: %d", word.freqCnt];
+        html = [html stringByAppendingFormat:@"<p>freq. cnt.: %d</p>", word.freqCnt];
     }
     
-    html = [html stringByAppendingString:@"</h3><ul style='list-style: none;'>"];
+    html = [html stringByAppendingString:@"<ul style='list-style: none;'>"];
     
     int j;
     for (j=0;j<word.inflections.count; ++j) {
