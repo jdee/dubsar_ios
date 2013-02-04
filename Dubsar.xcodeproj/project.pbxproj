@@ -171,6 +171,14 @@
 		7BDDDC8216B8D2FB0054BC3B /* dubsar-big-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8116B8D2FB0054BC3B /* dubsar-big-highlighted.png */; };
 		7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8716BCD8430054BC3B /* Settings.bundle */; };
 		7BDDDC8B16BD8BE00054BC3B /* ForegroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8A16BD8BE00054BC3B /* ForegroundViewController.m */; };
+		7BDDDC8E16BF44390054BC3B /* libUAirshipPush-1.3.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154116A7AFF300FA8096 /* libUAirshipPush-1.3.7.a */; };
+		7BDDDC8F16BF44570054BC3B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154D16A7B70900FA8096 /* CoreLocation.framework */; };
+		7BDDDC9016BF445E0054BC3B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154B16A7B6BF00FA8096 /* CoreTelephony.framework */; };
+		7BDDDC9116BF44680054BC3B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154916A7B6AB00FA8096 /* libz.dylib */; };
+		7BDDDC9216BF44700054BC3B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154716A7B69A00FA8096 /* SystemConfiguration.framework */; };
+		7BDDDC9316BF44770054BC3B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154516A7B68400FA8096 /* MobileCoreServices.framework */; };
+		7BDDDC9416BF447F0054BC3B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154316A7B66E00FA8096 /* CFNetwork.framework */; };
+		7BDDDC9516BF44870054BC3B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3F43E8169BBD83005EF93B /* Security.framework */; };
 		7BE9ABDF13E4C25500FB7402 /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */; };
 		7BE9ABE013E4C25500FB7402 /* DetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */; };
 		7BF51998140FE85D00994FC5 /* banner-handle-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BF51997140FE85C00994FC5 /* banner-handle-ipad.png */; };
@@ -431,11 +439,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BDDDC9516BF44870054BC3B /* Security.framework in Frameworks */,
+				7BDDDC9416BF447F0054BC3B /* CFNetwork.framework in Frameworks */,
+				7BDDDC9316BF44770054BC3B /* MobileCoreServices.framework in Frameworks */,
+				7BDDDC9216BF44700054BC3B /* SystemConfiguration.framework in Frameworks */,
+				7BDDDC9116BF44680054BC3B /* libz.dylib in Frameworks */,
+				7BDDDC9016BF445E0054BC3B /* CoreTelephony.framework in Frameworks */,
+				7BDDDC8F16BF44570054BC3B /* CoreLocation.framework in Frameworks */,
 				7B5ECF45141ABAF700FD2D78 /* libsqlite3.dylib in Frameworks */,
 				7B6953B613E6E3CC00B10519 /* SenTestingKit.framework in Frameworks */,
 				7B6953B713E6E3CC00B10519 /* UIKit.framework in Frameworks */,
 				7B6953B813E6E3CC00B10519 /* Foundation.framework in Frameworks */,
 				7B6953B913E6E3CC00B10519 /* CoreGraphics.framework in Frameworks */,
+				7BDDDC8E16BF44390054BC3B /* libUAirshipPush-1.3.7.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1076,6 +1092,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "Airship/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PROVISIONING_PROFILE = "1606FA53-6FDB-47FC-89E9-CE844733E18E";
 				SDKROOT = iphoneos;
@@ -1092,6 +1109,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "Airship/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "1606FA53-6FDB-47FC-89E9-CE844733E18E";
@@ -1157,6 +1175,10 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				INFOPLIST_FILE = "DubsarTests/DubsarTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Airship\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1176,6 +1198,10 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				INFOPLIST_FILE = "DubsarTests/DubsarTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Airship\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = octest;

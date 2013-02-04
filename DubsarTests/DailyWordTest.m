@@ -25,19 +25,23 @@
 
 -(void)testParsing
 {
-    NSString* stringData = @"[147806,\"decelerate\",\"v\",1,\"decelerated, decelerates, decelerating\"]";
+    NSString* stringData = @"[147806,\"decelerate\",\"v\",1,\"decelerated, decelerates, decelerating\",1360022466]";
     
     DailyWord* dailyWord = [[[DailyWord alloc]init]autorelease];
     dailyWord.data = [self.class dataWithString:stringData];
     [dailyWord parseData];
     
     Word* word = dailyWord.word;
+    
+    NSArray *expectedInflections = [NSArray arrayWithObjects:@"decelerated", @"decelerates", @"decelerating", nil];
+    
     STAssertNotNil(word, @"word failed");
     STAssertEquals(147806, word._id, @"word ID failed");
     STAssertEqualObjects(@"decelerate", word.name, @"word name failed");
     STAssertEquals(POSVerb, word.partOfSpeech, @"word part of speech failed");
     STAssertEquals(1, word.freqCnt, @"word frequency count failed");
-    STAssertEqualObjects(@"decelerated, decelerates, decelerating", word.inflections, @"word inflections failed");
+    STAssertTrue([expectedInflections isEqualToArray:word.inflections], @"word inflections failed");
+    STAssertTrue(1360022466 == dailyWord.expiration, @"expiration failed");
 }
 
 -(void)testInitialization
