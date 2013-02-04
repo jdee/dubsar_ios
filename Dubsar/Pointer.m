@@ -42,4 +42,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [targetGloss release];
+    [targetText release];
+    [targetType release];
+    [super dealloc];
+}
+
 @end

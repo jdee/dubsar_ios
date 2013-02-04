@@ -250,6 +250,7 @@
     
     if (!word) {
         word = [[Word wordWithId:_wordId.intValue name:[_word objectAtIndex:1] partOfSpeech:partOfSpeech]retain];
+        weakWordLink = false;
     }
 
     if (!gloss) {
@@ -258,6 +259,7 @@
    
     if (!synset) {
         synset = [[Synset synsetWithId:_synsetId.intValue gloss:[_synset objectAtIndex:1] partOfSpeech:partOfSpeech] retain];
+        weakSynsetLink = false;
     }
     
     lexname = [[response objectAtIndex:3] retain];
@@ -398,6 +400,7 @@
             partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
             word = [[Word wordWithId:wordId name:name partOfSpeech:partOfSpeech]retain];
             synset = [[Synset synsetWithId:synsetId partOfSpeech:partOfSpeech]retain];
+            weakSynsetLink = weakWordLink = false;
             NSLog(@"created synset with id %d", synset._id);
             
             self.lexname = [NSString stringWithCString:_lexname encoding:NSUTF8StringEncoding];

@@ -89,6 +89,7 @@
     [samples release];
     [lexname release];
     [gloss release];
+    [sections release];
     [super dealloc];
 }
 

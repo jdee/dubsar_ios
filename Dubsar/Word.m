@@ -221,8 +221,7 @@
 {
     NSArray* response =[[self decoder] objectWithData:[self data]];
     
-    // DEBT: Currently broken. Will crash when loading from server.
-    inflections = [[response objectAtIndex:3]retain];
+    inflections = [[[response objectAtIndex:3] componentsSeparatedByString:@", "] mutableCopy];
 
     NSNumber* _freqCnt;
     NSArray* _senses = [response objectAtIndex:4];

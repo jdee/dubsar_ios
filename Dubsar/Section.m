@@ -48,6 +48,15 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [ptype release];
+    [linkType release];
+    [footer release];
+    [header release];
+    [super dealloc];
+}
+
 - (int)numRows
 {
     if ([ptype isEqualToString:@"synonym"] ||

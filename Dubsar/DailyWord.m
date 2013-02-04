@@ -100,7 +100,7 @@
     NSNumber* fc = [wotd objectAtIndex:3];
     word.freqCnt = fc.intValue;
     
-    word.inflections = [wotd objectAtIndex:4];
+    word.inflections = [[[[wotd objectAtIndex:4] componentsSeparatedByString:@", "] mutableCopy] autorelease];
     
     expiration = [[wotd objectAtIndex:5]intValue];
     

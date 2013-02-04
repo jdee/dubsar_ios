@@ -45,6 +45,12 @@
     return [[[self alloc] initWithPage:thePage] autorelease];
 }
 
+- (void)dealloc
+{
+    [inflections release];
+    [super dealloc];
+}
+
 - (void) load
 {
     self.complete = false;

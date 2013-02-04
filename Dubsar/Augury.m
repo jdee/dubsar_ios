@@ -41,6 +41,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [text release];
+    [super dealloc];
+}
+
 - (NSString*)infinitive
 {
     Word* verb = [self randomVerb];
