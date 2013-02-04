@@ -383,7 +383,7 @@
     moreButton.frame = frame;
     
     frame = tableView.frame;
-    frame.origin.y = bannerLabel.frame.origin.y + bannerLabel.frame.size.height;
+    frame.origin.y = bannerLabel.frame.origin.y + bannerLabel.frame.size.height + 8.0;
     frame.size.height = self.view.bounds.size.height - frame.origin.y;
     tableView.frame = frame;
 }
