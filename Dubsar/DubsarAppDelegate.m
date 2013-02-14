@@ -88,12 +88,16 @@
     
     [uaPush setAutobadgeEnabled:YES];
     
-    // If cold launched from a push, this is how we get to the right screen,
-    // via a call to handleBackgroundNotification:.
-    [uaPush handleNotification:[launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey] applicationState:application.applicationState];
+    NSDictionary* pushNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     
-    [uaPush resetBadge];
-     
+    if (pushNotification) {
+        // If cold launched from a push, this is how we get to the right screen,
+        // via a call to handleBackgroundNotification:.
+        [uaPush handleNotification:pushNotification applicationState:application.applicationState];
+        
+        [uaPush resetBadge];
+    }
+    
     NSLog(@"After takeOff, push is%s enabled", (uaPush.pushEnabled ? "" : " not"));
     return YES;
 }
