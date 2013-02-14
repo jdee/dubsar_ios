@@ -29,6 +29,9 @@
     self = [super initWithRootViewController:rootViewController];
     if (self) {
         forwardStack = [[ForwardStack alloc]init];
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetFrame) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     
     return self;
@@ -266,9 +269,12 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    
-    originalFrame = self.topViewController.view.frame;
+    [self resetFrame];
+}
 
+- (void)resetFrame
+{
+    originalFrame = self.topViewController.view.frame;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch

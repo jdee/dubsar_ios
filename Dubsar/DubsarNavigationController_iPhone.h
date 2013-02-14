@@ -34,6 +34,7 @@
 - (void)back;
 - (void)forward;
 - (void)viewWotd;
+- (void)resetFrame;
 
 - (UIGestureRecognizer*)addGestureRecognizerToView:(UIView*)view;
 
