@@ -278,14 +278,20 @@
     
     WordPopoverViewController_iPad* viewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:theDailyWord.word]autorelease];
     [viewController load];
-    self.wordPopoverController = [[[UIPopoverController alloc]initWithContentViewController:viewController]autorelease];
-    viewController.popoverController = wordPopoverController;
-    viewController.navigationController = _navigationController;
     
-    [wordPopoverController presentPopoverFromRect:wotdButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (!wordPopoverController) {
+        self.wordPopoverController = [[[UIPopoverController alloc]initWithContentViewController:viewController]autorelease];
+        viewController.popoverController = wordPopoverController;
+        viewController.navigationController = _navigationController;
+        
+        [wordPopoverController presentPopoverFromRect:wotdButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+    else {
+        [wordPopoverController setContentViewController:viewController];
+    }
 }
 
-- (IBAction)showWotd:(id)sender 
+- (IBAction)showWotd:(id)sender
 {
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     appDelegate.wotdUnread = false;
