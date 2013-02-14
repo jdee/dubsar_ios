@@ -129,7 +129,7 @@ static PointerDictionary* theDictionary = nil;
     [helpDictionary setValue:@"related verbs" forKey:@"verb group"];
     [helpDictionary setValue:@"near in meaning, but not exact" forKey:@"similar to"];
     [helpDictionary setValue:@"root verb" forKey:@"participle of verb"];
-    [helpDictionary setValue:@"adj: pertinent noun; adv: source noun" forKey:@"derived from/pertains to"];
+    [helpDictionary setValue:@"source/pertinent word" forKey:@"derived from/pertains to"];
     [helpDictionary setValue:@"words that share this meaning" forKey:@"synonym"];
     [helpDictionary setValue:@"examples of usage for this word and synonyms" forKey:@"sample sentence"];
     [helpDictionary setValue:@"examples of usage" forKey:@"synset sample"];
