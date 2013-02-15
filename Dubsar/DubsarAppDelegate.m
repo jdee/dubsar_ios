@@ -90,13 +90,10 @@
     
     NSDictionary* pushNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     
-    if (pushNotification) {
-        // If cold launched from a push, this is how we get to the right screen,
-        // via a call to handleBackgroundNotification:.
-        [uaPush handleNotification:pushNotification applicationState:application.applicationState];
-        
-        [uaPush resetBadge];
-    }
+    // If cold launched from a push, this is how we get to the right screen,
+    // via a call to handleBackgroundNotification:.
+    [uaPush handleNotification:pushNotification applicationState:application.applicationState];
+    [uaPush resetBadge];
     
     NSLog(@"After takeOff, push is%s enabled", (uaPush.pushEnabled ? "" : " not"));
     return YES;
@@ -175,7 +172,7 @@
 
 - (void)addWotdButton
 {
-    
+    // Implemented by subclasses. This squelches a compiler warning.
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -203,9 +200,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-     */
+    [[UAPush shared] resetBadge];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
