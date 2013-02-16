@@ -301,9 +301,7 @@
             for (j=0; j<word.inflections.count-1; ++j) {
                 inflections = [inflections stringByAppendingFormat:@"%@, ", [word.inflections objectAtIndex:j]];
             }
-            if (word.inflections.count > 1) {
-                inflections = [inflections stringByAppendingString:[word.inflections objectAtIndex:j]];
-            }
+            inflections = [inflections stringByAppendingString:[word.inflections objectAtIndex:j]];
             subtitle = [subtitle stringByAppendingFormat:@"also %@", inflections];
         }
         
