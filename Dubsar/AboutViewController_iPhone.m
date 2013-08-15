@@ -91,7 +91,6 @@
 {
     [self setVersionLabel:nil];
     [self setLicenseView:nil];
-    [self setLicenseScrollView:nil];
     [self setLicenseText:nil];
     [self setCopyrightLabel:nil];
     [self setAboutToolbar:nil];

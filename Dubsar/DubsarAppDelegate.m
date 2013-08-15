@@ -20,7 +20,12 @@
 #import "UAirship.h"
 
 #import "DailyWord.h"
+#import "Dubsar.h"
 #import "DubsarAppDelegate.h"
+
+@interface DubsarAppDelegate()
+- (void) postDeviceToken:(NSData*)deviceToken;
+@end
 
 @implementation DubsarAppDelegate
 
@@ -211,6 +216,8 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // Updates the device token and registers the token with UA
     [[UAPush shared] registerDeviceToken:deviceToken];
+
+    [self postDeviceToken:deviceToken];
 }
 
 - (void)dealloc
@@ -224,6 +231,79 @@
     [dubsarTintColor release];
     [_window release];
     [super dealloc];
+}
+
+- (void)postDeviceToken:(NSData *)deviceToken
+{
+    /*
+     * 1. convert deviceToken to hex
+     */
+    unsigned char data[32];
+    assert(deviceToken.length == sizeof(data));
+    size_t length;
+
+    [deviceToken getBytes:data length:&length];
+
+    // data is now a buffer of 32 numeric bytes.
+    // represent as hex in sdata, which will be
+    // 64 bytes plus termination. Use a power of
+    // 2 for the buffer.
+
+    char sdata[128];
+    memset(sdata, 0, sizeof(sdata));
+
+    for (int j=0; j<sizeof(data); ++j) {
+        sprintf(sdata+j*2, "%02x", data[j]);
+    }
+
+    NSString* token = [NSString stringWithCString:sdata encoding:NSUTF8StringEncoding];
+    NSLog(@"Device token is %@", token);
+
+    /*
+     * 2. Read client secret from bundle
+     */
+    NSError* error;
+    NSString* filepath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"client_secret.txt"];
+    NSString* secret = [NSString stringWithContentsOfFile:filepath encoding:NSUTF8StringEncoding error:&error];
+    if (error && !secret) {
+        NSLog(@"Failed to read client_secret.txt: %@", error.localizedDescription);
+    }
+
+    /*
+     * 3. Get app version
+     */
+    
+    /*
+     * Could also use kCFBundleVersionKey and strip the .x from the end
+     */
+    NSString* version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSLog(@"App version is %@", version);
+
+    /*
+     * 4. TODO: Determine production flag from mobile provisioning profile
+     */
+
+    /*
+     * 5. Construct JSON payload from this info
+     */
+    NSString* payload = [NSString stringWithFormat:@"{\"version\":\"%@\", \"secret\":\"%@\", \"device_token\":{\"token\":\"%@\", \"production\":false} }", version, secret, token];
+
+    /*
+     * 6. Execute POST
+     */
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/device_tokens", DubsarBaseUrl]];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[payload dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSHTTPURLResponse* response;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+    NSLog(@"Response code from device token POST is %d", [response statusCode]);
 }
 
 - (void)closeDB
