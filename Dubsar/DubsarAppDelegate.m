@@ -17,13 +17,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "UAirship.h"
-
 #import "DailyWord.h"
 #import "Dubsar.h"
 #import "DubsarAppDelegate.h"
 
 @interface DubsarAppDelegate()
+- (void) landUA:(NSString*)deviceToken;
 - (void) postDeviceToken:(NSData*)deviceToken;
 @end
 
@@ -71,81 +70,78 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
-    
-    //Init Airship launch options
-    NSMutableDictionary *takeOffOptions = [[[NSMutableDictionary alloc] init] autorelease];
-    [takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
-    
-    // Create Airship singleton that's used to talk to Urban Airship servers.
-    [UAirship takeOff:takeOffOptions];
-    
-    // Register for notifications
-    UAPush* uaPush = [UAPush shared];
-    [uaPush addObserver:self];
-    uaPush.delegate = self;
-    
-    [uaPush
-     registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                         UIRemoteNotificationTypeSound |
-                                         UIRemoteNotificationTypeAlert)];
-    
-    [uaPush setAutobadgeEnabled:YES];
-    
-    NSDictionary* pushNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    
-    // If cold launched from a push, this is how we get to the right screen,
-    // via a call to handleBackgroundNotification:.
-    [uaPush handleNotification:pushNotification applicationState:application.applicationState];
-    [uaPush resetBadge];
-    
-    NSLog(@"After takeOff, push is%s enabled", (uaPush.pushEnabled ? "" : " not"));
+
+    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound];
+
+    // no more badges
+    application.applicationIconBadgeNumber = 0;
+    [self application:application didReceiveRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
+
     return YES;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    [[UAPush shared] handleNotification:userInfo applicationState:application.applicationState];
-    [[UAPush shared] resetBadge];
-}
-
-// Called when user taps an iOS notification
-- (void)handleBackgroundNotification:(NSDictionary *)notification
-{
-    NSDictionary* dubsarPayload = [notification valueForKey:@"dubsar"];
+    NSDictionary* dubsarPayload = [userInfo valueForKey:@"dubsar"];
     if (!dubsarPayload) return;
-    
     NSString* url = [dubsarPayload valueForKey:@"url"];
-    
     NSString* type = [dubsarPayload valueForKey:@"type"];
+
     if ([type isEqualToString:@"wotd"]) {
         [self updateWotdByUrl:url expiration:[dubsarPayload valueForKey:@"expiration"]];
     }
 
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-}
-
-// Called when a notification is received in the foreground
-- (void)handleNotification:(NSDictionary *)notification withCustomPayload:(NSDictionary *)customPayload
-{
-    NSLog(@"push received");
-    NSDictionary *dubsarPayload = [notification valueForKey:@"dubsar"];
-    NSString* type = [dubsarPayload valueForKey:@"type"];
-    if (![type isEqualToString:@"wotd"]) {
-        NSLog(@"Unrecognized message type: \"%@\"", type);
-        return;
+    if (application.applicationState != UIApplicationStateActive) {
+        [application openURL:[NSURL URLWithString:url]];
     }
-        
-    NSString* url = [dubsarPayload valueForKey:@"url"];
-    if (url) {
-        NSLog(@"dubsar url: %@", url);
-        [self updateWotdByUrl:url expiration:[dubsarPayload valueForKey:@"expiration"]];
-        
+    else if ([type isEqualToString:@"wotd"]) {
         self.wotdUrl = url;
         self.wotdUnread = true;
         [self addWotdButton];
     }
+}
+
+- (void)landUA:(NSString*)deviceToken
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UAPushEnabled"];
+
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://device-api.urbanairship.com/api/device_tokens/%@/", deviceToken]];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"DELETE"];
+    
+    NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [connection start];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    NSDictionary* uaconfig = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"AirshipConfig.plist"]];
+
+    NSString* appKey = nil;
+    NSString* appSecret = nil;
+
+#ifdef DUBSAR_DEVELOPMENT
+    appKey = [uaconfig valueForKey:@"DEVELOPMENT_APP_KEY"];
+    appSecret = [uaconfig valueForKey:@"DEVELOPMENT_APP_SECRET"];
+#else
+    appKey = [uaconfig valueForKey:@"PRODUCTION_APP_KEY"];
+    appSecret = [uaconfig valueForKey:@"PRODUCTION_APP_SECRET"];
+#endif // DUBSAR_DEVELOPMENT
+
+    NSURLCredential* cred = [NSURLCredential credentialWithUser:appKey password:appSecret persistence:NSURLCredentialPersistenceNone];
+    [challenge.sender useCredential:cred forAuthenticationChallenge:challenge];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"connection to UA failed: %@", error.localizedDescription);
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
+    NSLog(@"UA DELETE request status code: %d", httpResp.statusCode);
 }
 
 - (void)updateWotdByUrl:(NSString *)url expiration:(id)expiration
@@ -163,16 +159,6 @@
     }
     
     [DailyWord updateWotdId:wotdId expiration:texpiration];
-}
-
-- (void)registerDeviceTokenSucceeded
-{
-    NSLog(@"Registered device token: %@", [UAPush shared].deviceToken);
-}
-
-- (void)registerDeviceTokenFailed:(UA_ASIHTTPRequest*)request
-{
-    NSLog(@"Device token registration failed");
 }
 
 - (void)addWotdButton
@@ -205,19 +191,20 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [[UAPush shared] resetBadge];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [UAirship land];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    // Updates the device token and registers the token with UA
-    [[UAPush shared] registerDeviceToken:deviceToken];
-
     [self postDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    NSLog(@"Failed to register for remote notifications: %@", error.localizedDescription);
 }
 
 - (void)dealloc
@@ -259,6 +246,11 @@
     NSString* token = [NSString stringWithCString:sdata encoding:NSUTF8StringEncoding];
     NSLog(@"Device token is %@", token);
 
+    // DEBT: Why is this showing up as NO when it was YES?
+    BOOL uaEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"UAPushEnabled"];
+    NSLog(@"UAPushEnabled = %@", (uaEnabled == YES ? @"YES" : @"NO"));
+    if (uaEnabled == YES) [self landUA:token];
+
     /*
      * 2. Read client secret from bundle
      */
@@ -280,13 +272,19 @@
     NSLog(@"App version is %@", version);
 
     /*
-     * 4. TODO: Determine production flag from mobile provisioning profile
+     * 4. Determine production flag from preprocessor macro
      */
+    NSString* production = nil;
+#ifdef DUBSAR_DEVELOPMENT
+    production = @"false";
+#else
+    production = @"true";
+#endif // DUBSAR_DEVELOPMENT
 
     /*
      * 5. Construct JSON payload from this info
      */
-    NSString* payload = [NSString stringWithFormat:@"{\"version\":\"%@\", \"secret\":\"%@\", \"device_token\":{\"token\":\"%@\", \"production\":false} }", version, secret, token];
+    NSString* payload = [NSString stringWithFormat:@"{\"version\":\"%@\", \"secret\":\"%@\", \"device_token\":{\"token\":\"%@\", \"production\":%@} }", version, secret, token, production];
 
     /*
      * 6. Execute POST

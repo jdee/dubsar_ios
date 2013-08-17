@@ -19,8 +19,6 @@
 
 #import "ForegroundViewController.h"
 
-#import "UAPush.h"
-
 @interface ForegroundViewController ()
 
 @end
@@ -38,7 +36,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [[UAPush shared] updateRegistration];
+    /*
+     * No longer much point to this base class. :|
+     */
     [super viewWillAppear:animated];
 }
 

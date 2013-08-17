@@ -119,6 +119,7 @@
 		7B6953B813E6E3CC00B10519 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF313E3875400274E6C /* Foundation.framework */; };
 		7B6953B913E6E3CC00B10519 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF513E3875400274E6C /* CoreGraphics.framework */; };
 		7B6953BF13E6E3CC00B10519 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B6953BD13E6E3CC00B10519 /* InfoPlist.strings */; };
+		7B7D5E6117C005680058F129 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D5E6017C005680058F129 /* AirshipConfig.plist */; };
 		7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */; };
 		7B824E5813EC540100CDC665 /* DailyWordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B824E5713EC540100CDC665 /* DailyWordTest.m */; };
 		7B862DE31697CF1C0064F66B /* AuguryViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B862DE11697CF1C0064F66B /* AuguryViewController_iPhone.m */; };
@@ -156,14 +157,12 @@
 		7BBE26CF14329AF000720EDA /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
 		7BBE26D014329C1D00720EDA /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */; };
 		7BC2152D16A31F2800FA8096 /* cell-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC2152C16A31F2800FA8096 /* cell-bg.png */; };
-		7BC2153F16A7AEEB00FA8096 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7BC2153E16A7AEEB00FA8096 /* AirshipConfig.plist */; };
 		7BC2154416A7B66E00FA8096 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154316A7B66E00FA8096 /* CFNetwork.framework */; };
 		7BC2154616A7B68400FA8096 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154516A7B68400FA8096 /* MobileCoreServices.framework */; };
 		7BC2154816A7B69A00FA8096 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154716A7B69A00FA8096 /* SystemConfiguration.framework */; };
 		7BC2154A16A7B6AB00FA8096 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154916A7B6AB00FA8096 /* libz.dylib */; };
 		7BC2154C16A7B6BF00FA8096 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154B16A7B6BF00FA8096 /* CoreTelephony.framework */; };
 		7BC2154E16A7B70900FA8096 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154D16A7B70900FA8096 /* CoreLocation.framework */; };
-		7BC2155116A7BC1200FA8096 /* libUAirshipPush-1.3.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154116A7AFF300FA8096 /* libUAirshipPush-1.3.7.a */; };
 		7BC4472A169A488800BE18DC /* SyncViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC44728169A488800BE18DC /* SyncViewController_iPhone.m */; };
 		7BC4472B169A488800BE18DC /* SyncViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC44729169A488800BE18DC /* SyncViewController_iPhone.xib */; };
 		7BC537CD141D6D8700E6246B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */; };
@@ -172,7 +171,6 @@
 		7BDDDC8216B8D2FB0054BC3B /* dubsar-big-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8116B8D2FB0054BC3B /* dubsar-big-highlighted.png */; };
 		7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8716BCD8430054BC3B /* Settings.bundle */; };
 		7BDDDC8B16BD8BE00054BC3B /* ForegroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8A16BD8BE00054BC3B /* ForegroundViewController.m */; };
-		7BDDDC8E16BF44390054BC3B /* libUAirshipPush-1.3.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154116A7AFF300FA8096 /* libUAirshipPush-1.3.7.a */; };
 		7BDDDC8F16BF44570054BC3B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154D16A7B70900FA8096 /* CoreLocation.framework */; };
 		7BDDDC9016BF445E0054BC3B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154B16A7B6BF00FA8096 /* CoreTelephony.framework */; };
 		7BDDDC9116BF44680054BC3B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154916A7B6AB00FA8096 /* libz.dylib */; };
@@ -345,6 +343,7 @@
 		7B6953BC13E6E3CC00B10519 /* DubsarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarTests-Info.plist"; sourceTree = "<group>"; };
 		7B6953BE13E6E3CC00B10519 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7B6953C413E6E3CC00B10519 /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
+		7B7D5E6017C005680058F129 /* AirshipConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AirshipConfig.plist; sourceTree = SOURCE_ROOT; };
 		7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterView_iPhone.xib; sourceTree = "<group>"; };
 		7B824E5613EC540100CDC665 /* DailyWordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWordTest.h; sourceTree = "<group>"; };
 		7B824E5713EC540100CDC665 /* DailyWordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWordTest.m; sourceTree = "<group>"; };
@@ -392,8 +391,6 @@
 		7BB9CEDE141C21FA000DD13B /* Pointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pointer.m; sourceTree = "<group>"; };
 		7BBD76C217BD56B000AD2609 /* client_secret.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = client_secret.txt; sourceTree = "<group>"; };
 		7BC2152C16A31F2800FA8096 /* cell-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cell-bg.png"; path = "Images/cell-bg.png"; sourceTree = SOURCE_ROOT; };
-		7BC2153E16A7AEEB00FA8096 /* AirshipConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AirshipConfig.plist; sourceTree = SOURCE_ROOT; };
-		7BC2154116A7AFF300FA8096 /* libUAirshipPush-1.3.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirshipPush-1.3.7.a"; path = "Airship/libUAirshipPush-1.3.7.a"; sourceTree = "<group>"; };
 		7BC2154316A7B66E00FA8096 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		7BC2154516A7B68400FA8096 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		7BC2154716A7B69A00FA8096 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -422,7 +419,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BC2155116A7BC1200FA8096 /* libUAirshipPush-1.3.7.a in Frameworks */,
 				7BC2154E16A7B70900FA8096 /* CoreLocation.framework in Frameworks */,
 				7BC2154C16A7B6BF00FA8096 /* CoreTelephony.framework in Frameworks */,
 				7BC2154A16A7B6AB00FA8096 /* libz.dylib in Frameworks */,
@@ -453,7 +449,6 @@
 				7B6953B713E6E3CC00B10519 /* UIKit.framework in Frameworks */,
 				7B6953B813E6E3CC00B10519 /* Foundation.framework in Frameworks */,
 				7B6953B913E6E3CC00B10519 /* CoreGraphics.framework in Frameworks */,
-				7BDDDC8E16BF44390054BC3B /* libUAirshipPush-1.3.7.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,7 +484,6 @@
 				7BC2154716A7B69A00FA8096 /* SystemConfiguration.framework */,
 				7BC2154516A7B68400FA8096 /* MobileCoreServices.framework */,
 				7BC2154316A7B66E00FA8096 /* CFNetwork.framework */,
-				7BC2154116A7AFF300FA8096 /* libUAirshipPush-1.3.7.a */,
 				7B3F43E8169BBD83005EF93B /* Security.framework */,
 				7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */,
 				7B327FF113E3875400274E6C /* UIKit.framework */,
@@ -524,7 +518,7 @@
 		7B327FF813E3875400274E6C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7BC2153E16A7AEEB00FA8096 /* AirshipConfig.plist */,
+				7B7D5E6017C005680058F129 /* AirshipConfig.plist */,
 				7BC2152C16A31F2800FA8096 /* cell-bg.png */,
 				7B327FF913E3875400274E6C /* Dubsar-Info.plist */,
 				7B327FFD13E3875400274E6C /* Dubsar-Prefix.pch */,
@@ -908,7 +902,6 @@
 				7B0101441699F648008FC876 /* EditInflectionsViewController_iPhone.xib in Resources */,
 				7BC4472B169A488800BE18DC /* SyncViewController_iPhone.xib in Resources */,
 				7BC2152D16A31F2800FA8096 /* cell-bg.png in Resources */,
-				7BC2153F16A7AEEB00FA8096 /* AirshipConfig.plist in Resources */,
 				7B2C2EC516A9C6A9000BC87B /* wotd-button-hr.png in Resources */,
 				7B2C2EC716A9CD07000BC87B /* wotd-button-highlighted-hr.png in Resources */,
 				7B2C2ECA16AA02D3000BC87B /* wotd-button-highlighted.png in Resources */,
@@ -923,6 +916,7 @@
 				7BDDDC8216B8D2FB0054BC3B /* dubsar-big-highlighted.png in Resources */,
 				7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */,
 				7BBD76C317BD56B000AD2609 /* client_secret.txt in Resources */,
+				7B7D5E6117C005680058F129 /* AirshipConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,7 +1085,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					DUBSAR_DEVELOPMENT,
+				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1130,12 +1127,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
-				HEADER_SEARCH_PATHS = "Airship/**";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Airship\"",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1148,12 +1140,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
-				HEADER_SEARCH_PATHS = "Airship/**";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Airship\"",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
