@@ -23,7 +23,7 @@
 
 #define PRODUCTION_DB_NAME @"production.sqlite3"
 
-@interface DubsarAppDelegate : NSObject <UIApplicationDelegate,NSURLConnectionDelegate,NSURLConnectionDataDelegate> {
+@interface DubsarAppDelegate : NSObject <UIApplicationDelegate,NSURLConnectionDelegate,NSURLConnectionDataDelegate,UIAlertViewDelegate> {
     UIColor* dubsarTintColor;
 }
 

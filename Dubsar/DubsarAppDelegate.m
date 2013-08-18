@@ -22,6 +22,7 @@
 #import "DubsarAppDelegate.h"
 
 @interface DubsarAppDelegate()
+@property (copy) NSURL* alertURL;
 - (void) landUA:(NSString*)deviceToken;
 - (void) postDeviceToken:(NSData*)deviceToken;
 @end
@@ -38,7 +39,7 @@
 @synthesize autocompleterStmt;
 @synthesize databaseReady;
 @synthesize authToken;
-@synthesize wotdUrl, wotdUnread;
+@synthesize wotdUrl, wotdUnread, alertURL;
 
 - (id)init
 {
@@ -74,9 +75,9 @@
 
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound];
 
-    // no more badges
-    application.applicationIconBadgeNumber = 0;
     [self application:application didReceiveRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
+
+    if (application.applicationIconBadgeNumber > 0) application.applicationIconBadgeNumber = 0;
 
     return YES;
 }
@@ -100,17 +101,29 @@
         self.wotdUnread = true;
         [self addWotdButton];
     }
+    else {
+        /* non-WOTD notification received while app in FG. present alert view */
+        self.alertURL = [NSURL URLWithString:url];
+        UIAlertView* alert = [[[UIAlertView alloc] initWithTitle:@"Dubsar Notification" message:[((NSDictionary*)[userInfo valueForKey:@"aps"]) valueForKey:@"alert"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"More", nil]autorelease];
+        [alert show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [[UIApplication sharedApplication] openURL:self.alertURL];
+    }
 }
 
 - (void)landUA:(NSString*)deviceToken
 {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UAPushEnabled"];
-
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://device-api.urbanairship.com/api/device_tokens/%@/", deviceToken]];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"DELETE"];
     
     NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [connection start];
 }
 
@@ -136,12 +149,22 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     NSLog(@"connection to UA failed: %@", error.localizedDescription);
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
-    NSLog(@"UA DELETE request status code: %d", httpResp.statusCode);
+    NSURL* url = httpResp.URL;
+
+    NSLog(@"response status code from %@: %d", url.absoluteString, httpResp.statusCode);
+
+    if ([url.host hasSuffix:@".urbanairship.com"] && ((httpResp.statusCode >= 200 && httpResp.statusCode < 300) || httpResp.statusCode == 404))
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DubsarUADisabled"];
+    }
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)updateWotdByUrl:(NSString *)url expiration:(id)expiration
@@ -191,7 +214,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    if (application.applicationIconBadgeNumber > 0) application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -246,10 +269,9 @@
     NSString* token = [NSString stringWithCString:sdata encoding:NSUTF8StringEncoding];
     NSLog(@"Device token is %@", token);
 
-    // DEBT: Why is this showing up as NO when it was YES?
-    BOOL uaEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"UAPushEnabled"];
-    NSLog(@"UAPushEnabled = %@", (uaEnabled == YES ? @"YES" : @"NO"));
-    if (uaEnabled == YES) [self landUA:token];
+    BOOL uaDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"DubsarUADisabled"];
+    NSLog(@"DubsarUADisabled = %@", (uaDisabled == YES ? @"YES" : @"NO"));
+    if (!uaDisabled) [self landUA:token];
 
     /*
      * 2. Read client secret from bundle
@@ -296,12 +318,9 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
 
+    NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSHTTPURLResponse* response;
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-
-    NSLog(@"Response code from device token POST is %d", [response statusCode]);
+    [connection start];
 }
 
 - (void)closeDB
@@ -439,36 +458,6 @@
         sqlite3_step(statement);
         sqlite3_finalize(statement);
     }
-#if 0
-    // recovering from an error
-    else {
-        sqlite3_stmt* statement;
-        int rc;
-        if ((rc=sqlite3_prepare_v2(database,
-                                   "DELETE FROM inflections_fts", -1, &statement, NULL)) != SQLITE_OK) {
-            NSLog(@"sqlite3 error %d", rc);
-            return;
-        }
-        sqlite3_step(statement);
-        sqlite3_finalize(statement);
-
-        if ((rc=sqlite3_prepare_v2(database,
-                               "INSERT INTO inflections_fts(id, name, word_id) SELECT id, name, word_id FROM inflections", -1, &statement, NULL)) != SQLITE_OK) {
-            NSLog(@"sqlite3 error %d", rc);
-            return;
-        }
-        sqlite3_step(statement);
-        sqlite3_finalize(statement);
-    
-        if ((rc=sqlite3_prepare_v2(database,
-                               "INSERT INTO inflections_fts(inflections_fts) VALUES('optimize')", -1, &statement, NULL)) != SQLITE_OK) {
-            NSLog(@"sqlite3 error %d", rc);
-            return;
-        }
-        sqlite3_step(statement);
-        sqlite3_finalize(statement);
-    }
-#endif
 #endif // DUBSAR_EDITORIAL_BUILD
     
     /*
