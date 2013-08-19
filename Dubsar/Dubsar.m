@@ -19,7 +19,6 @@
 
 #import "Dubsar.h"
 
-// const NSString* DubsarBaseUrl = @"http://dubsar-dictionary.com";
 // const NSString* DubsarBaseUrl = @"http://fatman:3000";
 
 const NSString* DubsarSecureUrl = @"https://dubsar-dictionary.com";

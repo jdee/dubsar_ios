@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -368,7 +368,7 @@ dG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuCg</string>
 						<string key="NSFrame">{{4, 335}, {695, 42}}</string>
 						<reference key="NSSuperview" ref="702059613"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="980323024"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:311</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -381,90 +381,6 @@ dG9uLCBNQSAwMjExMC0xMzAxLCBVU0EuCg</string>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUINumberOfLines">3</int>
-						<int key="IBUILineBreakMode">0</int>
-						<reference key="IBUIFontDescription" ref="253984545"/>
-						<reference key="IBUIFont" ref="220561634"/>
-						<double key="preferredMaxLayoutWidth">695</double>
-					</object>
-					<object class="IBUILabel" id="980323024">
-						<reference key="NSNextResponder" ref="702059613"/>
-						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{0, 390}, {703, 1}}</string>
-						<reference key="NSSuperview" ref="702059613"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1009195561"/>
-						<string key="NSReuseIdentifierKey">_NS:311</string>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4xMDk4MDM5MjE2IDAuNTgwMzkyMTU2OSAwLjc2ODYyNzQ1MQA</bytes>
-						</object>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">7</int>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<string key="IBUIText"/>
-						<reference key="IBUITextColor" ref="935790131"/>
-						<nil key="IBUIHighlightedColor"/>
-						<int key="IBUIBaselineAdjustment">1</int>
-						<float key="IBUIMinimumFontSize">10</float>
-						<reference key="IBUIFontDescription" ref="363894791"/>
-						<reference key="IBUIFont" ref="237845292"/>
-					</object>
-					<object class="IBUILabel" id="1009195561">
-						<reference key="NSNextResponder" ref="702059613"/>
-						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{4, 399}, {695, 21}}</string>
-						<reference key="NSSuperview" ref="702059613"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="745450357"/>
-						<string key="NSReuseIdentifierKey">_NS:311</string>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">7</int>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<string key="IBUIText">Urban Airship iOS Library © 2009-2013 Urban Airship, Inc.</string>
-						<reference key="IBUITextColor" ref="935790131"/>
-						<nil key="IBUIHighlightedColor"/>
-						<int key="IBUIBaselineAdjustment">1</int>
-						<float key="IBUIMinimumFontSize">10</float>
-						<reference key="IBUIFontDescription" ref="253984545"/>
-						<reference key="IBUIFont" ref="220561634"/>
-					</object>
-					<object class="IBUILabel" id="745450357">
-						<reference key="NSNextResponder" ref="702059613"/>
-						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{4, 361}, {695, 242}}</string>
-						<reference key="NSSuperview" ref="702059613"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
-						<string key="NSReuseIdentifierKey">_NS:311</string>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">7</int>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<object class="NSMutableString" key="IBUIText">
-							<bytes key="NS.bytes">VEhJUyBTT0ZUV0FSRSBJUyBQUk9WSURFRCBCWSBUSEUgVVJCQU4gQUlSU0hJUCBJTkMgIkFTIElTIiBB
-TkQgQU5ZIEVYUFJFU1MgT1IgSU1QTElFRCBXQVJSQU5USUVTLCBJTkNMVURJTkcsIEJVVCBOT1QgTElN
-SVRFRCBUTywgVEhFIElNUExJRUQgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFkgQU5EIEZJVE5F
-U1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFSRSBESVNDTEFJTUVELiBJTiBOTyBFVkVOVCBTSEFM
-TCBVUkJBTiBBSVJTSElQIElOQyBPUiBDT05UUklCVVRPUlMgQkUgTElBQkxFIEZPUiBBTlkgRElSRUNU
-LCBJTkRJUkVDVCwgSU5DSURFTlRBTCwgU1BFQ0lBTCwgRVhFTVBMQVJZLCBPUiBDT05TRVFVRU5USUFM
-IERBTUFHRVMgKElOQ0xVRElORywgQlVUIE5PVCBMSU1JVEVEIFRPLCBQUk9DVVJFTUVOVCBPRiBTVUJT
-VElUVVRFIEdPT0RTIE9SIFNFUlZJQ0VTOyBMT1NTIE9GIFVTRSwgREFUQSwgT1IgUFJPRklUUzsgT1Ig
-QlVTSU5FU1MgSU5URVJSVVBUSU9OKSBIT1dFVkVSIENBVVNFRCBBTkQgT04gQU5ZIFRIRU9SWSBPRiBM
-SUFCSUxJVFksIFdIRVRIRVIgSU4gQ09OVFJBQ1QsIFNUUklDVCBMSUFCSUxJVFksIE9SIFRPUlQgKElO
-Q0xVRElORyBORUdMSUdFTkNFIE9SIE9USEVSV0lTRSkgQVJJU0lORyBJTiBBTlkgV0FZIE9VVCBPRiBU
-SEUgVVNFIE9GIFRISVMgU09GVFdBUkUsIEVWRU4gSUYgQURWSVNFRCBPRiBUSEUgUE9TU0lCSUxJVFkg
-T0YgU1VDSCBEQU1BR0UuA</bytes>
-						</object>
-						<reference key="IBUITextColor" ref="935790131"/>
-						<nil key="IBUIHighlightedColor"/>
-						<int key="IBUIBaselineAdjustment">1</int>
-						<float key="IBUIMinimumFontSize">10</float>
-						<int key="IBUINumberOfLines">0</int>
 						<int key="IBUILineBreakMode">0</int>
 						<reference key="IBUIFontDescription" ref="253984545"/>
 						<reference key="IBUIFont" ref="220561634"/>
@@ -551,7 +467,6 @@ T0YgU1VDSCBEQU1BR0UuA</bytes>
 						<reference key="object" ref="702059613"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="980323024"/>
 							<reference ref="847062211"/>
 							<reference ref="118386953"/>
 							<reference ref="637516966"/>
@@ -564,26 +479,9 @@ T0YgU1VDSCBEQU1BR0UuA</bytes>
 							<reference ref="438997550"/>
 							<reference ref="243717241"/>
 							<reference ref="813933320"/>
-							<reference ref="1009195561"/>
-							<reference ref="745450357"/>
 							<reference ref="207678683"/>
 						</object>
 						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">22</int>
-						<reference key="object" ref="745450357"/>
-						<reference key="parent" ref="702059613"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">23</int>
-						<reference key="object" ref="1009195561"/>
-						<reference key="parent" ref="702059613"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">24</int>
-						<reference key="object" ref="980323024"/>
-						<reference key="parent" ref="702059613"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">25</int>
@@ -661,9 +559,6 @@ T0YgU1VDSCBEQU1BR0UuA</bytes>
 					<string>-2.CustomClassName</string>
 					<string>-2.IBPluginDependency</string>
 					<string>21.IBPluginDependency</string>
-					<string>22.IBPluginDependency</string>
-					<string>23.IBPluginDependency</string>
-					<string>24.IBPluginDependency</string>
 					<string>25.IBPluginDependency</string>
 					<string>26.IBPluginDependency</string>
 					<string>27.IBPluginDependency</string>
@@ -683,9 +578,6 @@ T0YgU1VDSCBEQU1BR0UuA</bytes>
 					<string>LicenseViewController_iPad</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>UIResponder</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

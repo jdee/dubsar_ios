@@ -171,8 +171,8 @@
         return;
     }
     
-    UIImage* wotdButtonImage = [UIImage imageNamed:@"wotd-button-hr.png"];
-    UIImage* highlightedWotdButtonImage = [UIImage imageNamed:@"wotd-button-hihglighted-hr.png"];
+    UIImage* wotdButtonImage = [UIImage imageNamed:@"wotd-button.png"];
+    UIImage* highlightedWotdButtonImage = [UIImage imageNamed:@"wotd-button-highlighted.png"];
     
     UIButton* wotdButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [wotdButton setImage:wotdButtonImage forState:UIControlStateNormal];

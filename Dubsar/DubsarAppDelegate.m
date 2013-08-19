@@ -17,10 +17,15 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "UAirship.h"
-
 #import "DailyWord.h"
+#import "Dubsar.h"
 #import "DubsarAppDelegate.h"
+
+@interface DubsarAppDelegate()
+@property (copy) NSURL* alertURL;
+- (void) landUA:(NSString*)deviceToken;
+- (void) postDeviceToken:(NSData*)deviceToken;
+@end
 
 @implementation DubsarAppDelegate
 
@@ -34,7 +39,7 @@
 @synthesize autocompleterStmt;
 @synthesize databaseReady;
 @synthesize authToken;
-@synthesize wotdUrl, wotdUnread;
+@synthesize wotdUrl, wotdUnread, alertURL;
 
 - (id)init
 {
@@ -66,81 +71,100 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
-    
-    //Init Airship launch options
-    NSMutableDictionary *takeOffOptions = [[[NSMutableDictionary alloc] init] autorelease];
-    [takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
-    
-    // Create Airship singleton that's used to talk to Urban Airship servers.
-    [UAirship takeOff:takeOffOptions];
-    
-    // Register for notifications
-    UAPush* uaPush = [UAPush shared];
-    [uaPush addObserver:self];
-    uaPush.delegate = self;
-    
-    [uaPush
-     registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                         UIRemoteNotificationTypeSound |
-                                         UIRemoteNotificationTypeAlert)];
-    
-    [uaPush setAutobadgeEnabled:YES];
-    
-    NSDictionary* pushNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    
-    // If cold launched from a push, this is how we get to the right screen,
-    // via a call to handleBackgroundNotification:.
-    [uaPush handleNotification:pushNotification applicationState:application.applicationState];
-    [uaPush resetBadge];
-    
-    NSLog(@"After takeOff, push is%s enabled", (uaPush.pushEnabled ? "" : " not"));
+
+    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound];
+
+    [self application:application didReceiveRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
+
+    if (application.applicationIconBadgeNumber > 0) application.applicationIconBadgeNumber = 0;
+
     return YES;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    [[UAPush shared] handleNotification:userInfo applicationState:application.applicationState];
-    [[UAPush shared] resetBadge];
-}
-
-// Called when user taps an iOS notification
-- (void)handleBackgroundNotification:(NSDictionary *)notification
-{
-    NSDictionary* dubsarPayload = [notification valueForKey:@"dubsar"];
+    NSDictionary* dubsarPayload = [userInfo valueForKey:@"dubsar"];
     if (!dubsarPayload) return;
-    
     NSString* url = [dubsarPayload valueForKey:@"url"];
-    
     NSString* type = [dubsarPayload valueForKey:@"type"];
+
     if ([type isEqualToString:@"wotd"]) {
         [self updateWotdByUrl:url expiration:[dubsarPayload valueForKey:@"expiration"]];
     }
 
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-}
-
-// Called when a notification is received in the foreground
-- (void)handleNotification:(NSDictionary *)notification withCustomPayload:(NSDictionary *)customPayload
-{
-    NSLog(@"push received");
-    NSDictionary *dubsarPayload = [notification valueForKey:@"dubsar"];
-    NSString* type = [dubsarPayload valueForKey:@"type"];
-    if (![type isEqualToString:@"wotd"]) {
-        NSLog(@"Unrecognized message type: \"%@\"", type);
-        return;
+    if (application.applicationState != UIApplicationStateActive) {
+        [application openURL:[NSURL URLWithString:url]];
     }
-        
-    NSString* url = [dubsarPayload valueForKey:@"url"];
-    if (url) {
-        NSLog(@"dubsar url: %@", url);
-        [self updateWotdByUrl:url expiration:[dubsarPayload valueForKey:@"expiration"]];
-        
+    else if ([type isEqualToString:@"wotd"]) {
         self.wotdUrl = url;
         self.wotdUnread = true;
         [self addWotdButton];
     }
+    else {
+        /* non-WOTD notification received while app in FG. present alert view */
+        self.alertURL = [NSURL URLWithString:url];
+        UIAlertView* alert = [[[UIAlertView alloc] initWithTitle:@"Dubsar Notification" message:[((NSDictionary*)[userInfo valueForKey:@"aps"]) valueForKey:@"alert"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"More", nil]autorelease];
+        [alert show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [[UIApplication sharedApplication] openURL:self.alertURL];
+    }
+}
+
+- (void)landUA:(NSString*)deviceToken
+{
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://device-api.urbanairship.com/api/device_tokens/%@/", deviceToken]];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"DELETE"];
+    
+    NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [connection start];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    NSDictionary* uaconfig = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"AirshipConfig.plist"]];
+
+    NSString* appKey = nil;
+    NSString* appSecret = nil;
+
+#ifdef DUBSAR_DEVELOPMENT
+    appKey = [uaconfig valueForKey:@"DEVELOPMENT_APP_KEY"];
+    appSecret = [uaconfig valueForKey:@"DEVELOPMENT_APP_SECRET"];
+#else
+    appKey = [uaconfig valueForKey:@"PRODUCTION_APP_KEY"];
+    appSecret = [uaconfig valueForKey:@"PRODUCTION_APP_SECRET"];
+#endif // DUBSAR_DEVELOPMENT
+
+    NSURLCredential* cred = [NSURLCredential credentialWithUser:appKey password:appSecret persistence:NSURLCredentialPersistenceNone];
+    [challenge.sender useCredential:cred forAuthenticationChallenge:challenge];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"connection to UA failed: %@", error.localizedDescription);
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
+    NSURL* url = httpResp.URL;
+
+    NSLog(@"response status code from %@: %d", url.absoluteString, httpResp.statusCode);
+
+    if ([url.host hasSuffix:@".urbanairship.com"] && ((httpResp.statusCode >= 200 && httpResp.statusCode < 300) || httpResp.statusCode == 404))
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DubsarUADisabled"];
+    }
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)updateWotdByUrl:(NSString *)url expiration:(id)expiration
@@ -158,16 +182,6 @@
     }
     
     [DailyWord updateWotdId:wotdId expiration:texpiration];
-}
-
-- (void)registerDeviceTokenSucceeded
-{
-    NSLog(@"Registered device token: %@", [UAPush shared].deviceToken);
-}
-
-- (void)registerDeviceTokenFailed:(UA_ASIHTTPRequest*)request
-{
-    NSLog(@"Device token registration failed");
 }
 
 - (void)addWotdButton
@@ -200,17 +214,20 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [[UAPush shared] resetBadge];
+    if (application.applicationIconBadgeNumber > 0) application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [UAirship land];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    // Updates the device token and registers the token with UA
-    [[UAPush shared] registerDeviceToken:deviceToken];
+    [self postDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    NSLog(@"Failed to register for remote notifications: %@", error.localizedDescription);
 }
 
 - (void)dealloc
@@ -224,6 +241,86 @@
     [dubsarTintColor release];
     [_window release];
     [super dealloc];
+}
+
+- (void)postDeviceToken:(NSData *)deviceToken
+{
+    /*
+     * 1. convert deviceToken to hex
+     */
+    unsigned char data[32];
+    assert(deviceToken.length == sizeof(data));
+    size_t length;
+
+    [deviceToken getBytes:data length:&length];
+
+    // data is now a buffer of 32 numeric bytes.
+    // represent as hex in sdata, which will be
+    // 64 bytes plus termination. Use a power of
+    // 2 for the buffer.
+
+    char sdata[128];
+    memset(sdata, 0, sizeof(sdata));
+
+    for (int j=0; j<sizeof(data); ++j) {
+        sprintf(sdata+j*2, "%02x", data[j]);
+    }
+
+    NSString* token = [NSString stringWithCString:sdata encoding:NSUTF8StringEncoding];
+    NSLog(@"Device token is %@", token);
+
+    BOOL uaDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"DubsarUADisabled"];
+    NSLog(@"DubsarUADisabled = %@", (uaDisabled == YES ? @"YES" : @"NO"));
+    if (!uaDisabled) [self landUA:token];
+
+    /*
+     * 2. Read client secret from bundle
+     */
+    NSError* error;
+    NSString* filepath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"client_secret.txt"];
+    NSString* secret = [NSString stringWithContentsOfFile:filepath encoding:NSUTF8StringEncoding error:&error];
+    if (error && !secret) {
+        NSLog(@"Failed to read client_secret.txt: %@", error.localizedDescription);
+    }
+
+    /*
+     * 3. Get app version
+     */
+    
+    /*
+     * Could also use kCFBundleVersionKey and strip the .x from the end
+     */
+    NSString* version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSLog(@"App version is %@", version);
+
+    /*
+     * 4. Determine production flag from preprocessor macro
+     */
+    NSString* production = nil;
+#ifdef DUBSAR_DEVELOPMENT
+    production = @"false";
+#else
+    production = @"true";
+#endif // DUBSAR_DEVELOPMENT
+
+    /*
+     * 5. Construct JSON payload from this info
+     */
+    NSString* payload = [NSString stringWithFormat:@"{\"version\":\"%@\", \"secret\":\"%@\", \"device_token\":{\"token\":\"%@\", \"production\":%@} }", version, secret, token, production];
+
+    /*
+     * 6. Execute POST
+     */
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/device_tokens", DubsarBaseUrl]];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[payload dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
+
+    NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [connection start];
 }
 
 - (void)closeDB
@@ -361,36 +458,6 @@
         sqlite3_step(statement);
         sqlite3_finalize(statement);
     }
-#if 0
-    // recovering from an error
-    else {
-        sqlite3_stmt* statement;
-        int rc;
-        if ((rc=sqlite3_prepare_v2(database,
-                                   "DELETE FROM inflections_fts", -1, &statement, NULL)) != SQLITE_OK) {
-            NSLog(@"sqlite3 error %d", rc);
-            return;
-        }
-        sqlite3_step(statement);
-        sqlite3_finalize(statement);
-
-        if ((rc=sqlite3_prepare_v2(database,
-                               "INSERT INTO inflections_fts(id, name, word_id) SELECT id, name, word_id FROM inflections", -1, &statement, NULL)) != SQLITE_OK) {
-            NSLog(@"sqlite3 error %d", rc);
-            return;
-        }
-        sqlite3_step(statement);
-        sqlite3_finalize(statement);
-    
-        if ((rc=sqlite3_prepare_v2(database,
-                               "INSERT INTO inflections_fts(inflections_fts) VALUES('optimize')", -1, &statement, NULL)) != SQLITE_OK) {
-            NSLog(@"sqlite3 error %d", rc);
-            return;
-        }
-        sqlite3_step(statement);
-        sqlite3_finalize(statement);
-    }
-#endif
 #endif // DUBSAR_EDITORIAL_BUILD
     
     /*

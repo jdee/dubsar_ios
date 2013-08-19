@@ -21,11 +21,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "UAPush.h"
-
 #define PRODUCTION_DB_NAME @"production.sqlite3"
 
-@interface DubsarAppDelegate : NSObject <UIApplicationDelegate,UAPushNotificationDelegate,UARegistrationObserver> {
+@interface DubsarAppDelegate : NSObject <UIApplicationDelegate,NSURLConnectionDelegate,NSURLConnectionDataDelegate,UIAlertViewDelegate> {
     UIColor* dubsarTintColor;
 }
 

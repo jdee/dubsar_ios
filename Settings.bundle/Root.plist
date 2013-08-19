@@ -5,26 +5,20 @@
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Title</key>
-			<string>Push Notifications</string>
 			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>DefaultValue</key>
-			<true/>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Current app version</string>
 			<key>Key</key>
-			<string>UAPushEnabled</string>
-			<key>Title</key>
-			<string>Enabled</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
+			<string>DubsarCurrentVersion</string>
+			<key>DefaultValue</key>
+			<string>1.2.2.2</string>
 		</dict>
 		<dict>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>Use the Notification Center to control how, when and whether notifications are delivered to you. Use this switch to prevent Dubsar from registering with Urban Airship, disabling push notifications altogether. Changes to this setting only take effect the next time you launch or foreground the Dubsar application by tapping its icon.</string>
+			<string>See Notifications in this app (Settings) for Dubsar push notification settings</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>

@@ -91,7 +91,6 @@
 {
     [self setVersionLabel:nil];
     [self setLicenseView:nil];
-    [self setLicenseScrollView:nil];
     [self setLicenseText:nil];
     [self setCopyrightLabel:nil];
     [self setAboutToolbar:nil];
@@ -182,8 +181,6 @@
     "<p>WordNet&reg; is available under the WordNet 3.0 License.<hr/>"
     "<p>JSONKit &copy; 2011 John Engelhart</p>"
     "<p>JSONKit is dual licensed under either the terms of the BSD License, or alternatively under the terms of the Apache License, Version 2.0.</p><hr/>"
-    "<p>Urban Airship iOS Library &copy; 2009&ndash;2013 Urban Airship Inc.</p>"
-    "<p>THIS SOFTWARE IS PROVIDED BY THE URBAN AIRSHIP INC ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL URBAN AIRSHIP INC OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>"
     "</body></html>";
 }
 

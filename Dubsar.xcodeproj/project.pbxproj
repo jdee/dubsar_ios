@@ -23,19 +23,20 @@
 		7B145C911698E7C4003DF963 /* ReviewViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B145C8F1698E7C4003DF963 /* ReviewViewController_iPhone.xib */; };
 		7B145C951698EFAC003DF963 /* Inflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C941698EFAC003DF963 /* Inflection.m */; };
 		7B145C981698F22E003DF963 /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C971698F22C003DF963 /* Review.m */; };
+		7B26357D17C1789B00DBDFC6 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 7B26357C17C1789B00DBDFC6 /* iTunesArtwork@2x */; };
+		7B26357F17C1794400DBDFC6 /* dubsar-ipad-retina.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B26357E17C1794400DBDFC6 /* dubsar-ipad-retina.png */; };
+		7B26358717C1804C00DBDFC6 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B26358617C1804C00DBDFC6 /* Default-Landscape@2x~ipad.png */; };
+		7B26358917C1805600DBDFC6 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B26358817C1805600DBDFC6 /* Default-Portrait@2x~ipad.png */; };
 		7B2AEDD916B4C20D0058958F /* IntroViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2AEDD716B4C20B0058958F /* IntroViewController_iPad.m */; };
 		7B2AEDDA16B4C20D0058958F /* IntroViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B2AEDD816B4C20C0058958F /* IntroViewController_iPad.xib */; };
-		7B2AEDE516B4E25C0058958F /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2AEDE416B4E25C0058958F /* Default-Portrait@2x~ipad.png */; };
-		7B2AEDE816B4E26A0058958F /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2AEDE716B4E26A0058958F /* Default-Landscape@2x~ipad.png */; };
-		7B2C2EC516A9C6A9000BC87B /* wotd-button-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC416A9C6A9000BC87B /* wotd-button-hr.png */; };
-		7B2C2EC716A9CD07000BC87B /* wotd-button-highlighted-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted-hr.png */; };
+		7B2C2EC516A9C6A9000BC87B /* wotd-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC416A9C6A9000BC87B /* wotd-button@2x.png */; };
+		7B2C2EC716A9CD07000BC87B /* wotd-button-highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted@2x.png */; };
 		7B2C2ECA16AA02D3000BC87B /* wotd-button-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC816AA02D3000BC87B /* wotd-button-highlighted.png */; };
 		7B2C2ECB16AA02D3000BC87B /* wotd-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C2EC916AA02D3000BC87B /* wotd-button.png */; };
 		7B30646413E5A06000B2A1B1 /* AboutViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B30646213E5A06000B2A1B1 /* AboutViewController_iPad.m */; };
 		7B30646513E5A06000B2A1B1 /* AboutViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B30646313E5A06000B2A1B1 /* AboutViewController_iPad.xib */; };
 		7B327FF213E3875400274E6C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF113E3875400274E6C /* UIKit.framework */; };
 		7B327FF413E3875400274E6C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF313E3875400274E6C /* Foundation.framework */; };
-		7B327FF613E3875400274E6C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF513E3875400274E6C /* CoreGraphics.framework */; };
 		7B327FFC13E3875400274E6C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B327FFA13E3875400274E6C /* InfoPlist.strings */; };
 		7B327FFF13E3875400274E6C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B327FFE13E3875400274E6C /* main.m */; };
 		7B32800213E3875400274E6C /* DubsarAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32800113E3875400274E6C /* DubsarAppDelegate.m */; };
@@ -102,7 +103,6 @@
 		7B36217F1694FD8000D9CA53 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B36217E1694FD8000D9CA53 /* Default-568h@2x.png */; };
 		7B3D593E140E567A00EE838F /* banner-handle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B3D593D140E567A00EE838F /* banner-handle.png */; };
 		7B3F43E6169BAAB3005EF93B /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3F43E5169BAAB3005EF93B /* KeychainWrapper.m */; };
-		7B3F43E9169BBD83005EF93B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3F43E8169BBD83005EF93B /* Security.framework */; };
 		7B59C4CE13E8A5E8006F5FDB /* SearchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4CD13E8A5E8006F5FDB /* SearchTest.m */; };
 		7B59C4D013E8A74C006F5FDB /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809C13E38CEE00274E6C /* Search.m */; };
 		7B59C4D113E8A762006F5FDB /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280A213E38CEE00274E6C /* Word.m */; };
@@ -112,6 +112,8 @@
 		7B59C4D913E8AC9A006F5FDB /* WordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4D813E8AC9A006F5FDB /* WordTest.m */; };
 		7B59C4DC13E8B05C006F5FDB /* SenseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4DB13E8B05C006F5FDB /* SenseTest.m */; };
 		7B59C4E013E8CAF9006F5FDB /* SynsetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B59C4DF13E8CAF9006F5FDB /* SynsetTest.m */; };
+		7B5A437417C1AB2900A0B0F9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3F43E8169BBD83005EF93B /* Security.framework */; };
+		7B5A437517C1AB5C00A0B0F9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF513E3875400274E6C /* CoreGraphics.framework */; };
 		7B5ECF40141AAD5B00FD2D78 /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */; };
 		7B5ECF45141ABAF700FD2D78 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */; };
 		7B6953B613E6E3CC00B10519 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B69537B13E6E21700B10519 /* SenTestingKit.framework */; };
@@ -119,6 +121,7 @@
 		7B6953B813E6E3CC00B10519 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF313E3875400274E6C /* Foundation.framework */; };
 		7B6953B913E6E3CC00B10519 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF513E3875400274E6C /* CoreGraphics.framework */; };
 		7B6953BF13E6E3CC00B10519 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B6953BD13E6E3CC00B10519 /* InfoPlist.strings */; };
+		7B7D5E6117C005680058F129 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D5E6017C005680058F129 /* AirshipConfig.plist */; };
 		7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */; };
 		7B824E5813EC540100CDC665 /* DailyWordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B824E5713EC540100CDC665 /* DailyWordTest.m */; };
 		7B862DE31697CF1C0064F66B /* AuguryViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B862DE11697CF1C0064F66B /* AuguryViewController_iPhone.m */; };
@@ -133,8 +136,6 @@
 		7B917A4C13EB5F1500FBF365 /* wedge-blue-r-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A4913EB5F1500FBF365 /* wedge-blue-r-hr.png */; };
 		7B917A5113EB600600FBF365 /* wedge-blue-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A4F13EB600600FBF365 /* wedge-blue-l.png */; };
 		7B917A5313EB600600FBF365 /* wedge-blue-r.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A5013EB600600FBF365 /* wedge-blue-r.png */; };
-		7B917A6213EB89BB00FBF365 /* dubsar-appstore.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */; };
-		7B917A6813EB8F5E00FBF365 /* dubsar-appstore-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */; };
 		7B917A6F13EC18AC00FBF365 /* wedge-white-l-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */; };
 		7B917A7113EC18AC00FBF365 /* wedge-white-r-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */; };
 		7B917A7513EC3CD600FBF365 /* DailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B917A7413EC3CD600FBF365 /* DailyWord.m */; };
@@ -148,21 +149,15 @@
 		7B9D2C8116AE05D800F31AE8 /* InflectionsViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B9D2C7F16AE05D800F31AE8 /* InflectionsViewController_iPad.xib */; };
 		7BB2270813E5A747005D454F /* AboutViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */; };
 		7BB2270913E5A747005D454F /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */; };
+		7BB6E67817C272F000A5C9A0 /* dubsar-search-ipad-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB6E67717C272F000A5C9A0 /* dubsar-search-ipad-hr.png */; };
 		7BB9CEDC141C19F1000DD13B /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
 		7BB9CEDF141C21FA000DD13B /* Pointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDE141C21FA000DD13B /* Pointer.m */; };
+		7BBD76C317BD56B000AD2609 /* client_secret.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7BBD76C217BD56B000AD2609 /* client_secret.txt */; };
 		7BBE26CD14329AF000720EDA /* DubsarAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32800113E3875400274E6C /* DubsarAppDelegate.m */; };
 		7BBE26CE14329AF000720EDA /* Pointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDE141C21FA000DD13B /* Pointer.m */; };
 		7BBE26CF14329AF000720EDA /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
 		7BBE26D014329C1D00720EDA /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */; };
 		7BC2152D16A31F2800FA8096 /* cell-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC2152C16A31F2800FA8096 /* cell-bg.png */; };
-		7BC2153F16A7AEEB00FA8096 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7BC2153E16A7AEEB00FA8096 /* AirshipConfig.plist */; };
-		7BC2154416A7B66E00FA8096 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154316A7B66E00FA8096 /* CFNetwork.framework */; };
-		7BC2154616A7B68400FA8096 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154516A7B68400FA8096 /* MobileCoreServices.framework */; };
-		7BC2154816A7B69A00FA8096 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154716A7B69A00FA8096 /* SystemConfiguration.framework */; };
-		7BC2154A16A7B6AB00FA8096 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154916A7B6AB00FA8096 /* libz.dylib */; };
-		7BC2154C16A7B6BF00FA8096 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154B16A7B6BF00FA8096 /* CoreTelephony.framework */; };
-		7BC2154E16A7B70900FA8096 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154D16A7B70900FA8096 /* CoreLocation.framework */; };
-		7BC2155116A7BC1200FA8096 /* libUAirshipPush-1.3.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154116A7AFF300FA8096 /* libUAirshipPush-1.3.7.a */; };
 		7BC4472A169A488800BE18DC /* SyncViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC44728169A488800BE18DC /* SyncViewController_iPhone.m */; };
 		7BC4472B169A488800BE18DC /* SyncViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC44729169A488800BE18DC /* SyncViewController_iPhone.xib */; };
 		7BC537CD141D6D8700E6246B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */; };
@@ -171,13 +166,6 @@
 		7BDDDC8216B8D2FB0054BC3B /* dubsar-big-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8116B8D2FB0054BC3B /* dubsar-big-highlighted.png */; };
 		7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8716BCD8430054BC3B /* Settings.bundle */; };
 		7BDDDC8B16BD8BE00054BC3B /* ForegroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8A16BD8BE00054BC3B /* ForegroundViewController.m */; };
-		7BDDDC8E16BF44390054BC3B /* libUAirshipPush-1.3.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154116A7AFF300FA8096 /* libUAirshipPush-1.3.7.a */; };
-		7BDDDC8F16BF44570054BC3B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154D16A7B70900FA8096 /* CoreLocation.framework */; };
-		7BDDDC9016BF445E0054BC3B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154B16A7B6BF00FA8096 /* CoreTelephony.framework */; };
-		7BDDDC9116BF44680054BC3B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154916A7B6AB00FA8096 /* libz.dylib */; };
-		7BDDDC9216BF44700054BC3B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154716A7B69A00FA8096 /* SystemConfiguration.framework */; };
-		7BDDDC9316BF44770054BC3B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154516A7B68400FA8096 /* MobileCoreServices.framework */; };
-		7BDDDC9416BF447F0054BC3B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC2154316A7B66E00FA8096 /* CFNetwork.framework */; };
 		7BDDDC9516BF44870054BC3B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3F43E8169BBD83005EF93B /* Security.framework */; };
 		7BE9ABDF13E4C25500FB7402 /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDD13E4C25500FB7402 /* DetailView_iPad.xib */; };
 		7BE9ABE013E4C25500FB7402 /* DetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9ABDE13E4C25500FB7402 /* DetailView_iPhone.xib */; };
@@ -211,14 +199,16 @@
 		7B145C941698EFAC003DF963 /* Inflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inflection.m; sourceTree = "<group>"; };
 		7B145C961698F22C003DF963 /* Review.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Review.h; sourceTree = "<group>"; };
 		7B145C971698F22C003DF963 /* Review.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Review.m; sourceTree = "<group>"; };
+		7B26357C17C1789B00DBDFC6 /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
+		7B26357E17C1794400DBDFC6 /* dubsar-ipad-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-ipad-retina.png"; path = "Images/dubsar-ipad-retina.png"; sourceTree = "<group>"; };
+		7B26358617C1804C00DBDFC6 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "Images/Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		7B26358817C1805600DBDFC6 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x~ipad.png"; path = "Images/Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		7B29BB4B169FB91900D7C241 /* ModalViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModalViewControllerDelegate.h; sourceTree = "<group>"; };
 		7B2AEDD616B4C20B0058958F /* IntroViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroViewController_iPad.h; sourceTree = "<group>"; };
 		7B2AEDD716B4C20B0058958F /* IntroViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController_iPad.m; sourceTree = "<group>"; };
 		7B2AEDD816B4C20C0058958F /* IntroViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IntroViewController_iPad.xib; sourceTree = "<group>"; };
-		7B2AEDE416B4E25C0058958F /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x~ipad.png"; path = "Images/Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
-		7B2AEDE716B4E26A0058958F /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "Images/Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
-		7B2C2EC416A9C6A9000BC87B /* wotd-button-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-hr.png"; path = "Images/wotd-button-hr.png"; sourceTree = "<group>"; };
-		7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-highlighted-hr.png"; path = "Images/wotd-button-highlighted-hr.png"; sourceTree = "<group>"; };
+		7B2C2EC416A9C6A9000BC87B /* wotd-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button@2x.png"; path = "Images/wotd-button@2x.png"; sourceTree = "<group>"; };
+		7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-highlighted@2x.png"; path = "Images/wotd-button-highlighted@2x.png"; sourceTree = "<group>"; };
 		7B2C2EC816AA02D3000BC87B /* wotd-button-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button-highlighted.png"; path = "Images/wotd-button-highlighted.png"; sourceTree = SOURCE_ROOT; };
 		7B2C2EC916AA02D3000BC87B /* wotd-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wotd-button.png"; path = "Images/wotd-button.png"; sourceTree = SOURCE_ROOT; };
 		7B30646113E5A06000B2A1B1 /* AboutViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController_iPad.h; sourceTree = "<group>"; };
@@ -344,6 +334,7 @@
 		7B6953BC13E6E3CC00B10519 /* DubsarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarTests-Info.plist"; sourceTree = "<group>"; };
 		7B6953BE13E6E3CC00B10519 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7B6953C413E6E3CC00B10519 /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
+		7B7D5E6017C005680058F129 /* AirshipConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AirshipConfig.plist; sourceTree = SOURCE_ROOT; };
 		7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterView_iPhone.xib; sourceTree = "<group>"; };
 		7B824E5613EC540100CDC665 /* DailyWordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWordTest.h; sourceTree = "<group>"; };
 		7B824E5713EC540100CDC665 /* DailyWordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWordTest.m; sourceTree = "<group>"; };
@@ -364,8 +355,6 @@
 		7B917A4913EB5F1500FBF365 /* wedge-blue-r-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-blue-r-hr.png"; path = "Images/wedge-blue-r-hr.png"; sourceTree = "<group>"; };
 		7B917A4F13EB600600FBF365 /* wedge-blue-l.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-blue-l.png"; path = "Images/wedge-blue-l.png"; sourceTree = "<group>"; };
 		7B917A5013EB600600FBF365 /* wedge-blue-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-blue-r.png"; path = "Images/wedge-blue-r.png"; sourceTree = "<group>"; };
-		7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-appstore.png"; path = "Images/dubsar-appstore.png"; sourceTree = "<group>"; };
-		7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-appstore-highlighted.png"; path = "Images/dubsar-appstore-highlighted.png"; sourceTree = "<group>"; };
 		7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-white-l-hr.png"; path = "Images/wedge-white-l-hr.png"; sourceTree = "<group>"; };
 		7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-white-r-hr.png"; path = "Images/wedge-white-r-hr.png"; sourceTree = "<group>"; };
 		7B917A7313EC3CD600FBF365 /* DailyWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWord.h; sourceTree = "<group>"; };
@@ -385,19 +374,13 @@
 		7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_iPhone.m; sourceTree = "<group>"; };
 		7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPhone.xib; sourceTree = "<group>"; };
 		7BB2271713E5B93D005D454F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Images/Default.png; sourceTree = "<group>"; };
+		7BB6E67717C272F000A5C9A0 /* dubsar-search-ipad-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-search-ipad-hr.png"; path = "Images/dubsar-search-ipad-hr.png"; sourceTree = "<group>"; };
 		7BB9CEDA141C19F1000DD13B /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section.h; sourceTree = "<group>"; };
 		7BB9CEDB141C19F1000DD13B /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
 		7BB9CEDD141C21FA000DD13B /* Pointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pointer.h; sourceTree = "<group>"; };
 		7BB9CEDE141C21FA000DD13B /* Pointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pointer.m; sourceTree = "<group>"; };
+		7BBD76C217BD56B000AD2609 /* client_secret.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = client_secret.txt; sourceTree = "<group>"; };
 		7BC2152C16A31F2800FA8096 /* cell-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cell-bg.png"; path = "Images/cell-bg.png"; sourceTree = SOURCE_ROOT; };
-		7BC2153E16A7AEEB00FA8096 /* AirshipConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AirshipConfig.plist; sourceTree = SOURCE_ROOT; };
-		7BC2154116A7AFF300FA8096 /* libUAirshipPush-1.3.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirshipPush-1.3.7.a"; path = "Airship/libUAirshipPush-1.3.7.a"; sourceTree = "<group>"; };
-		7BC2154316A7B66E00FA8096 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		7BC2154516A7B68400FA8096 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		7BC2154716A7B69A00FA8096 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		7BC2154916A7B6AB00FA8096 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		7BC2154B16A7B6BF00FA8096 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		7BC2154D16A7B70900FA8096 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7BC44727169A488800BE18DC /* SyncViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncViewController_iPhone.h; sourceTree = "<group>"; };
 		7BC44728169A488800BE18DC /* SyncViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncViewController_iPhone.m; sourceTree = "<group>"; };
 		7BC44729169A488800BE18DC /* SyncViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SyncViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -420,17 +403,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BC2155116A7BC1200FA8096 /* libUAirshipPush-1.3.7.a in Frameworks */,
-				7BC2154E16A7B70900FA8096 /* CoreLocation.framework in Frameworks */,
-				7BC2154C16A7B6BF00FA8096 /* CoreTelephony.framework in Frameworks */,
-				7BC2154A16A7B6AB00FA8096 /* libz.dylib in Frameworks */,
-				7BC2154816A7B69A00FA8096 /* SystemConfiguration.framework in Frameworks */,
-				7B3F43E9169BBD83005EF93B /* Security.framework in Frameworks */,
-				7BC2154616A7B68400FA8096 /* MobileCoreServices.framework in Frameworks */,
-				7BC2154416A7B66E00FA8096 /* CFNetwork.framework in Frameworks */,
+				7B5A437517C1AB5C00A0B0F9 /* CoreGraphics.framework in Frameworks */,
+				7B5A437417C1AB2900A0B0F9 /* Security.framework in Frameworks */,
 				7B327FF213E3875400274E6C /* UIKit.framework in Frameworks */,
 				7B327FF413E3875400274E6C /* Foundation.framework in Frameworks */,
-				7B327FF613E3875400274E6C /* CoreGraphics.framework in Frameworks */,
 				7BC537CD141D6D8700E6246B /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -440,18 +416,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BDDDC9516BF44870054BC3B /* Security.framework in Frameworks */,
-				7BDDDC9416BF447F0054BC3B /* CFNetwork.framework in Frameworks */,
-				7BDDDC9316BF44770054BC3B /* MobileCoreServices.framework in Frameworks */,
-				7BDDDC9216BF44700054BC3B /* SystemConfiguration.framework in Frameworks */,
-				7BDDDC9116BF44680054BC3B /* libz.dylib in Frameworks */,
-				7BDDDC9016BF445E0054BC3B /* CoreTelephony.framework in Frameworks */,
-				7BDDDC8F16BF44570054BC3B /* CoreLocation.framework in Frameworks */,
 				7B5ECF45141ABAF700FD2D78 /* libsqlite3.dylib in Frameworks */,
 				7B6953B613E6E3CC00B10519 /* SenTestingKit.framework in Frameworks */,
 				7B6953B713E6E3CC00B10519 /* UIKit.framework in Frameworks */,
 				7B6953B813E6E3CC00B10519 /* Foundation.framework in Frameworks */,
 				7B6953B913E6E3CC00B10519 /* CoreGraphics.framework in Frameworks */,
-				7BDDDC8E16BF44390054BC3B /* libUAirshipPush-1.3.7.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,13 +450,6 @@
 		7B327FF013E3875400274E6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7BC2154D16A7B70900FA8096 /* CoreLocation.framework */,
-				7BC2154B16A7B6BF00FA8096 /* CoreTelephony.framework */,
-				7BC2154916A7B6AB00FA8096 /* libz.dylib */,
-				7BC2154716A7B69A00FA8096 /* SystemConfiguration.framework */,
-				7BC2154516A7B68400FA8096 /* MobileCoreServices.framework */,
-				7BC2154316A7B66E00FA8096 /* CFNetwork.framework */,
-				7BC2154116A7AFF300FA8096 /* libUAirshipPush-1.3.7.a */,
 				7B3F43E8169BBD83005EF93B /* Security.framework */,
 				7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */,
 				7B327FF113E3875400274E6C /* UIKit.framework */,
@@ -522,7 +484,7 @@
 		7B327FF813E3875400274E6C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7BC2153E16A7AEEB00FA8096 /* AirshipConfig.plist */,
+				7B7D5E6017C005680058F129 /* AirshipConfig.plist */,
 				7BC2152C16A31F2800FA8096 /* cell-bg.png */,
 				7B327FF913E3875400274E6C /* Dubsar-Info.plist */,
 				7B327FFD13E3875400274E6C /* Dubsar-Prefix.pch */,
@@ -530,6 +492,7 @@
 				7B327FFA13E3875400274E6C /* InfoPlist.strings */,
 				7B327FFE13E3875400274E6C /* main.m */,
 				7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */,
+				7BBD76C217BD56B000AD2609 /* client_secret.txt */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -727,34 +690,35 @@
 				7BF51997140FE85C00994FC5 /* banner-handle-ipad.png */,
 				7B3D593D140E567A00EE838F /* banner-handle.png */,
 				7BF97904140D97AE00658F39 /* Default@2x.png */,
-				7B2AEDE716B4E26A0058958F /* Default-Landscape@2x~ipad.png */,
-				7B2AEDE416B4E25C0058958F /* Default-Portrait@2x~ipad.png */,
+				7B26358817C1805600DBDFC6 /* Default-Portrait@2x~ipad.png */,
+				7B26358617C1804C00DBDFC6 /* Default-Landscape@2x~ipad.png */,
 				7BF97900140D976900658F39 /* Default-Portrait~ipad.png */,
 				7BF978FB140D975600658F39 /* Default-Landscape~ipad.png */,
 				7B36217E1694FD8000D9CA53 /* Default-568h@2x.png */,
+				7B26357C17C1789B00DBDFC6 /* iTunesArtwork@2x */,
 				7BCE75E913E741C900D1CECC /* iTunesArtwork */,
 				7BB2271713E5B93D005D454F /* Default.png */,
 				7B32805113E3880700274E6C /* dubsar-ipad.png */,
+				7B26357E17C1794400DBDFC6 /* dubsar-ipad-retina.png */,
 				7B32804B13E387E300274E6C /* dubsar-hr.png */,
 				7B32804913E387D500274E6C /* dubsar.png */,
 				7B32803313E387BF00274E6C /* dubsar-full.png */,
 				7B32803613E387BF00274E6C /* dubsar-link-hr.png */,
 				7B32803713E387BF00274E6C /* dubsar-link.png */,
 				7B32803813E387BF00274E6C /* dubsar-search-ipad.png */,
+				7BB6E67717C272F000A5C9A0 /* dubsar-search-ipad-hr.png */,
 				7B32803913E387BF00274E6C /* dubsar-spotlight-hr.png */,
 				7B32803A13E387BF00274E6C /* dubsar-spotlight.png */,
-				7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */,
-				7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */,
 				7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */,
 				7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */,
 				7B917A4813EB5F1500FBF365 /* wedge-blue-l-hr.png */,
 				7B917A4913EB5F1500FBF365 /* wedge-blue-r-hr.png */,
 				7B917A4F13EB600600FBF365 /* wedge-blue-l.png */,
 				7B917A5013EB600600FBF365 /* wedge-blue-r.png */,
-				7B2C2EC816AA02D3000BC87B /* wotd-button-highlighted.png */,
 				7B2C2EC916AA02D3000BC87B /* wotd-button.png */,
-				7B2C2EC416A9C6A9000BC87B /* wotd-button-hr.png */,
-				7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted-hr.png */,
+				7B2C2EC416A9C6A9000BC87B /* wotd-button@2x.png */,
+				7B2C2EC816AA02D3000BC87B /* wotd-button-highlighted.png */,
+				7B2C2EC616A9CD07000BC87B /* wotd-button-highlighted@2x.png */,
 			);
 			name = Images;
 			path = ..;
@@ -887,8 +851,6 @@
 				7B917A4C13EB5F1500FBF365 /* wedge-blue-r-hr.png in Resources */,
 				7B917A5113EB600600FBF365 /* wedge-blue-l.png in Resources */,
 				7B917A5313EB600600FBF365 /* wedge-blue-r.png in Resources */,
-				7B917A6213EB89BB00FBF365 /* dubsar-appstore.png in Resources */,
-				7B917A6813EB8F5E00FBF365 /* dubsar-appstore-highlighted.png in Resources */,
 				7B917A6F13EC18AC00FBF365 /* wedge-white-l-hr.png in Resources */,
 				7B917A7113EC18AC00FBF365 /* wedge-white-r-hr.png in Resources */,
 				7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */,
@@ -905,20 +867,24 @@
 				7B0101441699F648008FC876 /* EditInflectionsViewController_iPhone.xib in Resources */,
 				7BC4472B169A488800BE18DC /* SyncViewController_iPhone.xib in Resources */,
 				7BC2152D16A31F2800FA8096 /* cell-bg.png in Resources */,
-				7BC2153F16A7AEEB00FA8096 /* AirshipConfig.plist in Resources */,
-				7B2C2EC516A9C6A9000BC87B /* wotd-button-hr.png in Resources */,
-				7B2C2EC716A9CD07000BC87B /* wotd-button-highlighted-hr.png in Resources */,
+				7B2C2EC516A9C6A9000BC87B /* wotd-button@2x.png in Resources */,
+				7B2C2EC716A9CD07000BC87B /* wotd-button-highlighted@2x.png in Resources */,
 				7B2C2ECA16AA02D3000BC87B /* wotd-button-highlighted.png in Resources */,
 				7B2C2ECB16AA02D3000BC87B /* wotd-button.png in Resources */,
 				7B9D2C6A16AB912200F31AE8 /* AuguryViewController_iPad.xib in Resources */,
 				7B9D2C7B16ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib in Resources */,
 				7B9D2C8116AE05D800F31AE8 /* InflectionsViewController_iPad.xib in Resources */,
 				7B2AEDDA16B4C20D0058958F /* IntroViewController_iPad.xib in Resources */,
-				7B2AEDE516B4E25C0058958F /* Default-Portrait@2x~ipad.png in Resources */,
-				7B2AEDE816B4E26A0058958F /* Default-Landscape@2x~ipad.png in Resources */,
 				7BDDDC8016B8CE4F0054BC3B /* dubsar-big.png in Resources */,
 				7BDDDC8216B8D2FB0054BC3B /* dubsar-big-highlighted.png in Resources */,
 				7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */,
+				7BBD76C317BD56B000AD2609 /* client_secret.txt in Resources */,
+				7B7D5E6117C005680058F129 /* AirshipConfig.plist in Resources */,
+				7B26357D17C1789B00DBDFC6 /* iTunesArtwork@2x in Resources */,
+				7B26357F17C1794400DBDFC6 /* dubsar-ipad-retina.png in Resources */,
+				7B26358717C1804C00DBDFC6 /* Default-Landscape@2x~ipad.png in Resources */,
+				7B26358917C1805600DBDFC6 /* Default-Portrait@2x~ipad.png in Resources */,
+				7BB6E67817C272F000A5C9A0 /* dubsar-search-ipad-hr.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1084,17 +1050,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					DUBSAR_DEVELOPMENT,
+				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "Airship/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PROVISIONING_PROFILE = "1606FA53-6FDB-47FC-89E9-CE844733E18E";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1104,15 +1072,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jimmy Dee (492446EY7H)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "Airship/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "1606FA53-6FDB-47FC-89E9-CE844733E18E";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1126,12 +1093,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
-				HEADER_SEARCH_PATHS = "Airship/**";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Airship\"",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1144,12 +1106,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
-				HEADER_SEARCH_PATHS = "Airship/**";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Airship\"",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -1175,10 +1132,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				INFOPLIST_FILE = "DubsarTests/DubsarTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Airship\"",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1198,10 +1151,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				INFOPLIST_FILE = "DubsarTests/DubsarTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Airship\"",
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = octest;
