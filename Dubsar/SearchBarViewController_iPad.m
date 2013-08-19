@@ -281,13 +281,13 @@
     
     if (!wordPopoverController) {
         self.wordPopoverController = [[[UIPopoverController alloc]initWithContentViewController:viewController]autorelease];
-        viewController.popoverController = wordPopoverController;
-        viewController.navigationController = _navigationController;
     }
     else {
         [wordPopoverController setContentViewController:viewController];
     }
-    
+    viewController.popoverController = wordPopoverController;
+    viewController.navigationController = _navigationController;
+
     if (!wordPopoverController.popoverVisible) {
         [wordPopoverController presentPopoverFromRect:wotdButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }

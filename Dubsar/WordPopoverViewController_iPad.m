@@ -79,11 +79,14 @@
 - (IBAction)loadWord:(id)sender
 {
     if (!word.complete || word.error) return;
-        
+
+    assert(popoverController);
     [popoverController dismissPopoverAnimated:YES];
     
     WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:nil]autorelease];
     [viewController load];
+
+    assert(navigationController);
     [navigationController pushViewController:viewController animated:YES];
     
     headerLabel.backgroundColor = origBg;
