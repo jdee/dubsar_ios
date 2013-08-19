@@ -26,6 +26,7 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
+				<string>dubsar-search-ipad-hr.png</string>
 				<string>dubsar-search-ipad.png</string>
 				<string>dubsar-spotlight.png</string>
 				<string>dubsar.png</string>
