@@ -136,8 +136,6 @@
 		7B917A4C13EB5F1500FBF365 /* wedge-blue-r-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A4913EB5F1500FBF365 /* wedge-blue-r-hr.png */; };
 		7B917A5113EB600600FBF365 /* wedge-blue-l.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A4F13EB600600FBF365 /* wedge-blue-l.png */; };
 		7B917A5313EB600600FBF365 /* wedge-blue-r.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A5013EB600600FBF365 /* wedge-blue-r.png */; };
-		7B917A6213EB89BB00FBF365 /* dubsar-appstore.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */; };
-		7B917A6813EB8F5E00FBF365 /* dubsar-appstore-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */; };
 		7B917A6F13EC18AC00FBF365 /* wedge-white-l-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */; };
 		7B917A7113EC18AC00FBF365 /* wedge-white-r-hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */; };
 		7B917A7513EC3CD600FBF365 /* DailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B917A7413EC3CD600FBF365 /* DailyWord.m */; };
@@ -357,8 +355,6 @@
 		7B917A4913EB5F1500FBF365 /* wedge-blue-r-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-blue-r-hr.png"; path = "Images/wedge-blue-r-hr.png"; sourceTree = "<group>"; };
 		7B917A4F13EB600600FBF365 /* wedge-blue-l.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-blue-l.png"; path = "Images/wedge-blue-l.png"; sourceTree = "<group>"; };
 		7B917A5013EB600600FBF365 /* wedge-blue-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-blue-r.png"; path = "Images/wedge-blue-r.png"; sourceTree = "<group>"; };
-		7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-appstore.png"; path = "Images/dubsar-appstore.png"; sourceTree = "<group>"; };
-		7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dubsar-appstore-highlighted.png"; path = "Images/dubsar-appstore-highlighted.png"; sourceTree = "<group>"; };
 		7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-white-l-hr.png"; path = "Images/wedge-white-l-hr.png"; sourceTree = "<group>"; };
 		7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wedge-white-r-hr.png"; path = "Images/wedge-white-r-hr.png"; sourceTree = "<group>"; };
 		7B917A7313EC3CD600FBF365 /* DailyWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWord.h; sourceTree = "<group>"; };
@@ -713,8 +709,6 @@
 				7BB6E67717C272F000A5C9A0 /* dubsar-search-ipad-hr.png */,
 				7B32803913E387BF00274E6C /* dubsar-spotlight-hr.png */,
 				7B32803A13E387BF00274E6C /* dubsar-spotlight.png */,
-				7B917A6713EB8F5E00FBF365 /* dubsar-appstore-highlighted.png */,
-				7B917A6113EB89BA00FBF365 /* dubsar-appstore.png */,
 				7B917A6D13EC18AB00FBF365 /* wedge-white-l-hr.png */,
 				7B917A6E13EC18AB00FBF365 /* wedge-white-r-hr.png */,
 				7B917A4813EB5F1500FBF365 /* wedge-blue-l-hr.png */,
@@ -857,8 +851,6 @@
 				7B917A4C13EB5F1500FBF365 /* wedge-blue-r-hr.png in Resources */,
 				7B917A5113EB600600FBF365 /* wedge-blue-l.png in Resources */,
 				7B917A5313EB600600FBF365 /* wedge-blue-r.png in Resources */,
-				7B917A6213EB89BB00FBF365 /* dubsar-appstore.png in Resources */,
-				7B917A6813EB8F5E00FBF365 /* dubsar-appstore-highlighted.png in Resources */,
 				7B917A6F13EC18AC00FBF365 /* wedge-white-l-hr.png in Resources */,
 				7B917A7113EC18AC00FBF365 /* wedge-white-r-hr.png in Resources */,
 				7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */,
