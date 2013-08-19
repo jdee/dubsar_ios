@@ -127,8 +127,10 @@
     if (newPage == search.currentPage) return ;
     
     [self setSearchTitle:[NSString stringWithFormat:@"Search \"%@\" p. %d of %d", search.title, newPage, search.totalPages]];
-    
+
+#ifdef DEBUG
     NSLog(@"page changed to %d, requesting...", pageControl.currentPage);
+#endif // DEBUG
     pageControl.enabled = NO;
 
     // not interested in the old search any more
@@ -325,21 +327,27 @@
 
 - (void)loadComplete:(Model*)model withError:(NSString *)error
 {
+#ifdef DEBUG
     NSLog(@"received search response");
+#endif // DEBUG
     Search* theSearch = (Search*)model;
 
     /*
      * Ignore old responses.
      */
     if (search != theSearch) {
+#ifdef DEBUG
         NSLog(@"ignoring old response");
+#endif // DEBUG
         return;
     }
         
     if (!search.error) {
+#ifdef DEBUG
         NSLog(@"search completed without error: %d total pages", search.totalPages);
         NSLog(@"search title: \"%@\"", search.title);
-        
+#endif // DEBUG
+
         pageControl.numberOfPages = search.totalPages;
         pageControl.hidden = search.totalPages <= 1;
         pageControl.enabled = YES;

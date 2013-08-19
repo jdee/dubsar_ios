@@ -62,8 +62,10 @@
     if ([ptype isEqualToString:@"synonym"] ||
         [ptype isEqualToString:@"verb frame"] ||
         [ptype isEqualToString:@"sample sentence"]) return _numRows;
-    
+
+#ifdef DEBUG
     NSLog(@"counting rows");
+#endif // DEBUG
 
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)UIApplication.sharedApplication.delegate;
     NSString* sql;
@@ -86,12 +88,16 @@
         NSLog(@"error %d preparing statement", rc);
         return 0;
     }
-    
+
+#ifdef DEBUG
     NSLog(@"executing %@", sql);
+#endif // DEBUG
     int count;
     if (sqlite3_step(statement) == SQLITE_ROW) {
         count = sqlite3_column_int(statement, 0);
+#ifdef DEBUG
         NSLog(@"%d rows of type %@", count, ptype);
+#endif // DEBUG
     }
     
     sqlite3_finalize(statement);

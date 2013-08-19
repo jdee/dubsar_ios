@@ -130,7 +130,9 @@
     editing = false;
     
     theSearchBar.text = preEditText;
+#ifdef DEBUG
     NSLog(@"canceled, restored search text to \"%@\"", preEditText);
+#endif // DEBUG
     self.preEditText = nil;
     [autocompleterTableView setHidden:YES];
     [theSearchBar resignFirstResponder];
@@ -142,7 +144,9 @@
     editing = true;
     
     self.preEditText = [NSString stringWithString:searchBar.text];
+#ifdef DEBUG
     NSLog(@"editing began, started with \"%@\"", preEditText);
+#endif // DEBUG
     theSearchBar.showsCancelButton = YES;
 }
 

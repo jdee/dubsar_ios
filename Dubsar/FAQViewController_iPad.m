@@ -88,7 +88,9 @@
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView
 {
     if (!ready) {
+#ifdef DEBUG
         NSLog(@"requesting FAQ");
+#endif // DEBUG
         NSURLRequest* request = [NSURLRequest requestWithURL:url];
         [webView loadRequest:request];
         ready = true;

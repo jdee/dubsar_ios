@@ -76,7 +76,9 @@
     DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)[UIApplication sharedApplication].delegate;
 
     [forwardStack pushViewController:self.topViewController];
+#ifdef DEBUG
     NSLog(@"pushed view controller %@ onto forward stack", self.topViewController.title);
+#endif // DEBUG
     
     [super popViewControllerAnimated:animated];
     

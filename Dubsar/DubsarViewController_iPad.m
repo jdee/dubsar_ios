@@ -75,7 +75,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+#ifdef DEBUG
     NSLog(@"In [DubsarViewController_iPad viewWillAppear:]");
+#endif // DEBUG
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     appDelegate.wotdUnread = false;
     [dailyWord load];
@@ -109,7 +111,9 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
+#ifdef DEBUG
     NSLog(@"daily word load complete");
+#endif // DEBUG
     DailyWord* theDailyWord = (DailyWord*)model;
 
     if (theDailyWord.error) {

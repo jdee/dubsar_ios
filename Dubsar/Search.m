@@ -55,7 +55,9 @@ static int _seqNum = 0;
 
 -(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum
 {
+#ifdef DEBUG
     NSLog(@"constructing search for \"%@\"", theTerm);
+#endif // DEBUG
     
     self = [super init];
     if (self) {   
@@ -79,7 +81,9 @@ static int _seqNum = 0;
 
 -(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum
 {
+#ifdef DEBUG
     NSLog(@"constructing search for \"%@\"", theTerm);
+#endif // DEBUG
     
     self = [super init];
     if (self) {   
@@ -106,7 +110,9 @@ static int _seqNum = 0;
 
 -(id)initWithWildcard:(NSString *)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum
 {
+#ifdef DEBUG
     NSLog(@"constructing search for \"%@\"", regexp);
+#endif // DEBUG
     
     self = [super init];
     if (self) {   
@@ -238,11 +244,15 @@ static int _seqNum = 0;
             return;
         }
     }
-    
+
+#ifdef DEBUG
     NSLog(@"executing \"%@\"", countSql);
+#endif // DEBUG
     if (sqlite3_step(countStmt) == SQLITE_ROW) {
         int totalRows = sqlite3_column_int(countStmt, 0);
+#ifdef DEBUG
         NSLog(@"count statement returned %d total matching rows", totalRows);
+#endif // DEBUG
         totalPages = totalRows/NUM_PER_PAGE;
         if (totalRows % NUM_PER_PAGE != 0) {
             ++ totalPages;
@@ -257,8 +267,10 @@ static int _seqNum = 0;
     if (currentPage > 1) {
         sql = [sql stringByAppendingFormat:@"OFFSET %d ", (currentPage-1)*NUM_PER_PAGE];
     }
-    
+
+#ifdef DEBUG
     NSLog(@"preparing SQL statement \"%@\"", sql);
+#endif // DEBUG
     
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(appDelegate.database,
@@ -267,7 +279,9 @@ static int _seqNum = 0;
         return;
     }
     else {
+#ifdef DEBUG
         NSLog(@"prepared statement successfully");
+#endif // DEBUG
     }
     
     int termIdx = sqlite3_bind_parameter_index(statement, ":term");
@@ -282,7 +296,9 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return;   
         }
+#ifdef DEBUG
         NSLog(@"bound :term to \"%@\"", term);
+#endif // DEBUG
     }
     if (c1Idx != 0) {
         if ((rc=sqlite3_bind_text(statement, c1Idx, [capital1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
@@ -290,7 +306,9 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return; 
         }
+#ifdef DEBUG
         NSLog(@"bound :capital1 to \"%@\"", capital1);
+#endif // DEBUG
     }
     if (c2Idx != 0) {
         if ((rc=sqlite3_bind_text(statement, c2Idx, [capital2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
@@ -298,7 +316,9 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return;
         }
+#ifdef DEBUG
         NSLog(@"bound :capital2 to \"%@\"", capital2);
+#endif // DEBUG
     }
     if (l1Idx != 0) {
         if ((rc=sqlite3_bind_text(statement, l1Idx, [lower1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
@@ -306,7 +326,9 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return;
         }
+#ifdef DEBUG
         NSLog(@"bound :lower1 to \"%@\"", lower1);
+#endif // DEBUG
     }
     if (l2Idx != 0) {
         if ((rc=sqlite3_bind_text(statement, l2Idx, [lower2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
@@ -314,18 +336,24 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return;
         }
+#ifdef DEBUG
         NSLog(@"bound :lower2 to \"%@\"", lower2);
+#endif // DEBUG
     }
     
     while (sqlite3_step(statement) == SQLITE_ROW && results.count < NUM_PER_PAGE) {
+#ifdef DEBUG
         NSLog(@"found matching row");
+#endif // DEBUG
         int _id = sqlite3_column_int(statement, 0);
         char const* _name = (char const*)sqlite3_column_text(statement, 1);
         char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
         int freqCnt = sqlite3_column_int(statement, 3);
-        
+
+#ifdef DEBUG
         NSLog(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d",
               _id, _name, _part_of_speech, freqCnt);
+#endif // DEBUG
         
         PartOfSpeech partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
         NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
@@ -357,8 +385,10 @@ static int _seqNum = 0;
     }
     
     sqlite3_finalize(statement);
-    
+
+#ifdef DEBUG
     NSLog(@"completed database search (delegate is %@)", (self.delegate == nil ? @"nil" : @"not nil"));
+#endif // DEBUG
 }
 
 - (void)loadFulltextResults:(DubsarAppDelegate *)appDelegate
@@ -368,7 +398,9 @@ static int _seqNum = 0;
     sqlite3_stmt* statement;
     
     NSString* countSql = @"SELECT COUNT(*) FROM words WHERE id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term )";
+#ifdef DEBUG
     NSLog(@"preparing statement %@", countSql);
+#endif // DEBUG
     if ((rc=sqlite3_prepare_v2(appDelegate.database, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;
@@ -383,7 +415,9 @@ static int _seqNum = 0;
     
     if (sqlite3_step(statement) == SQLITE_ROW) {
         int totalRows = sqlite3_column_int(statement, 0);
+#ifdef DEBUG
         NSLog(@"count statement returned %d total matching rows", totalRows);
+#endif // DEBUG
         totalPages = totalRows/NUM_PER_PAGE;
         if (totalRows % NUM_PER_PAGE != 0) {
             ++ totalPages;
@@ -394,7 +428,9 @@ static int _seqNum = 0;
     // number of exact matches
     int numExact = 0;
     sql = @"SELECT COUNT(*) FROM words w INNER JOIN inflections i ON i.word_id = w.id WHERE i.name = ?";
+#ifdef DEBUG
     NSLog(@"preparing statement %@", sql);
+#endif // DEBUG
     if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;        
@@ -407,7 +443,9 @@ static int _seqNum = 0;
     
     if (sqlite3_step(statement) == SQLITE_ROW) {
         numExact = sqlite3_column_int(statement, 0);
+#ifdef DEBUG
         NSLog(@"%d exact matches", numExact);
+#endif // DEBUG
     }
     sqlite3_finalize(statement);
    
@@ -432,7 +470,9 @@ static int _seqNum = 0;
         @"INNER JOIN inflections i ON i.word_id = w.id "
         @"WHERE i.name = ? "
         @"ORDER BY w.name ASC, w.freq_cnt DESC, w.part_of_speech ASC";
+#ifdef DEBUG
         NSLog(@"preparing statement %@", exactSql);
+#endif // DEBUG
         if ((rc=sqlite3_prepare_v2(appDelegate.database, [exactSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
             return;          
@@ -444,14 +484,18 @@ static int _seqNum = 0;
         }
         
         while (sqlite3_step(statement) == SQLITE_ROW) {
+#ifdef DEBUG
             NSLog(@"found matching row");
+#endif // DEBUG
             int _id = sqlite3_column_int(statement, 0);
             char const* _name = (char const*)sqlite3_column_text(statement, 1);
             char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
             int freqCnt = sqlite3_column_int(statement, 3);
-            
+
+#ifdef DEBUG
             NSLog(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d",
                   _id, _name, _part_of_speech, freqCnt);
+#endif // DEBUG
             
             PartOfSpeech partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
             NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
@@ -463,17 +507,21 @@ static int _seqNum = 0;
         
         sqlite3_finalize(statement);
     }
-    
+
+#ifdef DEBUG
     NSLog(@"preparing SQL statement \"%@\"", sql);
+#endif // DEBUG
     
     if ((rc=sqlite3_prepare_v2(appDelegate.database,
                                [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;
     }
+#ifdef DEBUG
     else {
         NSLog(@"prepared statement successfully");
     }
+#endif // DEBUG
     
     termIdx = sqlite3_bind_parameter_index(statement, ":term");    
     if (termIdx != 0) {
@@ -482,18 +530,24 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return;   
         }
+#ifdef DEBUG
         NSLog(@"bound :term to \"%@\"", term);
+#endif // DEBUG
     }
     
     while (sqlite3_step(statement) == SQLITE_ROW && results.count < NUM_PER_PAGE) {
+#ifdef DEBUG
         NSLog(@"found matching row");
+#endif // DEBUG
         int _id = sqlite3_column_int(statement, 0);
         char const* _name = (char const*)sqlite3_column_text(statement, 1);
         char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
         int freqCnt = sqlite3_column_int(statement, 3);
-        
+
+#ifdef DEBUG
         NSLog(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d",
               _id, _name, _part_of_speech, freqCnt);
+#endif // DEBUG
         
         PartOfSpeech partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
         NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
@@ -529,8 +583,10 @@ static int _seqNum = 0;
     }
     
     sqlite3_finalize(statement);
-    
+
+#ifdef DEBUG
     NSLog(@"completed database search (delegate is %@)", (self.delegate == nil ? @"nil" : @"not nil"));
+#endif // DEBUG
 }
 
 - (void)parseData
@@ -541,8 +597,10 @@ static int _seqNum = 0;
     totalPages = pages.intValue;
     
     results = [[NSMutableArray arrayWithCapacity:list.count]retain];
+#ifdef DEBUG
     NSLog(@"search request for \"%@\" returned %d results", [response objectAtIndex:0], list.count);
     NSLog(@"(%d total pages)", totalPages);
+#endif
     int j;
     for (j=0; j<list.count; ++j) {
         NSArray* entry = [list objectAtIndex:j];

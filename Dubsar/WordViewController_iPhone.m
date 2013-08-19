@@ -86,7 +86,9 @@
 
 - (void)load
 {
+#ifdef DEBUG
     NSLog(@"in [WordViewController_iPhone load]");
+#endif // DEBUG
     if (!self.loading) {
         self.loading = true;
         [word load];
@@ -103,7 +105,9 @@
 
 - (void)createToolbarItems
 {
+#ifdef DEBUG
     NSLog(@"In createToolbarItems");
+#endif // DEBUG
     NSMutableArray* buttons = [NSMutableArray array];
     UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
     [buttons addObject:homeButtonItem];
@@ -165,9 +169,11 @@
     
     firstSenseViewController.view.bounds = bounds;
     firstSenseViewController.view.frame = frame;
-    
+
+#ifdef DEBUG
     NSLog(@"bounds: origin.x=%f, origin.y=%f, size.width=%f, size.height=%f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
     NSLog(@"frame: origin.x=%f, origin.y=%f, size.width=%f, size.height=%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+#endif // DEBUG
     
     firstSenseViewController.autocompleterTableView.hidden = YES;
     firstSenseViewController.searchBar.hidden = YES;
@@ -186,7 +192,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+#ifdef DEBUG
     NSLog(@"entering [WordViewController_iPhone viewWillAppear:]");
+#endif // DEBUG
     [super viewWillAppear:animated];
     
     if (word.complete) {
@@ -203,8 +211,10 @@
     }
         
     if (!actualNavigationController) self.actualNavigationController = self.navigationController;
-    
+
+#ifdef DEBUG
     NSLog(@"exiting [WordViewController_iPhone viewWillAppear:]");
+#endif // DEBUG
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)theTableView
@@ -351,15 +361,19 @@
     }
     
     [self createToolbarItems];
-    
+
+#ifdef DEBUG
     NSLog(@"word %@ inflections \"%@\"", word.nameAndPos, word.inflections);
+#endif // DEBUG
    
     if (!customTitle) self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
 
     [self adjustBanner];
     [inflectionsViewController loadComplete];
-    
+
+#ifdef DEBUG
     NSLog(@"Load complete; adjusting table view");
+#endif // DEBUG
     [self setTableViewFrame];
     [tableView reloadData];
     
@@ -453,12 +467,16 @@
 
 - (void)modalViewControllerDismissed:(UIViewController *)viewController mustReload:(BOOL)reload
 {
+#ifdef DEBUG
     NSLog(@"entering modalViewControllerDismissed:mustReload:");
     NSLog(@"Word controller %s reload", reload ? "must" : "need not");
+#endif // DEBUG
     [parentDataSource setComplete:!reload];
     self.loading = false;
     if (reload) [self load];
+#ifdef DEBUG
     NSLog(@"exiting modalViewControllerDismissed:mustReload:");
+#endif // DEBUG
 }
 
 - (void)togglePreview

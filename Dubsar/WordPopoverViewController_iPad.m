@@ -69,7 +69,9 @@
 
 - (void)load
 {
+#ifdef DEBUG
     NSLog(@"loading, word is %@complete", word.complete ? @"" : @"not ");
+#endif // DEBUG
     
     if (!word.complete) {
         [word load];
@@ -281,21 +283,29 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
+#ifdef DEBUG
     NSLog(@"load complete");
+#endif // DEBUG
     if (model != word) return;
-    
+
+#ifdef DEBUG
     NSLog(@"correct model found");
+#endif // DEBUG
     
     if (error) {
+#ifdef DEBUG
         NSLog(@"displaying error");
+#endif // DEBUG
         [_tableView setHidden:YES];
         [headerLabel setText:@"ERROR"];
         [inflectionsTextView setText:error];
         return;
     }
-    
+
+#ifdef DEBUG
     NSLog(@"popover controller received word response");
     NSLog(@"freq. cnt.: %d; inflections: \"%@\"", word.freqCnt, word.inflections);
+#endif // DEBUG
     
     [self adjustPopoverSize];    
     [self adjustTableViewFrame];
@@ -308,7 +318,9 @@
 - (void)adjustTableViewFrame
 {
     CGRect frame = _tableView.frame;
+#ifdef DEBUG
     NSLog(@"initial table view frame: (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+#endif // DEBUG
     
     // the inflections label is hidden if it would be empty
     
@@ -324,11 +336,15 @@
     float height = word.complete ? 66.0 * word.senses.count : 66.0;
     _tableView.contentSize = CGSizeMake(frame.size.width, height);
 
+#ifdef DEBUG
     NSLog(@"adjusting origin to %f; tableView height is %f", frame.origin.y, frame.size.height);
     NSLog(@"%d section(s) in tableView", [self numberOfSectionsInTableView:_tableView]);
+#endif // DEBUG
     
     _tableView.frame = frame;
+#ifdef DEBUG
     NSLog(@"adjusted table view frame: (%f, %f) %fx%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+#endif // DEBUG
 }
 
 - (void)adjustPopoverSize
@@ -339,8 +355,10 @@
     float popoverHeight = offset + (word.error ? 0.0 : 66.0*word.senses.count);
     
     if (popoverHeight > screenHeight) popoverHeight = screenHeight;
-    
+
+#ifdef DEBUG
     NSLog(@"adjusting popoverHeight to %f", popoverHeight);
+#endif // DEBUG
     
     CGSize popoverSize = CGSizeMake(320.0, popoverHeight);
 
@@ -351,7 +369,9 @@
 - (void)adjustTitle
 {
     NSString* title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
+#ifdef DEBUG
     NSLog(@"adjusting title: \"%@\"", title);
+#endif // DEBUG
     headerLabel.text = title;
 }
 

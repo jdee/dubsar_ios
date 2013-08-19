@@ -224,8 +224,10 @@
     /* SQL query */
     Pointer* pointer = [sense pointerForRowAtIndexPath:indexPath];
     if (pointer == nil) return; // error
-    
+
+#ifdef DEBUG
     NSLog(@"Table view row tapped. actualNavigationController is%s nil", actualNavigationController == nil ? "" : " not");
+#endif // DEBUG
 
     SenseViewController_iPad* senseViewController;
     if ([_linkType isEqualToString:@"sense"]) {
@@ -434,7 +436,9 @@
 {
     WordPopoverViewController_iPad* wordViewController;
     if (popoverController == nil) {
+#ifdef DEBUG
         NSLog(@"creating popover, word is %@complete", sense.word.complete ? @"" : @"not ");
+#endif // DEBUG
         
         wordViewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word]autorelease];
         [wordViewController load];
@@ -445,7 +449,9 @@
     }
     else {
         wordViewController = (WordPopoverViewController_iPad*)popoverController.contentViewController;
+#ifdef DEBUG
         NSLog(@"popover already loaded for %@", wordViewController.word.name);
+#endif // DEBUG
     }
     
     UIView* senderView = (UIView*)sender;

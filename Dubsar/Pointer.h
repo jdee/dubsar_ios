@@ -23,7 +23,6 @@
 
 @property (nonatomic, retain) NSString* targetType;
 @property (nonatomic) int targetId;
-// @property (nonatomic, retain) NSString* targetName;
 @property (nonatomic, retain) NSString* targetText;
 @property (nonatomic, retain) NSString* targetGloss;
 

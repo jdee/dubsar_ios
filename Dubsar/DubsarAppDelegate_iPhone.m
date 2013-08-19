@@ -72,7 +72,9 @@
     }
     
     if ([url.path hasPrefix:@"/wotd/"]) {
+#ifdef DEBUG
         NSLog(@"Opening %@", url);
+#endif // DEBUG
         
         int wordId = [[url lastPathComponent] intValue];
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
@@ -86,7 +88,9 @@
     }
     
     if ([url.path hasPrefix:@"/words/"]) {
+#ifdef DEBUG
         NSLog(@"Opening %@", url);
+#endif // DEBUG
         
         int wordId = [[url lastPathComponent] intValue];
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
@@ -98,7 +102,9 @@
     }
     
     if ([url.path hasPrefix:@"/senses/"]) {
+#ifdef DEBUG
         NSLog(@"Opening %@", url);
+#endif // DEBUG
         
         int senseId = [[url lastPathComponent] intValue];
         Sense* sense = [Sense senseWithId:senseId name:nil partOfSpeech:POSUnknown];
@@ -110,7 +116,9 @@
     }
     
     if ([url.path hasPrefix:@"/synsets/"]) {
+#ifdef DEBUG
         NSLog(@"Opening %@", url);
+#endif // DEBUG
         
         int synsetId = [[url lastPathComponent] intValue];
         Synset* synset = [Synset synsetWithId:synsetId partOfSpeech:POSUnknown];

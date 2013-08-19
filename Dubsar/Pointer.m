@@ -22,7 +22,6 @@
 @implementation Pointer
 @synthesize targetType;
 @synthesize targetId;
-// @synthesize targetName;
 @synthesize targetText;
 @synthesize targetGloss;
 
@@ -35,7 +34,7 @@
 {
     self = [super init];
     if (self) {
-        targetType = targetText = targetGloss =/* targetName =*/ nil;
+        targetType = targetText = targetGloss = nil;
         targetId = 0;
     }
     

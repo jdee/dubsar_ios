@@ -121,9 +121,11 @@
     
     firstWordViewController.view.bounds = bounds;
     firstWordViewController.view.frame = frame;
-    
+
+#ifdef DEBUG
     NSLog(@"bounds: origin.x=%f, origin.y=%f, size.width=%f, size.height=%f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
     NSLog(@"frame: origin.x=%f, origin.y=%f, size.width=%f, size.height=%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+#endif // DEBUG
 }
 
 - (void)viewDidUnload
@@ -291,8 +293,10 @@
 {
     int newPage = _pageControl.currentPage + 1;
     if (newPage == search.currentPage) return ;
-    
+
+#ifdef DEBUG
     NSLog(@"page changed to %d, requesting...", _pageControl.currentPage);
+#endif // DEBUG
     _pageControl.enabled = NO;
 
     [self setSearchTitle:[NSString stringWithFormat:@"\"%@\" p. %d of %d", search.title, newPage, search.totalPages]];
@@ -322,9 +326,11 @@
     if (model != search) return;
     
     if (!error) {
+#ifdef DEBUG
         NSLog(@"search complete");
         NSLog(@"search completed without error: %d total pages", search.totalPages);
         NSLog(@"search title: \"%@\"", search.title);
+#endif // DEBUG
     
         _pageControl.numberOfPages = search.totalPages;
         _pageControl.hidden = search.totalPages <= 1;
@@ -362,8 +368,10 @@
     frame.size.height = height;
     
     _tableView.frame = frame;
- 
+
+#ifdef DEBUG
     NSLog(@"table view origin y: %f", _tableView.frame.origin.y);
+#endif // DEBUG
 }
 
 - (void)setSearchTitle:(NSString *)theTitle

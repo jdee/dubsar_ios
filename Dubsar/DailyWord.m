@@ -115,9 +115,11 @@
         NSLog(@"User defaults value for %@: %@", DubsarDailyWordIdKey, [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey]);
         return false;
     }
+#ifdef DEBUG
     else {
         NSLog(@"Found wotd in user defaults, id %d", wotdId);
     }
+#endif // DEBUG
     
     self.word = [Word wordWithId:wotdId name:nil partOfSpeech:POSUnknown];
     self.word.delegate = self;
@@ -137,7 +139,9 @@
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
 {
+#ifdef DEBUG
     NSLog(@"Loaded WOTD");
+#endif // DEBUG
     [self.delegate loadComplete:self withError:error];
 }
 

@@ -276,8 +276,10 @@
         [bannerLabel setText:error];
         return;
     }
-    
+
+#ifdef DEBUG
     NSLog(@"word load complete with %u senses", word.senses.count);
+#endif // DEBUG
     
     [self setTableViewHeight];
 
@@ -298,7 +300,9 @@
     }
     
     if (!previewShowing) {
+#ifdef DEBUG
         NSLog(@"Showing preview");
+#endif // DEBUG
         [self togglePreview:nil];
     }
 
@@ -413,7 +417,9 @@
             previewViewController.sense.delegate = previewViewController;
             previewViewController.actualNavigationController = self.actualNavigationController;
             [previewViewController load];
+#ifdef DEBUG
             NSLog(@"sense view controller loading");
+#endif // DEBUG
         }
         
         CGRect frame = previewViewController.view.frame;

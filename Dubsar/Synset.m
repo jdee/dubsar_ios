@@ -98,14 +98,18 @@
     NSArray* response = [[self decoder] objectWithData:[self data]];
     partOfSpeech = [PartOfSpeechDictionary partOfSpeechFromPOS:[response objectAtIndex:1]];
     lexname = [[response objectAtIndex:2] retain];
+#ifdef DEBUG
     NSLog(@"lexname: \"%@\"", lexname);
+#endif // DEBUG
     if (!gloss) {
         gloss = [[response objectAtIndex:3] retain];
     }
     samples = [[response objectAtIndex:4] retain];
     NSNumber* _freqCnt;
     NSArray* _senses = [response objectAtIndex:5];
+#ifdef DEBUG
     NSLog(@"found %u senses", _senses.count);
+#endif // DEBUG
     senses = [[NSMutableArray arrayWithCapacity:_senses.count]retain];
     for (int j=0; j<_senses.count; ++j) {
         NSArray* _sense = [_senses objectAtIndex:j];
@@ -200,8 +204,10 @@
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         return;
     }
-    
+
+#ifdef DEBUG
     NSLog(@"executing %@", sql);
+#endif // DEBUG
     freqCnt = 0;
     self.senses = [NSMutableArray array];
     while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -247,7 +253,9 @@
 
 -(int)numberOfSections
 {
+#ifdef DEBUG
     NSLog(@"in numberOfSections");
+#endif // DEBUG
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)UIApplication.sharedApplication.delegate;
     
     NSString* sql;
@@ -282,8 +290,10 @@
         NSLog(@"%@", self.errorMessage);
         return 1;
     }
-    
+
+#ifdef DEBUG
     NSLog(@"executing %@", sql);
+#endif // DEBUG
     while (sqlite3_step(statement) == SQLITE_ROW) {
         char const* _ptype = (char const*)sqlite3_column_text(statement, 0);
         
@@ -298,7 +308,9 @@
         [sections addObject:section];
     }
     sqlite3_finalize(statement);
+#ifdef DEBUG
     NSLog(@"%d sections in tableView", sections.count);
+#endif // DEBUG
     return sections.count;
 }
 
@@ -309,7 +321,9 @@
     
     if ([section.ptype isEqualToString:@"synonym"]) {
         Sense* synonym = [senses objectAtIndex:indexPath.row];
+#ifdef DEBUG
         NSLog(@"requesting synonym %@", synonym.name);
+#endif // DEBUG
         pointer.targetText = synonym.name;
         pointer.targetId = synonym._id;
         pointer.targetType = @"sense";
@@ -405,8 +419,10 @@
     "INNER JOIN words w ON w.id = se.word_id "
     "WHERE sy.id = ? "
     "ORDER BY w.name ASC";
-    
+
+#ifdef DEBUG
     NSLog(@"preparing semantic query %s", csql);
+#endif // DEBUG
     if ((rc=sqlite3_prepare_v2(appDelegate.database, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing semantic query", rc);
         return;

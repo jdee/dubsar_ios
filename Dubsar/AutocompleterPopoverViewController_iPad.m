@@ -176,8 +176,10 @@
     NSString* text = [autocompleter.results objectAtIndex:indexPath.row];
     // [searchBar setText:text];
     [searchBar resignFirstResponder];
-    
+
+#ifdef DEBUG
     NSLog(@"searching for \"%@\"", text);
+#endif // DEBUG
     
     SearchViewController_iPad* searchViewController = [[[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text:[text lowercaseString] matchCase:NO]autorelease];
     [searchViewController load];

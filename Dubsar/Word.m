@@ -115,7 +115,9 @@
                      @"ORDER BY i.name ASC ", _id];
     int rc;
     sqlite3_stmt* statement;
+#ifdef DEBUG
     NSLog(@"preparing statement \"%@\"", sql);
+#endif // DEBUG
     if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
@@ -133,14 +135,18 @@
         
         NSString* inflection = [NSString stringWithCString:_inflection encoding:NSUTF8StringEncoding];
         [self addInflection:inflection];
+#ifdef DEBUG
         NSLog(@"added inflection %@", inflection);
+#endif // DEBUG
         
         if (partOfSpeech == POSUnknown) {
             partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
         }
     }
-    
+
+#ifdef DEBUG
     NSLog(@"%d inflections", inflections.count);
+#endif // DEBUG
     
     sqlite3_finalize(statement);
 
@@ -149,8 +155,10 @@
            @"INNER JOIN synsets sy ON se.synset_id = sy.id "
            @"WHERE se.word_id = %d "
            @"ORDER BY se.freq_cnt DESC ", _id];
-    
+
+#ifdef DEBUG
     NSLog(@"preparing statement \"%@\"", sql);
+#endif // DEBUG
     if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
@@ -176,7 +184,9 @@
                             @"ORDER BY w.name ASC ", synsetId];
         
         sqlite3_stmt* synStatement;
+#ifdef DEBUG
         NSLog(@"preparing statement \"%@\"", synSql);
+#endif // DEBUG
         if ((rc=sqlite3_prepare_v2(appDelegate.database, [synSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &synStatement, NULL))
             != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
@@ -194,8 +204,9 @@
         while (sqlite3_step(synStatement) == SQLITE_ROW) {
             int synonymSenseId = sqlite3_column_int(synStatement, 0);
             char const* _synonym = (char const*)sqlite3_column_text(synStatement, 1);
-            
+#ifdef DEBUG
             NSLog(@"synonym %s (%d)", _synonym, synonymSenseId);
+#endif // DEBUG
     
             Sense* synonym = [Sense senseWithId:synonymSenseId name:[NSString stringWithCString:_synonym encoding:NSUTF8StringEncoding] partOfSpeech:partOfSpeech];
             [synonyms addObject:synonym];
@@ -209,12 +220,15 @@
         sense.freqCnt = senseFC;
         sense.marker = _marker == NULL ? nil : [NSString stringWithCString:_marker encoding:NSUTF8StringEncoding];
         [senses addObject:sense];
-        
+#ifdef DEBUG
         NSLog(@"added sense ID %d, gloss \"%@\", lexname \"%@\", freq. cnt. %d", senseId, gloss, sense.lexname, senseFC);
+#endif // DEBUG
     }
     
     sqlite3_finalize(statement);
+#ifdef DEBUG
     NSLog(@"completed word query");
+#endif // DEBUG
 }
 
 -(void)parseData

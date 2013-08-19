@@ -148,7 +148,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"connection to UA failed: %@", error.localizedDescription);
+    NSLog(@"HTTPS connection failed: %@", error.localizedDescription);
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
@@ -157,11 +157,12 @@
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
     NSURL* url = httpResp.URL;
 
-    NSLog(@"response status code from %@: %d", url.absoluteString, httpResp.statusCode);
+    NSLog(@"response status code from %@: %d", url.host, httpResp.statusCode);
 
     if ([url.host hasSuffix:@".urbanairship.com"] && ((httpResp.statusCode >= 200 && httpResp.statusCode < 300) || httpResp.statusCode == 404))
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DubsarUADisabled"];
+        NSLog(@"Set DubsarUADisabled to YES");
     }
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -267,7 +268,9 @@
     }
 
     NSString* token = [NSString stringWithCString:sdata encoding:NSUTF8StringEncoding];
+#ifdef DEBUG
     NSLog(@"Device token is %@", token);
+#endif // DEBUG
 
     BOOL uaDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"DubsarUADisabled"];
     NSLog(@"DubsarUADisabled = %@", (uaDisabled == YES ? @"YES" : @"NO"));

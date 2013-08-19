@@ -160,8 +160,10 @@
         [r addObject:[list objectAtIndex:j]];
     }
     _results = r;
-    
+
+#ifdef DEBUG
     NSLog(@"autocompleter for term \"%@\" (URL \"%@\") finished with %d results:", [response objectAtIndex:0], [self _url], _results.count);
+#endif // DEBUG
 }
 
 @end

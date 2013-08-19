@@ -188,10 +188,12 @@
 
         return;
     }
-    
+
+#ifdef DEBUG
     NSLog(@"completed loading Sense %d, %@", sense._id, sense.nameAndPos);
     NSLog(@"gloss: %@, synonyms %@", sense.gloss, sense.synonymsAsString);
     NSLog(@"lexname: %@, marker: %@, freq. cnt.: %d", sense.lexname, sense.marker, sense.freqCnt);
+#endif // DEBUG
    
     self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
     [self adjustBannerLabel];
@@ -328,7 +330,9 @@
         return [super numberOfSectionsInTableView:theTableView];
     }
     int n = [sense numberOfSections];
+#ifdef DEBUG
     NSLog(@"found %d sections", n);
+#endif // DEBUG
     return n;
 }
 
@@ -357,7 +361,9 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
 
     if (!sense || !sense.complete) {
+#ifdef DEBUG
         NSLog(@"sense is not complete");
+#endif // DEBUG
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];

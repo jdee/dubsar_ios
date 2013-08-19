@@ -72,7 +72,9 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)[UIApplication sharedApplication].delegate;
+#ifdef DEBUG
     NSLog(@"called pushViewController");
+#endif // DEBUG
     [super pushViewController:viewController animated:animated];
     
     if (viewController != forwardStack.topViewController) {
@@ -319,7 +321,9 @@
 
 - (void)viewWotd:(id)sender
 {
+#ifdef DEBUG
     NSLog(@"viewWotd called");
+#endif // DEBUG
     DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)[UIApplication sharedApplication].delegate;
     appDelegate.wotdUnread = false;
     [wotdBarButtonItem setEnabled:NO];
