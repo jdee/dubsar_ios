@@ -121,7 +121,6 @@
 		7B6953B813E6E3CC00B10519 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF313E3875400274E6C /* Foundation.framework */; };
 		7B6953B913E6E3CC00B10519 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF513E3875400274E6C /* CoreGraphics.framework */; };
 		7B6953BF13E6E3CC00B10519 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B6953BD13E6E3CC00B10519 /* InfoPlist.strings */; };
-		7B7D5E6117C005680058F129 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D5E6017C005680058F129 /* AirshipConfig.plist */; };
 		7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */; };
 		7B824E5813EC540100CDC665 /* DailyWordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B824E5713EC540100CDC665 /* DailyWordTest.m */; };
 		7B862DE31697CF1C0064F66B /* AuguryViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B862DE11697CF1C0064F66B /* AuguryViewController_iPhone.m */; };
@@ -335,7 +334,6 @@
 		7B6953BC13E6E3CC00B10519 /* DubsarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DubsarTests-Info.plist"; sourceTree = "<group>"; };
 		7B6953BE13E6E3CC00B10519 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7B6953C413E6E3CC00B10519 /* DubsarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DubsarTests-Prefix.pch"; sourceTree = "<group>"; };
-		7B7D5E6017C005680058F129 /* AirshipConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AirshipConfig.plist; sourceTree = SOURCE_ROOT; };
 		7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AutocompleterView_iPhone.xib; sourceTree = "<group>"; };
 		7B824E5613EC540100CDC665 /* DailyWordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWordTest.h; sourceTree = "<group>"; };
 		7B824E5713EC540100CDC665 /* DailyWordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWordTest.m; sourceTree = "<group>"; };
@@ -486,7 +484,6 @@
 		7B327FF813E3875400274E6C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7B7D5E6017C005680058F129 /* AirshipConfig.plist */,
 				7BC2152C16A31F2800FA8096 /* cell-bg.png */,
 				7B327FF913E3875400274E6C /* Dubsar-Info.plist */,
 				7B327FFD13E3875400274E6C /* Dubsar-Prefix.pch */,
@@ -882,7 +879,6 @@
 				7BDDDC8216B8D2FB0054BC3B /* dubsar-big-highlighted.png in Resources */,
 				7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */,
 				7BBD76C317BD56B000AD2609 /* client_secret.txt in Resources */,
-				7B7D5E6117C005680058F129 /* AirshipConfig.plist in Resources */,
 				7B26357D17C1789B00DBDFC6 /* iTunesArtwork@2x in Resources */,
 				7B26357F17C1794400DBDFC6 /* dubsar-ipad-retina.png in Resources */,
 				7B26358717C1804C00DBDFC6 /* Default-Landscape@2x~ipad.png in Resources */,

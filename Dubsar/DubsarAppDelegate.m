@@ -116,36 +116,6 @@
     }
 }
 
-- (void)landUA:(NSString*)deviceToken
-{
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://device-api.urbanairship.com/api/device_tokens/%@/", deviceToken]];
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"DELETE"];
-    
-    NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [connection start];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-    NSDictionary* uaconfig = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"AirshipConfig.plist"]];
-
-    NSString* appKey = nil;
-    NSString* appSecret = nil;
-
-#ifdef DUBSAR_DEVELOPMENT
-    appKey = [uaconfig valueForKey:@"DEVELOPMENT_APP_KEY"];
-    appSecret = [uaconfig valueForKey:@"DEVELOPMENT_APP_SECRET"];
-#else
-    appKey = [uaconfig valueForKey:@"PRODUCTION_APP_KEY"];
-    appSecret = [uaconfig valueForKey:@"PRODUCTION_APP_SECRET"];
-#endif // DUBSAR_DEVELOPMENT
-
-    NSURLCredential* cred = [NSURLCredential credentialWithUser:appKey password:appSecret persistence:NSURLCredentialPersistenceNone];
-    [challenge.sender useCredential:cred forAuthenticationChallenge:challenge];
-}
-
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     NSLog(@"HTTPS connection failed: %@", error.localizedDescription);
@@ -158,12 +128,6 @@
     NSURL* url = httpResp.URL;
 
     NSLog(@"response status code from %@: %d", url.host, httpResp.statusCode);
-
-    if ([url.host hasSuffix:@".urbanairship.com"] && ((httpResp.statusCode >= 200 && httpResp.statusCode < 300) || httpResp.statusCode == 404))
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DubsarUADisabled"];
-        NSLog(@"Set DubsarUADisabled to YES");
-    }
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
@@ -271,10 +235,6 @@
 #ifdef DEBUG
     NSLog(@"Device token is %@", token);
 #endif // DEBUG
-
-    BOOL uaDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"DubsarUADisabled"];
-    NSLog(@"DubsarUADisabled = %@", (uaDisabled == YES ? @"YES" : @"NO"));
-    if (!uaDisabled) [self landUA:token];
 
     /*
      * 2. Read client secret from bundle
