@@ -1,4 +1,3 @@
 .DS_Store
 *.sqlite3
-AirshipConfig.plist
 client_secret.txt
