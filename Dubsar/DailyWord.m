@@ -38,6 +38,15 @@
 
 + (void)updateWotdId:(int)wotdId expiration:(time_t)expiration
 {
+    if (expiration < time(NULL)) {
+        /*
+         * Notifications hang around as long as the user wants in some cases. If the
+         * expiration passed in is in the past (which can happen if they tap one from
+         * several days ago), ignore this.
+         */
+        return;
+    }
+
     DailyWord* wotd = [DailyWord dailyWord];
     wotd.word = [Word wordWithId:wotdId name:nil partOfSpeech:POSUnknown];
     wotd.expiration = expiration;

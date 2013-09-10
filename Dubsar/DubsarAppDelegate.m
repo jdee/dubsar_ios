@@ -23,7 +23,6 @@
 
 @interface DubsarAppDelegate()
 @property (copy) NSURL* alertURL;
-- (void) landUA:(NSString*)deviceToken;
 - (void) postDeviceToken:(NSData*)deviceToken;
 @end
 
