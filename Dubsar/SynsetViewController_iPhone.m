@@ -75,36 +75,19 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        synset = [theSynset retain];
+        synset = theSynset;
         synset.delegate = self;
         
         hasBeenDragged = false;
         
         [self adjustTitle];
         
-        detailNib = [[UINib nibWithNibName:@"DetailView_iPhone" bundle:nil]retain];
+        detailNib = [UINib nibWithNibName:@"DetailView_iPhone" bundle:nil];
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustGlossLabel) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [tableSections release];
-    [detailGlossTextView release];
-    synset.delegate = nil;
-    [synset release];
-    [tableView release];
-    [detailNib release];
-    [detailLabel release];
-    [detailView release];
-    [detailBannerLabel release];
-    [glossTextView release];
-    [bannerHandle release];
-    [bannerLabel release];
-    [super dealloc];
 }
 
 - (bool)loadedSuccessfully
@@ -152,7 +135,7 @@
     [self setBannerHandle:nil];
     [self setBannerLabel:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -279,14 +262,14 @@
     
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = [synset.senses objectAtIndex:indexPath.row];
-        [self.navigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
+        [self.navigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
         [self displayPopup:pointer.targetText];
     }
     else {
         Synset* targetSynset = [Synset synsetWithId:pointer.targetId partOfSpeech:POSUnknown];
-        [self.navigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset]autorelease] animated:YES];
+        [self.navigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset] animated:YES];
     }
 }
 
@@ -317,7 +300,7 @@
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType];
     }
     
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -325,9 +308,9 @@
     if (!synset || !synset.complete) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"];
         }
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
+        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [cell.contentView addSubview:indicator];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
@@ -347,7 +330,7 @@
     
     cell = [theTableView dequeueReusableCellWithIdentifier:@"synsetPointer"];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"synsetPointer"]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"synsetPointer"];
     }
     cell.textLabel.text = pointer.targetText;
     // NSLog(@"rendering cell for %@ at section %d, row %d", pointer.targetText, indexPath.section, indexPath.row);
@@ -393,7 +376,7 @@
 {
     [super addGestureRecognizers];
 
-    UITapGestureRecognizer* recognizer = [[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)]autorelease];
+    UITapGestureRecognizer* recognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)];
     recognizer.delegate = self;
     recognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:recognizer];

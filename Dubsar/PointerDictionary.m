@@ -54,13 +54,6 @@ static PointerDictionary* theDictionary = nil;
     return self;
 }
 
-- (void)dealloc
-{
-    [helpDictionary release];
-    [titleDictionary release];
-    [super dealloc];
-}
-
 - (NSString*)helpWithPointerType:(NSString *)ptype
 {
     return [helpDictionary valueForKey:ptype];

@@ -46,7 +46,7 @@
 - (void)tearDown
 {
     // close the database
-    [appDelegate release];
+    appDelegate = nil;
 }
 
 @end

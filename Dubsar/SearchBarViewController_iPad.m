@@ -66,7 +66,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // let the autocompleter view controller handle the table view
-        AutocompleterPopoverViewController_iPad* viewController = [[[AutocompleterPopoverViewController_iPad alloc]initWithNibName:@"AutocompleterPopoverViewController_iPad" bundle:nil]autorelease];
+        AutocompleterPopoverViewController_iPad* viewController = [[AutocompleterPopoverViewController_iPad alloc]initWithNibName:@"AutocompleterPopoverViewController_iPad" bundle:nil];
         autocompleterTableView = (UITableView*)viewController.view;
         
         popoverController = [[UIPopoverController alloc]initWithContentViewController:viewController];
@@ -74,7 +74,7 @@
         viewController.popoverController = popoverController;
         popoverController.popoverContentSize = CGSizeMake(320.0, 440.0);
         
-        IntroViewController_iPad* introViewController = [[[IntroViewController_iPad alloc] initWithNibName:@"IntroViewController_iPad" bundle:nil] autorelease];
+        IntroViewController_iPad* introViewController = [[IntroViewController_iPad alloc] initWithNibName:@"IntroViewController_iPad" bundle:nil];
         introPopoverController = [[UIPopoverController alloc] initWithContentViewController:introViewController];
         introPopoverController.delegate = self;
         introPopoverController.popoverContentSize = CGSizeMake(320.0, 225.0);
@@ -83,37 +83,6 @@
         executingAutocompleter = nil;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [introPopoverController release];
-    [wordPopoverController release];
-    [dailyWord release];
-    [popoverController release];
-    autocompleter.delegate = nil;
-    [autocompleter release];
-    [_searchText release];
-    [searchBar release];
-    [autocompleterTableView release];
-    [wotdButton release];
-    [abButton release];
-    [cdButton release];
-    [efButton release];
-    [ghButton release];
-    [ijButton release];
-    [klButton release];
-    [mnButton release];
-    [opButton release];
-    [qrButton release];
-    [stButton release];
-    [uvButton release];
-    [wxButton release];
-    [yzButton release];
-    [dotsButton release];
-    [homeButton release];
-    [toolbar release];
-    [super dealloc];
 }
 
 - (void)setNavigationController:(UINavigationController *)navigationController
@@ -162,7 +131,7 @@
     [self setHomeButton:nil];
     [self setToolbar:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -220,7 +189,7 @@
             }
         }
         
-        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
+        Autocompleter* _autocompleter = [Autocompleter autocompleterWithTerm:theSearchText matchCase:NO];
         _autocompleter.delegate = self;
         _autocompleter.lock = self;
         [_autocompleter load];
@@ -252,13 +221,11 @@
     }
     
     if (theAutocompleter.aborted) {
-        [theAutocompleter release];
         return;
     }
         
     self.autocompleter = theAutocompleter;
-    [theAutocompleter release];
-        
+
     AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
     
     viewController.autocompleter = autocompleter;
@@ -270,17 +237,17 @@
 {   
     if (theDailyWord.error) {
         NSLog(@"request error: %@", theDailyWord.errorMessage);
-        Word* word = [[[Word alloc]init]autorelease];
+        Word* word = [[Word alloc]init];
         word.error = word.complete = true;
         word.errorMessage = theDailyWord.errorMessage;
         theDailyWord.word = word;
     }
     
-    WordPopoverViewController_iPad* viewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:theDailyWord.word]autorelease];
+    WordPopoverViewController_iPad* viewController = [[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:theDailyWord.word];
     [viewController load];
     
     if (!wordPopoverController) {
-        self.wordPopoverController = [[[UIPopoverController alloc]initWithContentViewController:viewController]autorelease];
+        self.wordPopoverController = [[UIPopoverController alloc]initWithContentViewController:viewController];
     }
     else {
         [wordPopoverController setContentViewController:viewController];
@@ -305,7 +272,7 @@
 
 - (IBAction)showFAQ:(id)sender 
 {
-    FAQViewController_iPad* faqViewController = [[[FAQViewController_iPad alloc] initWithNibName:@"FAQViewController_iPad" bundle:nil]autorelease];
+    FAQViewController_iPad* faqViewController = [[FAQViewController_iPad alloc] initWithNibName:@"FAQViewController_iPad" bundle:nil];
     [_navigationController pushViewController:faqViewController animated:YES];
 }
 
@@ -329,12 +296,12 @@
 
 - (IBAction)showAboutPage:(id)sender
 {
-    [_navigationController pushViewController:[[[AboutViewController_iPad alloc]initWithNibName:@"AboutViewController_iPad" bundle:nil]autorelease] animated:YES];
+    [_navigationController pushViewController:[[AboutViewController_iPad alloc]initWithNibName:@"AboutViewController_iPad" bundle:nil] animated:YES];
 }
 
 - (void)wildcardSearch:(NSString *)regexp title:(NSString *)title
 {
-    SearchViewController_iPad* viewController = [[[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil wildcard:regexp title:title]autorelease];
+    SearchViewController_iPad* viewController = [[SearchViewController_iPad alloc]initWithNibName:@"SearchViewController_iPad" bundle:nil wildcard:regexp title:title];
     [viewController load];
     [_navigationController pushViewController:viewController animated:YES];
 }
@@ -497,7 +464,7 @@
         viewController = (AuguryViewController_iPad*)[_navigationController topViewController];
     }
     else {
-        viewController = [[[AuguryViewController_iPad alloc] initWithNibName:@"AuguryViewController_iPad" bundle:nil] autorelease];
+        viewController = [[AuguryViewController_iPad alloc] initWithNibName:@"AuguryViewController_iPad" bundle:nil];
         [_navigationController pushViewController:viewController animated:YES];
     }
     

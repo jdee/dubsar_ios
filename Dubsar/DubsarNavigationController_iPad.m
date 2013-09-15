@@ -52,7 +52,7 @@
         [self addToolbar:rootViewController];
         
         // let the autocompleter view controller handle the table view
-        AutocompleterPopoverViewController_iPad* viewController = [[[AutocompleterPopoverViewController_iPad alloc]initWithNibName:@"AutocompleterPopoverViewController_iPad" bundle:nil]autorelease];
+        AutocompleterPopoverViewController_iPad* viewController = [[AutocompleterPopoverViewController_iPad alloc]initWithNibName:@"AutocompleterPopoverViewController_iPad" bundle:nil];
         autocompleterTableView = (UITableView*)viewController.view;
         viewController.searchBar = searchBar;
         viewController.navigationController = self;
@@ -131,21 +131,6 @@
     originalFrame = self.topViewController.view.frame;
 
     return viewController;
-}
-
-- (void)dealloc 
-{
-    [_searchText release];
-    [popoverController release];
-    [wotdBarButtonItem release];
-    [backBarButtonItem release];
-    [fwdBarButtonItem release];
-    [forwardStack release];
-    [searchToolbar release];
-    [searchBar release];
-    [titleLabel release];
-    [nib release];
-    [super dealloc];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -236,7 +221,7 @@
             }
         }
         
-        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
+        Autocompleter* _autocompleter = [Autocompleter autocompleterWithTerm:theSearchText matchCase:NO];
         _autocompleter.delegate = self;
         _autocompleter.lock = self;
         [_autocompleter load];
@@ -262,13 +247,11 @@
     }
     
     if (theAutocompleter.aborted) {
-        [theAutocompleter release];
         return;
     }
     
     self.autocompleter = theAutocompleter;
-    [theAutocompleter release];
-    
+
     AutocompleterPopoverViewController_iPad* viewController = (AutocompleterPopoverViewController_iPad*)popoverController.contentViewController;
     viewController.autocompleter = autocompleter;
     [autocompleterTableView reloadData];
@@ -277,16 +260,15 @@
 
 - (void)addGestureRecognizerToView:(UIView *)view
 {
-    UIPanGestureRecognizer* recognizer = [[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)]autorelease];
+    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
     recognizer.delegate = self;
     [view addGestureRecognizer:recognizer];
 }
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)sender
 {
-    if ([self.topViewController respondsToSelector:@selector(handlePanGesture:)]) {
-        [self.topViewController handlePanGesture:sender];
-    }
+    ForegroundViewController* viewController = (ForegroundViewController*)self.topViewController;
+    [viewController handlePanGesture:sender];
     CGPoint translate = [sender translationInView:self.view];
     
     CGRect newFrame = originalFrame;
@@ -308,14 +290,12 @@
             sender.view.frame = originalFrame;          
         } completion:nil];
     }
-    
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    if ([self.topViewController respondsToSelector:@selector(handleTouch:)]) {
-        [self.topViewController handleTouch:touch];
-    }
+    ForegroundViewController* viewController = (ForegroundViewController*)self.topViewController;
+    [viewController handleTouch:touch];
     return /* ![touch.view isKindOfClass:UIScrollView.class] */ YES;
 }
 
@@ -333,8 +313,8 @@
 - (void)addWotdButton
 {
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
-    if ([self.topViewController respondsToSelector:@selector(handleWotd)]) {
-        [self.topViewController handleWotd];
+    ForegroundViewController* viewController = (ForegroundViewController*)self.topViewController;
+    if ([viewController handleWotd]) {
         appDelegate.wotdUnread = false;
         return;
     }

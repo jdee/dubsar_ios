@@ -27,7 +27,7 @@
 {
     NSString* stringData = @"[147806,\"decelerate\",\"v\",1,\"decelerated, decelerates, decelerating\",1360022466]";
     
-    DailyWord* dailyWord = [[[DailyWord alloc]init]autorelease];
+    DailyWord* dailyWord = [[DailyWord alloc]init];
     dailyWord.data = [self.class dataWithString:stringData];
     [dailyWord parseData];
     
@@ -46,7 +46,7 @@
 
 -(void)testInitialization
 {
-    DailyWord* a = [[[DailyWord alloc]init]autorelease];
+    DailyWord* a = [[DailyWord alloc]init];
     STAssertTrue(!a.complete, @"complete failed");
     STAssertTrue(!a.error, @"error failed");
 }

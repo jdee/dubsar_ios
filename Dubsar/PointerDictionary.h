@@ -25,8 +25,8 @@
     NSMutableDictionary* titleDictionary;    
 }
 
-@property (nonatomic, retain) NSDictionary* helpDictionary;
-@property (nonatomic, retain) NSDictionary* titleDictionary;
+@property (nonatomic, strong) NSDictionary* helpDictionary;
+@property (nonatomic, strong) NSDictionary* titleDictionary;
 
 + (NSString*)helpWithPointerType:(NSString*)ptype;
 + (NSString*)titleWithPointerType:(NSString*)ptype;

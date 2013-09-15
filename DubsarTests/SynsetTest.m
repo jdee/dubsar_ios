@@ -40,7 +40,7 @@
 
 -(void)testInitialization
 {
-    Synset* a = [[[Synset alloc]init]autorelease];
+    Synset* a = [[Synset alloc]init];
     STAssertTrue(!a.complete, @"complete failed");
     STAssertTrue(!a.error, @"error failed");
 }

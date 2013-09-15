@@ -26,7 +26,7 @@
     NSMutableDictionary* verboseDictionary;
 }
 
-@property (nonatomic, retain) NSDictionary* dictionary;
+@property (nonatomic, strong) NSDictionary* dictionary;
 
 - (PartOfSpeech)partOfSpeechFromPOS:(NSString*)pos;
 - (PartOfSpeech)partOfSpeechFrom_part_of_speech:(char const*)part_of_speech;

@@ -18,7 +18,6 @@
  */
 
 #import "DailyWord.h"
-#import "JSONkit.h"
 #import "LoadDelegate.h"
 #import "Word.h"
 
@@ -33,7 +32,7 @@
 
 + (id)dailyWord
 {
-    return [[[DailyWord alloc] init] autorelease];
+    return [[DailyWord alloc] init];
 }
 
 + (void)updateWotdId:(int)wotdId expiration:(time_t)expiration
@@ -71,12 +70,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [word release];
-    [super dealloc];
-}
-
 - (void)load
 {
     if (![self loadFromUserDefaults] || !expiration || expiration <= time(0)) {
@@ -101,15 +94,15 @@
 
 - (void)parseData
 {
-    NSArray* wotd = [[self decoder] objectWithData:[self data]];
+    NSArray* wotd = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
     NSNumber* numericId = [wotd objectAtIndex:0];
     
-    word = [[Word wordWithId:numericId.intValue name:[wotd objectAtIndex:1] posString:[wotd objectAtIndex:2]]retain];
+    word = [Word wordWithId:numericId.intValue name:[wotd objectAtIndex:1] posString:[wotd objectAtIndex:2]];
     
     NSNumber* fc = [wotd objectAtIndex:3];
     word.freqCnt = fc.intValue;
     
-    word.inflections = [[[[wotd objectAtIndex:4] componentsSeparatedByString:@", "] mutableCopy] autorelease];
+    word.inflections = [[[wotd objectAtIndex:4] componentsSeparatedByString:@", "] mutableCopy];
     
     expiration = [[wotd objectAtIndex:5]intValue];
     

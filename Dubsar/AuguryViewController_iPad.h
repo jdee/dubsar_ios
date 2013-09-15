@@ -20,8 +20,8 @@
 #import "ForegroundViewController.h"
 
 @interface AuguryViewController_iPad : ForegroundViewController<UIWebViewDelegate>
-@property (nonatomic, retain) IBOutlet UIWebView* webView;
-@property (nonatomic, retain) NSString* augury;
+@property (nonatomic, strong) IBOutlet UIWebView* webView;
+@property (nonatomic, copy) NSString* augury;
 - (void) augur;
 - (IBAction) clear:(id)sender;
 - (void) loadPage:(NSString*)html;

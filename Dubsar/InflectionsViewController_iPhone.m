@@ -35,16 +35,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.word = theWord;
-        self.parent = theParent; // assign, not retain
+        self.parent = theParent; // weak, not strong
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [webView release];
-    [word release];
-    [super dealloc];
 }
 
 - (void)loadComplete

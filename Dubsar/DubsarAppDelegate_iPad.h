@@ -28,8 +28,8 @@
     UISplitViewController *_splitViewController;
 }
 
-@property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
-@property (nonatomic, retain) SearchBarViewController_iPad* searchBarViewController;
-@property (nonatomic, retain) DubsarNavigationController_iPad* navigationController;
+@property (nonatomic, strong) IBOutlet UISplitViewController *splitViewController;
+@property (nonatomic, strong) SearchBarViewController_iPad* searchBarViewController;
+@property (nonatomic, strong) DubsarNavigationController_iPad* navigationController;
 
 @end

@@ -41,25 +41,18 @@
 
 + (id) inflectionWithId:(int)theId name:(NSString *)theName word:(Word *)theWord
 {
-    return [[[self alloc]initWithId:theId name:theName word:theWord]autorelease];
-}
-
-- (void) dealloc
-{
-    [word release];
-    [name release];
-    [super dealloc];
+    return [[self alloc]initWithId:theId name:theName word:theWord];
 }
 
 -(void)loadFromServer
 {
-    super.url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, _url]retain];
+    super.url = [NSString stringWithFormat:@"%@%@", DubsarSecureUrl, _url];
     NSURL* nsurl = [NSURL URLWithString:super.url];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:nsurl];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
-    connection = [[NSURLConnection connectionWithRequest:request delegate:self]retain];
+    connection = [NSURLConnection connectionWithRequest:request delegate:self];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     

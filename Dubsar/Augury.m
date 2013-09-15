@@ -29,7 +29,7 @@
 
 + (id) augury
 {
-    return [[[Augury alloc] init] autorelease];
+    return [[Augury alloc] init];
 }
 
 - (id) init
@@ -39,12 +39,6 @@
         self.text = nil;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [text release];
-    [super dealloc];
 }
 
 - (NSString*)infinitive

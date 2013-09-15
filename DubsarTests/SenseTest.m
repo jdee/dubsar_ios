@@ -96,7 +96,7 @@
 
 -(void)testInitialization
 {
-    Sense* a = [[[Sense alloc]init]autorelease];
+    Sense* a = [[Sense alloc]init];
     STAssertTrue(!a.complete, @"complete failed");
     STAssertTrue(!a.error, @"error failed");
 }

@@ -86,7 +86,7 @@
     [self singleHelpCase:@"verb group" expected:@"related verbs"];
     [self singleHelpCase:@"similar to" expected:@"near in meaning, but not exact"];
     [self singleHelpCase:@"participle of verb" expected:@"root verb"];
-    [self singleHelpCase:@"derived from/pertains to" expected:@"adj: pertinent noun; adv: source noun"];
+    [self singleHelpCase:@"derived from/pertains to" expected:@"source/pertinent word"];
     [self singleHelpCase:@"synonym" expected:@"words that share this meaning"];
     [self singleHelpCase:@"sample sentence" expected:@"examples of usage for this word and synonyms"];
     [self singleHelpCase:@"synset sample" expected:@"examples of usage"];

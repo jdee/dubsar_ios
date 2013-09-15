@@ -24,12 +24,12 @@
 }
 
 @property int _id;
-@property (nonatomic, retain) NSString* name;
+@property (nonatomic, copy) NSString* name;
 @property PartOfSpeech partOfSpeech;
 @property int freqCnt;
 
-@property (nonatomic, retain) NSMutableArray* inflections;
-@property (nonatomic, retain) NSMutableArray* senses;
+@property (nonatomic, strong) NSMutableArray* inflections;
+@property (nonatomic, strong) NSMutableArray* senses;
 
 +(id)wordWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 +(id)wordWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;

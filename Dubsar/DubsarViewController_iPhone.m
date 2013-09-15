@@ -23,7 +23,6 @@
 #import "Dubsar.h"
 #import "DubsarViewController_iPhone.h"
 #import "FAQViewController_iPhone.h"
-#import "JSONKit.h"
 #import "KeychainWrapper.h"
 #import "ReviewViewController_iPhone.h"
 #import "SyncViewController_iPhone.h"
@@ -46,7 +45,7 @@
         // Custom initialization
         self.title = @"Home";
         UIImage* image = [UIImage imageNamed:@"dubsar-full.png"];
-        UIImageView* titleView = [[[UIImageView alloc]initWithImage:image]autorelease];
+        UIImageView* titleView = [[UIImageView alloc]initWithImage:image];
         titleView.autoresizingMask = UIViewAutoresizingNone;
         
         if ([[[UIDevice currentDevice] systemVersion] compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending) {
@@ -61,26 +60,11 @@
         self.navigationItem.titleView = titleView;
         self.auguryViewController = [[AuguryViewController_iPhone alloc]
                                      initWithNibName:@"AuguryViewController_iPhone" bundle:nil];
-        // augurViewController has retain semantics, so will retain this after init.
-        [self.auguryViewController release];
-        
+
         dailyWord = [[DailyWord alloc]init];
         dailyWord.delegate = self;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [auguryIntroWebView release];
-    [auguryIntroView release];
-    [auguryViewController release];
-    [emailTextField release];
-    [passwordTextField release];
-    [loginView release];
-    [dailyWord release];
-    [wotdButton release];
-    [super dealloc];
 }
 
 #pragma mark - View lifecycle
@@ -98,7 +82,7 @@
 {
     [self setWotdButton:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -125,36 +109,36 @@
 
 - (void)displayFAQ
 {
-    [self presentModalViewController:[[[FAQViewController_iPhone alloc]
-            initWithNibName:@"FAQViewController_iPhone" bundle:nil]autorelease] animated: YES];    
+    [self presentViewController:[[FAQViewController_iPhone alloc]
+            initWithNibName:@"FAQViewController_iPhone" bundle:nil] animated: YES completion:nil];
 }
 
 - (void)displayAbout
 {
-    AboutViewController_iPhone* aboutViewController = [[[AboutViewController_iPhone alloc]
-                                                        initWithNibName:@"AboutViewController_iPhone" bundle:nil]autorelease];
+    AboutViewController_iPhone* aboutViewController = [[AboutViewController_iPhone alloc]
+                                                        initWithNibName:@"AboutViewController_iPhone" bundle:nil];
     aboutViewController.mainViewController = self;
-    [self presentModalViewController:aboutViewController animated: YES];
+    [self presentViewController:aboutViewController animated: YES completion:nil];
 }
 
 - (void)displayAugury
 {
     [self hideAuguryIntro];
-    [self presentModalViewController:self.auguryViewController animated: YES];
+    [self presentViewController:self.auguryViewController animated: YES completion:nil];
 }
 
 - (void)displayReview
 {
     // Page 0: Load the saved page if present. Otherwise, page 1.
-    ReviewViewController_iPhone* viewController = [[[ReviewViewController_iPhone alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:0] autorelease];
+    ReviewViewController_iPhone* viewController = [[ReviewViewController_iPhone alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:0];
     [viewController load];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)displaySync
 {
-    SyncViewController_iPhone* viewController = [[[SyncViewController_iPhone alloc] initWithNibName:@"SyncViewController_iPhone" bundle:nil] autorelease];
-    [self presentModalViewController:viewController animated:YES];
+    SyncViewController_iPhone* viewController = [[SyncViewController_iPhone alloc] initWithNibName:@"SyncViewController_iPhone" bundle:nil];
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 
 - (void)checkForCredentials
@@ -166,7 +150,7 @@
         
         KeychainWrapper* passwordWrapper = [[KeychainWrapper alloc] initWithIdentifier:[[NSBundle mainBundle] bundleIdentifier] requestClass:kSecClassGenericPassword];
         
-        NSString* password = [passwordWrapper myObjectForKey:(NSString*)kSecValueData];
+        NSString* password = [passwordWrapper myObjectForKey:(__bridge NSString*)kSecValueData];
         
         if (![password isEqualToString:@"none"]) {
             NSLog(@"found password in keychain");
@@ -188,7 +172,7 @@
 {
     if (!dailyWord.complete || dailyWord.error) return;
     
-    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:dailyWord.word title:@"Word of the Day"]autorelease];
+    WordViewController_iPhone* viewController = [[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:dailyWord.word title:@"Word of the Day"];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -201,7 +185,7 @@
     appDelegate.authToken = [self authenticateEmail:emailTextField.text password:passwordTextField.text];
 
     KeychainWrapper* passwordWrapper = [[KeychainWrapper alloc] initWithIdentifier:@"com.dubsar-dictionary.Dubsar" requestClass:kSecClassGenericPassword];
-    [passwordWrapper mySetObject:passwordTextField.text forKey:(NSString*)kSecValueData];
+    [passwordWrapper mySetObject:passwordTextField.text forKey:(__bridge NSString*)kSecValueData];
 }
 
 - (NSString*)authenticateEmail:(NSString *)email password:(NSString *)password
@@ -234,15 +218,14 @@
         [passwordTextField becomeFirstResponder];
    }
     
-    JSONDecoder* decoder = [JSONDecoder decoder];
-    NSDictionary* jsonResponse = [decoder objectWithData:body];
+    NSDictionary* jsonResponse = [NSJSONSerialization JSONObjectWithData:body options:0 error:NULL];
     return [jsonResponse valueForKey:@"token"];
 }
 
 - (void)createToolbarItems
 {
-    UIBarButtonItem* faqButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)]autorelease];
-    UIBarButtonItem* aboutButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAbout)]autorelease];
+    UIBarButtonItem* faqButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"FAQ" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFAQ)];
+    UIBarButtonItem* aboutButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAbout)];
 #ifdef DUBSAR_EDITORIAL_BUILD
     UIBarButtonItem* auguryButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Augur" style:UIBarButtonItemStyleBordered target:self action:@selector(displayAugury)]autorelease];
     UIBarButtonItem* reviewButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Review" style:UIBarButtonItemStyleBordered target:self action:@selector(displayReview)]autorelease];
@@ -260,7 +243,7 @@
     [buttonItems addObject:syncButtonItem];
 #endif // DUBSAR_EDITORIAL_BUILD
     
-    self.toolbarItems = buttonItems.retain;
+    self.toolbarItems = buttonItems;
 }
 
 - (void)loadComplete:(Model *)model withError:(NSString *)error
@@ -299,12 +282,13 @@
     [self handleWotd];
 }
 
-- (void)handleWotd
+- (bool)handleWotd
 {
     [wotdButton setTitle:@"loading..." forState:UIControlStateNormal];
     [wotdButton setTitle:@"loading..." forState:UIControlStateHighlighted];
     [wotdButton setTitle:@"loading..." forState:UIControlStateSelected];
     [dailyWord load];
+    return true;
 }
 
 - (NSString*)htmlForAuguryIntro

@@ -25,8 +25,8 @@
     bool ready;
 }
 
-@property (nonatomic, retain) NSURL* url;
-@property (nonatomic, retain) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) NSURL* url;
+@property (nonatomic, strong) IBOutlet UIWebView *webView;
 
 - (void)displayMessage:(NSString*)text url:(NSURL*)baseUrl;
 

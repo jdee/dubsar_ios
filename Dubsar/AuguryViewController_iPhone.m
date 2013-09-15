@@ -40,13 +40,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [augury release];
-    [auguryWebView release];
-    [super dealloc];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -77,7 +70,7 @@
     }
     else {
         // iOS 4.x
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
+        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

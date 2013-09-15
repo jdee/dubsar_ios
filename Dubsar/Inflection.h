@@ -24,8 +24,8 @@
 @interface Inflection : Model
 
 @property int _id;
-@property (nonatomic, retain) Word* word;
-@property (nonatomic, retain) NSString* name;
+@property (nonatomic, strong) Word* word;
+@property (nonatomic, copy) NSString* name;
 
 - (id) initWithId:(int)theId name:(NSString*)theName word:(Word*)theWord;
 + (id) inflectionWithId:(int)theId name:(NSString*)theName word:(Word*)theWord;

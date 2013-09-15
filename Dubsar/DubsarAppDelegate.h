@@ -27,17 +27,17 @@
     UIColor* dubsarTintColor;
 }
 
-@property (nonatomic, retain) UIColor* dubsarTintColor;
-@property (nonatomic, retain) NSString* dubsarFontFamily;
-@property (nonatomic, retain) UIFont* dubsarNormalFont;
-@property (nonatomic, retain) UIFont* dubsarSmallFont;
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, strong) UIColor* dubsarTintColor;
+@property (nonatomic, copy) NSString* dubsarFontFamily;
+@property (nonatomic, strong) UIFont* dubsarNormalFont;
+@property (nonatomic, strong) UIFont* dubsarSmallFont;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic) sqlite3* database;
 @property (nonatomic) sqlite3_stmt* exactAutocompleterStmt;
 @property (nonatomic) sqlite3_stmt* autocompleterStmt;
 @property bool databaseReady;
-@property (nonatomic, retain) NSString* authToken;
-@property (nonatomic, retain) NSString* wotdUrl;
+@property (nonatomic, copy) NSString* authToken;
+@property (nonatomic, copy) NSString* wotdUrl;
 @property bool wotdUnread;
 
 - (void)prepareDatabase:(bool)recreateFTSTables;

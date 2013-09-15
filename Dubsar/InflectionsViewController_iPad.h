@@ -22,8 +22,8 @@
 @class Word;
 
 @interface InflectionsViewController_iPad : ForegroundViewController<UIWebViewDelegate>
-@property (nonatomic, retain) IBOutlet UIWebView* webView;
-@property (nonatomic, retain) Word* word;
+@property (nonatomic, strong) IBOutlet UIWebView* webView;
+@property (nonatomic, strong) Word* word;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 

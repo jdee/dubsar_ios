@@ -40,7 +40,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        word = [theWord retain];
+        word = theWord;
         word.delegate = self;
         inflectionsShowing = false;
         inflectionsViewController = [[InflectionsViewController_iPad alloc] initWithNibName:@"InflectionsViewController_iPad" bundle:nil word:word];
@@ -63,20 +63,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(straightenAllTheShitOut) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [inflectionsButton release];
-    [previewButton release];
-    [inflectionsViewController release];
-    
-    word.delegate = nil;
-    [word release];
-    [bannerLabel release];
-    [_tableView release];
-    [toolbar release];
-    [super dealloc];
 }
 
 - (void)load
@@ -121,7 +107,7 @@
     
     previewViewController.view.hidden = YES;
     
-    originalColor = _tableView.backgroundColor.retain;
+    originalColor = _tableView.backgroundColor;
 }
 
 - (void)viewDidUnload
@@ -129,7 +115,7 @@
     [self setBannerLabel:nil];
     [self setTableView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -223,17 +209,17 @@
     
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType];
     }
     
     if (!word.complete) {
         static NSString* indicatorType = @"indicator";
         cell = [tableView dequeueReusableCellWithIdentifier:indicatorType];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indicatorType]autorelease];
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indicatorType];
         }
 
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
+        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
         [indicator startAnimating];
@@ -262,7 +248,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Sense* sense = [word.senses objectAtIndex:indexPath.section];
-    SenseViewController_iPad* senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense]autorelease];
+    SenseViewController_iPad* senseViewController = [[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense];
     [senseViewController load];
     [actualNavigationController pushViewController:senseViewController animated:YES];
 }
@@ -290,7 +276,7 @@
         [inflectionsViewController load];
     }
     else {
-        NSMutableArray* buttons = [toolbar.items.mutableCopy autorelease];
+        NSMutableArray* buttons = toolbar.items.mutableCopy;
         [buttons removeObject:inflectionsButton];
         toolbar.items = buttons;
     }
@@ -476,7 +462,7 @@
 - (void)setActualNavigationController:(UINavigationController *)theActualNavigationController
 {
     previewViewController.actualNavigationController = theActualNavigationController;
-    actualNavigationController = [theActualNavigationController retain];
+    actualNavigationController = theActualNavigationController;
 }
 
 @end

@@ -19,7 +19,6 @@
 
 #import "Dubsar.h"
 #import "DubsarAppDelegate.h"
-#import "JSONKit.h"
 #import "SyncViewController_iPhone.h"
 
 @interface SyncViewController_iPhone ()
@@ -44,16 +43,6 @@
         self.mustStop = false;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [fetchProgressView release];
-    [insertProgressView release];
-    [startButton release];
-
-    [buffer release];
-    [super dealloc];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -84,7 +73,7 @@
 - (IBAction)cancel:(id)sender
 {
     if (synching) {
-        UIAlertView *alertView = [[[UIAlertView alloc]initWithTitle:@"Confirm cancel" message:@"Really cancel sync?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Confirm cancel" message:@"Really cancel sync?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
         [alertView show];
     }
     else {
@@ -118,7 +107,7 @@
     }
     else {
         // iOS 4.x
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
+        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -253,9 +242,7 @@
         sqlite3_step(statement);
     }
     sqlite3_finalize(statement);
-    
-    [inflections release];
-    
+
     if (mustStop) {
         return;
     }
@@ -283,7 +270,7 @@
         }
         else {
             // iOS 4.x
-            [self.parentViewController dismissModalViewControllerAnimated:YES];
+            [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
         }
     }
 }
@@ -329,8 +316,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     NSLog(@"Received %d bytes", buffer.length);
     
-    JSONDecoder* decoder = [JSONDecoder decoder];
-    NSDictionary* jsonResponse = [decoder objectWithData:buffer];
+    NSDictionary* jsonResponse = [NSJSONSerialization JSONObjectWithData:buffer options:0 error:NULL];
     int page = [[jsonResponse valueForKey:@"page"] intValue];
     totalPages = [[jsonResponse valueForKey:@"total_pages"] intValue];
     
@@ -345,7 +331,7 @@
     }
     
     NSArray* inflections = [jsonResponse valueForKey:@"inflections"];
-    [self performSelectorInBackground:@selector(insertInflections:) withObject:[inflections retain]];
+    [self performSelectorInBackground:@selector(insertInflections:) withObject:inflections];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error

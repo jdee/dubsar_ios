@@ -26,7 +26,7 @@
 #import "WordViewController_iPad.h"
 
 @interface SearchSpinnerCell : UITableViewCell
-@property (nonatomic, retain) UIActivityIndicatorView* indicator;
+@property (nonatomic, strong) UIActivityIndicatorView* indicator;
 - (id) initWithIdentifier:(NSString*)identifier;
 @end
 
@@ -48,12 +48,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [indicator release];
-    [super dealloc];
-}
-
 - (void) layoutSubviews
 {
     [super layoutSubviews];
@@ -72,7 +66,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        search = [[Search searchWithTerm:text matchCase:matchCase]retain];
+        search = [Search searchWithTerm:text matchCase:matchCase];
         search.delegate = self;
         
         previewShowing = false;
@@ -91,7 +85,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        search = [[Search searchWithWildcard:wildcard page:1 title:theTitle]retain];
+        search = [Search searchWithWildcard:wildcard page:1 title:theTitle];
         search.delegate = self;
         
         previewShowing = false;
@@ -104,16 +98,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(straightenAllTheShitOut) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;    
-}
-
-- (void)dealloc
-{
-    [originalColor release];
-    search.delegate = nil;
-    [search release];
-    [tableView release];
-    [pageControl release];
-    [super dealloc];
 }
 
 - (void)load
@@ -179,7 +163,7 @@
     bounds.size.height += 88.0;
     previewView.bounds = bounds;
     
-    originalColor = [tableView.backgroundColor retain];    
+    originalColor = tableView.backgroundColor;
     [self setTableViewHeight];
 }
 
@@ -188,7 +172,7 @@
     [self setTableView:nil];
     [self setPageControl:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -255,7 +239,7 @@
         static NSString* indicatorType = @"search_indicator";
         UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:indicatorType];
         if (cell == nil) {
-            cell = [[[SearchSpinnerCell alloc] initWithIdentifier:indicatorType]autorelease];
+            cell = [[SearchSpinnerCell alloc] initWithIdentifier:indicatorType];
         }
         
         return cell;
@@ -265,7 +249,7 @@
     UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     else {
         cell.detailTextLabel.text = @"";
@@ -320,7 +304,7 @@
     if (!search || !search.complete || search.error || search.results.count == 0) return;
     
     Word* word = [search.results objectAtIndex:indexPath.row];
-    WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:nil]autorelease];
+    WordViewController_iPad* wordViewController = [[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:nil];
     [wordViewController load];
     [self.navigationController pushViewController:wordViewController animated:YES];
 }

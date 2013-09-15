@@ -152,18 +152,6 @@ static void saveLastPage(int page)
     return self;
 }
 
-- (void)dealloc
-{
-    [selectButton release];
-    [selectField release];
-    [selectLabel release];
-    [selectView release];
-    [tableView release];
-    
-    [review release];
-    [super dealloc];
-}
-
 - (void)load
 {
     if (self.loading || review.complete) return;
@@ -211,27 +199,27 @@ static void saveLastPage(int page)
 {
     NSMutableArray* buttonItems = [NSMutableArray array];
     
-    UIBarButtonItem* item = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style: UIBarButtonItemStyleBordered target:self action:@selector(loadMain)]autorelease];
+    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"Home" style: UIBarButtonItemStyleBordered target:self action:@selector(loadMain)];
     [buttonItems addObject:item];
     
     if (review && review.complete && review.page > 1) {
-        item = [[[UIBarButtonItem alloc]initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(loadPrev)]autorelease];
+        item = [[UIBarButtonItem alloc]initWithTitle:@"Prev" style:UIBarButtonItemStyleBordered target:self action:@selector(loadPrev)];
         [buttonItems addObject:item];
     }
     if (review && review.complete && review.page < review.totalPages) {
-        item = [[[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(loadNext)]autorelease];
+        item = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(loadNext)];
         [buttonItems addObject:item];
     }
     
-    item = [[[UIBarButtonItem alloc] initWithTitle:@"Select" style: UIBarButtonItemStyleBordered target:self action:@selector(displaySelectView)]autorelease];
+    item = [[UIBarButtonItem alloc] initWithTitle:@"Select" style: UIBarButtonItemStyleBordered target:self action:@selector(displaySelectView)];
     [buttonItems addObject:item];
     
     if (editing) {
-        item = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(finishEditingTableView)] autorelease];
+        item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(finishEditingTableView)];
         [buttonItems addObject:item];        
     }
     else {
-        item = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(startEditingTableView)]autorelease];
+        item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(startEditingTableView)];
         [buttonItems addObject:item];
     }
     
@@ -241,7 +229,7 @@ static void saveLastPage(int page)
 - (void) loadPrev
 {
     int prevPage = review.page - 1;
-    ReviewViewController_iPhone* viewController = [[[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:prevPage] autorelease];
+    ReviewViewController_iPhone* viewController = [[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:prevPage];
     [viewController load];
     [self.navigationController pushViewController:viewController animated:YES];
 }
@@ -249,7 +237,7 @@ static void saveLastPage(int page)
 - (void) loadNext
 {
     int nextPage = review.page + 1;
-    ReviewViewController_iPhone* viewController = [[[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:nextPage] autorelease];
+    ReviewViewController_iPhone* viewController = [[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:nextPage];
     [viewController load];
     [self.navigationController pushViewController:viewController animated:YES];
 }
@@ -283,7 +271,7 @@ static void saveLastPage(int page)
     }
     
     int pageNo = [selectField.text intValue];
-    ReviewViewController_iPhone* viewController = [[[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:pageNo] autorelease];
+    ReviewViewController_iPhone* viewController = [[self.class alloc] initWithNibName:@"ReviewViewController_iPhone" bundle:nil page:pageNo];
     [viewController load];
     [self.navigationController pushViewController:viewController animated:YES];
 }
@@ -313,7 +301,7 @@ static void saveLastPage(int page)
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     
     // PUT back to the server
-    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, inflection._url]retain];
+    NSString* url = [NSString stringWithFormat:@"%@%@", DubsarSecureUrl, inflection._url];
     
     NSString* jsonPayload = [NSString stringWithFormat:@"{\"name\":\"%@\"}", selectField.text];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -388,7 +376,7 @@ static void saveLastPage(int page)
     
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[[UIApplication sharedApplication] delegate];
     
-    NSString* url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, inflection._url]retain];
+    NSString* url = [NSString stringWithFormat:@"%@%@", DubsarSecureUrl, inflection._url];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"DELETE"];
@@ -453,7 +441,7 @@ static void saveLastPage(int page)
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     Inflection* inflection = [review.inflections objectAtIndex:indexPath.row];
-    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc] initWithNibName:@"WordViewController_iPhone" bundle:nil word:inflection.word title:nil]autorelease];
+    WordViewController_iPhone* viewController = [[WordViewController_iPhone alloc] initWithNibName:@"WordViewController_iPhone" bundle:nil word:inflection.word title:nil];
     viewController.parentDataSource = self.review;
     [self.navigationController pushViewController:viewController animated:YES];
 }
@@ -522,9 +510,9 @@ static void saveLastPage(int page)
     if ((loading || !review || !review.complete) && row >= review.inflections.count) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"];
         }
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]autorelease];
+        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [cell.contentView addSubview:indicator];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
@@ -536,7 +524,7 @@ static void saveLastPage(int page)
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellType];
     }
     
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -553,7 +541,7 @@ static void saveLastPage(int page)
     cell.textLabel.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0];
     cell.detailTextLabel.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0];
     
-    cell.backgroundView = loading ? [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cell-bg.png"]]autorelease]: nil;
+    cell.backgroundView = loading ? [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cell-bg.png"]]: nil;
     
     Inflection* inflection = [review.inflections objectAtIndex:row];
     cell.textLabel.text = inflection.name;

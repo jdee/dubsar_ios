@@ -25,7 +25,7 @@
     CGRect originalFrame;
 }
 
-@property (nonatomic, retain) ForwardStack* forwardStack;
+@property (nonatomic, strong) ForwardStack* forwardStack;
 
 - (void)addBackButton;
 - (void)addForwardButton;

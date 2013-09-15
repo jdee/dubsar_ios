@@ -32,12 +32,12 @@
     UIColor* origTextColor;
 }
 
-@property (nonatomic, assign) UINavigationController* navigationController;
-@property (nonatomic, assign) UIPopoverController* popoverController;
-@property (nonatomic, retain) Word* word;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UITextView *inflectionsTextView;
-@property (nonatomic, retain) IBOutlet UILabel *headerLabel;
+@property (nonatomic, weak) UINavigationController* navigationController;
+@property (nonatomic, weak) UIPopoverController* popoverController;
+@property (nonatomic, strong) Word* word;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UITextView *inflectionsTextView;
+@property (nonatomic, strong) IBOutlet UILabel *headerLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 - (void)adjustInflections;

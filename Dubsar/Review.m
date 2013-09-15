@@ -19,7 +19,6 @@
 
 #import "DubsarAppDelegate.h"
 #import "Inflection.h"
-#import "JSONKit.h"
 #import "Review.h"
 #import "Word.h"
 
@@ -42,13 +41,7 @@
 
 + (id) reviewWithPage:(int)thePage
 {
-    return [[[self alloc] initWithPage:thePage] autorelease];
-}
-
-- (void)dealloc
-{
-    [inflections release];
-    [super dealloc];
+    return [[self alloc] initWithPage:thePage];
 }
 
 - (void) load
@@ -59,7 +52,7 @@
 
 - (void) parseData
 {
-    NSDictionary* response = [[self decoder] objectWithData:[self data]];
+    NSDictionary* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
     NSArray* _inflections = [response valueForKey:@"inflections"];
     
     self.totalPages = [[response valueForKey:@"total_pages"]intValue];
@@ -85,13 +78,13 @@
 
 -(void)loadFromServer
 {
-    super.url = [[NSString stringWithFormat:@"%@%@", DubsarSecureUrl, _url]retain];
+    super.url = [NSString stringWithFormat:@"%@%@", DubsarSecureUrl, _url];
     NSURL* nsurl = [NSURL URLWithString:super.url];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:nsurl];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
-    connection = [[NSURLConnection connectionWithRequest:request delegate:self]retain];
+    connection = [NSURLConnection connectionWithRequest:request delegate:self];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     

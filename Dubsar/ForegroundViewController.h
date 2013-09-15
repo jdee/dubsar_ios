@@ -21,4 +21,9 @@
 
 @interface ForegroundViewController : UIViewController
 
+- (void) load;
+- (bool) handleWotd;
+- (void) handlePanGesture:(UIPanGestureRecognizer*)sender;
+- (void) handleTouch:(UITouch*)touch;
+
 @end

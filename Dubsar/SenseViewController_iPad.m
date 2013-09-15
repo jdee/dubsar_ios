@@ -75,7 +75,7 @@
         
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
         
-        detailNib = [[UINib nibWithNibName:@"DetailView_iPad" bundle:nil]retain];
+        detailNib = [UINib nibWithNibName:@"DetailView_iPad" bundle:nil];
 
         popoverController = nil;
         self.actualNavigationController = nil;
@@ -92,26 +92,6 @@
 
     [tableView setHidden:NO];
     [sense load];
-}
-
-- (void)dealloc
-{
-    [popoverController release];
-    [detailNib release];
-    sense.delegate = nil;
-    [sense release];
-    [tableView release];
-    [bannerLabel release];
-    [detailLabel release];
-    [detailView release];
-    [moreButton release];
-    [mainView release];
-    [senseToolbar release];
-    [detailBannerLabel release];
-    [glossTextView release];
-    [detailGlossTextView release];
-    [bannerHandle release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -150,7 +130,7 @@
     [self setDetailGlossTextView:nil];
     [self setBannerHandle:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -232,7 +212,7 @@
     SenseViewController_iPad* senseViewController;
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = [sense.synonyms objectAtIndex:indexPath.row];
-        senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
+        senseViewController = [[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense];
         [senseViewController load];
         [actualNavigationController pushViewController:senseViewController animated:YES];
     }
@@ -242,14 +222,14 @@
     else if ([pointer.targetType isEqualToString:@"Sense"]) {
         /* sense pointer */
         targetSense = [Sense senseWithId:pointer.targetId nameAndPos:pointer.targetText];
-        senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
+        senseViewController = [[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense];
         [senseViewController load];
         [actualNavigationController pushViewController:senseViewController animated:YES];
     }
     else {
         /* synset pointer */
         Synset* targetSynset = [Synset synsetWithId:pointer.targetId partOfSpeech:POSUnknown];
-        SynsetViewController_iPad* synsetViewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset]autorelease];
+        SynsetViewController_iPad* synsetViewController = [[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset];
         [synsetViewController load];
         [actualNavigationController pushViewController:synsetViewController animated:YES];
     }
@@ -271,7 +251,7 @@
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType];
     }
     
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -279,9 +259,9 @@
     if (!sense || !sense.complete) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"];
         }
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]autorelease];
+        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [cell.contentView addSubview:indicator];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
@@ -302,7 +282,7 @@
     
     cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"];
     }
     cell.textLabel.text = pointer.targetText;
     // NSLog(@"rendering cell for %@ at section %d, row %d", pointer.targetText, indexPath.section, indexPath.row);
@@ -420,14 +400,14 @@
 
 - (IBAction)showWordView:(id)sender 
 {
-    WordViewController_iPad* wordViewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word title:nil]autorelease];
+    WordViewController_iPad* wordViewController = [[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:sense.word title:nil];
     [wordViewController load];
     [actualNavigationController pushViewController:wordViewController animated:YES];
 }
 
 - (IBAction)showSynsetView:(id)sender 
 {
-    SynsetViewController_iPad* synsetViewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset]autorelease];
+    SynsetViewController_iPad* synsetViewController = [[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:sense.synset];
     [synsetViewController load];
     [actualNavigationController pushViewController:synsetViewController animated:YES];
 }
@@ -440,10 +420,10 @@
         NSLog(@"creating popover, word is %@complete", sense.word.complete ? @"" : @"not ");
 #endif // DEBUG
         
-        wordViewController = [[[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word]autorelease];
+        wordViewController = [[WordPopoverViewController_iPad alloc]initWithNibName:@"WordPopoverViewController_iPad" bundle:nil word:sense.word];
         [wordViewController load];
         
-        popoverController = [[[UIPopoverController alloc]initWithContentViewController:wordViewController]retain];
+        popoverController = [[UIPopoverController alloc]initWithContentViewController:wordViewController];
         wordViewController.popoverController = popoverController;
         wordViewController.navigationController = self.actualNavigationController;
     }
@@ -460,7 +440,7 @@
 
 - (void)addGestureRecognizers
 {
-    UITapGestureRecognizer* recognizer = [[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)]autorelease];
+    UITapGestureRecognizer* recognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)];
     recognizer.delegate = self;
     recognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:recognizer];

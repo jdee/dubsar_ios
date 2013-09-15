@@ -38,8 +38,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
-    _searchBarViewController = [[[SearchBarViewController_iPad alloc]initWithNibName:@"SearchBarViewController_iPad" bundle:nil]autorelease];
-    DubsarViewController_iPad* dubsarViewController = [[[DubsarViewController_iPad alloc]initWithNibName:@"DubsarViewController_iPad" bundle:nil]autorelease];
+    _searchBarViewController = [[SearchBarViewController_iPad alloc]initWithNibName:@"SearchBarViewController_iPad" bundle:nil];
+    DubsarViewController_iPad* dubsarViewController = [[DubsarViewController_iPad alloc]initWithNibName:@"DubsarViewController_iPad" bundle:nil];
     
     _navigationController = [[DubsarNavigationController_iPad alloc]initWithRootViewController:dubsarViewController];
     _searchBarViewController.navigationController = _navigationController;
@@ -74,7 +74,7 @@
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
         [word load];
         
-        WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:@"Word of the Day"] autorelease];
+        WordViewController_iPad* viewController = [[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:@"Word of the Day"];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         return YES;
@@ -89,7 +89,7 @@
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
         [word load];
 
-        WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:nil] autorelease];
+        WordViewController_iPad* viewController = [[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:nil];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         return YES;
@@ -104,7 +104,7 @@
         Sense* sense = [Sense senseWithId:senseId name:nil partOfSpeech:POSUnknown];
         [sense load];
 
-        SenseViewController_iPad* viewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense] autorelease];
+        SenseViewController_iPad* viewController = [[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         return YES;
@@ -118,20 +118,13 @@
         int synsetId = [[url lastPathComponent] intValue];
         Synset* synset = [Synset synsetWithId:synsetId partOfSpeech:POSUnknown];
         
-        SynsetViewController_iPad* viewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:synset] autorelease];
+        SynsetViewController_iPad* viewController = [[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:synset];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         return YES;
     }
     
     return NO;
-}
-
-- (void)dealloc
-{
-    [_navigationController release];
-    [_splitViewController release];
-	[super dealloc];
 }
 
 @end

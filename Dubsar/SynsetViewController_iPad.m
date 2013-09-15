@@ -79,27 +79,11 @@
         
         [self adjustTitle];
                 
-        detailNib = [[UINib nibWithNibName:@"DetailView_iPad" bundle:nil]retain];
+        detailNib = [UINib nibWithNibName:@"DetailView_iPad" bundle:nil];
         
         hasBeenDragged = false;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [tableSections release];
-    [detailGlossTextView release];
-    [detailLabel release];
-    [detailView release];
-    synset.delegate = nil;
-    [synset release];
-    [tableView release];
-    [bannerLabel release];
-    [detailBannerLabel release];
-    [glossTextView release];
-    [bannerHandle release];
-    [super dealloc];
 }
 
 - (void)load
@@ -142,7 +126,7 @@
     [self setGlossTextView:nil];
     [self setBannerHandle:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -278,7 +262,7 @@
         
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = [synset.senses objectAtIndex:indexPath.row];
-        SenseViewController_iPad* senseViewController = [[[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense]autorelease];
+        SenseViewController_iPad* senseViewController = [[SenseViewController_iPad alloc]initWithNibName:@"SenseViewController_iPad" bundle:nil sense:targetSense];
         [senseViewController load];
         [self.navigationController pushViewController:senseViewController animated:YES];
     }
@@ -287,7 +271,7 @@
     }
     else {
         Synset* targetSynset = [Synset synsetWithId:pointer.targetId partOfSpeech:POSUnknown];
-        SynsetViewController_iPad* synsetViewController = [[[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset]autorelease];
+        SynsetViewController_iPad* synsetViewController = [[SynsetViewController_iPad alloc]initWithNibName:@"SynsetViewController_iPad" bundle:nil synset:targetSynset];
         [synsetViewController load];
         [self.navigationController pushViewController:synsetViewController animated:YES];
     }
@@ -309,7 +293,7 @@
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType];
     }
     
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -317,9 +301,9 @@
     if (!synset || !synset.complete) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"];
         }
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
+        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [cell.contentView addSubview:indicator];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
@@ -340,7 +324,7 @@
     
     cell = [theTableView dequeueReusableCellWithIdentifier:@"synsetPointer"];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"synsetPointer"]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"synsetPointer"];
     }
     cell.textLabel.text = pointer.targetText;
     // NSLog(@"rendering cell for %@ at section %d, row %d", pointer.targetText, indexPath.section, indexPath.row);
@@ -378,7 +362,7 @@
 
 - (void)addGestureRecognizers
 {
-    UITapGestureRecognizer* recognizer = [[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)]autorelease];
+    UITapGestureRecognizer* recognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)];
     recognizer.delegate = self;
     recognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:recognizer];

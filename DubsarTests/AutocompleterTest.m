@@ -39,7 +39,7 @@
 
 -(void)testInitialization
 {
-    Autocompleter* a = [[[Autocompleter alloc]init]autorelease];
+    Autocompleter* a = [[Autocompleter alloc]init];
     STAssertTrue(!a.complete, @"complete failed");
     STAssertTrue(!a.error, @"error failed");
 }

@@ -26,16 +26,10 @@
     self = [super init];
     if (self) {
         // Initialization code here.
-        stack = [[NSMutableArray array]retain];
+        stack = [NSMutableArray array];
     }
     
     return self;
-}
-
-- (void)dealloc
-{
-    [stack release];
-    [super dealloc];
 }
 
 - (void)pushViewController:(UIViewController *)viewController

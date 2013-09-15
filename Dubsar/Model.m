@@ -19,13 +19,11 @@
 
 #import "Dubsar.h"
 #import "DubsarAppDelegate.h"
-#import "JSONKit.h"
 #import "LoadDelegate.h"
 #import "Model.h"
 
 @implementation Model
 
-@synthesize decoder;
 @synthesize data;
 @synthesize _url;
 @synthesize complete;
@@ -40,8 +38,7 @@
 {
     self = [super init];
     if (self) {
-        data = [[NSMutableData dataWithLength:0] retain];
-        decoder = [[JSONDecoder decoder] retain];
+        data = [NSMutableData dataWithLength:0];
         _url = nil;
         connection = nil;
         complete = false;
@@ -51,17 +48,6 @@
         appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
     }
     return self;
-}
-
--(void)dealloc
-{
-    [errorMessage release];
-    [url release];
-    [decoder release];
-    [connection release];
-    [_url release];
-    [data release];
-    [super dealloc];
 }
 
 - (void)load
@@ -77,24 +63,24 @@
 
 - (void)databaseThread:(id)theAppDelegate
 {
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
-    complete = error = false;
-    errorMessage = nil;
-    [self loadResults:(DubsarAppDelegate*)theAppDelegate];
-    complete = true;
-    error = errorMessage != nil;
-    
-    if (delegate != nil) {
-        if ([NSThread currentThread] != [NSThread mainThread]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+    @autoreleasepool {
+        complete = error = false;
+        errorMessage = nil;
+        [self loadResults:(DubsarAppDelegate*)theAppDelegate];
+        complete = true;
+        error = errorMessage != nil;
+
+        if (delegate != nil) {
+            if ([NSThread currentThread] != [NSThread mainThread]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [delegate loadComplete:self withError:errorMessage];
+                });
+            }
+            else {
                 [delegate loadComplete:self withError:errorMessage];
-            });
-        }
-        else {
-            [delegate loadComplete:self withError:errorMessage];
+            }
         }
     }
-    [pool release];
 }
 
 +(NSString*)incrementString:(NSString*)string
@@ -106,13 +92,13 @@
 
 -(void)loadFromServer
 {
-    url = [[NSString stringWithFormat:@"%@%@", DubsarBaseUrl, _url]retain];
+    url = [NSString stringWithFormat:@"%@%@", DubsarBaseUrl, _url];
     NSURL* nsurl = [NSURL URLWithString:url];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:nsurl];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
-    connection = [[NSURLConnection connectionWithRequest:request delegate:self]retain];
+    connection = [NSURLConnection connectionWithRequest:request delegate:self];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -180,9 +166,9 @@
     NSLog(@"JSON response from URL %@:", url);
     NSLog(@"%@", jsonData);
 
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
-    [self parseData];
-    [pool release];
+    @autoreleasepool {
+        [self parseData];
+    }
 
     [self setComplete:true];
     [[self delegate] loadComplete:self withError:nil];
@@ -194,7 +180,7 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
     
-    UIAlertView* alertView = [[[UIAlertView alloc]initWithTitle:@"Network Error" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil]autorelease];
+    UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"Network Error" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];   
 }
 

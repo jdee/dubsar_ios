@@ -25,6 +25,6 @@
 @interface DubsarAppDelegate_iPhone : DubsarAppDelegate {
 }
 
-@property (nonatomic, retain) DubsarNavigationController_iPhone* navigationController;
+@property (nonatomic, strong) DubsarNavigationController_iPhone* navigationController;
 
 @end

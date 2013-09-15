@@ -11,7 +11,6 @@
 		7B00DF5713E6EFDA00E80FCC /* PartOfSpeechDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809813E38CEE00274E6C /* PartOfSpeechDictionary.m */; };
 		7B00DF5813E6EFE300E80FCC /* Dubsar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B3280AE13E38D9A00274E6C /* Dubsar.m */; };
 		7B00DF5B13E6F03C00E80FCC /* AutocompleterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B00DF5A13E6F03C00E80FCC /* AutocompleterTest.m */; };
-		7B00DF5C13E6F0A100E80FCC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32808A13E38C9300274E6C /* JSONKit.m */; };
 		7B00DF5D13E6F0A100E80FCC /* Autocompleter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809113E38CEE00274E6C /* Autocompleter.m */; };
 		7B00DF5E13E6F0A100E80FCC /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809613E38CEE00274E6C /* Model.m */; };
 		7B00DF5F13E6F0B800E80FCC /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32808C13E38C9300274E6C /* URLEncoding.m */; };
@@ -69,7 +68,6 @@
 		7B32808213E38BF300274E6C /* SenseViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B32808013E38BF300274E6C /* SenseViewController_iPad.xib */; };
 		7B32808613E38C0400274E6C /* SynsetViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32808413E38C0300274E6C /* SynsetViewController_iPad.m */; };
 		7B32808713E38C0400274E6C /* SynsetViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B32808513E38C0300274E6C /* SynsetViewController_iPad.xib */; };
-		7B32808D13E38C9300274E6C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32808A13E38C9300274E6C /* JSONKit.m */; };
 		7B32808E13E38C9300274E6C /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32808C13E38C9300274E6C /* URLEncoding.m */; };
 		7B3280A313E38CEF00274E6C /* Autocompleter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809113E38CEE00274E6C /* Autocompleter.m */; };
 		7B3280A413E38CEF00274E6C /* AutocompleterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809413E38CEE00274E6C /* AutocompleterProxy.m */; };
@@ -263,8 +261,6 @@
 		7B32808313E38C0300274E6C /* SynsetViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetViewController_iPad.h; sourceTree = "<group>"; };
 		7B32808413E38C0300274E6C /* SynsetViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetViewController_iPad.m; sourceTree = "<group>"; };
 		7B32808513E38C0300274E6C /* SynsetViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SynsetViewController_iPad.xib; sourceTree = "<group>"; };
-		7B32808913E38C9300274E6C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
-		7B32808A13E38C9300274E6C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		7B32808B13E38C9300274E6C /* URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLEncoding.h; sourceTree = "<group>"; };
 		7B32808C13E38C9300274E6C /* URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLEncoding.m; sourceTree = "<group>"; };
 		7B32809013E38CEE00274E6C /* Autocompleter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Autocompleter.h; sourceTree = "<group>"; };
@@ -607,8 +603,6 @@
 		7B32808813E38C4200274E6C /* External */ = {
 			isa = PBXGroup;
 			children = (
-				7B32808913E38C9300274E6C /* JSONKit.h */,
-				7B32808A13E38C9300274E6C /* JSONKit.m */,
 				7B3F43E4169BAAB3005EF93B /* KeychainWrapper.h */,
 				7B3F43E5169BAAB3005EF93B /* KeychainWrapper.m */,
 				7B32808B13E38C9300274E6C /* URLEncoding.h */,
@@ -932,7 +926,6 @@
 				7B32807C13E38BDF00274E6C /* WordViewController_iPad.m in Sources */,
 				7B32808113E38BF300274E6C /* SenseViewController_iPad.m in Sources */,
 				7B32808613E38C0400274E6C /* SynsetViewController_iPad.m in Sources */,
-				7B32808D13E38C9300274E6C /* JSONKit.m in Sources */,
 				7B32808E13E38C9300274E6C /* URLEncoding.m in Sources */,
 				7B3280A313E38CEF00274E6C /* Autocompleter.m in Sources */,
 				7B3280A413E38CEF00274E6C /* AutocompleterProxy.m in Sources */,
@@ -991,7 +984,6 @@
 				7B59C4D013E8A74C006F5FDB /* Search.m in Sources */,
 				7B00DF6313E6F11F00E80FCC /* PointerDictionary.m in Sources */,
 				7B00DF5F13E6F0B800E80FCC /* URLEncoding.m in Sources */,
-				7B00DF5C13E6F0A100E80FCC /* JSONKit.m in Sources */,
 				7B00DF5D13E6F0A100E80FCC /* Autocompleter.m in Sources */,
 				7B00DF5E13E6F0A100E80FCC /* Model.m in Sources */,
 				7B00DF5813E6EFE300E80FCC /* Dubsar.m in Sources */,
@@ -1061,8 +1053,8 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PROVISIONING_PROFILE = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PROVISIONING_PROFILE = "887813B6-B280-498B-9B05-8071F1C76952";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1077,9 +1069,9 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "887813B6-B280-498B-9B05-8071F1C76952";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1089,6 +1081,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1103,6 +1096,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";

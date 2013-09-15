@@ -24,8 +24,8 @@
     UILabel *versionLabel;
     UIButton *appStoreButton;
 }
-@property (nonatomic, retain) IBOutlet UILabel *versionLabel;
-@property (nonatomic, retain) IBOutlet UIButton *appStoreButton;
+@property (nonatomic, strong) IBOutlet UILabel *versionLabel;
+@property (nonatomic, strong) IBOutlet UIButton *appStoreButton;
 - (IBAction)showLicense:(id)sender;
 - (IBAction)viewInAppStore:(id)sender;
 

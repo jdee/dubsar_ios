@@ -35,13 +35,13 @@
     UIColor* originalColor;
 }
 
-@property (nonatomic, retain) Word* word;
-@property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UIToolbar* toolbar;
-@property (nonatomic, assign) UINavigationController* actualNavigationController;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem* previewButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem* inflectionsButton;
+@property (nonatomic, strong) Word* word;
+@property (nonatomic, strong) IBOutlet UILabel *bannerLabel;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UIToolbar* toolbar;
+@property (nonatomic, weak) UINavigationController* actualNavigationController;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem* previewButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem* inflectionsButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord title:(NSString*)theTitle;
 - (void)adjustBanner;

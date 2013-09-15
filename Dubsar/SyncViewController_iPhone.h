@@ -25,9 +25,9 @@
     int insertFinished;
 }
 
-@property (nonatomic, retain) IBOutlet UIProgressView* fetchProgressView;
-@property (nonatomic, retain) IBOutlet UIProgressView* insertProgressView;
-@property (nonatomic, retain) IBOutlet UIButton* startButton;
+@property (nonatomic, strong) IBOutlet UIProgressView* fetchProgressView;
+@property (nonatomic, strong) IBOutlet UIProgressView* insertProgressView;
+@property (nonatomic, strong) IBOutlet UIButton* startButton;
 @property bool synching;
 @property bool volatile mustStop;
 

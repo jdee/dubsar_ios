@@ -17,7 +17,6 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "JSONKit.h"
 #import "PartOfSpeechDictionary.h"
 #import "Pointer.h"
 #import "PointerDictionary.h"
@@ -46,22 +45,22 @@
 
 +(id)senseWithId:(int)theId name:(NSString *)theName synset:(Synset *)theSynset
 {
-    return [[[self alloc]initWithId:theId name:theName synset:theSynset]autorelease];
+    return [[self alloc]initWithId:theId name:theName synset:theSynset];
 }
 
 +(id)senseWithId:(int)theId name:(NSString *)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
-    return [[[self alloc]initWithId:theId name:theName partOfSpeech:thePartOfSpeech]autorelease];
+    return [[self alloc]initWithId:theId name:theName partOfSpeech:thePartOfSpeech];
 }
 
 +(id)senseWithId:(int)theId gloss:(NSString *)theGloss synonyms:(NSArray *)theSynonyms word:(Word *)theWord
 {
-    return [[[self alloc]initWithId:theId gloss:theGloss synonyms:theSynonyms word:theWord]autorelease];
+    return [[self alloc]initWithId:theId gloss:theGloss synonyms:theSynonyms word:theWord];
 }
 
 +(id)senseWithId:(int)theId nameAndPos:(NSString*)nameAndPos
 {
-    return [[[self alloc]initWithId:theId nameAndPos:nameAndPos]autorelease];
+    return [[self alloc]initWithId:theId nameAndPos:nameAndPos];
 }
 
 -(id)initWithId:(int)theId name:(NSString *)theName synset:(Synset *)theSynset
@@ -69,7 +68,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [theName retain];
+        name = theName;
         word = nil;
         gloss = nil;
         synonyms = nil;
@@ -91,7 +90,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [theName retain];
+        name = theName;
         word = nil;
         gloss = nil;
         synonyms = nil;
@@ -113,11 +112,11 @@
     self = [super init];
     if (self) {
         _id = theId;
-        gloss = [theGloss retain];
+        gloss = theGloss;
         synonyms = [theSynonyms copy];
         word = theWord;
         partOfSpeech = word.partOfSpeech;
-        name = [word.name retain];
+        name = word.name;
         synset = nil;
         marker = nil;
         verbFrames = nil;
@@ -154,18 +153,6 @@
 -(void)dealloc
 {
     [self destroyStatements];
-    [sections release];
-    [name release];
-    [pointers release];
-    [samples release];
-    [verbFrames release];
-    [gloss release];
-    [synonyms release];
-    if (!weakSynsetLink) [synset release];
-    if (!weakWordLink) [word release];
-    [lexname release];
-    [marker release];
-    [super dealloc];
 }
 
 -(NSString*)synonymsAsString
@@ -234,7 +221,7 @@
     NSRange nameRange = NSMakeRange(0, posStartRange.location);
     NSRange posRange = NSMakeRange(posStartRange.location+2, posEndRange.location-posStartRange.location-2);
     
-    name = [[nameAndPos substringWithRange:nameRange] retain];
+    name = [nameAndPos substringWithRange:nameRange];
     partOfSpeech = [PartOfSpeechDictionary partOfSpeechFromPOS:[nameAndPos substringWithRange:posRange]];
 }
 
@@ -244,7 +231,7 @@
     NSLog(@"parsing Sense response for %@, %u bytes", self.nameAndPos, [self data].length);
 #endif // DEBUG
     
-    NSArray* response = [[self decoder] objectWithData:[self data]];
+    NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
 #ifdef DEBUG
     NSLog(@"sense response array has %u entries", response.count);
 #endif // DEBUG
@@ -257,20 +244,20 @@
     partOfSpeech = [PartOfSpeechDictionary partOfSpeechFromPOS:[_word objectAtIndex:2]];
     
     if (!word) {
-        word = [[Word wordWithId:_wordId.intValue name:[_word objectAtIndex:1] partOfSpeech:partOfSpeech]retain];
+        word = [Word wordWithId:_wordId.intValue name:[_word objectAtIndex:1] partOfSpeech:partOfSpeech];
         weakWordLink = false;
     }
 
     if (!gloss) {
-        gloss = [[_synset objectAtIndex:1]retain];
+        gloss = [_synset objectAtIndex:1];
     }
    
     if (!synset) {
-        synset = [[Synset synsetWithId:_synsetId.intValue gloss:[_synset objectAtIndex:1] partOfSpeech:partOfSpeech] retain];
+        synset = [Synset synsetWithId:_synsetId.intValue gloss:[_synset objectAtIndex:1] partOfSpeech:partOfSpeech];
         weakSynsetLink = false;
     }
     
-    lexname = [[response objectAtIndex:3] retain];
+    lexname = [response objectAtIndex:3];
 #ifdef DEBUG
     NSLog(@"lexname: \"%@\"", lexname);
 #endif // DEBUG
@@ -279,7 +266,7 @@
 
     NSObject* _marker = [response objectAtIndex:4];
     if (_marker != NSNull.null) {
-        marker = (NSString*)[_marker retain];
+        marker = (NSString*)_marker;
     }
     
     NSNumber* fc = [response objectAtIndex:5];
@@ -293,7 +280,7 @@
 #ifdef DEBUG
     NSLog(@"found %u synonyms", [_synonyms count]);
 #endif // DEBUG
-    synonyms = [[NSMutableArray arrayWithCapacity:_synonyms.count] retain];
+    synonyms = [NSMutableArray arrayWithCapacity:_synonyms.count];
     for (int j=0; j< _synonyms.count; ++j) {
         NSArray* _synonym = [_synonyms objectAtIndex:j];
         NSNumber* _senseId = [_synonym objectAtIndex:0];
@@ -315,7 +302,7 @@
 #ifdef DEBUG
     NSLog(@"found %u verb frames", _verbFrames.count);
 #endif // DEBUG
-    verbFrames = [[NSMutableArray arrayWithCapacity:_verbFrames.count]retain];
+    verbFrames = [NSMutableArray arrayWithCapacity:_verbFrames.count];
     for (int j=0; j<_verbFrames.count; ++j) {
         NSString* frame = [_verbFrames objectAtIndex:j];
         NSString* format = [frame stringByReplacingOccurrencesOfString:@"%s" withString:@"%@"];
@@ -324,7 +311,7 @@
 #endif // DEBUG
         [verbFrames insertObject:[NSString stringWithFormat:format, name] atIndex:j];
     }
-    samples = [[response objectAtIndex:8]retain];
+    samples = [response objectAtIndex:8];
 
 #ifdef DEBUG
     NSLog(@"found %u verb frames and %u sample sentences", [verbFrames count], [samples count]);
@@ -335,7 +322,7 @@
 
 - (void)parsePointers:(NSArray*)response
 {    
-    pointers = [[NSMutableDictionary dictionary]retain];
+    pointers = [NSMutableDictionary dictionary];
     NSArray* _pointers = [response objectAtIndex:9];
     for (int j=0; j<_pointers.count; ++j) {
         NSArray* _pointer = [_pointers objectAtIndex:j];
@@ -424,8 +411,8 @@
         
         if (samples == nil) {
             partOfSpeech = [PartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
-            word = [[Word wordWithId:wordId name:name partOfSpeech:partOfSpeech]retain];
-            synset = [[Synset synsetWithId:synsetId partOfSpeech:partOfSpeech]retain];
+            word = [Word wordWithId:wordId name:name partOfSpeech:partOfSpeech];
+            synset = [Synset synsetWithId:synsetId partOfSpeech:partOfSpeech];
             weakSynsetLink = weakWordLink = false;
 #ifdef DEBUG
             NSLog(@"created synset with id %d", synset._id);

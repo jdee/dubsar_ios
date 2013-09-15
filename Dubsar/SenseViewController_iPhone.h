@@ -37,17 +37,17 @@
     float currentLabelPosition;
     bool hasBeenDragged;
 }
-@property (nonatomic, retain) IBOutlet UITextView *glossTextView;
+@property (nonatomic, strong) IBOutlet UITextView *glossTextView;
 
-@property (nonatomic, retain) Sense* sense;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UILabel *detailLabel;
-@property (nonatomic, retain) IBOutlet UIView *detailView;
-@property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
-@property (nonatomic, retain) IBOutlet UITextView *detailGlossTextView;
-@property (nonatomic, retain) IBOutlet UIImageView *bannerHandle;
-@property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
-@property (nonatomic, assign) UINavigationController* actualNavigationController;
+@property (nonatomic, strong) Sense* sense;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UILabel *detailLabel;
+@property (nonatomic, strong) IBOutlet UIView *detailView;
+@property (nonatomic, strong) IBOutlet UILabel *detailBannerLabel;
+@property (nonatomic, strong) IBOutlet UITextView *detailGlossTextView;
+@property (nonatomic, strong) IBOutlet UIImageView *bannerHandle;
+@property (nonatomic, strong) IBOutlet UILabel *bannerLabel;
+@property (nonatomic, weak) UINavigationController* actualNavigationController;
 
 - (void)displayPopup:(NSString*)text;
 - (IBAction)dismissPopup:(id)sender;

@@ -38,11 +38,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -67,7 +62,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -130,10 +125,10 @@
         static NSString* indicatorType = @"indicator";
         cell = [tableView dequeueReusableCellWithIdentifier:indicatorType];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indicatorType]autorelease];
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indicatorType];
         }
         
-        UIActivityIndicatorView* indicatorView = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]autorelease];
+        UIActivityIndicatorView* indicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [indicatorView startAnimating];
         indicatorView.frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         [cell.contentView addSubview:indicatorView];
@@ -145,7 +140,7 @@
     
     cell = [tableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault   reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault   reuseIdentifier:cellType];
     }
     
     DubsarAppDelegate_iPad* appDelegate = (DubsarAppDelegate_iPad*)UIApplication.sharedApplication.delegate;
@@ -181,7 +176,7 @@
     NSLog(@"searching for \"%@\"", text);
 #endif // DEBUG
     
-    SearchViewController_iPad* searchViewController = [[[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text:[text lowercaseString] matchCase:NO]autorelease];
+    SearchViewController_iPad* searchViewController = [[SearchViewController_iPad alloc] initWithNibName: @"SearchViewController_iPad" bundle: nil text:[text lowercaseString] matchCase:NO];
     [searchViewController load];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }

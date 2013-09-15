@@ -30,10 +30,10 @@
     UIColor* originalColor;
 }
 
-@property (nonatomic, retain) Search* search;
+@property (nonatomic, strong) Search* search;
 @property (nonatomic, copy) NSString* searchText;
-@property (nonatomic, retain) IBOutlet UITableView *searchResultsTableView;
-@property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
+@property (nonatomic, strong) IBOutlet UITableView *searchResultsTableView;
+@property (nonatomic, strong) IBOutlet UIPageControl *pageControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)theSearchText;
 - (void)setTableViewHeight;

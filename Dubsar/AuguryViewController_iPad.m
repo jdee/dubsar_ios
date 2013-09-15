@@ -38,13 +38,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [webView release];
-    [augury release];
-    [super dealloc];
-}
-
 - (void)augur
 {
     Augury* _augury = [Augury augury];

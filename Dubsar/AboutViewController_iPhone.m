@@ -41,20 +41,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [versionLabel release];
-    [licenseView release];
-    [licenseText release];
-    [copyrightLabel release];
-    [aboutToolbar release];
-    [aboutText release];
-    [aboutScrollView release];
-    [licenseToolbar release];
-    [appStoreButton release];
-    [super dealloc];
-}
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -99,7 +85,7 @@
     [self setLicenseToolbar:nil];
     [self setAppStoreButton:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -139,7 +125,7 @@
     }
     else {
         // iOS 4.x
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
+        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -162,11 +148,11 @@
 
 - (void)launchAppStore:(id)arg
 {
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
-    [appStoreButton setEnabled:NO];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-    [appStoreButton setEnabled:YES];
-    [pool release];
+    @autoreleasepool {
+        [appStoreButton setEnabled:NO];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+        [appStoreButton setEnabled:YES];
+    }
 }
 
 - (NSString *)licenseHtml

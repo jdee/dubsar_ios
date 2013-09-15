@@ -21,7 +21,7 @@
 
 @interface IntroViewController_iPad : ForegroundViewController<UIWebViewDelegate>
 
-@property (nonatomic, retain) IBOutlet UIWebView* webView;
+@property (nonatomic, strong) IBOutlet UIWebView* webView;
 
 - (NSString*)htmlForAuguryIntro;
 

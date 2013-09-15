@@ -27,7 +27,7 @@
 
 + (id)pointer
 {
-    return [[[self alloc]init]autorelease];
+    return [[self alloc]init];
 }
 
 - (id)init
@@ -39,14 +39,6 @@
     }
     
     return self;
-}
-
-- (void)dealloc
-{
-    [targetGloss release];
-    [targetText release];
-    [targetType release];
-    [super dealloc];
 }
 
 @end

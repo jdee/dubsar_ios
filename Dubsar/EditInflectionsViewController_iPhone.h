@@ -26,14 +26,14 @@
     NSDictionary* editingInflection;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView* tableView;
-@property (nonatomic, retain) IBOutlet UIView* dialogView;
-@property (nonatomic, retain) IBOutlet UITextField* dialogTextField;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem* editButton;
-@property (nonatomic, retain) Word* word;
-@property (nonatomic, retain) NSMutableArray* inflections;
+@property (nonatomic, strong) IBOutlet UITableView* tableView;
+@property (nonatomic, strong) IBOutlet UIView* dialogView;
+@property (nonatomic, strong) IBOutlet UITextField* dialogTextField;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem* editButton;
+@property (nonatomic, strong) Word* word;
+@property (nonatomic, strong) NSMutableArray* inflections;
 @property bool editing;
-@property (nonatomic, assign) id<ModalViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<ModalViewControllerDelegate> delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord;
 

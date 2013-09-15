@@ -73,12 +73,12 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        sense = [theSense retain];
+        sense = theSense;
         sense.delegate = self;
         
         self.title = [NSString stringWithFormat:@"Sense: %@", sense.nameAndPos];
 
-        detailNib = [[UINib nibWithNibName:@"DetailView_iPhone" bundle:nil]retain];
+        detailNib = [UINib nibWithNibName:@"DetailView_iPhone" bundle:nil];
         self.actualNavigationController = nil;
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -87,22 +87,6 @@
         hasBeenDragged = false;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    sense.delegate = nil;
-    [sense release];
-    [tableView release];
-    [detailNib release];
-    [detailLabel release];
-    [detailView release];
-    [detailBannerLabel release];
-    [detailGlossTextView release];
-    [glossTextView release];
-    [bannerHandle release];
-    [bannerLabel release];
-    [super dealloc];
 }
 
 - (bool)loadedSuccessfully
@@ -152,7 +136,7 @@
     [self setBannerHandle:nil];
     [self setBannerLabel:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -184,7 +168,7 @@
         [bannerLabel setHidden:YES];
         [tableView setHidden:YES];
         [glossTextView setText:error];
-        [self.navigationController.toolbar setItems:[NSArray arrayWithObject: [[[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease]]];
+        [self.navigationController.toolbar setItems:[NSArray arrayWithObject: [[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]]];
 
         return;
     }
@@ -218,21 +202,21 @@
 
 - (void)loadSynsetView
 {
-    [actualNavigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:sense.synset]autorelease] animated:YES];
+    [actualNavigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:sense.synset] animated:YES];
 }
 
 - (void)loadWordView
 {
-    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:sense.word title:nil]autorelease];
+    WordViewController_iPhone* viewController = [[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:sense.word title:nil];
     [viewController load];
     [actualNavigationController pushViewController:viewController animated:YES];
 }
 
 - (void)createToolbarItems
 {
-    UIBarButtonItem* homeItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
-    UIBarButtonItem* synsetItem = [[[UIBarButtonItem alloc]initWithTitle:@"Synset" style:UIBarButtonItemStyleBordered target:self action:@selector(loadSynsetView)]autorelease];
-    UIBarButtonItem* wordItem = [[[UIBarButtonItem alloc]initWithTitle:@"Word" style:UIBarButtonItemStyleBordered target:self action:@selector(loadWordView)]autorelease];
+    UIBarButtonItem* homeItem = [[UIBarButtonItem alloc]initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
+    UIBarButtonItem* synsetItem = [[UIBarButtonItem alloc]initWithTitle:@"Synset" style:UIBarButtonItemStyleBordered target:self action:@selector(loadSynsetView)];
+    UIBarButtonItem* wordItem = [[UIBarButtonItem alloc]initWithTitle:@"Word" style:UIBarButtonItemStyleBordered target:self action:@selector(loadWordView)];
     
     NSMutableArray* buttonItems = [NSMutableArray arrayWithCapacity:3];
     
@@ -307,7 +291,7 @@
     
     if ([_linkType isEqualToString:@"sense"]) {
         targetSense = [sense.synonyms objectAtIndex:indexPath.row];
-        [actualNavigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
+        [actualNavigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
     }
     else if ([_linkType isEqualToString:@"sample"]) {
         if (!sense.preview) [self displayPopup:pointer.targetText];
@@ -315,12 +299,12 @@
     else if ([pointer.targetType isEqualToString:@"Sense"]) {
         /* sense pointer */
         targetSense = [Sense senseWithId:pointer.targetId nameAndPos:pointer.targetText];
-        [actualNavigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense]autorelease] animated:YES];
+        [actualNavigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:targetSense] animated:YES];
     }
     else {
         /* synset pointer */
         Synset* targetSynset = [Synset synsetWithId:pointer.targetId partOfSpeech:POSUnknown];
-        [actualNavigationController pushViewController:[[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset]autorelease] animated:YES];
+        [actualNavigationController pushViewController:[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:targetSynset] animated:YES];
     }
 }
 
@@ -355,7 +339,7 @@
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType];
     }
     
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -366,9 +350,9 @@
 #endif // DEBUG
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"];
         }
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]autorelease];
+        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [cell.contentView addSubview:indicator];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
@@ -388,7 +372,7 @@
     
     cell = [theTableView dequeueReusableCellWithIdentifier:@"sensePointer"];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"sensePointer"];
     }
     cell.textLabel.text = pointer.targetText;
     // NSLog(@"rendering cell for %@ at section %d, row %d", pointer.targetText, indexPath.section, indexPath.row);
@@ -441,7 +425,7 @@
 {
     [super addGestureRecognizers];
     
-    UITapGestureRecognizer* recognizer = [[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)]autorelease];
+    UITapGestureRecognizer* recognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)];
     recognizer.delegate = self;
     recognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:recognizer];

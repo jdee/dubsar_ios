@@ -17,7 +17,6 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "JSONKit.h"
 #import "PartOfSpeechDictionary.h"
 #import "Pointer.h"
 #import "PointerDictionary.h"
@@ -40,12 +39,12 @@
 
 + (id)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
-    return [[[self alloc]initWithId:theId partOfSpeech:thePartOfSpeech]autorelease];
+    return [[self alloc]initWithId:theId partOfSpeech:thePartOfSpeech];
 }
 
 + (id)synsetWithId:(int)theId gloss:(NSString *)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
-    return [[[self alloc]initWithId:theId gloss:theGloss partOfSpeech:thePartOfSpeech]autorelease];
+    return [[self alloc]initWithId:theId gloss:theGloss partOfSpeech:thePartOfSpeech];
 }
 
 - (id)initWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
@@ -70,7 +69,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        gloss = [[theGloss copy]retain];
+        gloss = [theGloss copy];
         partOfSpeech = thePartOfSpeech;
         lexname = nil;
         samples = nil;
@@ -84,33 +83,26 @@
 - (void)dealloc
 {
     [self destroyStatements];
-    [pointers release];
-    [senses release];
-    [samples release];
-    [lexname release];
-    [gloss release];
-    [sections release];
-    [super dealloc];
 }
 
 - (void)parseData
 {
-    NSArray* response = [[self decoder] objectWithData:[self data]];
+    NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
     partOfSpeech = [PartOfSpeechDictionary partOfSpeechFromPOS:[response objectAtIndex:1]];
-    lexname = [[response objectAtIndex:2] retain];
+    lexname = [response objectAtIndex:2];
 #ifdef DEBUG
     NSLog(@"lexname: \"%@\"", lexname);
 #endif // DEBUG
     if (!gloss) {
-        gloss = [[response objectAtIndex:3] retain];
+        gloss = [response objectAtIndex:3];
     }
-    samples = [[response objectAtIndex:4] retain];
+    samples = [response objectAtIndex:4];
     NSNumber* _freqCnt;
     NSArray* _senses = [response objectAtIndex:5];
 #ifdef DEBUG
     NSLog(@"found %u senses", _senses.count);
 #endif // DEBUG
-    senses = [[NSMutableArray arrayWithCapacity:_senses.count]retain];
+    senses = [NSMutableArray arrayWithCapacity:_senses.count];
     for (int j=0; j<_senses.count; ++j) {
         NSArray* _sense = [_senses objectAtIndex:j];
         NSNumber* _senseId = [_sense objectAtIndex:0];
@@ -134,7 +126,7 @@
 
 - (void)parsePointers:(NSArray*)response
 {    
-    pointers = [[NSMutableDictionary dictionary]retain];
+    pointers = [NSMutableDictionary dictionary];
     NSArray* _pointers = [response objectAtIndex:7];
     for (int j=0; j<_pointers.count; ++j) {
         NSArray* _pointer = [_pointers objectAtIndex:j];

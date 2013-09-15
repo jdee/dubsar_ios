@@ -23,7 +23,7 @@
 @class Word;
 
 @interface DailyWord : Model<LoadDelegate>
-@property (nonatomic, retain) Word* word;
+@property (nonatomic, strong) Word* word;
 @property bool fresh;
 @property time_t expiration;
 

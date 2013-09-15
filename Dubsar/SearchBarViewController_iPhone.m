@@ -41,7 +41,7 @@
         proxy = [[AutocompleterProxy alloc]init];
         proxy.delegate = self;
         
-        autocompleterNib = [[UINib nibWithNibName:@"AutocompleterView_iPhone" bundle:nil]retain];
+        autocompleterNib = [UINib nibWithNibName:@"AutocompleterView_iPhone" bundle:nil];
         
         preEditText = nil;
         navigationGestureRecognizer = nil;
@@ -49,18 +49,6 @@
         executingAutocompleter = nil;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [preEditText release];
-    [proxy release];
-    autocompleter.delegate = nil;
-    [autocompleter release];
-    [autocompleterNib release];
-    [searchBar release];
-    [autocompleterTableView release];
-    [super dealloc];
 }
 
 - (bool)loadedSuccessfully
@@ -119,7 +107,7 @@
     editing = false;
     
     // new SearchViewController for this search
-    SearchViewController_iPhone* searchViewController = [[[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: theSearchBar.text]autorelease];
+    SearchViewController_iPhone* searchViewController = [[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: theSearchBar.text];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }
 
@@ -174,7 +162,7 @@
         if (!editing) return;
         
         UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-        Autocompleter* _autocompleter = [[Autocompleter autocompleterWithTerm:theSearchText matchCase:NO]retain];
+        Autocompleter* _autocompleter = [Autocompleter autocompleterWithTerm:theSearchText matchCase:NO];
         _autocompleter.delegate = proxy;
         _autocompleter.max = UIInterfaceOrientationIsPortrait(orientation) ? [UIScreen mainScreen].bounds.size.height == 568.0 ? 5 : 3 : 1;
         _autocompleter.lock = self;
@@ -242,7 +230,7 @@
 
 - (void)createToolbarItems
 {
-    UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
+    UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
     
     NSMutableArray* buttonItems = [NSMutableArray arrayWithObject:homeButtonItem];
     
@@ -263,12 +251,10 @@
     }
     
     if (theAutocompleter.aborted || autocompleter.seqNum >= theAutocompleter.seqNum || !editing) {
-        [theAutocompleter release];
         return;
     }
     
     self.autocompleter = theAutocompleter;
-    [theAutocompleter release];
 
     [autocompleterTableView setHidden:NO];
     [autocompleterTableView reloadData];
@@ -311,7 +297,7 @@
     static NSString* cellType = @"autocomplete";
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType];
     }
     
     DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)UIApplication.sharedApplication.delegate;
@@ -346,7 +332,7 @@
     [autocompleterTableView setHidden:YES];
     
     NSString* text = [[autocompleter.results objectAtIndex:indexPath.row]lowercaseString];
-    SearchViewController_iPhone* searchViewController = [[[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: text]autorelease];
+    SearchViewController_iPhone* searchViewController = [[SearchViewController_iPhone alloc] initWithNibName: @"SearchViewController_iPhone" bundle: nil text: text];
     [self.navigationController pushViewController:searchViewController animated: YES];
 }
 

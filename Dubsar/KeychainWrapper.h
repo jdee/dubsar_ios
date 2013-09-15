@@ -4,9 +4,9 @@
 //Define an Objective-C wrapper class to hold Keychain Services code.
 @interface KeychainWrapper : NSObject
 
-@property (nonatomic, retain) NSMutableDictionary *keychainData;
-@property (nonatomic, retain) NSMutableDictionary *genericQuery;
-@property (nonatomic, retain) NSString* identifier;
+@property (nonatomic, strong) NSMutableDictionary *keychainData;
+@property (nonatomic, strong) NSMutableDictionary *genericQuery;
+@property (nonatomic, copy) NSString* identifier;
 
 - (id)initWithIdentifier:(NSString*)theIdentifier requestClass:(CFTypeRef)requestClass;
 

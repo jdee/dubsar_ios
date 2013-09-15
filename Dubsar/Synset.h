@@ -28,14 +28,14 @@
 }
 
 @property int _id;
-@property (nonatomic, retain) NSString* gloss;
+@property (nonatomic, copy) NSString* gloss;
 @property PartOfSpeech partOfSpeech;
-@property (nonatomic, retain) NSString* lexname;
+@property (nonatomic, copy) NSString* lexname;
 @property int freqCnt;
-@property (nonatomic, retain) NSMutableArray* samples;
-@property (nonatomic, retain) NSMutableArray* senses;
-@property (nonatomic, retain) NSMutableDictionary* pointers;
-@property (nonatomic, retain) NSMutableArray* sections;
+@property (nonatomic, strong) NSMutableArray* samples;
+@property (nonatomic, strong) NSMutableArray* senses;
+@property (nonatomic, strong) NSMutableDictionary* pointers;
+@property (nonatomic, strong) NSMutableArray* sections;
 
 +(id)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 +(id)synsetWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;

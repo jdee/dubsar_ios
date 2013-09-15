@@ -26,14 +26,14 @@
     UIButton *wotdButton;
 }
 
-@property (nonatomic, retain) DailyWord* dailyWord;
-@property (nonatomic, retain) IBOutlet UIButton *wotdButton;
-@property (nonatomic, retain) IBOutlet UIView* loginView;
-@property (nonatomic, retain) IBOutlet UITextField* emailTextField;
-@property (nonatomic, retain) IBOutlet UITextField* passwordTextField;
-@property (nonatomic, retain) AuguryViewController_iPhone* auguryViewController;
-@property (nonatomic, retain) IBOutlet UIView* auguryIntroView;
-@property (nonatomic, retain) IBOutlet UIWebView* auguryIntroWebView;
+@property (nonatomic, strong) DailyWord* dailyWord;
+@property (nonatomic, strong) IBOutlet UIButton *wotdButton;
+@property (nonatomic, strong) IBOutlet UIView* loginView;
+@property (nonatomic, strong) IBOutlet UITextField* emailTextField;
+@property (nonatomic, strong) IBOutlet UITextField* passwordTextField;
+@property (nonatomic, strong) AuguryViewController_iPhone* auguryViewController;
+@property (nonatomic, strong) IBOutlet UIView* auguryIntroView;
+@property (nonatomic, strong) IBOutlet UIWebView* auguryIntroWebView;
 
 - (void)displayFAQ;
 - (void)displayAbout;
@@ -46,7 +46,6 @@
 - (void)resetWotd;
 - (void)checkForCredentials;
 - (NSString*)authenticateEmail:(NSString*)email password:(NSString*)password;
-- (void)handleWotd;
 
 - (NSString*)htmlForAuguryIntro;
 - (void)hideAuguryIntro;

@@ -37,15 +37,14 @@
     NSString* _url;
 }
 
-@property (nonatomic, retain) JSONDecoder* decoder;
-@property (nonatomic, retain) NSMutableData* data;
-@property (nonatomic, retain, setter=set_url:) NSString* _url;
-@property (nonatomic, retain) NSString* url;
+@property (nonatomic, strong) NSMutableData* data;
+@property (nonatomic, copy, setter=set_url:) NSString* _url;
+@property (nonatomic, copy) NSString* url;
 @property (nonatomic) bool complete;
 @property (nonatomic) bool error;
-@property (nonatomic, retain) NSString* errorMessage;
-@property (nonatomic, assign) id<LoadDelegate> delegate;
-@property (nonatomic, assign) DubsarAppDelegate* appDelegate;
+@property (nonatomic, copy) NSString* errorMessage;
+@property (nonatomic, weak) id<LoadDelegate> delegate;
+@property (nonatomic, weak) DubsarAppDelegate* appDelegate;
 
 @property bool preview;
 

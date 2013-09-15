@@ -59,7 +59,7 @@
 
 -(void)testInitialization
 {
-    Search* a = [[[Search alloc]init]autorelease];
+    Search* a = [[Search alloc]init];
     STAssertTrue(!a.complete, @"complete failed");
     STAssertTrue(!a.error, @"error failed");
 }

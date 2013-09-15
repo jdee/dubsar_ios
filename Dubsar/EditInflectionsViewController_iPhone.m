@@ -21,7 +21,6 @@
 #import "DubsarAppDelegate.h"
 #import "EditInflectionsViewController_iPhone.h"
 #import "Inflection.h"
-#import "JSONKit.h"
 #import "Word.h"
 
 @interface EditInflectionsViewController_iPhone()
@@ -50,17 +49,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [dialogTextField release];
-    [dialogView release];
-    [editButton release];
-    [inflections release];
-    [tableView release];
-    [word release];
-    [super dealloc];
-}
-
 - (void)load
 {
     // Retrieve inflections for the specified word from the server
@@ -85,8 +73,7 @@
         return;
     }
     
-    JSONDecoder* decoder = [JSONDecoder decoder];
-    self.inflections = [decoder objectWithData:body];
+    self.inflections = [NSJSONSerialization JSONObjectWithData:body options:0 error:NULL];
 }
 
 - (void)viewDidLoad
@@ -129,7 +116,7 @@
     }
     else {
         // iOS 4.x
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
+        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -422,7 +409,7 @@
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellType];
     }
         
     int row = indexPath.row;

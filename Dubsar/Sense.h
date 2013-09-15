@@ -32,24 +32,24 @@
 }
 
 @property int _id;
-@property (nonatomic, retain) NSString* name;
+@property (nonatomic, copy) NSString* name;
 @property PartOfSpeech partOfSpeech;
-@property (nonatomic, retain) NSString* gloss;
-@property (nonatomic, retain) NSMutableArray* synonyms;
+@property (nonatomic, copy) NSString* gloss;
+@property (nonatomic, strong) NSMutableArray* synonyms;
 
-@property (nonatomic, retain) Synset* synset;
-@property (nonatomic, retain) Word* word;
+@property (nonatomic, strong) Synset* synset;
+@property (nonatomic, strong) Word* word;
 
-@property (nonatomic, retain) NSString* lexname;
+@property (nonatomic, copy) NSString* lexname;
 @property int freqCnt;
-@property (nonatomic, retain) NSString* marker;
+@property (nonatomic, copy) NSString* marker;
 
-@property (nonatomic, retain) NSMutableArray* verbFrames;
-@property (nonatomic, retain) NSMutableArray* samples;
-@property (nonatomic, retain) NSMutableDictionary* pointers;
+@property (nonatomic, strong) NSMutableArray* verbFrames;
+@property (nonatomic, strong) NSMutableArray* samples;
+@property (nonatomic, strong) NSMutableDictionary* pointers;
 
 @property (nonatomic) int numberOfSections;
-@property (nonatomic, retain) NSMutableArray* sections;
+@property (nonatomic, strong) NSMutableArray* sections;
 
 +(id)senseWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
 +(id)senseWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;

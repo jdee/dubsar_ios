@@ -39,32 +39,18 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        word = [theWord retain];
+        word = theWord;
         word.delegate = self;
         
         [self adjustTitle];
         
-        UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
+        UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Home"style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
         self.navigationItem.rightBarButtonItem = homeButtonItem;
         
         self.contentSizeForViewInPopover = CGSizeMake(320.0, 154.0);
         
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [origBg release];
-    [highlightBg release];
-    [origTextColor release];
-    [highlightTextColor release];
-    word.delegate = nil;
-    [word release];
-    [_tableView release];
-    [inflectionsTextView release];
-    [headerLabel release];
-    [super dealloc];
 }
 
 - (void)load
@@ -85,7 +71,7 @@
     assert(popoverController);
     [popoverController dismissPopoverAnimated:YES];
     
-    WordViewController_iPad* viewController = [[[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:nil]autorelease];
+    WordViewController_iPad* viewController = [[WordViewController_iPad alloc]initWithNibName:@"WordViewController_iPad" bundle:nil word:word title:nil];
     [viewController load];
 
     assert(navigationController);
@@ -97,14 +83,14 @@
 
 - (void)addGestureRecognizer
 {
-    UITapGestureRecognizer* recognizer = [[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(fireButton:)]autorelease];
+    UITapGestureRecognizer* recognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(fireButton:)];
     recognizer.delegate = self;
     [self.view addGestureRecognizer:recognizer];
     
-    highlightBg = [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0]retain];
-    highlightTextColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]retain];
-    origBg = [headerLabel.backgroundColor retain];
-    origTextColor = [headerLabel.textColor retain];
+    highlightBg = [UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0];
+    highlightTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+    origBg = headerLabel.backgroundColor;
+    origTextColor = headerLabel.textColor;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
@@ -157,7 +143,7 @@
     [self setInflectionsTextView:nil];
     [self setHeaderLabel:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -237,17 +223,17 @@
     
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType];
     }
     
     if (!word.complete) {
         static NSString* indicatorType = @"indicator";
         cell = [tableView dequeueReusableCellWithIdentifier:indicatorType];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indicatorType]autorelease];
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indicatorType];
         }
         
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
+        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
         [indicator startAnimating];
@@ -274,7 +260,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Sense* sense = [word.senses objectAtIndex:indexPath.section];
-    SenseViewController_iPad* viewController = [[[SenseViewController_iPad alloc] initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense] autorelease];
+    SenseViewController_iPad* viewController = [[SenseViewController_iPad alloc] initWithNibName:@"SenseViewController_iPad" bundle:nil sense:sense];
     [viewController load];
   
     [popoverController dismissPopoverAnimated:YES];

@@ -17,7 +17,6 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "JSONKit.h"
 #import "PartOfSpeechDictionary.h"
 #import "Sense.h"
 #import "Word.h"
@@ -34,12 +33,12 @@
 
 +(id)wordWithId:(int)theId name:(id)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
-    return [[[self alloc] initWithId:theId name:theName partOfSpeech:thePartOfSpeech]autorelease];
+    return [[self alloc] initWithId:theId name:theName partOfSpeech:thePartOfSpeech];
 }
 
 +(id)wordWithId:(int)theId name:(NSString *)theName posString:(NSString *)posString
 {
-    return [[[self alloc] initWithId:theId name:theName posString:posString]autorelease];
+    return [[self alloc] initWithId:theId name:theName posString:posString];
 }
 
 -(id)initWithId:(int)theId name:(NSString *)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
@@ -47,7 +46,7 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [theName retain];
+        name = theName;
         partOfSpeech = thePartOfSpeech;
         inflections = nil;
         [self initUrl];
@@ -60,20 +59,12 @@
     self = [super init];
     if (self) {
         _id = theId;
-        name = [theName retain];
+        name = theName;
         
         partOfSpeech = [PartOfSpeechDictionary partOfSpeechFromPOS:posString];
         [self initUrl];
     }
     return self;
-}
-
--(void)dealloc
-{
-    [senses release];
-    [inflections release];
-    [name release];
-    [super dealloc];
 }
 
 -(NSString*)pos
@@ -233,13 +224,13 @@
 
 -(void)parseData
 {
-    NSArray* response =[[self decoder] objectWithData:[self data]];
+    NSArray* response =[NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
     
     inflections = [[[response objectAtIndex:3] componentsSeparatedByString:@", "] mutableCopy];
 
     NSNumber* _freqCnt;
     NSArray* _senses = [response objectAtIndex:4];
-    senses = [[NSMutableArray arrayWithCapacity:_senses.count]retain];
+    senses = [NSMutableArray arrayWithCapacity:_senses.count];
     for (int j=0; j<_senses.count; ++j) {
         NSArray* _sense = [_senses objectAtIndex:j];
         NSArray* _synonyms = [_sense objectAtIndex:1];

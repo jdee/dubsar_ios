@@ -29,7 +29,7 @@
 
 @interface ModelTestCase : SenTestCase
 
-@property (nonatomic, retain) DubsarAppDelegate* appDelegate;
+@property (nonatomic, strong) DubsarAppDelegate* appDelegate;
 
 + (NSMutableData*) dataWithString:(NSString*)stringData;
 

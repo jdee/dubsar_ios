@@ -26,9 +26,9 @@
 
 @property (nonatomic) BOOL matchCase;
 @property (nonatomic) bool isWildCard;
-@property (nonatomic, retain) NSString* title;
-@property (nonatomic, retain) NSString* term;
-@property (nonatomic, retain) NSMutableArray* results;
+@property (nonatomic, copy) NSString* title;
+@property (nonatomic, copy) NSString* term;
+@property (nonatomic, strong) NSMutableArray* results;
 @property (nonatomic) int currentPage;
 @property (nonatomic) int totalPages;
 @property (nonatomic) int seqNum;

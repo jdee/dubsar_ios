@@ -31,16 +31,16 @@
     UIButton *appStoreButton;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel *versionLabel;
-@property (nonatomic, retain) IBOutlet UILabel *copyrightLabel;
-@property (nonatomic, retain) IBOutlet UIToolbar *aboutToolbar;
-@property (nonatomic, retain) IBOutlet UIToolbar *licenseToolbar;
-@property (nonatomic, assign) UIViewController* mainViewController;
-@property (nonatomic, retain) IBOutlet UIView *licenseView;
-@property (nonatomic, retain) IBOutlet UIWebView *licenseText;
-@property (nonatomic, retain) IBOutlet UIView *aboutText;
-@property (nonatomic, retain) IBOutlet UIButton *appStoreButton;
-@property (nonatomic, retain) IBOutlet UIScrollView *aboutScrollView;
+@property (nonatomic, strong) IBOutlet UILabel *versionLabel;
+@property (nonatomic, strong) IBOutlet UILabel *copyrightLabel;
+@property (nonatomic, strong) IBOutlet UIToolbar *aboutToolbar;
+@property (nonatomic, strong) IBOutlet UIToolbar *licenseToolbar;
+@property (nonatomic, weak) UIViewController* mainViewController;
+@property (nonatomic, strong) IBOutlet UIView *licenseView;
+@property (nonatomic, strong) IBOutlet UIWebView *licenseText;
+@property (nonatomic, strong) IBOutlet UIView *aboutText;
+@property (nonatomic, strong) IBOutlet UIButton *appStoreButton;
+@property (nonatomic, strong) IBOutlet UIScrollView *aboutScrollView;
 
 - (IBAction)showLicense:(id)sender;
 - (IBAction)dismiss:(id)sender;

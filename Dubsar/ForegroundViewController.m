@@ -34,12 +34,22 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+#pragma mark - Dumping ground for shit that should be handled by respondsToSelector:
+- (void)load
 {
-    /*
-     * No longer much point to this base class. :|
-     */
-    [super viewWillAppear:animated];
+}
+
+- (bool)handleWotd
+{
+    return false;
+}
+
+- (void)handlePanGesture:(UIPanGestureRecognizer *)sender
+{
+}
+
+- (void)handleTouch:(UITouch *)touch
+{
 }
 
 @end

@@ -19,10 +19,10 @@
 
 @interface Section : NSObject
 
-@property (nonatomic, retain) NSString* header;
-@property (nonatomic, retain) NSString* footer;
-@property (nonatomic, retain) NSString* linkType;
-@property (nonatomic, retain) NSString* ptype;
+@property (nonatomic, copy) NSString* header;
+@property (nonatomic, copy) NSString* footer;
+@property (nonatomic, copy) NSString* linkType;
+@property (nonatomic, copy) NSString* ptype;
 @property (nonatomic) int numRows;
 @property (nonatomic) int senseId;
 @property (nonatomic) int synsetId;

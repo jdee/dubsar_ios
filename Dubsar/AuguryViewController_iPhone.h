@@ -21,8 +21,8 @@
 
 @interface AuguryViewController_iPhone : ForegroundViewController<UIWebViewDelegate>
 
-@property (nonatomic, retain) IBOutlet UIWebView* auguryWebView;
-@property (nonatomic, retain) NSString* augury;
+@property (nonatomic, strong) IBOutlet UIWebView* auguryWebView;
+@property (nonatomic, copy) NSString* augury;
 
 - (IBAction) clear:(id)sender;
 - (IBAction) augur:(id)sender;

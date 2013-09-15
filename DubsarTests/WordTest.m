@@ -46,7 +46,7 @@
 
 -(void)testInitialization
 {
-    Word* a = [[[Word alloc]init]autorelease];
+    Word* a = [[Word alloc]init];
     STAssertTrue(!a.complete, @"complete failed");
     STAssertTrue(!a.error, @"error failed");
 }

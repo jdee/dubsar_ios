@@ -18,7 +18,6 @@
  */
 
 #import "Search.h"
-#import "JSONKit.h"
 #import "PartOfSpeechDictionary.h"
 #import "URLEncoding.h"
 #import "Word.h"
@@ -40,17 +39,17 @@ static int _seqNum = 0;
 
 +(id)searchWithTerm:(id)theTerm matchCase:(BOOL)mustMatchCase
 {
-    return [[[self alloc]initWithTerm:theTerm matchCase:mustMatchCase seqNum:_seqNum++]autorelease];
+    return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase seqNum:_seqNum++];
 }
 
 +(id)searchWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page
 {
-    return [[[self alloc]initWithTerm:theTerm matchCase:mustMatchCase page:page seqNum:_seqNum++]autorelease];
+    return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase page:page seqNum:_seqNum++];
 }
 
 +(id)searchWithWildcard:(NSString *)regexp page:(int)page title:(NSString *)theTitle
 {
-    return [[[self alloc]initWithWildcard:regexp page:page title:theTitle seqNum:_seqNum++]autorelease];
+    return [[self alloc]initWithWildcard:regexp page:page title:theTitle seqNum:_seqNum++];
 }
 
 -(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum
@@ -62,7 +61,7 @@ static int _seqNum = 0;
     self = [super init];
     if (self) {   
         matchCase = mustMatchCase;
-        term = [theTerm retain];
+        term = theTerm;
         isWildCard = false;
         title = [term copy];
         results = nil;
@@ -88,7 +87,7 @@ static int _seqNum = 0;
     self = [super init];
     if (self) {   
         matchCase = mustMatchCase;
-        term = [theTerm retain];
+        term = theTerm;
         isWildCard = false;
         title = [term copy];
         results = nil;
@@ -117,9 +116,9 @@ static int _seqNum = 0;
     self = [super init];
     if (self) {   
         matchCase = false;
-        term = [regexp retain];
+        term = regexp;
         isWildCard = true;
-        title = [theTitle retain];
+        title = theTitle;
         results = nil;
         seqNum = theSeqNum;
         currentPage = page;
@@ -135,15 +134,6 @@ static int _seqNum = 0;
          */
     }
     return self;
-}
-
--(void)dealloc
-{    
-    [title release];
-    [term release];
-    [results release];
-
-    [super dealloc];
 }
 
 - (void)load
@@ -591,12 +581,12 @@ static int _seqNum = 0;
 
 - (void)parseData
 {        
-    NSArray* response = [[self decoder] objectWithData:[self data]];
+    NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
     NSArray* list = [response objectAtIndex:1];
     NSNumber* pages = [response objectAtIndex:2];
     totalPages = pages.intValue;
     
-    results = [[NSMutableArray arrayWithCapacity:list.count]retain];
+    results = [NSMutableArray arrayWithCapacity:list.count];
 #ifdef DEBUG
     NSLog(@"search request for \"%@\" returned %d results", [response objectAtIndex:0], list.count);
     NSLog(@"(%d total pages)", totalPages);

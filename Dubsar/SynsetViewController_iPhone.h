@@ -38,15 +38,15 @@
     bool hasBeenDragged;
 }
 
-@property (nonatomic, retain) Synset* synset;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UILabel *detailLabel;
-@property (nonatomic, retain) IBOutlet UIView *detailView;
-@property (nonatomic, retain) IBOutlet UILabel *detailBannerLabel;
-@property (nonatomic, retain) IBOutlet UITextView* detailGlossTextView;
-@property (nonatomic, retain) IBOutlet UITextView *glossTextView;
-@property (nonatomic, retain) IBOutlet UIImageView *bannerHandle;
-@property (nonatomic, retain) IBOutlet UILabel *bannerLabel;
+@property (nonatomic, strong) Synset* synset;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UILabel *detailLabel;
+@property (nonatomic, strong) IBOutlet UIView *detailView;
+@property (nonatomic, strong) IBOutlet UILabel *detailBannerLabel;
+@property (nonatomic, strong) IBOutlet UITextView* detailGlossTextView;
+@property (nonatomic, strong) IBOutlet UITextView *glossTextView;
+@property (nonatomic, strong) IBOutlet UIImageView *bannerHandle;
+@property (nonatomic, strong) IBOutlet UILabel *bannerLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil synset:(Synset*)theSynset;
 

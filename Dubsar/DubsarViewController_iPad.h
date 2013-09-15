@@ -27,12 +27,10 @@
     UIButton *wotdButton;
 }
 
-@property (nonatomic, retain) DailyWord* dailyWord;
-@property (nonatomic, retain) IBOutlet UIButton *wotdButton;
+@property (nonatomic, strong) DailyWord* dailyWord;
+@property (nonatomic, strong) IBOutlet UIButton *wotdButton;
 
 - (IBAction)showWotd:(id)sender;
 - (void)setViewSize;
-
-- (void)handleWotd;
 
 @end

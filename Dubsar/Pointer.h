@@ -21,10 +21,10 @@
 
 @interface Pointer : NSObject
 
-@property (nonatomic, retain) NSString* targetType;
+@property (nonatomic, copy) NSString* targetType;
 @property (nonatomic) int targetId;
-@property (nonatomic, retain) NSString* targetText;
-@property (nonatomic, retain) NSString* targetGloss;
+@property (nonatomic, copy) NSString* targetText;
+@property (nonatomic, copy) NSString* targetGloss;
 
 + (id)pointer;
 

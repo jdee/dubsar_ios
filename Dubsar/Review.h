@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 @property int page;
 @property int totalPages;
-@property (nonatomic, retain) NSMutableArray* inflections;
+@property (nonatomic, strong) NSMutableArray* inflections;
 
 - (id) initWithPage:(int)thePage;
 + (id) reviewWithPage:(int)thePage;

@@ -38,13 +38,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [word release];
-    [webView release];
-    [super dealloc];
-}
-
 - (void)load
 {
     [webView loadHTMLString:[self htmlInflections] baseURL:nil];

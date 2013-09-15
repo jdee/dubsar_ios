@@ -18,7 +18,6 @@
  */
 
 #import "Autocompleter.h"
-#import "JSONKit.h"
 #import "URLEncoding.h"
 
 @implementation Autocompleter
@@ -34,7 +33,7 @@
 + (id)autocompleterWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
 {
     static NSInteger _seqNum = 0;
-    return [[[self alloc]initWithTerm:theTerm seqNum:_seqNum++ matchCase:mustMatchCase]autorelease];
+    return [[self alloc]initWithTerm:theTerm seqNum:_seqNum++ matchCase:mustMatchCase];
 }
 
 - (id)initWithTerm:(NSString *)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase
@@ -42,7 +41,7 @@
     self = [super init];
     if (self) {
         seqNum = theSeqNum;
-        _term = [theTerm retain];
+        _term = theTerm;
         _results = nil;
         matchCase = mustMatchCase;
         max = 10;
@@ -55,14 +54,6 @@
          */
     }
     return self;
-}
-
-- (void)dealloc
-{
-    // NSLog(@"releasing autocompleter for term %@", _term);
-    [_term release];
-    [_results release];
-    [super dealloc];
 }
 
 /* Called in loadResults: to terminate a search */
@@ -152,9 +143,9 @@
 
 - (void)parseData
 {
-    NSArray* response = [[self decoder] objectWithData:[self data]];
+    NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
     
-    NSMutableArray* r = [[NSMutableArray array]retain];
+    NSMutableArray* r = [NSMutableArray array];
     NSArray* list = [response objectAtIndex:1];
     for (int j=0; j<list.count; ++j) {
         [r addObject:[list objectAtIndex:j]];

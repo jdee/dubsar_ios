@@ -33,7 +33,6 @@
         // Custom initialization
         self.title = @"About Dubsar for iPad";
         
-        
 #if 0
         DubsarAppDelegate_iPad* delegate = UIApplication.sharedApplication.delegate;
         
@@ -43,13 +42,6 @@
 
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [versionLabel release];
-    [appStoreButton release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,7 +68,7 @@
     [self setVersionLabel:nil];
     [self setAppStoreButton:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -88,7 +80,7 @@
 
 - (IBAction)showLicense:(id)sender 
 {
-    LicenseViewController_iPad* licenseViewController = [[[LicenseViewController_iPad alloc] initWithNibName:@"LicenseViewController_iPad" bundle:nil]autorelease];
+    LicenseViewController_iPad* licenseViewController = [[LicenseViewController_iPad alloc] initWithNibName:@"LicenseViewController_iPad" bundle:nil];
     [self.navigationController pushViewController:licenseViewController animated:YES];
 }
 
@@ -99,10 +91,10 @@
 
 - (void)launchAppStore:(id)arg
 {
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc]init];
-    [appStoreButton setEnabled:NO];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-    [appStoreButton setEnabled:YES];
-    [pool release];
+    @autoreleasepool {
+        [appStoreButton setEnabled:NO];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+        [appStoreButton setEnabled:YES];
+    }
 }
 @end

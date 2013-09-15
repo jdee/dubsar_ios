@@ -32,10 +32,10 @@
     UIColor* originalColor;
 }
 
-@property (nonatomic, retain) Search* search;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *previewButton;
+@property (nonatomic, strong) Search* search;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UIPageControl *pageControl;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *previewButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil text:(NSString*)text matchCase:(BOOL)matchCase;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil wildcard:(NSString*)wildcard title:(NSString*)title;

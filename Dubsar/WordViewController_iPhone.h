@@ -38,14 +38,14 @@
     UIBarButtonItem* previewButton;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UITextView *bannerTextView;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UITextView *bannerTextView;
 
-@property (nonatomic, retain) Word* word;
-@property (nonatomic, assign) Model* parentDataSource;
-@property (nonatomic, retain) UIBarButtonItem* previewButton;
+@property (nonatomic, strong) Word* word;
+@property (nonatomic, weak) Model* parentDataSource;
+@property (nonatomic, strong) UIBarButtonItem* previewButton;
 
-@property (nonatomic, assign) UINavigationController* actualNavigationController;
+@property (nonatomic, weak) UINavigationController* actualNavigationController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil word:(Word*)theWord title:(NSString*)theTitle;
 

@@ -27,14 +27,14 @@
     bool editing;
 }
 
-@property (nonatomic, retain) Autocompleter* autocompleter;
-@property (nonatomic, retain) UINib* autocompleterNib;
-@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
-@property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
-@property (nonatomic, retain) NSString* preEditText;
-@property (nonatomic, assign) UIGestureRecognizer* navigationGestureRecognizer;
+@property (nonatomic, strong) Autocompleter* autocompleter;
+@property (nonatomic, strong) UINib* autocompleterNib;
+@property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) IBOutlet UITableView *autocompleterTableView;
+@property (nonatomic, copy) NSString* preEditText;
+@property (nonatomic, weak) UIGestureRecognizer* navigationGestureRecognizer;
 @property bool loading;
-@property (assign) Autocompleter* executingAutocompleter;
+@property (weak) Autocompleter* executingAutocompleter;
 
 -(void)createToolbarItems;
 -(void)loadRootController;

@@ -20,6 +20,7 @@
 #import "DubsarAppDelegate_iPhone.h"
 #import "DubsarNavigationController_iPhone.h"
 #import "DubsarViewController_iPhone.h"
+#import "ForegroundViewController.h"
 #import "Sense.h"
 #import "SenseViewController_iPhone.h"
 #import "Synset.h"
@@ -37,9 +38,8 @@
 {    
     DubsarViewController_iPhone *rootViewController = [[DubsarViewController_iPhone alloc]
                                               initWithNibName:@"DubsarViewController_iPhone" bundle:nil];
-    _navigationController = [[[DubsarNavigationController_iPhone alloc]initWithRootViewController:rootViewController]autorelease];
-    [rootViewController release];
-    
+    _navigationController = [[DubsarNavigationController_iPhone alloc]initWithRootViewController:rootViewController];
+
     UIColor* tint = [UIColor colorWithRed:0.110 green:0.580 blue:0.769 alpha:1.0];
     _navigationController.navigationBar.tintColor = tint;
     _navigationController.toolbar.tintColor = tint;
@@ -58,10 +58,8 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    UIViewController* controller = _navigationController.topViewController;
-    if ([controller respondsToSelector:@selector(load)]) {
-        [controller load];
-    }
+    ForegroundViewController* controller = (ForegroundViewController*)_navigationController.topViewController;
+    [controller load];
     [super applicationWillEnterForeground:application];
 }
 
@@ -79,7 +77,7 @@
         int wordId = [[url lastPathComponent] intValue];
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
         [_navigationController dismissViewControllerAnimated:NO completion:nil];
-        WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word title:@"Word of the Day"]autorelease];
+        WordViewController_iPhone* viewController = [[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word title:@"Word of the Day"];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         
@@ -95,7 +93,7 @@
         int wordId = [[url lastPathComponent] intValue];
         Word* word = [Word wordWithId:wordId name:nil partOfSpeech:POSUnknown];
         [_navigationController dismissViewControllerAnimated:NO completion:nil];
-        WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word title:nil]autorelease];
+        WordViewController_iPhone* viewController = [[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:word title:nil];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         return YES;
@@ -109,7 +107,7 @@
         int senseId = [[url lastPathComponent] intValue];
         Sense* sense = [Sense senseWithId:senseId name:nil partOfSpeech:POSUnknown];
         [_navigationController dismissViewControllerAnimated:NO completion:nil];
-        SenseViewController_iPhone* viewController = [[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense] autorelease];
+        SenseViewController_iPhone* viewController = [[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         return YES;
@@ -123,7 +121,7 @@
         int synsetId = [[url lastPathComponent] intValue];
         Synset* synset = [Synset synsetWithId:synsetId partOfSpeech:POSUnknown];
         [_navigationController dismissViewControllerAnimated:NO completion:nil];
-        SynsetViewController_iPhone* viewController = [[[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:synset] autorelease];
+        SynsetViewController_iPhone* viewController = [[SynsetViewController_iPhone alloc]initWithNibName:@"SynsetViewController_iPhone" bundle:nil synset:synset];
         [viewController load];
         [_navigationController pushViewController:viewController animated:YES];
         return YES;
@@ -147,16 +145,9 @@
     sqlite3_finalize(statement);
 }
 
-- (void)dealloc
-{
-    [_navigationController release];
-	[super dealloc];
-}
-
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
     return UIInterfaceOrientationMaskAllButUpsideDown;
-;
 }
 
 @end

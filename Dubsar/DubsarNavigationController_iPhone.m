@@ -37,12 +37,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [forwardStack release];
-    [super dealloc];
-}
-
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)[UIApplication sharedApplication].delegate;
@@ -137,7 +131,7 @@
     backButton.frame = frame;
 
 
-    UIBarButtonItem* backButtonItem = [[[UIBarButtonItem alloc]initWithCustomView:backButton]autorelease];
+    UIBarButtonItem* backButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
     
     self.topViewController.navigationItem.leftBarButtonItem = backButtonItem;
 }
@@ -159,7 +153,7 @@
     fwdButton.frame = frame;
     
     
-    UIBarButtonItem* fwdButtonItem = [[[UIBarButtonItem alloc]initWithCustomView:fwdButton]autorelease];
+    UIBarButtonItem* fwdButtonItem = [[UIBarButtonItem alloc]initWithCustomView:fwdButton];
     
     self.topViewController.navigationItem.rightBarButtonItem = fwdButtonItem;
 }
@@ -167,8 +161,8 @@
 - (void)addWotdButton
 {
     DubsarAppDelegate* appDelegate = (DubsarAppDelegate*)[UIApplication sharedApplication].delegate;
-    if ([self.topViewController respondsToSelector:@selector(handleWotd)]) {
-        [self.topViewController handleWotd];
+    ForegroundViewController* viewController = (ForegroundViewController*)self.topViewController;
+    if ([viewController handleWotd]) {
         appDelegate.wotdUnread = false;
         return;
     }
@@ -187,7 +181,7 @@
     frame.size = CGSizeMake(37.0, 37.0);
     wotdButton.frame = frame;
     
-    UIBarButtonItem* wotdButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:wotdButton] autorelease];
+    UIBarButtonItem* wotdButtonItem = [[UIBarButtonItem alloc] initWithCustomView:wotdButton];
     if (forwardStack.count == 0) {
         self.topViewController.navigationItem.rightBarButtonItem = wotdButtonItem;
     }
@@ -204,7 +198,7 @@
         
         fwdButton.frame = frame;
         
-        UIBarButtonItem* fwdButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:fwdButton] autorelease];
+        UIBarButtonItem* fwdButtonItem = [[UIBarButtonItem alloc] initWithCustomView:fwdButton];
         
         self.topViewController.navigationItem.rightBarButtonItems =
             [NSArray arrayWithObjects:fwdButtonItem, wotdButtonItem, nil];
@@ -233,7 +227,7 @@
 
 - (UIGestureRecognizer*)addGestureRecognizerToView:(UIView *)view
 {
-    UIPanGestureRecognizer* recognizer = [[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)]autorelease];
+    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
     recognizer.delegate = self;
     recognizer.cancelsTouchesInView = NO;
     [view addGestureRecognizer:recognizer];
@@ -242,9 +236,8 @@
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)sender
 {
-    if ([self.topViewController respondsToSelector:@selector(handlePanGesture:)]) {
-        [self.topViewController handlePanGesture:sender];
-    }
+    ForegroundViewController* viewController = (ForegroundViewController*)self.topViewController;
+    [viewController handlePanGesture:sender];
 
     CGPoint translate = [sender translationInView:self.view];
     
@@ -281,9 +274,8 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    if ([self.topViewController respondsToSelector:@selector(handleTouch:)]) {
-        [self.topViewController handleTouch:touch];
-    }
+    ForegroundViewController* viewController = (ForegroundViewController*)self.topViewController;
+    [viewController handleTouch:touch];
     return YES;
 }
 

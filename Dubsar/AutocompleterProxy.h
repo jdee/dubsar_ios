@@ -25,5 +25,5 @@
 @interface AutocompleterProxy : NSObject<LoadDelegate> {
     
 }
-@property (nonatomic, assign) id<AutocompleterDelegate> delegate;
+@property (nonatomic, weak) id<AutocompleterDelegate> delegate;
 @end

@@ -37,17 +37,17 @@
     CGRect originalFrame;
 }
 
-@property (nonatomic, retain) UIPopoverController* popoverController;
-@property (nonatomic, retain) Autocompleter* autocompleter;
+@property (nonatomic, strong) UIPopoverController* popoverController;
+@property (nonatomic, strong) Autocompleter* autocompleter;
 @property (nonatomic, copy) NSString* _searchText;
-@property (nonatomic, retain) ForwardStack* forwardStack;
-@property (nonatomic, retain) IBOutlet UIToolbar *searchToolbar;
-@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem* titleLabel;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem* backBarButtonItem;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem* fwdBarButtonItem;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem* wotdBarButtonItem;
-@property (assign) Autocompleter* executingAutocompleter;
+@property (nonatomic, strong) ForwardStack* forwardStack;
+@property (nonatomic, strong) IBOutlet UIToolbar *searchToolbar;
+@property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem* titleLabel;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem* backBarButtonItem;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem* fwdBarButtonItem;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem* wotdBarButtonItem;
+@property (weak) Autocompleter* executingAutocompleter;
 @property CGRect originalFrame;
 
 - (void)addToolbar:(UIViewController*)viewController;

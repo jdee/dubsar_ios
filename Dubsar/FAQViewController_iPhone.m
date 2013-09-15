@@ -29,17 +29,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         NSString *_url = @"http://m.dubsar-dictionary.com/ios_faq_v120";
-        url = [[NSURL URLWithString:_url]retain];
+        url = [NSURL URLWithString:_url];
         ready = false;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [url release];
-    [webView release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,7 +56,7 @@
 {
     [self setWebView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -94,7 +87,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
     
     NSString* errMsg = [error localizedDescription];
-    UIAlertView* alertView = [[[UIAlertView alloc]initWithTitle:@"Network Error" message:errMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil]autorelease];
+    UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"Network Error" message:errMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     [self displayMessage:errMsg url:url];
 }
@@ -116,7 +109,7 @@
     }
     else {
         // iOS 4.x
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
+        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

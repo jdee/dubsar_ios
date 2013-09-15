@@ -50,33 +50,33 @@
     UIToolbar *toolbar;
 }
 
-@property (nonatomic, retain) UIPopoverController* wordPopoverController;
-@property (nonatomic, assign) DubsarNavigationController_iPad* navigationController;
-@property (nonatomic, retain) Autocompleter* autocompleter;
-@property (nonatomic, retain) DailyWord* dailyWord;
+@property (nonatomic, strong) UIPopoverController* wordPopoverController;
+@property (nonatomic, weak) DubsarNavigationController_iPad* navigationController;
+@property (nonatomic, strong) Autocompleter* autocompleter;
+@property (nonatomic, strong) DailyWord* dailyWord;
 @property (nonatomic, copy) NSString* searchText;
-@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
-@property (nonatomic, retain) IBOutlet UITableView *autocompleterTableView;
-@property (nonatomic, retain) IBOutlet UIButton *wotdButton;
-@property (assign) Autocompleter* executingAutocompleter;
+@property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) IBOutlet UITableView *autocompleterTableView;
+@property (nonatomic, strong) IBOutlet UIButton *wotdButton;
+@property (weak) Autocompleter* executingAutocompleter;
 
-@property (nonatomic, retain) IBOutlet UIButton *abButton;
-@property (nonatomic, retain) IBOutlet UIButton *cdButton;
-@property (nonatomic, retain) IBOutlet UIButton *efButton;
-@property (nonatomic, retain) IBOutlet UIButton *ghButton;
-@property (nonatomic, retain) IBOutlet UIButton *ijButton;
-@property (nonatomic, retain) IBOutlet UIButton *klButton;
-@property (nonatomic, retain) IBOutlet UIButton *mnButton;
-@property (nonatomic, retain) IBOutlet UIButton *opButton;
-@property (nonatomic, retain) IBOutlet UIButton *qrButton;
-@property (nonatomic, retain) IBOutlet UIButton *stButton;
-@property (nonatomic, retain) IBOutlet UIButton *uvButton;
-@property (nonatomic, retain) IBOutlet UIButton *wxButton;
-@property (nonatomic, retain) IBOutlet UIButton *yzButton;
-@property (nonatomic, retain) IBOutlet UIButton *dotsButton;
-@property (nonatomic, retain) IBOutlet UIButton *homeButton;
-@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
-// @property (nonatomic, retain) IBOutlet UIBarButtonItem* auguryButton;
+@property (nonatomic, strong) IBOutlet UIButton *abButton;
+@property (nonatomic, strong) IBOutlet UIButton *cdButton;
+@property (nonatomic, strong) IBOutlet UIButton *efButton;
+@property (nonatomic, strong) IBOutlet UIButton *ghButton;
+@property (nonatomic, strong) IBOutlet UIButton *ijButton;
+@property (nonatomic, strong) IBOutlet UIButton *klButton;
+@property (nonatomic, strong) IBOutlet UIButton *mnButton;
+@property (nonatomic, strong) IBOutlet UIButton *opButton;
+@property (nonatomic, strong) IBOutlet UIButton *qrButton;
+@property (nonatomic, strong) IBOutlet UIButton *stButton;
+@property (nonatomic, strong) IBOutlet UIButton *uvButton;
+@property (nonatomic, strong) IBOutlet UIButton *wxButton;
+@property (nonatomic, strong) IBOutlet UIButton *yzButton;
+@property (nonatomic, strong) IBOutlet UIButton *dotsButton;
+@property (nonatomic, strong) IBOutlet UIButton *homeButton;
+@property (nonatomic, strong) IBOutlet UIToolbar *toolbar;
+// @property (nonatomic, strong) IBOutlet UIBarButtonItem* auguryButton;
 
 - (IBAction)showWotd:(id)sender;
 - (IBAction)showFAQ:(id)sender;

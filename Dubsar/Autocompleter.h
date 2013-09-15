@@ -27,11 +27,11 @@
 
 @property (nonatomic) BOOL matchCase;
 @property (nonatomic) NSInteger seqNum;
-@property (nonatomic, retain) NSString* term;
-@property (nonatomic, retain) NSMutableArray* results;
+@property (nonatomic, copy) NSString* term;
+@property (nonatomic, strong) NSMutableArray* results;
 @property (nonatomic) int max;
 @property bool aborted;
-@property (nonatomic, assign) id lock;
+@property (nonatomic, weak) id lock;
 
 +(id)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
 

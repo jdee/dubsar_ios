@@ -7,8 +7,7 @@
 	CFStringRef cvalue = CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", CFStringConvertNSStringEncodingToEncoding(encoding));
     
     // autoreleased string
-    NSString* svalue = [NSString stringWithString:(NSString*)cvalue];
-    CFRelease(cvalue);
+    NSString* svalue = [NSString stringWithString:(NSString*)CFBridgingRelease(cvalue)];
     
     return svalue;
 }

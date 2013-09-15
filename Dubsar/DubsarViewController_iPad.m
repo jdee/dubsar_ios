@@ -42,13 +42,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [dailyWord release];
-    [wotdButton release];
-    [super dealloc];
-}
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -69,7 +62,7 @@
 {
     [self setWotdButton:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
@@ -118,7 +111,7 @@
 
     if (theDailyWord.error) {
         NSLog(@"request error: %@", theDailyWord.errorMessage);
-        Word* word = [[[Word alloc]init]autorelease];
+        Word* word = [[Word alloc]init];
         word.error = word.complete = true;
         word.errorMessage = theDailyWord.errorMessage;
         theDailyWord.word = word;
@@ -147,15 +140,16 @@
 - (IBAction)showWotd:(id)sender 
 {
     [dailyWord load];
-    WordViewController_iPad* viewController = [[[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:dailyWord.word title:@"Word of the Day"] autorelease];
+    WordViewController_iPad* viewController = [[WordViewController_iPad alloc] initWithNibName:@"WordViewController_iPad" bundle:nil word:dailyWord.word title:@"Word of the Day"];
     [viewController load];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (void)handleWotd
+- (bool)handleWotd
 {
     // Update the wotd button live
     [dailyWord load]; // from user defaults
+    return true;
 }
 
 @end

@@ -38,10 +38,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _searchText = [theSearchText retain];
+        _searchText = theSearchText;
         
         // set up a new search request to the server asynchronously
-        search = [[Search searchWithTerm:_searchText matchCase:NO] retain];
+        search = [Search searchWithTerm:_searchText matchCase:NO];
         search.delegate = self;
                 
         self.title = [NSString stringWithFormat:@"Search: \"%@\"", _searchText];
@@ -51,18 +51,6 @@
         originalColor = nil;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [originalColor release];
-    [firstWordViewController release];
-    [_tableView release];
-    search.delegate = nil;
-    [search release];
-    [_searchText release];
-    [_pageControl release];
-    [super dealloc];
 }
 
 - (bool)loadedSuccessfully
@@ -81,9 +69,9 @@
 
 - (void)createToolbarItems
 {
-    UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
-    UIBarButtonItem* spacer = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
-    UIBarButtonItem* detailButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)] autorelease];
+    UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
+    UIBarButtonItem* spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem* detailButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)];
     
     NSMutableArray* buttonItems = [NSMutableArray arrayWithObjects:homeButtonItem, spacer, detailButtonItem, nil];
     
@@ -134,14 +122,14 @@
     [self setSearchResultsTableView:nil];
     [self setPageControl:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Release any stronged subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self searchBar].text = [[_searchText copy]autorelease];
+    [self searchBar].text = [_searchText copy];
     if (search.complete && !search.error) {
         [self loadComplete:search withError:nil];
     }
@@ -184,7 +172,7 @@
     
     Word* word = [search.results objectAtIndex:index];
     Word* wordCopy = [Word wordWithId:word._id name:word.name partOfSpeech:word.partOfSpeech];
-    WordViewController_iPhone* viewController = [[[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:wordCopy title:nil]autorelease];
+    WordViewController_iPhone* viewController = [[WordViewController_iPhone alloc]initWithNibName:@"WordViewController_iPhone" bundle:nil word:wordCopy title:nil];
     [wordCopy setDelegate:viewController];
     [self.navigationController pushViewController:viewController animated:YES];
 }
@@ -224,15 +212,15 @@
     
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType]autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType];
     }
     
     if (!search.complete) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"];
         }
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
+        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
         [cell.contentView addSubview:indicator];
@@ -424,7 +412,7 @@
             [firstWordViewController reload];
         }
         
-        originalColor = [_tableView.backgroundColor retain];
+        originalColor = _tableView.backgroundColor;
         _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
         
         UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:2];
@@ -448,7 +436,6 @@
         
         previewShowing = false;
         _tableView.backgroundColor = originalColor;
-        [originalColor release];
         originalColor = nil;
         
         UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:2];

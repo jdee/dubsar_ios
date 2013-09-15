@@ -59,12 +59,6 @@ static PartOfSpeechDictionary* theInstance=nil;
     return self;
 }
 
--(void)dealloc
-{
-    [dictionary release];
-    [super dealloc];
-}
-
 -(NSString*)posFromPartOfSpeech:(PartOfSpeech)partOfSpeech
 {
     switch (partOfSpeech) {

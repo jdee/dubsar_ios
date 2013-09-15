@@ -38,7 +38,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        word = [theWord retain];
+        word = theWord;
         word.delegate = self;
         self.loading = false;
         self.parentDataSource = nil;
@@ -64,19 +64,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setTableViewFrame) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [previewButton release];
-    [originalColor release];
-    [firstSenseViewController release];
-    [inflectionsViewController release];
-    word.delegate = nil;
-    [word release];
-    [tableView release];
-    [bannerTextView release];
-    [super dealloc];
 }
 
 - (bool)loadedSuccessfully
@@ -109,13 +96,13 @@
     NSLog(@"In createToolbarItems");
 #endif // DEBUG
     NSMutableArray* buttons = [NSMutableArray array];
-    UIBarButtonItem* homeButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)]autorelease];
+    UIBarButtonItem* homeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStyleBordered target:self action:@selector(loadRootController)];
     [buttons addObject:homeButtonItem];
     
-    UIBarButtonItem* spacer = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+    UIBarButtonItem* spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [buttons addObject:spacer];
     
-    self.previewButton = [[[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)]autorelease];;
+    self.previewButton = [[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStyleBordered target:self action:@selector(togglePreview)];
     [buttons addObject:previewButton];
     
 #ifdef DUBSAR_EDITORIAL_BUILD
@@ -125,7 +112,7 @@
 #endif // DUBSAR_EDITORIAL_BUILD
     
     if (word.inflections.count > 0) {
-        UIBarButtonItem* inflectionsButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPageCurl target:self action:@selector(toggleInflections)] autorelease];
+        UIBarButtonItem* inflectionsButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPageCurl target:self action:@selector(toggleInflections)];
         [buttons addObject:inflectionsButtonItem];
     }
     
@@ -180,7 +167,7 @@
     firstSenseViewController.bannerLabel.hidden = YES;
     firstSenseViewController.glossTextView.hidden = YES;
     
-    originalColor = [tableView.backgroundColor retain];
+    originalColor = tableView.backgroundColor;
 }
 
 - (void)viewDidUnload
@@ -295,7 +282,7 @@
     
     int index = indexPath.section;
     Sense* sense = [word.senses objectAtIndex:index];
-    [actualNavigationController pushViewController:[[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense]autorelease] animated:YES];
+    [actualNavigationController pushViewController:[[SenseViewController_iPhone alloc]initWithNibName:@"SenseViewController_iPhone" bundle:nil sense:sense] animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView*)theTableView numberOfRowsInSection:(NSInteger)section
@@ -316,16 +303,16 @@
     
     UITableViewCell* cell = [theTableView dequeueReusableCellWithIdentifier:cellType];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellType];
     }
     
     if (!word.complete) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"indicator"];
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"]autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"indicator"];
         }
         
-        UIActivityIndicatorView* indicator = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]autorelease];
+        UIActivityIndicatorView* indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [cell.contentView addSubview:indicator];
         CGRect frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.frame = frame;
@@ -399,9 +386,9 @@
 
 - (void)editInflections
 {
-    EditInflectionsViewController_iPhone* viewController = [[[EditInflectionsViewController_iPhone alloc] initWithNibName:@"EditInflectionsViewController_iPhone" bundle:nil word:word]autorelease];
+    EditInflectionsViewController_iPhone* viewController = [[EditInflectionsViewController_iPhone alloc] initWithNibName:@"EditInflectionsViewController_iPhone" bundle:nil word:word];
     viewController.delegate = self;
-    [self presentModalViewController:viewController animated:YES];
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 
 - (void)showInflections
