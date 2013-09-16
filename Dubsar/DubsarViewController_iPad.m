@@ -80,20 +80,8 @@
 
 - (void)setViewSize
 {
-    UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
-    CGRect frame = self.view.frame;
-    if (UIInterfaceOrientationIsPortrait(orientation)) {
-        frame.size.width = 768.0;
-        frame.size.height = 1004.0;
-    }
-    else {
-        frame.size.width = 703.0;
-        frame.size.height = 748.0;
-    }
-    self.view.frame = frame;
-    
     DubsarNavigationController_iPad* navController = (DubsarNavigationController_iPad*)self.navigationController;
-    navController.originalFrame = frame;
+    navController.originalFrame = self.view.bounds;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
