@@ -164,9 +164,7 @@
     "<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>"
     "<p>You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.</p><hr/>"
     "<p>WordNet&reg; &copy; 2013 The Trustees of Princeton University</p>"
-    "<p>WordNet&reg; is available under the WordNet 3.0 License.<hr/>"
-    "<p>JSONKit &copy; 2011 John Engelhart</p>"
-    "<p>JSONKit is dual licensed under either the terms of the BSD License, or alternatively under the terms of the Apache License, Version 2.0.</p><hr/>"
+    "<p>WordNet&reg; is available under the WordNet 3.0 License."
     "</body></html>";
 }
 
