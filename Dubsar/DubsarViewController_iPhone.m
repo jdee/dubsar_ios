@@ -48,11 +48,8 @@
         UIImageView* titleView = [[UIImageView alloc]initWithImage:image];
         titleView.autoresizingMask = UIViewAutoresizingNone;
         
-        if ([[[UIDevice currentDevice] systemVersion] compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending) {
-            // iOS 6.0+
-            [titleView setTranslatesAutoresizingMaskIntoConstraints:YES];
-        }
-        
+        [titleView setTranslatesAutoresizingMaskIntoConstraints:YES];
+
         CGRect bounds = titleView.bounds;
         bounds.size = CGSizeMake(78.0, 30.0);
         titleView.bounds = bounds;

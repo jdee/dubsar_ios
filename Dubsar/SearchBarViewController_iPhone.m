@@ -239,6 +239,9 @@
 
 - (void)loadRootController
 {
+#ifdef DEBUG
+    NSLog(@"in [SearchBarViewController_iPhone loadRootController]");
+#endif // DEBUG
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

@@ -90,6 +90,11 @@
     firstSenseViewController.sense = nil;
 }
 
+- (void)loadRootController
+{
+    [super loadRootController];
+}
+
 - (void)createToolbarItems
 {
 #ifdef DEBUG
