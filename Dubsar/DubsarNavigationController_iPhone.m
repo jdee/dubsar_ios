@@ -32,6 +32,8 @@
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetFrame) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+
+        self.navigationBar.translucent = NO;
     }
     
     return self;

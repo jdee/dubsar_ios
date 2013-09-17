@@ -64,6 +64,8 @@
         
         editing = false;
         executingAutocompleter = nil;
+
+        self.navigationBar.translucent = NO;
     }
     
     return self;
