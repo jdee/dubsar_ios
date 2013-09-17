@@ -119,14 +119,7 @@
 
 - (IBAction)dismiss:(id)sender 
 {
-    if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
-        // iOS 5.0+
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-    else {
-        // iOS 4.x
-        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)showAbout:(id)sender

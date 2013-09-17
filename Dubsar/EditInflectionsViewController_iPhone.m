@@ -110,14 +110,7 @@
     bool complete = word.complete;
     NSLog(@"Dismissing modal view controller. Word is%s complete", complete ? "" : " not");
     [delegate modalViewControllerDismissed:self mustReload:!complete];
-    if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
-        // iOS 5.0+
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-    else {
-        // iOS 4.x
-        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)cancel:(id)sender

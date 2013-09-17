@@ -101,14 +101,7 @@
     [self deleteDatabase:@"backup.sqlite3"];
     [appDelegate prepareDatabase:false];
     
-    if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
-        // iOS 5.0+
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-    else {
-        // iOS 4.x
-        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)startSync
@@ -264,14 +257,7 @@
         ++insertFinished;
         insertProgressView.progress = 1.0;
         
-        if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] != NSOrderedAscending) {
-            // iOS 5.0+
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-        else {
-            // iOS 4.x
-            [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
-        }
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
