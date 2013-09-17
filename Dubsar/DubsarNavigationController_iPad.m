@@ -66,6 +66,7 @@
         executingAutocompleter = nil;
 
         self.navigationBar.translucent = NO;
+        self.toolbar.translucent = YES;
     }
     
     return self;
