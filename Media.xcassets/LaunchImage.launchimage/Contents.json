@@ -22,6 +22,7 @@
       "idiom" : "ipad",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
+      "filename" : "ipad-portrait.png",
       "scale" : "1x"
     },
     {
@@ -29,6 +30,7 @@
       "idiom" : "ipad",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
+      "filename" : "ipad-landscape.png",
       "scale" : "1x"
     },
     {
