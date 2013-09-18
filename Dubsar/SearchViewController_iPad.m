@@ -36,7 +36,7 @@
 {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     if (self) {
-        indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         
         indicator.frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
         indicator.autoresizingMask = UIViewAutoresizingNone;
