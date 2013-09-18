@@ -34,7 +34,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetFrame) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
 
         self.navigationBar.translucent = NO;
-        self.toolbar.translucent = YES;
+        self.toolbar.translucent = NO;
     }
     
     return self;

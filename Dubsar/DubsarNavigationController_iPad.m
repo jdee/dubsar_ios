@@ -66,7 +66,6 @@
         executingAutocompleter = nil;
 
         self.navigationBar.translucent = NO;
-        self.toolbar.translucent = YES;
     }
     
     return self;
@@ -99,8 +98,9 @@
     if (appDelegate.wotdUnread) [self addWotdButton];
     backBarButtonItem.enabled = YES;
     [self addToolbar:viewController];
-    
-    originalFrame = self.topViewController.view.frame;
+
+    // o.0
+    originalFrame = self.topViewController.view.bounds;
 }
 
 - (NSArray*)popToRootViewControllerAnimated:(BOOL)animated
@@ -116,7 +116,7 @@
     NSArray* stack = [super popToRootViewControllerAnimated:animated];
     [self addToolbar:self.topViewController];
     
-    originalFrame = self.topViewController.view.frame;
+    originalFrame = self.topViewController.view.bounds;
 
     return stack;
 }
@@ -131,7 +131,7 @@
     backBarButtonItem.enabled = self.viewControllers.count > 1;
     [self addToolbar:self.topViewController];
     
-    originalFrame = self.topViewController.view.frame;
+    originalFrame = self.topViewController.view.bounds;
 
     return viewController;
 }
