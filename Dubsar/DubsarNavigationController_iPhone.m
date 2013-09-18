@@ -21,6 +21,12 @@
 #import "DubsarNavigationController_iPhone.h"
 #import "DubsarViewController_iPhone.h"
 
+@interface DubsarNavigationController_iPhone ()
+
+- (void) recordOriginalFrame;
+
+@end
+
 @implementation DubsarNavigationController_iPhone
 @synthesize forwardStack;
 
@@ -40,6 +46,18 @@
     return self;
 }
 
+- (void)recordOriginalFrame
+{
+    originalFrame = self.topViewController.view.frame;
+
+    originalFrame.origin.x = 0.0;
+    originalFrame.origin.y = self.navigationBar.frame.origin.y + self.navigationBar.frame.size.height;
+
+#ifdef DEBUG
+    NSLog(@"Original frame for top VC: %f, %f (%f x %f)", originalFrame.origin.x, originalFrame.origin.y, originalFrame.size.width, originalFrame.size.height);
+#endif // DEBUG
+}
+
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     DubsarAppDelegate_iPhone* appDelegate = (DubsarAppDelegate_iPhone*)[UIApplication sharedApplication].delegate;
@@ -54,10 +72,10 @@
         if (forwardStack.count > 0 && !appDelegate.wotdUnread) [self addForwardButton];
         else if (appDelegate.wotdUnread) [self addWotdButton];
     }
+
+    [self recordOriginalFrame];
     
     if (self.viewControllers.count > 1) [self addBackButton];
-    
-    originalFrame = self.topViewController.view.frame;
     
 }
 
@@ -83,9 +101,9 @@
     else [self addForwardButton];
     
     [self addGestureRecognizerToView:self.topViewController.view];
-    
-    originalFrame = self.topViewController.view.frame;
-    
+
+    [self recordOriginalFrame];
+
     return forwardStack.topViewController;
 }
 
@@ -107,12 +125,13 @@
     
     appDelegate.wotdUnread = false;
     
-    originalFrame = self.topViewController.view.frame;
     [self addGestureRecognizerToView:self.topViewController.view];
     
     DubsarViewController_iPhone* viewController = (DubsarViewController_iPhone*)self.topViewController;
     viewController.loading = false;
     [viewController load];
+
+    [self recordOriginalFrame];
     
     return stack;
 }
