@@ -18,7 +18,7 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>See Notifications in this app (Settings) for Dubsar push notification settings</string>
+			<string>See the Notification Center in this app (Settings) for Dubsar push notification settings</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>
