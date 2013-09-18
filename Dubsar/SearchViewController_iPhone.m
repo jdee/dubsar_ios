@@ -49,6 +49,8 @@
         previewShowing = false;
         
         originalColor = nil;
+
+        self.navigationController.toolbar.translucent = NO;
     }
     return self;
 }
