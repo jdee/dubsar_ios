@@ -55,7 +55,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [dailyWord load];
 }
 
 - (void)viewDidUnload
