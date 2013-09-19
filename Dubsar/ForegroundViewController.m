@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarNavigationController_iPhone.h"
 #import "ForegroundViewController.h"
 
 @interface ForegroundViewController ()
@@ -50,6 +51,13 @@
 
 - (void)handleTouch:(UITouch *)touch
 {
+}
+
+- (void) recordOriginalFrame
+{
+    DubsarNavigationController_iPhone* navigationController = (DubsarNavigationController_iPhone*)self.navigationController;
+    // assumes this is the top VC
+    [navigationController recordOriginalFrame];
 }
 
 @end

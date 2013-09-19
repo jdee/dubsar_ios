@@ -95,6 +95,8 @@
     [self initOrientation];
     if (preEditText != nil) searchBar.text = preEditText;
     [self load];
+
+    [self recordOriginalFrame];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar

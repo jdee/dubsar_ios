@@ -23,8 +23,6 @@
 
 @interface DubsarNavigationController_iPhone ()
 
-- (void) recordOriginalFrame;
-
 @end
 
 @implementation DubsarNavigationController_iPhone
@@ -49,9 +47,6 @@
 - (void)recordOriginalFrame
 {
     originalFrame = self.topViewController.view.frame;
-
-    originalFrame.origin.x = 0.0;
-    originalFrame.origin.y = self.navigationBar.frame.origin.y + self.navigationBar.frame.size.height;
 
 #ifdef DEBUG
     NSLog(@"Original frame for top VC: %f, %f (%f x %f)", originalFrame.origin.x, originalFrame.origin.y, originalFrame.size.width, originalFrame.size.height);

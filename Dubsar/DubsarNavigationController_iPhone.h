@@ -36,6 +36,8 @@
 - (void)viewWotd;
 - (void)resetFrame;
 
+- (void) recordOriginalFrame;
+
 - (UIGestureRecognizer*)addGestureRecognizerToView:(UIView*)view;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender;

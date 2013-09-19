@@ -26,4 +26,6 @@
 - (void) handlePanGesture:(UIPanGestureRecognizer*)sender;
 - (void) handleTouch:(UITouch*)touch;
 
+- (void) recordOriginalFrame;
+
 @end
