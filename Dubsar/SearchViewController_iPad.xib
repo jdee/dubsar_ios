@@ -19,9 +19,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4">
-                    <rect key="frame" x="0.0" y="44" width="703" height="680"/>
+                    <rect key="frame" x="0.0" y="24" width="703" height="700"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="0.87843137250000003" green="0.87843137250000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="-20" maxX="0.0" maxY="20"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="5"/>
                         <outlet property="delegate" destination="-1" id="6"/>
