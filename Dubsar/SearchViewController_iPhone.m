@@ -417,8 +417,8 @@
         originalColor = _tableView.backgroundColor;
         _tableView.backgroundColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
         
-        UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:2];
-        detailButtonItem.title = @"Hide";
+        // UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:2];
+        // detailButtonItem.title = @"Hide";
     }
     else {
         CGRect frame = firstWordViewController.view.frame;
@@ -440,8 +440,8 @@
         _tableView.backgroundColor = originalColor;
         originalColor = nil;
         
-        UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:2];
-        detailButtonItem.title = @"Show";
+        // UIBarButtonItem* detailButtonItem = [self.toolbarItems objectAtIndex:2];
+        // detailButtonItem.title = @"Show";
     }
 }
 

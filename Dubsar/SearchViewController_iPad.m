@@ -420,7 +420,7 @@
         previewShowing = false;
         
         tableView.backgroundColor = originalColor;
-        [previewButton setTitle:@"Show"];
+        // [previewButton setTitle:@"Show"];
     }
     else {
         // show preview
@@ -447,7 +447,7 @@
         previewShowing = true;
         [self adjustPreview];
         [previewViewController reload];
-        [previewButton setTitle:@"Hide"];
+        // [previewButton setTitle:@"Hide"];
     }
     [tableView reloadData];
 }

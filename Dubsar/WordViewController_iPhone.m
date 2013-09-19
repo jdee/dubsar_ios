@@ -497,7 +497,7 @@
         }
         previewShowing = false;
         tableView.backgroundColor = originalColor;
-        previewButton.title = @"Show";
+        // previewButton.title = @"Show";
     }
     else {
         if (!firstSenseViewController.sense) {
@@ -531,7 +531,7 @@
             firstSenseViewController.view.frame = frame;
         }
         previewShowing = true;
-        previewButton.title = @"Hide";
+        // previewButton.title = @"Hide";
     }
 }
 

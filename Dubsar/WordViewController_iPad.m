@@ -384,7 +384,7 @@
         _tableView.backgroundColor = originalColor;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         previewShowing = false;
-        [previewButton setTitle:@"Show"];
+        // [previewButton setTitle:@"Show"];
     }
     else {
         if (!previewViewController.sense) {
@@ -415,7 +415,7 @@
         
         previewShowing = true;
         [self adjustPreview];
-        [previewButton setTitle:@"Hide"];
+        // [previewButton setTitle:@"Hide"];
     }
     [_tableView reloadData];
 }
