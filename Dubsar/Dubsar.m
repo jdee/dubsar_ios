@@ -24,5 +24,5 @@
 const NSString* DubsarSecureUrl = @"https://dubsar-dictionary.com";
 const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS by default
 
-NSString* iTunesLink = @"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=453868483&mt=8";
+NSString* iTunesLink = @"itms-apps://itunes.apple.com/us/app/dubsar/id453868483?mt=8";
 
