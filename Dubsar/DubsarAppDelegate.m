@@ -31,8 +31,6 @@
 @synthesize window=_window;
 @synthesize dubsarTintColor;
 @synthesize dubsarFontFamily;
-@synthesize dubsarNormalFont;
-@synthesize dubsarSmallFont;
 @synthesize database;
 @synthesize exactAutocompleterStmt;
 @synthesize autocompleterStmt;
@@ -47,8 +45,6 @@
         sranddev();
         dubsarTintColor  = [UIColor colorWithRed:0.110 green:0.580 blue:0.769 alpha:1.0];
         dubsarFontFamily = @"Trebuchet";
-        dubsarNormalFont = [UIFont fontWithName:@"TrebuchetMS" size:18.0];
-        dubsarSmallFont  = [UIFont fontWithName:@"TrebuchetMS" size:14.0];
         databaseReady = false;
         wotdUnread = false;
         
@@ -58,6 +54,26 @@
     }
     return self;
 }
+
+- (UIFont *)dubsarNormalFont
+{
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        return [UIFont systemFontOfSize:18.0];
+    }
+    else {
+        return [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    }
+}
+
+- (UIFont *)dubsarSmallFont {
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        return [UIFont systemFontOfSize:18.0];
+    }
+    else {
+        return [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    }
+}
+
 
 - (id)initForTest
 {
