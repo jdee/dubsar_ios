@@ -117,7 +117,7 @@
 #endif // DUBSAR_EDITORIAL_BUILD
     
     if (word.inflections.count > 0) {
-        UIBarButtonItem* inflectionsButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPageCurl target:self action:@selector(toggleInflections)];
+        UIBarButtonItem* inflectionsButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Inflections" style:UIBarButtonItemStylePlain target:self action:@selector(toggleInflections)];
         [buttons addObject:inflectionsButtonItem];
     }
     

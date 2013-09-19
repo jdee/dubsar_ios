@@ -45,7 +45,7 @@
                                 <action selector="togglePreview:" destination="-1" id="18"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem systemItem="pageCurl" id="13">
+                        <barButtonItem title="Inflections" id="13">
                             <connections>
                                 <action selector="toggleInflections:" destination="-1" id="14"/>
                             </connections>

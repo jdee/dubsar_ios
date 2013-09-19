@@ -366,16 +366,8 @@
 
 - (void)adjustInflectionsView
 {
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    CGRect frame = inflectionsViewController.view.frame;
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
-        frame.size.height = 704.0;
-        frame.size.width = 703.0;
-    }
-    else {
-        frame.size.height = 960.0;
-        frame.size.width = 768.0;
-    }
+    CGRect frame = self.view.frame;
+    frame.size.height -= 44.0;
     inflectionsViewController.view.frame = frame;
 }
 
