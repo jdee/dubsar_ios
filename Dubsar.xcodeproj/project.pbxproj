@@ -109,7 +109,6 @@
 		7B9AB9AC17EBCF450025A49B /* InflectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9AB9AB17EBCF450025A49B /* InflectionView.m */; };
 		7B9D2C6516AB8E4C00F31AE8 /* Augury.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6416AB8E4C00F31AE8 /* Augury.m */; };
 		7B9D2C6916AB912200F31AE8 /* AuguryViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6716AB912200F31AE8 /* AuguryViewController_iPad.m */; };
-		7B9D2C8016AE05D800F31AE8 /* InflectionsViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C7E16AE05D700F31AE8 /* InflectionsViewController_iPad.m */; };
 		7BB2270813E5A747005D454F /* AboutViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */; };
 		7BB2270913E5A747005D454F /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */; };
 		7BB9CEDC141C19F1000DD13B /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
@@ -297,9 +296,6 @@
 		7B9D2C6616AB912100F31AE8 /* AuguryViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuguryViewController_iPad.h; sourceTree = "<group>"; };
 		7B9D2C6716AB912200F31AE8 /* AuguryViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuguryViewController_iPad.m; sourceTree = "<group>"; };
 		7B9D2C6816AB912200F31AE8 /* AuguryViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuguryViewController_iPad.xib; sourceTree = "<group>"; };
-		7B9D2C7D16AE05D700F31AE8 /* InflectionsViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InflectionsViewController_iPad.h; sourceTree = "<group>"; };
-		7B9D2C7E16AE05D700F31AE8 /* InflectionsViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InflectionsViewController_iPad.m; sourceTree = "<group>"; };
-		7B9D2C7F16AE05D800F31AE8 /* InflectionsViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InflectionsViewController_iPad.xib; sourceTree = "<group>"; };
 		7BB2270513E5A746005D454F /* AboutViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController_iPhone.h; sourceTree = "<group>"; };
 		7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController_iPhone.m; sourceTree = "<group>"; };
 		7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -393,6 +389,8 @@
 				7BDDDC8A16BD8BE00054BC3B /* ForegroundViewController.m */,
 				7B8AEB0713E9A39F00889E57 /* ForwardStack.h */,
 				7B8AEB0813E9A39F00889E57 /* ForwardStack.m */,
+				7B9AB9AA17EBCF450025A49B /* InflectionView.h */,
+				7B9AB9AB17EBCF450025A49B /* InflectionView.m */,
 				7B29BB4B169FB91900D7C241 /* ModalViewControllerDelegate.h */,
 				7B32808813E38C4200274E6C /* External */,
 				7B32808F13E38C9B00274E6C /* Models */,
@@ -441,8 +439,6 @@
 				7B3280CE13E38F8200274E6C /* FAQViewController_iPhone.h */,
 				7B3280CF13E38F8200274E6C /* FAQViewController_iPhone.m */,
 				7B3280D013E38F8200274E6C /* FAQViewController_iPhone.xib */,
-				7B9AB9AA17EBCF450025A49B /* InflectionView.h */,
-				7B9AB9AB17EBCF450025A49B /* InflectionView.m */,
 				7B32800713E3875400274E6C /* MainWindow_iPhone.xib */,
 				7B145C8D1698E7C4003DF963 /* ReviewViewController_iPhone.h */,
 				7B145C8E1698E7C4003DF963 /* ReviewViewController_iPhone.m */,
@@ -492,9 +488,6 @@
 				7B32806A13E38B5500274E6C /* FAQViewController_iPad.h */,
 				7B32806B13E38B5600274E6C /* FAQViewController_iPad.m */,
 				7B32806C13E38B5600274E6C /* FAQViewController_iPad.xib */,
-				7B9D2C7D16AE05D700F31AE8 /* InflectionsViewController_iPad.h */,
-				7B9D2C7E16AE05D700F31AE8 /* InflectionsViewController_iPad.m */,
-				7B9D2C7F16AE05D800F31AE8 /* InflectionsViewController_iPad.xib */,
 				7B2AEDD616B4C20B0058958F /* IntroViewController_iPad.h */,
 				7B2AEDD716B4C20B0058958F /* IntroViewController_iPad.m */,
 				7B2AEDD816B4C20C0058958F /* IntroViewController_iPad.xib */,
@@ -814,7 +807,6 @@
 				7B3F43E6169BAAB3005EF93B /* KeychainWrapper.m in Sources */,
 				7B9D2C6516AB8E4C00F31AE8 /* Augury.m in Sources */,
 				7B9D2C6916AB912200F31AE8 /* AuguryViewController_iPad.m in Sources */,
-				7B9D2C8016AE05D800F31AE8 /* InflectionsViewController_iPad.m in Sources */,
 				7B2AEDD916B4C20D0058958F /* IntroViewController_iPad.m in Sources */,
 				7BDDDC8B16BD8BE00054BC3B /* ForegroundViewController.m in Sources */,
 			);

@@ -18,7 +18,8 @@
  */
 
 #import "DubsarAppDelegate_iPad.h"
-#import "InflectionsViewController_iPad.h"
+#import "DubsarNavigationController_iPad.h"
+#import "InflectionView.h"
 #import "Sense.h"
 #import "SenseViewController_iPad.h"
 #import "Word.h"
@@ -43,8 +44,7 @@
         word = theWord;
         word.delegate = self;
         inflectionsShowing = false;
-        inflectionsViewController = [[InflectionsViewController_iPad alloc] initWithNibName:@"InflectionsViewController_iPad" bundle:nil word:word];
-        
+
         previewViewController = nil;
         previewShowing = false;
         
@@ -85,8 +85,17 @@
 {
     [super viewDidLoad];
 
-    [self.view addSubview:inflectionsViewController.view];
-    [inflectionsViewController.view setHidden:YES];
+    CGRect frame = self.view.frame;
+
+    DubsarNavigationController_iPad* navigationController = (DubsarNavigationController_iPad*)self.navigationController;
+
+    frame.origin.y = navigationController.searchToolbar.frame.size.height;
+    frame.size.height -= navigationController.searchToolbar.frame.size.height;
+    frame.size.height -= toolbar.frame.size.height;
+    inflectionView = [[InflectionView alloc] initWithFrame:frame word:word];
+
+    [self.view addSubview:inflectionView];
+    [inflectionView setHidden:YES];
     
     previewViewController = [[SenseViewController_iPad alloc] initWithNibName:@"SenseViewController_iPad" bundle:nil sense:nil];
     previewViewController.moreButton.hidden = YES;
@@ -273,7 +282,7 @@
     [self adjustInflectionsView];
     
     if (!word.preview && word.inflections.count > 0) {
-        [inflectionsViewController load];
+        [inflectionView load];
     }
     else {
         NSMutableArray* buttons = toolbar.items.mutableCopy;
@@ -349,7 +358,7 @@
     [UIView transitionWithView:self.view duration:0.4 options:UIViewAnimationOptionTransitionCurlUp animations:^{
         bannerLabel.hidden = YES;
         _tableView.hidden = YES;
-        inflectionsViewController.view.hidden = NO;
+        inflectionView.hidden = NO;
     } completion:nil];
 }
 
@@ -359,16 +368,18 @@
     [UIView transitionWithView:self.view duration:0.4 options:UIViewAnimationOptionTransitionCurlDown animations:^{
         bannerLabel.hidden = NO;
         _tableView.hidden = NO;
-        inflectionsViewController.view.hidden = YES;
+        inflectionView.hidden = YES;
         
     } completion:nil];
 }
 
 - (void)adjustInflectionsView
 {
+    /*
     CGRect frame = self.view.frame;
     frame.size.height -= 44.0;
-    inflectionsViewController.view.frame = frame;
+    inflectionView.frame = frame;
+     */
 }
 
 - (void)togglePreview:(id)sender

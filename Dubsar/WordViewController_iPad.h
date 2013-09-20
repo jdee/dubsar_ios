@@ -20,15 +20,14 @@
 #import "ForegroundViewController.h"
 #import "LoadDelegate.h"
 
-@class InflectionsViewController_iPad;
+@class InflectionView;
 @class SenseViewController_iPad;
 @class Word;
 
 @interface WordViewController_iPad : ForegroundViewController<LoadDelegate, UITableViewDataSource, UITableViewDelegate> {
-    
     UILabel *bannerLabel;
     bool inflectionsShowing;
-    InflectionsViewController_iPad* inflectionsViewController;
+    InflectionView* inflectionView;
     SenseViewController_iPad* previewViewController;
     bool customTitle;
     bool previewShowing;

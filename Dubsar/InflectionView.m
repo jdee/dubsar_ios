@@ -19,7 +19,6 @@
 
 #import "InflectionView.h"
 #import "Word.h"
-#import "WordViewController_iPhone.h"
 
 @implementation InflectionView
 @synthesize word;
@@ -30,6 +29,9 @@
     if (self) {
         self.word = theWord;
         self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0) {
+            self.translatesAutoresizingMaskIntoConstraints = YES;
+        }
     }
     return self;
 }
