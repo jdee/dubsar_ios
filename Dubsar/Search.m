@@ -35,7 +35,7 @@ static int _seqNum = 0;
 @synthesize seqNum;
 @synthesize isWildCard;
 @synthesize title;
-
+@synthesize exact;
 
 +(id)searchWithTerm:(id)theTerm matchCase:(BOOL)mustMatchCase
 {
@@ -68,6 +68,7 @@ static int _seqNum = 0;
         currentPage = 1;
         totalPages = 0;
         seqNum = theSeqNum;
+        exact = false;
         
         /*
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
@@ -93,6 +94,7 @@ static int _seqNum = 0;
         results = nil;
         seqNum = theSeqNum;
         currentPage = page;
+        exact = false;
         
         // totalPages is set by the server in the response
         totalPages = 0;
@@ -122,6 +124,7 @@ static int _seqNum = 0;
         results = nil;
         seqNum = theSeqNum;
         currentPage = page;
+        exact = false;
         
         // totalPages is set by the server in the response
         totalPages = 0;
@@ -438,8 +441,7 @@ static int _seqNum = 0;
 #endif // DEBUG
     }
     sqlite3_finalize(statement);
-   
-    
+
     sql =  @"SELECT DISTINCT w.id, w.name, w.part_of_speech, w.freq_cnt "
     @"FROM words w "
     @"INNER JOIN inflections_fts ifts ON ifts.word_id = w.id "
@@ -493,6 +495,8 @@ static int _seqNum = 0;
             Word* word = [Word wordWithId:_id name:name partOfSpeech:partOfSpeech];
             word.freqCnt = freqCnt;
             [results addObject:word];
+
+            exact = true;
         }
         
         sqlite3_finalize(statement);

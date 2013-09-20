@@ -116,6 +116,9 @@
     NSLog(@"bounds: origin.x=%f, origin.y=%f, size.width=%f, size.height=%f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
     NSLog(@"frame: origin.x=%f, origin.y=%f, size.width=%f, size.height=%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
 #endif // DEBUG
+
+    previewShowing = false;
+    firstWordViewController.view.hidden = YES;
 }
 
 - (void)viewDidUnload
@@ -335,7 +338,7 @@
             [self setSearchTitle:[NSString stringWithFormat:@"\"%@\" p. %d of %d", search.title, search.currentPage, search.totalPages]];
         }
         
-        if (search.results.count > 0 && search.currentPage <= 1 && !previewShowing) {
+        if (search.exact && !previewShowing) {
             [self togglePreview:true];
         }
     }

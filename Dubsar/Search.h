@@ -33,6 +33,16 @@
 @property (nonatomic) int totalPages;
 @property (nonatomic) int seqNum;
 
+/*
+ * Indicates whether the search result contains an exact match.
+ * Some searches (anything involving wildcards or when currentPage > 1) 
+ * cannot result in exact matches. If this property is true, the first
+ * word in the results will either have a name property equal to the
+ * search term or an inflection with a name property equal to the
+ * search term.
+ */
+@property bool exact;
+
 +(id)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
 -(id)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum;
 +(id)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page;

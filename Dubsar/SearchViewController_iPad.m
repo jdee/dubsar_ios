@@ -157,6 +157,8 @@
     previewView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0];
     
     [self.tableView addSubview:previewView];
+    previewView.hidden = YES;
+    previewShowing = false;
     
     CGRect bounds = previewView.bounds;
     bounds.origin.y = 88.0;
@@ -345,7 +347,7 @@
             [self setSearchTitle:[NSString stringWithFormat:@"Search: \"%@\" p. %d of %d", search.title, search.currentPage, search.totalPages]];
         }
         
-        if (search.results.count > 0 && !previewShowing) {
+        if (search.exact && !previewShowing) {
             [self togglePreview:nil];
         }
     }
