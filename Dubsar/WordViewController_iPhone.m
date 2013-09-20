@@ -19,7 +19,7 @@
 
 #import "DubsarAppDelegate_iPhone.h"
 #import "EditInflectionsViewController_iPhone.h"
-#import "InflectionsViewController_iPhone.h"
+#import "InflectionView.h"
 #import "WordViewController_iPhone.h"
 #import "Sense.h"
 #import "SenseViewController_iPhone.h"
@@ -42,7 +42,6 @@
         word.delegate = self;
         self.loading = false;
         self.parentDataSource = nil;
-        inflectionsViewController = nil;
         inflectionsShowing = false;
         previewShowing = false;
         previewButton = nil;
@@ -117,7 +116,7 @@
 #endif // DUBSAR_EDITORIAL_BUILD
     
     if (word.inflections.count > 0) {
-        UIBarButtonItem* inflectionsButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Inflections" style:UIBarButtonItemStylePlain target:self action:@selector(toggleInflections)];
+        UIBarButtonItem* inflectionsButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Inflections" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleInflections)];
         [buttons addObject:inflectionsButtonItem];
     }
     
@@ -137,10 +136,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    inflectionsViewController = [[InflectionsViewController_iPhone alloc] initWithNibName:@"InflectionsViewController_iPhone" bundle:nil word:word parent:self];
+    inflectionView = [[InflectionView alloc] initWithFrame:self.view.frame word:word];
     
-    [inflectionsViewController.view setHidden:YES];
-    [self.view addSubview:inflectionsViewController.view];
+    [inflectionView setHidden:YES];
+    [self.view addSubview:inflectionView];
     
     firstSenseViewController.view.hidden = YES;
     [self.view addSubview:firstSenseViewController.view];
@@ -361,7 +360,7 @@
     if (!customTitle) self.title = [NSString stringWithFormat:@"Word: %@", word.nameAndPos];
 
     [self adjustBanner];
-    [inflectionsViewController loadComplete];
+    [inflectionView load];
 
 #ifdef DEBUG
     NSLog(@"Load complete; adjusting table view");
@@ -403,7 +402,7 @@
                     animations:^{
                         [self searchBar].hidden = YES;
                         tableView.hidden = YES;
-                        inflectionsViewController.view.hidden = NO;
+                        inflectionView.hidden = NO;
                         firstSenseViewController.view.hidden = YES;
                     } completion:nil];
     inflectionsShowing = true;
@@ -417,7 +416,7 @@
                     animations:^{
                         [self searchBar].hidden = NO;
                         tableView.hidden = NO;
-                        inflectionsViewController.view.hidden = YES;
+                        inflectionView.hidden = YES;
                         if (previewShowing) {
                             previewShowing = false;
                             [self togglePreview:false];

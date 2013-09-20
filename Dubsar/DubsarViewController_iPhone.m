@@ -47,8 +47,10 @@
         UIImage* image = [UIImage imageNamed:@"dubsar-full.png"];
         UIImageView* titleView = [[UIImageView alloc]initWithImage:image];
         titleView.autoresizingMask = UIViewAutoresizingNone;
-        
-        [titleView setTranslatesAutoresizingMaskIntoConstraints:YES];
+
+        if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0) {
+            [titleView setTranslatesAutoresizingMaskIntoConstraints:YES];
+        }
 
         CGRect bounds = titleView.bounds;
         bounds.size = CGSizeMake(78.0, 30.0);

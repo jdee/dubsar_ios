@@ -17,14 +17,11 @@
 		7B00DF6213E6F0E200E80FCC /* PointerDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B00DF6113E6F0E200E80FCC /* PointerDictionaryTest.m */; };
 		7B00DF6313E6F11F00E80FCC /* PointerDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B32809A13E38CEE00274E6C /* PointerDictionary.m */; };
 		7B0101431699F648008FC876 /* EditInflectionsViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0101411699F648008FC876 /* EditInflectionsViewController_iPhone.m */; };
-		7B0101441699F648008FC876 /* EditInflectionsViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B0101421699F648008FC876 /* EditInflectionsViewController_iPhone.xib */; };
 		7B145C901698E7C4003DF963 /* ReviewViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C8E1698E7C4003DF963 /* ReviewViewController_iPhone.m */; };
-		7B145C911698E7C4003DF963 /* ReviewViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B145C8F1698E7C4003DF963 /* ReviewViewController_iPhone.xib */; };
 		7B145C951698EFAC003DF963 /* Inflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C941698EFAC003DF963 /* Inflection.m */; };
 		7B145C981698F22E003DF963 /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B145C971698F22C003DF963 /* Review.m */; };
 		7B26357D17C1789B00DBDFC6 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 7B26357C17C1789B00DBDFC6 /* iTunesArtwork@2x */; };
 		7B2AEDD916B4C20D0058958F /* IntroViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2AEDD716B4C20B0058958F /* IntroViewController_iPad.m */; };
-		7B2AEDDA16B4C20D0058958F /* IntroViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B2AEDD816B4C20C0058958F /* IntroViewController_iPad.xib */; };
 		7B30646413E5A06000B2A1B1 /* AboutViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B30646213E5A06000B2A1B1 /* AboutViewController_iPad.m */; };
 		7B30646513E5A06000B2A1B1 /* AboutViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B30646313E5A06000B2A1B1 /* AboutViewController_iPad.xib */; };
 		7B327FF213E3875400274E6C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B327FF113E3875400274E6C /* UIKit.framework */; };
@@ -100,7 +97,6 @@
 		7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B824E5013EC4A5400CDC665 /* AutocompleterView_iPhone.xib */; };
 		7B824E5813EC540100CDC665 /* DailyWordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B824E5713EC540100CDC665 /* DailyWordTest.m */; };
 		7B862DE31697CF1C0064F66B /* AuguryViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B862DE11697CF1C0064F66B /* AuguryViewController_iPhone.m */; };
-		7B862DE41697CF1C0064F66B /* AuguryViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B862DE21697CF1C0064F66B /* AuguryViewController_iPhone.xib */; };
 		7B8AEB0913E9A39F00889E57 /* ForwardStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB0813E9A39F00889E57 /* ForwardStack.m */; };
 		7B8AEB1713E9ACA800889E57 /* DubsarNavigationController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB1613E9ACA800889E57 /* DubsarNavigationController_iPhone.m */; };
 		7B8AEB3713E9D60600889E57 /* DubsarNavigationController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8AEB3613E9D60600889E57 /* DubsarNavigationController_iPad.m */; };
@@ -110,13 +106,10 @@
 		7B917A7513EC3CD600FBF365 /* DailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B917A7413EC3CD600FBF365 /* DailyWord.m */; };
 		7B917A7B13EC3FFF00FBF365 /* DailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B917A7413EC3CD600FBF365 /* DailyWord.m */; };
 		7B991F7217E8E4F500205F2F /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B991F7117E8E4F500205F2F /* Media.xcassets */; };
+		7B9AB9AC17EBCF450025A49B /* InflectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9AB9AB17EBCF450025A49B /* InflectionView.m */; };
 		7B9D2C6516AB8E4C00F31AE8 /* Augury.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6416AB8E4C00F31AE8 /* Augury.m */; };
 		7B9D2C6916AB912200F31AE8 /* AuguryViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6716AB912200F31AE8 /* AuguryViewController_iPad.m */; };
-		7B9D2C6A16AB912200F31AE8 /* AuguryViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B9D2C6816AB912200F31AE8 /* AuguryViewController_iPad.xib */; };
-		7B9D2C7A16ADC37A00F31AE8 /* InflectionsViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C7816ADC37A00F31AE8 /* InflectionsViewController_iPhone.m */; };
-		7B9D2C7B16ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B9D2C7916ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib */; };
 		7B9D2C8016AE05D800F31AE8 /* InflectionsViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D2C7E16AE05D700F31AE8 /* InflectionsViewController_iPad.m */; };
-		7B9D2C8116AE05D800F31AE8 /* InflectionsViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B9D2C7F16AE05D800F31AE8 /* InflectionsViewController_iPad.xib */; };
 		7BB2270813E5A747005D454F /* AboutViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2270613E5A746005D454F /* AboutViewController_iPhone.m */; };
 		7BB2270913E5A747005D454F /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2270713E5A746005D454F /* AboutViewController_iPhone.xib */; };
 		7BB9CEDC141C19F1000DD13B /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
@@ -127,7 +120,6 @@
 		7BBE26CF14329AF000720EDA /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9CEDB141C19F1000DD13B /* Section.m */; };
 		7BBE26D014329C1D00720EDA /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B5ECF3F141AAD5B00FD2D78 /* production.sqlite3 */; };
 		7BC4472A169A488800BE18DC /* SyncViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC44728169A488800BE18DC /* SyncViewController_iPhone.m */; };
-		7BC4472B169A488800BE18DC /* SyncViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC44729169A488800BE18DC /* SyncViewController_iPhone.xib */; };
 		7BC537CD141D6D8700E6246B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5ECF44141ABAF700FD2D78 /* libsqlite3.dylib */; };
 		7BCE75EA13E741C900D1CECC /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7BCE75E913E741C900D1CECC /* iTunesArtwork */; };
 		7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDDC8716BCD8430054BC3B /* Settings.bundle */; };
@@ -298,14 +290,13 @@
 		7B917A7313EC3CD600FBF365 /* DailyWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWord.h; sourceTree = "<group>"; };
 		7B917A7413EC3CD600FBF365 /* DailyWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWord.m; sourceTree = "<group>"; };
 		7B991F7117E8E4F500205F2F /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		7B9AB9AA17EBCF450025A49B /* InflectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InflectionView.h; sourceTree = "<group>"; };
+		7B9AB9AB17EBCF450025A49B /* InflectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InflectionView.m; sourceTree = "<group>"; };
 		7B9D2C6316AB8E4C00F31AE8 /* Augury.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Augury.h; sourceTree = "<group>"; };
 		7B9D2C6416AB8E4C00F31AE8 /* Augury.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Augury.m; sourceTree = "<group>"; };
 		7B9D2C6616AB912100F31AE8 /* AuguryViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuguryViewController_iPad.h; sourceTree = "<group>"; };
 		7B9D2C6716AB912200F31AE8 /* AuguryViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuguryViewController_iPad.m; sourceTree = "<group>"; };
 		7B9D2C6816AB912200F31AE8 /* AuguryViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuguryViewController_iPad.xib; sourceTree = "<group>"; };
-		7B9D2C7716ADC37A00F31AE8 /* InflectionsViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InflectionsViewController_iPhone.h; sourceTree = "<group>"; };
-		7B9D2C7816ADC37A00F31AE8 /* InflectionsViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InflectionsViewController_iPhone.m; sourceTree = "<group>"; };
-		7B9D2C7916ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InflectionsViewController_iPhone.xib; sourceTree = "<group>"; };
 		7B9D2C7D16AE05D700F31AE8 /* InflectionsViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InflectionsViewController_iPad.h; sourceTree = "<group>"; };
 		7B9D2C7E16AE05D700F31AE8 /* InflectionsViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InflectionsViewController_iPad.m; sourceTree = "<group>"; };
 		7B9D2C7F16AE05D800F31AE8 /* InflectionsViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InflectionsViewController_iPad.xib; sourceTree = "<group>"; };
@@ -450,9 +441,8 @@
 				7B3280CE13E38F8200274E6C /* FAQViewController_iPhone.h */,
 				7B3280CF13E38F8200274E6C /* FAQViewController_iPhone.m */,
 				7B3280D013E38F8200274E6C /* FAQViewController_iPhone.xib */,
-				7B9D2C7716ADC37A00F31AE8 /* InflectionsViewController_iPhone.h */,
-				7B9D2C7816ADC37A00F31AE8 /* InflectionsViewController_iPhone.m */,
-				7B9D2C7916ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib */,
+				7B9AB9AA17EBCF450025A49B /* InflectionView.h */,
+				7B9AB9AB17EBCF450025A49B /* InflectionView.m */,
 				7B32800713E3875400274E6C /* MainWindow_iPhone.xib */,
 				7B145C8D1698E7C4003DF963 /* ReviewViewController_iPhone.h */,
 				7B145C8E1698E7C4003DF963 /* ReviewViewController_iPhone.m */,
@@ -736,14 +726,6 @@
 				7B8AEB5313EA0E5400889E57 /* AutocompleterPopoverViewController_iPad.xib in Resources */,
 				7B824E5113EC4A5400CDC665 /* AutocompleterView_iPhone.xib in Resources */,
 				7B5ECF40141AAD5B00FD2D78 /* production.sqlite3 in Resources */,
-				7B862DE41697CF1C0064F66B /* AuguryViewController_iPhone.xib in Resources */,
-				7B145C911698E7C4003DF963 /* ReviewViewController_iPhone.xib in Resources */,
-				7B0101441699F648008FC876 /* EditInflectionsViewController_iPhone.xib in Resources */,
-				7BC4472B169A488800BE18DC /* SyncViewController_iPhone.xib in Resources */,
-				7B9D2C6A16AB912200F31AE8 /* AuguryViewController_iPad.xib in Resources */,
-				7B9D2C7B16ADC37A00F31AE8 /* InflectionsViewController_iPhone.xib in Resources */,
-				7B9D2C8116AE05D800F31AE8 /* InflectionsViewController_iPad.xib in Resources */,
-				7B2AEDDA16B4C20D0058958F /* IntroViewController_iPad.xib in Resources */,
 				7BDDDC8816BCD8430054BC3B /* Settings.bundle in Resources */,
 				7BBD76C317BD56B000AD2609 /* client_secret.txt in Resources */,
 				7B26357D17C1789B00DBDFC6 /* iTunesArtwork@2x in Resources */,
@@ -827,11 +809,11 @@
 				7B145C951698EFAC003DF963 /* Inflection.m in Sources */,
 				7B145C981698F22E003DF963 /* Review.m in Sources */,
 				7B0101431699F648008FC876 /* EditInflectionsViewController_iPhone.m in Sources */,
+				7B9AB9AC17EBCF450025A49B /* InflectionView.m in Sources */,
 				7BC4472A169A488800BE18DC /* SyncViewController_iPhone.m in Sources */,
 				7B3F43E6169BAAB3005EF93B /* KeychainWrapper.m in Sources */,
 				7B9D2C6516AB8E4C00F31AE8 /* Augury.m in Sources */,
 				7B9D2C6916AB912200F31AE8 /* AuguryViewController_iPad.m in Sources */,
-				7B9D2C7A16ADC37A00F31AE8 /* InflectionsViewController_iPhone.m in Sources */,
 				7B9D2C8016AE05D800F31AE8 /* InflectionsViewController_iPad.m in Sources */,
 				7B2AEDD916B4C20D0058958F /* IntroViewController_iPad.m in Sources */,
 				7BDDDC8B16BD8BE00054BC3B /* ForegroundViewController.m in Sources */,
@@ -921,7 +903,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PROVISIONING_PROFILE = "887813B6-B280-498B-9B05-8071F1C76952";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -937,7 +919,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "887813B6-B280-498B-9B05-8071F1C76952";
 				SDKROOT = iphoneos;
@@ -957,7 +939,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -974,7 +955,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dubsar/Dubsar-Prefix.pch";
 				INFOPLIST_FILE = "Dubsar/Dubsar-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

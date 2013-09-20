@@ -21,7 +21,7 @@
 #import "ModalViewControllerDelegate.h"
 #import "SearchBarViewController_iPhone.h"
 
-@class InflectionsViewController_iPhone;
+@class InflectionView;
 @class SenseViewController_iPhone;
 @class Word;
 
@@ -29,7 +29,7 @@
     
     UITableView *tableView;
     UITextView *bannerTextView;
-    InflectionsViewController_iPhone* inflectionsViewController;
+    InflectionView* inflectionView;
     SenseViewController_iPhone* firstSenseViewController;
     bool inflectionsShowing;
     bool customTitle;
