@@ -53,7 +53,7 @@
         }
 
         CGRect bounds = titleView.bounds;
-        bounds.size = CGSizeMake(78.0, 30.0);
+        bounds.size = CGSizeMake(135.0, 30.0);
         titleView.bounds = bounds;
 
         self.navigationItem.titleView = titleView;
