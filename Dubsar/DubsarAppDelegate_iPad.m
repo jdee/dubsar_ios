@@ -127,4 +127,14 @@
     return NO;
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [super applicationDidBecomeActive:application];
+
+    /*
+     * Necessary on the iPad, not on the iPhone.
+     */
+    [self.navigationController.topViewController viewWillAppear:NO];
+}
+
 @end
