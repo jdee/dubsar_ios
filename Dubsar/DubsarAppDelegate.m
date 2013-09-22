@@ -124,9 +124,8 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
-    NSURL* url = httpResp.URL;
 
-    NSLog(@"response status code from %@: %d", url.host, httpResp.statusCode);
+    NSLog(@"response status code from %@: %d", httpResp.URL.host, httpResp.statusCode);
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
@@ -202,7 +201,7 @@
 - (void)postDeviceToken:(NSData *)deviceToken
 {
     /*
-     * 1. convert deviceToken to hex
+     * 1a. convert deviceToken to hex
      */
     unsigned char data[32];
     assert(deviceToken.length == sizeof(data));
@@ -228,7 +227,7 @@
 #endif // DEBUG
 
     /*
-     * 2. Read client secret from bundle
+     * 1b. Read client secret from bundle
      */
     NSError* error;
     NSString* filepath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"client_secret.txt"];
@@ -238,7 +237,7 @@
     }
 
     /*
-     * 3. Get app version
+     * 1c. Get app version
      */
     
     /*
@@ -248,7 +247,7 @@
     NSLog(@"App version is %@", version);
 
     /*
-     * 4. Determine production flag from preprocessor macro
+     * 1d. Determine production flag from preprocessor macro
      */
     NSString* production = nil;
 #ifdef DUBSAR_DEVELOPMENT
@@ -258,12 +257,12 @@
 #endif // DUBSAR_DEVELOPMENT
 
     /*
-     * 5. Construct JSON payload from this info
+     * 2. Construct JSON payload from this info
      */
     NSString* payload = [NSString stringWithFormat:@"{\"version\":\"%@\", \"secret\":\"%@\", \"device_token\":{\"token\":\"%@\", \"production\":%@} }", version, secret, token, production];
 
     /*
-     * 6. Execute POST
+     * 3. Execute POST
      */
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/device_tokens", DubsarBaseUrl]];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];

@@ -29,7 +29,7 @@
 #import "Word.h"
 #import "WordViewController_iPhone.h"
 
-#define DubsarAuguryIntroSeenKey @"com.dubsar-dictionary.Dubsar.auguryIntroSeen"
+#define DubsarAuguryIntroSeenKey @"DubsarAuguryIntroSeen"
 
 @implementation DubsarViewController_iPhone
 @synthesize wotdButton;
