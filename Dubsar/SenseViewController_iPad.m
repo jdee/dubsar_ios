@@ -169,7 +169,7 @@
         WordPopoverViewController_iPad* viewController = (WordPopoverViewController_iPad*)popoverController.contentViewController;
         [viewController adjustPopoverSize];
         [viewController adjustTableViewFrame];
-        [popoverController presentPopoverFromRect:moreButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        [popoverController presentPopoverFromRect:moreButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp|UIPopoverArrowDirectionRight animated:YES];
     }
     
     [self adjustGlossHeight];
@@ -435,7 +435,7 @@
     }
     
     UIView* senderView = (UIView*)sender;
-    [popoverController presentPopoverFromRect:senderView.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [popoverController presentPopoverFromRect:senderView.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 - (void)addGestureRecognizers
