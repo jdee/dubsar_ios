@@ -359,7 +359,9 @@
         bannerLabel.hidden = YES;
         _tableView.hidden = YES;
         inflectionView.hidden = NO;
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        if (finished) [self straightenAllTheShitOut];
+    }];
 }
 
 - (void)dismissInflections
@@ -370,7 +372,9 @@
         _tableView.hidden = NO;
         inflectionView.hidden = YES;
         
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        if (finished) [self straightenAllTheShitOut];
+    }];
 }
 
 - (void)adjustInflectionsView
