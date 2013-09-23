@@ -73,11 +73,13 @@
         popoverController.delegate = self;
         viewController.popoverController = popoverController;
         popoverController.popoverContentSize = CGSizeMake(320.0, 440.0);
-        
+
+        /*
         IntroViewController_iPad* introViewController = [[IntroViewController_iPad alloc] initWithNibName:@"IntroViewController_iPad" bundle:nil];
         introPopoverController = [[UIPopoverController alloc] initWithContentViewController:introViewController];
         introPopoverController.delegate = self;
         introPopoverController.popoverContentSize = CGSizeMake(320.0, 225.0);
+         */
         
         editing = false;
         executingAutocompleter = nil;
