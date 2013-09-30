@@ -272,7 +272,14 @@
     [dailyWord load];
 }
 
-- (IBAction)showFAQ:(id)sender 
+- (void)hideWotdPopover
+{
+    if (wordPopoverController.popoverVisible) {
+        [wordPopoverController dismissPopoverAnimated:YES];
+    }
+}
+
+- (IBAction)showFAQ:(id)sender
 {
     FAQViewController_iPad* faqViewController = [[FAQViewController_iPad alloc] initWithNibName:@"FAQViewController_iPad" bundle:nil];
     [_navigationController pushViewController:faqViewController animated:YES];

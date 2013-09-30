@@ -22,6 +22,7 @@
 #import "DubsarAppDelegate_iPad.h"
 #import "DubsarNavigationController_iPad.h"
 #import "DubsarViewController_iPad.h"
+#import "SearchBarViewController_iPad.h"
 #import "SearchViewController_iPad.h"
 
 @implementation DubsarNavigationController_iPad
@@ -78,6 +79,8 @@
     NSLog(@"called pushViewController");
 #endif // DEBUG
     [super pushViewController:viewController animated:animated];
+
+    [appDelegate.searchBarViewController hideWotdPopover];
     
     if (viewController != forwardStack.topViewController) {
         // should already have a gesture recognizer from the first

@@ -109,5 +109,6 @@
 - (void)enable;
 
 - (void)displayIntro;
+- (void)hideWotdPopover;
 
 @end
