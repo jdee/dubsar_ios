@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
+        <deployment defaultVersion="1280" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <objects>
@@ -39,9 +39,10 @@
                                 <outlet property="delegate" destination="-1" id="8"/>
                             </connections>
                         </tableView>
-                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="12">
+                        <toolbar clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="12">
                             <rect key="frame" x="0.0" y="724" width="703.00000000000011" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <items>
                                 <barButtonItem title="Synset" id="13">
                                     <connections>
@@ -55,6 +56,7 @@
                                 </barButtonItem>
                             </items>
                             <color key="tintColor" red="0.10980392160000001" green="0.58039215690000001" blue="0.76862745099999996" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </toolbar>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" text="loading..." id="39">
                             <rect key="frame" x="0.0" y="44" width="703.00000000000011" height="44"/>

@@ -366,7 +366,7 @@
     
     frame = tableView.frame;
     frame.origin.y = bannerLabel.frame.origin.y + bannerLabel.frame.size.height + 8.0;
-    frame.size.height = self.view.bounds.size.height - frame.origin.y;
+    frame.size.height = self.view.bounds.size.height - frame.origin.y - senseToolbar.bounds.size.height;
     tableView.frame = frame;
 }
 
