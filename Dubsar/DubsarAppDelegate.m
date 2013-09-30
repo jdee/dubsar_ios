@@ -100,7 +100,14 @@
 #ifdef DEBUG
         NSLog(@"opening URL %@", url);
 #endif // DEBUG
-        [self application:application openURL:[NSURL URLWithString:url] sourceApplication:nil annotation:nil];
+        NSURL* nsurl = [NSURL URLWithString:url];
+
+        if ([nsurl.scheme isEqualToString:@"dubsar"]) {
+            [self application:application openURL:nsurl sourceApplication:nil annotation:nil];
+        }
+        else {
+            [application openURL:nsurl];
+        }
     }
     else if ([type isEqualToString:@"wotd"]) {
         self.wotdUrl = url;
