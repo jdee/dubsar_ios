@@ -61,6 +61,10 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+#ifdef DEBUG
+    NSLog(@"application:openURL:sourceApplication:annotation:");
+#endif // DEBUG
+
     if ([url.scheme compare:@"dubsar"] != NSOrderedSame) {
         return [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     }

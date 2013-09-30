@@ -83,6 +83,10 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+#ifdef DEBUG
+    NSLog(@"application:didReceiveRemoteNotification:");
+#endif // DEBUG
+
     NSDictionary* dubsarPayload = [userInfo valueForKey:@"dubsar"];
     if (!dubsarPayload) return;
     NSString* url = [dubsarPayload valueForKey:@"url"];
@@ -92,8 +96,11 @@
         [self updateWotdByUrl:url expiration:[dubsarPayload valueForKey:@"expiration"]];
     }
 
-    if (application.applicationState != UIApplicationStateActive) {
-        [application openURL:[NSURL URLWithString:url]];
+    if (url && application.applicationState != UIApplicationStateActive) {
+#ifdef DEBUG
+        NSLog(@"opening URL %@", url);
+#endif // DEBUG
+        [self application:application openURL:[NSURL URLWithString:url] sourceApplication:nil annotation:nil];
     }
     else if ([type isEqualToString:@"wotd"]) {
         self.wotdUrl = url;
