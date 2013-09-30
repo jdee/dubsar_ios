@@ -472,4 +472,9 @@
     actualNavigationController = theActualNavigationController;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self straightenAllTheShitOut];
+}
+
 @end

@@ -358,7 +358,7 @@
 - (void)setTableViewHeight
 {
     UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
-    float height = UIInterfaceOrientationIsPortrait(currentOrientation) ? 960.0 : 704.0 ;
+    float height = UIInterfaceOrientationIsPortrait(currentOrientation) ? 956.0 : 700.0 ;
 
     CGRect frame = tableView.frame;        
 
