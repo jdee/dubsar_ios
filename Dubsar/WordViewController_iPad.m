@@ -147,6 +147,11 @@
     if (!actualNavigationController) self.actualNavigationController = self.navigationController;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self straightenAllTheShitOut];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
