@@ -27,9 +27,9 @@ Also see:
 - [Dubsar on Twitter](http://twitter.com/#!/dubsar)
 - [Dubsar on Google+](https://plus.google.com/111210736976423589433)
 - [Dubsar for Android](https://github.com/jdee/dubsar_android)
-- [Dubsar for iPhone, iPod Touch and iPad on the iTunes App Store](http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=453868483&mt=8)
-- [Dubsar in the Android Market](https://market.android.com/details?id=com.dubsar_dictionary.Dubsar)
-- [Dubsar in the Amazon App Store](http://www.amazon.com/Jimmy-Dee-Dubsar/dp/B006QCL4PG)
+- [Dubsar for iPhone, iPod Touch and iPad on the iTunes App Store](https://itunes.apple.com/us/app/dubsar/id453868483?mt=8)
+- [Dubsar in Google Play](https://play.google.com/store/apps/details?id=com.dubsar_dictionary.Dubsar)
+- [Dubsar in the Amazon App Store](http://www.amazon.com/gp/mas/dl/android?p=com.dubsar_dictionary.Dubsar&ref=mas_pm_app_name)
 
 Copyright
 =========
