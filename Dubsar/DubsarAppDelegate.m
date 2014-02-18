@@ -219,9 +219,8 @@
      */
     unsigned char data[32];
     assert(deviceToken.length == sizeof(data));
-    size_t length;
 
-    [deviceToken getBytes:data length:&length];
+    [deviceToken getBytes:data length:sizeof(data)];
 
     // data is now a buffer of 32 numeric bytes.
     // represent as hex in sdata, which will be
