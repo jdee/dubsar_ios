@@ -40,17 +40,17 @@
 @synthesize pointers;
 @synthesize sections;
 
-+ (id)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
++ (instancetype)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
     return [[self alloc]initWithId:theId partOfSpeech:thePartOfSpeech];
 }
 
-+ (id)synsetWithId:(int)theId gloss:(NSString *)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech
++ (instancetype)synsetWithId:(int)theId gloss:(NSString *)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
     return [[self alloc]initWithId:theId gloss:theGloss partOfSpeech:thePartOfSpeech];
 }
 
-- (id)initWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
+- (instancetype)initWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
     self = [super init];
     if (self) {
@@ -67,7 +67,7 @@
 
 }
 
-- (id)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech
+- (instancetype)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
     self = [super init];
     if (self) {
@@ -195,7 +195,7 @@
     int rc;
     sqlite3_stmt* statement;
     
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         return;
     }
@@ -280,7 +280,7 @@
     
     sql = [NSString stringWithFormat:
            @"SELECT DISTINCT ptype FROM pointers WHERE source_id = %d AND source_type = 'Synset' ", _id];
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
         return 1;
@@ -339,7 +339,7 @@
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return nil;
         }
-        if ((rc=sqlite3_bind_text(pointerQuery, ptypeIdx, [section.ptype cStringUsingEncoding:NSUTF8StringEncoding], -1, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(pointerQuery, ptypeIdx, section.ptype.UTF8String, -1, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return nil;          
         }
@@ -403,7 +403,7 @@
                      @"ORDER BY id ASC "
                      @"LIMIT 1 "
                      @"OFFSET :offset ", _id];
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &pointerQuery, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &pointerQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing statement", rc);
         return;
     }        

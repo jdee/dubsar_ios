@@ -23,18 +23,18 @@
 @interface Word : Model {
 }
 
-@property int _id;
+@property (nonatomic) int _id;
 @property (nonatomic, copy) NSString* name;
-@property PartOfSpeech partOfSpeech;
-@property int freqCnt;
+@property (nonatomic) PartOfSpeech partOfSpeech;
+@property (nonatomic) int freqCnt;
 
 @property (nonatomic, strong) NSMutableArray* inflections;
 @property (nonatomic, strong) NSMutableArray* senses;
 
-+(id)wordWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
-+(id)wordWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;
--(id)initWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
--(id)initWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;
++(instancetype)wordWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
++(instancetype)wordWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;
+-(instancetype)initWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
+-(instancetype)initWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;
 -(NSString*)pos;
 -(NSString*)nameAndPos;
 

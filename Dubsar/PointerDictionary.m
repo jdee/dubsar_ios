@@ -44,7 +44,7 @@ static PointerDictionary* theDictionary = nil;
     return theDictionary;
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {

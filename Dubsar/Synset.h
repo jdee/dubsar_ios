@@ -27,20 +27,20 @@
     sqlite3_stmt* semanticQuery;
 }
 
-@property int _id;
+@property (nonatomic) int _id;
 @property (nonatomic, copy) NSString* gloss;
-@property PartOfSpeech partOfSpeech;
+@property (nonatomic) PartOfSpeech partOfSpeech;
 @property (nonatomic, copy) NSString* lexname;
-@property int freqCnt;
+@property (nonatomic) int freqCnt;
 @property (nonatomic, strong) NSMutableArray* samples;
 @property (nonatomic, strong) NSMutableArray* senses;
 @property (nonatomic, strong) NSMutableDictionary* pointers;
 @property (nonatomic, strong) NSMutableArray* sections;
 
-+(id)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech;
-+(id)synsetWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
--(id)initWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech;
--(id)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
++(instancetype)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech;
++(instancetype)synsetWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
+-(instancetype)initWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech;
+-(instancetype)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
 -(void)parseData;
 -(void)parsePointers:(NSArray*)response;
 

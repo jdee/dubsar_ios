@@ -21,11 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 @interface Review : Model
 
-@property int page;
-@property int totalPages;
+@property (nonatomic) int page;
+@property (nonatomic) int totalPages;
 @property (nonatomic, strong) NSMutableArray* inflections;
 
-- (id) initWithPage:(int)thePage;
-+ (id) reviewWithPage:(int)thePage;
+- (instancetype) initWithPage:(int)thePage;
++ (instancetype) reviewWithPage:(int)thePage;
 
 @end

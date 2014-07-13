@@ -23,9 +23,9 @@
 
 @interface Augury : Model
 
-+ (id) augury;
++ (instancetype) augury;
 
-- (id) init;
+- (instancetype) init;
 - (Word*) randomVerb;
 - (NSString*) infinitive;
 - (NSString*) somebody;

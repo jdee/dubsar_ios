@@ -28,7 +28,7 @@
 @synthesize page;
 @synthesize totalPages;
 
-- (id) initWithPage:(int)thePage
+- (instancetype) initWithPage:(int)thePage
 {
     self = [super init];
     if (self) {
@@ -40,7 +40,7 @@
     return self;
 }
 
-+ (id) reviewWithPage:(int)thePage
++ (instancetype) reviewWithPage:(int)thePage
 {
     return [[self alloc] initWithPage:thePage];
 }

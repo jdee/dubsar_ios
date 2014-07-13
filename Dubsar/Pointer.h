@@ -26,6 +26,6 @@
 @property (nonatomic, copy) NSString* targetText;
 @property (nonatomic, copy) NSString* targetGloss;
 
-+ (id)pointer;
++ (instancetype)pointer;
 
 @end

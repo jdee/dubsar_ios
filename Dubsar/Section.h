@@ -27,6 +27,6 @@
 @property (nonatomic) int senseId;
 @property (nonatomic) int synsetId;
 
-+ (id)section;
++ (instancetype)section;
 
 @end

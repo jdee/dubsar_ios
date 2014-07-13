@@ -43,22 +43,22 @@ static int _seqNum = 0;
 @synthesize title;
 @synthesize exact;
 
-+(id)searchWithTerm:(id)theTerm matchCase:(BOOL)mustMatchCase
++(instancetype)searchWithTerm:(id)theTerm matchCase:(BOOL)mustMatchCase
 {
     return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase seqNum:_seqNum++];
 }
 
-+(id)searchWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page
++(instancetype)searchWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page
 {
     return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase page:page seqNum:_seqNum++];
 }
 
-+(id)searchWithWildcard:(NSString *)regexp page:(int)page title:(NSString *)theTitle
++(instancetype)searchWithWildcard:(NSString *)regexp page:(int)page title:(NSString *)theTitle
 {
     return [[self alloc]initWithWildcard:regexp page:page title:theTitle seqNum:_seqNum++];
 }
 
--(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum
+-(instancetype)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum
 {
 #ifdef DEBUG
     NSLog(@"constructing search for \"%@\"", theTerm);
@@ -85,7 +85,7 @@ static int _seqNum = 0;
     return self;
 }
 
--(id)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum
+-(instancetype)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum
 {
 #ifdef DEBUG
     NSLog(@"constructing search for \"%@\"", theTerm);
@@ -115,7 +115,7 @@ static int _seqNum = 0;
     return self;
 }
 
--(id)initWithWildcard:(NSString *)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum
+-(instancetype)initWithWildcard:(NSString *)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum
 {
 #ifdef DEBUG
     NSLog(@"constructing search for \"%@\"", regexp);
@@ -204,7 +204,7 @@ static int _seqNum = 0;
     /* execute countSql to get number of rows */
     sqlite3_stmt* countStmt;
     int rc;
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &countStmt, NULL))
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, countSql.UTF8String, -1, &countStmt, NULL))
         != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing count statement, error %d", rc];
         return;
@@ -217,27 +217,27 @@ static int _seqNum = 0;
         int l2Idx = sqlite3_bind_parameter_index(countStmt, ":lower2");
         int termIdx = sqlite3_bind_parameter_index(countStmt, ":term");
         
-        if ((rc=sqlite3_bind_text(countStmt, c1Idx, [capital1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(countStmt, c1Idx, capital1.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(countStmt);
             return;
         }
-        if ((rc=sqlite3_bind_text(countStmt, c2Idx, [capital2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(countStmt, c2Idx, capital2.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(countStmt);
             return;
         }
-        if ((rc=sqlite3_bind_text(countStmt, l1Idx, [lower1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(countStmt, l1Idx, lower1.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(countStmt);
             return;
         }
-        if ((rc=sqlite3_bind_text(countStmt, l2Idx, [lower2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(countStmt, l2Idx, lower2.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(countStmt);
             return;
         }
-        if ((rc=sqlite3_bind_text(countStmt, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(countStmt, termIdx, term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(countStmt);
             return;
@@ -273,7 +273,7 @@ static int _seqNum = 0;
     
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr,
-                               [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+                               sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;
     }
@@ -290,7 +290,7 @@ static int _seqNum = 0;
     int l2Idx = sqlite3_bind_parameter_index(statement, ":lower2");
     
     if (termIdx != 0) {
-        if ((rc=sqlite3_bind_text(statement, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(statement, termIdx, term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(statement);
             return;   
@@ -300,7 +300,7 @@ static int _seqNum = 0;
 #endif // DEBUG
     }
     if (c1Idx != 0) {
-        if ((rc=sqlite3_bind_text(statement, c1Idx, [capital1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(statement, c1Idx, capital1.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(statement);
             return; 
@@ -310,7 +310,7 @@ static int _seqNum = 0;
 #endif // DEBUG
     }
     if (c2Idx != 0) {
-        if ((rc=sqlite3_bind_text(statement, c2Idx, [capital2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(statement, c2Idx, capital2.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(statement);
             return;
@@ -320,7 +320,7 @@ static int _seqNum = 0;
 #endif // DEBUG
     }
     if (l1Idx != 0) {
-        if ((rc=sqlite3_bind_text(statement, l1Idx, [lower1 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(statement, l1Idx, lower1.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(statement);
             return;
@@ -330,7 +330,7 @@ static int _seqNum = 0;
 #endif // DEBUG
     }
     if (l2Idx != 0) {
-        if ((rc=sqlite3_bind_text(statement, l2Idx, [lower2 cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(statement, l2Idx, lower2.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(statement);
             return;
@@ -368,7 +368,7 @@ static int _seqNum = 0;
          */
         NSString* isql = [NSString stringWithFormat:@"SELECT DISTINCT name FROM inflections WHERE word_id = %d", _id];
         sqlite3_stmt* istmt;
-        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [isql cStringUsingEncoding:NSUTF8StringEncoding], -1, &istmt, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, isql.UTF8String, -1, &istmt, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
             NSLog(@"%@", self.errorMessage);
             return;
@@ -400,13 +400,13 @@ static int _seqNum = 0;
 #ifdef DEBUG
     NSLog(@"preparing statement %@", countSql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, countSql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;
     }
     
     int termIdx = sqlite3_bind_parameter_index(statement, ":term");
-    if ((rc=sqlite3_bind_text(statement, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+    if ((rc=sqlite3_bind_text(statement, termIdx, term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
         sqlite3_finalize(statement);
         return;            
@@ -430,11 +430,11 @@ static int _seqNum = 0;
 #ifdef DEBUG
     NSLog(@"preparing statement %@", sql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;        
     }
-    if ((rc=sqlite3_bind_text(statement, 1, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+    if ((rc=sqlite3_bind_text(statement, 1, term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
         sqlite3_finalize(statement);
         return;            
@@ -471,11 +471,11 @@ static int _seqNum = 0;
 #ifdef DEBUG
         NSLog(@"preparing statement %@", exactSql);
 #endif // DEBUG
-        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [exactSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, exactSql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
             return;          
         }
-        if ((rc=sqlite3_bind_text(statement, 1, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(statement, 1, term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(statement);
             return;           
@@ -513,7 +513,7 @@ static int _seqNum = 0;
 #endif // DEBUG
     
     if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr,
-                               [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+                               sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;
     }
@@ -525,7 +525,7 @@ static int _seqNum = 0;
     
     termIdx = sqlite3_bind_parameter_index(statement, ":term");    
     if (termIdx != 0) {
-        if ((rc=sqlite3_bind_text(statement, termIdx, [term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(statement, termIdx, term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(statement);
             return;   
@@ -567,7 +567,7 @@ static int _seqNum = 0;
          */
         NSString* isql = [NSString stringWithFormat:@"SELECT DISTINCT name FROM inflections WHERE word_id = %d", word._id];
         sqlite3_stmt* istmt;
-        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [isql cStringUsingEncoding:NSUTF8StringEncoding], -1, &istmt, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, isql.UTF8String, -1, &istmt, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
             NSLog(@"%@", self.errorMessage);
             return;

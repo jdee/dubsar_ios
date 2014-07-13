@@ -43,12 +43,12 @@
  */
 @property bool exact;
 
-+(id)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
--(id)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum;
-+(id)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page;
--(id)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum;
-+(id)searchWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle;
--(id)initWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum;
++(instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
+-(instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum;
++(instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page;
+-(instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum;
++(instancetype)searchWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle;
+-(instancetype)initWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum;
 
 -(Search*)newSearchForPage:(int)page;
 

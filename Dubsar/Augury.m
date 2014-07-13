@@ -29,18 +29,16 @@
 
 @implementation Augury
 
-@synthesize text;
-
-+ (id) augury
++ (instancetype) augury
 {
     return [[Augury alloc] init];
 }
 
-- (id) init
+- (instancetype) init
 {
     self = [super init];
     if (self) {
-        self.text = nil;
+        _text = nil;
     }
     return self;
 }
@@ -82,7 +80,7 @@
     sqlite3_stmt* statement;
 
     NSLog(@"preparing statement \"%@\"", sql);
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"sqlite3_prepare_v2: %d", rc);
         return;
     }
@@ -106,7 +104,7 @@
      * The selected verb frames are all xxx %s xxx, so we convert the NSString word.name to
      * a C string and use it with the verb frame as a format.
      */
-    self.text = [NSString stringWithFormat:frameFormat, [wordLink cStringUsingEncoding:NSUTF8StringEncoding]];
+    self.text = [NSString stringWithFormat:frameFormat, wordLink.UTF8String];
 }
 
 - (void)type2:(int)frameId
@@ -179,7 +177,7 @@
     int rc;
     
     NSLog(@"preparing statement \"%@\"", sql);
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"sqlite3_prepare_v2: %d", rc);
         return nil;
     }
@@ -278,7 +276,7 @@
     int rc;
     
     NSLog(@"preparing statement \"%@\"", sql);
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"sqlite3_prepare_v2: %d", rc);
         return nil;
     }
@@ -315,7 +313,7 @@
                      "AND name >= 'a' AND name < '{' AND name GLOB '[a-z]*s' LIMIT 1", verbId];
     int rc;
     sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"preparing inflections select: %d", rc);
         return nil;
     }
@@ -352,7 +350,7 @@
                 NSLog(@"sqlite3_prepare_v2: %d", rc);
                 return nil;
             }
-            if ((rc=sqlite3_bind_text(localStmt, 1, [firstWord cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+            if ((rc=sqlite3_bind_text(localStmt, 1, firstWord.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
                 NSLog(@"sqlite3_bind_text: %d", rc);
                 return nil;
             }

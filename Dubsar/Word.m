@@ -36,17 +36,17 @@
 @synthesize inflections;
 @synthesize senses;
 
-+(id)wordWithId:(int)theId name:(id)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
++(instancetype)wordWithId:(int)theId name:(id)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
     return [[self alloc] initWithId:theId name:theName partOfSpeech:thePartOfSpeech];
 }
 
-+(id)wordWithId:(int)theId name:(NSString *)theName posString:(NSString *)posString
++(instancetype)wordWithId:(int)theId name:(NSString *)theName posString:(NSString *)posString
 {
     return [[self alloc] initWithId:theId name:theName posString:posString];
 }
 
--(id)initWithId:(int)theId name:(NSString *)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
+-(instancetype)initWithId:(int)theId name:(NSString *)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech
 {
     self = [super init];
     if (self) {
@@ -59,7 +59,7 @@
     return self;
 }
 
--(id)initWithId:(int)theId name:(NSString *)theName posString:(NSString *)posString
+-(instancetype)initWithId:(int)theId name:(NSString *)theName posString:(NSString *)posString
 {
     self = [super init];
     if (self) {
@@ -114,7 +114,7 @@
 #ifdef DEBUG
     NSLog(@"preparing statement \"%@\"", sql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
         return;
@@ -155,7 +155,7 @@
 #ifdef DEBUG
     NSLog(@"preparing statement \"%@\"", sql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
         return;
@@ -183,14 +183,14 @@
 #ifdef DEBUG
         NSLog(@"preparing statement \"%@\"", synSql);
 #endif // DEBUG
-        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [synSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &synStatement, NULL))
+        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, synSql.UTF8String, -1, &synStatement, NULL))
             != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
             sqlite3_finalize(statement);
             return;
         }
         
-        if ((rc=sqlite3_bind_text(synStatement, 1, [name cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(synStatement, 1, name.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             sqlite3_finalize(synStatement);
             sqlite3_finalize(statement);

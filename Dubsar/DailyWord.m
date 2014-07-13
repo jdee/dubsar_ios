@@ -30,9 +30,9 @@
 @synthesize word;
 @synthesize expiration;
 
-+ (id)dailyWord
++ (instancetype)dailyWord
 {
-    return [[DailyWord alloc] init];
+    return [[self alloc] init];
 }
 
 + (void)updateWotdId:(int)wotdId expiration:(time_t)expiration
@@ -57,7 +57,7 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:DubsarDailyWordIdKey];
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {

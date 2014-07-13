@@ -23,11 +23,11 @@
 
 @interface Inflection : Model
 
-@property int _id;
+@property (nonatomic) int _id;
 @property (nonatomic, strong) Word* word;
 @property (nonatomic, copy) NSString* name;
 
-- (id) initWithId:(int)theId name:(NSString*)theName word:(Word*)theWord;
-+ (id) inflectionWithId:(int)theId name:(NSString*)theName word:(Word*)theWord;
+- (instancetype) initWithId:(int)theId name:(NSString*)theName word:(Word*)theWord;
++ (instancetype) inflectionWithId:(int)theId name:(NSString*)theName word:(Word*)theWord;
 
 @end

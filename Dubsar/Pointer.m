@@ -25,12 +25,12 @@
 @synthesize targetText;
 @synthesize targetGloss;
 
-+ (id)pointer
++ (instancetype)pointer
 {
     return [[self alloc]init];
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {

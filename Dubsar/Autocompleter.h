@@ -32,8 +32,8 @@
 @property bool aborted;
 @property (nonatomic, weak) id lock;
 
-+(id)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
++(instancetype)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
 
--(id)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase;
+-(instancetype)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase;
 
 @end

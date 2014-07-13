@@ -36,13 +36,13 @@
 @synthesize aborted;
 @synthesize lock;
 
-+ (id)autocompleterWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
++ (instancetype)autocompleterWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
 {
     static NSInteger _seqNum = 0;
     return [[self alloc]initWithTerm:theTerm seqNum:_seqNum++ matchCase:mustMatchCase];
 }
 
-- (id)initWithTerm:(NSString *)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase
+- (instancetype)initWithTerm:(NSString *)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase
 {
     self = [super init];
     if (self) {
@@ -95,7 +95,7 @@
         sqlite3_reset(appDelegate.database.autocompleterStmt);
         
         int rc;
-        if ((rc=sqlite3_bind_text(appDelegate.database.exactAutocompleterStmt, 1, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(appDelegate.database.exactAutocompleterStmt, 1, _term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
@@ -123,11 +123,11 @@
             self.results = [NSMutableArray array];
         }
         
-        if ((rc=sqlite3_bind_text(appDelegate.database.autocompleterStmt, 1, [[_term stringByAppendingString:@"*"] cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(appDelegate.database.autocompleterStmt, 1, [_term stringByAppendingString:@"*"].UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
-        if ((rc=sqlite3_bind_text(appDelegate.database.autocompleterStmt, 2, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(appDelegate.database.autocompleterStmt, 2, _term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }

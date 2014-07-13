@@ -27,7 +27,7 @@
 @synthesize name;
 @synthesize word;
 
-- (id) initWithId:(int)theId name:(NSString *)theName word:(Word *)theWord
+- (instancetype) initWithId:(int)theId name:(NSString *)theName word:(Word *)theWord
 {
     self = [super init];
     if (self) {
@@ -40,7 +40,7 @@
     return self;
 }
 
-+ (id) inflectionWithId:(int)theId name:(NSString *)theName word:(Word *)theWord
++ (instancetype) inflectionWithId:(int)theId name:(NSString *)theName word:(Word *)theWord
 {
     return [[self alloc]initWithId:theId name:theName word:theWord];
 }

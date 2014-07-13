@@ -31,9 +31,9 @@
     sqlite3_stmt* semanticQuery;
 }
 
-@property int _id;
+@property (nonatomic) int _id;
 @property (nonatomic, copy) NSString* name;
-@property PartOfSpeech partOfSpeech;
+@property (nonatomic) PartOfSpeech partOfSpeech;
 @property (nonatomic, copy) NSString* gloss;
 @property (nonatomic, strong) NSMutableArray* synonyms;
 
@@ -41,7 +41,7 @@
 @property (nonatomic, strong) Word* word;
 
 @property (nonatomic, copy) NSString* lexname;
-@property int freqCnt;
+@property (nonatomic) int freqCnt;
 @property (nonatomic, copy) NSString* marker;
 
 @property (nonatomic, strong) NSMutableArray* verbFrames;
@@ -51,14 +51,14 @@
 @property (nonatomic) int numberOfSections;
 @property (nonatomic, strong) NSMutableArray* sections;
 
-+(id)senseWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
-+(id)senseWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
-+(id)senseWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
-+(id)senseWithId:(int)theId nameAndPos:(NSString*)nameAndPos;
--(id)initWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
--(id)initWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
--(id)initWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
--(id)initWithId:(int)theId nameAndPos:(NSString*)nameAndPos;
++(instancetype)senseWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
++(instancetype)senseWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
++(instancetype)senseWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
++(instancetype)senseWithId:(int)theId nameAndPos:(NSString*)nameAndPos;
+-(instancetype)initWithId:(int)theId name:(NSString*)theName synset:(Synset*)theSynset;
+-(instancetype)initWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
+-(instancetype)initWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(Word*)theWord;
+-(instancetype)initWithId:(int)theId nameAndPos:(NSString*)nameAndPos;
 
 -(NSString*)pos;
 -(NSString*)nameAndPos;

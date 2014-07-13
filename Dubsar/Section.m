@@ -31,12 +31,12 @@
 @synthesize senseId;
 @synthesize synsetId;
 
-+ (id)section
++ (instancetype)section
 {
     return [[self alloc]init];
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -77,7 +77,7 @@
     }
     int rc;
     sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing statement", rc);
         return 0;
     }

@@ -27,7 +27,7 @@
 @property bool fresh;
 @property time_t expiration;
 
-+ (id)dailyWord;
++ (instancetype)dailyWord;
 + (void)updateWotdId:(int)wotdId expiration:(time_t)expiration;
 + (void)resetWotd;
 

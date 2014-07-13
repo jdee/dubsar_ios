@@ -35,7 +35,7 @@
 @synthesize preview;
 @synthesize appDelegate;
 
--(id)init
+-(instancetype)init
 {
     self = [super init];
     if (self) {

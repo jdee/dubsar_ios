@@ -21,7 +21,7 @@
 //Synthesize the getter and setter:
 @synthesize keychainData, genericQuery, identifier;
 
-- (id)initWithIdentifier:(NSString*)theIdentifier requestClass:(CFTypeRef)requestClass
+- (instancetype)initWithIdentifier:(NSString*)theIdentifier requestClass:(CFTypeRef)requestClass
 {
     if ((self = [super init])) {
         self.identifier = theIdentifier;
