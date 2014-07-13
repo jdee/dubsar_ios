@@ -1,0 +1,548 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */; };
+		7BAC226119732D6C00D2AEA4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC226019732D6C00D2AEA4 /* ViewController.swift */; };
+		7BAC226419732D6C00D2AEA4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
+		7BAC226619732D6C00D2AEA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226519732D6C00D2AEA4 /* Images.xcassets */; };
+		7BAC227219732D6C00D2AEA4 /* DubsarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC227119732D6C00D2AEA4 /* DubsarTests.swift */; };
+		7BAC2285197331E000D2AEA4 /* Augury.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC227D197331E000D2AEA4 /* Augury.m */; };
+		7BAC2286197331E000D2AEA4 /* Autocompleter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC227F197331E000D2AEA4 /* Autocompleter.m */; };
+		7BAC2287197331E000D2AEA4 /* AutocompleterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC2282197331E000D2AEA4 /* AutocompleterProxy.m */; };
+		7BAC2288197331E000D2AEA4 /* DailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC2284197331E000D2AEA4 /* DailyWord.m */; };
+		7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC228A1973322F00D2AEA4 /* Dubsar.m */; };
+		7BAC229D1973322F00D2AEA4 /* Inflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC228C1973322F00D2AEA4 /* Inflection.m */; };
+		7BAC229F1973322F00D2AEA4 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22911973322F00D2AEA4 /* Model.m */; };
+		7BAC22A01973322F00D2AEA4 /* PartOfSpeechDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22931973322F00D2AEA4 /* PartOfSpeechDictionary.m */; };
+		7BAC22A11973322F00D2AEA4 /* Pointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22951973322F00D2AEA4 /* Pointer.m */; };
+		7BAC22A21973322F00D2AEA4 /* PointerDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22971973322F00D2AEA4 /* PointerDictionary.m */; };
+		7BAC22A31973322F00D2AEA4 /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22991973322F00D2AEA4 /* Review.m */; };
+		7BAC22A41973322F00D2AEA4 /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC229B1973322F00D2AEA4 /* Search.m */; };
+		7BAC22AF197332DE00D2AEA4 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22A6197332DE00D2AEA4 /* Section.m */; };
+		7BAC22B0197332DE00D2AEA4 /* Sense.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22A8197332DE00D2AEA4 /* Sense.m */; };
+		7BAC22B1197332DE00D2AEA4 /* Synset.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22AA197332DE00D2AEA4 /* Synset.m */; };
+		7BAC22B2197332DE00D2AEA4 /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22AC197332DE00D2AEA4 /* URLEncoding.m */; };
+		7BAC22B3197332DE00D2AEA4 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22AE197332DE00D2AEA4 /* Word.m */; };
+		7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */; };
+		7BAC22B91973352400D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC22B81973352400D2AEA4 /* libsqlite3.0.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7BAC226C19732D6C00D2AEA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BAC225119732D6C00D2AEA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BAC225819732D6C00D2AEA4;
+			remoteInfo = Dubsar;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7BAC225919732D6C00D2AEA4 /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BAC225D19732D6C00D2AEA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7BAC226019732D6C00D2AEA4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7BAC226319732D6C00D2AEA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7BAC226519732D6C00D2AEA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7BAC226B19732D6C00D2AEA4 /* DubsarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BAC227019732D6C00D2AEA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7BAC227119732D6C00D2AEA4 /* DubsarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DubsarTests.swift; sourceTree = "<group>"; };
+		7BAC227C197331E000D2AEA4 /* Augury.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Augury.h; sourceTree = "<group>"; };
+		7BAC227D197331E000D2AEA4 /* Augury.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Augury.m; sourceTree = "<group>"; };
+		7BAC227E197331E000D2AEA4 /* Autocompleter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Autocompleter.h; sourceTree = "<group>"; };
+		7BAC227F197331E000D2AEA4 /* Autocompleter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Autocompleter.m; sourceTree = "<group>"; };
+		7BAC2280197331E000D2AEA4 /* AutocompleterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterDelegate.h; sourceTree = "<group>"; };
+		7BAC2281197331E000D2AEA4 /* AutocompleterProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterProxy.h; sourceTree = "<group>"; };
+		7BAC2282197331E000D2AEA4 /* AutocompleterProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterProxy.m; sourceTree = "<group>"; };
+		7BAC2283197331E000D2AEA4 /* DailyWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWord.h; sourceTree = "<group>"; };
+		7BAC2284197331E000D2AEA4 /* DailyWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWord.m; sourceTree = "<group>"; };
+		7BAC22891973322F00D2AEA4 /* Dubsar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dubsar.h; sourceTree = "<group>"; };
+		7BAC228A1973322F00D2AEA4 /* Dubsar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dubsar.m; sourceTree = "<group>"; };
+		7BAC228B1973322F00D2AEA4 /* Inflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inflection.h; sourceTree = "<group>"; };
+		7BAC228C1973322F00D2AEA4 /* Inflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inflection.m; sourceTree = "<group>"; };
+		7BAC228F1973322F00D2AEA4 /* LoadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadDelegate.h; sourceTree = "<group>"; };
+		7BAC22901973322F00D2AEA4 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		7BAC22911973322F00D2AEA4 /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
+		7BAC22921973322F00D2AEA4 /* PartOfSpeechDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartOfSpeechDictionary.h; sourceTree = "<group>"; };
+		7BAC22931973322F00D2AEA4 /* PartOfSpeechDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartOfSpeechDictionary.m; sourceTree = "<group>"; };
+		7BAC22941973322F00D2AEA4 /* Pointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pointer.h; sourceTree = "<group>"; };
+		7BAC22951973322F00D2AEA4 /* Pointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pointer.m; sourceTree = "<group>"; };
+		7BAC22961973322F00D2AEA4 /* PointerDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerDictionary.h; sourceTree = "<group>"; };
+		7BAC22971973322F00D2AEA4 /* PointerDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointerDictionary.m; sourceTree = "<group>"; };
+		7BAC22981973322F00D2AEA4 /* Review.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Review.h; sourceTree = "<group>"; };
+		7BAC22991973322F00D2AEA4 /* Review.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Review.m; sourceTree = "<group>"; };
+		7BAC229A1973322F00D2AEA4 /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
+		7BAC229B1973322F00D2AEA4 /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
+		7BAC22A5197332DE00D2AEA4 /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section.h; sourceTree = "<group>"; };
+		7BAC22A6197332DE00D2AEA4 /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
+		7BAC22A7197332DE00D2AEA4 /* Sense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sense.h; sourceTree = "<group>"; };
+		7BAC22A8197332DE00D2AEA4 /* Sense.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sense.m; sourceTree = "<group>"; };
+		7BAC22A9197332DE00D2AEA4 /* Synset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Synset.h; sourceTree = "<group>"; };
+		7BAC22AA197332DE00D2AEA4 /* Synset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Synset.m; sourceTree = "<group>"; };
+		7BAC22AB197332DE00D2AEA4 /* URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLEncoding.h; sourceTree = "<group>"; };
+		7BAC22AC197332DE00D2AEA4 /* URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLEncoding.m; sourceTree = "<group>"; };
+		7BAC22AD197332DE00D2AEA4 /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
+		7BAC22AE197332DE00D2AEA4 /* Word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Word.m; sourceTree = "<group>"; };
+		7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
+		7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
+		7BAC22B71973343900D2AEA4 /* Dubsar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dubsar-Bridging-Header.h"; sourceTree = "<group>"; };
+		7BAC22B81973352400D2AEA4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7BAC225619732D6C00D2AEA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BAC22B91973352400D2AEA4 /* libsqlite3.0.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BAC226819732D6C00D2AEA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7BAC225019732D6C00D2AEA4 = {
+			isa = PBXGroup;
+			children = (
+				7BAC22B81973352400D2AEA4 /* libsqlite3.0.dylib */,
+				7BAC225B19732D6C00D2AEA4 /* Dubsar */,
+				7BAC226E19732D6C00D2AEA4 /* DubsarTests */,
+				7BAC225A19732D6C00D2AEA4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7BAC225A19732D6C00D2AEA4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7BAC225919732D6C00D2AEA4 /* Dubsar.app */,
+				7BAC226B19732D6C00D2AEA4 /* DubsarTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7BAC225B19732D6C00D2AEA4 /* Dubsar */ = {
+			isa = PBXGroup;
+			children = (
+				7BAC22891973322F00D2AEA4 /* Dubsar.h */,
+				7BAC228A1973322F00D2AEA4 /* Dubsar.m */,
+				7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */,
+				7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */,
+				7BAC22AB197332DE00D2AEA4 /* URLEncoding.h */,
+				7BAC22AC197332DE00D2AEA4 /* URLEncoding.m */,
+				7BAC227B1973316E00D2AEA4 /* Models */,
+				7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */,
+				7BAC226019732D6C00D2AEA4 /* ViewController.swift */,
+				7BAC226219732D6C00D2AEA4 /* Main.storyboard */,
+				7BAC226519732D6C00D2AEA4 /* Images.xcassets */,
+				7BAC225C19732D6C00D2AEA4 /* Supporting Files */,
+			);
+			path = Dubsar;
+			sourceTree = "<group>";
+		};
+		7BAC225C19732D6C00D2AEA4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7BAC225D19732D6C00D2AEA4 /* Info.plist */,
+				7BAC22B71973343900D2AEA4 /* Dubsar-Bridging-Header.h */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7BAC226E19732D6C00D2AEA4 /* DubsarTests */ = {
+			isa = PBXGroup;
+			children = (
+				7BAC227119732D6C00D2AEA4 /* DubsarTests.swift */,
+				7BAC226F19732D6C00D2AEA4 /* Supporting Files */,
+			);
+			path = DubsarTests;
+			sourceTree = "<group>";
+		};
+		7BAC226F19732D6C00D2AEA4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7BAC227019732D6C00D2AEA4 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7BAC227B1973316E00D2AEA4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7BAC227C197331E000D2AEA4 /* Augury.h */,
+				7BAC227D197331E000D2AEA4 /* Augury.m */,
+				7BAC227E197331E000D2AEA4 /* Autocompleter.h */,
+				7BAC227F197331E000D2AEA4 /* Autocompleter.m */,
+				7BAC2280197331E000D2AEA4 /* AutocompleterDelegate.h */,
+				7BAC2281197331E000D2AEA4 /* AutocompleterProxy.h */,
+				7BAC2282197331E000D2AEA4 /* AutocompleterProxy.m */,
+				7BAC2283197331E000D2AEA4 /* DailyWord.h */,
+				7BAC2284197331E000D2AEA4 /* DailyWord.m */,
+				7BAC228B1973322F00D2AEA4 /* Inflection.h */,
+				7BAC228C1973322F00D2AEA4 /* Inflection.m */,
+				7BAC228F1973322F00D2AEA4 /* LoadDelegate.h */,
+				7BAC22901973322F00D2AEA4 /* Model.h */,
+				7BAC22911973322F00D2AEA4 /* Model.m */,
+				7BAC22921973322F00D2AEA4 /* PartOfSpeechDictionary.h */,
+				7BAC22931973322F00D2AEA4 /* PartOfSpeechDictionary.m */,
+				7BAC22941973322F00D2AEA4 /* Pointer.h */,
+				7BAC22951973322F00D2AEA4 /* Pointer.m */,
+				7BAC22961973322F00D2AEA4 /* PointerDictionary.h */,
+				7BAC22971973322F00D2AEA4 /* PointerDictionary.m */,
+				7BAC22981973322F00D2AEA4 /* Review.h */,
+				7BAC22991973322F00D2AEA4 /* Review.m */,
+				7BAC229A1973322F00D2AEA4 /* Search.h */,
+				7BAC229B1973322F00D2AEA4 /* Search.m */,
+				7BAC22A5197332DE00D2AEA4 /* Section.h */,
+				7BAC22A6197332DE00D2AEA4 /* Section.m */,
+				7BAC22A7197332DE00D2AEA4 /* Sense.h */,
+				7BAC22A8197332DE00D2AEA4 /* Sense.m */,
+				7BAC22A9197332DE00D2AEA4 /* Synset.h */,
+				7BAC22AA197332DE00D2AEA4 /* Synset.m */,
+				7BAC22AD197332DE00D2AEA4 /* Word.h */,
+				7BAC22AE197332DE00D2AEA4 /* Word.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7BAC225819732D6C00D2AEA4 /* Dubsar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7BAC227519732D6C00D2AEA4 /* Build configuration list for PBXNativeTarget "Dubsar" */;
+			buildPhases = (
+				7BAC225519732D6C00D2AEA4 /* Sources */,
+				7BAC225619732D6C00D2AEA4 /* Frameworks */,
+				7BAC225719732D6C00D2AEA4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Dubsar;
+			productName = Dubsar;
+			productReference = 7BAC225919732D6C00D2AEA4 /* Dubsar.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7BAC226A19732D6C00D2AEA4 /* DubsarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7BAC227819732D6C00D2AEA4 /* Build configuration list for PBXNativeTarget "DubsarTests" */;
+			buildPhases = (
+				7BAC226719732D6C00D2AEA4 /* Sources */,
+				7BAC226819732D6C00D2AEA4 /* Frameworks */,
+				7BAC226919732D6C00D2AEA4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7BAC226D19732D6C00D2AEA4 /* PBXTargetDependency */,
+			);
+			name = DubsarTests;
+			productName = DubsarTests;
+			productReference = 7BAC226B19732D6C00D2AEA4 /* DubsarTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7BAC225119732D6C00D2AEA4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = "";
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Dubsar Dictionary Project";
+				TargetAttributes = {
+					7BAC225819732D6C00D2AEA4 = {
+						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = RAARD2VX57;
+					};
+					7BAC226A19732D6C00D2AEA4 = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = 7BAC225819732D6C00D2AEA4;
+					};
+				};
+			};
+			buildConfigurationList = 7BAC225419732D6C00D2AEA4 /* Build configuration list for PBXProject "Dubsar" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7BAC225019732D6C00D2AEA4;
+			productRefGroup = 7BAC225A19732D6C00D2AEA4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7BAC225819732D6C00D2AEA4 /* Dubsar */,
+				7BAC226A19732D6C00D2AEA4 /* DubsarTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7BAC225719732D6C00D2AEA4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BAC226419732D6C00D2AEA4 /* Main.storyboard in Resources */,
+				7BAC226619732D6C00D2AEA4 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BAC226919732D6C00D2AEA4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7BAC225519732D6C00D2AEA4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BAC22A01973322F00D2AEA4 /* PartOfSpeechDictionary.m in Sources */,
+				7BAC226119732D6C00D2AEA4 /* ViewController.swift in Sources */,
+				7BAC22B2197332DE00D2AEA4 /* URLEncoding.m in Sources */,
+				7BAC2285197331E000D2AEA4 /* Augury.m in Sources */,
+				7BAC22B3197332DE00D2AEA4 /* Word.m in Sources */,
+				7BAC229D1973322F00D2AEA4 /* Inflection.m in Sources */,
+				7BAC22B1197332DE00D2AEA4 /* Synset.m in Sources */,
+				7BAC22A31973322F00D2AEA4 /* Review.m in Sources */,
+				7BAC22B0197332DE00D2AEA4 /* Sense.m in Sources */,
+				7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */,
+				7BAC2287197331E000D2AEA4 /* AutocompleterProxy.m in Sources */,
+				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
+				7BAC2286197331E000D2AEA4 /* Autocompleter.m in Sources */,
+				7BAC22AF197332DE00D2AEA4 /* Section.m in Sources */,
+				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
+				7BAC22A11973322F00D2AEA4 /* Pointer.m in Sources */,
+				7BAC2288197331E000D2AEA4 /* DailyWord.m in Sources */,
+				7BAC22A41973322F00D2AEA4 /* Search.m in Sources */,
+				7BAC229F1973322F00D2AEA4 /* Model.m in Sources */,
+				7BAC22A21973322F00D2AEA4 /* PointerDictionary.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BAC226719732D6C00D2AEA4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BAC227219732D6C00D2AEA4 /* DubsarTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7BAC226D19732D6C00D2AEA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BAC225819732D6C00D2AEA4 /* Dubsar */;
+			targetProxy = 7BAC226C19732D6C00D2AEA4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7BAC226219732D6C00D2AEA4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7BAC226319732D6C00D2AEA4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7BAC227319732D6C00D2AEA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7BAC227419732D6C00D2AEA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7BAC227619732D6C00D2AEA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Dubsar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7BAC227719732D6C00D2AEA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Dubsar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7BAC227919732D6C00D2AEA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Dubsar.app/Dubsar";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = DubsarTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		7BAC227A19732D6C00D2AEA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Dubsar.app/Dubsar";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = DubsarTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7BAC225419732D6C00D2AEA4 /* Build configuration list for PBXProject "Dubsar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BAC227319732D6C00D2AEA4 /* Debug */,
+				7BAC227419732D6C00D2AEA4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7BAC227519732D6C00D2AEA4 /* Build configuration list for PBXNativeTarget "Dubsar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BAC227619732D6C00D2AEA4 /* Debug */,
+				7BAC227719732D6C00D2AEA4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7BAC227819732D6C00D2AEA4 /* Build configuration list for PBXNativeTarget "DubsarTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BAC227919732D6C00D2AEA4 /* Debug */,
+				7BAC227A19732D6C00D2AEA4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7BAC225119732D6C00D2AEA4 /* Project object */;
+}
