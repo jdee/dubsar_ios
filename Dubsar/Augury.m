@@ -23,6 +23,8 @@
 #import <string.h>
 
 #import "Augury.h"
+#import "DatabaseWrapper.h"
+#import "Dubsar-Swift.h"
 #import "Word.h"
 
 @implementation Augury
@@ -78,10 +80,9 @@
                      frameId];
     int rc;
     sqlite3_stmt* statement;
-    AppDelegate* appDelegate = self.appDelegate;
 
     NSLog(@"preparing statement \"%@\"", sql);
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"sqlite3_prepare_v2: %d", rc);
         return;
     }
@@ -178,7 +179,7 @@
     int rc;
     
     NSLog(@"preparing statement \"%@\"", sql);
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"sqlite3_prepare_v2: %d", rc);
         return nil;
     }
@@ -277,7 +278,7 @@
     int rc;
     
     NSLog(@"preparing statement \"%@\"", sql);
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"sqlite3_prepare_v2: %d", rc);
         return nil;
     }
@@ -314,7 +315,7 @@
                      "AND name >= 'a' AND name < '{' AND name GLOB '[a-z]*s' LIMIT 1", verbId];
     int rc;
     sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"preparing inflections select: %d", rc);
         return nil;
     }
@@ -341,7 +342,7 @@
             
             const char* _sql = "SELECT id FROM words WHERE name = ? AND part_of_speech = 'verb'";
             sqlite3_stmt* localStmt;
-            if ((rc=sqlite3_prepare_v2(self.appDelegate.database, _sql, -1, &localStmt, NULL)) != SQLITE_OK) {
+            if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, _sql, -1, &localStmt, NULL)) != SQLITE_OK) {
                 /*
                  * DEBT: This and some of the other error handlers here (the ones that return nil) should probably
                  * be assertions. They should not happen unless there's a coding error. Let them be leaky for

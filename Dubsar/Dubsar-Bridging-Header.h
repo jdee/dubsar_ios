@@ -22,6 +22,7 @@
 #import "AutocompleterDelegate.h"
 #import "AutocompleterProxy.h"
 #import "DailyWord.h"
+#import "DatabaseWrapper.h"
 #import "Dubsar.h"
 #import "Inflection.h"
 #import "KeychainWrapper.h"

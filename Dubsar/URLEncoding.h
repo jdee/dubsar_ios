@@ -1,4 +1,4 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 /*
  * Taken from http://madebymany.com/blog/url-encoding-an-nsstring-on-ios

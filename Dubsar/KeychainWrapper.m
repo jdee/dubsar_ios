@@ -1,4 +1,4 @@
-#import <Security/Security.h>
+@import Security;
 
 #import "KeychainWrapper.h"
 

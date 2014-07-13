@@ -1,5 +1,5 @@
 // http://developer.apple.com/library/ios/#documentation/Security/Conceptual/keychainServConcepts/iPhoneTasks/iPhoneTasks.html
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 //Define an Objective-C wrapper class to hold Keychain Services code.
 @interface KeychainWrapper : NSObject

@@ -18,6 +18,8 @@
  */
 #import <sqlite3.h>
 
+#import "DatabaseWrapper.h"
+#import "Dubsar-Swift.h"
 #import "PartOfSpeechDictionary.h"
 #import "Pointer.h"
 #import "PointerDictionary.h"
@@ -193,7 +195,7 @@
     int rc;
     sqlite3_stmt* statement;
     
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         return;
     }
@@ -278,7 +280,7 @@
     
     sql = [NSString stringWithFormat:
            @"SELECT DISTINCT ptype FROM pointers WHERE source_id = %d AND source_type = 'Synset' ", _id];
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
         return 1;
@@ -401,7 +403,7 @@
                      @"ORDER BY id ASC "
                      @"LIMIT 1 "
                      @"OFFSET :offset ", _id];
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &pointerQuery, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &pointerQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing statement", rc);
         return;
     }        
@@ -416,7 +418,7 @@
 #ifdef DEBUG
     NSLog(@"preparing semantic query %s", csql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing semantic query", rc);
         return;
     }

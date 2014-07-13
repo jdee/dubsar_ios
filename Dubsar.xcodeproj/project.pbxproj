@@ -31,6 +31,7 @@
 		7BAC22B3197332DE00D2AEA4 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22AE197332DE00D2AEA4 /* Word.m */; };
 		7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */; };
 		7BAC22B91973352400D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC22B81973352400D2AEA4 /* libsqlite3.0.dylib */; };
+		7BAC22BC19733B4500D2AEA4 /* DatabaseWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22BB19733B4500D2AEA4 /* DatabaseWrapper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,8 @@
 		7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
 		7BAC22B71973343900D2AEA4 /* Dubsar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dubsar-Bridging-Header.h"; sourceTree = "<group>"; };
 		7BAC22B81973352400D2AEA4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		7BAC22BA19733B4500D2AEA4 /* DatabaseWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseWrapper.h; sourceTree = "<group>"; };
+		7BAC22BB19733B4500D2AEA4 /* DatabaseWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseWrapper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +139,8 @@
 		7BAC225B19732D6C00D2AEA4 /* Dubsar */ = {
 			isa = PBXGroup;
 			children = (
+				7BAC22BA19733B4500D2AEA4 /* DatabaseWrapper.h */,
+				7BAC22BB19733B4500D2AEA4 /* DatabaseWrapper.m */,
 				7BAC22891973322F00D2AEA4 /* Dubsar.h */,
 				7BAC228A1973322F00D2AEA4 /* Dubsar.m */,
 				7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */,
@@ -155,8 +160,8 @@
 		7BAC225C19732D6C00D2AEA4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7BAC225D19732D6C00D2AEA4 /* Info.plist */,
 				7BAC22B71973343900D2AEA4 /* Dubsar-Bridging-Header.h */,
+				7BAC225D19732D6C00D2AEA4 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -334,6 +339,7 @@
 				7BAC22AF197332DE00D2AEA4 /* Section.m in Sources */,
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
 				7BAC22A11973322F00D2AEA4 /* Pointer.m in Sources */,
+				7BAC22BC19733B4500D2AEA4 /* DatabaseWrapper.m in Sources */,
 				7BAC2288197331E000D2AEA4 /* DailyWord.m in Sources */,
 				7BAC22A41973322F00D2AEA4 /* Search.m in Sources */,
 				7BAC229F1973322F00D2AEA4 /* Model.m in Sources */,
@@ -460,6 +466,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Dubsar/Dubsar-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -474,6 +481,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Dubsar/Dubsar-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -533,6 +541,7 @@
 				7BAC227719732D6C00D2AEA4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7BAC227819732D6C00D2AEA4 /* Build configuration list for PBXNativeTarget "DubsarTests" */ = {
 			isa = XCConfigurationList;
@@ -541,6 +550,7 @@
 				7BAC227A19732D6C00D2AEA4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

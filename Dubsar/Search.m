@@ -16,8 +16,13 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
+@import UIKit;
+
 #import <sqlite3.h>
 
+#import "DatabaseWrapper.h"
+#import "Dubsar-Swift.h"
 #import "Search.h"
 #import "PartOfSpeechDictionary.h"
 #import "URLEncoding.h"
@@ -199,7 +204,7 @@ static int _seqNum = 0;
     /* execute countSql to get number of rows */
     sqlite3_stmt* countStmt;
     int rc;
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &countStmt, NULL))
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &countStmt, NULL))
         != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing count statement, error %d", rc];
         return;
@@ -267,7 +272,7 @@ static int _seqNum = 0;
 #endif // DEBUG
     
     sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(appDelegate.database,
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr,
                                [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;
@@ -363,7 +368,7 @@ static int _seqNum = 0;
          */
         NSString* isql = [NSString stringWithFormat:@"SELECT DISTINCT name FROM inflections WHERE word_id = %d", _id];
         sqlite3_stmt* istmt;
-        if ((rc=sqlite3_prepare_v2(appDelegate.database, [isql cStringUsingEncoding:NSUTF8StringEncoding], -1, &istmt, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [isql cStringUsingEncoding:NSUTF8StringEncoding], -1, &istmt, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
             NSLog(@"%@", self.errorMessage);
             return;
@@ -395,7 +400,7 @@ static int _seqNum = 0;
 #ifdef DEBUG
     NSLog(@"preparing statement %@", countSql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [countSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;
     }
@@ -425,7 +430,7 @@ static int _seqNum = 0;
 #ifdef DEBUG
     NSLog(@"preparing statement %@", sql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;        
     }
@@ -466,7 +471,7 @@ static int _seqNum = 0;
 #ifdef DEBUG
         NSLog(@"preparing statement %@", exactSql);
 #endif // DEBUG
-        if ((rc=sqlite3_prepare_v2(appDelegate.database, [exactSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [exactSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
             return;          
         }
@@ -507,7 +512,7 @@ static int _seqNum = 0;
     NSLog(@"preparing SQL statement \"%@\"", sql);
 #endif // DEBUG
     
-    if ((rc=sqlite3_prepare_v2(appDelegate.database,
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr,
                                [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;
@@ -562,7 +567,7 @@ static int _seqNum = 0;
          */
         NSString* isql = [NSString stringWithFormat:@"SELECT DISTINCT name FROM inflections WHERE word_id = %d", word._id];
         sqlite3_stmt* istmt;
-        if ((rc=sqlite3_prepare_v2(appDelegate.database, [isql cStringUsingEncoding:NSUTF8StringEncoding], -1, &istmt, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [isql cStringUsingEncoding:NSUTF8StringEncoding], -1, &istmt, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
             NSLog(@"%@", self.errorMessage);
             return;

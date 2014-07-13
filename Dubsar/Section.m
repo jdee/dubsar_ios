@@ -18,6 +18,7 @@
  */
 #import <sqlite3.h>
 
+#import "DatabaseWrapper.h"
 #import "Dubsar-Swift.h"
 #import "Section.h"
 
@@ -76,7 +77,7 @@
     }
     int rc;
     sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing statement", rc);
         return 0;
     }

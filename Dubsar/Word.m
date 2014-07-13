@@ -16,8 +16,12 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+@import UIKit;
+
 #import <sqlite3.h>
 
+#import "DatabaseWrapper.h"
+#import "Dubsar-Swift.h"
 #import "PartOfSpeechDictionary.h"
 #import "Sense.h"
 #import "Word.h"
@@ -110,7 +114,7 @@
 #ifdef DEBUG
     NSLog(@"preparing statement \"%@\"", sql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
         return;
@@ -151,7 +155,7 @@
 #ifdef DEBUG
     NSLog(@"preparing statement \"%@\"", sql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
         return;
@@ -179,7 +183,7 @@
 #ifdef DEBUG
         NSLog(@"preparing statement \"%@\"", synSql);
 #endif // DEBUG
-        if ((rc=sqlite3_prepare_v2(appDelegate.database, [synSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &synStatement, NULL))
+        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [synSql cStringUsingEncoding:NSUTF8StringEncoding], -1, &synStatement, NULL))
             != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
             sqlite3_finalize(statement);

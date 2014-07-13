@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+@class DatabaseWrapper;
 #import "Dubsar-Swift.h"
 #import "Inflection.h"
 #import "Word.h"

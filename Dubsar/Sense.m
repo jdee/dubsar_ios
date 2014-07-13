@@ -18,6 +18,8 @@
  */
 #import <sqlite3.h>
 
+#import "DatabaseWrapper.h"
+#import "Dubsar-Swift.h"
 #import "PartOfSpeechDictionary.h"
 #import "Pointer.h"
 #import "PointerDictionary.h"
@@ -385,7 +387,7 @@
     int rc;
     sqlite3_stmt* statement;
     
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         return;
     }
@@ -466,7 +468,7 @@
            @"WHERE se.synset_id = %d AND w.name != ? "
            @"ORDER BY w.name ASC ", synset._id];
     
-    if ((rc=sqlite3_prepare(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         return;
     }
@@ -538,7 +540,7 @@
     sql = [NSString stringWithFormat:
            @"SELECT DISTINCT ptype FROM pointers WHERE (source_id = %d AND source_type = 'Sense') OR "
            @"(source_id = %d AND source_type = 'Synset') ", _id, synset._id];
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
         return 1;
@@ -691,7 +693,7 @@
                      @"LIMIT 1 "
                      @"OFFSET :offset ", _id, synset._id];
 
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &pointerQuery, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &pointerQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing pointer query", rc);
         return;
     }
@@ -705,7 +707,7 @@
 #ifdef DEBUG
     NSLog(@"preparing lexical query %s", csql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, csql, -1, &lexicalQuery, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, csql, -1, &lexicalQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing lexical query", rc);
         return;
     }
@@ -720,7 +722,7 @@
 #ifdef DEBUG
     NSLog(@"preparing semantic query %s", csql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing semantic query", rc);
         return;
     }

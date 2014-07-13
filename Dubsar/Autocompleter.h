@@ -19,7 +19,6 @@
 
 #import "Model.h"
 
-
 @interface Autocompleter : Model {
     NSString* term;
     NSMutableArray* _results;    

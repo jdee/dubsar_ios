@@ -20,7 +20,6 @@
 #import "AutocompleterDelegate.h"
 #import "AutocompleterProxy.h"
 
-
 @implementation AutocompleterProxy
 @synthesize delegate;
 
