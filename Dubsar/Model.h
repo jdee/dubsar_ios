@@ -18,8 +18,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "Dubsar-Swift.h"
 
+@class AppDelegate;
 @class JSONDecoder;
 @protocol LoadDelegate;
 
