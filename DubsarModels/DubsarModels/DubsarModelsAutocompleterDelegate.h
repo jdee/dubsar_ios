@@ -1,6 +1,6 @@
 /*
  Dubsar Dictionary Project
- Copyright (C) 2010-13 Jimmy Dee
+ Copyright (C) 2010-14 Jimmy Dee
  
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -17,19 +17,10 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-//  See Also: http://developer.apple.com/iphone/library/documentation/Xcode/Conceptual/iphone_development/135-Unit_Testing_Applications/unit_testing_applications.html
+@import Foundation;
 
-//  Application unit tests contain unit test code that must be injected into an application to run correctly.
-//  Define USE_APPLICATION_UNIT_TEST to 0 if the unit test code is designed to be linked into an independent test executable.
+@class DubsarModelsAutocompleter;
 
-@import XCTest;
-@import UIKit;
-@import DubsarModels;
-
-@interface ModelTestCase : XCTestCase
-
-@property (nonatomic, strong) DubsarModelsDatabaseWrapper* database;
-
-+ (NSMutableData*) dataWithString:(NSString*)stringData;
-
+@protocol DubsarModelsAutocompleterDelegate
+- (void)autocompleterFinished:(DubsarModelsAutocompleter*)theAutocompleter withError:(NSString*)error;
 @end

@@ -1,6 +1,6 @@
 /*
  Dubsar Dictionary Project
- Copyright (C) 2010-13 Jimmy Dee
+ Copyright (C) 2010-14 Jimmy Dee
  
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -17,19 +17,21 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-//  See Also: http://developer.apple.com/iphone/library/documentation/Xcode/Conceptual/iphone_development/135-Unit_Testing_Applications/unit_testing_applications.html
+#import "DubsarModels/DubsarModelsLoadDelegate.h"
+#import "DubsarModels/DubsarModelsModel.h"
 
-//  Application unit tests contain unit test code that must be injected into an application to run correctly.
-//  Define USE_APPLICATION_UNIT_TEST to 0 if the unit test code is designed to be linked into an independent test executable.
+@class DubsarModelsWord;
 
-@import XCTest;
-@import UIKit;
-@import DubsarModels;
+@interface DubsarModelsDailyWord : DubsarModelsModel<DubsarModelsLoadDelegate>
+@property (nonatomic, strong) DubsarModelsWord* word;
+@property bool fresh;
+@property time_t expiration;
 
-@interface ModelTestCase : XCTestCase
++ (instancetype)dailyWord;
++ (void)updateWotdId:(int)wotdId expiration:(time_t)expiration;
++ (void)resetWotd;
 
-@property (nonatomic, strong) DubsarModelsDatabaseWrapper* database;
-
-+ (NSMutableData*) dataWithString:(NSString*)stringData;
+- (bool)loadFromUserDefaults;
+- (void)saveToUserDefaults;
 
 @end

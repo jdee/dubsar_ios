@@ -26,6 +26,7 @@
 		7BAC23491973639200D2AEA4 /* DubsarModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23481973639200D2AEA4 /* DubsarModels.framework */; };
 		7BAC234F1973698100D2AEA4 /* DubsarModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23481973639200D2AEA4 /* DubsarModels.framework */; };
 		7BAC23591973753300D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */; };
+		7BAC235E1973754F00D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,13 @@
 			remoteInfo = Dubsar;
 		};
 		7BAC235A1973754900D2AEA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BAC225119732D6C00D2AEA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BAC225819732D6C00D2AEA4;
+			remoteInfo = Dubsar;
+		};
+		7BAC235C1973754900D2AEA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7BAC225119732D6C00D2AEA4 /* Project object */;
 			proxyType = 1;
@@ -110,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BAC235E1973754F00D2AEA4 /* libsqlite3.0.dylib in Frameworks */,
 				7BAC234F1973698100D2AEA4 /* DubsarModels.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,6 +241,7 @@
 				7BAC234C1973697600D2AEA4 /* PBXTargetDependency */,
 				7BAC234E1973697600D2AEA4 /* PBXTargetDependency */,
 				7BAC235B1973754900D2AEA4 /* PBXTargetDependency */,
+				7BAC235D1973754900D2AEA4 /* PBXTargetDependency */,
 			);
 			name = DubsarTests;
 			productName = DubsarTests;
@@ -347,6 +357,11 @@
 			isa = PBXTargetDependency;
 			target = 7BAC225819732D6C00D2AEA4 /* Dubsar */;
 			targetProxy = 7BAC235A1973754900D2AEA4 /* PBXContainerItemProxy */;
+		};
+		7BAC235D1973754900D2AEA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BAC225819732D6C00D2AEA4 /* Dubsar */;
+			targetProxy = 7BAC235C1973754900D2AEA4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

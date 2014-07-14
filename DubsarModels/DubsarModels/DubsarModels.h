@@ -17,7 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 //! Project version number for DubsarModels.
 FOUNDATION_EXPORT double DubsarModelsVersionNumber;
@@ -25,21 +25,21 @@ FOUNDATION_EXPORT double DubsarModelsVersionNumber;
 //! Project version string for DubsarModels.
 FOUNDATION_EXPORT const unsigned char DubsarModelsVersionString[];
 
-#import <DubsarModels/Augury.h>
-#import <DubsarModels/Autocompleter.h>
-#import <DubsarModels/AutocompleterDelegate.h>
-#import <DubsarModels/AutocompleterProxy.h>
-#import <DubsarModels/DailyWord.h>
-#import <DubsarModels/Database.h>
-#import <DubsarModels/Inflection.h>
-#import <DubsarModels/LoadDelegate.h>
-#import <DubsarModels/Model.h>
-#import <DubsarModels/PartOfSpeechDictionary.h>
-#import <DubsarModels/Pointer.h>
-#import <DubsarModels/PointerDictionary.h>
-#import <DubsarModels/Review.h>
-#import <DubsarModels/Search.h>
-#import <DubsarModels/Section.h>
-#import <DubsarModels/Sense.h>
-#import <DubsarModels/Synset.h>
-#import <DubsarModels/Word.h>
+#import <DubsarModels/DubsarModelsAugury.h>
+#import <DubsarModels/DubsarModelsAutocompleter.h>
+#import <DubsarModels/DubsarModelsAutocompleterDelegate.h>
+#import <DubsarModels/DubsarModelsAutocompleterProxy.h>
+#import <DubsarModels/DubsarModelsDailyWord.h>
+#import <DubsarModels/DubsarModelsDatabase.h>
+#import <DubsarModels/DubsarModelsInflection.h>
+#import <DubsarModels/DubsarModelsLoadDelegate.h>
+#import <DubsarModels/DubsarModelsModel.h>
+#import <DubsarModels/DubsarModelsPartOfSpeechDictionary.h>
+#import <DubsarModels/DubsarModelsPointer.h>
+#import <DubsarModels/DubsarModelsPointerDictionary.h>
+#import <DubsarModels/DubsarModelsReview.h>
+#import <DubsarModels/DubsarModelsSearch.h>
+#import <DubsarModels/DubsarModelsSection.h>
+#import <DubsarModels/DubsarModelsSense.h>
+#import <DubsarModels/DubsarModelsSynset.h>
+#import <DubsarModels/DubsarModelsWord.h>

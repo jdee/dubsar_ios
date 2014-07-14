@@ -27,18 +27,18 @@
 {
     NSString* stringData = @"[147806,\"decelerate\",\"v\",1,\"decelerated, decelerates, decelerating\",1360022466]";
     
-    DailyWord* dailyWord = [[DailyWord alloc]init];
+    DubsarModelsDailyWord* dailyWord = [[DubsarModelsDailyWord alloc]init];
     dailyWord.data = [self.class dataWithString:stringData];
     [dailyWord parseData];
     
-    Word* word = dailyWord.word;
+    DubsarModelsWord* word = dailyWord.word;
     
     NSArray *expectedInflections = [NSArray arrayWithObjects:@"decelerated", @"decelerates", @"decelerating", nil];
     
     XCTAssertNotNil(word, @"word failed");
     XCTAssertEqual(147806, word._id, @"word ID failed");
     XCTAssertEqualObjects(@"decelerate", word.name, @"word name failed");
-    XCTAssertEqual(POSVerb, word.partOfSpeech, @"word part of speech failed");
+    XCTAssertEqual(DubsarModelsPartOfSpeechVerb, word.partOfSpeech, @"word part of speech failed");
     XCTAssertEqual(1, word.freqCnt, @"word frequency count failed");
     XCTAssertTrue([expectedInflections isEqualToArray:word.inflections], @"word inflections failed");
     XCTAssertTrue(1360022466 == dailyWord.expiration, @"expiration failed");
@@ -46,7 +46,7 @@
 
 -(void)testInitialization
 {
-    DailyWord* a = [[DailyWord alloc]init];
+    DubsarModelsDailyWord* a = [[DubsarModelsDailyWord alloc]init];
     XCTAssertTrue(!a.complete, @"complete failed");
     XCTAssertTrue(!a.error, @"error failed");
 }

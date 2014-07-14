@@ -10,44 +10,44 @@
 		7BAC22E819735C2C00D2AEA4 /* DubsarModels.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC22E719735C2C00D2AEA4 /* DubsarModels.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BAC22EE19735C2C00D2AEA4 /* DubsarModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC22E219735C2C00D2AEA4 /* DubsarModels.framework */; };
 		7BAC22F519735C2C00D2AEA4 /* DubsarModelsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22F419735C2C00D2AEA4 /* DubsarModelsTests.m */; };
-		7BAC231E19735CB400D2AEA4 /* Augury.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC22FE19735CB400D2AEA4 /* Augury.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC231F19735CB400D2AEA4 /* Augury.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22FF19735CB400D2AEA4 /* Augury.m */; };
-		7BAC232019735CB400D2AEA4 /* Autocompleter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230019735CB400D2AEA4 /* Autocompleter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232119735CB400D2AEA4 /* Autocompleter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230119735CB400D2AEA4 /* Autocompleter.m */; };
-		7BAC232219735CB400D2AEA4 /* AutocompleterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230219735CB400D2AEA4 /* AutocompleterDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232319735CB400D2AEA4 /* AutocompleterProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230319735CB400D2AEA4 /* AutocompleterProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232419735CB400D2AEA4 /* AutocompleterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230419735CB400D2AEA4 /* AutocompleterProxy.m */; };
-		7BAC232519735CB400D2AEA4 /* DailyWord.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230519735CB400D2AEA4 /* DailyWord.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232619735CB400D2AEA4 /* DailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230619735CB400D2AEA4 /* DailyWord.m */; };
-		7BAC232719735CB400D2AEA4 /* Inflection.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230719735CB400D2AEA4 /* Inflection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232819735CB400D2AEA4 /* Inflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230819735CB400D2AEA4 /* Inflection.m */; };
-		7BAC232919735CB400D2AEA4 /* LoadDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230919735CB400D2AEA4 /* LoadDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232A19735CB400D2AEA4 /* Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230A19735CB400D2AEA4 /* Model.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232B19735CB400D2AEA4 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230B19735CB400D2AEA4 /* Model.m */; };
-		7BAC232C19735CB400D2AEA4 /* PartOfSpeechDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230C19735CB400D2AEA4 /* PartOfSpeechDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232D19735CB400D2AEA4 /* PartOfSpeechDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230D19735CB400D2AEA4 /* PartOfSpeechDictionary.m */; };
-		7BAC232E19735CB400D2AEA4 /* Pointer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230E19735CB400D2AEA4 /* Pointer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232F19735CB400D2AEA4 /* Pointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230F19735CB400D2AEA4 /* Pointer.m */; };
-		7BAC233019735CB400D2AEA4 /* PointerDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231019735CB400D2AEA4 /* PointerDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC233119735CB400D2AEA4 /* PointerDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231119735CB400D2AEA4 /* PointerDictionary.m */; };
-		7BAC233219735CB400D2AEA4 /* Review.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231219735CB400D2AEA4 /* Review.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC233319735CB400D2AEA4 /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231319735CB400D2AEA4 /* Review.m */; };
-		7BAC233419735CB400D2AEA4 /* Search.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231419735CB400D2AEA4 /* Search.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC233519735CB400D2AEA4 /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231519735CB400D2AEA4 /* Search.m */; };
-		7BAC233619735CB400D2AEA4 /* Section.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231619735CB400D2AEA4 /* Section.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC233719735CB400D2AEA4 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231719735CB400D2AEA4 /* Section.m */; };
-		7BAC233819735CB400D2AEA4 /* Sense.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231819735CB400D2AEA4 /* Sense.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC233919735CB400D2AEA4 /* Sense.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231919735CB400D2AEA4 /* Sense.m */; };
-		7BAC233A19735CB400D2AEA4 /* Synset.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231A19735CB400D2AEA4 /* Synset.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC233B19735CB400D2AEA4 /* Synset.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231B19735CB400D2AEA4 /* Synset.m */; };
-		7BAC233C19735CB400D2AEA4 /* Word.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231C19735CB400D2AEA4 /* Word.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC233D19735CB400D2AEA4 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231D19735CB400D2AEA4 /* Word.m */; };
-		7BAC234019735CC700D2AEA4 /* DatabaseWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC233E19735CC700D2AEA4 /* DatabaseWrapper.h */; };
-		7BAC234119735CC700D2AEA4 /* DatabaseWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC233F19735CC700D2AEA4 /* DatabaseWrapper.m */; };
+		7BAC231E19735CB400D2AEA4 /* DubsarModelsAugury.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC22FE19735CB400D2AEA4 /* DubsarModelsAugury.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC231F19735CB400D2AEA4 /* DubsarModelsAugury.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22FF19735CB400D2AEA4 /* DubsarModelsAugury.m */; };
+		7BAC232019735CB400D2AEA4 /* DubsarModelsAutocompleter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230019735CB400D2AEA4 /* DubsarModelsAutocompleter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC232119735CB400D2AEA4 /* DubsarModelsAutocompleter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230119735CB400D2AEA4 /* DubsarModelsAutocompleter.m */; };
+		7BAC232219735CB400D2AEA4 /* DubsarModelsAutocompleterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230219735CB400D2AEA4 /* DubsarModelsAutocompleterDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC232319735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230319735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC232419735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230419735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.m */; };
+		7BAC232519735CB400D2AEA4 /* DubsarModelsDailyWord.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230519735CB400D2AEA4 /* DubsarModelsDailyWord.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC232619735CB400D2AEA4 /* DubsarModelsDailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230619735CB400D2AEA4 /* DubsarModelsDailyWord.m */; };
+		7BAC232719735CB400D2AEA4 /* DubsarModelsInflection.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230719735CB400D2AEA4 /* DubsarModelsInflection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC232819735CB400D2AEA4 /* DubsarModelsInflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230819735CB400D2AEA4 /* DubsarModelsInflection.m */; };
+		7BAC232919735CB400D2AEA4 /* DubsarModelsLoadDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230919735CB400D2AEA4 /* DubsarModelsLoadDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC232A19735CB400D2AEA4 /* DubsarModelsModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230A19735CB400D2AEA4 /* DubsarModelsModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC232B19735CB400D2AEA4 /* DubsarModelsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230B19735CB400D2AEA4 /* DubsarModelsModel.m */; };
+		7BAC232C19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230C19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC232D19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230D19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.m */; };
+		7BAC232E19735CB400D2AEA4 /* DubsarModelsPointer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230E19735CB400D2AEA4 /* DubsarModelsPointer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC232F19735CB400D2AEA4 /* DubsarModelsPointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230F19735CB400D2AEA4 /* DubsarModelsPointer.m */; };
+		7BAC233019735CB400D2AEA4 /* DubsarModelsPointerDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231019735CB400D2AEA4 /* DubsarModelsPointerDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC233119735CB400D2AEA4 /* DubsarModelsPointerDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231119735CB400D2AEA4 /* DubsarModelsPointerDictionary.m */; };
+		7BAC233219735CB400D2AEA4 /* DubsarModelsReview.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231219735CB400D2AEA4 /* DubsarModelsReview.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC233319735CB400D2AEA4 /* DubsarModelsReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231319735CB400D2AEA4 /* DubsarModelsReview.m */; };
+		7BAC233419735CB400D2AEA4 /* DubsarModelsSearch.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231419735CB400D2AEA4 /* DubsarModelsSearch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC233519735CB400D2AEA4 /* DubsarModelsSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231519735CB400D2AEA4 /* DubsarModelsSearch.m */; };
+		7BAC233619735CB400D2AEA4 /* DubsarModelsSection.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231619735CB400D2AEA4 /* DubsarModelsSection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC233719735CB400D2AEA4 /* DubsarModelsSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231719735CB400D2AEA4 /* DubsarModelsSection.m */; };
+		7BAC233819735CB400D2AEA4 /* DubsarModelsSense.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231819735CB400D2AEA4 /* DubsarModelsSense.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC233919735CB400D2AEA4 /* DubsarModelsSense.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231919735CB400D2AEA4 /* DubsarModelsSense.m */; };
+		7BAC233A19735CB400D2AEA4 /* DubsarModelsSynset.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231A19735CB400D2AEA4 /* DubsarModelsSynset.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC233B19735CB400D2AEA4 /* DubsarModelsSynset.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231B19735CB400D2AEA4 /* DubsarModelsSynset.m */; };
+		7BAC233C19735CB400D2AEA4 /* DubsarModelsWord.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231C19735CB400D2AEA4 /* DubsarModelsWord.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC233D19735CB400D2AEA4 /* DubsarModelsWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231D19735CB400D2AEA4 /* DubsarModelsWord.m */; };
+		7BAC234019735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC233E19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h */; };
+		7BAC234119735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC233F19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m */; };
 		7BAC2346197361D800D2AEA4 /* URLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC2344197361D800D2AEA4 /* URLEncoding.h */; };
 		7BAC2347197361D800D2AEA4 /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC2345197361D800D2AEA4 /* URLEncoding.m */; };
-		7BAC235619736CDA00D2AEA4 /* Database.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC235419736CDA00D2AEA4 /* Database.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC235719736CDA00D2AEA4 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC235519736CDA00D2AEA4 /* Database.m */; };
+		7BAC235619736CDA00D2AEA4 /* DubsarModelsDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC235419736CDA00D2AEA4 /* DubsarModelsDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC235719736CDA00D2AEA4 /* DubsarModelsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC235519736CDA00D2AEA4 /* DubsarModelsDatabase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,44 +67,44 @@
 		7BAC22ED19735C2C00D2AEA4 /* DubsarModelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarModelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BAC22F319735C2C00D2AEA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BAC22F419735C2C00D2AEA4 /* DubsarModelsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsTests.m; sourceTree = "<group>"; };
-		7BAC22FE19735CB400D2AEA4 /* Augury.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Augury.h; sourceTree = "<group>"; };
-		7BAC22FF19735CB400D2AEA4 /* Augury.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Augury.m; sourceTree = "<group>"; };
-		7BAC230019735CB400D2AEA4 /* Autocompleter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Autocompleter.h; sourceTree = "<group>"; };
-		7BAC230119735CB400D2AEA4 /* Autocompleter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Autocompleter.m; sourceTree = "<group>"; };
-		7BAC230219735CB400D2AEA4 /* AutocompleterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterDelegate.h; sourceTree = "<group>"; };
-		7BAC230319735CB400D2AEA4 /* AutocompleterProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterProxy.h; sourceTree = "<group>"; };
-		7BAC230419735CB400D2AEA4 /* AutocompleterProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterProxy.m; sourceTree = "<group>"; };
-		7BAC230519735CB400D2AEA4 /* DailyWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWord.h; sourceTree = "<group>"; };
-		7BAC230619735CB400D2AEA4 /* DailyWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWord.m; sourceTree = "<group>"; };
-		7BAC230719735CB400D2AEA4 /* Inflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inflection.h; sourceTree = "<group>"; };
-		7BAC230819735CB400D2AEA4 /* Inflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inflection.m; sourceTree = "<group>"; };
-		7BAC230919735CB400D2AEA4 /* LoadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadDelegate.h; sourceTree = "<group>"; };
-		7BAC230A19735CB400D2AEA4 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
-		7BAC230B19735CB400D2AEA4 /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
-		7BAC230C19735CB400D2AEA4 /* PartOfSpeechDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartOfSpeechDictionary.h; sourceTree = "<group>"; };
-		7BAC230D19735CB400D2AEA4 /* PartOfSpeechDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartOfSpeechDictionary.m; sourceTree = "<group>"; };
-		7BAC230E19735CB400D2AEA4 /* Pointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pointer.h; sourceTree = "<group>"; };
-		7BAC230F19735CB400D2AEA4 /* Pointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pointer.m; sourceTree = "<group>"; };
-		7BAC231019735CB400D2AEA4 /* PointerDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerDictionary.h; sourceTree = "<group>"; };
-		7BAC231119735CB400D2AEA4 /* PointerDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointerDictionary.m; sourceTree = "<group>"; };
-		7BAC231219735CB400D2AEA4 /* Review.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Review.h; sourceTree = "<group>"; };
-		7BAC231319735CB400D2AEA4 /* Review.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Review.m; sourceTree = "<group>"; };
-		7BAC231419735CB400D2AEA4 /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
-		7BAC231519735CB400D2AEA4 /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
-		7BAC231619735CB400D2AEA4 /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section.h; sourceTree = "<group>"; };
-		7BAC231719735CB400D2AEA4 /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
-		7BAC231819735CB400D2AEA4 /* Sense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sense.h; sourceTree = "<group>"; };
-		7BAC231919735CB400D2AEA4 /* Sense.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sense.m; sourceTree = "<group>"; };
-		7BAC231A19735CB400D2AEA4 /* Synset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Synset.h; sourceTree = "<group>"; };
-		7BAC231B19735CB400D2AEA4 /* Synset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Synset.m; sourceTree = "<group>"; };
-		7BAC231C19735CB400D2AEA4 /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
-		7BAC231D19735CB400D2AEA4 /* Word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Word.m; sourceTree = "<group>"; };
-		7BAC233E19735CC700D2AEA4 /* DatabaseWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseWrapper.h; sourceTree = "<group>"; };
-		7BAC233F19735CC700D2AEA4 /* DatabaseWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseWrapper.m; sourceTree = "<group>"; };
+		7BAC22FE19735CB400D2AEA4 /* DubsarModelsAugury.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsAugury.h; sourceTree = "<group>"; };
+		7BAC22FF19735CB400D2AEA4 /* DubsarModelsAugury.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsAugury.m; sourceTree = "<group>"; };
+		7BAC230019735CB400D2AEA4 /* DubsarModelsAutocompleter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsAutocompleter.h; sourceTree = "<group>"; };
+		7BAC230119735CB400D2AEA4 /* DubsarModelsAutocompleter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsAutocompleter.m; sourceTree = "<group>"; };
+		7BAC230219735CB400D2AEA4 /* DubsarModelsAutocompleterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsAutocompleterDelegate.h; sourceTree = "<group>"; };
+		7BAC230319735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsAutocompleterProxy.h; sourceTree = "<group>"; };
+		7BAC230419735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsAutocompleterProxy.m; sourceTree = "<group>"; };
+		7BAC230519735CB400D2AEA4 /* DubsarModelsDailyWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsDailyWord.h; sourceTree = "<group>"; };
+		7BAC230619735CB400D2AEA4 /* DubsarModelsDailyWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsDailyWord.m; sourceTree = "<group>"; };
+		7BAC230719735CB400D2AEA4 /* DubsarModelsInflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsInflection.h; sourceTree = "<group>"; };
+		7BAC230819735CB400D2AEA4 /* DubsarModelsInflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsInflection.m; sourceTree = "<group>"; };
+		7BAC230919735CB400D2AEA4 /* DubsarModelsLoadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsLoadDelegate.h; sourceTree = "<group>"; };
+		7BAC230A19735CB400D2AEA4 /* DubsarModelsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsModel.h; sourceTree = "<group>"; };
+		7BAC230B19735CB400D2AEA4 /* DubsarModelsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsModel.m; sourceTree = "<group>"; };
+		7BAC230C19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsPartOfSpeechDictionary.h; sourceTree = "<group>"; };
+		7BAC230D19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsPartOfSpeechDictionary.m; sourceTree = "<group>"; };
+		7BAC230E19735CB400D2AEA4 /* DubsarModelsPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsPointer.h; sourceTree = "<group>"; };
+		7BAC230F19735CB400D2AEA4 /* DubsarModelsPointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsPointer.m; sourceTree = "<group>"; };
+		7BAC231019735CB400D2AEA4 /* DubsarModelsPointerDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsPointerDictionary.h; sourceTree = "<group>"; };
+		7BAC231119735CB400D2AEA4 /* DubsarModelsPointerDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsPointerDictionary.m; sourceTree = "<group>"; };
+		7BAC231219735CB400D2AEA4 /* DubsarModelsReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsReview.h; sourceTree = "<group>"; };
+		7BAC231319735CB400D2AEA4 /* DubsarModelsReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsReview.m; sourceTree = "<group>"; };
+		7BAC231419735CB400D2AEA4 /* DubsarModelsSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsSearch.h; sourceTree = "<group>"; };
+		7BAC231519735CB400D2AEA4 /* DubsarModelsSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsSearch.m; sourceTree = "<group>"; };
+		7BAC231619735CB400D2AEA4 /* DubsarModelsSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsSection.h; sourceTree = "<group>"; };
+		7BAC231719735CB400D2AEA4 /* DubsarModelsSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsSection.m; sourceTree = "<group>"; };
+		7BAC231819735CB400D2AEA4 /* DubsarModelsSense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsSense.h; sourceTree = "<group>"; };
+		7BAC231919735CB400D2AEA4 /* DubsarModelsSense.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsSense.m; sourceTree = "<group>"; };
+		7BAC231A19735CB400D2AEA4 /* DubsarModelsSynset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsSynset.h; sourceTree = "<group>"; };
+		7BAC231B19735CB400D2AEA4 /* DubsarModelsSynset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsSynset.m; sourceTree = "<group>"; };
+		7BAC231C19735CB400D2AEA4 /* DubsarModelsWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsWord.h; sourceTree = "<group>"; };
+		7BAC231D19735CB400D2AEA4 /* DubsarModelsWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsWord.m; sourceTree = "<group>"; };
+		7BAC233E19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsDatabaseWrapper.h; sourceTree = "<group>"; };
+		7BAC233F19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsDatabaseWrapper.m; sourceTree = "<group>"; };
 		7BAC2344197361D800D2AEA4 /* URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLEncoding.h; sourceTree = "<group>"; };
 		7BAC2345197361D800D2AEA4 /* URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLEncoding.m; sourceTree = "<group>"; };
-		7BAC235419736CDA00D2AEA4 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
-		7BAC235519736CDA00D2AEA4 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		7BAC235419736CDA00D2AEA4 /* DubsarModelsDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsDatabase.h; sourceTree = "<group>"; };
+		7BAC235519736CDA00D2AEA4 /* DubsarModelsDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsDatabase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,45 +147,45 @@
 		7BAC22E419735C2C00D2AEA4 /* DubsarModels */ = {
 			isa = PBXGroup;
 			children = (
-				7BAC22FE19735CB400D2AEA4 /* Augury.h */,
-				7BAC22FF19735CB400D2AEA4 /* Augury.m */,
-				7BAC230019735CB400D2AEA4 /* Autocompleter.h */,
-				7BAC230119735CB400D2AEA4 /* Autocompleter.m */,
-				7BAC230219735CB400D2AEA4 /* AutocompleterDelegate.h */,
-				7BAC230319735CB400D2AEA4 /* AutocompleterProxy.h */,
-				7BAC230419735CB400D2AEA4 /* AutocompleterProxy.m */,
-				7BAC230519735CB400D2AEA4 /* DailyWord.h */,
-				7BAC230619735CB400D2AEA4 /* DailyWord.m */,
-				7BAC235419736CDA00D2AEA4 /* Database.h */,
-				7BAC235519736CDA00D2AEA4 /* Database.m */,
-				7BAC233E19735CC700D2AEA4 /* DatabaseWrapper.h */,
-				7BAC233F19735CC700D2AEA4 /* DatabaseWrapper.m */,
+				7BAC22FE19735CB400D2AEA4 /* DubsarModelsAugury.h */,
+				7BAC22FF19735CB400D2AEA4 /* DubsarModelsAugury.m */,
+				7BAC230019735CB400D2AEA4 /* DubsarModelsAutocompleter.h */,
+				7BAC230119735CB400D2AEA4 /* DubsarModelsAutocompleter.m */,
+				7BAC230219735CB400D2AEA4 /* DubsarModelsAutocompleterDelegate.h */,
+				7BAC230319735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.h */,
+				7BAC230419735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.m */,
+				7BAC230519735CB400D2AEA4 /* DubsarModelsDailyWord.h */,
+				7BAC230619735CB400D2AEA4 /* DubsarModelsDailyWord.m */,
+				7BAC235419736CDA00D2AEA4 /* DubsarModelsDatabase.h */,
+				7BAC235519736CDA00D2AEA4 /* DubsarModelsDatabase.m */,
+				7BAC233E19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h */,
+				7BAC233F19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m */,
 				7BAC22E719735C2C00D2AEA4 /* DubsarModels.h */,
-				7BAC230719735CB400D2AEA4 /* Inflection.h */,
-				7BAC230819735CB400D2AEA4 /* Inflection.m */,
-				7BAC230919735CB400D2AEA4 /* LoadDelegate.h */,
-				7BAC230A19735CB400D2AEA4 /* Model.h */,
-				7BAC230B19735CB400D2AEA4 /* Model.m */,
-				7BAC230C19735CB400D2AEA4 /* PartOfSpeechDictionary.h */,
-				7BAC230D19735CB400D2AEA4 /* PartOfSpeechDictionary.m */,
-				7BAC230E19735CB400D2AEA4 /* Pointer.h */,
-				7BAC230F19735CB400D2AEA4 /* Pointer.m */,
-				7BAC231019735CB400D2AEA4 /* PointerDictionary.h */,
-				7BAC231119735CB400D2AEA4 /* PointerDictionary.m */,
-				7BAC231219735CB400D2AEA4 /* Review.h */,
-				7BAC231319735CB400D2AEA4 /* Review.m */,
-				7BAC231419735CB400D2AEA4 /* Search.h */,
-				7BAC231519735CB400D2AEA4 /* Search.m */,
-				7BAC231619735CB400D2AEA4 /* Section.h */,
-				7BAC231719735CB400D2AEA4 /* Section.m */,
-				7BAC231819735CB400D2AEA4 /* Sense.h */,
-				7BAC231919735CB400D2AEA4 /* Sense.m */,
-				7BAC231A19735CB400D2AEA4 /* Synset.h */,
-				7BAC231B19735CB400D2AEA4 /* Synset.m */,
+				7BAC230719735CB400D2AEA4 /* DubsarModelsInflection.h */,
+				7BAC230819735CB400D2AEA4 /* DubsarModelsInflection.m */,
+				7BAC230919735CB400D2AEA4 /* DubsarModelsLoadDelegate.h */,
+				7BAC230A19735CB400D2AEA4 /* DubsarModelsModel.h */,
+				7BAC230B19735CB400D2AEA4 /* DubsarModelsModel.m */,
+				7BAC230C19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.h */,
+				7BAC230D19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.m */,
+				7BAC230E19735CB400D2AEA4 /* DubsarModelsPointer.h */,
+				7BAC230F19735CB400D2AEA4 /* DubsarModelsPointer.m */,
+				7BAC231019735CB400D2AEA4 /* DubsarModelsPointerDictionary.h */,
+				7BAC231119735CB400D2AEA4 /* DubsarModelsPointerDictionary.m */,
+				7BAC231219735CB400D2AEA4 /* DubsarModelsReview.h */,
+				7BAC231319735CB400D2AEA4 /* DubsarModelsReview.m */,
+				7BAC231419735CB400D2AEA4 /* DubsarModelsSearch.h */,
+				7BAC231519735CB400D2AEA4 /* DubsarModelsSearch.m */,
+				7BAC231619735CB400D2AEA4 /* DubsarModelsSection.h */,
+				7BAC231719735CB400D2AEA4 /* DubsarModelsSection.m */,
+				7BAC231819735CB400D2AEA4 /* DubsarModelsSense.h */,
+				7BAC231919735CB400D2AEA4 /* DubsarModelsSense.m */,
+				7BAC231A19735CB400D2AEA4 /* DubsarModelsSynset.h */,
+				7BAC231B19735CB400D2AEA4 /* DubsarModelsSynset.m */,
 				7BAC2344197361D800D2AEA4 /* URLEncoding.h */,
 				7BAC2345197361D800D2AEA4 /* URLEncoding.m */,
-				7BAC231C19735CB400D2AEA4 /* Word.h */,
-				7BAC231D19735CB400D2AEA4 /* Word.m */,
+				7BAC231C19735CB400D2AEA4 /* DubsarModelsWord.h */,
+				7BAC231D19735CB400D2AEA4 /* DubsarModelsWord.m */,
 				7BAC22E519735C2C00D2AEA4 /* Supporting Files */,
 			);
 			path = DubsarModels;
@@ -223,25 +223,25 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BAC235619736CDA00D2AEA4 /* Database.h in Headers */,
-				7BAC233019735CB400D2AEA4 /* PointerDictionary.h in Headers */,
-				7BAC232E19735CB400D2AEA4 /* Pointer.h in Headers */,
-				7BAC233419735CB400D2AEA4 /* Search.h in Headers */,
-				7BAC232219735CB400D2AEA4 /* AutocompleterDelegate.h in Headers */,
-				7BAC232019735CB400D2AEA4 /* Autocompleter.h in Headers */,
-				7BAC232519735CB400D2AEA4 /* DailyWord.h in Headers */,
-				7BAC232319735CB400D2AEA4 /* AutocompleterProxy.h in Headers */,
-				7BAC232719735CB400D2AEA4 /* Inflection.h in Headers */,
-				7BAC233A19735CB400D2AEA4 /* Synset.h in Headers */,
-				7BAC233219735CB400D2AEA4 /* Review.h in Headers */,
-				7BAC232A19735CB400D2AEA4 /* Model.h in Headers */,
-				7BAC233819735CB400D2AEA4 /* Sense.h in Headers */,
-				7BAC233619735CB400D2AEA4 /* Section.h in Headers */,
-				7BAC231E19735CB400D2AEA4 /* Augury.h in Headers */,
-				7BAC232C19735CB400D2AEA4 /* PartOfSpeechDictionary.h in Headers */,
-				7BAC233C19735CB400D2AEA4 /* Word.h in Headers */,
-				7BAC232919735CB400D2AEA4 /* LoadDelegate.h in Headers */,
-				7BAC234019735CC700D2AEA4 /* DatabaseWrapper.h in Headers */,
+				7BAC235619736CDA00D2AEA4 /* DubsarModelsDatabase.h in Headers */,
+				7BAC233019735CB400D2AEA4 /* DubsarModelsPointerDictionary.h in Headers */,
+				7BAC232E19735CB400D2AEA4 /* DubsarModelsPointer.h in Headers */,
+				7BAC233419735CB400D2AEA4 /* DubsarModelsSearch.h in Headers */,
+				7BAC232219735CB400D2AEA4 /* DubsarModelsAutocompleterDelegate.h in Headers */,
+				7BAC232019735CB400D2AEA4 /* DubsarModelsAutocompleter.h in Headers */,
+				7BAC232519735CB400D2AEA4 /* DubsarModelsDailyWord.h in Headers */,
+				7BAC232319735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.h in Headers */,
+				7BAC232719735CB400D2AEA4 /* DubsarModelsInflection.h in Headers */,
+				7BAC233A19735CB400D2AEA4 /* DubsarModelsSynset.h in Headers */,
+				7BAC233219735CB400D2AEA4 /* DubsarModelsReview.h in Headers */,
+				7BAC232A19735CB400D2AEA4 /* DubsarModelsModel.h in Headers */,
+				7BAC233819735CB400D2AEA4 /* DubsarModelsSense.h in Headers */,
+				7BAC233619735CB400D2AEA4 /* DubsarModelsSection.h in Headers */,
+				7BAC231E19735CB400D2AEA4 /* DubsarModelsAugury.h in Headers */,
+				7BAC232C19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.h in Headers */,
+				7BAC233C19735CB400D2AEA4 /* DubsarModelsWord.h in Headers */,
+				7BAC232919735CB400D2AEA4 /* DubsarModelsLoadDelegate.h in Headers */,
+				7BAC234019735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h in Headers */,
 				7BAC2346197361D800D2AEA4 /* URLEncoding.h in Headers */,
 				7BAC22E819735C2C00D2AEA4 /* DubsarModels.h in Headers */,
 			);
@@ -292,6 +292,7 @@
 		7BAC22D919735C2C00D2AEA4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = DubsarModels;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Dubsar Dictionary Project";
 				TargetAttributes = {
@@ -344,24 +345,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BAC233119735CB400D2AEA4 /* PointerDictionary.m in Sources */,
-				7BAC233B19735CB400D2AEA4 /* Synset.m in Sources */,
-				7BAC234119735CC700D2AEA4 /* DatabaseWrapper.m in Sources */,
-				7BAC233919735CB400D2AEA4 /* Sense.m in Sources */,
-				7BAC232D19735CB400D2AEA4 /* PartOfSpeechDictionary.m in Sources */,
-				7BAC232119735CB400D2AEA4 /* Autocompleter.m in Sources */,
-				7BAC233D19735CB400D2AEA4 /* Word.m in Sources */,
-				7BAC233519735CB400D2AEA4 /* Search.m in Sources */,
-				7BAC232619735CB400D2AEA4 /* DailyWord.m in Sources */,
-				7BAC233719735CB400D2AEA4 /* Section.m in Sources */,
-				7BAC232819735CB400D2AEA4 /* Inflection.m in Sources */,
-				7BAC232B19735CB400D2AEA4 /* Model.m in Sources */,
-				7BAC232F19735CB400D2AEA4 /* Pointer.m in Sources */,
+				7BAC233119735CB400D2AEA4 /* DubsarModelsPointerDictionary.m in Sources */,
+				7BAC233B19735CB400D2AEA4 /* DubsarModelsSynset.m in Sources */,
+				7BAC234119735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m in Sources */,
+				7BAC233919735CB400D2AEA4 /* DubsarModelsSense.m in Sources */,
+				7BAC232D19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.m in Sources */,
+				7BAC232119735CB400D2AEA4 /* DubsarModelsAutocompleter.m in Sources */,
+				7BAC233D19735CB400D2AEA4 /* DubsarModelsWord.m in Sources */,
+				7BAC233519735CB400D2AEA4 /* DubsarModelsSearch.m in Sources */,
+				7BAC232619735CB400D2AEA4 /* DubsarModelsDailyWord.m in Sources */,
+				7BAC233719735CB400D2AEA4 /* DubsarModelsSection.m in Sources */,
+				7BAC232819735CB400D2AEA4 /* DubsarModelsInflection.m in Sources */,
+				7BAC232B19735CB400D2AEA4 /* DubsarModelsModel.m in Sources */,
+				7BAC232F19735CB400D2AEA4 /* DubsarModelsPointer.m in Sources */,
 				7BAC2347197361D800D2AEA4 /* URLEncoding.m in Sources */,
-				7BAC232419735CB400D2AEA4 /* AutocompleterProxy.m in Sources */,
-				7BAC231F19735CB400D2AEA4 /* Augury.m in Sources */,
-				7BAC235719736CDA00D2AEA4 /* Database.m in Sources */,
-				7BAC233319735CB400D2AEA4 /* Review.m in Sources */,
+				7BAC232419735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.m in Sources */,
+				7BAC231F19735CB400D2AEA4 /* DubsarModelsAugury.m in Sources */,
+				7BAC235719736CDA00D2AEA4 /* DubsarModelsDatabase.m in Sources */,
+				7BAC233319735CB400D2AEA4 /* DubsarModelsReview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

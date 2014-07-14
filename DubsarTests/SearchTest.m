@@ -49,7 +49,7 @@
 
 -(void)testExactInflectionMatch
 {
-    Search* search = [Search searchWithTerm:@"recommended" matchCase:NO];
+    DubsarModelsSearch* search = [DubsarModelsSearch searchWithTerm:@"recommended" matchCase:NO];
     [search loadResults:self.database];
     
     NSLog(@"search for recommended returned %d results", search.results.count);
@@ -58,7 +58,7 @@
 
 -(void)testInitialization
 {
-    Search* a = [[Search alloc]init];
+    DubsarModelsSearch* a = [[DubsarModelsSearch alloc]init];
     XCTAssertTrue(!a.complete, @"complete failed");
     XCTAssertTrue(!a.error, @"error failed");
 }

@@ -27,7 +27,7 @@
 {
     NSString* stringData = @"[ \"li\", [ \"like\", \"link\", \"lion\" ] ]";
     
-    Autocompleter* autocompleter = [Autocompleter autocompleterWithTerm:@"li" matchCase:NO];
+    DubsarModelsAutocompleter* autocompleter = [DubsarModelsAutocompleter autocompleterWithTerm:@"li" matchCase:NO];
     autocompleter.data = [self.class dataWithString:stringData];
     [autocompleter parseData];
     
@@ -40,7 +40,7 @@
 
 -(void)testInitialization
 {
-    Autocompleter* a = [[Autocompleter alloc]init];
+    DubsarModelsAutocompleter* a = [[DubsarModelsAutocompleter alloc]init];
     XCTAssertTrue(!a.complete, @"complete failed");
     XCTAssertTrue(!a.error, @"error failed");
 }

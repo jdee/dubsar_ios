@@ -55,7 +55,7 @@
 
 - (void)testHelp
 {
-    PointerDictionary* dictionary = [PointerDictionary instance];
+    DubsarModelsPointerDictionary* dictionary = [DubsarModelsPointerDictionary instance];
     
     XCTAssertNotNil(dictionary, @"PointerDictionary should not be nil");
     XCTAssertNotNil(dictionary.helpDictionary, @"help dictionary should not be nil");
@@ -96,7 +96,7 @@
 
 - (void)testTitles
 {
-    PointerDictionary* dictionary = [PointerDictionary instance];
+    DubsarModelsPointerDictionary* dictionary = [DubsarModelsPointerDictionary instance];
     
     XCTAssertNotNil(dictionary, @"PointerDictionary should not be nil");
     XCTAssertNotNil(dictionary.titleDictionary, @"title dictionary should not be nil");
@@ -137,13 +137,13 @@
 
 - (void)singleHelpCase:(NSString *)ptype expected:(NSString *)expected
 {
-    NSString* help = [PointerDictionary helpWithPointerType:ptype];
+    NSString* help = [DubsarModelsPointerDictionary helpWithPointerType:ptype];
     XCTAssertTrue([help isEqualToString:expected], @"expected help text for \"%@\" to be \"%@\", found \"%@\"", ptype, expected, help);
 }
 
 - (void)singleTitleCase:(NSString *)ptype expected:(NSString *)expected
 {
-    NSString* title = [PointerDictionary titleWithPointerType:ptype];
+    NSString* title = [DubsarModelsPointerDictionary titleWithPointerType:ptype];
     XCTAssertTrue([title isEqualToString:expected], @"expected title text for \"%@\" to be \"%@\", found \"%@\"", ptype, expected, title);    
 }
 

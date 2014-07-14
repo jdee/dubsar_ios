@@ -9,7 +9,7 @@
  
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURDubsarModelsPartOfSpeechE.  See the
  GNU General Public License for more details.
  
  You should have received a copy of the GNU General Public License
@@ -27,7 +27,7 @@
 {
     NSString* stringData = @"[21803,\"n\",\"noun.Tops\",\"synset gloss\",[],[[35629,\"food\",null,29],[35630,\"nutrient\",null,1]],30,[[\"hypernym\",\"synset\",21801,\"substance\",\"hypernym gloss\"]]]";
     
-    Synset* synset = [Synset synsetWithId:21803 gloss:@"synset gloss" partOfSpeech:POSNoun];
+    DubsarModelsSynset* synset = [DubsarModelsSynset synsetWithId:21803 gloss:@"synset gloss" partOfSpeech:DubsarModelsPartOfSpeechNoun];
     synset.data = [self.class dataWithString:stringData];
     [synset parseData];
     
@@ -41,7 +41,7 @@
 
 -(void)testInitialization
 {
-    Synset* a = [[Synset alloc]init];
+    DubsarModelsSynset* a = [[DubsarModelsSynset alloc]init];
     XCTAssertTrue(!a.complete, @"complete failed");
     XCTAssertTrue(!a.error, @"error failed");
 }

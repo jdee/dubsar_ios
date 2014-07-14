@@ -9,7 +9,7 @@
  
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURDubsarModelsPartOfSpeechE.  See the
  GNU General Public License for more details.
  
  You should have received a copy of the GNU General Public License
@@ -28,12 +28,12 @@
     NSString* stringData = @"[35629,[26063,\"food\",\"n\"],[21803,\"sense gloss\"],\"noun.Tops\",null,29,[[35630,\"nutrient\",null,1]],[],[],[[\"hypernym\",\"synset\",21801,\"substance\",\"hypernym gloss\"]]]";
     
     /* This resembles the way senses are parsed in word responses. */
-    Word* word = [Word wordWithId:26063 name:@"food" partOfSpeech:POSNoun];
+    DubsarModelsWord* word = [DubsarModelsWord wordWithId:26063 name:@"food" partOfSpeech:DubsarModelsPartOfSpeechNoun];
 
-    Sense* synSense = [Sense senseWithId:35630 name:@"nutrient" partOfSpeech:POSNoun];
+    DubsarModelsSense* synSense = [DubsarModelsSense senseWithId:35630 name:@"nutrient" partOfSpeech:DubsarModelsPartOfSpeechNoun];
     NSMutableArray* synonyms = [NSMutableArray arrayWithObject:synSense];
     
-    Sense* sense =[Sense senseWithId:35629 gloss:@"sense gloss" synonyms:synonyms word:word]; 
+    DubsarModelsSense* sense =[DubsarModelsSense senseWithId:35629 gloss:@"sense gloss" synonyms:synonyms word:word];
     sense.data = [self.class dataWithString:stringData];
     NSLog(@"sense.data: %u bytes", sense.data.length);
     [sense parseData];
@@ -41,7 +41,7 @@
     // word
     XCTAssertEqual(26063, sense.word._id, @"word ID failed");
     XCTAssertEqualObjects(@"food", sense.word.name, @"word name failed");
-    XCTAssertEqual(POSNoun, sense.word.partOfSpeech, @"word partOfSpeech failed");
+    XCTAssertEqual(DubsarModelsPartOfSpeechNoun, sense.word.partOfSpeech, @"word partOfSpeech failed");
 
     // synset
     XCTAssertEqual(21803, sense.synset._id, @"synset ID failed");
@@ -88,14 +88,14 @@
 -(void)testNameAndPosParsing
 {
     NSString* nameAndPos = @"beauty (n.)";
-    Sense* sense = [Sense senseWithId:1 nameAndPos:nameAndPos];
+    DubsarModelsSense* sense = [DubsarModelsSense senseWithId:1 nameAndPos:nameAndPos];
     XCTAssertEqualObjects(@"beauty", sense.name, @"name failed");
-    XCTAssertEqual(POSNoun, sense.partOfSpeech, @"part of speech failed");
+    XCTAssertEqual(DubsarModelsPartOfSpeechNoun, sense.partOfSpeech, @"part of speech failed");
 }
 
 -(void)testInitialization
 {
-    Sense* a = [[Sense alloc]init];
+    DubsarModelsSense* a = [[DubsarModelsSense alloc]init];
     XCTAssertTrue(!a.complete, @"complete failed");
     XCTAssertTrue(!a.error, @"error failed");
 }

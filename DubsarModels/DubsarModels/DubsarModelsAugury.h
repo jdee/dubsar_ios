@@ -1,6 +1,6 @@
 /*
  Dubsar Dictionary Project
- Copyright (C) 2010-13 Jimmy Dee
+ Copyright (C) 2010-14 Jimmy Dee
  
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -17,19 +17,25 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-//  See Also: http://developer.apple.com/iphone/library/documentation/Xcode/Conceptual/iphone_development/135-Unit_Testing_Applications/unit_testing_applications.html
+#import "DubsarModels/DubsarModelsModel.h"
 
-//  Application unit tests contain unit test code that must be injected into an application to run correctly.
-//  Define USE_APPLICATION_UNIT_TEST to 0 if the unit test code is designed to be linked into an independent test executable.
+@class DubsarModelsWord;
 
-@import XCTest;
-@import UIKit;
-@import DubsarModels;
+@interface DubsarModelsAugury : DubsarModelsModel
 
-@interface ModelTestCase : XCTestCase
++ (instancetype) augury;
 
-@property (nonatomic, strong) DubsarModelsDatabaseWrapper* database;
+- (instancetype) init;
+- (DubsarModelsWord*) randomVerb;
+- (NSString*) infinitive;
+- (NSString*) somebody;
+- (NSString*) thirdPersonSingularForId:(int)verbId;
 
-+ (NSMutableData*) dataWithString:(NSString*)stringData;
+- (void) type1:(int)frameId;
+- (void) type2:(int)frameId;
+
+- (NSString*)randomVerbForFrame:(int)frameNo;
+
+@property (nonatomic, copy) NSString* text;
 
 @end

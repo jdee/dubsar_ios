@@ -9,7 +9,7 @@
  
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURDubsarModelsPartOfSpeechE.  See the
  GNU General Public License for more details.
  
  You should have received a copy of the GNU General Public License
@@ -27,13 +27,13 @@
 {
     NSString* stringData = @"[26063,\"food\",\"n\",\"foods\",[[35629,[[35630,\"nutrient\"]],\"any substance that can be metabolized by an animal to give energy and build tissue  \",\"noun.Tops\",null,29]],29]";
     
-    Word* word =[Word wordWithId:26063 name:@"food" partOfSpeech:POSNoun]; 
+    DubsarModelsWord* word =[DubsarModelsWord wordWithId:26063 name:@"food" partOfSpeech:DubsarModelsPartOfSpeechNoun];
     word.data = [self.class dataWithString:stringData];
     [word parseData];
         
     XCTAssertEqual((unsigned int)1, word.senses.count, @"expected 1 sense, got %u", word.senses.count);
     
-    Sense* sense = [word.senses objectAtIndex:0];
+    DubsarModelsSense* sense = [word.senses objectAtIndex:0];
     
     XCTAssertEqual(35629, sense._id, @"expected 35629, found %d", word._id);
     XCTAssertEqualObjects(@"nutrient", sense.synonymsAsString, @"expected \"nutrient\", found \"%@\"", sense.synonymsAsString);
@@ -46,7 +46,7 @@
 
 -(void)testInitialization
 {
-    Word* a = [[Word alloc]init];
+    DubsarModelsWord* a = [[DubsarModelsWord alloc]init];
     XCTAssertTrue(!a.complete, @"complete failed");
     XCTAssertTrue(!a.error, @"error failed");
 }
