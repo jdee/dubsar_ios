@@ -28,7 +28,7 @@
 @property time_t expiration;
 
 + (instancetype)dailyWord;
-+ (void)updateWotdId:(int)wotdId expiration:(time_t)expiration;
++ (void)updateWotdId:(NSInteger)wotdId expiration:(time_t)expiration;
 + (void)resetWotd;
 
 @property (NS_NONATOMIC_IOSONLY, readonly) bool loadFromUserDefaults;

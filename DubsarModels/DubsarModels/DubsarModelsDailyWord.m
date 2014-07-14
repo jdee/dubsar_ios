@@ -35,7 +35,7 @@
     return [[self alloc] init];
 }
 
-+ (void)updateWotdId:(int)wotdId expiration:(time_t)expiration
++ (void)updateWotdId:(NSInteger)wotdId expiration:(time_t)expiration
 {
     if (expiration < time(NULL)) {
         /*

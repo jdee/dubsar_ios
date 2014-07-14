@@ -17,6 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+import DubsarModels
 import UIKit
 
 @UIApplicationMain
@@ -25,6 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     var window: UIWindow?
     var alertURL: NSURL?
     let dubsar = "dubsar"
+
+    class var instance : AppDelegate {
+        get {
+            return UIApplication.sharedApplication().delegate as AppDelegate
+        }
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
@@ -69,9 +76,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         // Custom (Dubsar) payload handling
         let dubsarPayload = notification?.objectForKey(dubsar) as? NSDictionary
         let url = dubsarPayload?.objectForKey("url") as? NSString
+        let type = dubsarPayload?.objectForKey("type") as? NSString
         var nsurl : NSURL?
         if url {
             nsurl = NSURL(string:url)
+            if type == "wotd" {
+                updateWotdByUrl(nsurl, withExpiration: dubsarPayload?.objectForKey("expiration"))
+            }
         }
 
         // Standard APNS payload handling
@@ -106,13 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             let last = url.lastPathComponent as NSString
             localId = last.intValue
 
-            /* Alternately, without resort to NSString
-            let scanner = NSScanner(string: url.lastPathComponent)
-            scanner.scanInt(&localId)
-            // */
-
             wotdId = Int(localId)
-            NSLog("The WOTD ID is %d", wotdId)
         }
 
         return true
@@ -131,22 +136,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     }
 
     func showAlert(message: String?) {
-        if message {
-            // https://devforums.apple.com/message/973043#973043
-            let alert = UIAlertView()
-            alert.title = "Word of the Day"
-            alert.message = message
-            alert.addButtonWithTitle("OK")
-            if alertURL {
-                alert.addButtonWithTitle("More")
-            }
-            alert.cancelButtonIndex = 0
-            alert.show()
-            alert.delegate = self
+        assert(message)
+        // https://devforums.apple.com/message/973043#973043
+        let alert = UIAlertView()
+        alert.title = "Word of the Day"
+        alert.message = message
+        alert.addButtonWithTitle("OK")
+        if alertURL {
+            alert.addButtonWithTitle("More")
         }
-        else {
-            NSLog("nil message received")
-        }
+        alert.cancelButtonIndex = 0
+        alert.show()
+        alert.delegate = self
     }
 
     func alertView(alertView: UIAlertView, clickedButtonAtIndex index: Int) {
@@ -171,5 +172,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         }
 
     }
+
+    func updateWotdByUrl(url: NSURL!, withExpiration expiration: AnyObject?) {
+        let last = url.lastPathComponent as NSString
+        let wotdId = Int(last.intValue)
+
+        if let nsexpiration = expiration as? NSString {
+            var texpiration : time_t = 0
+
+            if nsexpiration.hasPrefix("+") {
+                // relative value if begins with a +
+                time(&texpiration)
+            }
+
+            texpiration += time_t(nsexpiration.intValue)
+
+            DubsarModelsDailyWord.updateWotdId(wotdId, expiration: texpiration)
+        }
+   }
 }
 
