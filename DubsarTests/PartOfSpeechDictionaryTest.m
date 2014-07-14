@@ -30,33 +30,33 @@
     XCTAssertNotNil(dictionary, @"PartOfSpeechDictionary should not be nil");
     XCTAssertNotNil(dictionary.dictionary, @"NSDictionary should not be nil");
     
-    XCTAssertEqual((unsigned int)8, dictionary.dictionary.count, @"expected dictionary to have 8 entries, found %d", dictionary.dictionary.count);
+    XCTAssertEqual((unsigned int)8, dictionary.dictionary.count, @"expected dictionary to have 8 entries, found %lu", (unsigned long)dictionary.dictionary.count);
     
     DubsarModelsPartOfSpeech partOfSpeech;
     
     partOfSpeech = [dictionary partOfSpeechFromPOS:@"adj"];
-    XCTAssertEqual(DubsarModelsPartOfSpeechAdjective, partOfSpeech, @"expected POSAdjective, found %d", partOfSpeech);
+    XCTAssertEqual(DubsarModelsPartOfSpeechAdjective, partOfSpeech, @"expected POSAdjective, found %ld", partOfSpeech);
     
     partOfSpeech = [dictionary partOfSpeechFromPOS:@"adv"];
-    XCTAssertEqual(DubsarModelsPartOfSpeechAdverb, partOfSpeech, @"expected POSAdverb, found %d", partOfSpeech);
+    XCTAssertEqual(DubsarModelsPartOfSpeechAdverb, partOfSpeech, @"expected POSAdverb, found %ld", partOfSpeech);
     
     partOfSpeech = [dictionary partOfSpeechFromPOS:@"conj"];
-    XCTAssertEqual(DubsarModelsPartOfSpeechConjunction, partOfSpeech, @"expected POSConjunction, found %d", partOfSpeech);
+    XCTAssertEqual(DubsarModelsPartOfSpeechConjunction, partOfSpeech, @"expected POSConjunction, found %ld", partOfSpeech);
     
     partOfSpeech = [dictionary partOfSpeechFromPOS:@"interj"];
-    XCTAssertEqual(DubsarModelsPartOfSpeechInterjection, partOfSpeech, @"expected POSInterjection, found %d", partOfSpeech);
+    XCTAssertEqual(DubsarModelsPartOfSpeechInterjection, partOfSpeech, @"expected POSInterjection, found %ld", partOfSpeech);
     
     partOfSpeech = [dictionary partOfSpeechFromPOS:@"n"];
-    XCTAssertEqual(DubsarModelsPartOfSpeechNoun, partOfSpeech, @"expected POSNoun, found %d", partOfSpeech);
+    XCTAssertEqual(DubsarModelsPartOfSpeechNoun, partOfSpeech, @"expected POSNoun, found %ld", partOfSpeech);
     
     partOfSpeech = [dictionary partOfSpeechFromPOS:@"prep"];
-    XCTAssertEqual(DubsarModelsPartOfSpeechPreposition, partOfSpeech, @"expected POSPreposition, found %d", partOfSpeech);
+    XCTAssertEqual(DubsarModelsPartOfSpeechPreposition, partOfSpeech, @"expected POSPreposition, found %ld", partOfSpeech);
     
     partOfSpeech = [dictionary partOfSpeechFromPOS:@"pron"];
-    XCTAssertEqual(DubsarModelsPartOfSpeechPronoun, partOfSpeech, @"expected POSPronoun, found %d", partOfSpeech);
+    XCTAssertEqual(DubsarModelsPartOfSpeechPronoun, partOfSpeech, @"expected POSPronoun, found %ld", partOfSpeech);
     
     partOfSpeech = [dictionary partOfSpeechFromPOS:@"v"];
-    XCTAssertEqual(DubsarModelsPartOfSpeechVerb, partOfSpeech, @"expected POSVerb, found %d", partOfSpeech);
+    XCTAssertEqual(DubsarModelsPartOfSpeechVerb, partOfSpeech, @"expected POSVerb, found %ld", partOfSpeech);
 }
 
 - (void)testReverseMapping

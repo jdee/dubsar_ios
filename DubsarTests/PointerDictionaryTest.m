@@ -60,7 +60,7 @@
     XCTAssertNotNil(dictionary, @"PointerDictionary should not be nil");
     XCTAssertNotNil(dictionary.helpDictionary, @"help dictionary should not be nil");
     
-    XCTAssertEqual((unsigned int)30, dictionary.helpDictionary.count, @"expected 29 entries in help dictionary, found %d", dictionary.helpDictionary.count);
+    XCTAssertEqual((unsigned int)30, dictionary.helpDictionary.count, @"expected 29 entries in help dictionary, found %lu", (unsigned long)dictionary.helpDictionary.count);
     
     [self singleHelpCase:@"antonym" expected:@"words opposite in meaning"];
     [self singleHelpCase:@"hypernym" expected:@"more generic terms"];
@@ -101,7 +101,7 @@
     XCTAssertNotNil(dictionary, @"PointerDictionary should not be nil");
     XCTAssertNotNil(dictionary.titleDictionary, @"title dictionary should not be nil");
     
-    XCTAssertEqual((unsigned int)30, dictionary.titleDictionary.count, @"expected 29 entries in title dictionary, found %d", dictionary.titleDictionary.count);
+    XCTAssertEqual((unsigned int)30, dictionary.titleDictionary.count, @"expected 29 entries in title dictionary, found %lu", (unsigned long)dictionary.titleDictionary.count);
     
     [self singleTitleCase:@"antonym" expected:@"Antonyms"];
     [self singleTitleCase:@"hypernym" expected:@"Hypernyms"];

@@ -52,7 +52,7 @@
     DubsarModelsSearch* search = [DubsarModelsSearch searchWithTerm:@"recommended" matchCase:NO];
     [search loadResults:self.database];
     
-    NSLog(@"search for recommended returned %d results", search.results.count);
+    NSLog(@"search for recommended returned %lu results", (unsigned long)search.results.count);
     // XCTAssertEquals((unsigned int)1, search.results.count, @"search count failed");
 }
 

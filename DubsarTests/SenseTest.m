@@ -35,7 +35,7 @@
     
     DubsarModelsSense* sense =[DubsarModelsSense senseWithId:35629 gloss:@"sense gloss" synonyms:synonyms word:word];
     sense.data = [self.class dataWithString:stringData];
-    NSLog(@"sense.data: %u bytes", sense.data.length);
+    NSLog(@"sense.data: %lu bytes", (unsigned long)sense.data.length);
     [sense parseData];
     
     // word

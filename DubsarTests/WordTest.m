@@ -31,17 +31,17 @@
     word.data = [self.class dataWithString:stringData];
     [word parseData];
         
-    XCTAssertEqual((unsigned int)1, word.senses.count, @"expected 1 sense, got %u", word.senses.count);
+    XCTAssertEqual((unsigned int)1, word.senses.count, @"expected 1 sense, got %lu", (unsigned long)word.senses.count);
     
     DubsarModelsSense* sense = (word.senses)[0];
     
-    XCTAssertEqual(35629, sense._id, @"expected 35629, found %d", word._id);
+    XCTAssertEqual(35629, sense._id, @"expected 35629, found %lu", (unsigned long)word._id);
     XCTAssertEqualObjects(@"nutrient", sense.synonymsAsString, @"expected \"nutrient\", found \"%@\"", sense.synonymsAsString);
     XCTAssertEqualObjects(@"any substance that can be metabolized by an animal to give energy and build tissue  ", sense.gloss, @"gloss failure");
     XCTAssertEqualObjects(@"noun.Tops", sense.lexname, @"expected \"noun.Tops\", found \"%@\"", sense.lexname);
     XCTAssertNil(sense.marker, @"expected nil sense marker, found non-nil");
     XCTAssertEqual(29, sense.freqCnt, @"expected 29, found %d", sense.freqCnt);
-    XCTAssertEqual(29, word.freqCnt, @"expected 29, found %d", word.freqCnt);
+    XCTAssertEqual(29, word.freqCnt, @"expected 29, found %lu", (unsigned long)word.freqCnt);
 }
 
 -(void)testInitialization
