@@ -115,7 +115,16 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="44b-jM-WHs"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="1dc-jo-3op">
+                                <rect key="frame" x="20" y="78" width="440" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Pof-YP-dAU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -124,8 +133,11 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="OXP-Pz-Sb0" secondAttribute="trailing" constant="20" id="15p-dJ-qjf"/>
                             <constraint firstItem="OXP-Pz-Sb0" firstAttribute="leading" secondItem="071-Zf-E3M" secondAttribute="leading" constant="20" id="5O4-d3-R9Y"/>
+                            <constraint firstItem="1dc-jo-3op" firstAttribute="top" secondItem="Eqv-KO-lgh" secondAttribute="bottom" constant="8" id="AjP-48-7jI"/>
                             <constraint firstItem="Eqv-KO-lgh" firstAttribute="top" secondItem="OXP-Pz-Sb0" secondAttribute="bottom" constant="8" id="HkO-6g-sZr"/>
                             <constraint firstItem="OXP-Pz-Sb0" firstAttribute="top" secondItem="071-Zf-E3M" secondAttribute="top" constant="20" id="Lij-cU-npI"/>
+                            <constraint firstAttribute="trailing" secondItem="1dc-jo-3op" secondAttribute="trailing" constant="20" id="RKF-fv-aHb"/>
+                            <constraint firstItem="1dc-jo-3op" firstAttribute="leading" secondItem="071-Zf-E3M" secondAttribute="leading" constant="20" id="Vnr-SH-6K0"/>
                             <constraint firstAttribute="trailing" secondItem="Eqv-KO-lgh" secondAttribute="trailing" constant="20" id="plJ-r5-NkW"/>
                             <constraint firstItem="Eqv-KO-lgh" firstAttribute="leading" secondItem="071-Zf-E3M" secondAttribute="leading" constant="20" id="z1q-3n-WbQ"/>
                         </constraints>
@@ -134,6 +146,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Word" id="Sb8-7a-c1Z"/>
                     <connections>
+                        <outlet property="freqCntLabel" destination="1dc-jo-3op" id="BG7-yr-F5a"/>
                         <outlet property="inflectionsLabel" destination="Eqv-KO-lgh" id="c6R-aA-9nJ"/>
                         <outlet property="nameAndPosLabel" destination="OXP-Pz-Sb0" id="vWi-Jb-Qyc"/>
                     </connections>

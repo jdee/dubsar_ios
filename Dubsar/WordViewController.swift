@@ -24,6 +24,7 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate {
 
     @IBOutlet var nameAndPosLabel : UILabel
     @IBOutlet var inflectionsLabel : UILabel
+    @IBOutlet var freqCntLabel : UILabel
 
     var word : DubsarModelsWord!
 
@@ -54,7 +55,7 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate {
         var inflectionText = ""
 
         // the compiler and the sourcekit crap out if I try to do
-        // for inflection in inflections
+        // for (j, inflection: DubsarModelsInflection!) in enumerate(inflections as Array) // or whatever; nothing like this works
         for var j=0; j<inflections.count; ++j {
             let inflection = inflections[j] as DubsarModelsInflection
 
@@ -67,5 +68,9 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate {
         }
 
         inflectionsLabel.text = inflectionText
+
+        if word.freqCnt > 0 {
+            freqCntLabel.text = String(format: "freq. cnt. %d", word.freqCnt)
+        }
     }
 }
