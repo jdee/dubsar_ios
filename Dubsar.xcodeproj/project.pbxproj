@@ -10,6 +10,7 @@
 		7B1152011974340900869E15 /* DubsarServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1152001974340900869E15 /* DubsarServer.m */; };
 		7B115203197435C100869E15 /* client_secret.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B115202197435C100869E15 /* client_secret.txt */; };
 		7B1B4E79197450F5008F38BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
+		7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B4E7A19747EB6008F38BF /* WordViewController.swift */; };
 		7B670D0A1973851300E83937 /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D091973851300E83937 /* production.sqlite3 */; };
 		7B670D0D1973851F00E83937 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0B1973851F00E83937 /* iTunesArtwork */; };
 		7B670D0E1973851F00E83937 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0C1973851F00E83937 /* iTunesArtwork@2x */; };
@@ -77,6 +78,7 @@
 		7B1151FF1974340900869E15 /* DubsarServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarServer.h; sourceTree = "<group>"; };
 		7B1152001974340900869E15 /* DubsarServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarServer.m; sourceTree = "<group>"; };
 		7B115202197435C100869E15 /* client_secret.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = client_secret.txt; sourceTree = "<group>"; };
+		7B1B4E7A19747EB6008F38BF /* WordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordViewController.swift; sourceTree = "<group>"; };
 		7B670D091973851300E83937 /* production.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = production.sqlite3; sourceTree = SOURCE_ROOT; };
 		7B670D0B1973851F00E83937 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		7B670D0C1973851F00E83937 /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */,
 				7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */,
 				7BAC226019732D6C00D2AEA4 /* MainViewController.swift */,
+				7B1B4E7A19747EB6008F38BF /* WordViewController.swift */,
 				7BAC226219732D6C00D2AEA4 /* Main.storyboard */,
 				7BAC226519732D6C00D2AEA4 /* Images.xcassets */,
 				7BAC225C19732D6C00D2AEA4 /* Supporting Files */,
@@ -345,6 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */,
 				7B1152011974340900869E15 /* DubsarServer.m in Sources */,
 				7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */,
 				7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */,

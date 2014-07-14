@@ -24,40 +24,38 @@ class MainViewController: UIViewController, UIAlertViewDelegate, DubsarModelsLoa
 
     @IBOutlet var versionLabel : UILabel
     @IBOutlet var wotdButton : UIButton
-                            
+
+    var wotd : DubsarModelsDailyWord!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let version = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey) as? String
 
         versionLabel.text = "Version \(version)"
+
+        wotd = DubsarModelsDailyWord()
+        wotd.delegate = self
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let wotd = DubsarModelsDailyWord()
-        wotd.delegate = self
         wotd.load()
     }
 
     func loadComplete(model: DubsarModelsModel!, withError error: String?) {
-        /*
-         * Model should never be nil, but error usually will. The generated Swift makes the second argument
-         * a String!. Can I just redeclare it? Or can I tell the compiler to wrap the second argument as
-         * a wrapped optional?
-         */
         if let errorMessage = error {
             NSLog("error: %@", errorMessage)
             return
         }
 
-        if let wotd = model as? DubsarModelsDailyWord {
+        if let dailyWord = model as? DubsarModelsDailyWord {
             /*
              * First determine the ID of the WOTD by consulting the user defaults or requesting
              * from the server. Once we have that, load the actual word entry for info to display.
              */
-            wotd.word.delegate = self
-            wotd.word.load()
+            dailyWord.word.delegate = self
+            dailyWord.word.load()
         }
         else if let word = model as? DubsarModelsWord {
             /*
@@ -67,5 +65,11 @@ class MainViewController: UIViewController, UIAlertViewDelegate, DubsarModelsLoa
             wotdButton.setTitle(word.nameAndPos, forState: .Normal)
         }
 
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+        if let viewController = segue.destinationViewController as? WordViewController {
+            viewController.word = wotd.word
+        }
     }
 }

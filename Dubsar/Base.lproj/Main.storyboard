@@ -50,6 +50,9 @@
                                 <state key="normal" title="loading...">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="Ztw-Ob-DFo" kind="show" id="X9y-r3-tT7"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word of the Day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pai-39-ITs">
                                 <rect key="frame" x="20" y="164" width="440" height="21"/>
@@ -85,6 +88,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W8h-CV-MOl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="696" y="673"/>
+        </scene>
+        <!--Word View Controller - Word-->
+        <scene sceneID="x2X-Oe-lQk">
+            <objects>
+                <viewController id="Ztw-Ob-DFo" customClass="WordViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="T0H-Nd-ePR"/>
+                        <viewControllerLayoutGuide type="bottom" id="YeV-HU-iV0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="071-Zf-E3M">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Word" id="Sb8-7a-c1Z"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RuX-D6-guu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="891" y="1290"/>
         </scene>
     </scenes>
 </document>

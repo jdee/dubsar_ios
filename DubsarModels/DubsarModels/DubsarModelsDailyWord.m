@@ -21,8 +21,8 @@
 #import "DubsarModelsLoadDelegate.h"
 #import "DubsarModelsWord.h"
 
-#define DubsarDailyWordIdKey @"com.dubsar-dictionary.Dubsar.wotdId"
-#define DubsarDailyWordExpirationKey @"com.dubsar-dictionary.Dubsar.wotdExpiration"
+#define DubsarDailyWordIdKey @"DubsarDailyWordId"
+#define DubsarDailyWordExpirationKey @"DubsarDailyWordExpiration"
 
 @implementation DubsarModelsDailyWord
 
