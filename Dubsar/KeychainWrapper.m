@@ -60,7 +60,7 @@
             [self resetKeychainItem];
         } else {
             // Any other error is unexpected.
-            NSAssert(NO, @"Serious error %d.\n", keychainErr);
+            NSAssert(NO, @"Serious error %d.\n", (int)keychainErr);
         }
     }
     return self;

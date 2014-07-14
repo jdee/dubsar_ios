@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B670D0A1973851300E83937 /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D091973851300E83937 /* production.sqlite3 */; };
+		7B670D0D1973851F00E83937 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0B1973851F00E83937 /* iTunesArtwork */; };
+		7B670D0E1973851F00E83937 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0C1973851F00E83937 /* iTunesArtwork@2x */; };
+		7B670D10197398B600E83937 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0F197398B600E83937 /* Settings.bundle */; };
 		7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */; };
 		7BAC226119732D6C00D2AEA4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC226019732D6C00D2AEA4 /* ViewController.swift */; };
 		7BAC226419732D6C00D2AEA4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
@@ -68,6 +72,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B670D091973851300E83937 /* production.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = production.sqlite3; sourceTree = SOURCE_ROOT; };
+		7B670D0B1973851F00E83937 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
+		7B670D0C1973851F00E83937 /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
+		7B670D0F197398B600E83937 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7BAC225919732D6C00D2AEA4 /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BAC225D19732D6C00D2AEA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,7 +108,7 @@
 		7BAC22CC19734A9100D2AEA4 /* SynsetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetTest.m; sourceTree = "<group>"; };
 		7BAC22CD19734A9100D2AEA4 /* WordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordTest.h; sourceTree = "<group>"; };
 		7BAC22CE19734A9100D2AEA4 /* WordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordTest.m; sourceTree = "<group>"; };
-		7BAC23481973639200D2AEA4 /* DubsarModels.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DubsarModels.framework; path = "../../../Library/Developer/Xcode/DerivedData/Dubsar-gtxcrwsszmnigedrmhxqqasmxygq/Build/Products/Debug-iphoneos/DubsarModels.framework"; sourceTree = "<group>"; };
+		7BAC23481973639200D2AEA4 /* DubsarModels.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DubsarModels.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Dubsar-gtxcrwsszmnigedrmhxqqasmxygq/Build/Products/Debug-iphoneos/DubsarModels.framework"; sourceTree = "<group>"; };
 		7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -126,13 +134,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7BAC225019732D6C00D2AEA4 = {
+		7B670D1119739B0900E83937 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */,
 				7BAC23481973639200D2AEA4 /* DubsarModels.framework */,
+			);
+			name = Frameworks;
+			path = DubsarTests;
+			sourceTree = "<group>";
+		};
+		7BAC225019732D6C00D2AEA4 = {
+			isa = PBXGroup;
+			children = (
+				7B670D0F197398B600E83937 /* Settings.bundle */,
+				7B670D0B1973851F00E83937 /* iTunesArtwork */,
+				7B670D0C1973851F00E83937 /* iTunesArtwork@2x */,
 				7BAC225B19732D6C00D2AEA4 /* Dubsar */,
 				7BAC226E19732D6C00D2AEA4 /* DubsarTests */,
+				7B670D1119739B0900E83937 /* Frameworks */,
 				7BAC225A19732D6C00D2AEA4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -167,6 +187,7 @@
 			children = (
 				7BAC22B71973343900D2AEA4 /* Dubsar-Bridging-Header.h */,
 				7BAC225D19732D6C00D2AEA4 /* Info.plist */,
+				7B670D091973851300E83937 /* production.sqlite3 */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -292,8 +313,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B670D0E1973851F00E83937 /* iTunesArtwork@2x in Resources */,
 				7BAC226419732D6C00D2AEA4 /* Main.storyboard in Resources */,
+				7B670D0A1973851300E83937 /* production.sqlite3 in Resources */,
 				7BAC226619732D6C00D2AEA4 /* Images.xcassets in Resources */,
+				7B670D10197398B600E83937 /* Settings.bundle in Resources */,
+				7B670D0D1973851F00E83937 /* iTunesArtwork in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
