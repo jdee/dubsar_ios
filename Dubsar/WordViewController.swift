@@ -51,10 +51,7 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate {
         nameAndPosLabel.text = word.nameAndPos
 
         let inflections = word.inflections
-        var inflectionText : NSString = ""
-        var inflectionIndex = 0
-
-        NSLog("concatenating %d inflections", inflections.count)
+        var inflectionText = ""
 
         // the compiler and the sourcekit crap out if I try to do
         // for inflection in inflections
@@ -68,8 +65,6 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate {
                 inflectionText = "\(inflectionText)\(inflection)"
             }
         }
-
-        NSLog("concatenated text is \"%@\"", inflectionText)
 
         inflectionsLabel.text = inflectionText
     }
