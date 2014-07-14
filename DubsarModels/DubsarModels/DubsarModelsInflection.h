@@ -23,11 +23,11 @@
 
 @interface DubsarModelsInflection : DubsarModelsModel
 
-@property (nonatomic) int _id;
+@property (nonatomic) NSUInteger _id;
 @property (nonatomic, strong) DubsarModelsWord* word;
 @property (nonatomic, copy) NSString* name;
 
-- (instancetype) initWithId:(int)theId name:(NSString*)theName word:(DubsarModelsWord*)theWord;
-+ (instancetype) inflectionWithId:(int)theId name:(NSString*)theName word:(DubsarModelsWord*)theWord;
+- (instancetype) initWithId:(NSUInteger)theId name:(NSString*)theName word:(DubsarModelsWord*)theWord NS_DESIGNATED_INITIALIZER;
++ (instancetype) inflectionWithId:(NSUInteger)theId name:(NSString*)theName word:(DubsarModelsWord*)theWord;
 
 @end

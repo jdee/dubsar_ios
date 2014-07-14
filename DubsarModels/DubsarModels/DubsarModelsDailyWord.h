@@ -31,7 +31,7 @@
 + (void)updateWotdId:(int)wotdId expiration:(time_t)expiration;
 + (void)resetWotd;
 
-- (bool)loadFromUserDefaults;
+@property (NS_NONATOMIC_IOSONLY, readonly) bool loadFromUserDefaults;
 - (void)saveToUserDefaults;
 
 @end

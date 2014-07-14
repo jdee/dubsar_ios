@@ -50,7 +50,7 @@
     return self;
 }
 
-- (int)numRows
+- (NSUInteger)numRows
 {
     if ([ptype isEqualToString:@"synonym"] ||
         [ptype isEqualToString:@"verb frame"] ||
@@ -67,13 +67,13 @@
         sql = [NSString stringWithFormat:
            @"SELECT COUNT(*) FROM "
            @"(SELECT DISTINCT target_id, target_type FROM pointers WHERE "
-           @"(ptype = '%@' AND ((source_id = %d AND source_type = 'Sense') OR "
-           @"(source_id = %d AND source_type = 'Synset'))))", ptype, senseId, synsetId];
+           @"(ptype = '%@' AND ((source_id = %lu AND source_type = 'Sense') OR "
+           @"(source_id = %lu AND source_type = 'Synset'))))", ptype, (unsigned long)senseId, (unsigned long)synsetId];
     }
     else {
         sql = [NSString stringWithFormat:@"SELECT COUNT(*) FROM "
                @"(SELECT DISTINCT target_id, target_type FROM pointers WHERE "
-               @"ptype = '%@' AND source_id = %d AND source_type = 'Synset')", ptype, synsetId];
+               @"ptype = '%@' AND source_id = %lu AND source_type = 'Synset')", ptype, (unsigned long)synsetId];
     }
     int rc;
     sqlite3_stmt* statement;

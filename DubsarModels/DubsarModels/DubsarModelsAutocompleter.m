@@ -104,7 +104,7 @@
             if (aborted) return;
             
             char const* _wName = (char const*)sqlite3_column_text(database.exactAutocompleterStmt, 0);
-            NSString* wName = [NSString stringWithCString:_wName encoding:NSUTF8StringEncoding];
+            NSString* wName = @(_wName);
             
             if (exactMatch == nil) exactMatch = _term;
             
@@ -139,7 +139,7 @@
         while (sqlite3_step(database.autocompleterStmt) == SQLITE_ROW) {
             if (aborted) return;
             char const* _name = (char const*)sqlite3_column_text(database.autocompleterStmt, 0);
-            NSString* match = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+            NSString* match = @(_name);
             
             [_results addObject:match];
         }
@@ -151,14 +151,14 @@
     NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
     
     NSMutableArray* r = [NSMutableArray array];
-    NSArray* list = [response objectAtIndex:1];
+    NSArray* list = response[1];
     for (int j=0; j<list.count; ++j) {
-        [r addObject:[list objectAtIndex:j]];
+        [r addObject:list[j]];
     }
     _results = r;
 
 #ifdef DEBUG
-    NSLog(@"autocompleter for term \"%@\" (URL \"%@\") finished with %d results:", [response objectAtIndex:0], [self _url], _results.count);
+    NSLog(@"autocompleter for term \"%@\" (URL \"%@\") finished with %lu results:", response[0], [self _url], (unsigned long)_results.count);
 #endif // DEBUG
 }
 

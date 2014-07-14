@@ -8,7 +8,7 @@
 @property (nonatomic, strong) NSMutableDictionary *genericQuery;
 @property (nonatomic, copy) NSString* identifier;
 
-- (instancetype)initWithIdentifier:(NSString*)theIdentifier requestClass:(CFTypeRef)requestClass;
+- (instancetype)initWithIdentifier:(NSString*)theIdentifier requestClass:(CFTypeRef)requestClass NS_DESIGNATED_INITIALIZER;
 
 - (void)mySetObject:(id)inObject forKey:(id)key;
 - (id)myObjectForKey:(id)key;

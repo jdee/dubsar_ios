@@ -23,20 +23,20 @@
 @interface DubsarModelsWord : DubsarModelsModel {
 }
 
-@property (nonatomic) int _id;
+@property (nonatomic) NSUInteger _id;
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic) DubsarModelsPartOfSpeech partOfSpeech;
-@property (nonatomic) int freqCnt;
+@property (nonatomic) NSUInteger freqCnt;
 
 @property (nonatomic, strong) NSMutableArray* inflections;
 @property (nonatomic, strong) NSMutableArray* senses;
 
-+(instancetype)wordWithId:(int)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
-+(instancetype)wordWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;
--(instancetype)initWithId:(int)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
--(instancetype)initWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;
--(NSString*)pos;
--(NSString*)nameAndPos;
++(instancetype)wordWithId:(NSUInteger)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
++(instancetype)wordWithId:(NSUInteger)theId name:(NSString*)theName posString:(NSString*)posString;
+-(instancetype)initWithId:(NSUInteger)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithId:(NSUInteger)theId name:(NSString*)theName posString:(NSString*)posString NS_DESIGNATED_INITIALIZER;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *pos;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *nameAndPos;
 
 -(void)parseData;
 -(void)initUrl;

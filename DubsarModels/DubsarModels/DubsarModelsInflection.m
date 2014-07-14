@@ -27,7 +27,7 @@
 @synthesize name;
 @synthesize word;
 
-- (instancetype) initWithId:(int)theId name:(NSString *)theName word:(DubsarModelsWord *)theWord
+- (instancetype) initWithId:(NSUInteger)theId name:(NSString *)theName word:(DubsarModelsWord *)theWord
 {
     self = [super init];
     if (self) {
@@ -35,12 +35,12 @@
         self.word = theWord;
         self._id = theId;
         self.name = theName;
-        [self set_url:[NSString stringWithFormat:@"/inflections/%d?auth_token=%@", self._id, database.authToken]];
+        [self set_url:[NSString stringWithFormat:@"/inflections/%lu?auth_token=%@", (unsigned long)self._id, database.authToken]];
     }
     return self;
 }
 
-+ (instancetype) inflectionWithId:(int)theId name:(NSString *)theName word:(DubsarModelsWord *)theWord
++ (instancetype) inflectionWithId:(NSUInteger)theId name:(NSString *)theName word:(DubsarModelsWord *)theWord
 {
     return [[self alloc]initWithId:theId name:theName word:theWord];
 }

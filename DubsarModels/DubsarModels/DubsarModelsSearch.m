@@ -355,7 +355,7 @@ static int _seqNum = 0;
 #endif // DEBUG
         
         DubsarModelsPartOfSpeech partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
-        NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+        NSString* name = @(_name);
         
         DubsarModelsWord* word = [DubsarModelsWord wordWithId:_id name:name partOfSpeech:partOfSpeech];
         word.freqCnt = freqCnt;
@@ -376,7 +376,7 @@ static int _seqNum = 0;
         
         while (sqlite3_step(istmt) == SQLITE_ROW) {
             char const* _name = (char const*)sqlite3_column_text(istmt, 0);
-            NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+            NSString* name = @(_name);
             [word addInflection:name];
         }
         
@@ -496,7 +496,7 @@ static int _seqNum = 0;
 #endif // DEBUG
             
             DubsarModelsPartOfSpeech partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
-            NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+            NSString* name = @(_name);
             
             DubsarModelsWord* word = [DubsarModelsWord wordWithId:_id name:name partOfSpeech:partOfSpeech];
             word.freqCnt = freqCnt;
@@ -550,7 +550,7 @@ static int _seqNum = 0;
 #endif // DEBUG
         
         DubsarModelsPartOfSpeech partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
-        NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+        NSString* name = @(_name);
         
         DubsarModelsWord* word = [DubsarModelsWord wordWithId:_id name:name partOfSpeech:partOfSpeech];
         word.freqCnt = freqCnt;
@@ -558,14 +558,14 @@ static int _seqNum = 0;
     }
     
     for (int j=0; j<results.count; ++j) {
-        DubsarModelsWord* word = [results objectAtIndex:j];
+        DubsarModelsWord* word = results[j];
         
         /* now get the inflections */
         /* 
          * We have this 1+N problem because of pagination. If we join inflections in wildcard searches,
          * we get one row per inflection, and that doesn't work with pagination. So here we are.
          */
-        NSString* isql = [NSString stringWithFormat:@"SELECT DISTINCT name FROM inflections WHERE word_id = %d", word._id];
+        NSString* isql = [NSString stringWithFormat:@"SELECT DISTINCT name FROM inflections WHERE word_id = %lu", (unsigned long)word._id];
         sqlite3_stmt* istmt;
         if ((rc=sqlite3_prepare_v2(database.dbptr, isql.UTF8String, -1, &istmt, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
@@ -575,7 +575,7 @@ static int _seqNum = 0;
         
         while (sqlite3_step(istmt) == SQLITE_ROW) {
             char const* _name = (char const*)sqlite3_column_text(istmt, 0);
-            NSString* name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+            NSString* name = @(_name);
             [word addInflection:name];
         }
         
@@ -592,23 +592,23 @@ static int _seqNum = 0;
 - (void)parseData
 {        
     NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
-    NSArray* list = [response objectAtIndex:1];
-    NSNumber* pages = [response objectAtIndex:2];
+    NSArray* list = response[1];
+    NSNumber* pages = response[2];
     totalPages = pages.intValue;
     
     results = [NSMutableArray arrayWithCapacity:list.count];
 #ifdef DEBUG
-    NSLog(@"search request for \"%@\" returned %d results", [response objectAtIndex:0], list.count);
+    NSLog(@"search request for \"%@\" returned %lu results", response[0], (unsigned long)list.count);
     NSLog(@"(%d total pages)", totalPages);
 #endif
     int j;
     for (j=0; j<list.count; ++j) {
-        NSArray* entry = [list objectAtIndex:j];
+        NSArray* entry = list[j];
         
-        NSNumber* numericId = [entry objectAtIndex:0];
-        NSString* name = [entry objectAtIndex:1];
-        NSString* posString = [entry objectAtIndex:2];
-        NSNumber* numericFc = [entry objectAtIndex:3];
+        NSNumber* numericId = entry[0];
+        NSString* name = entry[1];
+        NSString* posString = entry[2];
+        NSNumber* numericFc = entry[3];
         
         DubsarModelsWord* word = [DubsarModelsWord wordWithId:numericId.intValue name:name posString:posString];
         word.freqCnt = numericFc.intValue;

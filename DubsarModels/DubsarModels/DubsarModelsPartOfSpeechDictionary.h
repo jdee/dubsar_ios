@@ -18,7 +18,7 @@
  */
 @import Foundation;
 
-typedef enum  {
+typedef NS_ENUM(NSInteger, DubsarModelsPartOfSpeech)  {
     DubsarModelsPartOfSpeechUnknown,
     DubsarModelsPartOfSpeechAdjective,
     DubsarModelsPartOfSpeechAdverb,
@@ -28,7 +28,7 @@ typedef enum  {
     DubsarModelsPartOfSpeechPreposition,
     DubsarModelsPartOfSpeechPronoun,
     DubsarModelsPartOfSpeechVerb
-} DubsarModelsPartOfSpeech;
+} ;
 
 @interface DubsarModelsPartOfSpeechDictionary : NSObject {
     NSMutableDictionary* dictionary;

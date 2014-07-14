@@ -117,7 +117,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
 {
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
     
-    NSLog(@"GET request for URL %@ returned HTTP status code %d", url, httpResponse.statusCode);
+    NSLog(@"GET request for URL %@ returned HTTP status code %ld", url, (long)httpResponse.statusCode);
     
     NSDictionary* headers = [httpResponse allHeaderFields];
     [headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -167,7 +167,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
 
     
     // BUG: Why does jsonData show up as (null) in the iPod log?
-    NSString* jsonData = [NSString stringWithCString:(const char*)[data bytes] encoding:NSUTF8StringEncoding];
+    NSString* jsonData = @((const char*)[data bytes]);
     NSLog(@"JSON response from URL %@:", url);
     NSLog(@"%@", jsonData);
 

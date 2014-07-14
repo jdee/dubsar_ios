@@ -28,7 +28,7 @@
     bool weakSynsetLink, weakWordLink;
 }
 
-@property (nonatomic) int _id;
+@property (nonatomic) NSUInteger _id;
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic) DubsarModelsPartOfSpeech partOfSpeech;
 @property (nonatomic, copy) NSString* gloss;
@@ -45,26 +45,27 @@
 @property (nonatomic, strong) NSMutableArray* samples;
 @property (nonatomic, strong) NSMutableDictionary* pointers;
 
-@property (nonatomic) int numberOfSections;
+@property (nonatomic) NSUInteger numberOfSections;
 @property (nonatomic, strong) NSMutableArray* sections;
 
-+(instancetype)senseWithId:(int)theId name:(NSString*)theName synset:(DubsarModelsSynset*)theSynset;
-+(instancetype)senseWithId:(int)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
-+(instancetype)senseWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(DubsarModelsWord*)theWord;
-+(instancetype)senseWithId:(int)theId nameAndPos:(NSString*)nameAndPos;
--(instancetype)initWithId:(int)theId name:(NSString*)theName synset:(DubsarModelsSynset*)theSynset;
--(instancetype)initWithId:(int)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
--(instancetype)initWithId:(int)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(DubsarModelsWord*)theWord;
--(instancetype)initWithId:(int)theId nameAndPos:(NSString*)nameAndPos;
++(instancetype)senseWithId:(NSUInteger)theId name:(NSString*)theName synset:(DubsarModelsSynset*)theSynset;
++(instancetype)senseWithId:(NSUInteger)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
++(instancetype)senseWithId:(NSUInteger)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(DubsarModelsWord*)theWord;
++(instancetype)senseWithId:(NSUInteger)theId nameAndPos:(NSString*)nameAndPos;
 
--(NSString*)pos;
--(NSString*)nameAndPos;
+-(instancetype)initWithId:(NSUInteger)theId name:(NSString*)theName synset:(DubsarModelsSynset*)theSynset NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithId:(NSUInteger)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithId:(NSUInteger)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(DubsarModelsWord*)theWord NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithId:(NSUInteger)theId nameAndPos:(NSString*)nameAndPos NS_DESIGNATED_INITIALIZER;
+
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *pos;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *nameAndPos;
 -(void)initUrl;
 -(void)parsePointers:(NSArray*)response;
 
 -(NSComparisonResult)compareFreqCnt:(DubsarModelsSense*)sense;
 
--(NSString*)synonymsAsString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *synonymsAsString;
 -(void)parseNameAndPos:(NSString*)nameAndPos;
 
 // -(void)loadPointers:(AppDelegate*)appDelegate;

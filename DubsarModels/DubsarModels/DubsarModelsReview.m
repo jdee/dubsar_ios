@@ -60,7 +60,7 @@
     
     self.inflections = [NSMutableArray arrayWithCapacity:_inflections.count];
     for (int j=0; j<_inflections.count; ++j) {
-        NSDictionary* _inflection = [_inflections objectAtIndex:j];
+        NSDictionary* _inflection = _inflections[j];
         NSDictionary* _word = [_inflection valueForKey:@"word"];
         
         int wordId = [[_word valueForKey:@"id"] intValue];

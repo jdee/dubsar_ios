@@ -25,9 +25,9 @@
 @property (nonatomic, copy) NSString* footer;
 @property (nonatomic, copy) NSString* linkType;
 @property (nonatomic, copy) NSString* ptype;
-@property (nonatomic) int numRows;
-@property (nonatomic) int senseId;
-@property (nonatomic) int synsetId;
+@property (nonatomic) NSUInteger numRows;
+@property (nonatomic) NSUInteger senseId;
+@property (nonatomic) NSUInteger synsetId;
 
 + (instancetype)section;
 

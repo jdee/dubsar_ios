@@ -95,23 +95,23 @@
 - (void)parseData
 {
     NSArray* wotd = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
-    NSNumber* numericId = [wotd objectAtIndex:0];
+    NSNumber* numericId = wotd[0];
     
-    word = [DubsarModelsWord wordWithId:numericId.intValue name:[wotd objectAtIndex:1] posString:[wotd objectAtIndex:2]];
+    word = [DubsarModelsWord wordWithId:numericId.intValue name:wotd[1] posString:wotd[2]];
     
-    NSNumber* fc = [wotd objectAtIndex:3];
+    NSNumber* fc = wotd[3];
     word.freqCnt = fc.intValue;
     
-    word.inflections = [[[wotd objectAtIndex:4] componentsSeparatedByString:@", "] mutableCopy];
+    word.inflections = [[wotd[4] componentsSeparatedByString:@", "] mutableCopy];
     
-    expiration = [[wotd objectAtIndex:5]intValue];
+    expiration = [wotd[5]intValue];
     
     [self saveToUserDefaults];
 }
 
 - (bool) loadFromUserDefaults
 {
-    int wotdId = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordIdKey];
+    NSInteger wotdId = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordIdKey];
 
     if (wotdId <= 0) {
         NSLog(@"User defaults value for %@: %@", DubsarDailyWordIdKey, [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey]);
@@ -119,7 +119,7 @@
     }
 #ifdef DEBUG
     else {
-        NSLog(@"Found wotd in user defaults, id %d", wotdId);
+        NSLog(@"Found wotd in user defaults, id %ld", (long)wotdId);
     }
 #endif // DEBUG
     
@@ -134,7 +134,7 @@
 
 - (void) saveToUserDefaults
 {
-    NSLog(@"Saving WOTD: ID: %d, expiration: %ld", word._id, expiration);
+    NSLog(@"Saving WOTD: ID: %lu, expiration: %ld", (unsigned long)word._id, expiration);
     [[NSUserDefaults standardUserDefaults] setInteger:word._id forKey:DubsarDailyWordIdKey];
     [[NSUserDefaults standardUserDefaults] setInteger:expiration forKey:DubsarDailyWordExpirationKey];
 }

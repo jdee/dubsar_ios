@@ -44,11 +44,11 @@
 @property bool exact;
 
 +(instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
--(instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum;
+-(instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
 +(instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page;
--(instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum;
+-(instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
 +(instancetype)searchWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle;
--(instancetype)initWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum;
+-(instancetype)initWithWildcard:(NSString*)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
 
 -(DubsarModelsSearch*)newSearchForPage:(int)page;
 

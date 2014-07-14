@@ -46,7 +46,7 @@
 {
     DubsarModelsWord* verb = [self randomVerb];
     NSLog(@"random infinitive: %@", verb.name);
-    return [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar:///words/%d'>%@</a>", verb._id, verb.name];
+    return [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar:///words/%lu'>%@</a>", (unsigned long)verb._id, verb.name];
 }
 
 - (DubsarModelsWord*)randomVerb
@@ -87,7 +87,7 @@
     NSString* frameFormat = nil;
     if ((rc=sqlite3_step(statement)) == SQLITE_ROW) {
         char const* _frame = (char const*)sqlite3_column_text(statement, 0);
-        frameFormat = [NSString stringWithCString:_frame encoding:NSUTF8StringEncoding];
+        frameFormat = @(_frame);
     }
     else {
         NSLog(@"failed to find verb frame %d", rc);
@@ -96,8 +96,8 @@
     }
     sqlite3_finalize(statement);
     
-    NSString* wordLink = [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar:///words/%d'>%@</a>",
-                          word._id, word.name];
+    NSString* wordLink = [NSString stringWithFormat:@"<a style='text-decoration: none;' href='dubsar:///words/%lu'>%@</a>",
+                          (unsigned long)word._id, word.name];
     
     /*
      * The selected verb frames are all xxx %s xxx, so we convert the NSString word.name to
@@ -194,7 +194,7 @@
         return nil;
     }
     
-    NSString* name = [NSString stringWithCString:(const char*)sqlite3_column_text(statement, 0) encoding:NSUTF8StringEncoding];
+    NSString* name = @((const char*)sqlite3_column_text(statement, 0));
     int senseId = sqlite3_column_int(statement, 1);
     sqlite3_finalize(statement);
     
@@ -320,7 +320,7 @@
     NSString* tps = nil;
     // take the first match, regardless
     if (sqlite3_step(statement) == SQLITE_ROW) {
-        tps = [NSString stringWithCString:(const char*)sqlite3_column_text(statement, 0) encoding:NSUTF8StringEncoding];
+        tps = @((const char*)sqlite3_column_text(statement, 0));
     }
     else {
         // Didn't find it. Probably capitalized, hyphenated or a verb phrase

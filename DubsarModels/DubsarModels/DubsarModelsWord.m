@@ -35,17 +35,17 @@
 @synthesize inflections;
 @synthesize senses;
 
-+(instancetype)wordWithId:(int)theId name:(id)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
++(instancetype)wordWithId:(NSUInteger)theId name:(id)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
 {
     return [[self alloc] initWithId:theId name:theName partOfSpeech:thePartOfSpeech];
 }
 
-+(instancetype)wordWithId:(int)theId name:(NSString *)theName posString:(NSString *)posString
++(instancetype)wordWithId:(NSUInteger)theId name:(NSString *)theName posString:(NSString *)posString
 {
     return [[self alloc] initWithId:theId name:theName posString:posString];
 }
 
--(instancetype)initWithId:(int)theId name:(NSString *)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
+-(instancetype)initWithId:(NSUInteger)theId name:(NSString *)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
 {
     self = [super init];
     if (self) {
@@ -58,7 +58,7 @@
     return self;
 }
 
--(instancetype)initWithId:(int)theId name:(NSString *)theName posString:(NSString *)posString
+-(instancetype)initWithId:(NSUInteger)theId name:(NSString *)theName posString:(NSString *)posString
 {
     self = [super init];
     if (self) {
@@ -106,8 +106,8 @@
                      @"SELECT DISTINCT w.name, w.part_of_speech, w.freq_cnt, i.name "
                      @"FROM words w "
                      @"INNER JOIN inflections i ON w.id = i.word_id "
-                     @"WHERE w.id = %d "
-                     @"ORDER BY i.name ASC ", _id];
+                     @"WHERE w.id = %lu "
+                     @"ORDER BY i.name ASC ", (unsigned long)_id];
     int rc;
     sqlite3_stmt* statement;
 #ifdef DEBUG
@@ -126,9 +126,9 @@
         freqCnt = sqlite3_column_int(statement, 2);
         char const* _inflection = (char const*)sqlite3_column_text(statement, 3);
         
-        self.name = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+        self.name = @(_name);
         
-        NSString* inflection = [NSString stringWithCString:_inflection encoding:NSUTF8StringEncoding];
+        NSString* inflection = @(_inflection);
         [self addInflection:inflection];
 #ifdef DEBUG
         NSLog(@"added inflection %@", inflection);
@@ -140,7 +140,7 @@
     }
 
 #ifdef DEBUG
-    NSLog(@"%d inflections", inflections.count);
+    NSLog(@"%lu inflections", (unsigned long)inflections.count);
 #endif // DEBUG
     
     sqlite3_finalize(statement);
@@ -148,8 +148,8 @@
     sql = [NSString stringWithFormat:@"SELECT se.id, sy.definition, sy.lexname, se.freq_cnt, se.marker, sy.id "
            @"FROM senses se "
            @"INNER JOIN synsets sy ON se.synset_id = sy.id "
-           @"WHERE se.word_id = %d "
-           @"ORDER BY se.freq_cnt DESC ", _id];
+           @"WHERE se.word_id = %lu "
+           @"ORDER BY se.freq_cnt DESC ", (unsigned long)_id];
 
 #ifdef DEBUG
     NSLog(@"preparing statement \"%@\"", sql);
@@ -203,17 +203,17 @@
             NSLog(@"synonym %s (%d)", _synonym, synonymSenseId);
 #endif // DEBUG
     
-            DubsarModelsSense* synonym = [DubsarModelsSense senseWithId:synonymSenseId name:[NSString stringWithCString:_synonym encoding:NSUTF8StringEncoding] partOfSpeech:partOfSpeech];
+            DubsarModelsSense* synonym = [DubsarModelsSense senseWithId:synonymSenseId name:@(_synonym) partOfSpeech:partOfSpeech];
             [synonyms addObject:synonym];
         }
         
-        NSString* definition = [NSString stringWithCString:_definition encoding:NSUTF8StringEncoding];
-        NSString* gloss = [[definition componentsSeparatedByString:@"; \""]objectAtIndex:0];
+        NSString* definition = @(_definition);
+        NSString* gloss = [definition componentsSeparatedByString:@"; \""][0];
         
         DubsarModelsSense* sense = [DubsarModelsSense senseWithId:senseId gloss:gloss synonyms:synonyms word:self];
-        sense.lexname = [NSString stringWithCString:_lexname encoding:NSUTF8StringEncoding];
+        sense.lexname = @(_lexname);
         sense.freqCnt = senseFC;
-        sense.marker = _marker == NULL ? nil : [NSString stringWithCString:_marker encoding:NSUTF8StringEncoding];
+        sense.marker = _marker == NULL ? nil : @(_marker);
         [senses addObject:sense];
 #ifdef DEBUG
         NSLog(@"added sense ID %d, gloss \"%@\", lexname \"%@\", freq. cnt. %d", senseId, gloss, sense.lexname, senseFC);
@@ -230,28 +230,28 @@
 {
     NSArray* response =[NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
     
-    inflections = [[[response objectAtIndex:3] componentsSeparatedByString:@", "] mutableCopy];
+    inflections = [[response[3] componentsSeparatedByString:@", "] mutableCopy];
 
     NSNumber* _freqCnt;
-    NSArray* _senses = [response objectAtIndex:4];
+    NSArray* _senses = response[4];
     senses = [NSMutableArray arrayWithCapacity:_senses.count];
     for (int j=0; j<_senses.count; ++j) {
-        NSArray* _sense = [_senses objectAtIndex:j];
-        NSArray* _synonyms = [_sense objectAtIndex:1];
+        NSArray* _sense = _senses[j];
+        NSArray* _synonyms = _sense[1];
         NSNumber* numericId = nil;
         NSMutableArray* synonyms = [NSMutableArray arrayWithCapacity:_synonyms.count];
         for (int k=0; k<_synonyms.count; ++k) {
-            NSArray* _synonym = [_synonyms objectAtIndex:k];
-            numericId = [_synonym objectAtIndex:0];
-            DubsarModelsSense* sense = [DubsarModelsSense senseWithId:numericId.intValue name:[_synonym objectAtIndex:1] partOfSpeech:partOfSpeech];
+            NSArray* _synonym = _synonyms[k];
+            numericId = _synonym[0];
+            DubsarModelsSense* sense = [DubsarModelsSense senseWithId:numericId.intValue name:_synonym[1] partOfSpeech:partOfSpeech];
             [synonyms insertObject:sense atIndex:k];
         }
         
-        numericId = [_sense objectAtIndex:0];
-        DubsarModelsSense* sense = [DubsarModelsSense senseWithId:numericId.intValue gloss:[_sense objectAtIndex:2] synonyms:synonyms word:self];
-        NSString* lexname = [_sense objectAtIndex:3];
-        id marker = [_sense objectAtIndex:4];
-        _freqCnt = [_sense objectAtIndex:5];
+        numericId = _sense[0];
+        DubsarModelsSense* sense = [DubsarModelsSense senseWithId:numericId.intValue gloss:_sense[2] synonyms:synonyms word:self];
+        NSString* lexname = _sense[3];
+        id marker = _sense[4];
+        _freqCnt = _sense[5];
         sense.lexname = lexname;
         if (marker != NSNull.null) {
             sense.marker = marker;
@@ -261,7 +261,7 @@
         [senses insertObject:sense atIndex:j];
     }
     [senses sortUsingSelector:@selector(compareFreqCnt:)];
-    _freqCnt = [response objectAtIndex:5];
+    _freqCnt = response[5];
     freqCnt = _freqCnt.intValue;
 }
 

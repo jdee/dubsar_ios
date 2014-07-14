@@ -25,10 +25,10 @@
 
 + (instancetype) augury;
 
-- (instancetype) init;
-- (DubsarModelsWord*) randomVerb;
-- (NSString*) infinitive;
-- (NSString*) somebody;
+- (instancetype) init NS_DESIGNATED_INITIALIZER;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) DubsarModelsWord *randomVerb;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *infinitive;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *somebody;
 - (NSString*) thirdPersonSingularForId:(int)verbId;
 
 - (void) type1:(int)frameId;

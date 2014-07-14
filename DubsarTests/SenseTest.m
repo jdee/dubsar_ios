@@ -56,7 +56,7 @@
     XCTAssertNotNil(sense.synonyms, @"synonyms failed");
     XCTAssertEqual((unsigned int)1, sense.synonyms.count, @"synonym count failed");
     
-    synSense = [sense.synonyms objectAtIndex:0];
+    synSense = (sense.synonyms)[0];
     XCTAssertEqual(35630, synSense._id, @"synonym ID failed");
     XCTAssertEqualObjects(@"nutrient", synSense.name, @"synonym name failed");
     XCTAssertNil(synSense.marker, @"synonym marker failed");
@@ -75,14 +75,14 @@
     XCTAssertNotNil(_pointers, @"pointers failed");
     XCTAssertEqual((unsigned int)1, _pointers.count, @"pointers count failed");
     
-    NSArray* _pointer = [_pointers objectAtIndex:0];
+    NSArray* _pointer = _pointers[0];
 
-    NSNumber* numericID = [_pointer objectAtIndex:1];
+    NSNumber* numericID = _pointer[1];
     
-    XCTAssertEqualObjects(@"synset", [_pointer objectAtIndex:0], @"hypernym target type failed");
+    XCTAssertEqualObjects(@"synset", _pointer[0], @"hypernym target type failed");
     XCTAssertEqual(21801, numericID.intValue, @"hypernym ID failed");
-    XCTAssertEqualObjects(@"substance", [_pointer objectAtIndex:2], @"hypernym text failed");
-    XCTAssertEqualObjects(@"hypernym gloss", [_pointer objectAtIndex:3], @"hypernym gloss failed");
+    XCTAssertEqualObjects(@"substance", _pointer[2], @"hypernym text failed");
+    XCTAssertEqualObjects(@"hypernym gloss", _pointer[3], @"hypernym gloss failed");
 }
 
 -(void)testNameAndPosParsing

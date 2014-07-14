@@ -33,7 +33,7 @@
     
     DubsarModelsWord* word = dailyWord.word;
     
-    NSArray *expectedInflections = [NSArray arrayWithObjects:@"decelerated", @"decelerates", @"decelerating", nil];
+    NSArray *expectedInflections = @[@"decelerated", @"decelerates", @"decelerating"];
     
     XCTAssertNotNil(word, @"word failed");
     XCTAssertEqual(147806, word._id, @"word ID failed");

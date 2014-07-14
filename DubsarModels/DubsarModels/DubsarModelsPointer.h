@@ -22,7 +22,7 @@
 @interface DubsarModelsPointer : NSObject
 
 @property (nonatomic, copy) NSString* targetType;
-@property (nonatomic) int targetId;
+@property (nonatomic) NSUInteger targetId;
 @property (nonatomic, copy) NSString* targetText;
 @property (nonatomic, copy) NSString* targetGloss;
 

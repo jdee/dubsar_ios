@@ -91,7 +91,7 @@ static DubsarModelsPartOfSpeechDictionary* theInstance=nil;
 
 -(DubsarModelsPartOfSpeech)partOfSpeechFrom_part_of_speech:(char const *)part_of_speech
 {
-    NSString* key = [NSString stringWithCString:part_of_speech encoding:NSUTF8StringEncoding];
+    NSString* key = @(part_of_speech);
     NSNumber* number = [verboseDictionary valueForKey:key];
     return number.intValue;
 }

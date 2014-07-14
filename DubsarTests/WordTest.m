@@ -33,7 +33,7 @@
         
     XCTAssertEqual((unsigned int)1, word.senses.count, @"expected 1 sense, got %u", word.senses.count);
     
-    DubsarModelsSense* sense = [word.senses objectAtIndex:0];
+    DubsarModelsSense* sense = (word.senses)[0];
     
     XCTAssertEqual(35629, sense._id, @"expected 35629, found %d", word._id);
     XCTAssertEqualObjects(@"nutrient", sense.synonymsAsString, @"expected \"nutrient\", found \"%@\"", sense.synonymsAsString);

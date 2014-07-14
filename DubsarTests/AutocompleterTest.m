@@ -33,9 +33,9 @@
     
     NSArray* results = autocompleter.results;
     XCTAssertEqual((unsigned int)3, results.count, @"expected 3 autocompleter results, got %u", results.count);
-    XCTAssertEqualObjects(@"like", [results objectAtIndex:0], @"expected \"like\", found \"%@\"", [results objectAtIndex:0]);
-    XCTAssertEqualObjects(@"link", [results objectAtIndex:1], @"expected \"link\", found \"%@\"", [results objectAtIndex:1]);
-    XCTAssertEqualObjects(@"lion", [results objectAtIndex:2], @"expected \"lion\", found \"%@\"", [results objectAtIndex:2]);
+    XCTAssertEqualObjects(@"like", results[0], @"expected \"like\", found \"%@\"", results[[[0]]]);
+    XCTAssertEqualObjects(@"link", results[1], @"expected \"link\", found \"%@\"", results[[[1]]]);
+    XCTAssertEqualObjects(@"lion", results[2], @"expected \"lion\", found \"%@\"", results[[[2]]]);
 }
 
 -(void)testInitialization
