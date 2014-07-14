@@ -17,10 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-@infix func | (type1 : UIRemoteNotificationType, type2: UIRemoteNotificationType) -> UIRemoteNotificationType {
-    return UIRemoteNotificationType(type1.toRaw() | type2.toRaw())
-}
-
 import UIKit
 
 @UIApplicationMain

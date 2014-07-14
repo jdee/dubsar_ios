@@ -176,11 +176,11 @@
 			children = (
 				7BAC22891973322F00D2AEA4 /* Dubsar.h */,
 				7BAC228A1973322F00D2AEA4 /* Dubsar.m */,
+				7B1151FF1974340900869E15 /* DubsarServer.h */,
+				7B1152001974340900869E15 /* DubsarServer.m */,
 				7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */,
 				7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */,
 				7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */,
-				7B1151FF1974340900869E15 /* DubsarServer.h */,
-				7B1152001974340900869E15 /* DubsarServer.m */,
 				7BAC226019732D6C00D2AEA4 /* ViewController.swift */,
 				7BAC226219732D6C00D2AEA4 /* Main.storyboard */,
 				7BAC226519732D6C00D2AEA4 /* Images.xcassets */,
