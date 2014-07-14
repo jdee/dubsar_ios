@@ -67,10 +67,18 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate {
             }
         }
 
-        inflectionsLabel.text = inflectionText
+        if inflectionText.isEmpty {
+            inflectionsLabel.text = ""
+        }
+        else {
+            inflectionsLabel.text = "other forms: \(inflectionText)"
+        }
 
         if word.freqCnt > 0 {
-            freqCntLabel.text = String(format: "freq. cnt. %d", word.freqCnt)
+            freqCntLabel.text = "freq. cnt. \(word.freqCnt)"
+        }
+        else {
+            freqCntLabel.text = ""
         }
     }
 }
