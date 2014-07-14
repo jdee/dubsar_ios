@@ -20,9 +20,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                             
     var window: UIWindow?
+    var alertURL: NSURL?
+    let dubsar = "dubsar"
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
@@ -65,21 +67,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // Custom (Dubsar) payload handling
-        let dubsar = notification?.objectForKey("dubsar") as? NSDictionary
-        let url = dubsar?.objectForKey("url") as? NSString
-        var wotdId : Int = 0
+        let dubsarPayload = notification?.objectForKey(dubsar) as? NSDictionary
+        let url = dubsarPayload?.objectForKey("url") as? NSString
+        var nsurl : NSURL?
         if url {
-            let last = url!.lastPathComponent as NSString
-            var localId : CInt = 0
-
-            localId = last.intValue
-
-            /* Alternately, without resort to NSString
-            let scanner = NSScanner(string: last)
-            scanner.scanInt(&localId)
-            // */
-
-            wotdId = Int(localId)
+            nsurl = NSURL(string:url)
         }
 
         // Standard APNS payload handling
@@ -87,20 +79,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let message = aps?.objectForKey("alert") as? NSString
 
         if let alert = message {
-            NSLog("received notification \"%@\", wotd ID %d", alert, wotdId)
+            NSLog("received notification \"%@\"", alert)
         }
 
         switch (application.applicationState) {
         case .Active:
-            //*
-            let viewController = window!.rootViewController as ViewController
-            viewController.showAlert(message)
-            // */
-            break
+            alertURL = nsurl
+            showAlert(message)
+
         default:
-            // foregrounded or freshly launched; put up WOTD view
-            break
+            openURL(nsurl)
         }
+    }
+
+    func application(application: UIApplication!, openURL url: NSURL!, sourceApplication: String!, annotation: AnyObject!) -> Bool{
+        let scheme = url.scheme
+        if scheme != dubsar {
+            return false
+        }
+
+        let path = url.path
+        if path.hasPrefix("/wotd/") {
+            var wotdId : Int = 0
+            var localId : CInt = 0
+
+            let last = url.lastPathComponent as NSString
+            localId = last.intValue
+
+            /* Alternately, without resort to NSString
+            let scanner = NSScanner(string: url.lastPathComponent)
+            scanner.scanInt(&localId)
+            // */
+
+            wotdId = Int(localId)
+            NSLog("The WOTD ID is %d", wotdId)
+        }
+
+        return true
     }
 
     func setupPushNotificationsForApplication(theApplication:UIApplication, withLaunchOptions launchOptions: NSDictionary?) {
@@ -113,6 +128,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if theApplication.applicationIconBadgeNumber > 0 {
             theApplication.applicationIconBadgeNumber = 0
         }
+    }
+
+    func showAlert(message: String?) {
+        if message {
+            // https://devforums.apple.com/message/973043#973043
+            let alert = UIAlertView()
+            alert.title = "Word of the Day"
+            alert.message = message
+            alert.addButtonWithTitle("OK")
+            if alertURL {
+                alert.addButtonWithTitle("More")
+            }
+            alert.cancelButtonIndex = 0
+            alert.show()
+            alert.delegate = self
+        }
+        else {
+            NSLog("nil message received")
+        }
+    }
+
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex index: Int) {
+        if index == 1 {
+            openURL(alertURL)
+        }
+    }
+
+    func openURL(url: NSURL?) {
+        if !url {
+            return
+        }
+
+        let application = UIApplication.sharedApplication()
+
+        if url!.scheme == dubsar {
+            self.application(application, openURL:url, sourceApplication:nil, annotation:nil)
+        }
+        else {
+            // pass http/https URLS to Safari
+            application.openURL(url)
+        }
+
     }
 }
 

@@ -31,19 +31,4 @@ class ViewController: UIViewController, UIAlertViewDelegate {
 
         versionLabel.text = "Version \(version)"
     }
-
-    func showAlert(message: String?) {
-        if message {
-            // https://devforums.apple.com/message/973043#973043            
-            let alert = UIAlertView()
-            alert.title = "Word of the Day"
-            alert.message = message
-            alert.addButtonWithTitle("OK")
-            alert.cancelButtonIndex = 0
-            alert.show()
-        }
-        else {
-            NSLog("nil message received")
-        }
-    }
 }
