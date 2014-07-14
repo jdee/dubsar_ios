@@ -23,12 +23,17 @@
 
 @interface DatabaseWrapper : NSObject
 
+@property (nonatomic) BOOL databaseReady;
 @property (nonatomic, copy) NSString* authToken;
 @property (nonatomic) sqlite3* dbptr;
 @property (nonatomic) sqlite3_stmt* autocompleterStmt;
 @property (nonatomic) sqlite3_stmt* exactAutocompleterStmt;
 
 + (DatabaseWrapper*)instance;
-+ (void)setup;
++ (void)openDBName:(NSString*)dbName recreateFTSTables:(BOOL)recreateFTSTables;
++ (void)openDBName:(NSString*)dbName;
+
+- (void)openDBName:(NSString*)dbName recreateFTSTables:(BOOL)recreateFTSTables;
+- (void)openDBName:(NSString*)dbName;
 
 @end
