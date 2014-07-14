@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
-        // Override point for customization after application launch.
+        setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
         return true
     }
 
@@ -51,6 +51,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        Push.postDeviceToken(deviceToken)
+    }
 
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        NSLog("application did fail (or as we say in English, failed) to register for remote notifications: %@", error.localizedDescription)
+    }
+
+    func application(application: UIApplication, didReceiveRemoteNotification notification: NSDictionary?) {
+        if !notification {
+            return
+        }
+
+        let dubsar = notification?.objectForKey("dubsar") as? NSDictionary
+        let url = dubsar?.objectForKey("url") as? NSString
+        var wotdId : Int = 0
+        if url {
+            let last = url!.lastPathComponent as NSString
+            var localId : CInt = 0
+
+            localId = last.intValue
+
+            /* Alternately, without resort to NSString
+            let scanner = NSScanner(string: last)
+            scanner.scanInt(&localId)
+            // */
+
+            wotdId = Int(localId)
+        }
+
+        let aps = notification?.objectForKey("aps") as? NSDictionary
+        let message = aps?.objectForKey("message") as? NSString
+
+        switch (application.applicationState) {
+        case .Active:
+            let alert = UIAlertView(title: "Word of the Day", message: message, delegate: nil, cancelButtonTitle: "OK")
+            alert.show()
+
+        default:
+            // foregrounded or freshly launched; put up WOTD view
+            break
+        }
+    }
+
+    func setupPushNotificationsForApplication(theApplication:UIApplication, withLaunchOptions launchOptions: NSDictionary?) {
+        // register for push notifications
+        theApplication.registerForRemoteNotificationTypes(UIRemoteNotificationType(UIRemoteNotificationType.Alert.toRaw() | UIRemoteNotificationType.Sound.toRaw()))
+        // extract the push payload, if any, from the launchOptions
+        let payload = launchOptions?.objectForKey(UIApplicationLaunchOptionsRemoteNotificationKey) as? NSDictionary
+        // pass it back to this app. this is where notifications arrive if a notification is tapped while the app is not running. the app is launched by the tap in that case.
+        application(theApplication, didReceiveRemoteNotification: payload)
+        if theApplication.applicationIconBadgeNumber > 0 {
+            theApplication.applicationIconBadgeNumber = 0
+        }
+    }
 }
 

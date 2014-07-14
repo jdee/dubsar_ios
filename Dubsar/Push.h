@@ -17,6 +17,14 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Dubsar.h"
-#import "KeychainWrapper.h"
-#import "Push.h"
+@import Foundation;
+
+@interface Push : NSObject<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
+
++ (Push*) instance;
+
++ (void) postDeviceToken:(NSData*)deviceToken;
+
+- (void) postDeviceToken:(NSData*)deviceToken;
+
+@end

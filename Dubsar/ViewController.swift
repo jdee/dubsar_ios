@@ -32,6 +32,5 @@ class ViewController: UIViewController {
         versionLabel.text = "Version \(version)"
     }
 
-
 }
 
