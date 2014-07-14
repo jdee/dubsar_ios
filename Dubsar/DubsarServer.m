@@ -18,15 +18,15 @@
  */
 
 @import DubsarModels;
-#import "Push.h"
+#import "DubsarServer.h"
 
-@implementation Push
+@implementation DubsarServer
 
-+ (Push *)instance
++ (DubsarServer *)instance
 {
-    static Push* _instance = nil;
+    static DubsarServer* _instance = nil;
     if (!_instance) {
-        _instance = [[Push alloc] init];
+        _instance = [[self alloc] init];
     }
     return _instance;
 }

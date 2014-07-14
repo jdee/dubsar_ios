@@ -19,9 +19,9 @@
 
 @import Foundation;
 
-@interface Push : NSObject<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
+@interface DubsarServer : NSObject<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
 
-+ (Push*) instance;
++ (DubsarServer*) instance;
 
 + (void) postDeviceToken:(NSData*)deviceToken;
 

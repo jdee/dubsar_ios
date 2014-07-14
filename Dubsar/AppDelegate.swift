@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        Push.postDeviceToken(deviceToken)
+        DubsarServer.postDeviceToken(deviceToken)
     }
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -68,6 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
 
+        // Custom (Dubsar) payload handling
         let dubsar = notification?.objectForKey("dubsar") as? NSDictionary
         let url = dubsar?.objectForKey("url") as? NSString
         var wotdId : Int = 0
@@ -85,6 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             wotdId = Int(localId)
         }
 
+        // Standard APNS payload handling
         let aps = notification?.objectForKey("aps") as? NSDictionary
         let message = aps?.objectForKey("alert") as? NSString
 
@@ -94,7 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         switch (application.applicationState) {
         case .Active:
-            //* crashing
+            //*
             let viewController = window!.rootViewController as ViewController
             viewController.showAlert(message)
             // */
