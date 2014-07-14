@@ -32,6 +32,15 @@
 		7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */; };
 		7BAC22B91973352400D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC22B81973352400D2AEA4 /* libsqlite3.0.dylib */; };
 		7BAC22BC19733B4500D2AEA4 /* DatabaseWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22BB19733B4500D2AEA4 /* DatabaseWrapper.m */; };
+		7BAC22CF19734A9100D2AEA4 /* AutocompleterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22BE19734A9100D2AEA4 /* AutocompleterTest.m */; };
+		7BAC22D019734A9100D2AEA4 /* DailyWordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22C019734A9100D2AEA4 /* DailyWordTest.m */; };
+		7BAC22D119734A9100D2AEA4 /* ModelTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22C219734A9100D2AEA4 /* ModelTestCase.m */; };
+		7BAC22D219734A9100D2AEA4 /* PartOfSpeechDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22C419734A9100D2AEA4 /* PartOfSpeechDictionaryTest.m */; };
+		7BAC22D319734A9100D2AEA4 /* PointerDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22C619734A9100D2AEA4 /* PointerDictionaryTest.m */; };
+		7BAC22D419734A9100D2AEA4 /* SearchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22C819734A9100D2AEA4 /* SearchTest.m */; };
+		7BAC22D519734A9100D2AEA4 /* SenseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22CA19734A9100D2AEA4 /* SenseTest.m */; };
+		7BAC22D619734A9100D2AEA4 /* SynsetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22CC19734A9100D2AEA4 /* SynsetTest.m */; };
+		7BAC22D719734A9100D2AEA4 /* WordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22CE19734A9100D2AEA4 /* WordTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +105,24 @@
 		7BAC22B81973352400D2AEA4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		7BAC22BA19733B4500D2AEA4 /* DatabaseWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseWrapper.h; sourceTree = "<group>"; };
 		7BAC22BB19733B4500D2AEA4 /* DatabaseWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseWrapper.m; sourceTree = "<group>"; };
+		7BAC22BD19734A9100D2AEA4 /* AutocompleterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterTest.h; sourceTree = "<group>"; };
+		7BAC22BE19734A9100D2AEA4 /* AutocompleterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterTest.m; sourceTree = "<group>"; };
+		7BAC22BF19734A9100D2AEA4 /* DailyWordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyWordTest.h; sourceTree = "<group>"; };
+		7BAC22C019734A9100D2AEA4 /* DailyWordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyWordTest.m; sourceTree = "<group>"; };
+		7BAC22C119734A9100D2AEA4 /* ModelTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelTestCase.h; sourceTree = "<group>"; };
+		7BAC22C219734A9100D2AEA4 /* ModelTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelTestCase.m; sourceTree = "<group>"; };
+		7BAC22C319734A9100D2AEA4 /* PartOfSpeechDictionaryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartOfSpeechDictionaryTest.h; sourceTree = "<group>"; };
+		7BAC22C419734A9100D2AEA4 /* PartOfSpeechDictionaryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartOfSpeechDictionaryTest.m; sourceTree = "<group>"; };
+		7BAC22C519734A9100D2AEA4 /* PointerDictionaryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerDictionaryTest.h; sourceTree = "<group>"; };
+		7BAC22C619734A9100D2AEA4 /* PointerDictionaryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointerDictionaryTest.m; sourceTree = "<group>"; };
+		7BAC22C719734A9100D2AEA4 /* SearchTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTest.h; sourceTree = "<group>"; };
+		7BAC22C819734A9100D2AEA4 /* SearchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTest.m; sourceTree = "<group>"; };
+		7BAC22C919734A9100D2AEA4 /* SenseTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SenseTest.h; sourceTree = "<group>"; };
+		7BAC22CA19734A9100D2AEA4 /* SenseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SenseTest.m; sourceTree = "<group>"; };
+		7BAC22CB19734A9100D2AEA4 /* SynsetTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynsetTest.h; sourceTree = "<group>"; };
+		7BAC22CC19734A9100D2AEA4 /* SynsetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynsetTest.m; sourceTree = "<group>"; };
+		7BAC22CD19734A9100D2AEA4 /* WordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordTest.h; sourceTree = "<group>"; };
+		7BAC22CE19734A9100D2AEA4 /* WordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +197,24 @@
 			isa = PBXGroup;
 			children = (
 				7BAC227119732D6C00D2AEA4 /* DubsarTests.swift */,
+				7BAC22BD19734A9100D2AEA4 /* AutocompleterTest.h */,
+				7BAC22BE19734A9100D2AEA4 /* AutocompleterTest.m */,
+				7BAC22BF19734A9100D2AEA4 /* DailyWordTest.h */,
+				7BAC22C019734A9100D2AEA4 /* DailyWordTest.m */,
+				7BAC22C119734A9100D2AEA4 /* ModelTestCase.h */,
+				7BAC22C219734A9100D2AEA4 /* ModelTestCase.m */,
+				7BAC22C319734A9100D2AEA4 /* PartOfSpeechDictionaryTest.h */,
+				7BAC22C419734A9100D2AEA4 /* PartOfSpeechDictionaryTest.m */,
+				7BAC22C519734A9100D2AEA4 /* PointerDictionaryTest.h */,
+				7BAC22C619734A9100D2AEA4 /* PointerDictionaryTest.m */,
+				7BAC22C719734A9100D2AEA4 /* SearchTest.h */,
+				7BAC22C819734A9100D2AEA4 /* SearchTest.m */,
+				7BAC22C919734A9100D2AEA4 /* SenseTest.h */,
+				7BAC22CA19734A9100D2AEA4 /* SenseTest.m */,
+				7BAC22CB19734A9100D2AEA4 /* SynsetTest.h */,
+				7BAC22CC19734A9100D2AEA4 /* SynsetTest.m */,
+				7BAC22CD19734A9100D2AEA4 /* WordTest.h */,
+				7BAC22CE19734A9100D2AEA4 /* WordTest.m */,
 				7BAC226F19732D6C00D2AEA4 /* Supporting Files */,
 			);
 			path = DubsarTests;
@@ -351,7 +396,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BAC22D419734A9100D2AEA4 /* SearchTest.m in Sources */,
+				7BAC22CF19734A9100D2AEA4 /* AutocompleterTest.m in Sources */,
+				7BAC22D019734A9100D2AEA4 /* DailyWordTest.m in Sources */,
 				7BAC227219732D6C00D2AEA4 /* DubsarTests.swift in Sources */,
+				7BAC22D519734A9100D2AEA4 /* SenseTest.m in Sources */,
+				7BAC22D119734A9100D2AEA4 /* ModelTestCase.m in Sources */,
+				7BAC22D219734A9100D2AEA4 /* PartOfSpeechDictionaryTest.m in Sources */,
+				7BAC22D719734A9100D2AEA4 /* WordTest.m in Sources */,
+				7BAC22D319734A9100D2AEA4 /* PointerDictionaryTest.m in Sources */,
+				7BAC22D619734A9100D2AEA4 /* SynsetTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
