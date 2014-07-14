@@ -17,8 +17,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Sense.h"
-#import "Word.h"
+@import DubsarModels;
+
 #import "WordTest.h"
 
 @implementation WordTest
@@ -31,24 +31,24 @@
     word.data = [self.class dataWithString:stringData];
     [word parseData];
         
-    STAssertEquals((unsigned int)1, word.senses.count, @"expected 1 sense, got %u", word.senses.count);
+    XCTAssertEqual((unsigned int)1, word.senses.count, @"expected 1 sense, got %u", word.senses.count);
     
     Sense* sense = [word.senses objectAtIndex:0];
     
-    STAssertEquals(35629, sense._id, @"expected 35629, found %d", word._id);
-    STAssertEqualObjects(@"nutrient", sense.synonymsAsString, @"expected \"nutrient\", found \"%@\"", sense.synonymsAsString);
-    STAssertEqualObjects(@"any substance that can be metabolized by an animal to give energy and build tissue  ", sense.gloss, @"gloss failure");
-    STAssertEqualObjects(@"noun.Tops", sense.lexname, @"expected \"noun.Tops\", found \"%@\"", sense.lexname);
-    STAssertNil(sense.marker, @"expected nil sense marker, found non-nil");
-    STAssertEquals(29, sense.freqCnt, @"expected 29, found %d", sense.freqCnt);
-    STAssertEquals(29, word.freqCnt, @"expected 29, found %d", word.freqCnt);
+    XCTAssertEqual(35629, sense._id, @"expected 35629, found %d", word._id);
+    XCTAssertEqualObjects(@"nutrient", sense.synonymsAsString, @"expected \"nutrient\", found \"%@\"", sense.synonymsAsString);
+    XCTAssertEqualObjects(@"any substance that can be metabolized by an animal to give energy and build tissue  ", sense.gloss, @"gloss failure");
+    XCTAssertEqualObjects(@"noun.Tops", sense.lexname, @"expected \"noun.Tops\", found \"%@\"", sense.lexname);
+    XCTAssertNil(sense.marker, @"expected nil sense marker, found non-nil");
+    XCTAssertEqual(29, sense.freqCnt, @"expected 29, found %d", sense.freqCnt);
+    XCTAssertEqual(29, word.freqCnt, @"expected 29, found %d", word.freqCnt);
 }
 
 -(void)testInitialization
 {
     Word* a = [[Word alloc]init];
-    STAssertTrue(!a.complete, @"complete failed");
-    STAssertTrue(!a.error, @"error failed");
+    XCTAssertTrue(!a.complete, @"complete failed");
+    XCTAssertTrue(!a.error, @"error failed");
 }
                          
 @end

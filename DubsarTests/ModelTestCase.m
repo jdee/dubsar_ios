@@ -38,7 +38,7 @@
 - (void)setUp
 {
     // open the database
-    _database = [Database instance];
+    _database = [Database instance].database;
 }
 
 - (void)tearDown

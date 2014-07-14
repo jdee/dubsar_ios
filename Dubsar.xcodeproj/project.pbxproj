@@ -24,6 +24,8 @@
 		7BAC22D619734A9100D2AEA4 /* SynsetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22CC19734A9100D2AEA4 /* SynsetTest.m */; };
 		7BAC22D719734A9100D2AEA4 /* WordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22CE19734A9100D2AEA4 /* WordTest.m */; };
 		7BAC23491973639200D2AEA4 /* DubsarModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23481973639200D2AEA4 /* DubsarModels.framework */; };
+		7BAC234F1973698100D2AEA4 /* DubsarModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23481973639200D2AEA4 /* DubsarModels.framework */; };
+		7BAC23591973753300D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +37,20 @@
 			remoteInfo = Dubsar;
 		};
 		7BAC234B1973697600D2AEA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BAC225119732D6C00D2AEA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BAC225819732D6C00D2AEA4;
+			remoteInfo = Dubsar;
+		};
+		7BAC234D1973697600D2AEA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BAC225119732D6C00D2AEA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BAC225819732D6C00D2AEA4;
+			remoteInfo = Dubsar;
+		};
+		7BAC235A1973754900D2AEA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7BAC225119732D6C00D2AEA4 /* Project object */;
 			proxyType = 1;
@@ -77,6 +93,7 @@
 		7BAC22CD19734A9100D2AEA4 /* WordTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordTest.h; sourceTree = "<group>"; };
 		7BAC22CE19734A9100D2AEA4 /* WordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordTest.m; sourceTree = "<group>"; };
 		7BAC23481973639200D2AEA4 /* DubsarModels.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DubsarModels.framework; path = "../../../Library/Developer/Xcode/DerivedData/Dubsar-gtxcrwsszmnigedrmhxqqasmxygq/Build/Products/Debug-iphoneos/DubsarModels.framework"; sourceTree = "<group>"; };
+		7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BAC23591973753300D2AEA4 /* libsqlite3.0.dylib in Frameworks */,
 				7BAC23491973639200D2AEA4 /* DubsarModels.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BAC234F1973698100D2AEA4 /* DubsarModels.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +120,7 @@
 		7BAC225019732D6C00D2AEA4 = {
 			isa = PBXGroup;
 			children = (
+				7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */,
 				7BAC23481973639200D2AEA4 /* DubsarModels.framework */,
 				7BAC225B19732D6C00D2AEA4 /* Dubsar */,
 				7BAC226E19732D6C00D2AEA4 /* DubsarTests */,
@@ -210,6 +230,8 @@
 			dependencies = (
 				7BAC226D19732D6C00D2AEA4 /* PBXTargetDependency */,
 				7BAC234C1973697600D2AEA4 /* PBXTargetDependency */,
+				7BAC234E1973697600D2AEA4 /* PBXTargetDependency */,
+				7BAC235B1973754900D2AEA4 /* PBXTargetDependency */,
 			);
 			name = DubsarTests;
 			productName = DubsarTests;
@@ -316,6 +338,16 @@
 			target = 7BAC225819732D6C00D2AEA4 /* Dubsar */;
 			targetProxy = 7BAC234B1973697600D2AEA4 /* PBXContainerItemProxy */;
 		};
+		7BAC234E1973697600D2AEA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BAC225819732D6C00D2AEA4 /* Dubsar */;
+			targetProxy = 7BAC234D1973697600D2AEA4 /* PBXContainerItemProxy */;
+		};
+		7BAC235B1973754900D2AEA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BAC225819732D6C00D2AEA4 /* Dubsar */;
+			targetProxy = 7BAC235A1973754900D2AEA4 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -334,6 +366,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -377,6 +410,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

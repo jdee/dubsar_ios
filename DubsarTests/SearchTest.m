@@ -17,10 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "PartOfSpeechDictionary.h"
-#import "Search.h"
+@import DubsarModels;
+
 #import "SearchTest.h"
-#import "Word.h"
 
 @implementation SearchTest
 
@@ -33,35 +32,35 @@
     search.data = [self.class dataWithString:stringData];
     [search parseData];
 
-    STAssertEquals(1, search.totalPages, @"total pages failed");
+    XCTAssertEquals(1, search.totalPages, @"total pages failed");
     
     NSArray* results = search.results;
     Word* word = [results objectAtIndex:0];
     
-    STAssertEquals((unsigned int)1, results.count, @"results count failed");
-    STAssertEquals(26063, word._id, @"word ID failed");
-    STAssertEqualObjects(@"food", word.name, @"word name failed");
-    STAssertEquals(POSNoun, word.partOfSpeech, @"word part of speech failed");
-    STAssertEquals(29, word.freqCnt, @"word frequency count failed");
-    STAssertNotNil(word.inflections, @"word inflections failed");
-    STAssertEqualObjects(@"foods", word.inflections, @"word inflection content failed");
+    XCTAssertEquals((unsigned int)1, results.count, @"results count failed");
+    XCTAssertEquals(26063, word._id, @"word ID failed");
+    XCTAssertEqualObjects(@"food", word.name, @"word name failed");
+    XCTAssertEquals(POSNoun, word.partOfSpeech, @"word part of speech failed");
+    XCTAssertEquals(29, word.freqCnt, @"word frequency count failed");
+    XCTAssertNotNil(word.inflections, @"word inflections failed");
+    XCTAssertEqualObjects(@"foods", word.inflections, @"word inflection content failed");
 }
  */
 
 -(void)testExactInflectionMatch
 {
     Search* search = [Search searchWithTerm:@"recommended" matchCase:NO];
-    [search loadResults:self.appDelegate];
+    [search loadResults:self.database];
     
     NSLog(@"search for recommended returned %d results", search.results.count);
-    // STAssertEquals((unsigned int)1, search.results.count, @"search count failed");
+    // XCTAssertEquals((unsigned int)1, search.results.count, @"search count failed");
 }
 
 -(void)testInitialization
 {
     Search* a = [[Search alloc]init];
-    STAssertTrue(!a.complete, @"complete failed");
-    STAssertTrue(!a.error, @"error failed");
+    XCTAssertTrue(!a.complete, @"complete failed");
+    XCTAssertTrue(!a.error, @"error failed");
 }
 
 @end

@@ -28,7 +28,7 @@
 
 @interface ModelTestCase : XCTestCase
 
-@property (nonatomic, strong) Database* database;
+@property (nonatomic, strong) DatabaseWrapper* database;
 
 + (NSMutableData*) dataWithString:(NSString*)stringData;
 

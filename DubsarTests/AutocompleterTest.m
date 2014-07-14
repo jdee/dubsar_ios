@@ -17,7 +17,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Autocompleter.h"
+@import DubsarModels;
+
 #import "AutocompleterTest.h"
 
 @implementation AutocompleterTest
@@ -31,17 +32,17 @@
     [autocompleter parseData];
     
     NSArray* results = autocompleter.results;
-    STAssertEquals((unsigned int)3, results.count, @"expected 3 autocompleter results, got %u", results.count);
-    STAssertEqualObjects(@"like", [results objectAtIndex:0], @"expected \"like\", found \"%@\"", [results objectAtIndex:0]);
-    STAssertEqualObjects(@"link", [results objectAtIndex:1], @"expected \"link\", found \"%@\"", [results objectAtIndex:1]);
-    STAssertEqualObjects(@"lion", [results objectAtIndex:2], @"expected \"lion\", found \"%@\"", [results objectAtIndex:2]);
+    XCTAssertEqual((unsigned int)3, results.count, @"expected 3 autocompleter results, got %u", results.count);
+    XCTAssertEqualObjects(@"like", [results objectAtIndex:0], @"expected \"like\", found \"%@\"", [results objectAtIndex:0]);
+    XCTAssertEqualObjects(@"link", [results objectAtIndex:1], @"expected \"link\", found \"%@\"", [results objectAtIndex:1]);
+    XCTAssertEqualObjects(@"lion", [results objectAtIndex:2], @"expected \"lion\", found \"%@\"", [results objectAtIndex:2]);
 }
 
 -(void)testInitialization
 {
     Autocompleter* a = [[Autocompleter alloc]init];
-    STAssertTrue(!a.complete, @"complete failed");
-    STAssertTrue(!a.error, @"error failed");
+    XCTAssertTrue(!a.complete, @"complete failed");
+    XCTAssertTrue(!a.error, @"error failed");
 }
 
 @end

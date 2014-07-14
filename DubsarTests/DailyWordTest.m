@@ -17,9 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "DailyWord.h"
+@import DubsarModels;
+
 #import "DailyWordTest.h"
-#import "Word.h"
 
 @implementation DailyWordTest
 
@@ -35,20 +35,20 @@
     
     NSArray *expectedInflections = [NSArray arrayWithObjects:@"decelerated", @"decelerates", @"decelerating", nil];
     
-    STAssertNotNil(word, @"word failed");
-    STAssertEquals(147806, word._id, @"word ID failed");
-    STAssertEqualObjects(@"decelerate", word.name, @"word name failed");
-    STAssertEquals(POSVerb, word.partOfSpeech, @"word part of speech failed");
-    STAssertEquals(1, word.freqCnt, @"word frequency count failed");
-    STAssertTrue([expectedInflections isEqualToArray:word.inflections], @"word inflections failed");
-    STAssertTrue(1360022466 == dailyWord.expiration, @"expiration failed");
+    XCTAssertNotNil(word, @"word failed");
+    XCTAssertEqual(147806, word._id, @"word ID failed");
+    XCTAssertEqualObjects(@"decelerate", word.name, @"word name failed");
+    XCTAssertEqual(POSVerb, word.partOfSpeech, @"word part of speech failed");
+    XCTAssertEqual(1, word.freqCnt, @"word frequency count failed");
+    XCTAssertTrue([expectedInflections isEqualToArray:word.inflections], @"word inflections failed");
+    XCTAssertTrue(1360022466 == dailyWord.expiration, @"expiration failed");
 }
 
 -(void)testInitialization
 {
     DailyWord* a = [[DailyWord alloc]init];
-    STAssertTrue(!a.complete, @"complete failed");
-    STAssertTrue(!a.error, @"error failed");
+    XCTAssertTrue(!a.complete, @"complete failed");
+    XCTAssertTrue(!a.error, @"error failed");
 }
 
 @end

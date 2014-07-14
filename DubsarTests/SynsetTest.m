@@ -17,7 +17,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Synset.h"
+@import DubsarModels;
+
 #import "SynsetTest.h"
 
 @implementation SynsetTest
@@ -30,19 +31,19 @@
     synset.data = [self.class dataWithString:stringData];
     [synset parseData];
     
-    STAssertEqualObjects(@"noun.Tops", synset.lexname, @"lexname failed");
-    STAssertNotNil(synset.samples, @"samples failed");
-    STAssertEquals((unsigned int)0, synset.samples.count, @"samples count failed");
-    STAssertEquals((unsigned int)2, synset.senses.count, @"senses count failed");
-    STAssertEquals(30, synset.freqCnt, @"frequency count failed");
-    STAssertEquals((unsigned int)1, synset.pointers.count, @"pointers count failed");
+    XCTAssertEqualObjects(@"noun.Tops", synset.lexname, @"lexname failed");
+    XCTAssertNotNil(synset.samples, @"samples failed");
+    XCTAssertEqual((unsigned int)0, synset.samples.count, @"samples count failed");
+    XCTAssertEqual((unsigned int)2, synset.senses.count, @"senses count failed");
+    XCTAssertEqual(30, synset.freqCnt, @"frequency count failed");
+    XCTAssertEqual((unsigned int)1, synset.pointers.count, @"pointers count failed");
 }
 
 -(void)testInitialization
 {
     Synset* a = [[Synset alloc]init];
-    STAssertTrue(!a.complete, @"complete failed");
-    STAssertTrue(!a.error, @"error failed");
+    XCTAssertTrue(!a.complete, @"complete failed");
+    XCTAssertTrue(!a.error, @"error failed");
 }
 
 @end

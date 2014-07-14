@@ -17,7 +17,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "PointerDictionary.h"
+@import DubsarModels;
+
 #import "PointerDictionaryTest.h"
 
 @implementation PointerDictionaryTest
@@ -56,10 +57,10 @@
 {
     PointerDictionary* dictionary = [PointerDictionary instance];
     
-    STAssertNotNil(dictionary, @"PointerDictionary should not be nil");
-    STAssertNotNil(dictionary.helpDictionary, @"help dictionary should not be nil");
+    XCTAssertNotNil(dictionary, @"PointerDictionary should not be nil");
+    XCTAssertNotNil(dictionary.helpDictionary, @"help dictionary should not be nil");
     
-    STAssertEquals((unsigned int)30, dictionary.helpDictionary.count, @"expected 29 entries in help dictionary, found %d", dictionary.helpDictionary.count);
+    XCTAssertEqual((unsigned int)30, dictionary.helpDictionary.count, @"expected 29 entries in help dictionary, found %d", dictionary.helpDictionary.count);
     
     [self singleHelpCase:@"antonym" expected:@"words opposite in meaning"];
     [self singleHelpCase:@"hypernym" expected:@"more generic terms"];
@@ -97,10 +98,10 @@
 {
     PointerDictionary* dictionary = [PointerDictionary instance];
     
-    STAssertNotNil(dictionary, @"PointerDictionary should not be nil");
-    STAssertNotNil(dictionary.titleDictionary, @"title dictionary should not be nil");
+    XCTAssertNotNil(dictionary, @"PointerDictionary should not be nil");
+    XCTAssertNotNil(dictionary.titleDictionary, @"title dictionary should not be nil");
     
-    STAssertEquals((unsigned int)30, dictionary.titleDictionary.count, @"expected 29 entries in title dictionary, found %d", dictionary.titleDictionary.count);
+    XCTAssertEqual((unsigned int)30, dictionary.titleDictionary.count, @"expected 29 entries in title dictionary, found %d", dictionary.titleDictionary.count);
     
     [self singleTitleCase:@"antonym" expected:@"Antonyms"];
     [self singleTitleCase:@"hypernym" expected:@"Hypernyms"];
@@ -137,13 +138,13 @@
 - (void)singleHelpCase:(NSString *)ptype expected:(NSString *)expected
 {
     NSString* help = [PointerDictionary helpWithPointerType:ptype];
-    STAssertTrue([help isEqualToString:expected], @"expected help text for \"%@\" to be \"%@\", found \"%@\"", ptype, expected, help);
+    XCTAssertTrue([help isEqualToString:expected], @"expected help text for \"%@\" to be \"%@\", found \"%@\"", ptype, expected, help);
 }
 
 - (void)singleTitleCase:(NSString *)ptype expected:(NSString *)expected
 {
     NSString* title = [PointerDictionary titleWithPointerType:ptype];
-    STAssertTrue([title isEqualToString:expected], @"expected title text for \"%@\" to be \"%@\", found \"%@\"", ptype, expected, title);    
+    XCTAssertTrue([title isEqualToString:expected], @"expected title text for \"%@\" to be \"%@\", found \"%@\"", ptype, expected, title);    
 }
 
 @end

@@ -17,10 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Sense.h"
+@import DubsarModels;
+
 #import "SenseTest.h"
-#import "Synset.h"
-#import "Word.h"
 
 @implementation SenseTest
 
@@ -40,65 +39,65 @@
     [sense parseData];
     
     // word
-    STAssertEquals(26063, sense.word._id, @"word ID failed");
-    STAssertEqualObjects(@"food", sense.word.name, @"word name failed");
-    STAssertEquals(POSNoun, sense.word.partOfSpeech, @"word partOfSpeech failed");
+    XCTAssertEqual(26063, sense.word._id, @"word ID failed");
+    XCTAssertEqualObjects(@"food", sense.word.name, @"word name failed");
+    XCTAssertEqual(POSNoun, sense.word.partOfSpeech, @"word partOfSpeech failed");
 
     // synset
-    STAssertEquals(21803, sense.synset._id, @"synset ID failed");
-    STAssertEqualObjects(@"sense gloss", sense.synset.gloss, @"synset gloss failed");
+    XCTAssertEqual(21803, sense.synset._id, @"synset ID failed");
+    XCTAssertEqualObjects(@"sense gloss", sense.synset.gloss, @"synset gloss failed");
 
     // sense
-    STAssertEqualObjects(@"noun.Tops", sense.lexname, @"lexname failed");
-    STAssertNil(sense.marker, @"marker failed");
-    STAssertEquals(29, sense.freqCnt, @"frequency count failed");
+    XCTAssertEqualObjects(@"noun.Tops", sense.lexname, @"lexname failed");
+    XCTAssertNil(sense.marker, @"marker failed");
+    XCTAssertEqual(29, sense.freqCnt, @"frequency count failed");
 
     // synonyms
-    STAssertNotNil(sense.synonyms, @"synonyms failed");
-    STAssertEquals((unsigned int)1, sense.synonyms.count, @"synonym count failed");
+    XCTAssertNotNil(sense.synonyms, @"synonyms failed");
+    XCTAssertEqual((unsigned int)1, sense.synonyms.count, @"synonym count failed");
     
     synSense = [sense.synonyms objectAtIndex:0];
-    STAssertEquals(35630, synSense._id, @"synonym ID failed");
-    STAssertEqualObjects(@"nutrient", synSense.name, @"synonym name failed");
-    STAssertNil(synSense.marker, @"synonym marker failed");
-    STAssertEquals(1, synSense.freqCnt, @"synonym frequency count failed");
+    XCTAssertEqual(35630, synSense._id, @"synonym ID failed");
+    XCTAssertEqualObjects(@"nutrient", synSense.name, @"synonym name failed");
+    XCTAssertNil(synSense.marker, @"synonym marker failed");
+    XCTAssertEqual(1, synSense.freqCnt, @"synonym frequency count failed");
 
     // samples, verb frames
-    STAssertNotNil(sense.samples, @"samples failed");
-    STAssertEquals(sense.samples.count, (unsigned int)0, @"samples count failed");
-    STAssertNotNil(sense.verbFrames, @"verb frames failed");
-    STAssertEquals(sense.verbFrames.count, (unsigned int)0, @"verb frames count failed");
+    XCTAssertNotNil(sense.samples, @"samples failed");
+    XCTAssertEqual(sense.samples.count, (unsigned int)0, @"samples count failed");
+    XCTAssertNotNil(sense.verbFrames, @"verb frames failed");
+    XCTAssertEqual(sense.verbFrames.count, (unsigned int)0, @"verb frames count failed");
     
     // pointers
     NSDictionary* pointers = sense.pointers;    
-    STAssertEquals((unsigned int)1, pointers.count, @"pointer count failed");
+    XCTAssertEqual((unsigned int)1, pointers.count, @"pointer count failed");
     NSArray* _pointers = [pointers valueForKey:@"hypernym"];
-    STAssertNotNil(_pointers, @"pointers failed");
-    STAssertEquals((unsigned int)1, _pointers.count, @"pointers count failed");
+    XCTAssertNotNil(_pointers, @"pointers failed");
+    XCTAssertEqual((unsigned int)1, _pointers.count, @"pointers count failed");
     
     NSArray* _pointer = [_pointers objectAtIndex:0];
 
     NSNumber* numericID = [_pointer objectAtIndex:1];
     
-    STAssertEqualObjects(@"synset", [_pointer objectAtIndex:0], @"hypernym target type failed");
-    STAssertEquals(21801, numericID.intValue, @"hypernym ID failed");
-    STAssertEqualObjects(@"substance", [_pointer objectAtIndex:2], @"hypernym text failed");
-    STAssertEqualObjects(@"hypernym gloss", [_pointer objectAtIndex:3], @"hypernym gloss failed");
+    XCTAssertEqualObjects(@"synset", [_pointer objectAtIndex:0], @"hypernym target type failed");
+    XCTAssertEqual(21801, numericID.intValue, @"hypernym ID failed");
+    XCTAssertEqualObjects(@"substance", [_pointer objectAtIndex:2], @"hypernym text failed");
+    XCTAssertEqualObjects(@"hypernym gloss", [_pointer objectAtIndex:3], @"hypernym gloss failed");
 }
 
 -(void)testNameAndPosParsing
 {
     NSString* nameAndPos = @"beauty (n.)";
     Sense* sense = [Sense senseWithId:1 nameAndPos:nameAndPos];
-    STAssertEqualObjects(@"beauty", sense.name, @"name failed");
-    STAssertEquals(POSNoun, sense.partOfSpeech, @"part of speech failed");
+    XCTAssertEqualObjects(@"beauty", sense.name, @"name failed");
+    XCTAssertEqual(POSNoun, sense.partOfSpeech, @"part of speech failed");
 }
 
 -(void)testInitialization
 {
     Sense* a = [[Sense alloc]init];
-    STAssertTrue(!a.complete, @"complete failed");
-    STAssertTrue(!a.error, @"error failed");
+    XCTAssertTrue(!a.complete, @"complete failed");
+    XCTAssertTrue(!a.error, @"error failed");
 }
 
 @end
