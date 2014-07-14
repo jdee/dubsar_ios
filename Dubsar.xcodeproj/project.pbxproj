@@ -34,6 +34,13 @@
 			remoteGlobalIDString = 7BAC225819732D6C00D2AEA4;
 			remoteInfo = Dubsar;
 		};
+		7BAC234B1973697600D2AEA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BAC225119732D6C00D2AEA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BAC225819732D6C00D2AEA4;
+			remoteInfo = Dubsar;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -202,6 +209,7 @@
 			);
 			dependencies = (
 				7BAC226D19732D6C00D2AEA4 /* PBXTargetDependency */,
+				7BAC234C1973697600D2AEA4 /* PBXTargetDependency */,
 			);
 			name = DubsarTests;
 			productName = DubsarTests;
@@ -302,6 +310,11 @@
 			isa = PBXTargetDependency;
 			target = 7BAC225819732D6C00D2AEA4 /* Dubsar */;
 			targetProxy = 7BAC226C19732D6C00D2AEA4 /* PBXContainerItemProxy */;
+		};
+		7BAC234C1973697600D2AEA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BAC225819732D6C00D2AEA4 /* Dubsar */;
+			targetProxy = 7BAC234B1973697600D2AEA4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -441,6 +454,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Dubsar-gtxcrwsszmnigedrmhxqqasmxygq/Build/Products/Debug-iphoneos",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -461,6 +475,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Dubsar-gtxcrwsszmnigedrmhxqqasmxygq/Build/Products/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = DubsarTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

@@ -18,7 +18,7 @@
  */
 @import UIKit;
 
-#import "DatabaseWrapper.h"
+#import "Database.h"
 #import "Inflection.h"
 #import "Review.h"
 #import "Word.h"
@@ -32,7 +32,7 @@
 {
     self = [super init];
     if (self) {
-        DatabaseWrapper* database = [DatabaseWrapper instance];
+        Database* database = [Database instance];
         self.page = thePage;
         self.totalPages = 0; // set by server response
         self._url = [NSString stringWithFormat:@"/review?page=%d&auth_token=%@", thePage, database.authToken];

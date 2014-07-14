@@ -18,7 +18,7 @@
  */
 @import UIKit;
 
-#import "DatabaseWrapper.h"
+#import "Database.h"
 #import "Inflection.h"
 #import "Word.h"
 
@@ -31,7 +31,7 @@
 {
     self = [super init];
     if (self) {
-        DatabaseWrapper* database = [DatabaseWrapper instance];
+        Database* database = [Database instance];
         self.word = theWord;
         self._id = theId;
         self.name = theName;

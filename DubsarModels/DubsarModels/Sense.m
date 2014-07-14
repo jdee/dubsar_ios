@@ -16,8 +16,8 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-#import <sqlite3.h>
 
+#import "Database.h"
 #import "DatabaseWrapper.h"
 #import "PartOfSpeechDictionary.h"
 #import "Pointer.h"
@@ -27,7 +27,11 @@
 #import "Synset.h"
 #import "Word.h"
 
-@implementation Sense
+@implementation Sense {
+    sqlite3_stmt* pointerQuery;
+    sqlite3_stmt* lexicalQuery;
+    sqlite3_stmt* semanticQuery;
+}
 
 @synthesize _id;
 @synthesize name;
@@ -500,8 +504,8 @@
 #ifdef DEBUG
     NSLog(@"in numberOfSections");
 #endif // DEBUG
-    DatabaseWrapper* database = [DatabaseWrapper instance];
-    
+    DatabaseWrapper* database = [Database instance].database;
+
     NSString* sql;
     int rc;
     sqlite3_stmt* statement;
@@ -682,7 +686,7 @@
 
 -(void)prepareStatements
 {
-    DatabaseWrapper* database = [DatabaseWrapper instance];
+    DatabaseWrapper* database = [Database instance].database;
     int rc;
 
     NSString* sql = [NSString stringWithFormat:

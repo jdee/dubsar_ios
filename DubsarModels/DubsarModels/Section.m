@@ -18,6 +18,7 @@
  */
 #import <sqlite3.h>
 
+#import "Database.h"
 #import "DatabaseWrapper.h"
 #import "Section.h"
 
@@ -59,7 +60,7 @@
     NSLog(@"counting rows");
 #endif // DEBUG
 
-    DatabaseWrapper* database = [DatabaseWrapper instance];
+    DatabaseWrapper* database = [Database instance].database;
     NSString* sql;
     
     if (senseId != 0) {

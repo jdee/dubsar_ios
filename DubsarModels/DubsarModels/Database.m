@@ -1,49 +1,44 @@
 /*
  Dubsar Dictionary Project
- Copyright (C) 2010-13 Jimmy Dee
- 
+ Copyright (C) 2010-14 Jimmy Dee
+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
  of the License, or (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "ModelTestCase.h"
+#import "Database.h"
+#import "DatabaseWrapper.h"
 
-@implementation ModelTestCase
+@implementation Database
 
-+ (NSMutableData*)dataWithString:(NSString*)stringData
++ (Database *)instance
 {
-    NSRange range;
-    range.location = 0;
-    range.length = stringData.length;
-    
-    NSUInteger length;
-    unsigned char buffer[256];
-    
-    [stringData getBytes:buffer maxLength:256 usedLength:&length encoding:NSUTF8StringEncoding options:0 range:range remainingRange:NULL];
-    
-    return [NSMutableData dataWithBytes:buffer length:length];
+    static Database* _instance = nil;
+    if (!_instance) {
+        _instance = [[self alloc] init];
+    }
+    return _instance;
 }
 
-- (void)setUp
+- (instancetype)init
 {
-    // open the database
-    _database = [Database instance];
-}
-
-- (void)tearDown
-{
-    // close the database
+    self = [super init];
+    if (self) {
+        _database = [[DatabaseWrapper alloc] init];
+        [_database openDBName:nil];
+    }
+    return self;
 }
 
 @end

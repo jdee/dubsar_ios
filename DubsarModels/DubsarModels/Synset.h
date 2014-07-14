@@ -22,10 +22,7 @@
 
 @class Pointer;
 
-@interface Synset : Model {
-    sqlite3_stmt* pointerQuery;
-    sqlite3_stmt* semanticQuery;
-}
+@interface Synset : Model
 
 @property (nonatomic) int _id;
 @property (nonatomic, copy) NSString* gloss;

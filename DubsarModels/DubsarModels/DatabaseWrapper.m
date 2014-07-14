@@ -23,25 +23,6 @@
 
 @implementation DatabaseWrapper
 
-+ (DatabaseWrapper *)instance
-{
-    static DatabaseWrapper* _instance = nil;
-    if (!_instance) {
-        _instance = [[self alloc] init];
-    }
-    return _instance;
-}
-
-+ (void)openDBName:(NSString *)dbName recreateFTSTables:(BOOL)recreateFTSTables
-{
-    [[self instance] openDBName:dbName recreateFTSTables:recreateFTSTables];
-}
-
-+ (void)openDBName:(NSString *)dbName
-{
-    [[self instance] openDBName:dbName];
-}
-
 - (instancetype)init
 {
     self = [super init];

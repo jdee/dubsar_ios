@@ -18,6 +18,7 @@
  */
 #import <sqlite3.h>
 
+#import "Database.h"
 #import "DatabaseWrapper.h"
 #import "PartOfSpeechDictionary.h"
 #import "Pointer.h"
@@ -27,7 +28,10 @@
 #import "Synset.h"
 #import "Word.h"
 
-@implementation Synset
+@implementation Synset {
+    sqlite3_stmt* pointerQuery;
+    sqlite3_stmt* semanticQuery;
+}
 
 @synthesize _id;
 @synthesize gloss;
@@ -250,7 +254,7 @@
 #ifdef DEBUG
     NSLog(@"in numberOfSections");
 #endif // DEBUG
-    DatabaseWrapper* database = [DatabaseWrapper instance];
+    DatabaseWrapper* database = [Database instance].database;
     
     NSString* sql;
     int rc;
@@ -395,7 +399,7 @@
 
 -(void)prepareStatements
 {
-    DatabaseWrapper* database = [DatabaseWrapper instance];
+    DatabaseWrapper* database = [Database instance].database;
     int rc;
     
     NSString* sql = [NSString stringWithFormat:@"SELECT id, target_id, target_type "

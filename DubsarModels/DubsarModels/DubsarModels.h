@@ -30,7 +30,7 @@ FOUNDATION_EXPORT const unsigned char DubsarModelsVersionString[];
 #import <DubsarModels/AutocompleterDelegate.h>
 #import <DubsarModels/AutocompleterProxy.h>
 #import <DubsarModels/DailyWord.h>
-#import <DubsarModels/DatabaseWrapper.h>
+#import <DubsarModels/Database.h>
 #import <DubsarModels/Inflection.h>
 #import <DubsarModels/LoadDelegate.h>
 #import <DubsarModels/Model.h>

@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "Database.h"
 #import "DatabaseWrapper.h"
 #import "DubsarModels.h"
 #import "LoadDelegate.h"
@@ -49,7 +50,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
         error = false;
         errorMessage = nil;
         preview = false;
-        _database = [DatabaseWrapper instance];
+        _database = [Database instance].database;
     }
     return self;
 }

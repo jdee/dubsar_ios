@@ -42,10 +42,12 @@
 		7BAC233B19735CB400D2AEA4 /* Synset.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231B19735CB400D2AEA4 /* Synset.m */; };
 		7BAC233C19735CB400D2AEA4 /* Word.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC231C19735CB400D2AEA4 /* Word.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BAC233D19735CB400D2AEA4 /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231D19735CB400D2AEA4 /* Word.m */; };
-		7BAC234019735CC700D2AEA4 /* DatabaseWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC233E19735CC700D2AEA4 /* DatabaseWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC234019735CC700D2AEA4 /* DatabaseWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC233E19735CC700D2AEA4 /* DatabaseWrapper.h */; };
 		7BAC234119735CC700D2AEA4 /* DatabaseWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC233F19735CC700D2AEA4 /* DatabaseWrapper.m */; };
 		7BAC2346197361D800D2AEA4 /* URLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC2344197361D800D2AEA4 /* URLEncoding.h */; };
 		7BAC2347197361D800D2AEA4 /* URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC2345197361D800D2AEA4 /* URLEncoding.m */; };
+		7BAC235619736CDA00D2AEA4 /* Database.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC235419736CDA00D2AEA4 /* Database.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BAC235719736CDA00D2AEA4 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC235519736CDA00D2AEA4 /* Database.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +103,8 @@
 		7BAC233F19735CC700D2AEA4 /* DatabaseWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseWrapper.m; sourceTree = "<group>"; };
 		7BAC2344197361D800D2AEA4 /* URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLEncoding.h; sourceTree = "<group>"; };
 		7BAC2345197361D800D2AEA4 /* URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLEncoding.m; sourceTree = "<group>"; };
+		7BAC235419736CDA00D2AEA4 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
+		7BAC235519736CDA00D2AEA4 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +156,8 @@
 				7BAC230419735CB400D2AEA4 /* AutocompleterProxy.m */,
 				7BAC230519735CB400D2AEA4 /* DailyWord.h */,
 				7BAC230619735CB400D2AEA4 /* DailyWord.m */,
+				7BAC235419736CDA00D2AEA4 /* Database.h */,
+				7BAC235519736CDA00D2AEA4 /* Database.m */,
 				7BAC233E19735CC700D2AEA4 /* DatabaseWrapper.h */,
 				7BAC233F19735CC700D2AEA4 /* DatabaseWrapper.m */,
 				7BAC22E719735C2C00D2AEA4 /* DubsarModels.h */,
@@ -217,6 +223,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BAC235619736CDA00D2AEA4 /* Database.h in Headers */,
 				7BAC233019735CB400D2AEA4 /* PointerDictionary.h in Headers */,
 				7BAC232E19735CB400D2AEA4 /* Pointer.h in Headers */,
 				7BAC233419735CB400D2AEA4 /* Search.h in Headers */,
@@ -226,7 +233,6 @@
 				7BAC232319735CB400D2AEA4 /* AutocompleterProxy.h in Headers */,
 				7BAC232719735CB400D2AEA4 /* Inflection.h in Headers */,
 				7BAC233A19735CB400D2AEA4 /* Synset.h in Headers */,
-				7BAC234019735CC700D2AEA4 /* DatabaseWrapper.h in Headers */,
 				7BAC233219735CB400D2AEA4 /* Review.h in Headers */,
 				7BAC232A19735CB400D2AEA4 /* Model.h in Headers */,
 				7BAC233819735CB400D2AEA4 /* Sense.h in Headers */,
@@ -235,6 +241,7 @@
 				7BAC232C19735CB400D2AEA4 /* PartOfSpeechDictionary.h in Headers */,
 				7BAC233C19735CB400D2AEA4 /* Word.h in Headers */,
 				7BAC232919735CB400D2AEA4 /* LoadDelegate.h in Headers */,
+				7BAC234019735CC700D2AEA4 /* DatabaseWrapper.h in Headers */,
 				7BAC2346197361D800D2AEA4 /* URLEncoding.h in Headers */,
 				7BAC22E819735C2C00D2AEA4 /* DubsarModels.h in Headers */,
 			);
@@ -353,6 +360,7 @@
 				7BAC2347197361D800D2AEA4 /* URLEncoding.m in Sources */,
 				7BAC232419735CB400D2AEA4 /* AutocompleterProxy.m in Sources */,
 				7BAC231F19735CB400D2AEA4 /* Augury.m in Sources */,
+				7BAC235719736CDA00D2AEA4 /* Database.m in Sources */,
 				7BAC233319735CB400D2AEA4 /* Review.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,6 +388,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -426,6 +435,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

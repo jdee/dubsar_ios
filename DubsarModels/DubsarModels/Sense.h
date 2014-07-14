@@ -26,9 +26,6 @@
 
 @interface Sense : Model {
     bool weakSynsetLink, weakWordLink;
-    sqlite3_stmt* pointerQuery;
-    sqlite3_stmt* lexicalQuery;
-    sqlite3_stmt* semanticQuery;
 }
 
 @property (nonatomic) int _id;
