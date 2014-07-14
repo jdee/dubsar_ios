@@ -15,7 +15,7 @@
 		7B670D0E1973851F00E83937 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0C1973851F00E83937 /* iTunesArtwork@2x */; };
 		7B670D10197398B600E83937 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0F197398B600E83937 /* Settings.bundle */; };
 		7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */; };
-		7BAC226119732D6C00D2AEA4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC226019732D6C00D2AEA4 /* ViewController.swift */; };
+		7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC226019732D6C00D2AEA4 /* MainViewController.swift */; };
 		7BAC226619732D6C00D2AEA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226519732D6C00D2AEA4 /* Images.xcassets */; };
 		7BAC227219732D6C00D2AEA4 /* DubsarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC227119732D6C00D2AEA4 /* DubsarTests.swift */; };
 		7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC228A1973322F00D2AEA4 /* Dubsar.m */; };
@@ -84,7 +84,7 @@
 		7BAC225919732D6C00D2AEA4 /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BAC225D19732D6C00D2AEA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7BAC226019732D6C00D2AEA4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7BAC226019732D6C00D2AEA4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7BAC226319732D6C00D2AEA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7BAC226519732D6C00D2AEA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7BAC226B19732D6C00D2AEA4 /* DubsarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -181,7 +181,7 @@
 				7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */,
 				7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */,
 				7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */,
-				7BAC226019732D6C00D2AEA4 /* ViewController.swift */,
+				7BAC226019732D6C00D2AEA4 /* MainViewController.swift */,
 				7BAC226219732D6C00D2AEA4 /* Main.storyboard */,
 				7BAC226519732D6C00D2AEA4 /* Images.xcassets */,
 				7BAC225C19732D6C00D2AEA4 /* Supporting Files */,
@@ -346,7 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B1152011974340900869E15 /* DubsarServer.m in Sources */,
-				7BAC226119732D6C00D2AEA4 /* ViewController.swift in Sources */,
+				7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */,
 				7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,

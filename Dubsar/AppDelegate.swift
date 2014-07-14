@@ -33,6 +33,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         }
     }
 
+    var navigationController : UINavigationController {
+    get {
+        return window!.rootViewController as UINavigationController
+    }
+    }
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
         return true
@@ -107,16 +113,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
         let path = url.path
         if path.hasPrefix("/wotd/") {
-            var wotdId : Int = 0
-            var localId : CInt = 0
-
             let last = url.lastPathComponent as NSString
-            localId = last.intValue
-
-            wotdId = Int(localId)
+            let wotdId = Int(last.intValue)
         }
 
         return true
+    }
+
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex index: Int) {
+        if index == 1 {
+            openURL(alertURL)
+            alertURL = nil
+        }
     }
 
     func setupPushNotificationsForApplication(theApplication:UIApplication, withLaunchOptions launchOptions: NSDictionary?) {
@@ -143,13 +151,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         alert.delegate = self
     }
 
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex index: Int) {
-        if index == 1 {
-            openURL(alertURL)
-            alertURL = nil
-        }
-    }
-
     func openURL(url: NSURL?) {
         if !url {
             return
@@ -164,7 +165,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             // pass http/https URLS to Safari
             application.openURL(url)
         }
-
     }
 
 }

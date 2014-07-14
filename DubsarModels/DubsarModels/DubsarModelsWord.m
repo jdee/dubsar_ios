@@ -87,11 +87,11 @@
     if (mainThread) {
         // dispatch on the main thread in the background
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self databaseThread:UIApplication.sharedApplication.delegate];
+            [self databaseThread:self.database];
         });
     }
     else {
-        [self performSelectorInBackground:@selector(databaseThread:) withObject:UIApplication.sharedApplication.delegate];
+        [self performSelectorInBackground:@selector(databaseThread:) withObject:self.database];
     }
 }
 

@@ -79,10 +79,10 @@
 {
 #if 1
     // Seems to perform better this way
-    [NSThread detachNewThreadSelector:@selector(databaseThread:) toTarget:self withObject:UIApplication.sharedApplication.delegate];
+    [NSThread detachNewThreadSelector:@selector(databaseThread:) toTarget:self withObject:self.database];
 #else
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self databaseThread:UIApplication.sharedApplication.delegate];
+        [self databaseThread:self.database];
     });
 #endif
 }

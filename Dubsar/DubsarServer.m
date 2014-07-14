@@ -128,7 +128,7 @@
 {
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
 
-    NSLog(@"response status code from %@: %d", httpResp.URL.host, httpResp.statusCode);
+    NSLog(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }

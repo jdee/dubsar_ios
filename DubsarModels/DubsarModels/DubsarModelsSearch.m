@@ -146,7 +146,7 @@ static int _seqNum = 0;
 
 - (void)load
 {
-    [self performSelectorInBackground:@selector(databaseThread:) withObject:UIApplication.sharedApplication.delegate];
+    [self performSelectorInBackground:@selector(databaseThread:) withObject:self.database];
 }
 
 - (void)loadResults:(DubsarModelsDatabaseWrapper*)database

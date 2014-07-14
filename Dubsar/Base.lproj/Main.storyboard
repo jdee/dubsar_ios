@@ -1,45 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.21" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.21" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PVu-d6-7eH">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.13"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Navigation Controller-->
+        <scene sceneID="jXw-DW-Czx">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController id="PVu-d6-7eH" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1cC-uU-5PX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="qk7-HA-hy1" kind="relationship" relationship="rootViewController" id="UY3-Ba-brh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Jf-Ct-9Jj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="140" y="672"/>
+        </scene>
+        <!--Main View Controller - Dubsar-->
+        <scene sceneID="BOV-Zg-WdP">
+            <objects>
+                <viewController id="qk7-HA-hy1" customClass="MainViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                        <viewControllerLayoutGuide type="top" id="ZC5-GH-SrG"/>
+                        <viewControllerLayoutGuide type="bottom" id="kNl-cB-m0Q"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                    <view key="view" contentMode="scaleToFill" id="Ns1-hy-iv5">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNO-xa-Xzm">
-                                <rect key="frame" x="20" y="229" width="440" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LU6-NB-kgr">
+                                <rect key="frame" x="20" y="20" width="440" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="9eA-wK-fbG"/>
+                                    <constraint firstAttribute="height" constant="21" id="wxm-wO-TWI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpD-WL-dUJ">
+                                <rect key="frame" x="20" y="193" width="440" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="3we-fA-QhD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <state key="normal" title="loading...">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word of the Day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pai-39-ITs">
+                                <rect key="frame" x="20" y="164" width="440" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Iwe-mq-60X"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bNO-xa-Xzm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="6n7-rY-6eG"/>
-                            <constraint firstAttribute="trailing" secondItem="bNO-xa-Xzm" secondAttribute="trailing" constant="20" id="GdT-Gx-ZAA"/>
-                            <constraint firstItem="bNO-xa-Xzm" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="229" id="g4j-Sd-dUF"/>
+                            <constraint firstItem="xpD-WL-dUJ" firstAttribute="top" secondItem="Pai-39-ITs" secondAttribute="bottom" constant="8" id="Ef9-jH-t4W"/>
+                            <constraint firstItem="xpD-WL-dUJ" firstAttribute="leading" secondItem="Ns1-hy-iv5" secondAttribute="leading" constant="20" id="Pni-4e-7ja"/>
+                            <constraint firstItem="LU6-NB-kgr" firstAttribute="top" secondItem="Ns1-hy-iv5" secondAttribute="top" constant="20" id="dGH-Ik-gtJ"/>
+                            <constraint firstItem="LU6-NB-kgr" firstAttribute="leading" secondItem="Ns1-hy-iv5" secondAttribute="leading" constant="20" id="eGF-gd-TuH"/>
+                            <constraint firstItem="Pai-39-ITs" firstAttribute="top" secondItem="LU6-NB-kgr" secondAttribute="bottom" constant="123" id="hMf-Gn-AW9"/>
+                            <constraint firstAttribute="trailing" secondItem="Pai-39-ITs" secondAttribute="trailing" constant="20" id="hT1-X1-gTP"/>
+                            <constraint firstAttribute="trailing" secondItem="LU6-NB-kgr" secondAttribute="trailing" constant="20" id="jMD-bA-aBF"/>
+                            <constraint firstItem="Pai-39-ITs" firstAttribute="leading" secondItem="Ns1-hy-iv5" secondAttribute="leading" constant="20" id="kC4-gV-BnX"/>
+                            <constraint firstAttribute="trailing" secondItem="xpD-WL-dUJ" secondAttribute="trailing" constant="20" id="xAB-ke-4Zt"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Dubsar" id="m3u-le-uai"/>
                     <connections>
-                        <outlet property="versionLabel" destination="bNO-xa-Xzm" id="fM4-Ka-O75"/>
+                        <outlet property="versionLabel" destination="LU6-NB-kgr" id="hJQ-AC-0lU"/>
+                        <outlet property="wotdButton" destination="xpD-WL-dUJ" id="bpO-2l-tJm"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W8h-CV-MOl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="696" y="673"/>
         </scene>
     </scenes>
 </document>
