@@ -19,7 +19,6 @@
 #import <sqlite3.h>
 
 #import "DatabaseWrapper.h"
-#import "Dubsar-Swift.h"
 #import "PartOfSpeechDictionary.h"
 #import "Pointer.h"
 #import "PointerDictionary.h"
@@ -183,7 +182,7 @@
 }
 
 
-- (void)loadResults:(AppDelegate *)appDelegate
+- (void)loadResults:(DatabaseWrapper*)database
 {
     NSString* sql = [NSString stringWithFormat:
                      @"SELECT sy.definition, sy.lexname, sy.part_of_speech, se.freq_cnt, se.id, w.name "
@@ -195,7 +194,7 @@
     int rc;
     sqlite3_stmt* statement;
     
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         return;
     }
@@ -251,7 +250,7 @@
 #ifdef DEBUG
     NSLog(@"in numberOfSections");
 #endif // DEBUG
-    AppDelegate* appDelegate = (AppDelegate*)UIApplication.sharedApplication.delegate;
+    DatabaseWrapper* database = [DatabaseWrapper instance];
     
     NSString* sql;
     int rc;
@@ -280,7 +279,7 @@
     
     sql = [NSString stringWithFormat:
            @"SELECT DISTINCT ptype FROM pointers WHERE source_id = %d AND source_type = 'Synset' ", _id];
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
         return 1;
@@ -311,11 +310,14 @@
 
 - (Pointer*)pointerForRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    Section* section = [sections objectAtIndex:indexPath.section];
+    NSUInteger pathSection = [indexPath indexAtPosition:0];
+    NSUInteger pathRow = [indexPath indexAtPosition:1];
+
+    Section* section = [sections objectAtIndex:pathSection];
     Pointer* pointer = [Pointer pointer];
     
     if ([section.ptype isEqualToString:@"synonym"]) {
-        Sense* synonym = [senses objectAtIndex:indexPath.row];
+        Sense* synonym = [senses objectAtIndex:pathRow];
 #ifdef DEBUG
         NSLog(@"requesting synonym %@", synonym.name);
 #endif // DEBUG
@@ -324,7 +326,7 @@
         pointer.targetType = @"sense";
     }
     else if ([section.ptype isEqualToString:@"sample sentence"]) {
-        pointer.targetText = [samples objectAtIndex:indexPath.row];
+        pointer.targetText = [samples objectAtIndex:pathRow];
     }
     else {
         int rc;
@@ -335,7 +337,7 @@
 
         int ptypeIdx = sqlite3_bind_parameter_index(pointerQuery, ":ptype");
         int offsetIdx = sqlite3_bind_parameter_index(pointerQuery, ":offset");
-        if ((rc=sqlite3_bind_int(pointerQuery, offsetIdx, indexPath.row)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_int(pointerQuery, offsetIdx, pathRow)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return nil;
         }
@@ -393,7 +395,7 @@
 
 -(void)prepareStatements
 {
-    AppDelegate* appDelegate = (AppDelegate*)UIApplication.sharedApplication.delegate;
+    DatabaseWrapper* database = [DatabaseWrapper instance];
     int rc;
     
     NSString* sql = [NSString stringWithFormat:@"SELECT id, target_id, target_type "
@@ -403,7 +405,7 @@
                      @"ORDER BY id ASC "
                      @"LIMIT 1 "
                      @"OFFSET :offset ", _id];
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &pointerQuery, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &pointerQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing statement", rc);
         return;
     }        
@@ -418,7 +420,7 @@
 #ifdef DEBUG
     NSLog(@"preparing semantic query %s", csql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(database.dbptr, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing semantic query", rc);
         return;
     }

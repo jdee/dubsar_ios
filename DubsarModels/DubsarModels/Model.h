@@ -19,7 +19,7 @@
 
 @import Foundation;
 
-@class AppDelegate;
+@class DatabaseWrapper;
 @class JSONDecoder;
 @protocol LoadDelegate;
 
@@ -27,7 +27,7 @@
 @optional
 /* model-specific parsing method, not implemented in base class */
 -(void)parseData;
--(void)loadResults:(AppDelegate*)appDelegate;
+-(void)loadResults:(DatabaseWrapper*)database;
 @end
 
 @interface Model : NSObject <Model> {
@@ -44,16 +44,19 @@
 @property (nonatomic) bool error;
 @property (nonatomic, copy) NSString* errorMessage;
 @property (nonatomic, weak) id<LoadDelegate> delegate;
-@property (nonatomic, weak) AppDelegate* appDelegate;
+@property (nonatomic, weak) DatabaseWrapper* database;
 
 @property bool preview;
 
 +(NSString*)incrementString:(NSString*)string;
 
 -(void)load;
--(void)databaseThread:(id)appDelegate;
+-(void)databaseThread:(id)database;
 -(void)loadFromServer;
 
 +(void)displayNetworkAlert:(NSString*)error;
 
 @end
+
+extern const NSString* DubsarBaseUrl;
+extern const NSString* DubsarSecureUrl;

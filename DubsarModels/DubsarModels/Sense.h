@@ -17,7 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Dubsar.h"
+#import "PartOfSpeechDictionary.h"
 #import "Model.h"
 
 @class Pointer;

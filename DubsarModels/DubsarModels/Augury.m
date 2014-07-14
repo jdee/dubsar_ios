@@ -24,7 +24,6 @@
 
 #import "Augury.h"
 #import "DatabaseWrapper.h"
-#import "Dubsar-Swift.h"
 #import "Word.h"
 
 @implementation Augury
@@ -54,11 +53,11 @@
 {
     int verbId = rand()%11531 + 145054;
     Word *word = [Word wordWithId:verbId name:nil partOfSpeech:POSVerb];
-    [word loadResults:self.appDelegate];
+    [word loadResults:self.database];
     return word;
 }
 
-- (void)loadResults:(AppDelegate *)appDelegate
+- (void)loadResults:(DatabaseWrapper *)database
 {
     int frameId = rand() % 205 + 1;
     
@@ -80,7 +79,7 @@
     sqlite3_stmt* statement;
 
     NSLog(@"preparing statement \"%@\"", sql);
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"sqlite3_prepare_v2: %d", rc);
         return;
     }
@@ -177,7 +176,7 @@
     int rc;
     
     NSLog(@"preparing statement \"%@\"", sql);
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"sqlite3_prepare_v2: %d", rc);
         return nil;
     }
@@ -276,7 +275,7 @@
     int rc;
     
     NSLog(@"preparing statement \"%@\"", sql);
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"sqlite3_prepare_v2: %d", rc);
         return nil;
     }
@@ -313,7 +312,7 @@
                      "AND name >= 'a' AND name < '{' AND name GLOB '[a-z]*s' LIMIT 1", verbId];
     int rc;
     sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(self.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"preparing inflections select: %d", rc);
         return nil;
     }
@@ -328,7 +327,7 @@
         
         // find the word (we only have the ID)
         Word* word = [Word wordWithId:verbId name:nil partOfSpeech:POSVerb];
-        [word loadResults:self.appDelegate];
+        [word loadResults:self.database];
         
         NSRange firstWS = [word.name rangeOfCharacterFromSet:NSCharacterSet.whitespaceCharacterSet];
         if (firstWS.location != NSNotFound) {
@@ -340,7 +339,7 @@
             
             const char* _sql = "SELECT id FROM words WHERE name = ? AND part_of_speech = 'verb'";
             sqlite3_stmt* localStmt;
-            if ((rc=sqlite3_prepare_v2(self.appDelegate.database.dbptr, _sql, -1, &localStmt, NULL)) != SQLITE_OK) {
+            if ((rc=sqlite3_prepare_v2(self.database.dbptr, _sql, -1, &localStmt, NULL)) != SQLITE_OK) {
                 /*
                  * DEBT: This and some of the other error handlers here (the ones that return nil) should probably
                  * be assertions. They should not happen unless there's a coding error. Let them be leaky for

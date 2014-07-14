@@ -16,9 +16,9 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+@import UIKit;
 
-@class DatabaseWrapper;
-#import "Dubsar-Swift.h"
+#import "DatabaseWrapper.h"
 #import "Inflection.h"
 #import "Word.h"
 
@@ -31,11 +31,11 @@
 {
     self = [super init];
     if (self) {
-        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+        DatabaseWrapper* database = [DatabaseWrapper instance];
         self.word = theWord;
         self._id = theId;
         self.name = theName;
-        [self set_url:[NSString stringWithFormat:@"/inflections/%d?auth_token=%@", self._id, appDelegate.authToken]];
+        [self set_url:[NSString stringWithFormat:@"/inflections/%d?auth_token=%@", self._id, database.authToken]];
     }
     return self;
 }

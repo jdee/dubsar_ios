@@ -17,8 +17,6 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-@class DatabaseWrapper;
-#import "Dubsar-Swift.h"
 #import "ModelTestCase.h"
 
 @implementation ModelTestCase
@@ -35,13 +33,13 @@
     
     [stringData getBytes:buffer maxLength:256 usedLength:&length encoding:NSUTF8StringEncoding options:0 range:range remainingRange:NULL];
     
-    return [NSData dataWithBytes:buffer length:length];
+    return [NSMutableData dataWithBytes:buffer length:length];
 }
 
 - (void)setUp
 {
     // open the database
-    appDelegate = [[AppDelegate alloc]initForTest];
+    // appDelegate = [[AppDelegate alloc]initForTest];
 }
 
 - (void)tearDown

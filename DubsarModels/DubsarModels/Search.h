@@ -52,7 +52,7 @@
 
 -(Search*)newSearchForPage:(int)page;
 
--(void)loadWildcardResults:(AppDelegate*)appDelegate;
--(void)loadFulltextResults:(AppDelegate*)appDelegate;
+-(void)loadWildcardResults:(DatabaseWrapper*)appDelegate;
+-(void)loadFulltextResults:(DatabaseWrapper*)appDelegate;
 
 @end

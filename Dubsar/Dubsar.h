@@ -19,18 +19,4 @@
 
 @import Foundation;
 
-extern const NSString* DubsarBaseUrl;
-extern const NSString* DubsarSecureUrl;
 extern NSString* iTunesLink;
-
-typedef enum  {
-    POSUnknown,
-    POSAdjective,
-    POSAdverb,
-    POSConjunction,
-    POSInterjection,
-    POSNoun,
-    POSPreposition,
-    POSPronoun,
-    POSVerb
-} PartOfSpeech;

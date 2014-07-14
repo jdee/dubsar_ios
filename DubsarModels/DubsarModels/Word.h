@@ -17,38 +17,33 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Dubsar.h"
+#import "PartOfSpeechDictionary.h"
 #import "Model.h"
 
-@class Pointer;
-
-@interface Synset : Model {
-    sqlite3_stmt* pointerQuery;
-    sqlite3_stmt* semanticQuery;
+@interface Word : Model {
 }
 
 @property (nonatomic) int _id;
-@property (nonatomic, copy) NSString* gloss;
+@property (nonatomic, copy) NSString* name;
 @property (nonatomic) PartOfSpeech partOfSpeech;
-@property (nonatomic, copy) NSString* lexname;
 @property (nonatomic) int freqCnt;
-@property (nonatomic, strong) NSMutableArray* samples;
+
+@property (nonatomic, strong) NSMutableArray* inflections;
 @property (nonatomic, strong) NSMutableArray* senses;
-@property (nonatomic, strong) NSMutableDictionary* pointers;
-@property (nonatomic, strong) NSMutableArray* sections;
 
-+(instancetype)synsetWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech;
-+(instancetype)synsetWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
--(instancetype)initWithId:(int)theId partOfSpeech:(PartOfSpeech)thePartOfSpeech;
--(instancetype)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(PartOfSpeech)thePartOfSpeech;
++(instancetype)wordWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
++(instancetype)wordWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;
+-(instancetype)initWithId:(int)theId name:(NSString*)theName partOfSpeech:(PartOfSpeech)thePartOfSpeech;
+-(instancetype)initWithId:(int)theId name:(NSString*)theName posString:(NSString*)posString;
+-(NSString*)pos;
+-(NSString*)nameAndPos;
+
 -(void)parseData;
--(void)parsePointers:(NSArray*)response;
+-(void)initUrl;
+-(void)addInflection:(NSString*)inflection;
 
--(NSString*)synonymsAsString;
+- (NSComparisonResult)compareFreqCnt:(Word*)word;
 
--(void)prepareStatements;
--(void)destroyStatements;
--(Pointer*)pointerForRowAtIndexPath:(NSIndexPath*)indexPath;
--(int)numberOfSections;
+- (void)load:(bool)mainThread;
 
 @end

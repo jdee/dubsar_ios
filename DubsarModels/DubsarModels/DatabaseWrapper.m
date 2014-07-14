@@ -17,14 +17,21 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-@import Foundation;
+#import "DatabaseWrapper.h"
 
-#import <sqlite3.h>
+@implementation DatabaseWrapper
 
-@interface DatabaseWrapper : NSObject
++ (DatabaseWrapper *)instance
+{
+    static DatabaseWrapper* _instance = nil;
+    if (!_instance) {
+        _instance = [[self alloc] init];
+    }
+    return _instance;
+}
 
-@property (nonatomic) sqlite3* dbptr;
-@property (nonatomic) sqlite3_stmt* autocompleterStmt;
-@property (nonatomic) sqlite3_stmt* exactAutocompleterStmt;
++ (void)setup
+{
+}
 
 @end

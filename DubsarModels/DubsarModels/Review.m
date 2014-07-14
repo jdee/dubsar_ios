@@ -16,9 +16,9 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+@import UIKit;
 
-@class DatabaseWrapper;
-#import "Dubsar-Swift.h"
+#import "DatabaseWrapper.h"
 #import "Inflection.h"
 #import "Review.h"
 #import "Word.h"
@@ -32,10 +32,10 @@
 {
     self = [super init];
     if (self) {
-        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+        DatabaseWrapper* database = [DatabaseWrapper instance];
         self.page = thePage;
         self.totalPages = 0; // set by server response
-        self._url = [NSString stringWithFormat:@"/review?page=%d&auth_token=%@", thePage, appDelegate.authToken];
+        self._url = [NSString stringWithFormat:@"/review?page=%d&auth_token=%@", thePage, database.authToken];
     }
     return self;
 }

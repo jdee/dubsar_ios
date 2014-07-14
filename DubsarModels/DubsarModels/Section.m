@@ -19,7 +19,6 @@
 #import <sqlite3.h>
 
 #import "DatabaseWrapper.h"
-#import "Dubsar-Swift.h"
 #import "Section.h"
 
 @implementation Section
@@ -60,7 +59,7 @@
     NSLog(@"counting rows");
 #endif // DEBUG
 
-    AppDelegate* appDelegate = (AppDelegate*)UIApplication.sharedApplication.delegate;
+    DatabaseWrapper* database = [DatabaseWrapper instance];
     NSString* sql;
     
     if (senseId != 0) {
@@ -77,7 +76,7 @@
     }
     int rc;
     sqlite3_stmt* statement;
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing statement", rc);
         return 0;
     }

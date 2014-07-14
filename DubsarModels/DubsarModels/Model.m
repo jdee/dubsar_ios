@@ -17,11 +17,15 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-@class DatabaseWrapper;
-#import "Dubsar.h"
-#import "Dubsar-Swift.h"
+#import "DatabaseWrapper.h"
+#import "DubsarModels.h"
 #import "LoadDelegate.h"
 #import "Model.h"
+
+// const NSString* DubsarBaseUrl = @"http://fatman:3000";
+
+const NSString* DubsarSecureUrl = @"https://dubsar-dictionary.com";
+const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS by default
 
 @implementation Model
 
@@ -33,7 +37,6 @@
 @synthesize delegate;
 @synthesize url;
 @synthesize preview;
-@synthesize appDelegate;
 
 -(instancetype)init
 {
@@ -46,7 +49,7 @@
         error = false;
         errorMessage = nil;
         preview = false;
-        appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+        _database = [DatabaseWrapper instance];
     }
     return self;
 }
@@ -55,19 +58,19 @@
 {
     complete = error = false;
     errorMessage = nil;
-    [self loadResults:appDelegate];
+    [self loadResults:_database];
     complete = true;
     error = errorMessage != nil;
     
     if (delegate != nil) [delegate loadComplete:self withError:errorMessage];
 }
 
-- (void)databaseThread:(id)theAppDelegate
+- (void)databaseThread:(id)wrapper
 {
     @autoreleasepool {
         complete = error = false;
         errorMessage = nil;
-        [self loadResults:(AppDelegate*)theAppDelegate];
+        [self loadResults:(DatabaseWrapper*)wrapper];
         complete = true;
         error = errorMessage != nil;
 

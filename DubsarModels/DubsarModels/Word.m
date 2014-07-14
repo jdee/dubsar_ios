@@ -21,7 +21,6 @@
 #import <sqlite3.h>
 
 #import "DatabaseWrapper.h"
-#import "Dubsar-Swift.h"
 #import "PartOfSpeechDictionary.h"
 #import "Sense.h"
 #import "Word.h"
@@ -101,7 +100,7 @@
     [self load:true];
 }
 
--(void)loadResults:(AppDelegate *)appDelegate
+-(void)loadResults:(DatabaseWrapper *)database
 {
     NSString* sql = [NSString stringWithFormat:
                      @"SELECT DISTINCT w.name, w.part_of_speech, w.freq_cnt, i.name "
@@ -114,7 +113,7 @@
 #ifdef DEBUG
     NSLog(@"preparing statement \"%@\"", sql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
         return;
@@ -155,7 +154,7 @@
 #ifdef DEBUG
     NSLog(@"preparing statement \"%@\"", sql);
 #endif // DEBUG
-    if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
+    if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
         return;
@@ -183,7 +182,7 @@
 #ifdef DEBUG
         NSLog(@"preparing statement \"%@\"", synSql);
 #endif // DEBUG
-        if ((rc=sqlite3_prepare_v2(appDelegate.database.dbptr, synSql.UTF8String, -1, &synStatement, NULL))
+        if ((rc=sqlite3_prepare_v2(database.dbptr, synSql.UTF8String, -1, &synStatement, NULL))
             != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
             sqlite3_finalize(statement);
