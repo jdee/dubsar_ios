@@ -81,21 +81,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         if url {
             alertURL = NSURL(string:url)
         }
+        else {
+            alertURL = nil
+        }
 
         // Standard APNS payload handling
         let aps = notification?.objectForKey("aps") as? NSDictionary
-        let message = aps?.objectForKey("alert") as? NSString
+        let alert = aps?.objectForKey("alert") as? NSString
 
         switch (application.applicationState) {
         case .Active:
-            showAlert(message)
+            showAlert(alert)
 
         default:
             openURL(alertURL)
+            alertURL = nil
         }
     }
 
-    func application(application: UIApplication!, openURL url: NSURL!, sourceApplication: String!, annotation: AnyObject!) -> Bool{
+    func application(application: UIApplication!, openURL url: NSURL!, sourceApplication: String!, annotation: AnyObject!) -> Bool {
         let scheme = url.scheme
         if scheme != dubsar {
             return false
@@ -122,16 +126,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         let payload = launchOptions?.objectForKey(UIApplicationLaunchOptionsRemoteNotificationKey) as? NSDictionary
         // pass it back to this app. this is where notifications arrive if a notification is tapped while the app is not running. the app is launched by the tap in that case.
         application(theApplication, didReceiveRemoteNotification: payload)
-        if theApplication.applicationIconBadgeNumber > 0 {
-            theApplication.applicationIconBadgeNumber = 0
-        }
     }
 
     func showAlert(message: String?) {
         assert(message)
         // https://devforums.apple.com/message/973043#973043
         let alert = UIAlertView()
-        alert.title = "Word of the Day"
+        alert.title = "Dubsar Alert"
         alert.message = message
         alert.addButtonWithTitle("OK")
         if alertURL {
@@ -145,6 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, clickedButtonAtIndex index: Int) {
         if index == 1 {
             openURL(alertURL)
+            alertURL = nil
         }
     }
 
