@@ -115,6 +115,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         if path.hasPrefix("/wotd/") {
             let last = url.lastPathComponent as NSString
             let wotdId = Int(last.intValue)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = storyboard.instantiateViewControllerWithIdentifier("Word") as WordViewController
+            viewController.word = DubsarModelsWord()
+            viewController.word._id = wotdId;
+            viewController.title = "Word of the Day"
+
+            navigationController.pushViewController(viewController, animated: true)
         }
 
         return true

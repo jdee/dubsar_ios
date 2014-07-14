@@ -70,6 +70,7 @@ class MainViewController: UIViewController, UIAlertViewDelegate, DubsarModelsLoa
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         if let viewController = segue.destinationViewController as? WordViewController {
             viewController.word = wotd.word
+            viewController.title = "Word of the Day"
         }
     }
 }

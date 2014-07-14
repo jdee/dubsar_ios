@@ -1,6 +1,11 @@
 {
   "images" : [
     {
+      "idiom" : "iphone",
+      "size" : "29x29",
+      "scale" : "1x"
+    },
+    {
       "size" : "29x29",
       "idiom" : "iphone",
       "filename" : "dubsar-spotlight-hr.png",
@@ -10,6 +15,18 @@
       "size" : "40x40",
       "idiom" : "iphone",
       "filename" : "dubsar-80x80.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "57x57",
+      "idiom" : "iphone",
+      "filename" : "dubsar.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "57x57",
+      "idiom" : "iphone",
+      "filename" : "dubsar-hr.png",
       "scale" : "2x"
     },
     {
@@ -43,27 +60,13 @@
       "scale" : "2x"
     },
     {
-      "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "dubsar-76x76.png",
+      "size" : "50x50",
       "scale" : "1x"
     },
     {
-      "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "dubsar-152x152.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "57x57",
-      "idiom" : "iphone",
-      "filename" : "dubsar.png",
-      "scale" : "1x"
-    },
-    {
-      "size" : "57x57",
-      "idiom" : "iphone",
-      "filename" : "dubsar-hr.png",
+      "size" : "50x50",
       "scale" : "2x"
     },
     {
@@ -76,6 +79,18 @@
       "size" : "72x72",
       "idiom" : "ipad",
       "filename" : "dubsar-ipad-retina.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "dubsar-76x76.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "dubsar-152x152.png",
       "scale" : "2x"
     }
   ],

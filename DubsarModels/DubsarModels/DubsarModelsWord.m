@@ -279,9 +279,9 @@
 
 - (void)addInflection:(NSString*)inflection
 {
-    if ([inflection compare:name options:NSCaseInsensitiveSearch] == NSOrderedSame) return;
-    
     if (!inflections) self.inflections = [NSMutableArray array];
+
+    if ([inflection compare:name options:NSCaseInsensitiveSearch] == NSOrderedSame) return;
 
     [inflections addObject:inflection];
 }

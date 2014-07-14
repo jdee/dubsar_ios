@@ -47,13 +47,11 @@
     NSInteger wotdId = url.path.lastPathComponent.intValue;
 
     time_t texpiration = 0;
-    NSString* sexpiration = [dubsarPayload valueForKey:@"expiration"];
-    if ([sexpiration hasPrefix:@"+"]) {
-        texpiration = time(0) + sexpiration.intValue;
-    }
-    else {
-        texpiration = sexpiration.intValue;
-    }
+    // DEBT: This is no longer an NSString to be converted, so we lose the + sign at the
+    // beginning that's used to indicate relative expiration times. Change to a nonnumeric
+    // introducer, like R60 instead of +60. Only interesting during testing though.
+    NSNumber* sexpiration = [dubsarPayload valueForKey:@"expiration"];
+    texpiration = sexpiration.intValue;
 
     [self updateWotdId:wotdId expiration:texpiration];
 }
