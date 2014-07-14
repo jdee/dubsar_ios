@@ -74,32 +74,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         }
 
         // Custom (Dubsar) payload handling
-        let dubsarPayload = notification?.objectForKey(dubsar) as? NSDictionary
+        let dubsarPayload = notification!.objectForKey(dubsar) as? NSDictionary
+        DubsarModelsDailyWord.updateWotdWithNotificationPayload(dubsarPayload)
+
         let url = dubsarPayload?.objectForKey("url") as? NSString
-        let type = dubsarPayload?.objectForKey("type") as? NSString
-        var nsurl : NSURL?
         if url {
-            nsurl = NSURL(string:url)
-            if type == "wotd" {
-                updateWotdByUrl(nsurl, withExpiration: dubsarPayload?.objectForKey("expiration"))
-            }
+            alertURL = NSURL(string:url)
         }
 
         // Standard APNS payload handling
         let aps = notification?.objectForKey("aps") as? NSDictionary
         let message = aps?.objectForKey("alert") as? NSString
 
-        if let alert = message {
-            NSLog("received notification \"%@\"", alert)
-        }
-
         switch (application.applicationState) {
         case .Active:
-            alertURL = nsurl
             showAlert(message)
 
         default:
-            openURL(nsurl)
+            openURL(alertURL)
         }
     }
 
@@ -173,22 +165,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
     }
 
-    func updateWotdByUrl(url: NSURL!, withExpiration expiration: AnyObject?) {
-        let last = url.lastPathComponent as NSString
-        let wotdId = Int(last.intValue)
-
-        if let nsexpiration = expiration as? NSString {
-            var texpiration : time_t = 0
-
-            if nsexpiration.hasPrefix("+") {
-                // relative value if begins with a +
-                time(&texpiration)
-            }
-
-            texpiration += time_t(nsexpiration.intValue)
-
-            DubsarModelsDailyWord.updateWotdId(wotdId, expiration: texpiration)
-        }
-   }
 }
 

@@ -35,6 +35,29 @@
     return [[self alloc] init];
 }
 
++ (void)updateWotdWithNotificationPayload:(NSDictionary *)dubsarPayload
+{
+    if (!dubsarPayload) return;
+
+    NSString* type = [dubsarPayload valueForKey:@"type"];
+    if (![type isEqualToString:@"wotd"]) return;
+
+    NSURL* url = [NSURL URLWithString:[dubsarPayload valueForKey:@"url"]];
+    assert([url.path hasPrefix:@"/wotd/"]);
+    NSInteger wotdId = url.path.lastPathComponent.intValue;
+
+    time_t texpiration = 0;
+    NSString* sexpiration = [dubsarPayload valueForKey:@"expiration"];
+    if ([sexpiration hasPrefix:@"+"]) {
+        texpiration = time(0) + sexpiration.intValue;
+    }
+    else {
+        texpiration = sexpiration.intValue;
+    }
+
+    [self updateWotdId:wotdId expiration:texpiration];
+}
+
 + (void)updateWotdId:(NSInteger)wotdId expiration:(time_t)expiration
 {
     if (expiration < time(NULL)) {

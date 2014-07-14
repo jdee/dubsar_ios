@@ -29,6 +29,7 @@
 
 + (instancetype)dailyWord;
 + (void)updateWotdId:(NSInteger)wotdId expiration:(time_t)expiration;
++ (void)updateWotdWithNotificationPayload:(NSDictionary*)dubsarPayload;
 + (void)resetWotd;
 
 @property (NS_NONATOMIC_IOSONLY, readonly) bool loadFromUserDefaults;
