@@ -17,6 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+@infix func | (type1 : UIRemoteNotificationType, type2: UIRemoteNotificationType) -> UIRemoteNotificationType {
+    return UIRemoteNotificationType(type1.toRaw() | type2.toRaw())
+}
+
 import UIKit
 
 @UIApplicationMain
@@ -82,13 +86,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         let aps = notification?.objectForKey("aps") as? NSDictionary
-        let message = aps?.objectForKey("message") as? NSString
+        let message = aps?.objectForKey("alert") as? NSString
+
+        if let alert = message {
+            NSLog("received notification \"%@\", wotd ID %d", alert, wotdId)
+        }
 
         switch (application.applicationState) {
         case .Active:
-            let alert = UIAlertView(title: "Word of the Day", message: message, delegate: nil, cancelButtonTitle: "OK")
-            alert.show()
-
+            //* crashing
+            let viewController = window!.rootViewController as ViewController
+            viewController.showAlert(message)
+            // */
+            break
         default:
             // foregrounded or freshly launched; put up WOTD view
             break
@@ -97,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func setupPushNotificationsForApplication(theApplication:UIApplication, withLaunchOptions launchOptions: NSDictionary?) {
         // register for push notifications
-        theApplication.registerForRemoteNotificationTypes(UIRemoteNotificationType(UIRemoteNotificationType.Alert.toRaw() | UIRemoteNotificationType.Sound.toRaw()))
+        theApplication.registerForRemoteNotificationTypes(.Alert | .Sound)
         // extract the push payload, if any, from the launchOptions
         let payload = launchOptions?.objectForKey(UIApplicationLaunchOptionsRemoteNotificationKey) as? NSDictionary
         // pass it back to this app. this is where notifications arrive if a notification is tapped while the app is not running. the app is launched by the tap in that case.
