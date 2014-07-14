@@ -1,4 +1,4 @@
-#import "URLEncoding.h"
+#import "NSString+URLEncoding.h"
 
 
 @implementation NSString (URLEncoding)

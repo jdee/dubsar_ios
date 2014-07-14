@@ -24,7 +24,7 @@
 #import "DubsarModelsDatabaseWrapper.h"
 #import "DubsarModelsSearch.h"
 #import "DubsarModelsPartOfSpeechDictionary.h"
-#import "URLEncoding.h"
+#import "NSString+URLEncoding.h"
 #import "DubsarModelsWord.h"
 
 static int _seqNum = 0;

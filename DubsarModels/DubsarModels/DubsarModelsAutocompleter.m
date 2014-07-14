@@ -23,7 +23,7 @@
 
 #import "DubsarModelsAutocompleter.h"
 #import "DubsarModelsDatabaseWrapper.h"
-#import "URLEncoding.h"
+#import "NSString+URLEncoding.h"
 
 @implementation DubsarModelsAutocompleter
 
