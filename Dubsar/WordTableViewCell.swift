@@ -34,11 +34,7 @@ class WordTableViewCell: UITableViewCell {
     }
     }
 
-    convenience init() {
-        self.init(word: nil)
-    }
-
-    init(word: DubsarModelsWord?) {
+    init(word: DubsarModelsWord? = nil) {
         self.word = word
         super.init(style: .Subtitle, reuseIdentifier: WordTableViewCell.identifer)
 

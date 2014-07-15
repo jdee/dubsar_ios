@@ -116,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             let last = url.lastPathComponent as NSString
             let wotdId = Int(last.intValue)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let viewController = storyboard.instantiateViewControllerWithIdentifier("Word") as WordViewController
+            let viewController = storyboard.instantiateViewControllerWithIdentifier(WordViewController.identifier) as WordViewController
             viewController.word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
             viewController.title = "Word of the Day"
 

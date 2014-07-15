@@ -27,6 +27,12 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
     @IBOutlet var freqCntLabel : UILabel
     @IBOutlet var senseTableView : UITableView
 
+    class var identifier : String {
+        get {
+            return "Word"
+        }
+    }
+
     var word : DubsarModelsWord! {
     didSet {
         word.delegate = self

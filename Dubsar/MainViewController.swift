@@ -85,7 +85,7 @@ class MainViewController: UIViewController, UIAlertViewDelegate, UISearchBarDele
         searchBar.showsCancelButton = false
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewControllerWithIdentifier("Search") as SearchViewController
+        let viewController = storyboard.instantiateViewControllerWithIdentifier(SearchViewController.identifier) as SearchViewController
         viewController.search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
 
         AppDelegate.instance.navigationController.pushViewController(viewController, animated: true)

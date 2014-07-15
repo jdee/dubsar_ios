@@ -25,6 +25,12 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet var searchLabel : UILabel
     @IBOutlet var resultTableView : UITableView
 
+    class var identifier : String {
+        get {
+            return "Search"
+        }
+    }
+
     var search : DubsarModelsSearch! {
     didSet {
         search.delegate = self
