@@ -21,9 +21,13 @@ import UIKit
 
 extension NSString {
 
-    func sizeOfTextWithConstrainedSize(constrainedSize: CGSize, font: UIFont) -> CGSize {
+    func sizeOfTextWithConstrainedSize(constrainedSize: CGSize, font: UIFont?) -> CGSize {
+        if !font {
+            return CGSizeZero
+        }
+
         let context = NSStringDrawingContext()
-        return boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: context).size
+        return boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font!], context: context).size
     }
 
 }

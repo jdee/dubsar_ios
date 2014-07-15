@@ -20,24 +20,44 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 
 /*
- * The model is the thing that needs to tell you what its size is, but that doesn't really belong in the model
+ * The model is the thing that needs to tell you what its display size is, but that doesn't really belong in the model
  * framework.
  */
 extension DubsarModelsWord {
 
-    func nameAndPosSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont) -> CGSize {
+    func nameAndPosSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont?) -> CGSize {
         let text = nameAndPos as NSString
         return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
-    func inflectionSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont) -> CGSize {
+    func inflectionSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont?) -> CGSize {
         let text = otherForms as NSString
         return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
-    func freqCntSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont) -> CGSize {
+    func freqCntSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont?) -> CGSize {
         let text = "freq. cnt. \(freqCnt)" as NSString
         return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+    }
+
+    func sizeOfCellWithConstrainedSize(constrainedSize: CGSize) -> CGSize {
+        var size = nameAndPosSizeWithConstrainedSize(constrainedSize, font: UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline))
+        size.width += WordTableViewCell.margin * 2
+        size.height += WordTableViewCell.margin * 2
+
+        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+
+        if inflections.count > 0 {
+            let inflectionSize = inflectionSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+            size.height += inflectionSize.height + WordTableViewCell.margin
+        }
+
+        if freqCnt > 0 {
+            let freqCntSize = freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+            size.height += freqCntSize.height + WordTableViewCell.margin
+        }
+
+        return size
     }
 
 }

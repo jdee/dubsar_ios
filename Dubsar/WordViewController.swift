@@ -99,22 +99,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         let row = indexPath.indexAtPosition(1)
         if row == 0 {
             let constrainedSize = CGSizeMake(tableView.bounds.size.width-2*WordTableViewCell.margin, tableView.bounds.size.height)
-            let headlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-            let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-
-            let nameAndPosSize = word.nameAndPosSizeWithConstrainedSize(constrainedSize, font: headlineFont)
-            let inflectionSize = word.inflectionSizeWithConstrainedSize(constrainedSize, font: bodyFont)
-            let freqCntSize = word.freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
-
-            var height = nameAndPosSize.height + 2*WordTableViewCell.margin
-            if word.inflections.count > 0 {
-                height += inflectionSize.height + WordTableViewCell.margin
-            }
-            if word.freqCnt > 0 {
-                height += freqCntSize.height + WordTableViewCell.margin
-            }
-            
-            return height
+            return word.sizeOfCellWithConstrainedSize(constrainedSize).height
         }
 
         let sense = word.senses[row-1] as DubsarModelsSense
