@@ -86,13 +86,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewControllerWithIdentifier(SearchViewController.identifier) as SearchViewController
-        viewController.search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
-        assert(viewController.search.delegate === viewController)
-        assert(!viewController.search.complete)
-
-        AppDelegate.instance.navigationController.pushViewController(viewController, animated: true)
+        let search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
+        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
     }
 
     override func adjustLayout() {
