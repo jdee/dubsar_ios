@@ -29,7 +29,7 @@ class SenseTableViewCell: UITableViewCell {
         }
     }
 
-    class var padding : Float {
+    class var borderWidth : Float {
         get {
             return 1
     }
@@ -37,13 +37,13 @@ class SenseTableViewCell: UITableViewCell {
 
     class var margin : Float {
         get {
-            return 4
+            return 8
     }
     }
 
     class var labelLineHeight : Float {
         get {
-            return 30
+            return 21
         }
     }
 
@@ -65,13 +65,13 @@ class SenseTableViewCell: UITableViewCell {
     }
 
     func resize() {
-        let padding = SenseTableViewCell.padding
+        let borderWidth = SenseTableViewCell.borderWidth
         let margin = SenseTableViewCell.margin
 
-        let constrainedSize = CGSizeMake(frame.size.width-2*padding-2*margin, frame.size.height-2*padding-2*margin)
+        let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin, frame.size.height-2*borderWidth-2*margin)
         let size = sense.sizeWithConstrainedSize(constrainedSize)
 
-        frame.size.height = size.height + 2*padding + 3*margin + SenseTableViewCell.labelLineHeight
+        frame.size.height = size.height + 2*borderWidth + 3*margin + SenseTableViewCell.labelLineHeight
 
         view?.removeFromSuperview()
 
@@ -80,7 +80,7 @@ class SenseTableViewCell: UITableViewCell {
 
         addSubview(view)
 
-        let backgroundLabel = UIView(frame: CGRectMake(padding, padding, bounds.size.width-2*padding, bounds.size.height-2*padding))
+        let backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
         backgroundLabel.backgroundColor = UIColor.whiteColor()
         view!.addSubview(backgroundLabel)
 
@@ -89,13 +89,13 @@ class SenseTableViewCell: UITableViewCell {
             lexnameText = "\(lexnameText) freq. cnt.: \(sense.freqCnt)"
         }
 
-        let lexnameLabel = UILabel(frame: CGRectMake(margin, margin, bounds.size.width-2*padding-2*margin, SenseTableViewCell.labelLineHeight))
+        let lexnameLabel = UILabel(frame: CGRectMake(margin, margin, bounds.size.width-2*borderWidth-2*margin, SenseTableViewCell.labelLineHeight))
         lexnameLabel.text = lexnameText
         lexnameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)
         lexnameLabel.numberOfLines = 1
         backgroundLabel.addSubview(lexnameLabel)
 
-        let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SenseTableViewCell.labelLineHeight, bounds.size.width-2*padding-2*margin, size.height))
+        let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SenseTableViewCell.labelLineHeight, bounds.size.width-2*borderWidth-2*margin, size.height))
         textLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         textLabel.text = sense.gloss
         textLabel.lineBreakMode = .ByWordWrapping
