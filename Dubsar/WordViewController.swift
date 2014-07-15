@@ -144,6 +144,14 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         inflectionLabel.font = font
         freqCntLabel.font = font
 
+        let numberOfRows = tableView(senseTableView, numberOfRowsInSection: 0)
+        var height : Float = 0
+        for var j=0; j<numberOfRows; ++j {
+            height += tableView(senseTableView, heightForRowAtIndexPath: NSIndexPath(forRow: j, inSection: 0))
+        }
+
+        senseTableView.contentSize = CGSizeMake(senseTableView.frame.size.width, height)
+
         senseTableView.reloadData()
         super.adjustLayout()
     }
