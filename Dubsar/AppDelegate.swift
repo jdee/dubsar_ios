@@ -117,8 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             let wotdId = Int(last.intValue)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let viewController = storyboard.instantiateViewControllerWithIdentifier("Word") as WordViewController
-            viewController.word = DubsarModelsWord()
-            viewController.word._id = wotdId;
+            viewController.word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
             viewController.title = "Word of the Day"
 
             navigationController.pushViewController(viewController, animated: true)
