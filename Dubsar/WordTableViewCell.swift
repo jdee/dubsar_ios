@@ -64,7 +64,7 @@ class WordTableViewCell: UITableViewCell {
 
         let headlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        let context = NSStringDrawingContext()
+
         let margin = WordTableViewCell.margin
         let constrainedSize = CGSizeMake(bounds.size.width-2*margin, bounds.size.height)
 
@@ -72,9 +72,9 @@ class WordTableViewCell: UITableViewCell {
         let inflectionText = word!.otherForms as NSString
         let freqCntText = "freq. cnt.: \(word!.freqCnt)" as NSString
 
-        let nameAndPosSize = nameAndPos.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: headlineFont], context: context)
-        let inflectionSize = inflectionText.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: bodyFont], context: context)
-        let freqCntSize = freqCntText.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: bodyFont], context: context)
+        let nameAndPosSize = word!.nameAndPosSizeWithConstrainedSize(constrainedSize, font: headlineFont)
+        let inflectionSize = word!.inflectionSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+        let freqCntSize = word!.freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
 
         var height = nameAndPosSize.height + 2*margin
         if word!.inflections.count > 0 {

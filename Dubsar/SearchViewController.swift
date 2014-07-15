@@ -94,19 +94,14 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         let row = indexPath.indexAtPosition(1)
         let word = search.results[row] as DubsarModelsWord
-        let nameAndPos = word.nameAndPos as NSString
-        let inflections = word.otherForms as NSString
-        let freqCntText = String(word.freqCnt) as NSString
 
+        let constrainedSize = CGSizeMake(resultTableView.frame.size.width-2*WordTableViewCell.margin, view.bounds.size.height)
         let headlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
 
-        let constrainedSize = CGSizeMake(resultTableView.frame.size.width-2*WordTableViewCell.margin, view.bounds.size.height)
-
-        let context = NSStringDrawingContext()
-        let nameAndPosSize = nameAndPos.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: headlineFont], context: context)
-        let inflectionSize = inflections.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: bodyFont], context: context)
-        let freqCntSize = freqCntText.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: bodyFont], context: context)
+        let nameAndPosSize = word.nameAndPosSizeWithConstrainedSize(constrainedSize, font: headlineFont)
+        let inflectionSize = word.inflectionSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+        let freqCntSize = word.freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
 
         var height = nameAndPosSize.height + 2*WordTableViewCell.margin
         if word.inflections.count > 0 {

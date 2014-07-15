@@ -39,6 +39,7 @@
 		7BBF83701974D58400969765 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF836F1974D58400969765 /* SearchViewController.swift */; };
 		7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83711974DB8200969765 /* WordTableViewCell.swift */; };
 		7BBF83741975871300969765 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83731975871300969765 /* BaseViewController.swift */; };
+		7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,7 @@
 		7BBF836F1974D58400969765 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		7BBF83711974DB8200969765 /* WordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordTableViewCell.swift; sourceTree = "<group>"; };
 		7BBF83731975871300969765 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsWord+ViewSizing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			children = (
 				7BAC22891973322F00D2AEA4 /* Dubsar.h */,
 				7BAC228A1973322F00D2AEA4 /* Dubsar.m */,
+				7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */,
 				7B1151FF1974340900869E15 /* DubsarServer.h */,
 				7B1152001974340900869E15 /* DubsarServer.m */,
 				7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */,
@@ -386,6 +389,7 @@
 				7BBF83701974D58400969765 /* SearchViewController.swift in Sources */,
 				7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */,
 				7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */,
+				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,
 				7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
