@@ -20,11 +20,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class WordViewController: UIViewController, DubsarModelsLoadDelegate {
+class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var nameAndPosLabel : UILabel
     @IBOutlet var inflectionsLabel : UILabel
     @IBOutlet var freqCntLabel : UILabel
+    @IBOutlet var senseTableView : UITableView
 
     var word : DubsarModelsWord!
 
@@ -55,11 +56,11 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate {
         var inflectionText = ""
 
         // the compiler and the sourcekit crap out if I try to do
-        // for (j, inflection: DubsarModelsInflection!) in enumerate(inflections as Array) // or whatever; nothing like this works
+        // for (j, inflection: String!) in enumerate(inflections as Array) // or whatever; nothing like this works
         for var j=0; j<inflections.count; ++j {
-            let inflection = inflections[j] as DubsarModelsInflection
+            let inflection = inflections[j] as String
 
-            if j < inflections.count {
+            if j < inflections.count-1 {
                 inflectionText = "\(inflectionText)\(inflection), "
             }
             else {
@@ -80,5 +81,41 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate {
         else {
             freqCntLabel.text = ""
         }
+    }
+
+    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        return word.complete ? word.senses.count : 1
+    }
+
+    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+        if !word.complete {
+            var cell = tableView.dequeueReusableCellWithIdentifier(LoadingTableViewCell.identifier) as? LoadingTableViewCell
+            if !cell {
+                cell = LoadingTableViewCell()
+            }
+            return cell
+        }
+
+        let row = indexPath.indexAtPosition(1)
+        let sense = word.senses[row] as DubsarModelsSense
+        let frame = CGRectMake(4, 4, tableView.frame.size.width-8, view.bounds.size.height)
+
+        var cell = tableView.dequeueReusableCellWithIdentifier(SenseTableViewCell.identifier) as? SenseTableViewCell
+        if !cell {
+            cell = SenseTableViewCell(sense: sense, frame: frame)
+        }
+        else {
+            cell!.frame = frame
+            cell!.sense = sense // resized on assignment to .sense
+        }
+
+        return cell
+    }
+
+    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+        let row = indexPath.indexAtPosition(1)
+        let sense = word.senses[row] as DubsarModelsSense
+
+        return sense.sizeWithConstrainedSize(CGSizeMake(tableView.frame.size.width-8, view.bounds.size.height)).height + 8
     }
 }

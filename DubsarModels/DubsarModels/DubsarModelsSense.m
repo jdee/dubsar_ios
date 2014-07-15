@@ -499,6 +499,14 @@
     [self prepareStatements];
 }
 
+- (CGSize)sizeWithConstrainedSize:(CGSize)constrainedSize
+{
+    UIFont* font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    NSStringDrawingContext* context = [[NSStringDrawingContext alloc] init];
+
+    return [gloss boundingRectWithSize:constrainedSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: font} context:context].size;
+}
+
 -(NSUInteger)numberOfSections
 {
 #ifdef DEBUG

@@ -17,6 +17,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+@import UIKit;
+
 #import "DubsarModels/DubsarModelsPartOfSpeechDictionary.h"
 #import "DubsarModels/DubsarModelsModel.h"
 
@@ -47,6 +49,8 @@
 
 @property (nonatomic) NSUInteger numberOfSections;
 @property (nonatomic, strong) NSMutableArray* sections;
+
+- (CGSize) sizeWithConstrainedSize:(CGSize)constrainedSize;
 
 +(instancetype)senseWithId:(NSUInteger)theId name:(NSString*)theName synset:(DubsarModelsSynset*)theSynset;
 +(instancetype)senseWithId:(NSUInteger)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
