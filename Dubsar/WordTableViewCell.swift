@@ -30,7 +30,7 @@ class WordTableViewCell: UITableViewCell {
 
     class var margin : Float {
         get {
-            return 4
+            return 10
         }
     }
 
