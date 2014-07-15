@@ -22,10 +22,23 @@ import UIKit
 
 class SenseTableViewCell: UITableViewCell {
 
+    // essentially public class constants
     class var identifier : String {
         get {
             return "sense"
         }
+    }
+
+    class var padding : Float {
+        get {
+            return 1
+    }
+    }
+
+    class var margin : Float {
+        get {
+            return 4
+    }
     }
 
     var sense : DubsarModelsSense {
@@ -34,7 +47,7 @@ class SenseTableViewCell: UITableViewCell {
     }
     }
 
-    var label : UILabel?
+    var view : UIView?
 
     init(sense: DubsarModelsSense, frame: CGRect) {
         self.sense = sense
@@ -46,18 +59,31 @@ class SenseTableViewCell: UITableViewCell {
     }
 
     func resize() {
-        let size = sense.sizeWithConstrainedSize(frame.size)
+        let padding = SenseTableViewCell.padding
+        let margin = SenseTableViewCell.margin
 
-        frame.size = CGSizeMake(size.width, size.height)
+        let constrainedSize = CGSizeMake(frame.size.width-2*padding-2*margin, frame.size.height-2*padding-2*margin)
+        let size = sense.sizeWithConstrainedSize(constrainedSize)
 
-        label?.removeFromSuperview()
+        frame.size.height = size.height + 2*padding + 2*margin
 
-        label = UILabel(frame: self.bounds)
-        label!.text = sense.gloss
-        label!.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        label!.lineBreakMode = .ByWordWrapping
-        label!.numberOfLines = 0
-        addSubview(label)
+        view?.removeFromSuperview()
+
+        view = UIView(frame: bounds)
+        // view!.backgroundColor = UIColor.blackColor()
+
+        addSubview(view)
+
+        let backgroundLabel = UIView(frame: CGRectMake(padding, padding, bounds.size.width-2*padding, bounds.size.height-2*padding))
+        backgroundLabel.backgroundColor = UIColor.whiteColor()
+        view!.addSubview(backgroundLabel)
+
+        let textLabel = UILabel(frame: CGRectMake(margin, margin, bounds.size.width-2*padding-2*margin, size.height))
+        textLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        textLabel.text = sense.gloss
+        textLabel.lineBreakMode = .ByWordWrapping
+        textLabel.numberOfLines = 0
+        backgroundLabel.addSubview(textLabel)
     }
 
 }
