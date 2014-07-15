@@ -66,6 +66,7 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
     }
 
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        super.didRotateFromInterfaceOrientation(fromInterfaceOrientation)
         adjustLayout()
     }
 

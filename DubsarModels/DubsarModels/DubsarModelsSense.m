@@ -507,6 +507,20 @@
     return [gloss boundingRectWithSize:constrainedSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: font} context:context].size;
 }
 
+- (CGSize)synonymSizeWithConstrainedSize:(CGSize)constrainedSize
+{
+    NSString* synonymString = self.synonymsAsString;
+    if (synonymString.length == 0) {
+        return CGSizeMake(constrainedSize.width, 0.0);
+    }
+
+    // DEBT: NSString extension like sizeOfTextWithFont:constrainedSize: if I'm going to be doing a lot of this. As it looks like I will.
+    UIFont* font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    NSStringDrawingContext* context = [[NSStringDrawingContext alloc] init];
+
+    return [synonymString boundingRectWithSize:constrainedSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: font} context:context].size;
+}
+
 -(NSUInteger)numberOfSections
 {
 #ifdef DEBUG

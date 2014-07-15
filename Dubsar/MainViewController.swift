@@ -38,7 +38,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         wotd.load()
-        adjustLayout()
     }
 
     override func loadComplete(model: DubsarModelsModel!, withError error: String?) {

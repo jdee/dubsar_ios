@@ -76,8 +76,12 @@ class SenseTableViewCell: UITableViewCell {
 
         let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin, frame.size.height)
         let size = sense.sizeWithConstrainedSize(constrainedSize)
+        let synonymSize = sense.synonymSizeWithConstrainedSize(constrainedSize)
 
         frame.size.height = size.height + 2*borderWidth + 3*margin + SenseTableViewCell.labelLineHeight
+        if synonymSize.height > 0 {
+            frame.size.height += synonymSize.height + margin
+        }
 
         view?.removeFromSuperview()
 
@@ -107,6 +111,15 @@ class SenseTableViewCell: UITableViewCell {
         textLabel.lineBreakMode = .ByWordWrapping
         textLabel.numberOfLines = 0
         backgroundLabel.addSubview(textLabel)
+
+        if synonymSize.height > 0 {
+            let synonymLabel = UILabel(frame: CGRectMake(margin, 3*margin + SenseTableViewCell.labelLineHeight + size.height, bounds.size.width-2*borderWidth-2*margin, synonymSize.height))
+            synonymLabel.text = sense.synonymsAsString
+            synonymLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
+            synonymLabel.lineBreakMode = .ByWordWrapping
+            synonymLabel.numberOfLines = 0
+            backgroundLabel.addSubview(synonymLabel)
+        }
     }
 
 }
