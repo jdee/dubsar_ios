@@ -81,6 +81,21 @@
     return [NSString stringWithFormat:@"%@ (%@.)", name, self.pos];
 }
 
+- (NSString *)otherForms
+{
+    NSString* result = @"";
+    for (int j=0; j<inflections.count; ++j) {
+        NSString* inflection = inflections[j];
+        if (j < inflections.count-1) {
+            result = [result stringByAppendingFormat:@"%@, ", inflection];
+        }
+        else {
+            result = [result stringByAppendingString:inflection];
+        }
+    }
+    return result;
+}
+
 - (void)load:(bool)mainThread
 {
     // either way, [delegate loadComplete:withError:] is called on the main thread

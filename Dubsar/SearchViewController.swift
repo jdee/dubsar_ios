@@ -68,12 +68,14 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         if !cell {
             cell = WordTableViewCell()
         }
+        cell!.frame = CGRectMake(0, 0, resultTableView.frame.size.width-2*WordTableViewCell.margin, view.bounds.size.height)
         cell!.word = word
+        cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
 
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         if !search.complete {
             return
         }
@@ -82,6 +84,38 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         let word = search.results[row] as DubsarModelsWord
 
         pushViewControllerWithIdentifier(WordViewController.identifier, model: word)
+    }
+
+    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> Float {
+        if !search.complete {
+            return 44
+        }
+
+        let row = indexPath.indexAtPosition(1)
+        let word = search.results[row] as DubsarModelsWord
+        let nameAndPos = word.nameAndPos as NSString
+        let inflections = word.otherForms as NSString
+        let freqCntText = String(word.freqCnt) as NSString
+
+        let headlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+
+        let constrainedSize = CGSizeMake(resultTableView.frame.size.width-2*WordTableViewCell.margin, view.bounds.size.height)
+
+        let context = NSStringDrawingContext()
+        let nameAndPosSize = nameAndPos.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: headlineFont], context: context)
+        let inflectionSize = inflections.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: bodyFont], context: context)
+        let freqCntSize = freqCntText.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: bodyFont], context: context)
+
+        var height = nameAndPosSize.height + 2*WordTableViewCell.margin
+        if word.inflections.count > 0 {
+            height += inflectionSize.height + WordTableViewCell.margin
+        }
+        if word.freqCnt > 0 {
+            height += freqCntSize.height + WordTableViewCell.margin
+        }
+
+        return height
     }
 
     override func loadComplete(model : DubsarModelsModel!, withError error: String?) {

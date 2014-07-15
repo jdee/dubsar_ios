@@ -59,6 +59,12 @@ class SenseTableViewCell: UITableViewCell {
     }
     }
 
+    /*
+     * The main thing this class does is build this view, which is added as a subview of
+     * contentView. Each time rebuild() is called, this view is removed from the superview
+     * if non-nil and reconstructed. Removing it from the superview is the only reason to
+     * make this a property.
+     */
     var view : UIView?
 
     init(sense: DubsarModelsSense!, frame: CGRect) {
@@ -85,7 +91,7 @@ class SenseTableViewCell: UITableViewCell {
 
         view?.removeFromSuperview()
 
-        view = UIView(frame: bounds)
+        view = UIView(frame: contentView.bounds)
         view!.backgroundColor = UIColor.blackColor()
 
         contentView.addSubview(view)

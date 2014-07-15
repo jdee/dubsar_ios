@@ -51,21 +51,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         nameAndPosLabel.text = word.nameAndPos
 
-        let inflections = word.inflections
-        var inflectionText = ""
-
-        // the compiler and the sourcekit crap out if I try to do
-        // for (j, inflection: String!) in enumerate(inflections as Array) // or whatever; nothing like this works
-        for var j=0; j<inflections.count; ++j {
-            let inflection = inflections[j] as String
-
-            if j < inflections.count-1 {
-                inflectionText = "\(inflectionText)\(inflection), "
-            }
-            else {
-                inflectionText = "\(inflectionText)\(inflection)"
-            }
-        }
+        let inflectionText = word.otherForms
 
         if inflectionText.isEmpty {
             inflectionLabel.text = ""
@@ -115,7 +101,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         return cell
     }
 
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> Float {
         if !word.complete {
             return 44
         }

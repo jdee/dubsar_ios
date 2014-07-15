@@ -37,6 +37,7 @@
 -(instancetype)initWithId:(NSUInteger)theId name:(NSString*)theName posString:(NSString*)posString NS_DESIGNATED_INITIALIZER;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *pos;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *nameAndPos;
+@property (nonatomic, readonly, copy) NSString* otherForms;
 
 -(void)parseData;
 -(void)initUrl;
