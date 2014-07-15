@@ -64,7 +64,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         let row = indexPath.indexAtPosition(1)
         let word = search.results[row] as DubsarModelsWord
 
-        var cell = tableView.dequeueReusableCellWithIdentifier(WordTableViewCell.identifer) as? WordTableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier(WordTableViewCell.identifier) as? WordTableViewCell
         if !cell {
             cell = WordTableViewCell()
         }

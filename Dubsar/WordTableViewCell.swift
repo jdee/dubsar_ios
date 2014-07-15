@@ -22,7 +22,7 @@ import UIKit
 
 class WordTableViewCell: UITableViewCell {
 
-    class var identifer : String {
+    class var identifier : String {
         get {
             return "word"
         }
@@ -50,7 +50,7 @@ class WordTableViewCell: UITableViewCell {
 
     init(word: DubsarModelsWord? = nil) {
         self.word = word
-        super.init(style: .Subtitle, reuseIdentifier: WordTableViewCell.identifer)
+        super.init(style: .Subtitle, reuseIdentifier: WordTableViewCell.identifier)
 
         selectionStyle = .None
 

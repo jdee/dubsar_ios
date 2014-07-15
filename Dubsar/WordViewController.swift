@@ -22,9 +22,6 @@ import UIKit
 
 class WordViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet var nameAndPosLabel : UILabel
-    @IBOutlet var inflectionLabel : UILabel
-    @IBOutlet var freqCntLabel : UILabel
     @IBOutlet var senseTableView : UITableView
 
     class var identifier : String {
@@ -49,29 +46,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             return
         }
 
-        nameAndPosLabel.text = word.nameAndPos
-
-        let inflectionText = word.otherForms
-
-        if inflectionText.isEmpty {
-            inflectionLabel.text = ""
-        }
-        else {
-            inflectionLabel.text = "other forms: \(inflectionText)"
-        }
-
-        if word.freqCnt > 0 {
-            freqCntLabel.text = "freq. cnt. \(word.freqCnt)"
-        }
-        else {
-            freqCntLabel.text = ""
-        }
-
         adjustLayout()
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return word.complete ? word.senses.count : 1
+        return word.complete ? word.senses.count + 1 : 1
     }
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
@@ -84,8 +63,19 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
 
         let row = indexPath.indexAtPosition(1)
-        let sense = word.senses[row] as DubsarModelsSense
-        let frame = CGRectMake(0, 0, tableView.frame.size.width, view.bounds.size.height)
+        if row == 0 {
+            // Word cell as the header
+            var cell = tableView.dequeueReusableCellWithIdentifier(WordTableViewCell.identifier) as? WordTableViewCell
+            if !cell {
+                cell = WordTableViewCell()
+            }
+            cell!.frame = tableView.bounds
+            cell!.word = word
+            return cell
+        }
+
+        let sense = word.senses[row-1] as DubsarModelsSense
+        let frame = tableView.bounds
 
         var cell = tableView.dequeueReusableCellWithIdentifier(SenseTableViewCell.identifier) as? SenseTableViewCell
         if !cell {
@@ -107,13 +97,29 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
 
         let row = indexPath.indexAtPosition(1)
-        if row > word.senses.count {
-            return 44
+        if row == 0 {
+            let constrainedSize = CGSizeMake(tableView.bounds.size.width-2*WordTableViewCell.margin, tableView.bounds.size.height)
+            let headlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+            let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+
+            let nameAndPosSize = word.nameAndPosSizeWithConstrainedSize(constrainedSize, font: headlineFont)
+            let inflectionSize = word.inflectionSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+            let freqCntSize = word.freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+
+            var height = nameAndPosSize.height + 2*WordTableViewCell.margin
+            if word.inflections.count > 0 {
+                height += inflectionSize.height + WordTableViewCell.margin
+            }
+            if word.freqCnt > 0 {
+                height += freqCntSize.height + WordTableViewCell.margin
+            }
+            
+            return height
         }
 
-        let sense = word.senses[row] as DubsarModelsSense
+        let sense = word.senses[row-1] as DubsarModelsSense
         let paddingAndMargins = 2*SenseTableViewCell.borderWidth + 2*SenseTableViewCell.margin
-        let constrainedSize = CGSizeMake(tableView.frame.size.width-paddingAndMargins, view.bounds.size.height)
+        let constrainedSize = CGSizeMake(tableView.bounds.size.width-paddingAndMargins, tableView.bounds.size.height)
         let synonymSize = sense.synonymSizeWithConstrainedSize(constrainedSize)
 
         var height = sense.sizeWithConstrainedSize(constrainedSize).height + paddingAndMargins + SenseTableViewCell.labelLineHeight + SenseTableViewCell.margin
@@ -125,10 +131,6 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
     override func adjustLayout() {
         let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-
-        nameAndPosLabel.font = font
-        inflectionLabel.font = font
-        freqCntLabel.font = font
 
         let numberOfRows = tableView(senseTableView, numberOfRowsInSection: 0)
         var height : Float = 0

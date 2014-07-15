@@ -152,29 +152,8 @@
                         <rect key="frame" x="0.0" y="64" width="480" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OXP-Pz-Sb0">
-                                <rect key="frame" x="20" y="20" width="440" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="GfU-65-knl"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="Eqv-KO-lgh">
-                                <rect key="frame" x="20" y="49" width="440" height="21"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="1dc-jo-3op">
-                                <rect key="frame" x="20" y="57" width="440" height="21"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vsX-5n-8pL">
-                                <rect key="frame" x="20" y="65" width="440" height="331"/>
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="416"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Ztw-Ob-DFo" id="v5q-Et-9ry"/>
                                     <outlet property="delegate" destination="Ztw-Ob-DFo" id="cYR-0E-BBN"/>
@@ -183,28 +162,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="OXP-Pz-Sb0" secondAttribute="trailing" constant="20" id="15p-dJ-qjf"/>
-                            <constraint firstItem="OXP-Pz-Sb0" firstAttribute="leading" secondItem="071-Zf-E3M" secondAttribute="leading" constant="20" id="5O4-d3-R9Y"/>
-                            <constraint firstItem="1dc-jo-3op" firstAttribute="top" secondItem="Eqv-KO-lgh" secondAttribute="bottom" constant="8" id="AjP-48-7jI"/>
-                            <constraint firstAttribute="trailing" secondItem="vsX-5n-8pL" secondAttribute="trailing" constant="20" id="AjQ-bE-enU"/>
-                            <constraint firstItem="vsX-5n-8pL" firstAttribute="leading" secondItem="071-Zf-E3M" secondAttribute="leading" constant="20" id="Ass-ju-3T1"/>
-                            <constraint firstItem="Eqv-KO-lgh" firstAttribute="top" secondItem="OXP-Pz-Sb0" secondAttribute="bottom" constant="8" id="HkO-6g-sZr"/>
-                            <constraint firstItem="OXP-Pz-Sb0" firstAttribute="top" secondItem="071-Zf-E3M" secondAttribute="top" constant="20" id="Lij-cU-npI"/>
-                            <constraint firstItem="vsX-5n-8pL" firstAttribute="top" secondItem="1dc-jo-3op" secondAttribute="bottom" constant="8" id="Px0-dE-y3l"/>
-                            <constraint firstAttribute="trailing" secondItem="1dc-jo-3op" secondAttribute="trailing" constant="20" id="RKF-fv-aHb"/>
-                            <constraint firstItem="1dc-jo-3op" firstAttribute="leading" secondItem="071-Zf-E3M" secondAttribute="leading" constant="20" id="Vnr-SH-6K0"/>
-                            <constraint firstAttribute="bottom" secondItem="vsX-5n-8pL" secondAttribute="bottom" constant="20" id="cbN-zR-rY7"/>
-                            <constraint firstAttribute="trailing" secondItem="Eqv-KO-lgh" secondAttribute="trailing" constant="20" id="plJ-r5-NkW"/>
-                            <constraint firstItem="Eqv-KO-lgh" firstAttribute="leading" secondItem="071-Zf-E3M" secondAttribute="leading" constant="20" id="z1q-3n-WbQ"/>
+                            <constraint firstAttribute="trailing" secondItem="vsX-5n-8pL" secondAttribute="trailing" id="AjQ-bE-enU"/>
+                            <constraint firstItem="vsX-5n-8pL" firstAttribute="leading" secondItem="071-Zf-E3M" secondAttribute="leading" id="Ass-ju-3T1"/>
+                            <constraint firstAttribute="bottom" secondItem="vsX-5n-8pL" secondAttribute="bottom" id="cbN-zR-rY7"/>
+                            <constraint firstItem="vsX-5n-8pL" firstAttribute="top" secondItem="071-Zf-E3M" secondAttribute="top" id="s8M-Zl-CvR"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Word" id="Sb8-7a-c1Z"/>
                     <connections>
-                        <outlet property="freqCntLabel" destination="1dc-jo-3op" id="BG7-yr-F5a"/>
-                        <outlet property="inflectionLabel" destination="Eqv-KO-lgh" id="klN-TO-DtP"/>
-                        <outlet property="nameAndPosLabel" destination="OXP-Pz-Sb0" id="vWi-Jb-Qyc"/>
                         <outlet property="senseTableView" destination="vsX-5n-8pL" id="CGN-el-jwU"/>
                     </connections>
                 </viewController>
