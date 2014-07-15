@@ -69,7 +69,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             cell = WordTableViewCell()
         }
         cell!.selectionStyle = .Blue // but gray for some reason
-        cell!.frame = CGRectMake(0, 0, resultTableView.frame.size.width-2*WordTableViewCell.margin, view.bounds.size.height)
+        cell!.frame = tableView.bounds
         cell!.word = word
         cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
 
@@ -95,23 +95,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         let row = indexPath.indexAtPosition(1)
         let word = search.results[row] as DubsarModelsWord
 
-        let constrainedSize = CGSizeMake(resultTableView.frame.size.width-2*WordTableViewCell.margin, view.bounds.size.height)
-        let headlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-
-        let nameAndPosSize = word.nameAndPosSizeWithConstrainedSize(constrainedSize, font: headlineFont)
-        let inflectionSize = word.inflectionSizeWithConstrainedSize(constrainedSize, font: bodyFont)
-        let freqCntSize = word.freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
-
-        var height = nameAndPosSize.height + 2*WordTableViewCell.margin
-        if word.inflections.count > 0 {
-            height += inflectionSize.height + WordTableViewCell.margin
-        }
-        if word.freqCnt > 0 {
-            height += freqCntSize.height + WordTableViewCell.margin
-        }
-
-        return height
+        return word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size).height
     }
 
     override func loadComplete(model : DubsarModelsModel!, withError error: String?) {

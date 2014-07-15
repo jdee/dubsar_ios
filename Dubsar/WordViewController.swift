@@ -98,20 +98,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         let row = indexPath.indexAtPosition(1)
         if row == 0 {
-            let constrainedSize = CGSizeMake(tableView.bounds.size.width-2*WordTableViewCell.margin, tableView.bounds.size.height)
-            return word.sizeOfCellWithConstrainedSize(constrainedSize).height
+            return word.sizeOfCellWithConstrainedSize(tableView.bounds.size).height
         }
 
         let sense = word.senses[row-1] as DubsarModelsSense
-        let paddingAndMargins = 2*SenseTableViewCell.borderWidth + 2*SenseTableViewCell.margin
-        let constrainedSize = CGSizeMake(tableView.bounds.size.width-paddingAndMargins, tableView.bounds.size.height)
-        let synonymSize = sense.synonymSizeWithConstrainedSize(constrainedSize)
-
-        var height = sense.sizeWithConstrainedSize(constrainedSize).height + paddingAndMargins + SenseTableViewCell.labelLineHeight + SenseTableViewCell.margin
-        if synonymSize.height > 0 {
-            height += synonymSize.height + SenseTableViewCell.margin
-        }
-        return height
+        return sense.sizeOfCellWithConstrainedSize(tableView.bounds.size).height
     }
 
     override func adjustLayout() {

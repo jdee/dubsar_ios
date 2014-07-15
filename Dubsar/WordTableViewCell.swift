@@ -76,13 +76,16 @@ class WordTableViewCell: UITableViewCell {
         let inflectionSize = word!.inflectionSizeWithConstrainedSize(constrainedSize, font: bodyFont)
         let freqCntSize = word!.freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
 
-        bounds.size.height = word!.sizeOfCellWithConstrainedSize(constrainedSize).height
+        let originalWidth = bounds.size.width
+        bounds.size = word!.sizeOfCellWithConstrainedSize(bounds.size)
+        assert(originalWidth == bounds.size.width)
 
         view?.removeFromSuperview()
 
         view = UIView(frame: bounds)
         view!.backgroundColor = cellBackgroundColor
 
+        contentView.frame = bounds
         contentView.addSubview(view)
 
         let nameAndPosLabel = UILabel(frame:CGRectMake(margin, margin, constrainedSize.width, nameAndPosSize.height))

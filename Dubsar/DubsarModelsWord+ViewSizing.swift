@@ -41,19 +41,22 @@ extension DubsarModelsWord {
     }
 
     func sizeOfCellWithConstrainedSize(constrainedSize: CGSize) -> CGSize {
-        var size = nameAndPosSizeWithConstrainedSize(constrainedSize, font: UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline))
-        size.width += WordTableViewCell.margin * 2
+        var constraint = constrainedSize
+        constraint.width -= 2 * WordTableViewCell.margin
+
+        var size = nameAndPosSizeWithConstrainedSize(constraint, font: UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline))
+        size.width = constrainedSize.width
         size.height += WordTableViewCell.margin * 2
 
         let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
 
         if inflections.count > 0 {
-            let inflectionSize = inflectionSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+            let inflectionSize = inflectionSizeWithConstrainedSize(constraint, font: bodyFont)
             size.height += inflectionSize.height + WordTableViewCell.margin
         }
 
         if freqCnt > 0 {
-            let freqCntSize = freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+            let freqCntSize = freqCntSizeWithConstrainedSize(constraint, font: bodyFont)
             size.height += freqCntSize.height + WordTableViewCell.margin
         }
 

@@ -50,9 +50,6 @@
 @property (nonatomic) NSUInteger numberOfSections;
 @property (nonatomic, strong) NSMutableArray* sections;
 
-- (CGSize) sizeWithConstrainedSize:(CGSize)constrainedSize;
-- (CGSize) synonymSizeWithConstrainedSize:(CGSize)constrainedSize;
-
 +(instancetype)senseWithId:(NSUInteger)theId name:(NSString*)theName synset:(DubsarModelsSynset*)theSynset;
 +(instancetype)senseWithId:(NSUInteger)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
 +(instancetype)senseWithId:(NSUInteger)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(DubsarModelsWord*)theWord;

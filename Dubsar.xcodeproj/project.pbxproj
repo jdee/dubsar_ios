@@ -41,6 +41,7 @@
 		7BBF83741975871300969765 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83731975871300969765 /* BaseViewController.swift */; };
 		7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */; };
 		7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */; };
+		7BBF83821975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +132,7 @@
 		7BBF83731975871300969765 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsWord+ViewSizing.swift"; sourceTree = "<group>"; };
 		7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+ViewSizing.swift"; sourceTree = "<group>"; };
+		7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsSense+ViewSizing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,6 +279,7 @@
 		7BBF83801975CE7000969765 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */,
 				7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */,
 				7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */,
 			);
@@ -399,6 +402,7 @@
 				7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */,
 				7BBF83701974D58400969765 /* SearchViewController.swift in Sources */,
 				7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */,
+				7BBF83821975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift in Sources */,
 				7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */,
 				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,
 				7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */,
