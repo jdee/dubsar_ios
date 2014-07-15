@@ -37,6 +37,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)
+    }
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if !search.complete {
@@ -47,6 +52,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         }
 
         searchLabel.text = search.term
+        adjustLayout()
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section:Int) -> Int {
@@ -96,5 +102,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         }
 
         resultTableView.reloadData()
+    }
+
+    func adjustLayout() {
+        searchLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        resultTableView.reloadData()
+        view.invalidateIntrinsicContentSize()
     }
 }

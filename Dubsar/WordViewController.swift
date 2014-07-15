@@ -45,6 +45,8 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
         if word.complete {
             loadComplete(word, withError: nil)
         }
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -54,6 +56,7 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
         else {
             loadComplete(word, withError: nil)
         }
+        adjustLayout()
     }
 
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
@@ -86,17 +89,23 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
 
         if inflectionText.isEmpty {
             inflectionsLabel.text = ""
+            inflectionsLabel.hidden = true
         }
         else {
             inflectionsLabel.text = "other forms: \(inflectionText)"
+            inflectionsLabel.hidden = false
         }
+        inflectionsLabel.invalidateIntrinsicContentSize()
 
         if word.freqCnt > 0 {
             freqCntLabel.text = "freq. cnt. \(word.freqCnt)"
+            freqCntLabel.hidden = false
         }
         else {
             freqCntLabel.text = ""
+            freqCntLabel.hidden = true
         }
+        freqCntLabel.invalidateIntrinsicContentSize()
 
         senseTableView.reloadData()
     }
@@ -144,6 +153,14 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
         let paddingAndMargins = 2*SenseTableViewCell.borderWidth + 2*SenseTableViewCell.margin
 
         return sense.sizeWithConstrainedSize(CGSizeMake(tableView.frame.size.width-paddingAndMargins, view.bounds.size.height)).height + paddingAndMargins + SenseTableViewCell.labelLineHeight + SenseTableViewCell.margin
+    }
+
+    func adjustLayout() {
+        nameAndPosLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        inflectionsLabel.font = nameAndPosLabel.font
+        freqCntLabel.font = nameAndPosLabel.font
+        senseTableView.reloadData()
+        view.invalidateIntrinsicContentSize()
     }
 
 }

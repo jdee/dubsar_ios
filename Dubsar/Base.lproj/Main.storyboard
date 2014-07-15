@@ -81,6 +81,7 @@
                     <connections>
                         <outlet property="searchBar" destination="a2p-CQ-t6I" id="Ld4-N5-e4v"/>
                         <outlet property="wotdButton" destination="xpD-WL-dUJ" id="bpO-2l-tJm"/>
+                        <outlet property="wotdLabel" destination="Pai-39-ITs" id="zsa-RW-DHv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W8h-CV-MOl" userLabel="First Responder" sceneMemberID="firstResponder"/>

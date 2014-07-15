@@ -24,6 +24,7 @@ class MainViewController: UIViewController, UIAlertViewDelegate, UISearchBarDele
 
     @IBOutlet var wotdButton : UIButton
     @IBOutlet var searchBar : UISearchBar
+    @IBOutlet var wotdLabel : UILabel
 
     var wotd : DubsarModelsDailyWord!
 
@@ -32,11 +33,14 @@ class MainViewController: UIViewController, UIAlertViewDelegate, UISearchBarDele
 
         wotd = DubsarModelsDailyWord()
         wotd.delegate = self
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         wotd.load()
+        adjustLayout()
     }
 
     func loadComplete(model: DubsarModelsModel!, withError error: String?) {
@@ -89,5 +93,11 @@ class MainViewController: UIViewController, UIAlertViewDelegate, UISearchBarDele
         viewController.search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
 
         AppDelegate.instance.navigationController.pushViewController(viewController, animated: true)
+    }
+
+    func adjustLayout() {
+        wotdButton.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        wotdLabel.font = wotdButton.font
+        view.invalidateIntrinsicContentSize()
     }
 }

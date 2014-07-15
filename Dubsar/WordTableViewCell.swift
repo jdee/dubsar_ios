@@ -43,6 +43,7 @@ class WordTableViewCell: UITableViewCell {
 
     func rebuild() {
         textLabel.text = word?.nameAndPos
+        textLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
     }
 
 }

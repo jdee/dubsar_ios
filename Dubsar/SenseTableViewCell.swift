@@ -31,7 +31,7 @@ class SenseTableViewCell: UITableViewCell {
 
     class var borderWidth : Float {
         get {
-            return 0
+            return 1
     }
     }
 
