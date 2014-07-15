@@ -136,6 +136,8 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
             cell!.sense = sense // resized on assignment to .sense
         }
 
+        cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
+
         return cell
     }
 

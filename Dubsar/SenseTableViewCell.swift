@@ -31,14 +31,14 @@ class SenseTableViewCell: UITableViewCell {
 
     class var borderWidth : Float {
         get {
-            return 1
-    }
+            return 0
+        }
     }
 
     class var margin : Float {
         get {
             return 6
-    }
+        }
     }
 
     class var labelLineHeight : Float {
@@ -48,6 +48,12 @@ class SenseTableViewCell: UITableViewCell {
     }
 
     var sense : DubsarModelsSense! {
+    didSet {
+        rebuild()
+    }
+    }
+
+    var cellBackgroundColor : UIColor! = UIColor.whiteColor() {
     didSet {
         rebuild()
     }
@@ -81,7 +87,7 @@ class SenseTableViewCell: UITableViewCell {
         contentView.addSubview(view)
 
         let backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
-        backgroundLabel.backgroundColor = UIColor.whiteColor()
+        backgroundLabel.backgroundColor = cellBackgroundColor
         view!.addSubview(backgroundLabel)
 
         var lexnameText = "<\(sense.lexname)>"
