@@ -20,19 +20,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class MainViewController: UIViewController, UIAlertViewDelegate, DubsarModelsLoadDelegate {
+class MainViewController: UIViewController, UIAlertViewDelegate, UISearchBarDelegate, DubsarModelsLoadDelegate {
 
-    @IBOutlet var versionLabel : UILabel
     @IBOutlet var wotdButton : UIButton
+    @IBOutlet var searchBar : UISearchBar
 
     var wotd : DubsarModelsDailyWord!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let version = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey) as? String
-
-        versionLabel.text = "Version \(version)"
 
         wotd = DubsarModelsDailyWord()
         wotd.delegate = self
@@ -72,5 +68,26 @@ class MainViewController: UIViewController, UIAlertViewDelegate, DubsarModelsLoa
             viewController.word = wotd.word
             viewController.title = "Word of the Day"
         }
+    }
+
+    func searchBarShouldBeginEditing(searchBar: UISearchBar!) -> Bool {
+        searchBar.showsCancelButton = true
+        return true
+    }
+
+    func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+    }
+
+    func searchBarSearchButtonClicked(searchBar: UISearchBar!) {
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewControllerWithIdentifier("Search") as SearchViewController
+        viewController.search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
+
+        AppDelegate.instance.navigationController.pushViewController(viewController, animated: true)
     }
 }

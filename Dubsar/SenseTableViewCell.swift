@@ -47,7 +47,7 @@ class SenseTableViewCell: UITableViewCell {
         }
     }
 
-    var sense : DubsarModelsSense {
+    var sense : DubsarModelsSense! {
     didSet {
         rebuild()
     }
@@ -55,7 +55,7 @@ class SenseTableViewCell: UITableViewCell {
 
     var view : UIView?
 
-    init(sense: DubsarModelsSense, frame: CGRect) {
+    init(sense: DubsarModelsSense!, frame: CGRect) {
         self.sense = sense
         super.init(style: .Default, reuseIdentifier: SenseTableViewCell.identifier)
 

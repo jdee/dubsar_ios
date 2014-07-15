@@ -36,6 +36,8 @@
 		7BAC234F1973698100D2AEA4 /* DubsarModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23481973639200D2AEA4 /* DubsarModels.framework */; };
 		7BAC23591973753300D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */; };
 		7BAC235E1973754F00D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */; };
+		7BBF83701974D58400969765 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF836F1974D58400969765 /* SearchViewController.swift */; };
+		7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83711974DB8200969765 /* WordTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +123,8 @@
 		7BAC22CE19734A9100D2AEA4 /* WordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordTest.m; sourceTree = "<group>"; };
 		7BAC23481973639200D2AEA4 /* DubsarModels.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DubsarModels.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Dubsar-gtxcrwsszmnigedrmhxqqasmxygq/Build/Products/Debug-iphoneos/DubsarModels.framework"; sourceTree = "<group>"; };
 		7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		7BBF836F1974D58400969765 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		7BBF83711974DB8200969765 /* WordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +251,7 @@
 			children = (
 				7B82D29D1974A12400F983F6 /* LoadingTableViewCell.swift */,
 				7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */,
+				7BBF83711974DB8200969765 /* WordTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				7BAC226019732D6C00D2AEA4 /* MainViewController.swift */,
+				7BBF836F1974D58400969765 /* SearchViewController.swift */,
 				7B1B4E7A19747EB6008F38BF /* WordViewController.swift */,
 			);
 			name = "View Controllers";
@@ -373,11 +379,13 @@
 				7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */,
 				7B1152011974340900869E15 /* DubsarServer.m in Sources */,
 				7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */,
+				7BBF83701974D58400969765 /* SearchViewController.swift in Sources */,
 				7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */,
 				7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */,
 				7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
+				7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

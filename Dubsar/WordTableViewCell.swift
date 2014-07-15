@@ -17,27 +17,36 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+import DubsarModels
 import UIKit
 
-class LoadingTableViewCell: UITableViewCell {
+class WordTableViewCell: UITableViewCell {
 
-    let spinner : UIActivityIndicatorView
-
-    class var identifier : String {
+    class var identifer : String {
         get {
-            return "spinner"
+            return "word"
         }
     }
 
-    init() {
-        spinner = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        super.init(style: .Default, reuseIdentifier: LoadingTableViewCell.identifier)
+    var word : DubsarModelsWord? {
+    didSet {
+        rebuild()
+    }
+    }
 
-        selectionStyle = .None
+    convenience init() {
+        self.init(word: nil)
+    }
 
-        addSubview(spinner)
-        spinner.frame = CGRectMake(2.0, 2.0, 40.0, 40.0)
-        spinner.startAnimating()
+    init(word: DubsarModelsWord?) {
+        self.word = word
+        super.init(style: .Subtitle, reuseIdentifier: WordTableViewCell.identifer)
+
+        rebuild()
+    }
+
+    func rebuild() {
+        textLabel.text = word?.nameAndPos
     }
 
 }
