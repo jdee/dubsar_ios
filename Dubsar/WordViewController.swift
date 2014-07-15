@@ -23,7 +23,7 @@ import UIKit
 class WordViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var nameAndPosLabel : UILabel
-    @IBOutlet var inflectionsLabel : UILabel
+    @IBOutlet var inflectionLabel : UILabel
     @IBOutlet var freqCntLabel : UILabel
     @IBOutlet var senseTableView : UITableView
 
@@ -68,26 +68,20 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
 
         if inflectionText.isEmpty {
-            inflectionsLabel.text = ""
-            inflectionsLabel.hidden = true
+            inflectionLabel.text = ""
         }
         else {
-            inflectionsLabel.text = "other forms: \(inflectionText)"
-            inflectionsLabel.hidden = false
+            inflectionLabel.text = "other forms: \(inflectionText)"
         }
-        inflectionsLabel.invalidateIntrinsicContentSize()
 
         if word.freqCnt > 0 {
             freqCntLabel.text = "freq. cnt. \(word.freqCnt)"
-            freqCntLabel.hidden = false
         }
         else {
             freqCntLabel.text = ""
-            freqCntLabel.hidden = true
         }
-        freqCntLabel.invalidateIntrinsicContentSize()
 
-        senseTableView.reloadData()
+        adjustLayout()
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
@@ -144,9 +138,12 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     override func adjustLayout() {
-        nameAndPosLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        inflectionsLabel.font = nameAndPosLabel.font
-        freqCntLabel.font = nameAndPosLabel.font
+        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+
+        nameAndPosLabel.font = font
+        inflectionLabel.font = font
+        freqCntLabel.font = font
+
         senseTableView.reloadData()
         super.adjustLayout()
     }

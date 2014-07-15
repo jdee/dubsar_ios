@@ -161,26 +161,20 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eqv-KO-lgh">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="Eqv-KO-lgh">
                                 <rect key="frame" x="20" y="49" width="440" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="44b-jM-WHs"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="1dc-jo-3op">
-                                <rect key="frame" x="20" y="78" width="440" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="xzD-CP-g0B"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="1dc-jo-3op">
+                                <rect key="frame" x="20" y="57" width="440" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vsX-5n-8pL">
-                                <rect key="frame" x="20" y="107" width="440" height="289"/>
+                                <rect key="frame" x="20" y="65" width="440" height="331"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Ztw-Ob-DFo" id="v5q-Et-9ry"/>
                                     <outlet property="delegate" destination="Ztw-Ob-DFo" id="cYR-0E-BBN"/>
@@ -209,7 +203,7 @@
                     <navigationItem key="navigationItem" title="Word" id="Sb8-7a-c1Z"/>
                     <connections>
                         <outlet property="freqCntLabel" destination="1dc-jo-3op" id="BG7-yr-F5a"/>
-                        <outlet property="inflectionsLabel" destination="Eqv-KO-lgh" id="c6R-aA-9nJ"/>
+                        <outlet property="inflectionLabel" destination="Eqv-KO-lgh" id="klN-TO-DtP"/>
                         <outlet property="nameAndPosLabel" destination="OXP-Pz-Sb0" id="vWi-Jb-Qyc"/>
                         <outlet property="senseTableView" destination="vsX-5n-8pL" id="CGN-el-jwU"/>
                     </connections>
