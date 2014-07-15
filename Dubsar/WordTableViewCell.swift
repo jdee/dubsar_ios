@@ -52,6 +52,8 @@ class WordTableViewCell: UITableViewCell {
         self.word = word
         super.init(style: .Subtitle, reuseIdentifier: WordTableViewCell.identifer)
 
+        selectionStyle = .None
+
         rebuild()
     }
 

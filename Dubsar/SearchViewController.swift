@@ -68,6 +68,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         if !cell {
             cell = WordTableViewCell()
         }
+        cell!.selectionStyle = .Blue // but gray for some reason
         cell!.frame = CGRectMake(0, 0, resultTableView.frame.size.width-2*WordTableViewCell.margin, view.bounds.size.height)
         cell!.word = word
         cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
