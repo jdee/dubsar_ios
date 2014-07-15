@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DubsarModelsLoadDelegate {
+class SearchViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var searchLabel : UILabel
     @IBOutlet var resultTableView : UITableView
@@ -32,27 +32,20 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     var search : DubsarModelsSearch! {
-    didSet {
-        search.delegate = self
-    }
+    get {
+        return model as? DubsarModelsSearch
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)
+    set {
+        model = newValue
+    }
     }
 
     override func viewWillAppear(animated: Bool) {
+        // NSLog("In SearchViewController.viewWillAppear() before super: search is %@nil, %@complete; model is %@nil, %@complete", (search ? "" : "not "), (search.complete ? "" : "not "), (model ? "" : "not "), (model?.complete ? "" : "not "))
         super.viewWillAppear(animated)
-        if !search.complete {
-            search.load()
-        }
-        else {
-            loadComplete(search, withError: nil)
-        }
 
         searchLabel.text = search.term
-        adjustLayout()
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section:Int) -> Int {
@@ -88,25 +81,21 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         let row = indexPath.indexAtPosition(1)
         let word = search.results[row] as DubsarModelsWord
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewControllerWithIdentifier("Word") as WordViewController
-        viewController.word = word
-
-        AppDelegate.instance.navigationController.pushViewController(viewController, animated: true)
+        pushViewControllerWithIdentifier(WordViewController.identifier, model: word)
     }
 
-    func loadComplete(model : DubsarModelsModel!, withError error: String?) {
-        if let errorMessage = error {
-            NSLog("error: %@", errorMessage)
+    override func loadComplete(model : DubsarModelsModel!, withError error: String?) {
+        super.loadComplete(model, withError: error)
+        if error {
             return
         }
 
         resultTableView.reloadData()
     }
 
-    func adjustLayout() {
+    override func adjustLayout() {
         searchLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         resultTableView.reloadData()
-        view.invalidateIntrinsicContentSize()
+        super.adjustLayout()
     }
 }

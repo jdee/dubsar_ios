@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableViewDataSource, UITableViewDelegate {
+class WordViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var nameAndPosLabel : UILabel
     @IBOutlet var inflectionsLabel : UILabel
@@ -34,38 +34,18 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
     }
 
     var word : DubsarModelsWord! {
-    didSet {
-        word.delegate = self
+    get {
+        return model as? DubsarModelsWord
+    }
+
+    set {
+        model = newValue
     }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        if word.complete {
-            loadComplete(word, withError: nil)
-        }
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        if !word.complete {
-            word.load()
-        }
-        else {
-            loadComplete(word, withError: nil)
-        }
-        adjustLayout()
-    }
-
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        senseTableView.reloadData()
-    }
-
-    func loadComplete(model: DubsarModelsModel!, withError error: String?) {
-        if let errorMessage = error {
-            NSLog("error: %@", errorMessage)
+    override func loadComplete(model: DubsarModelsModel!, withError error: String?) {
+        super.loadComplete(model, withError: error)
+        if error {
             return
         }
 
@@ -157,12 +137,12 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
         return sense.sizeWithConstrainedSize(CGSizeMake(tableView.frame.size.width-paddingAndMargins, view.bounds.size.height)).height + paddingAndMargins + SenseTableViewCell.labelLineHeight + SenseTableViewCell.margin
     }
 
-    func adjustLayout() {
+    override func adjustLayout() {
         nameAndPosLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         inflectionsLabel.font = nameAndPosLabel.font
         freqCntLabel.font = nameAndPosLabel.font
         senseTableView.reloadData()
-        view.invalidateIntrinsicContentSize()
+        super.adjustLayout()
     }
 
 }

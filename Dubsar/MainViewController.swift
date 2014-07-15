@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class MainViewController: UIViewController, UIAlertViewDelegate, UISearchBarDelegate, DubsarModelsLoadDelegate {
+class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDelegate {
 
     @IBOutlet var wotdButton : UIButton
     @IBOutlet var searchBar : UISearchBar
@@ -33,8 +33,6 @@ class MainViewController: UIViewController, UIAlertViewDelegate, UISearchBarDele
 
         wotd = DubsarModelsDailyWord()
         wotd.delegate = self
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -43,9 +41,9 @@ class MainViewController: UIViewController, UIAlertViewDelegate, UISearchBarDele
         adjustLayout()
     }
 
-    func loadComplete(model: DubsarModelsModel!, withError error: String?) {
-        if let errorMessage = error {
-            NSLog("error: %@", errorMessage)
+    override func loadComplete(model: DubsarModelsModel!, withError error: String?) {
+        super.loadComplete(model, withError: error)
+        if error {
             return
         }
 
@@ -68,6 +66,7 @@ class MainViewController: UIViewController, UIAlertViewDelegate, UISearchBarDele
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+        super.prepareForSegue(segue, sender: sender)
         if let viewController = segue.destinationViewController as? WordViewController {
             viewController.word = wotd.word
             viewController.title = "Word of the Day"
@@ -91,13 +90,15 @@ class MainViewController: UIViewController, UIAlertViewDelegate, UISearchBarDele
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewControllerWithIdentifier(SearchViewController.identifier) as SearchViewController
         viewController.search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
+        assert(viewController.search.delegate === viewController)
+        assert(!viewController.search.complete)
 
         AppDelegate.instance.navigationController.pushViewController(viewController, animated: true)
     }
 
-    func adjustLayout() {
+    override func adjustLayout() {
         wotdButton.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         wotdLabel.font = wotdButton.font
-        view.invalidateIntrinsicContentSize()
+        super.adjustLayout()
     }
 }

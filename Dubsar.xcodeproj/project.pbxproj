@@ -38,6 +38,7 @@
 		7BAC235E1973754F00D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */; };
 		7BBF83701974D58400969765 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF836F1974D58400969765 /* SearchViewController.swift */; };
 		7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83711974DB8200969765 /* WordTableViewCell.swift */; };
+		7BBF83741975871300969765 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83731975871300969765 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,7 @@
 		7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		7BBF836F1974D58400969765 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		7BBF83711974DB8200969765 /* WordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordTableViewCell.swift; sourceTree = "<group>"; };
+		7BBF83731975871300969765 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +261,7 @@
 		7BBF836E1974B54A00969765 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7BBF83731975871300969765 /* BaseViewController.swift */,
 				7BAC226019732D6C00D2AEA4 /* MainViewController.swift */,
 				7BBF836F1974D58400969765 /* SearchViewController.swift */,
 				7B1B4E7A19747EB6008F38BF /* WordViewController.swift */,
@@ -378,6 +381,7 @@
 			files = (
 				7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */,
 				7B1152011974340900869E15 /* DubsarServer.m in Sources */,
+				7BBF83741975871300969765 /* BaseViewController.swift in Sources */,
 				7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */,
 				7BBF83701974D58400969765 /* SearchViewController.swift in Sources */,
 				7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */,

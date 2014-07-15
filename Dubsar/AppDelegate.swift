@@ -115,11 +115,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         if path.hasPrefix("/wotd/") {
             let last = url.lastPathComponent as NSString
             let wotdId = Int(last.intValue)
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let viewController = storyboard.instantiateViewControllerWithIdentifier(WordViewController.identifier) as WordViewController
-            viewController.word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
-            viewController.title = "Word of the Day"
+            let word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
 
+            // crashes, so we use the string literal "Word" below
+            // NSLog("Instantiating VC with identifier %@", WordViewController.identifier)
+
+            let top = navigationController.topViewController as BaseViewController
+            let viewController = top.instantiateViewControllerWithIdentifier("Word", model: word)
+            assert(viewController)
+            viewController!.title = "Word of the Day"
             navigationController.pushViewController(viewController, animated: true)
         }
 
