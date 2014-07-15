@@ -50,6 +50,10 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
         }
     }
 
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        senseTableView.reloadData()
+    }
+
     func loadComplete(model: DubsarModelsModel!, withError error: String?) {
         if let errorMessage = error {
             NSLog("error: %@", errorMessage)
@@ -127,8 +131,9 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
 
         let row = indexPath.indexAtPosition(1)
         let sense = word.senses[row] as DubsarModelsSense
-        let paddingAndMargins = 2*SenseTableViewCell.padding + 2*SenseTableViewCell.margin
+        let paddingAndMargins = 2*SenseTableViewCell.padding + 3*SenseTableViewCell.margin + SenseTableViewCell.labelLineHeight
 
         return sense.sizeWithConstrainedSize(CGSizeMake(tableView.frame.size.width-paddingAndMargins, view.bounds.size.height)).height + paddingAndMargins
     }
+
 }

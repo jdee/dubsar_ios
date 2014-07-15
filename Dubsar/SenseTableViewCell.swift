@@ -41,6 +41,12 @@ class SenseTableViewCell: UITableViewCell {
     }
     }
 
+    class var labelLineHeight : Float {
+        get {
+            return 30
+        }
+    }
+
     var sense : DubsarModelsSense {
     didSet {
         resize()
@@ -65,7 +71,7 @@ class SenseTableViewCell: UITableViewCell {
         let constrainedSize = CGSizeMake(frame.size.width-2*padding-2*margin, frame.size.height-2*padding-2*margin)
         let size = sense.sizeWithConstrainedSize(constrainedSize)
 
-        frame.size.height = size.height + 2*padding + 2*margin
+        frame.size.height = size.height + 2*padding + 3*margin + SenseTableViewCell.labelLineHeight
 
         view?.removeFromSuperview()
 
@@ -78,7 +84,18 @@ class SenseTableViewCell: UITableViewCell {
         backgroundLabel.backgroundColor = UIColor.whiteColor()
         view!.addSubview(backgroundLabel)
 
-        let textLabel = UILabel(frame: CGRectMake(margin, margin, bounds.size.width-2*padding-2*margin, size.height))
+        var lexnameText = "<\(sense.lexname)>"
+        if sense.freqCnt > 0 {
+            lexnameText = "\(lexnameText) freq. cnt.: \(sense.freqCnt)"
+        }
+
+        let lexnameLabel = UILabel(frame: CGRectMake(margin, margin, bounds.size.width-2*padding-2*margin, SenseTableViewCell.labelLineHeight))
+        lexnameLabel.text = lexnameText
+        lexnameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)
+        lexnameLabel.numberOfLines = 1
+        backgroundLabel.addSubview(lexnameLabel)
+
+        let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SenseTableViewCell.labelLineHeight, bounds.size.width-2*padding-2*margin, size.height))
         textLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         textLabel.text = sense.gloss
         textLabel.lineBreakMode = .ByWordWrapping
