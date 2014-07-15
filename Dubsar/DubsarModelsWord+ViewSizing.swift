@@ -26,24 +26,18 @@ import DubsarModels
 extension DubsarModelsWord {
 
     func nameAndPosSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont) -> CGSize {
-        let context = NSStringDrawingContext()
-
-        let nameAndPosText = nameAndPos as NSString
-        return nameAndPosText.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: context).size
+        let text = nameAndPos as NSString
+        return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
     func inflectionSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont) -> CGSize {
-        let context = NSStringDrawingContext()
-
-        let inflectionText = otherForms as NSString
-        return inflectionText.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: context).size
+        let text = otherForms as NSString
+        return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
     func freqCntSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont) -> CGSize {
-        let context = NSStringDrawingContext()
-
-        let freqCntText = "freq. cnt. \(freqCnt)" as NSString
-        return freqCntText.boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: context).size
+        let text = "freq. cnt. \(freqCnt)" as NSString
+        return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
 }

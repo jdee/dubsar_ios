@@ -40,6 +40,7 @@
 		7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83711974DB8200969765 /* WordTableViewCell.swift */; };
 		7BBF83741975871300969765 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83731975871300969765 /* BaseViewController.swift */; };
 		7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */; };
+		7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +130,7 @@
 		7BBF83711974DB8200969765 /* WordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordTableViewCell.swift; sourceTree = "<group>"; };
 		7BBF83731975871300969765 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsWord+ViewSizing.swift"; sourceTree = "<group>"; };
+		7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+ViewSizing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,12 +192,12 @@
 			children = (
 				7BAC22891973322F00D2AEA4 /* Dubsar.h */,
 				7BAC228A1973322F00D2AEA4 /* Dubsar.m */,
-				7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */,
 				7B1151FF1974340900869E15 /* DubsarServer.h */,
 				7B1152001974340900869E15 /* DubsarServer.m */,
 				7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */,
 				7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */,
 				7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */,
+				7BBF83801975CE7000969765 /* Utilities */,
 				7BBF836D1974B53F00969765 /* Views */,
 				7BBF836E1974B54A00969765 /* View Controllers */,
 				7BAC226219732D6C00D2AEA4 /* Main.storyboard */,
@@ -270,6 +272,15 @@
 				7B1B4E7A19747EB6008F38BF /* WordViewController.swift */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		7BBF83801975CE7000969765 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */,
+				7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -393,6 +404,7 @@
 				7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
+				7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */,
 				7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
