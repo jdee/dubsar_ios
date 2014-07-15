@@ -130,10 +130,14 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
         }
 
         let row = indexPath.indexAtPosition(1)
-        let sense = word.senses[row] as DubsarModelsSense
-        let paddingAndMargins = 2*SenseTableViewCell.borderWidth + 3*SenseTableViewCell.margin + SenseTableViewCell.labelLineHeight
+        if row > word.senses.count {
+            return 44
+        }
 
-        return sense.sizeWithConstrainedSize(CGSizeMake(tableView.frame.size.width-paddingAndMargins, view.bounds.size.height)).height + paddingAndMargins
+        let sense = word.senses[row] as DubsarModelsSense
+        let paddingAndMargins = 2*SenseTableViewCell.borderWidth + 2*SenseTableViewCell.margin
+
+        return sense.sizeWithConstrainedSize(CGSizeMake(tableView.frame.size.width-paddingAndMargins, view.bounds.size.height)).height + paddingAndMargins + SenseTableViewCell.labelLineHeight + SenseTableViewCell.margin
     }
 
 }

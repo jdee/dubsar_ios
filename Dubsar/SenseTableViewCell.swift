@@ -31,13 +31,13 @@ class SenseTableViewCell: UITableViewCell {
 
     class var borderWidth : Float {
         get {
-            return 1
+            return 0
     }
     }
 
     class var margin : Float {
         get {
-            return 8
+            return 6
     }
     }
 
@@ -49,7 +49,7 @@ class SenseTableViewCell: UITableViewCell {
 
     var sense : DubsarModelsSense {
     didSet {
-        resize()
+        rebuild()
     }
     }
 
@@ -61,14 +61,14 @@ class SenseTableViewCell: UITableViewCell {
 
         self.frame = frame
 
-        resize()
+        rebuild()
     }
 
-    func resize() {
+    func rebuild() {
         let borderWidth = SenseTableViewCell.borderWidth
         let margin = SenseTableViewCell.margin
 
-        let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin, frame.size.height-2*borderWidth-2*margin)
+        let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin, frame.size.height)
         let size = sense.sizeWithConstrainedSize(constrainedSize)
 
         frame.size.height = size.height + 2*borderWidth + 3*margin + SenseTableViewCell.labelLineHeight
@@ -76,9 +76,9 @@ class SenseTableViewCell: UITableViewCell {
         view?.removeFromSuperview()
 
         view = UIView(frame: bounds)
-        // view!.backgroundColor = UIColor.blackColor()
+        view!.backgroundColor = UIColor.blackColor()
 
-        addSubview(view)
+        contentView.addSubview(view)
 
         let backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
         backgroundLabel.backgroundColor = UIColor.whiteColor()
