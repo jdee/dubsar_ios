@@ -27,12 +27,15 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
     @IBOutlet var freqCntLabel : UILabel
     @IBOutlet var senseTableView : UITableView
 
-    var word : DubsarModelsWord!
+    var word : DubsarModelsWord! {
+    didSet {
+        word.delegate = self
+    }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        word.delegate = self
         if word.complete {
             loadComplete(word, withError: nil)
         }
@@ -41,6 +44,9 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
     override func viewWillAppear(animated: Bool) {
         if !word.complete {
             word.load()
+        }
+        else {
+            loadComplete(word, withError: nil)
         }
     }
 
@@ -81,6 +87,8 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
         else {
             freqCntLabel.text = ""
         }
+
+        senseTableView.reloadData()
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
@@ -113,6 +121,10 @@ class WordViewController: UIViewController, DubsarModelsLoadDelegate, UITableVie
     }
 
     func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+        if !word.complete {
+            return 44
+        }
+
         let row = indexPath.indexAtPosition(1)
         let sense = word.senses[row] as DubsarModelsSense
 
