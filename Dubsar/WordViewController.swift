@@ -106,8 +106,6 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     override func adjustLayout() {
-        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-
         let numberOfRows = tableView(senseTableView, numberOfRowsInSection: 0)
         var height : CGFloat = 0
         for var j=0; j<numberOfRows; ++j {

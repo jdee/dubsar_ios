@@ -78,7 +78,7 @@
 
 -(NSString *)nameAndPos
 {
-    return [NSString stringWithFormat:@"%@ (%@.)", name, self.pos];
+    return [NSString stringWithFormat:@"%@, %@.", name, self.pos];
 }
 
 - (NSString *)otherForms
