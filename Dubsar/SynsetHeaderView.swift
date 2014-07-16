@@ -31,23 +31,39 @@ class SynsetHeaderView: UIView, UITableViewDataSource, UITableViewDelegate {
     let synset : DubsarModelsSynset
     var sense : DubsarModelsSense? // optional and variable; represents word context
 
-    var glossLabel : UILabel?
-    var lexnameLabel : UILabel?
-    var synonymTableView : UITableView?
+    var glossLabel : UILabel
+    var lexnameLabel : UILabel
+    var synonymTableView : UITableView
 
     init(synset: DubsarModelsSynset!, frame: CGRect) {
         self.synset = synset
+
+        glossLabel = UILabel()
+        lexnameLabel = UILabel()
+        synonymTableView = UITableView()
+
         super.init(frame: frame)
 
         build()
     }
 
-    override func setNeedsLayout() {
-        build()
-        super.setNeedsLayout()
+    func build() {
+        autoresizingMask = .FlexibleHeight | .FlexibleWidth
+
+        glossLabel.lineBreakMode = .ByWordWrapping
+        glossLabel.numberOfLines = 0
+        glossLabel.autoresizingMask = .FlexibleBottomMargin | .FlexibleHeight | .FlexibleWidth
+        addSubview(glossLabel)
+
+        lexnameLabel.lineBreakMode = .ByWordWrapping
+        lexnameLabel.numberOfLines = 0
+        lexnameLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        addSubview(lexnameLabel)
+
+        // addSubview(synonymTableView)
     }
 
-    func build() {
+    override func layoutSubviews() {
         if !synset.complete {
             return
         }
@@ -61,29 +77,22 @@ class SynsetHeaderView: UIView, UITableViewDataSource, UITableViewDelegate {
         // Gloss label
         let glossSize = synset.glossSizeWithConstrainedSize(constrainedSize, font: headlineFont)
 
-        glossLabel?.removeFromSuperview()
-        glossLabel = UILabel(frame: CGRectMake(margin, margin, constrainedSize.width, glossSize.height))
-        glossLabel!.font = headlineFont
-        glossLabel!.lineBreakMode = .ByWordWrapping
-        glossLabel!.numberOfLines = 0
-        glossLabel!.text = synset.gloss
-        addSubview(glossLabel)
+        glossLabel.frame = CGRectMake(margin, margin, constrainedSize.width, glossSize.height)
+        glossLabel.text = synset.gloss
+        glossLabel.font = headlineFont
+        glossLabel.invalidateIntrinsicContentSize()
 
         // Lexname label
         let lexnameText = "<\(synset.lexname)>" as NSString
         let lexnameSize = lexnameText.sizeOfTextWithConstrainedSize(constrainedSize, font: headlineFont)
 
-        lexnameLabel?.removeFromSuperview()
-        lexnameLabel = UILabel(frame: CGRectMake(margin, 2 * margin + glossSize.height, constrainedSize.width, lexnameSize.height))
-        lexnameLabel!.font = headlineFont
-        lexnameLabel!.lineBreakMode = .ByWordWrapping
-        lexnameLabel!.numberOfLines = 0
-        lexnameLabel!.text = lexnameText
-        addSubview(lexnameLabel)
+        lexnameLabel.frame = CGRectMake(margin, 2 * margin + glossSize.height, constrainedSize.width, lexnameSize.height)
+        lexnameLabel.text = lexnameText
+        lexnameLabel.font = headlineFont
+        lexnameLabel.invalidateIntrinsicContentSize()
 
-        bounds.size.height = glossSize.height + lexnameSize.height + 3 * margin
-
-        // synonymTableView = UITableView(frame: <#CGRect#>, style: .Plain)
+        setNeedsUpdateConstraints()
+        super.layoutSubviews()
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection: Int) -> Int {
