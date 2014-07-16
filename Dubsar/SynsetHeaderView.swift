@@ -33,14 +33,12 @@ class SynsetHeaderView: UIView, UITableViewDataSource, UITableViewDelegate {
 
     let glossLabel : UILabel
     let lexnameLabel : UILabel
-    let synonymTableView : UITableView
 
     init(synset: DubsarModelsSynset!, frame: CGRect) {
         self.synset = synset
 
         glossLabel = UILabel()
         lexnameLabel = UILabel()
-        synonymTableView = UITableView()
 
         super.init(frame: frame)
 
@@ -59,8 +57,6 @@ class SynsetHeaderView: UIView, UITableViewDataSource, UITableViewDelegate {
         lexnameLabel.numberOfLines = 0
         lexnameLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         addSubview(lexnameLabel)
-
-        // addSubview(synonymTableView)
     }
 
     override func layoutSubviews() {
@@ -84,6 +80,10 @@ class SynsetHeaderView: UIView, UITableViewDataSource, UITableViewDelegate {
             if sense && !sense!.marker.isEmpty {
                 lexnameText = "\(lexnameText) (\(sense!.marker))"
             }
+            if sense && sense!.freqCnt > 0 {
+                lexnameText = "\(lexnameText) freq. cnt. \(sense!.freqCnt)"
+            }
+
             let lexnameSize = lexnameText.sizeOfTextWithConstrainedSize(constrainedSize, font: headlineFont)
 
             lexnameLabel.frame = CGRectMake(margin, 2 * margin + glossSize.height, constrainedSize.width, lexnameSize.height)
