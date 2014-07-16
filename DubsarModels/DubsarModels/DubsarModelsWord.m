@@ -228,7 +228,7 @@
         DubsarModelsSense* sense = [DubsarModelsSense senseWithId:senseId gloss:gloss synonyms:synonyms word:self];
         sense.lexname = @(_lexname);
         sense.freqCnt = senseFC;
-        sense.marker = _marker == NULL ? nil : @(_marker);
+        sense.marker = _marker == NULL ? @"" : @(_marker);
         [senses addObject:sense];
 #ifdef DEBUG
         NSLog(@"added sense ID %d, gloss \"%@\", lexname \"%@\", freq. cnt. %d", senseId, gloss, sense.lexname, senseFC);

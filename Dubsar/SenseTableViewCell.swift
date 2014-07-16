@@ -104,7 +104,7 @@ class SenseTableViewCell: UITableViewCell {
         view!.addSubview(backgroundLabel)
 
         var lexnameText = "<\(sense.lexname)>"
-        if sense.marker {
+        if !sense.marker.isEmpty {
             lexnameText = "\(lexnameText) (\(sense.marker))"
         }
 
