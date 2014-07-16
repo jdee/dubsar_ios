@@ -116,9 +116,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
 
         let sense = word.senses[row-1] as DubsarModelsSense
-        let viewController = instantiateViewControllerWithIdentifier(SynsetViewController.identifier, model: nil) as SynsetViewController
-        viewController.sense = sense
-        navigationController.pushViewController(viewController, animated: true)
+        pushViewControllerWithIdentifier(SynsetViewController.identifier, model: sense)
     }
 
     override func adjustLayout() {

@@ -31,6 +31,8 @@
     sqlite3_stmt* pointerQuery;
     sqlite3_stmt* lexicalQuery;
     sqlite3_stmt* semanticQuery;
+
+    BOOL loadingWord, loadingSynset;
 }
 
 @synthesize _id;
@@ -86,6 +88,7 @@
         pointers = nil;
         weakSynsetLink = true;
         weakWordLink = false;
+        loadingSynset = loadingWord = NO;
         [self initUrl];
     }
     return self;
@@ -107,6 +110,7 @@
         samples = nil;
         pointers = nil;
         weakWordLink = weakSynsetLink = false;
+        loadingSynset = loadingWord = NO;
         [self initUrl];
     }
     return self;
@@ -130,6 +134,7 @@
         pointers = nil;
         weakSynsetLink = false;
         weakWordLink = true;
+        loadingSynset = loadingWord = NO;
         [self initUrl];
     }
     return self;
@@ -150,6 +155,7 @@
         pointers = nil;
         weakSynsetLink = false;
         weakWordLink = false;
+        loadingSynset = loadingWord = NO;
         [self initUrl];
         [self parseNameAndPos:nameAndPos];
     }
@@ -375,6 +381,18 @@
 }
  */
 
+- (void)loadWithSynset
+{
+    loadingSynset = YES;
+    [self load];
+}
+
+- (void)loadWithWord
+{
+    loadingWord = YES;
+    [self load];
+}
+
 - (void)loadResults:(DubsarModelsDatabaseWrapper *)database
 {
     NSString* sql = [NSString stringWithFormat:
@@ -497,6 +515,22 @@
     sqlite3_finalize(statement);
     
     [self prepareStatements];
+
+    if (loadingSynset) {
+#ifdef DEBUG
+        NSLog(@"loading synset ID %d", synset._id);
+#endif // DEBUG
+        [synset load];
+    }
+
+    if (loadingWord) {
+#ifdef DEBUG
+        NSLog(@"loading word ID %d", word._id);
+#endif // DEBUG
+        [word load];
+    }
+
+    loadingSynset = loadingWord = NO;
 }
 
 -(NSUInteger)numberOfSections
