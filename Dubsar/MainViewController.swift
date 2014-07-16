@@ -91,8 +91,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func adjustLayout() {
-        wotdButton.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        wotdLabel.font = wotdButton.font
+        wotdLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        wotdButton.titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         super.adjustLayout()
     }
 }

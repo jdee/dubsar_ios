@@ -20,7 +20,60 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class SynsetHeaderView: UIView, UITableViewDataSource, UITableViewDelegate {
+/*
+ * Wow, is Xcode6 a little green! Beta2 will not accept Swift array types like
+ * [SynonymButtonPair] (or [String]). But Beta3 has the all-product-headers.yaml
+ * problem when building the framework module. There's a workaround for that, but
+ * the app crashes when trying to register for push. So we use an NSMutableArray
+ * for now, but that requires using a class instead of a struct. :|
+ */
+class SynonymButtonPair {
+    class var margin : CGFloat {
+        get {
+            return 2
+        }
+    }
+
+    var selectionButton : UIButton!
+    var navigationButton : UIButton!
+
+    var sense: DubsarModelsSense!
+
+    weak var view: SynsetHeaderView!
+
+    init(sense: DubsarModelsSense!, view: SynsetHeaderView!) {
+        self.sense = sense
+        self.view = view
+
+        selectionButton = UIButton()
+        navigationButton = UIButton()
+
+        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+
+        // configure selection button
+        selectionButton.titleLabel.font = font
+        selectionButton.frame.size = (sense.word.name as NSString).sizeOfTextWithFont(font)
+        selectionButton.frame.size.width += 2 * SynonymButtonPair.margin
+        selectionButton.frame.size.height += 2 * SynonymButtonPair.margin
+        selectionButton.setTitle(sense.word.name, forState: .Normal)
+        selectionButton.addTarget(self, action: "selected:", forControlEvents: .TouchUpInside)
+        view.addSubview(selectionButton)
+
+        navigationButton.addTarget(self, action: "navigated:", forControlEvents: .TouchUpInside)
+        view.addSubview(navigationButton)
+    }
+
+    func selected(sender: UIButton!) {
+        // might consider toggling this state
+        view.sense = sense
+        sender.selected = true
+    }
+
+    func navigated(sender: UIButton!) {
+    }
+}
+
+class SynsetHeaderView: UIView {
 
     class var margin : CGFloat {
         get {
@@ -29,16 +82,29 @@ class SynsetHeaderView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
 
     let synset : DubsarModelsSynset
-    var sense : DubsarModelsSense? // optional and variable; represents word context
+    var sense : DubsarModelsSense? { // optional and variable; represents word context
+    didSet {
+        resetSelection()
+    }
+    }
 
     let glossLabel : UILabel
     let lexnameLabel : UILabel
 
+    let synonymButtons : NSMutableArray
+
+    /*
+     * The frame argument represents the space to which the view is constrained, or more accurately, the
+     * text in the view is assumed constrained to frame.size.width. The view may adjust its height
+     * as appropriate.
+     */
     init(synset: DubsarModelsSynset!, frame: CGRect) {
         self.synset = synset
 
         glossLabel = UILabel()
         lexnameLabel = UILabel()
+
+        synonymButtons = NSMutableArray()
 
         super.init(frame: frame)
 
@@ -95,11 +161,31 @@ class SynsetHeaderView: UIView, UITableViewDataSource, UITableViewDelegate {
         super.layoutSubviews()
     }
 
-    func tableView(tableView: UITableView!, numberOfRowsInSection: Int) -> Int {
-        return synset.complete ? synset.senses.count : 1
+    func setupSynonymButtons() {
+        for idiotShit: AnyObject in synonymButtons {
+            if let buttonPair = idiotShit as? SynonymButtonPair {
+                buttonPair.selectionButton.removeFromSuperview()
+                buttonPair.navigationButton.removeFromSuperview()
+            }
+        }
+
+        synset.senses.removeAllObjects()
+
+        for moronicCrap: AnyObject in synset.senses as NSArray {
+            if let synonym = moronicCrap as? DubsarModelsSense {
+                synonymButtons.addObject(SynonymButtonPair(sense: synonym, view: self))
+            }
+        }
+
     }
 
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath: NSIndexPath!) -> UITableViewCell! {
-        return nil
+    func resetSelection() {
+        setNeedsLayout()
+        for fuckYou : AnyObject in synset.senses as NSArray {
+            if let buttonPair = fuckYou as? SynonymButtonPair {
+                buttonPair.selectionButton.selected = false
+            }
+        }
     }
+
 }

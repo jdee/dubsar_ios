@@ -182,10 +182,10 @@
 				7BAC231919735CB400D2AEA4 /* DubsarModelsSense.m */,
 				7BAC231A19735CB400D2AEA4 /* DubsarModelsSynset.h */,
 				7BAC231B19735CB400D2AEA4 /* DubsarModelsSynset.m */,
-				7BAC2344197361D800D2AEA4 /* NSString+URLEncoding.h */,
-				7BAC2345197361D800D2AEA4 /* NSString+URLEncoding.m */,
 				7BAC231C19735CB400D2AEA4 /* DubsarModelsWord.h */,
 				7BAC231D19735CB400D2AEA4 /* DubsarModelsWord.m */,
+				7BAC2344197361D800D2AEA4 /* NSString+URLEncoding.h */,
+				7BAC2345197361D800D2AEA4 /* NSString+URLEncoding.m */,
 				7BAC22E519735C2C00D2AEA4 /* Supporting Files */,
 			);
 			path = DubsarModels;
