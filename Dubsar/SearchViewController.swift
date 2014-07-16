@@ -49,7 +49,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section:Int) -> Int {
-        return search.complete ? search.results.count : 1
+        return search.complete && search.results.count > 0 ? search.results.count : 1
     }
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath:NSIndexPath!) -> UITableViewCell! {
@@ -57,6 +57,18 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             var cell = tableView.dequeueReusableCellWithIdentifier(LoadingTableViewCell.identifier) as? LoadingTableViewCell
             if !cell {
                 cell = LoadingTableViewCell()
+            }
+            return cell
+        }
+
+        if search.results.count == 0 {
+            let identifier = "no-results"
+            var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? UITableViewCell
+            if !cell {
+                cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
+                cell!.selectionStyle = .None
+                cell!.textLabel.text = "search found no matches"
+                cell!.textLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
             }
             return cell
         }
@@ -77,7 +89,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        if !search.complete {
+        if !search.complete || search.results.count == 0 {
             return
         }
 
@@ -88,7 +100,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        if !search.complete {
+        if !search.complete || search.results.count == 0 {
             return 44
         }
 
