@@ -32,7 +32,7 @@ class SynsetViewController: BaseViewController {
         }
     }
 
-    var synset : DubsarModelsSynset! {
+    var synset : DubsarModelsSynset? {
     get {
         return model as? DubsarModelsSynset
     }
@@ -55,6 +55,10 @@ class SynsetViewController: BaseViewController {
         if !synset && sense && !sense!.complete {
             sense!.load()
         }
+        else if sense && sense!.complete && !synset {
+            synset = sense!.synset
+            synset!.load()
+        }
 
         // essentially disable scrolling for now?
         scroller.contentSize = scroller.bounds.size
@@ -68,10 +72,10 @@ class SynsetViewController: BaseViewController {
 
         if model === sense {
             synset = sense?.synset
-            NSLog("finished sense load. synset ID is %d", synset._id)
+            NSLog("finished sense load. synset ID is %d", synset!._id)
             headerView = SynsetHeaderView(synset: synset, frame: scroller.bounds)
             scroller.addSubview(headerView)
-            synset.load()
+            synset!.load()
             return
         }
 
