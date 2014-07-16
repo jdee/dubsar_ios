@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.21" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PVu-d6-7eH">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.13"/>
     </dependencies>
     <scenes>
@@ -98,7 +97,7 @@
                         <viewControllerLayoutGuide type="bottom" id="sfE-F5-TJX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="imY-dh-bna">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="search term" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y1J-Kl-7yT">
@@ -111,7 +110,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="75o-h8-6cW">
-                                <rect key="frame" x="0.0" y="49" width="480" height="431"/>
+                                <rect key="frame" x="0.0" y="49" width="480" height="367"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="FHr-Mo-Hqo" id="XAO-h2-mXZ"/>
@@ -132,6 +131,7 @@
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="resultTableView" destination="75o-h8-6cW" id="UVL-vN-s6O"/>
                         <outlet property="searchLabel" destination="y1J-Kl-7yT" id="bUT-tF-IVV"/>
@@ -153,7 +153,7 @@
                         <rect key="frame" x="0.0" y="64" width="480" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vsX-5n-8pL">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vsX-5n-8pL">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="416"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Ztw-Ob-DFo" id="v5q-Et-9ry"/>
@@ -179,6 +179,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RuX-D6-guu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="696" y="1218"/>
+        </scene>
+        <!--Synset View Controller-->
+        <scene sceneID="Elc-Wq-eJV">
+            <objects>
+                <viewController storyboardIdentifier="Synset" id="YVJ-4X-YNk" customClass="SynsetViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aKI-si-xLi"/>
+                        <viewControllerLayoutGuide type="bottom" id="nXY-CD-XeX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="S2q-yf-ReF">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gtf-VQ-tx1">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="416"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="gtf-VQ-tx1" secondAttribute="trailing" id="2Gp-65-Yei"/>
+                            <constraint firstAttribute="bottom" secondItem="gtf-VQ-tx1" secondAttribute="bottom" id="D13-fV-mHi"/>
+                            <constraint firstItem="gtf-VQ-tx1" firstAttribute="top" secondItem="S2q-yf-ReF" secondAttribute="top" id="KZO-8i-v4Q"/>
+                            <constraint firstItem="gtf-VQ-tx1" firstAttribute="leading" secondItem="S2q-yf-ReF" secondAttribute="leading" id="Ns6-NZ-m8U"/>
+                        </constraints>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="scroller" destination="gtf-VQ-tx1" id="9Wf-Kn-9Wy"/>
+                        <outlet property="view" destination="S2q-yf-ReF" id="NdJ-gC-lyC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pdp-LS-Rfr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1235" y="1217"/>
         </scene>
     </scenes>
 </document>

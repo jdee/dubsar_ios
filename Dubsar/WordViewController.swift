@@ -105,6 +105,22 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         return sense.sizeOfCellWithConstrainedSize(tableView.bounds.size).height
     }
 
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        if !word.complete {
+            return
+        }
+
+        let row = indexPath.indexAtPosition(1)
+        if row == 0 {
+            return
+        }
+
+        let sense = word.senses[row-1] as DubsarModelsSense
+        let viewController = instantiateViewControllerWithIdentifier(SynsetViewController.identifier, model: nil) as SynsetViewController
+        viewController.sense = sense
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
     override func adjustLayout() {
         let numberOfRows = tableView(senseTableView, numberOfRowsInSection: 0)
         var height : CGFloat = 0

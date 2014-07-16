@@ -15,6 +15,9 @@
 		7B670D0D1973851F00E83937 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0B1973851F00E83937 /* iTunesArtwork */; };
 		7B670D0E1973851F00E83937 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0C1973851F00E83937 /* iTunesArtwork@2x */; };
 		7B670D10197398B600E83937 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0F197398B600E83937 /* Settings.bundle */; };
+		7B82C93E19760A0E0077D1A0 /* SynsetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */; };
+		7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C94019760D5F0077D1A0 /* SynsetHeaderView.swift */; };
+		7B82C94319760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C94219760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift */; };
 		7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82D29D1974A12400F983F6 /* LoadingTableViewCell.swift */; };
 		7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */; };
 		7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */; };
@@ -91,6 +94,9 @@
 		7B670D0B1973851F00E83937 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		7B670D0C1973851F00E83937 /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		7B670D0F197398B600E83937 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynsetViewController.swift; sourceTree = "<group>"; };
+		7B82C94019760D5F0077D1A0 /* SynsetHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynsetHeaderView.swift; sourceTree = "<group>"; };
+		7B82C94219760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsSynset+ViewSizing.swift"; sourceTree = "<group>"; };
 		7B82D29D1974A12400F983F6 /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingTableViewCell.swift; sourceTree = "<group>"; };
 		7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseTableViewCell.swift; sourceTree = "<group>"; };
 		7BAC225919732D6C00D2AEA4 /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +171,16 @@
 			);
 			name = Frameworks;
 			path = DubsarTests;
+			sourceTree = "<group>";
+		};
+		7B82C93F19760D1C0077D1A0 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				7B82D29D1974A12400F983F6 /* LoadingTableViewCell.swift */,
+				7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */,
+				7BBF83711974DB8200969765 /* WordTableViewCell.swift */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		7BAC225019732D6C00D2AEA4 = {
@@ -254,9 +270,8 @@
 		7BBF836D1974B53F00969765 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7B82D29D1974A12400F983F6 /* LoadingTableViewCell.swift */,
-				7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */,
-				7BBF83711974DB8200969765 /* WordTableViewCell.swift */,
+				7B82C93F19760D1C0077D1A0 /* Cells */,
+				7B82C94019760D5F0077D1A0 /* SynsetHeaderView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -267,6 +282,7 @@
 				7BBF83731975871300969765 /* BaseViewController.swift */,
 				7BAC226019732D6C00D2AEA4 /* MainViewController.swift */,
 				7BBF836F1974D58400969765 /* SearchViewController.swift */,
+				7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */,
 				7B1B4E7A19747EB6008F38BF /* WordViewController.swift */,
 			);
 			name = "View Controllers";
@@ -288,6 +304,7 @@
 			isa = PBXGroup;
 			children = (
 				7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */,
+				7B82C94219760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift */,
 				7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */,
 				7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */,
 			);
@@ -404,6 +421,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B82C94319760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift in Sources */,
 				7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */,
 				7B1152011974340900869E15 /* DubsarServer.m in Sources */,
 				7BBF83741975871300969765 /* BaseViewController.swift in Sources */,
@@ -411,9 +429,11 @@
 				7BBF83701974D58400969765 /* SearchViewController.swift in Sources */,
 				7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */,
 				7BBF83821975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift in Sources */,
+				7B82C93E19760A0E0077D1A0 /* SynsetViewController.swift in Sources */,
 				7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */,
 				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,
 				7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */,
+				7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
 				7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */,

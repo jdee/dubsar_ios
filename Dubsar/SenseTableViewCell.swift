@@ -73,6 +73,8 @@ class SenseTableViewCell: UITableViewCell {
 
         self.frame = frame
 
+        accessoryType = .DisclosureIndicator
+
         rebuild()
     }
 
