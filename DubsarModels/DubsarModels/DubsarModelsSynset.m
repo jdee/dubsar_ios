@@ -244,6 +244,7 @@
         }
         
         DubsarModelsSense* synonym = [DubsarModelsSense senseWithId:senseId name:@(_name) partOfSpeech:partOfSpeech];
+        NSLog(@"Loaded synonym %@", synonym.name);
         [senses addObject:synonym];
     }
     sqlite3_finalize(statement);

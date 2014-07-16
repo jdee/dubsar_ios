@@ -17,7 +17,10 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Dubsar.h"
-#import "DubsarServer.h"
-#import "KeychainWrapper.h"
-#import "NavButtonImage.h"
+@import UIKit;
+
+@interface NavButtonImage : UIImage
+
++ (UIImage*) imageWithSize:(CGSize)size;
+
+@end

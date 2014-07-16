@@ -52,14 +52,22 @@ class SynonymButtonPair {
 
         // configure selection button
         selectionButton.titleLabel.font = font
-        selectionButton.frame.size = (sense.word.name as NSString).sizeOfTextWithFont(font)
+        selectionButton.frame.size = (sense.name as NSString).sizeOfTextWithFont(font)
         selectionButton.frame.size.width += 2 * SynonymButtonPair.margin
         selectionButton.frame.size.height += 2 * SynonymButtonPair.margin
-        selectionButton.setTitle(sense.word.name, forState: .Normal)
+        selectionButton.setTitle(sense.name, forState: .Normal)
+        selectionButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        selectionButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
+        selectionButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
         selectionButton.addTarget(self, action: "selected:", forControlEvents: .TouchUpInside)
         view.addSubview(selectionButton)
 
+        // configure navigation button
+        let image = NavButtonImage.imageWithSize(CGSizeMake(selectionButton.frame.size.height, selectionButton.frame.size.height))
+        navigationButton.setImage(image, forState: .Normal)
         navigationButton.addTarget(self, action: "navigated:", forControlEvents: .TouchUpInside)
+        navigationButton.frame.size.width = selectionButton.frame.size.height
+        navigationButton.frame.size.height = selectionButton.frame.size.height
         view.addSubview(navigationButton)
     }
 
@@ -112,6 +120,8 @@ class SynsetHeaderView: UIView {
     }
 
     func build() {
+        NSLog("Constructing SynsetHeaderView with %d synonyms", synset.senses.count)
+
         autoresizingMask = .FlexibleHeight | .FlexibleWidth
 
         glossLabel.lineBreakMode = .ByWordWrapping
@@ -156,6 +166,8 @@ class SynsetHeaderView: UIView {
             lexnameLabel.text = lexnameText
             lexnameLabel.font = headlineFont
             lexnameLabel.invalidateIntrinsicContentSize()
+
+            setupSynonymButtons()
         }
 
         super.layoutSubviews()
@@ -169,11 +181,35 @@ class SynsetHeaderView: UIView {
             }
         }
 
-        synset.senses.removeAllObjects()
+        synonymButtons.removeAllObjects()
+
+        let margin = SynsetHeaderView.margin
+        let constrainedWidth = bounds.size.width - 2 * margin
+        var x : CGFloat = margin, y : CGFloat = lexnameLabel.frame.size.height + lexnameLabel.frame.origin.y + margin
+        var height : CGFloat = 0
+
+        NSLog("Synset ID %d (%@). Adding buttons for %d synonyms", synset._id, synset.gloss, synset.senses.count)
 
         for moronicCrap: AnyObject in synset.senses as NSArray {
             if let synonym = moronicCrap as? DubsarModelsSense {
-                synonymButtons.addObject(SynonymButtonPair(sense: synonym, view: self))
+                let buttonPair = SynonymButtonPair(sense: synonym, view: self)
+                synonymButtons.addObject(buttonPair)
+
+                assert(height <= 0 || height == buttonPair.navigationButton.frame.size.height) // assume they're all the same height with the same font
+                height = buttonPair.navigationButton.frame.size.height // the two buttons are the same height
+
+                let pairWidth = buttonPair.selectionButton.frame.size.width + buttonPair.navigationButton.frame.size.width // no margin between; each includes its own
+                if pairWidth + x > constrainedWidth {
+                    // wrap
+                    y += height + margin
+                    x = margin
+                }
+                // fits on the same line
+                buttonPair.selectionButton.frame.origin.x = x
+                buttonPair.selectionButton.frame.origin.y = y
+                buttonPair.navigationButton.frame.origin.x = x + buttonPair.selectionButton.frame.size.width
+                buttonPair.navigationButton.frame.origin.y = y
+                x += pairWidth
             }
         }
 

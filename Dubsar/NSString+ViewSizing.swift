@@ -38,10 +38,7 @@ extension NSString {
 
         if respondsToSelector("sizeWithAttributes:") {
             // iOS 7+
-            // let attrs = [NSFontAttributeName: font] as NSDictionary // total fail
-            let attrs = NSDictionary()
-            attrs.setValue(font, forKey: NSFontAttributeName)
-            size = sizeWithAttributes(attrs)
+            size = sizeWithAttributes([NSFontAttributeName: font!])
         }
         else if respondsToSelector("sizeWithFont:") {
             // iOS 6 - though not currently supported because of dynamic type issues

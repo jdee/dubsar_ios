@@ -11,6 +11,7 @@
 		7B115203197435C100869E15 /* client_secret.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B115202197435C100869E15 /* client_secret.txt */; };
 		7B1B4E79197450F5008F38BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
 		7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B4E7A19747EB6008F38BF /* WordViewController.swift */; };
+		7B62D75019773272006A797C /* NavButtonImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B62D74F19773272006A797C /* NavButtonImage.m */; };
 		7B670D0A1973851300E83937 /* production.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D091973851300E83937 /* production.sqlite3 */; };
 		7B670D0D1973851F00E83937 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0B1973851F00E83937 /* iTunesArtwork */; };
 		7B670D0E1973851F00E83937 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0C1973851F00E83937 /* iTunesArtwork@2x */; };
@@ -90,6 +91,8 @@
 		7B1152001974340900869E15 /* DubsarServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarServer.m; sourceTree = "<group>"; };
 		7B115202197435C100869E15 /* client_secret.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = client_secret.txt; sourceTree = "<group>"; };
 		7B1B4E7A19747EB6008F38BF /* WordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordViewController.swift; sourceTree = "<group>"; };
+		7B62D74E19773272006A797C /* NavButtonImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavButtonImage.h; sourceTree = "<group>"; };
+		7B62D74F19773272006A797C /* NavButtonImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavButtonImage.m; sourceTree = "<group>"; };
 		7B670D091973851300E83937 /* production.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = production.sqlite3; sourceTree = SOURCE_ROOT; };
 		7B670D0B1973851F00E83937 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		7B670D0C1973851F00E83937 /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
@@ -297,6 +300,8 @@
 				7B1152001974340900869E15 /* DubsarServer.m */,
 				7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */,
 				7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */,
+				7B62D74E19773272006A797C /* NavButtonImage.h */,
+				7B62D74F19773272006A797C /* NavButtonImage.m */,
 				7BBF83831975E87B00969765 /* View Sizing */,
 			);
 			name = Utilities;
@@ -440,6 +445,7 @@
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
 				7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */,
 				7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */,
+				7B62D75019773272006A797C /* NavButtonImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

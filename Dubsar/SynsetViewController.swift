@@ -142,7 +142,7 @@ class SynsetViewController: BaseViewController {
         if sense {
             assert(sense!.synset)
             theSynset = sense!.synset
-            NSLog("finished sense load. synset ID is %d", theSynset!._id)
+            NSLog("finished sense load. synset ID is %d with %d synonyms", theSynset!._id, theSynset.senses.count)
         }
         else if synset {
             theSynset = synset
