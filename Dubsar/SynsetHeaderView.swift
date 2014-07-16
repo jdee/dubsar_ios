@@ -80,7 +80,10 @@ class SynsetHeaderView: UIView, UITableViewDataSource, UITableViewDelegate {
             glossLabel.invalidateIntrinsicContentSize()
 
             // Lexname label
-            let lexnameText = "<\(synset.lexname)>" as NSString
+            var lexnameText = "<\(synset.lexname)>" as NSString
+            if sense && !sense!.marker.isEmpty {
+                lexnameText = "\(lexnameText) (\(sense!.marker))"
+            }
             let lexnameSize = lexnameText.sizeOfTextWithConstrainedSize(constrainedSize, font: headlineFont)
 
             lexnameLabel.frame = CGRectMake(margin, 2 * margin + glossSize.height, constrainedSize.width, lexnameSize.height)
