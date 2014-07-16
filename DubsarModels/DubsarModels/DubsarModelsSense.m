@@ -80,7 +80,7 @@
         synonyms = nil;
         synset = theSynset;
         partOfSpeech = synset.partOfSpeech;
-        marker = nil;
+        marker = @"";
         verbFrames = nil;
         samples = nil;
         pointers = nil;
@@ -102,7 +102,7 @@
         synonyms = nil;
         synset = nil;
         partOfSpeech = thePartOfSpeech;
-        marker = nil;
+        marker = @"";
         verbFrames = nil;
         samples = nil;
         pointers = nil;
@@ -124,7 +124,7 @@
         partOfSpeech = word.partOfSpeech;
         name = word.name;
         synset = nil;
-        marker = nil;
+        marker = @"";
         verbFrames = nil;
         samples = nil;
         pointers = nil;
@@ -144,7 +144,7 @@
         synonyms = nil;
         word = nil;
         synset = nil;
-        marker = nil;
+        marker = @"";
         verbFrames = nil;
         samples = nil;
         pointers = nil;
@@ -274,7 +274,7 @@
     if (_marker != NSNull.null) {
         marker = (NSString*)_marker;
     }
-    
+
     NSNumber* fc = response[5];
     freqCnt = fc.intValue;
 
@@ -425,7 +425,7 @@
 #endif // DEBUG
             
             self.lexname = @(_lexname);
-            self.marker = _marker == NULL ? nil : @(_marker);
+            self.marker = _marker == NULL ? @"" : @(_marker);
             
             NSString* definition = @(_definition);
             NSArray* components = [definition componentsSeparatedByString:@"; \""];

@@ -91,7 +91,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         return cell
     }
 
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> Float {
+    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
         if !word.complete {
             return 44
         }
@@ -109,7 +109,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
 
         let numberOfRows = tableView(senseTableView, numberOfRowsInSection: 0)
-        var height : Float = 0
+        var height : CGFloat = 0
         for var j=0; j<numberOfRows; ++j {
             height += tableView(senseTableView, heightForRowAtIndexPath: NSIndexPath(forRow: j, inSection: 0))
         }

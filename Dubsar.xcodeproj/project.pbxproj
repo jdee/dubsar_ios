@@ -275,15 +275,23 @@
 		7BBF83801975CE7000969765 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */,
-				7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */,
 				7B1151FF1974340900869E15 /* DubsarServer.h */,
 				7B1152001974340900869E15 /* DubsarServer.m */,
 				7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */,
 				7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */,
-				7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */,
+				7BBF83831975E87B00969765 /* View Sizing */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		7BBF83831975E87B00969765 /* View Sizing */ = {
+			isa = PBXGroup;
+			children = (
+				7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */,
+				7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */,
+				7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */,
+			);
+			name = "View Sizing";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

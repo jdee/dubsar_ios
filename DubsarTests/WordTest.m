@@ -39,7 +39,7 @@
     XCTAssertEqualObjects(@"nutrient", sense.synonymsAsString, @"expected \"nutrient\", found \"%@\"", sense.synonymsAsString);
     XCTAssertEqualObjects(@"any substance that can be metabolized by an animal to give energy and build tissue  ", sense.gloss, @"gloss failure");
     XCTAssertEqualObjects(@"noun.Tops", sense.lexname, @"expected \"noun.Tops\", found \"%@\"", sense.lexname);
-    XCTAssertNil(sense.marker, @"expected nil sense marker, found non-nil");
+    XCTAssertEqualObjects(@"", sense.marker, @"expected nil sense marker, found non-nil");
     XCTAssertEqual(29, sense.freqCnt, @"expected 29, found %d", sense.freqCnt);
     XCTAssertEqual(29, word.freqCnt, @"expected 29, found %lu", (unsigned long)word.freqCnt);
 }

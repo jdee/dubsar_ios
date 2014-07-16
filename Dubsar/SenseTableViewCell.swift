@@ -29,19 +29,19 @@ class SenseTableViewCell: UITableViewCell {
         }
     }
 
-    class var borderWidth : Float {
+    class var borderWidth : CGFloat {
         get {
             return 0
         }
     }
 
-    class var margin : Float {
+    class var margin : CGFloat {
         get {
             return 6
         }
     }
 
-    class var labelLineHeight : Float {
+    class var labelLineHeight : CGFloat {
         get {
             return 21
         }
@@ -102,6 +102,10 @@ class SenseTableViewCell: UITableViewCell {
         view!.addSubview(backgroundLabel)
 
         var lexnameText = "<\(sense.lexname)>"
+        if sense.marker {
+            lexnameText = "\(lexnameText) (\(sense.marker))"
+        }
+
         if sense.freqCnt > 0 {
             lexnameText = "\(lexnameText) freq. cnt.: \(sense.freqCnt)"
         }

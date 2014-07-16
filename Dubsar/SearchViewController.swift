@@ -87,7 +87,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         pushViewControllerWithIdentifier(WordViewController.identifier, model: word)
     }
 
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> Float {
+    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
         if !search.complete {
             return 44
         }

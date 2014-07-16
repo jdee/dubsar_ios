@@ -49,7 +49,7 @@
 
     // sense
     XCTAssertEqualObjects(@"noun.Tops", sense.lexname, @"lexname failed");
-    XCTAssertNil(sense.marker, @"marker failed");
+    XCTAssertEqualObjects(@"", sense.marker, @"marker failed");
     XCTAssertEqual(29, sense.freqCnt, @"frequency count failed");
 
     // synonyms
@@ -59,7 +59,7 @@
     synSense = (sense.synonyms)[0];
     XCTAssertEqual(35630, synSense._id, @"synonym ID failed");
     XCTAssertEqualObjects(@"nutrient", synSense.name, @"synonym name failed");
-    XCTAssertNil(synSense.marker, @"synonym marker failed");
+    XCTAssertEqualObjects(@"", synSense.marker, @"synonym marker failed");
     XCTAssertEqual(1, synSense.freqCnt, @"synonym frequency count failed");
 
     // samples, verb frames

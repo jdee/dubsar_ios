@@ -28,7 +28,7 @@ class WordTableViewCell: UITableViewCell {
         }
     }
 
-    class var margin : Float {
+    class var margin : CGFloat {
         get {
             return 10
         }
