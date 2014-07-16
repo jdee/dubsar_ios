@@ -41,6 +41,13 @@ class SenseTableViewCell: UITableViewCell {
         }
     }
 
+    // just some extra margin on the right to avoid getting clobbered by the accessory
+    class var accessoryWidth : CGFloat {
+        get {
+            return 25
+        }
+    }
+
     class var labelLineHeight : CGFloat {
         get {
             return 21
@@ -86,7 +93,7 @@ class SenseTableViewCell: UITableViewCell {
         let caption1Font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
         let subheadlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)
 
-        let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin, frame.size.height)
+        let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin-SenseTableViewCell.accessoryWidth, frame.size.height)
         let glossSize = sense.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
         let synonymSize = sense.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
 
@@ -112,13 +119,13 @@ class SenseTableViewCell: UITableViewCell {
             lexnameText = "\(lexnameText) freq. cnt.: \(sense.freqCnt)"
         }
 
-        let lexnameLabel = UILabel(frame: CGRectMake(margin, margin, bounds.size.width-2*borderWidth-2*margin, SenseTableViewCell.labelLineHeight))
+        let lexnameLabel = UILabel(frame: CGRectMake(margin, margin, constrainedSize.width, SenseTableViewCell.labelLineHeight))
         lexnameLabel.text = lexnameText
         lexnameLabel.font = subheadlineFont
         lexnameLabel.numberOfLines = 1
         backgroundLabel.addSubview(lexnameLabel)
 
-        let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SenseTableViewCell.labelLineHeight, bounds.size.width-2*borderWidth-2*margin, glossSize.height))
+        let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SenseTableViewCell.labelLineHeight, constrainedSize.width, glossSize.height))
         textLabel.font = bodyFont
         textLabel.text = sense.gloss
         textLabel.lineBreakMode = .ByWordWrapping
@@ -126,7 +133,7 @@ class SenseTableViewCell: UITableViewCell {
         backgroundLabel.addSubview(textLabel)
 
         if sense.synonyms.count > 0 {
-            let synonymLabel = UILabel(frame: CGRectMake(margin, 3*margin + SenseTableViewCell.labelLineHeight + glossSize.height, bounds.size.width-2*borderWidth-2*margin, synonymSize.height))
+            let synonymLabel = UILabel(frame: CGRectMake(margin, 3*margin + SenseTableViewCell.labelLineHeight + glossSize.height, constrainedSize.width, synonymSize.height))
             synonymLabel.text = sense.synonymsAsString
             synonymLabel.font = caption1Font
             synonymLabel.lineBreakMode = .ByWordWrapping
