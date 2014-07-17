@@ -21,6 +21,6 @@
 
 @interface PushWrapper : NSObject
 
-+ (void) setupPushNotificationsForApplication:(UIApplication*)theApplication withLaunchOptions:(NSDictionary*)launchOptions;
++ (void) register;
 
 @end

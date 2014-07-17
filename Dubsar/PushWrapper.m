@@ -21,11 +21,13 @@
 
 @implementation PushWrapper
 
-+ (void)setupPushNotificationsForApplication:(UIApplication *)theApplication withLaunchOptions:(NSDictionary *)launchOptions
++ (void)register
 {
     /*
      * Make sure this is a dynamic check at runtime. When I do this in Swift, the app crashes on iOS 7 looking for UIUserNotificationSettings.
      */
+
+    UIApplication* theApplication = [UIApplication sharedApplication];
 
     if ([theApplication respondsToSelector:@selector(registerUserNotificationSettings:)]) {
         // iOS 8

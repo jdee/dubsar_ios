@@ -148,7 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
     func setupPushNotificationsForApplication(theApplication:UIApplication, withLaunchOptions launchOptions: NSDictionary?) {
         // register for push notifications
-        PushWrapper.setupPushNotificationsForApplication(theApplication, withLaunchOptions: launchOptions)
+        PushWrapper.register()
 
         // extract the push payload, if any, from the launchOptions
         let payload = launchOptions?.objectForKey(UIApplicationLaunchOptionsRemoteNotificationKey) as? NSDictionary
