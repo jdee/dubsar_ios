@@ -149,6 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     func setupPushNotificationsForApplication(theApplication:UIApplication, withLaunchOptions launchOptions: NSDictionary?) {
         // register for push notifications
         if theApplication.respondsToSelector("registerUserNotificationSettings:") {
+            /* for now
             let action = UIMutableUserNotificationAction()
             action.identifier = "open"
             action.title = "More"
@@ -158,8 +159,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             category.setActions([action], forContext: .Default)
             category.setActions([action], forContext: .Minimal)
             let categories = NSSet(object: category)
+            // */
 
-            theApplication.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Alert | .Sound, categories: categories))
+            theApplication.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Alert | .Sound, categories: nil))
             theApplication.registerForRemoteNotifications()
         }
         else {
