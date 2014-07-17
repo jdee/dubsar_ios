@@ -105,6 +105,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         }
     }
 
+    func application(theApplication: UIApplication!, handleActionWithIdentifier identifier: String!, forRemoteNotification userInfo: NSDictionary!, completionHandler: (() -> Void)!) {
+        NSLog("Received remote notification action %@", identifier)
+        application(theApplication, didReceiveRemoteNotification: userInfo)
+    }
+
     func application(application: UIApplication!, openURL url: NSURL!, sourceApplication: String!, annotation: AnyObject!) -> Bool {
         let scheme = url.scheme
         if scheme != dubsar {
@@ -130,6 +135,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         return true
     }
 
+    func application(application: UIApplication!, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings!) {
+        NSLog("Application did register user notification settings")
+    }
+
     func alertView(alertView: UIAlertView, clickedButtonAtIndex index: Int) {
         if index == 1 {
             openURL(alertURL)
@@ -139,7 +148,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
     func setupPushNotificationsForApplication(theApplication:UIApplication, withLaunchOptions launchOptions: NSDictionary?) {
         // register for push notifications
-        theApplication.registerForRemoteNotificationTypes(.Alert | .Sound)
+        if theApplication.respondsToSelector("registerUserNotificationSettings:") {
+            let action = UIMutableUserNotificationAction()
+            action.identifier = "open"
+            action.title = "More"
+
+            let category = UIMutableUserNotificationCategory()
+            category.identifier = "open"
+            category.setActions([action], forContext: .Default)
+            category.setActions([action], forContext: .Minimal)
+            let categories = NSSet(object: category)
+
+            theApplication.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Alert | .Sound, categories: categories))
+            theApplication.registerForRemoteNotifications()
+        }
+        else {
+            theApplication.registerForRemoteNotificationTypes(.Alert | .Sound)
+        }
         // extract the push payload, if any, from the launchOptions
         let payload = launchOptions?.objectForKey(UIApplicationLaunchOptionsRemoteNotificationKey) as? NSDictionary
         // pass it back to this app. this is where notifications arrive if a notification is tapped while the app is not running. the app is launched by the tap in that case.
