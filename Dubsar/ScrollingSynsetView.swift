@@ -23,37 +23,46 @@ import UIKit
 class ScrollingSynsetView: UIScrollView {
 
     var synset : DubsarModelsSynset!
-    var sense : DubsarModelsSense?
+    var sense : DubsarModelsSense? {
+    didSet {
+        setNeedsLayout()
+    }
+    }
 
-    var headerView : SynsetHeaderView?
-    var sampleView : SynsetSampleView?
+    var headerView : SynsetHeaderView
+    var sampleView : SynsetSampleView
 
     var viewController : SynsetViewController!
 
     init(synset: DubsarModelsSynset!, frame: CGRect) {
         self.synset = synset
+        headerView = SynsetHeaderView(synset: synset, frame: CGRectZero)
+        sampleView = SynsetSampleView(synset: synset, frame: CGRectZero)
         super.init(frame: frame)
+
+        headerView.frame = bounds
+        headerView.delegate = viewController
+        sampleView.frame = CGRectMake(0, headerView.bounds.size.height, bounds.size.width, bounds.size.height)
 
         bounces = false
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = true
+
+        addSubview(headerView)
+        addSubview(sampleView)
     }
 
     override func layoutSubviews() {
         if synset.complete {
-            headerView?.removeFromSuperview()
-            sampleView?.removeFromSuperview()
+            headerView.sense = sense
+            sampleView.sense = sense
 
-            headerView = SynsetHeaderView(synset:synset, frame:bounds)
-            headerView!.delegate = viewController
-            headerView!.sense = sense
-            addSubview(headerView)
+            headerView.layoutSubviews()
+            sampleView.layoutSubviews()
 
-            sampleView = SynsetSampleView(synset:synset, frame:CGRectMake(0, headerView!.bounds.size.height, bounds.size.width, bounds.size.height))
-            sampleView!.sense = sense
-            addSubview(sampleView)
+            sampleView.frame.origin.y = headerView.bounds.size.height
 
-            contentSize = CGSizeMake(headerView!.bounds.size.width, headerView!.bounds.size.height + sampleView!.bounds.size.height)
+            contentSize = CGSizeMake(headerView.bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height)
         }
 
         super.layoutSubviews()

@@ -109,11 +109,7 @@ class SynsetHeaderView: UIView {
     }
 
     let synset : DubsarModelsSynset
-    var sense : DubsarModelsSense? { // optional and variable; represents word context
-    didSet {
-        setNeedsLayout()
-    }
-    }
+    var sense : DubsarModelsSense? // optional and variable; represents word context
 
     let glossLabel : UILabel
     let lexnameLabel : UILabel
