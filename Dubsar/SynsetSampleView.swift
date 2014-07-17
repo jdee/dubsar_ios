@@ -62,7 +62,10 @@ class SynsetSampleView: UIView {
                     y = addSample(text, atY: y)
                 }
             }
+
+            frame.size.height = y
         }
+
 
         super.layoutSubviews()
     }

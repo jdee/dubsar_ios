@@ -215,8 +215,6 @@ class SynsetHeaderView: UIView {
         var x : CGFloat = margin, y : CGFloat = lexnameLabel.frame.size.height + lexnameLabel.frame.origin.y + margin
         var height : CGFloat = 0
 
-        NSLog("Synset ID %d (%@). Adding buttons for %d synonyms", synset._id, synset.gloss, synset.senses.count)
-
         for object: AnyObject in synset.senses as NSArray {
             if let synonym = object as? DubsarModelsSense {
                 let buttonPair = SynonymButtonPair(sense: synonym, view: self)
