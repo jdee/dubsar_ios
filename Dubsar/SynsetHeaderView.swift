@@ -147,7 +147,7 @@ class SynsetHeaderView: UIView {
 
         glossLabel.lineBreakMode = .ByWordWrapping
         glossLabel.numberOfLines = 0
-        glossLabel.autoresizingMask = .FlexibleBottomMargin | .FlexibleHeight | .FlexibleWidth
+        glossLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         addSubview(glossLabel)
 
         lexnameLabel.lineBreakMode = .ByWordWrapping

@@ -191,23 +191,12 @@
                     <view key="view" contentMode="scaleToFill" id="S2q-yf-ReF">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gtf-VQ-tx1">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="416"/>
-                            </scrollView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="gtf-VQ-tx1" secondAttribute="trailing" id="2Gp-65-Yei"/>
-                            <constraint firstAttribute="bottom" secondItem="gtf-VQ-tx1" secondAttribute="bottom" id="D13-fV-mHi"/>
-                            <constraint firstItem="gtf-VQ-tx1" firstAttribute="top" secondItem="S2q-yf-ReF" secondAttribute="top" id="KZO-8i-v4Q"/>
-                            <constraint firstItem="gtf-VQ-tx1" firstAttribute="leading" secondItem="S2q-yf-ReF" secondAttribute="leading" id="Ns6-NZ-m8U"/>
-                        </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="scroller" destination="gtf-VQ-tx1" id="9Wf-Kn-9Wy"/>
                         <outlet property="view" destination="S2q-yf-ReF" id="NdJ-gC-lyC"/>
                     </connections>
                 </viewController>

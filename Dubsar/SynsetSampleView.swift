@@ -81,6 +81,8 @@ class SynsetSampleView: UIView {
         label.lineBreakMode = .ByWordWrapping
         label.numberOfLines = 0
         label.text = sample
+        label.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        label.invalidateIntrinsicContentSize()
 
         labels.addObject(label)
         addSubview(label)

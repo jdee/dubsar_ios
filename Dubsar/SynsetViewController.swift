@@ -22,10 +22,7 @@ import UIKit
 
 class SynsetViewController: BaseViewController {
 
-    @IBOutlet var scroller : UIScrollView
-
-    var headerView : SynsetHeaderView?
-    var sampleView : SynsetSampleView?
+    var scroller : ScrollingSynsetView?
 
     class var identifier : String {
         get {
@@ -58,6 +55,7 @@ class SynsetViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Synset"
+
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -132,9 +130,6 @@ class SynsetViewController: BaseViewController {
             s.load()
         }
 
-        // essentially disable scrolling for now?
-        scroller.contentSize = scroller.bounds.size
-
         adjustLayout()
     }
 
@@ -154,34 +149,17 @@ class SynsetViewController: BaseViewController {
             theSynset = synset
         }
 
-        headerView?.removeFromSuperview()
-        headerView = SynsetHeaderView(synset: theSynset, frame: scroller.bounds)
-        headerView!.sense = sense
-        headerView!.delegate = self // do this after assigning sense, or we'll be called back in this stack.
-        scroller.addSubview(headerView)
-
-        sampleView?.removeFromSuperview()
-        sampleView = SynsetSampleView(synset: theSynset, frame: CGRectMake(0, headerView!.frame.size.height, scroller.bounds.size.width, scroller.bounds.size.height))
-        scroller.addSubview(sampleView)
+        scroller?.removeFromSuperview()
+        scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)
+        scroller!.viewController = self
+        scroller!.sense = sense
+        view.addSubview(scroller)
 
         adjustLayout()
     }
 
     override func adjustLayout() {
-        headerView?.setNeedsLayout()
-        sampleView?.setNeedsLayout()
-        var contentSize = CGSizeZero
-        if let view = headerView {
-            contentSize.width = view.bounds.size.width
-            contentSize.height = view.bounds.size.height
-        }
-        if let view = sampleView {
-            contentSize.width = view.bounds.size.width
-            contentSize.height += view.bounds.size.height
-        }
-        if contentSize.width > 0 {
-            scroller.contentSize = contentSize
-        }
+        scroller?.setNeedsLayout()
 
         super.adjustLayout()
     }
@@ -193,6 +171,8 @@ class SynsetViewController: BaseViewController {
         else {
             NSLog("No synonym selected")
         }
+
+        scroller!.sense = sense // maybe this can be done inside the scroller
     }
 
     func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, navigatedToSense sense: DubsarModelsSense!) {
