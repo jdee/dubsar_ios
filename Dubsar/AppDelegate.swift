@@ -131,6 +131,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             viewController!.title = "Word of the Day"
             navigationController.pushViewController(viewController, animated: true)
         }
+        else if path.hasPrefix("/words/") {
+            let last = url.lastPathComponent as NSString
+            let wotdId = Int(last.intValue)
+            let word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
+
+            // crashes, so we use the string literal "Word" below
+            // NSLog("Instantiating VC with identifier %@", WordViewController.identifier)
+
+            let top = navigationController.topViewController as BaseViewController
+            let viewController = top.instantiateViewControllerWithIdentifier("Word", model: word)
+            assert(viewController)
+            navigationController.pushViewController(viewController, animated: true)
+        }
 
         return true
     }
