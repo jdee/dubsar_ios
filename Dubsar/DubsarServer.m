@@ -89,17 +89,17 @@
     /*
      * 1d. Determine production flag from preprocessor macro
      */
-    NSString* production = nil;
+    BOOL production;
 #ifdef DUBSAR_DEVELOPMENT
-    production = @"false";
+    production = NO;
 #else
-    production = @"true";
+    production = YES;
 #endif // DUBSAR_DEVELOPMENT
 
     /*
      * 2. Construct JSON payload from this info
      */
-    NSString* payload = [NSString stringWithFormat:@"{\"version\":\"%@\", \"secret\":\"%@\", \"device_token\":{\"token\":\"%@\", \"production\":%@} }", version, secret, token, production];
+    NSData* payload = [NSJSONSerialization dataWithJSONObject:@{@"version":version, @"secret":secret, @"device_token":@{@"token": token, @"production":@(production)}} options:0 error:NULL];
 
     /*
      * 3. Execute POST
@@ -107,7 +107,7 @@
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/device_tokens", DubsarBaseUrl]];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:[payload dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setHTTPBody:payload];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
 
