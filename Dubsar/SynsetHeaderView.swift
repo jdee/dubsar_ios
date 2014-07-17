@@ -87,7 +87,6 @@ class SynonymButtonPair {
 
             if !v.sense || v.sense!._id != sense._id {
                 v.sense = sense
-                selectionButton.selected = true
             }
             else {
                 v.sense = nil // resets all to unselected
@@ -112,7 +111,7 @@ class SynsetHeaderView: UIView {
     let synset : DubsarModelsSynset
     var sense : DubsarModelsSense? { // optional and variable; represents word context
     didSet {
-        resetSelection()
+        setNeedsLayout()
     }
     }
 
@@ -180,6 +179,9 @@ class SynsetHeaderView: UIView {
             }
             if sense && sense!.freqCnt > 0 {
                 lexnameText = "\(lexnameText) freq. cnt. \(sense!.freqCnt)"
+            }
+            else if !sense && synset.freqCnt > 0 {
+                lexnameText = "\(lexnameText) freq. cnt. \(synset.freqCnt)"
             }
 
             let lexnameSize = lexnameText.sizeOfTextWithConstrainedSize(constrainedSize, font: headlineFont)

@@ -212,7 +212,8 @@
         char const* _definition = (char const*)sqlite3_column_text(statement, 0);
         char const* _lexname = (char const*)sqlite3_column_text(statement, 1);
         char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
-        freqCnt += sqlite3_column_int(statement, 3);
+        int senseFreqCnt = sqlite3_column_int(statement, 3);
+        freqCnt += senseFreqCnt;
         int senseId = sqlite3_column_int(statement, 4);
         char const* _name = (char const*)sqlite3_column_text(statement, 5);
  
@@ -244,6 +245,7 @@
         }
         
         DubsarModelsSense* synonym = [DubsarModelsSense senseWithId:senseId name:@(_name) partOfSpeech:partOfSpeech];
+        synonym.freqCnt = senseFreqCnt;
         NSLog(@"Loaded synonym %@", synonym.name);
         [senses addObject:synonym];
     }

@@ -525,7 +525,7 @@
 
     if (loadingWord) {
 #ifdef DEBUG
-        NSLog(@"loading word ID %d", word._id);
+        NSLog(@"loading word ID %lu", (unsigned long)word._id);
 #endif // DEBUG
         [word load];
     }
