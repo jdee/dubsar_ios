@@ -24,7 +24,7 @@ class SynsetSampleView: UIView {
 
     class var margin : CGFloat {
         get {
-            return 4
+            return 8
         }
     }
 

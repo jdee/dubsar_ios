@@ -219,7 +219,7 @@ class SynsetHeaderView: UIView {
         for object: AnyObject in synset.senses as NSArray {
             if let synonym = object as? DubsarModelsSense {
                 let buttonPair = SynonymButtonPair(sense: synonym, view: self)
-                if sense && sense!._id == synonym._id && synset.senses.count > 1 {
+                if sense && sense!._id == synonym._id {
                     buttonPair.selectionButton.selected = true
                 }
                 synonymButtons.addObject(buttonPair)
