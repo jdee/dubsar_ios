@@ -97,7 +97,7 @@ class SenseTableViewCell: UITableViewCell {
         let glossSize = sense.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
         let synonymSize = sense.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
 
-        bounds.size = sense.sizeOfCellWithConstrainedSize(bounds.size)
+        bounds.size.height = sense.sizeOfCellWithConstrainedSize(constrainedSize).height
 
         view?.removeFromSuperview()
 

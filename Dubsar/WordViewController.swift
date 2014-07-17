@@ -102,7 +102,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
 
         let sense = word.senses[row-1] as DubsarModelsSense
-        return sense.sizeOfCellWithConstrainedSize(tableView.bounds.size).height
+        let constrainedSize = CGSizeMake(tableView.bounds.size.width-2*SenseTableViewCell.borderWidth-2*SenseTableViewCell.margin-SenseTableViewCell.accessoryWidth, tableView.bounds.size.height)
+        return sense.sizeOfCellWithConstrainedSize(constrainedSize).height
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
