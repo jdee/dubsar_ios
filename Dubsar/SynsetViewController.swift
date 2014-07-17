@@ -151,6 +151,7 @@ class SynsetViewController: BaseViewController {
         headerView?.removeFromSuperview()
         headerView = SynsetHeaderView(synset: theSynset, frame: scroller.bounds)
         headerView!.sense = sense
+        headerView!.delegate = self // do this after assigning sense, or we'll be called back in this stack.
 
         scroller.addSubview(headerView)
 
@@ -160,5 +161,19 @@ class SynsetViewController: BaseViewController {
     override func adjustLayout() {
         headerView?.setNeedsLayout()
         super.adjustLayout()
+    }
+
+    func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, selectedSense sense: DubsarModelsSense?) {
+        if let s = sense {
+            NSLog("Selected synonym ID %d (%@)", s._id, s.name)
+        }
+        else {
+            NSLog("No synonym selected")
+        }
+    }
+
+    func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, navigatedToSense sense: DubsarModelsSense!) {
+        // once the WordViewController is ready for dual duty, push one here.
+        NSLog("Navigate to sense ID %d (%@)", sense._id, sense.name)
     }
 }

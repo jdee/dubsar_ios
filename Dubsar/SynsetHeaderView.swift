@@ -39,7 +39,7 @@ class SynonymButtonPair {
 
     var sense: DubsarModelsSense!
 
-    weak var view: SynsetHeaderView!
+    weak var view: SynsetHeaderView?
 
     var width : CGFloat, height : CGFloat
 
@@ -65,25 +65,36 @@ class SynonymButtonPair {
         selectionButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
         selectionButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
         selectionButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
-        selectionButton.addTarget(self, action: "selected:", forControlEvents: .TouchUpInside)
+        selectionButton.addTarget(self, action: "synonymSelected:", forControlEvents: .TouchUpInside)
         view.addSubview(selectionButton)
 
         // configure navigation button.
         let image = NavButtonImage.imageWithSize(CGSizeMake(height, height))
         navigationButton.setImage(image, forState: .Normal)
-        navigationButton.addTarget(self, action: "navigated:", forControlEvents: .TouchUpInside)
+        navigationButton.addTarget(self, action: "synonymNavigated:", forControlEvents: .TouchUpInside)
         navigationButton.frame.size.width = height
         navigationButton.frame.size.height = height
         view.addSubview(navigationButton)
     }
 
-    func selected(sender: UIButton!) {
-        // might consider toggling this state
-        view.sense = sense
-        sender.selected = true
+    // Apparently in Swift you can't make programmatic action assignments without these annotations.
+    @IBAction
+    func synonymSelected(sender: UIButton!) {
+        if let v = view {
+            if !v.sense || v.sense!._id != sense._id {
+                v.sense = sense
+                selectionButton.selected = true
+            }
+            else {
+                v.sense = nil // resets all to unselected
+            }
+        }
+
     }
 
-    func navigated(sender: UIButton!) {
+    @IBAction
+    func synonymNavigated(sender: UIButton!) {
+        view?.buttonPair(self, navigatedToSense: sense)
     }
 }
 
@@ -106,6 +117,8 @@ class SynsetHeaderView: UIView {
     let lexnameLabel : UILabel
 
     let synonymButtons : NSMutableArray
+
+    weak var delegate : SynsetViewController?
 
     /*
      * The frame argument represents the space to which the view is constrained, or more accurately, the
@@ -180,8 +193,8 @@ class SynsetHeaderView: UIView {
     }
 
     func setupSynonymButtons() {
-        for idiotShit: AnyObject in synonymButtons {
-            if let buttonPair = idiotShit as? SynonymButtonPair {
+        for object: AnyObject in synonymButtons {
+            if let buttonPair = object as? SynonymButtonPair {
                 buttonPair.selectionButton.removeFromSuperview()
                 buttonPair.navigationButton.removeFromSuperview()
             }
@@ -196,9 +209,12 @@ class SynsetHeaderView: UIView {
 
         NSLog("Synset ID %d (%@). Adding buttons for %d synonyms", synset._id, synset.gloss, synset.senses.count)
 
-        for moronicCrap: AnyObject in synset.senses as NSArray {
-            if let synonym = moronicCrap as? DubsarModelsSense {
+        for object: AnyObject in synset.senses as NSArray {
+            if let synonym = object as? DubsarModelsSense {
                 let buttonPair = SynonymButtonPair(sense: synonym, view: self)
+                if sense && sense!._id == synonym._id {
+                    buttonPair.selectionButton.selected = true
+                }
                 synonymButtons.addObject(buttonPair)
 
                 assert(height <= 0 || height == buttonPair.navigationButton.frame.size.height) // assume they're all the same height with the same font
@@ -217,16 +233,24 @@ class SynsetHeaderView: UIView {
                 x += buttonPair.width
             }
         }
-
     }
 
+    /*
+     * Invocation of the delegate?.synsetHeaderView(...) calls below crashes with a bad access error (bad address). The delegate needs to be a weak ref.
+     * here to avoid a loop. But we don't need to use this view with any other VC, so just make it a concrete weak ref. instead of a @class_protocol.
+     * Could also stuff the delegate methods into the base VC class.
+     */
     func resetSelection() {
-        setNeedsLayout()
-        for fuckYou : AnyObject in synset.senses as NSArray {
-            if let buttonPair = fuckYou as? SynonymButtonPair {
+        for object : AnyObject in synonymButtons {
+            if let buttonPair = object as? SynonymButtonPair {
                 buttonPair.selectionButton.selected = false
             }
         }
+        delegate?.synsetHeaderView(self, selectedSense: sense)
+    }
+
+    func buttonPair(buttonPair: SynonymButtonPair!, navigatedToSense sense: DubsarModelsSense!) {
+        delegate?.synsetHeaderView(self, navigatedToSense: sense)
     }
 
 }
