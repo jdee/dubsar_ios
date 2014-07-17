@@ -168,7 +168,7 @@
      * The app still sometimes crashes when this autorelease pool is used.
      */
 #ifdef AUTORELEASE_POOL_FOR_SYNONYMS
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
 #endif // AUTORELEASE_POOL_FOR_SYNOYMS
     
     for(int j=0; j<senses.count; ++j) {
@@ -180,7 +180,7 @@
     }
     
 #ifdef AUTORELEASE_POOL_FOR_SYNONYMS
-    [pool release];
+    }
 #endif // AUTORELEASE_POOL_FOR_SYNONYMS    
     return synonymList;
 }
@@ -246,6 +246,7 @@
         
         DubsarModelsSense* synonym = [DubsarModelsSense senseWithId:senseId name:@(_name) partOfSpeech:partOfSpeech];
         synonym.freqCnt = senseFreqCnt;
+        [synonym load];
         NSLog(@"Loaded synonym %@", synonym.name);
         [senses addObject:synonym];
     }
