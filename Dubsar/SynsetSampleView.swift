@@ -63,6 +63,14 @@ class SynsetSampleView: UIView {
                 }
             }
 
+            if let s = sense {
+                for verbFrame : AnyObject in s.verbFrames as NSArray {
+                    if let text = verbFrame as? String {
+                        y = addSample(text, atY: y)
+                    }
+                }
+            }
+
             frame.size.height = y
         }
 
