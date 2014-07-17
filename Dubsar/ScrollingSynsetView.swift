@@ -22,15 +22,17 @@ import UIKit
 
 class ScrollingSynsetView: UIScrollView {
 
-    var synset : DubsarModelsSynset!
+    let synset : DubsarModelsSynset
     var sense : DubsarModelsSense? {
     didSet {
+        headerView.sense = sense
+        sampleView.sense = sense
         setNeedsLayout()
     }
     }
 
-    var headerView : SynsetHeaderView
-    var sampleView : SynsetSampleView
+    let headerView : SynsetHeaderView
+    let sampleView : SynsetSampleView
 
     var viewController : SynsetViewController! {
     didSet {
@@ -44,8 +46,8 @@ class ScrollingSynsetView: UIScrollView {
         sampleView = SynsetSampleView(synset: synset, frame: CGRectZero)
         super.init(frame: frame)
 
-        headerView.frame = bounds
-        sampleView.frame = CGRectMake(0, headerView.bounds.size.height, bounds.size.width, bounds.size.height)
+        headerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        sampleView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
 
         bounces = false
         showsHorizontalScrollIndicator = false
@@ -57,15 +59,19 @@ class ScrollingSynsetView: UIScrollView {
 
     override func layoutSubviews() {
         if synset.complete {
-            headerView.sense = sense
-            sampleView.sense = sense
+            // NSLog("Entered ScrollingSynsetView.layoutSubviews()")
 
+            // these automatically adjust their heights in layoutSubviews()
+            headerView.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height)
             headerView.layoutSubviews()
+
+            sampleView.frame = CGRectMake(0, headerView.bounds.size.height, bounds.size.width, bounds.size.height)
             sampleView.layoutSubviews()
 
-            sampleView.frame.origin.y = headerView.bounds.size.height
+            let totalSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height)
+            contentSize = totalSize
 
-            contentSize = CGSizeMake(headerView.bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height)
+            // NSLog("Set scrolling content size to %f x %f", totalSize.width, totalSize.height)
         }
 
         super.layoutSubviews()

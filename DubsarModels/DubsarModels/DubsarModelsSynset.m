@@ -63,6 +63,7 @@
         lexname = nil;
         samples = nil;
         senses = nil;
+        _includeExtraSections = NO;
         // [self set_url: [NSString stringWithFormat:@"/synsets/%d", _id]];
         [self prepareStatements];
     }
@@ -80,6 +81,7 @@
         lexname = nil;
         samples = nil;
         senses = nil;
+        _includeExtraSections = NO;
         // [self set_url: [NSString stringWithFormat:@"/synsets/%d", _id]];
         [self prepareStatements];
     }
@@ -265,24 +267,26 @@
     sqlite3_stmt* statement;
     
     self.sections = [NSMutableArray array];
-    
-    if (senses.count > 0) {
-        DubsarModelsSection* section = [DubsarModelsSection section];
-        section.header = @"Synonyms";
-        section.footer = [DubsarModelsPointerDictionary helpWithPointerType:@"synonym"];
-        section.linkType = @"sense";
-        section.ptype = @"synonym";
-        section.numRows = senses.count;
-        [sections addObject:section];
-    }
-    if (samples.count > 0) {
-        DubsarModelsSection* section = [DubsarModelsSection section];
-        section.header = @"Samples";
-        section.footer = [DubsarModelsPointerDictionary helpWithPointerType:@"synset sample"];
-        section.linkType = @"sample";
-        section.ptype = @"sample sentence";
-        section.numRows = samples.count;
-        [sections addObject:section];
+
+    if (_includeExtraSections) {
+        if (senses.count > 0) {
+            DubsarModelsSection* section = [DubsarModelsSection section];
+            section.header = @"Synonyms";
+            section.footer = [DubsarModelsPointerDictionary helpWithPointerType:@"synonym"];
+            section.linkType = @"sense";
+            section.ptype = @"synonym";
+            section.numRows = senses.count;
+            [sections addObject:section];
+        }
+        if (samples.count > 0) {
+            DubsarModelsSection* section = [DubsarModelsSection section];
+            section.header = @"Samples";
+            section.footer = [DubsarModelsPointerDictionary helpWithPointerType:@"synset sample"];
+            section.linkType = @"sample";
+            section.ptype = @"sample sentence";
+            section.numRows = samples.count;
+            [sections addObject:section];
+        }
     }
     
     sql = [NSString stringWithFormat:

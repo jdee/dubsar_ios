@@ -48,7 +48,6 @@
 @synthesize verbFrames;
 @synthesize samples;
 @synthesize pointers;
-@synthesize numberOfSections=_numberOfSections;
 @synthesize sections;
 
 +(instancetype)senseWithId:(NSUInteger)theId name:(NSString *)theName synset:(DubsarModelsSynset *)theSynset
@@ -88,7 +87,7 @@
         pointers = nil;
         weakSynsetLink = true;
         weakWordLink = false;
-        loadingSynset = loadingWord = NO;
+        loadingSynset = loadingWord = _includeExtraSections = NO;
         [self initUrl];
     }
     return self;
@@ -110,7 +109,7 @@
         samples = nil;
         pointers = nil;
         weakWordLink = weakSynsetLink = false;
-        loadingSynset = loadingWord = NO;
+        loadingSynset = loadingWord = _includeExtraSections = NO;
         [self initUrl];
     }
     return self;
@@ -134,7 +133,7 @@
         pointers = nil;
         weakSynsetLink = false;
         weakWordLink = true;
-        loadingSynset = loadingWord = NO;
+        loadingSynset = loadingWord = _includeExtraSections = NO;
         [self initUrl];
     }
     return self;
@@ -155,7 +154,7 @@
         pointers = nil;
         weakSynsetLink = false;
         weakWordLink = false;
-        loadingSynset = loadingWord = NO;
+        loadingSynset = loadingWord = _includeExtraSections = NO;
         [self initUrl];
         [self parseNameAndPos:nameAndPos];
     }
@@ -545,33 +544,35 @@
     sqlite3_stmt* statement;
     
     self.sections = [NSMutableArray array];
-    
-    if (synonyms.count > 0) {
-        DubsarModelsSection* section = [DubsarModelsSection section];
-        section.header = @"Synonyms";
-        section.footer = [DubsarModelsPointerDictionary helpWithPointerType:@"synonym"];
-        section.linkType = @"sense";
-        section.ptype = @"synonym";
-        section.numRows = synonyms.count;
-        [sections addObject:section];
-    }
-    if (verbFrames.count > 0) {
-        DubsarModelsSection* section = [DubsarModelsSection section];
-        section.header = @"Verb Frames";
-        section.footer = [DubsarModelsPointerDictionary helpWithPointerType:@"verb frame"];
-        section.linkType = @"sample";
-        section.ptype = @"verb frame";
-        section.numRows = verbFrames.count;
-        [sections addObject:section];
-    }
-    if (samples.count > 0) {
-        DubsarModelsSection* section = [DubsarModelsSection section];
-        section.header = @"Samples";
-        section.footer = [DubsarModelsPointerDictionary helpWithPointerType:@"sample sentence"];
-        section.linkType = @"sample";
-        section.ptype = @"sample sentence";
-        section.numRows = samples.count;
-        [sections addObject:section];
+
+    if (_includeExtraSections) {
+        if (synonyms.count > 0) {
+            DubsarModelsSection* section = [DubsarModelsSection section];
+            section.header = @"Synonyms";
+            section.footer = [DubsarModelsPointerDictionary helpWithPointerType:@"synonym"];
+            section.linkType = @"sense";
+            section.ptype = @"synonym";
+            section.numRows = synonyms.count;
+            [sections addObject:section];
+        }
+        if (verbFrames.count > 0) {
+            DubsarModelsSection* section = [DubsarModelsSection section];
+            section.header = @"Verb Frames";
+            section.footer = [DubsarModelsPointerDictionary helpWithPointerType:@"verb frame"];
+            section.linkType = @"sample";
+            section.ptype = @"verb frame";
+            section.numRows = verbFrames.count;
+            [sections addObject:section];
+        }
+        if (samples.count > 0) {
+            DubsarModelsSection* section = [DubsarModelsSection section];
+            section.header = @"Samples";
+            section.footer = [DubsarModelsPointerDictionary helpWithPointerType:@"sample sentence"];
+            section.linkType = @"sample";
+            section.ptype = @"sample sentence";
+            section.numRows = samples.count;
+            [sections addObject:section];
+        }
     }
     
     sql = [NSString stringWithFormat:

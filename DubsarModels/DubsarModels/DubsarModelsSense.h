@@ -47,8 +47,13 @@
 @property (nonatomic, strong) NSMutableArray* samples;
 @property (nonatomic, strong) NSMutableDictionary* pointers;
 
-@property (nonatomic) NSUInteger numberOfSections;
+@property (nonatomic, readonly) NSUInteger numberOfSections;
 @property (nonatomic, strong) NSMutableArray* sections;
+
+@property (nonatomic) BOOL includeExtraSections;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *pos;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *nameAndPos;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *synonymsAsString;
 
 +(instancetype)senseWithId:(NSUInteger)theId name:(NSString*)theName synset:(DubsarModelsSynset*)theSynset;
 +(instancetype)senseWithId:(NSUInteger)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
@@ -60,18 +65,12 @@
 -(instancetype)initWithId:(NSUInteger)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(DubsarModelsWord*)theWord NS_DESIGNATED_INITIALIZER;
 -(instancetype)initWithId:(NSUInteger)theId nameAndPos:(NSString*)nameAndPos NS_DESIGNATED_INITIALIZER;
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *pos;
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *nameAndPos;
 -(void)initUrl;
 -(void)parsePointers:(NSArray*)response;
 
 -(NSComparisonResult)compareFreqCnt:(DubsarModelsSense*)sense;
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *synonymsAsString;
 -(void)parseNameAndPos:(NSString*)nameAndPos;
-
-// -(void)loadPointers:(AppDelegate*)appDelegate;
-// -(void)countPointers:(AppDelegate*)appDelegate;
 
 -(void)prepareStatements;
 -(void)destroyStatements;

@@ -28,7 +28,7 @@ class SynsetSampleView: UIView {
         }
     }
 
-    var synset : DubsarModelsSynset
+    let synset : DubsarModelsSynset
     var sense : DubsarModelsSense?
 
     var isEmpty : Bool {
@@ -43,11 +43,10 @@ class SynsetSampleView: UIView {
         self.synset = synset
         labels = NSMutableArray()
         super.init(frame: frame)
-
-        layoutSubviews()
     }
 
     override func layoutSubviews() {
+        // NSLog("Entered SynsetSampleView.layoutSubviews()")
         for label : AnyObject in labels {
             if let l = label as? UILabel {
                 label.removeFromSuperview()
@@ -72,8 +71,8 @@ class SynsetSampleView: UIView {
             }
 
             frame.size.height = y
+            // NSLog("sample view height: %f", bounds.size.height)
         }
-
 
         super.layoutSubviews()
     }
@@ -89,8 +88,6 @@ class SynsetSampleView: UIView {
         label.lineBreakMode = .ByWordWrapping
         label.numberOfLines = 0
         label.text = sample
-        label.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        label.invalidateIntrinsicContentSize()
 
         labels.addObject(label)
         addSubview(label)

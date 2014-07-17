@@ -34,6 +34,11 @@
 @property (nonatomic, strong) NSMutableDictionary* pointers;
 @property (nonatomic, strong) NSMutableArray* sections;
 
+@property (nonatomic) BOOL includeExtraSections;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *synonymsAsString;
+
+@property (NS_NONATOMIC_IOSONLY, readonly) NSUInteger numberOfSections;
+
 +(instancetype)synsetWithId:(int)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
 +(instancetype)synsetWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
 -(instancetype)initWithId:(int)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
@@ -41,11 +46,8 @@
 -(void)parseData;
 -(void)parsePointers:(NSArray*)response;
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *synonymsAsString;
-
 -(void)prepareStatements;
 -(void)destroyStatements;
 -(DubsarModelsPointer*)pointerForRowAtIndexPath:(NSIndexPath*)indexPath;
-@property (NS_NONATOMIC_IOSONLY, readonly) NSUInteger numberOfSections;
 
 @end

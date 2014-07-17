@@ -110,11 +110,7 @@ class SynsetHeaderView: UIView {
     }
 
     let synset : DubsarModelsSynset
-    var sense : DubsarModelsSense? { // optional and variable; represents word context
-    didSet {
-        setNeedsLayout()
-    }
-    }
+    var sense : DubsarModelsSense? // optional and variable; represents word context
 
     let glossLabel : UILabel
     let lexnameLabel : UILabel
@@ -155,11 +151,10 @@ class SynsetHeaderView: UIView {
         lexnameLabel.numberOfLines = 0
         lexnameLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         addSubview(lexnameLabel)
-
-        layoutSubviews()
     }
 
     override func layoutSubviews() {
+        // NSLog("Entered SynsetHeaderView.layoutSubviews()")
         if synset.complete {
             let margin = SynsetHeaderView.margin
             var constrainedSize = bounds.size
@@ -196,6 +191,7 @@ class SynsetHeaderView: UIView {
 
             let height = setupSynonymButtons()
             frame.size.height = height
+            // NSLog("header view height: %f", bounds.size.height)
         }
 
         super.layoutSubviews()
@@ -219,7 +215,7 @@ class SynsetHeaderView: UIView {
         for object: AnyObject in synset.senses as NSArray {
             if let synonym = object as? DubsarModelsSense {
                 let buttonPair = SynonymButtonPair(sense: synonym, view: self)
-                if sense && sense!._id == synonym._id {
+                if sense && sense!._id == synonym._id && synset.senses.count > 1 { // set it to disabled when synset.senses.count == 1?
                     buttonPair.selectionButton.selected = true
                 }
                 synonymButtons.addObject(buttonPair)
@@ -259,6 +255,7 @@ class SynsetHeaderView: UIView {
     }
 
     func buttonPair(buttonPair: SynonymButtonPair!, selectedSense sense: DubsarModelsSense!) {
+        setNeedsLayout()
         delegate?.synsetHeaderView(self, selectedSense: sense)
     }
 

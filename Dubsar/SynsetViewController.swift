@@ -149,19 +149,24 @@ class SynsetViewController: BaseViewController {
             theSynset = synset
         }
 
-        scroller?.removeFromSuperview()
-        scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)
+        if !scroller {
+            scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)
+            view.addSubview(scroller)
+        }
         scroller!.viewController = self
         scroller!.sense = sense
-        view.addSubview(scroller)
 
         adjustLayout()
     }
 
     override func adjustLayout() {
-        scroller?.setNeedsLayout()
+        if let s = scroller {
+            s.frame = view.bounds
+            s.setNeedsLayout()
+        }
 
-        super.adjustLayout()
+        // calls view.invalidateBlahBlah()
+        // super.adjustLayout()
     }
 
     func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, selectedSense sense: DubsarModelsSense?) {
