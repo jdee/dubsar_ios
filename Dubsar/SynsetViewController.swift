@@ -54,6 +54,11 @@ class SynsetViewController: BaseViewController {
     }
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "Synset"
+    }
+
     override func viewWillAppear(animated: Bool) {
         // don't call super here
 
