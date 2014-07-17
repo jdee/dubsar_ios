@@ -148,25 +148,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
     func setupPushNotificationsForApplication(theApplication:UIApplication, withLaunchOptions launchOptions: NSDictionary?) {
         // register for push notifications
-        if theApplication.respondsToSelector("registerUserNotificationSettings:") {
-            /* for now
-            let action = UIMutableUserNotificationAction()
-            action.identifier = "open"
-            action.title = "More"
+        PushWrapper.setupPushNotificationsForApplication(theApplication, withLaunchOptions: launchOptions)
 
-            let category = UIMutableUserNotificationCategory()
-            category.identifier = "open"
-            category.setActions([action], forContext: .Default)
-            category.setActions([action], forContext: .Minimal)
-            let categories = NSSet(object: category)
-            // */
-
-            theApplication.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Alert | .Sound, categories: nil))
-            theApplication.registerForRemoteNotifications()
-        }
-        else {
-            theApplication.registerForRemoteNotificationTypes(.Alert | .Sound)
-        }
         // extract the push payload, if any, from the launchOptions
         let payload = launchOptions?.objectForKey(UIApplicationLaunchOptionsRemoteNotificationKey) as? NSDictionary
         // pass it back to this app. this is where notifications arrive if a notification is tapped while the app is not running. the app is launched by the tap in that case.
