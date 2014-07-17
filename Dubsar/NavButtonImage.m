@@ -23,6 +23,9 @@
 
 + (UIImage*)imageWithSize:(CGSize)size
 {
+    size.width *= [UIScreen mainScreen].scale;
+    size.height *= [UIScreen mainScreen].scale;
+
     // http://stackoverflow.com/a/5017568
     UIGraphicsBeginImageContext(size);
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -45,8 +48,8 @@
     CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
 
     // black triangle pointing right. equilateral when width = height.
-    CGContextMoveToPoint(context, size.width * 0.25, size.height * 0.356);
-    CGContextAddLineToPoint(context, size.width * 0.25, size.height * 0.644);
+    CGContextMoveToPoint(context, size.width * 0.25, size.height * 0.212);
+    CGContextAddLineToPoint(context, size.width * 0.25, size.height * 0.788);
     CGContextAddLineToPoint(context, size.width * 0.75, size.height * 0.5);
 
     CGContextSetFillColorWithColor(context, [UIColor blackColor].CGColor);

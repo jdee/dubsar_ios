@@ -41,6 +41,8 @@ class SynonymButtonPair {
 
     weak var view: SynsetHeaderView!
 
+    var width : CGFloat, height : CGFloat
+
     init(sense: DubsarModelsSense!, view: SynsetHeaderView!) {
         self.sense = sense
         self.view = view
@@ -55,6 +57,10 @@ class SynonymButtonPair {
         selectionButton.frame.size = (sense.name as NSString).sizeOfTextWithFont(font)
         selectionButton.frame.size.width += 2 * SynonymButtonPair.margin
         selectionButton.frame.size.height += 2 * SynonymButtonPair.margin
+
+        width = selectionButton.frame.size.width + selectionButton.frame.size.height // nav. button is a square of the same height; no margin between them
+        height = selectionButton.frame.size.height
+
         selectionButton.setTitle(sense.name, forState: .Normal)
         selectionButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
         selectionButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
@@ -62,12 +68,12 @@ class SynonymButtonPair {
         selectionButton.addTarget(self, action: "selected:", forControlEvents: .TouchUpInside)
         view.addSubview(selectionButton)
 
-        // configure navigation button
-        let image = NavButtonImage.imageWithSize(CGSizeMake(selectionButton.frame.size.height, selectionButton.frame.size.height))
+        // configure navigation button.
+        let image = NavButtonImage.imageWithSize(CGSizeMake(height, height))
         navigationButton.setImage(image, forState: .Normal)
         navigationButton.addTarget(self, action: "navigated:", forControlEvents: .TouchUpInside)
-        navigationButton.frame.size.width = selectionButton.frame.size.height
-        navigationButton.frame.size.height = selectionButton.frame.size.height
+        navigationButton.frame.size.width = height
+        navigationButton.frame.size.height = height
         view.addSubview(navigationButton)
     }
 
@@ -196,10 +202,9 @@ class SynsetHeaderView: UIView {
                 synonymButtons.addObject(buttonPair)
 
                 assert(height <= 0 || height == buttonPair.navigationButton.frame.size.height) // assume they're all the same height with the same font
-                height = buttonPair.navigationButton.frame.size.height // the two buttons are the same height
+                height = buttonPair.height // the two buttons are the same height
 
-                let pairWidth = buttonPair.selectionButton.frame.size.width + buttonPair.navigationButton.frame.size.width // no margin between; each includes its own
-                if pairWidth + x > constrainedWidth {
+                if buttonPair.width + x > constrainedWidth {
                     // wrap
                     y += height + margin
                     x = margin
@@ -209,7 +214,7 @@ class SynsetHeaderView: UIView {
                 buttonPair.selectionButton.frame.origin.y = y
                 buttonPair.navigationButton.frame.origin.x = x + buttonPair.selectionButton.frame.size.width
                 buttonPair.navigationButton.frame.origin.y = y
-                x += pairWidth
+                x += buttonPair.width
             }
         }
 
