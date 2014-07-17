@@ -32,7 +32,11 @@ class ScrollingSynsetView: UIScrollView {
     var headerView : SynsetHeaderView
     var sampleView : SynsetSampleView
 
-    var viewController : SynsetViewController!
+    var viewController : SynsetViewController! {
+    didSet {
+        headerView.delegate = viewController
+    }
+    }
 
     init(synset: DubsarModelsSynset!, frame: CGRect) {
         self.synset = synset
@@ -41,7 +45,6 @@ class ScrollingSynsetView: UIScrollView {
         super.init(frame: frame)
 
         headerView.frame = bounds
-        headerView.delegate = viewController
         sampleView.frame = CGRectMake(0, headerView.bounds.size.height, bounds.size.width, bounds.size.height)
 
         bounces = false

@@ -91,6 +91,7 @@ class SynonymButtonPair {
             else {
                 v.sense = nil // resets all to unselected
             }
+            v.buttonPair(self, selectedSense: v.sense)
         }
     }
 
@@ -109,7 +110,11 @@ class SynsetHeaderView: UIView {
     }
 
     let synset : DubsarModelsSynset
-    var sense : DubsarModelsSense? // optional and variable; represents word context
+    var sense : DubsarModelsSense? { // optional and variable; represents word context
+    didSet {
+        setNeedsLayout()
+    }
+    }
 
     let glossLabel : UILabel
     let lexnameLabel : UILabel
@@ -250,6 +255,10 @@ class SynsetHeaderView: UIView {
                 buttonPair.selectionButton.selected = false
             }
         }
+        delegate?.synsetHeaderView(self, selectedSense: sense)
+    }
+
+    func buttonPair(buttonPair: SynonymButtonPair!, selectedSense sense: DubsarModelsSense!) {
         delegate?.synsetHeaderView(self, selectedSense: sense)
     }
 
