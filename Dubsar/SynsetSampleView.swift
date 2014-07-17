@@ -31,9 +31,58 @@ class SynsetSampleView: UIView {
     var synset : DubsarModelsSynset
     var sense : DubsarModelsSense?
 
+    var isEmpty : Bool {
+    get {
+        return synset.samples.count == 0
+    }
+    }
+
+    var labels : NSMutableArray
+
     init(synset: DubsarModelsSynset!, frame: CGRect) {
         self.synset = synset
+        labels = NSMutableArray()
         super.init(frame: frame)
+
+        layoutSubviews()
+    }
+
+    override func layoutSubviews() {
+        for label : AnyObject in labels {
+            if let l = label as? UILabel {
+                label.removeFromSuperview()
+            }
+        }
+        labels.removeAllObjects()
+
+        if synset.complete {
+            var y = SynsetSampleView.margin
+            for sample : AnyObject in synset.samples as NSArray {
+                if let text = sample as? String {
+                    y = addSample(text, atY: y)
+                }
+            }
+        }
+
+        super.layoutSubviews()
+    }
+
+    func addSample(sample: NSString!, atY y: CGFloat) -> CGFloat {
+        let margin = SynsetSampleView.margin
+        let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
+        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let textSize = sample.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+
+        let label = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
+        label.font = font
+        label.lineBreakMode = .ByWordWrapping
+        label.numberOfLines = 0
+        label.text = sample
+
+        labels.addObject(label)
+        addSubview(label)
+
+        return y + margin + textSize.height
     }
 
 }

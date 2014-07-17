@@ -154,6 +154,8 @@ class SynsetHeaderView: UIView {
         lexnameLabel.numberOfLines = 0
         lexnameLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         addSubview(lexnameLabel)
+
+        layoutSubviews()
     }
 
     override func layoutSubviews() {
@@ -191,13 +193,14 @@ class SynsetHeaderView: UIView {
             lexnameLabel.font = headlineFont
             lexnameLabel.invalidateIntrinsicContentSize()
 
-            setupSynonymButtons()
+            let height = setupSynonymButtons()
+            frame.size.height = height
         }
 
         super.layoutSubviews()
     }
 
-    func setupSynonymButtons() {
+    func setupSynonymButtons() -> CGFloat {
         for object: AnyObject in synonymButtons {
             if let buttonPair = object as? SynonymButtonPair {
                 buttonPair.selectionButton.removeFromSuperview()
@@ -230,7 +233,7 @@ class SynsetHeaderView: UIView {
                     y += height + margin
                     x = margin
                 }
-                // fits on the same line
+
                 buttonPair.selectionButton.frame.origin.x = x
                 buttonPair.selectionButton.frame.origin.y = y
                 buttonPair.navigationButton.frame.origin.x = x + buttonPair.selectionButton.frame.size.width
@@ -238,6 +241,8 @@ class SynsetHeaderView: UIView {
                 x += buttonPair.width
             }
         }
+
+        return y + height + margin
     }
 
     /*
