@@ -81,6 +81,10 @@ class SynonymButtonPair {
     @IBAction
     func synonymSelected(sender: UIButton!) {
         if let v = view {
+            if v.synset.senses.count == 1 {
+                return
+            }
+
             if !v.sense || v.sense!._id != sense._id {
                 v.sense = sense
                 selectionButton.selected = true
@@ -89,7 +93,6 @@ class SynonymButtonPair {
                 v.sense = nil // resets all to unselected
             }
         }
-
     }
 
     @IBAction
@@ -212,7 +215,7 @@ class SynsetHeaderView: UIView {
         for object: AnyObject in synset.senses as NSArray {
             if let synonym = object as? DubsarModelsSense {
                 let buttonPair = SynonymButtonPair(sense: synonym, view: self)
-                if sense && sense!._id == synonym._id {
+                if sense && sense!._id == synonym._id && synset.senses.count > 1 {
                     buttonPair.selectionButton.selected = true
                 }
                 synonymButtons.addObject(buttonPair)
