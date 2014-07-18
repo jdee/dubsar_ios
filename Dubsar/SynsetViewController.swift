@@ -76,9 +76,7 @@ class SynsetViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "textSizeChanged", name: UIContentSizeCategoryDidChangeNotification, object: nil)
     }
 
-    override func viewWillAppear(animated: Bool) {
-        // don't call super here
-
+    override func load() {
         /*
          * We no longer have a sense view. When the user taps a sense in a word view, they
          * come here, and model is a DubsarModelsSense instead of a DubsarModelsSynset. Since each
@@ -147,8 +145,6 @@ class SynsetViewController: BaseViewController {
         else if let s = synset {
             s.load()
         }
-
-        adjustLayout()
     }
 
     override func loadComplete(model: DubsarModelsModel!, withError error: String?) {

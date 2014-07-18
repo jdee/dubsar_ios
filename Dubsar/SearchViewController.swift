@@ -45,7 +45,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         // NSLog("In SearchViewController.viewWillAppear() before super: search is %@nil, %@complete; model is %@nil, %@complete", (search ? "" : "not "), (search.complete ? "" : "not "), (model ? "" : "not "), (model?.complete ? "" : "not "))
         super.viewWillAppear(animated)
 
-        searchLabel.text = search.term
+        title = "Search"
+        searchLabel.text = "search results for \"\(search.term)\""
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section:Int) -> Int {

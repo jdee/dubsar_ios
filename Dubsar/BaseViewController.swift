@@ -46,6 +46,16 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
 
         assert(!model || model!.delegate === self)
 
+        load()
+        adjustLayout()
+    }
+
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        super.didRotateFromInterfaceOrientation(fromInterfaceOrientation)
+        adjustLayout()
+    }
+
+    func load() {
         if model && model!.complete {
             // NSLog("reloading view from complete model")
             loadComplete(model, withError: nil)
@@ -53,21 +63,14 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
         else {
             /*
             if model {
-                NSLog("loading incomplete model")
+            NSLog("loading incomplete model")
             }
             else {
-                NSLog("No model in base class")
+            NSLog("No model in base class")
             }
             // */
             model?.load()
         }
-
-        adjustLayout()
-    }
-
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        super.didRotateFromInterfaceOrientation(fromInterfaceOrientation)
-        adjustLayout()
     }
 
     func adjustLayout() {

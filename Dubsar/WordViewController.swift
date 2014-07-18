@@ -70,9 +70,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
     }
 
-    override func viewWillAppear(animated: Bool) {
-        // super.viewWillAppear(animated) // calls model.load()
-
+    override func load() {
         if (model && model!.complete) {
             loadComplete(model, withError: nil)
         }
