@@ -612,7 +612,7 @@
     NSUInteger pathRow = [indexPath indexAtPosition:1];
 
     DubsarModelsSection* section = sections[pathSection];
-    NSLog(@"Building pointer for section %d, row %d (section %@, ptype %@)", pathSection, pathRow, section.header, section.ptype);
+    // NSLog(@"Building pointer for section %d, row %d (section %@, ptype %@)", pathSection, pathRow, section.header, section.ptype);
     DubsarModelsPointer* pointer = [DubsarModelsPointer pointer];
         
     if ([section.ptype isEqualToString:@"synonym"]) {
@@ -652,7 +652,7 @@
             pointer.targetId = sqlite3_column_int(pointerQuery, 1);
             char const* _targetType = (char const*)sqlite3_column_text(pointerQuery, 2);
             pointer.targetType = @(_targetType);
-            NSLog(@"Pointer target type is %@", pointer.targetType);
+            // NSLog(@"Pointer target type is %@", pointer.targetType);
             
             if ([pointer.targetType isEqualToString:@"Sense"]) {
                 if ((rc=sqlite3_reset(lexicalQuery)) != SQLITE_OK) {

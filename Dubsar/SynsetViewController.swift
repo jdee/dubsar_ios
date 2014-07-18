@@ -55,7 +55,7 @@ class SynsetViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Synset"
-
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "textSizeChanged", name: UIContentSizeCategoryDidChangeNotification, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -154,9 +154,14 @@ class SynsetViewController: BaseViewController {
             view.addSubview(scroller)
         }
         scroller!.viewController = self
-        scroller!.sense = sense
+        scroller!.sense = sense // resets the scroller
 
         adjustLayout()
+    }
+
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        scroller?.reset()
+        super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // just calls adjustLayout()
     }
 
     override func adjustLayout() {
@@ -167,6 +172,10 @@ class SynsetViewController: BaseViewController {
 
         // calls view.invalidateBlahBlah()
         // super.adjustLayout()
+    }
+
+    func textSizeChanged() {
+        scroller?.reset()
     }
 
     func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, selectedSense sense: DubsarModelsSense?) {

@@ -33,6 +33,18 @@ class SynsetPointerView: UIView {
 
     let labels : NSMutableArray
 
+    var scrollViewTop : CGFloat = 0
+    var scrollViewBottom : CGFloat = 0
+
+    var hasReset : Bool = true
+    var numberOfSections : Int = 0
+    var sections : NSArray!
+    var totalRows : Int = 0
+    var completedUpToY : CGFloat = 0
+    var completedUpToRow : Int = 0
+    var nextSection : Int = 0
+    var nextRow : Int = -1
+
     init(synset: DubsarModelsSynset!, frame: CGRect) {
         self.synset = synset
         labels = NSMutableArray()
@@ -40,57 +52,95 @@ class SynsetPointerView: UIView {
     }
 
     override func layoutSubviews() {
-        for label : AnyObject in labels as NSArray {
-            if let view = label as? UILabel {
-                view.removeFromSuperview()
-            }
-        }
-        labels.removeAllObjects()
-
         if synset.complete {
-            var sections : NSArray
-            var count : Int
-            // in both cases, numberOfSections does an SQL query and builds the sections array
-            if sense {
-                count = sense!.numberOfSections
-                sections = sense!.sections
+            if hasReset {
+                for label : AnyObject in labels as NSArray {
+                    if let view = label as? UILabel {
+                        view.removeFromSuperview()
+                    }
+                }
+                labels.removeAllObjects()
+
+                // in both cases, numberOfSections does an SQL query and builds the sections array
+                if sense {
+                    numberOfSections = sense!.numberOfSections
+                    sections = sense!.sections
+                }
+                else {
+                    numberOfSections = synset.numberOfSections
+                    sections = synset.sections
+                }
+
+                totalRows = numberOfSections
+                for object: AnyObject in sections as NSArray { // as NSArray? seriously?
+                    if let section = object as? DubsarModelsSection {
+                        totalRows += section.numRows
+                    }
+                }
+                completedUpToY = 0
+                completedUpToRow = 0
+                nextRow = -1
+                nextSection = 0
             }
-            else {
-                count = synset.numberOfSections
-                sections = synset.sections
+
+            /*
+             * Every time we come through here, we must make sure the region from MAX(0, scrollViewTop) to 
+             * scrollViewBottom is tiled.
+             * We must also refine our estimate of the size of this view given the overall row count and adjust 
+             * frame.size.height.
+             */
+
+            /*
+             * The safest thing to do (to begin with) is start at the top of this view (y = 0) and work our way down.
+             */
+            if completedUpToY >= scrollViewBottom || nextSection == numberOfSections {
+                // nothing to do.
+                return
             }
 
             let margin = SynsetPointerView.margin
             let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
             let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
 
-            var y : CGFloat = margin
-            for var sectionNumber = 0; sectionNumber < count; ++sectionNumber {
+            var y : CGFloat = margin + completedUpToY
+
+            var sectionNumber: Int
+            var finished = false
+            for sectionNumber = nextSection; sectionNumber < numberOfSections; ++sectionNumber {
                 let object: AnyObject = sections[sectionNumber]
                 if let section = object as? DubsarModelsSection {
-                    let title = section.header as NSString
-                    let titleSize = title.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
-                    let titleLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, titleSize.height))
-                    titleLabel.font = font
-                    titleLabel.text = title
-                    titleLabel.lineBreakMode = .ByWordWrapping
-                    titleLabel.numberOfLines = 0
-                    titleLabel.textAlignment = .Center
-                    addSubview(titleLabel)
+                    if nextRow == -1 {
+                        let title = section.header as NSString
+                        let titleSize = title.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+                        let titleLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, titleSize.height))
+                        titleLabel.font = font
+                        titleLabel.text = title
+                        titleLabel.lineBreakMode = .ByWordWrapping
+                        titleLabel.numberOfLines = 0
+                        titleLabel.textAlignment = .Center
+                        addSubview(titleLabel)
 
-                    labels.addObject(titleLabel)
+                        labels.addObject(titleLabel)
+                        
+                        y += titleSize.height + margin
+                        nextRow = 0
+                        ++completedUpToRow
 
-                    y += titleSize.height + margin
+                        if y > scrollViewBottom {
+                            break
+                        }
+                    }
 
-                    NSLog("Title for section %d is %@", sectionNumber, title)
+                    // NSLog("Title for section %d is %@", sectionNumber, title)
 
-                    let numRows = section.numRows
-                    NSLog("Section %d (%@) contains %d rows", sectionNumber, title, numRows)
-                    for var row=0; row<numRows; ++row {
+                    let numRows = section.numRows // another SQL query
+                    // NSLog("Section %d (%@) contains %d rows", sectionNumber, title, numRows)
+                    var row: Int
+                    for row=nextRow; row<numRows; ++row {
                         let indexPath = NSIndexPath(forRow: row, inSection: sectionNumber)
                         var pointer : DubsarModelsPointer
                         // could use a base class or a protocol here
-                        NSLog("Calling pointerForRowAtIndexPath:")
+                        // NSLog("Calling pointerForRowAtIndexPath:")
                         if sense {
                             pointer = sense!.pointerForRowAtIndexPath(indexPath)
                         }
@@ -98,7 +148,7 @@ class SynsetPointerView: UIView {
                             pointer = synset.pointerForRowAtIndexPath(indexPath)
                         }
 
-                        let text = "\(pointer.targetGloss) (\(pointer.targetText))" as NSString
+                        let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
                         let textSize = text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
                         let textLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
                         textLabel.text = text
@@ -110,14 +160,37 @@ class SynsetPointerView: UIView {
 
                         y += textSize.height + margin
 
-                        NSLog("Pointer text for section %d, row %d is %@", sectionNumber, row, title)
-                    }
-                }
-            }
+                        ++completedUpToRow
 
-            frame.size.height = y
+                        // NSLog("Pointer text for section %d, row %d is %@", sectionNumber, row, title)
+                        if y >= scrollViewBottom {
+                            finished = true
+                            ++row
+                            break
+                        }
+                    }
+
+                    nextRow = row
+                }
+
+                if finished {
+                    break
+                }
+                nextRow = -1
+            }
+            nextSection = sectionNumber
+            completedUpToY = y
+
+            // now estimate
+            frame.size.height = completedUpToY * CGFloat(totalRows) / CGFloat(completedUpToRow)
+            NSLog("completed up to y: %f, row: %d, total rows %d, total height: %f", completedUpToY, completedUpToRow, totalRows, frame.size.height)
         }
 
+        hasReset = false
         super.layoutSubviews()
+    }
+
+    func reset() {
+        hasReset = true
     }
 }
