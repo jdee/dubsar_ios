@@ -20,6 +20,43 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
+class PointerButton : UILabel {
+    let pointer : DubsarModelsPointer
+    var gestureRecognizer : UITapGestureRecognizer!
+    weak var viewController : SynsetViewController?
+
+    init(pointer: DubsarModelsPointer!, frame: CGRect) {
+        self.pointer = pointer
+        super.init(frame: frame)
+
+        lineBreakMode = .ByWordWrapping
+        numberOfLines = 0
+        font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        gestureRecognizer = UITapGestureRecognizer(target: self, action: "navigate:")
+
+        addGestureRecognizer(gestureRecognizer)
+    }
+
+    func navigate(sender: UITapGestureRecognizer!) {
+        NSLog("tapped")
+        if sender.state != .Ended {
+            return
+        }
+
+        var model : DubsarModelsModel
+        if pointer.targetType == "Sense" {
+            NSLog("target is sense ID %d", pointer.targetId)
+            model = DubsarModelsSense(id: pointer.targetId, name: nil, partOfSpeech: .Unknown)
+        }
+        else { // Synset
+            NSLog("target is synset ID %d", pointer.targetId)
+            model = DubsarModelsSynset(id: pointer.targetId, partOfSpeech: .Unknown)
+        }
+
+        viewController?.pushViewControllerWithIdentifier(SynsetViewController.identifier, model: model)
+    }
+}
+
 class SynsetPointerView: UIView {
 
     class var margin : CGFloat {
@@ -44,6 +81,8 @@ class SynsetPointerView: UIView {
     var completedUpToRow : Int = 0
     var nextSection : Int = 0
     var nextRow : Int = -1
+
+    weak var viewController : SynsetViewController?
 
     init(synset: DubsarModelsSynset!, frame: CGRect) {
         self.synset = synset
@@ -150,13 +189,12 @@ class SynsetPointerView: UIView {
 
                         let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
                         let textSize = text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
-                        let textLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
-                        textLabel.text = text
-                        textLabel.font = font
-                        textLabel.lineBreakMode = .ByWordWrapping
-                        textLabel.numberOfLines = 0
-                        addSubview(textLabel)
-                        labels.addObject(textLabel)
+                        let pointerButton = PointerButton(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
+                        pointerButton.text = text
+                        pointerButton.viewController = viewController
+
+                        addSubview(pointerButton)
+                        labels.addObject(pointerButton)
 
                         y += textSize.height + margin
 
@@ -183,7 +221,7 @@ class SynsetPointerView: UIView {
 
             // now estimate
             frame.size.height = completedUpToY * CGFloat(totalRows) / CGFloat(completedUpToRow)
-            NSLog("completed up to y: %f, row: %d, total rows %d, total height: %f", completedUpToY, completedUpToRow, totalRows, frame.size.height)
+            // NSLog("completed up to y: %f, row: %d, total rows %d, total height: %f", completedUpToY, completedUpToRow, totalRows, frame.size.height)
         }
 
         hasReset = false

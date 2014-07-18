@@ -43,17 +43,17 @@
 @synthesize pointers;
 @synthesize sections;
 
-+ (instancetype)synsetWithId:(int)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
++ (instancetype)synsetWithId:(NSUInteger)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
 {
     return [[self alloc]initWithId:theId partOfSpeech:thePartOfSpeech];
 }
 
-+ (instancetype)synsetWithId:(int)theId gloss:(NSString *)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
++ (instancetype)synsetWithId:(NSUInteger)theId gloss:(NSString *)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
 {
     return [[self alloc]initWithId:theId gloss:theGloss partOfSpeech:thePartOfSpeech];
 }
 
-- (instancetype)initWithId:(int)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
+- (instancetype)initWithId:(NSUInteger)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
 {
     self = [super init];
     if (self) {
@@ -71,7 +71,7 @@
 
 }
 
-- (instancetype)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
+- (instancetype)initWithId:(NSUInteger)theId gloss:(NSString*)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
 {
     self = [super init];
     if (self) {
@@ -195,7 +195,7 @@
                      @"FROM senses se "
                      @"INNER JOIN synsets sy ON sy.id = se.synset_id "
                      @"INNER JOIN words w ON se.word_id = w.id "
-                     @"WHERE sy.id = %d ", _id];
+                     @"WHERE sy.id = %lu ", (unsigned long)_id];
     
     int rc;
     sqlite3_stmt* statement;
@@ -290,7 +290,7 @@
     }
     
     sql = [NSString stringWithFormat:
-           @"SELECT DISTINCT ptype FROM pointers WHERE source_id = %d AND source_type = 'Synset' ", _id];
+           @"SELECT DISTINCT ptype FROM pointers WHERE source_id = %lu AND source_type = 'Synset' ", (unsigned long)_id];
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
@@ -412,11 +412,11 @@
     
     NSString* sql = [NSString stringWithFormat:@"SELECT id, target_id, target_type "
                      @"FROM pointers "
-                     @"WHERE source_id = %d AND source_type = 'Synset' AND "
+                     @"WHERE source_id = %lu AND source_type = 'Synset' AND "
                      @"ptype = :ptype "
                      @"ORDER BY id ASC "
                      @"LIMIT 1 "
-                     @"OFFSET :offset ", _id];
+                     @"OFFSET :offset ", (unsigned long)_id];
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &pointerQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing statement", rc);
         return;

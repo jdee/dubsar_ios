@@ -24,7 +24,7 @@
 
 @interface DubsarModelsSynset : DubsarModelsModel
 
-@property (nonatomic) int _id;
+@property (nonatomic) NSUInteger _id;
 @property (nonatomic, copy) NSString* gloss;
 @property (nonatomic) DubsarModelsPartOfSpeech partOfSpeech;
 @property (nonatomic, copy) NSString* lexname;
@@ -39,10 +39,10 @@
 
 @property (NS_NONATOMIC_IOSONLY, readonly) NSUInteger numberOfSections;
 
-+(instancetype)synsetWithId:(int)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
-+(instancetype)synsetWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
--(instancetype)initWithId:(int)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
--(instancetype)initWithId:(int)theId gloss:(NSString*)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
++(instancetype)synsetWithId:(NSUInteger)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
++(instancetype)synsetWithId:(NSUInteger)theId gloss:(NSString*)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
+-(instancetype)initWithId:(NSUInteger)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithId:(NSUInteger)theId gloss:(NSString*)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
 -(void)parseData;
 -(void)parsePointers:(NSArray*)response;
 

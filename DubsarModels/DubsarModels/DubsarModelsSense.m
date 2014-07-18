@@ -438,7 +438,7 @@
             synset = [DubsarModelsSynset synsetWithId:synsetId partOfSpeech:partOfSpeech];
             weakSynsetLink = weakWordLink = false;
 #ifdef DEBUG
-            NSLog(@"created synset with id %d", synset._id);
+            NSLog(@"created synset with id %lu", (unsigned long)synset._id);
 #endif // DEBUG
             
             self.lexname = @(_lexname);
@@ -485,8 +485,8 @@
            @"SELECT se.id, w.name "
            @"FROM senses se "
            @"INNER JOIN words w ON w.id = se.word_id "
-           @"WHERE se.synset_id = %d AND w.name != ? "
-           @"ORDER BY w.name ASC ", synset._id];
+           @"WHERE se.synset_id = %lu AND w.name != ? "
+           @"ORDER BY w.name ASC ", (unsigned long)synset._id];
     
     if ((rc=sqlite3_prepare(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
@@ -517,7 +517,7 @@
 
     if (loadingSynset) {
 #ifdef DEBUG
-        NSLog(@"loading synset ID %d", synset._id);
+        NSLog(@"loading synset ID %lu", (unsigned long)synset._id);
 #endif // DEBUG
         [synset load];
     }
@@ -577,7 +577,7 @@
     
     sql = [NSString stringWithFormat:
            @"SELECT DISTINCT ptype FROM pointers WHERE (source_id = %lu AND source_type = 'Sense') OR "
-           @"(source_id = %d AND source_type = 'Synset') ", (unsigned long)_id, synset._id];
+           @"(source_id = %lu AND source_type = 'Synset') ", (unsigned long)_id, (unsigned long)synset._id];
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         NSLog(@"%@", self.errorMessage);
@@ -730,11 +730,11 @@
                      @"SELECT id, target_id, target_type "
                      @"FROM pointers "
                      @"WHERE ((source_id = %lu AND source_type = 'Sense') OR "
-                     @"(source_id = %d AND source_type = 'Synset')) AND "
+                     @"(source_id = %lu AND source_type = 'Synset')) AND "
                      @"ptype = :ptype "
                      @"ORDER BY id ASC "
                      @"LIMIT 1 "
-                     @"OFFSET :offset ", (unsigned long)_id, synset._id];
+                     @"OFFSET :offset ", (unsigned long)_id, (unsigned long)synset._id];
 
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &pointerQuery, NULL)) != SQLITE_OK) {
         NSLog(@"error %d preparing pointer query", rc);

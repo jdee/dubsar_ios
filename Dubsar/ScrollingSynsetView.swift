@@ -41,7 +41,9 @@ class ScrollingSynsetView: UIScrollView {
 
     var viewController : SynsetViewController! {
     didSet {
+        // these views have navigation options
         headerView.delegate = viewController
+        pointerView.viewController = viewController
     }
     }
 
@@ -88,7 +90,7 @@ class ScrollingSynsetView: UIScrollView {
             let totalSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height + pointerView.bounds.size.height)
             contentSize = totalSize
 
-            NSLog("Set scrolling content size to %f x %f. header ht: %f, sample ht: %f, pointer ht: %f", totalSize.width, totalSize.height, headerView.bounds.size.height, sampleView.bounds.size.height, pointerView.bounds.size.height)
+            // NSLog("Set scrolling content size to %f x %f. header ht: %f, sample ht: %f, pointer ht: %f", totalSize.width, totalSize.height, headerView.bounds.size.height, sampleView.bounds.size.height, pointerView.bounds.size.height)
 
             hasReset = false
         }

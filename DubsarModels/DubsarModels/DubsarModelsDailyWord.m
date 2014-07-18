@@ -158,6 +158,7 @@
     NSLog(@"Saving WOTD: ID: %lu, expiration: %ld", (unsigned long)word._id, expiration);
     [[NSUserDefaults standardUserDefaults] setInteger:word._id forKey:DubsarDailyWordIdKey];
     [[NSUserDefaults standardUserDefaults] setInteger:expiration forKey:DubsarDailyWordExpirationKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
