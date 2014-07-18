@@ -61,7 +61,7 @@
         sprintf(sdata+j*2, "%02x", data[j]);
     }
 
-    NSString* token = [NSString stringWithCString:sdata encoding:NSUTF8StringEncoding];
+    NSString* token = @(sdata);
 #ifdef DEBUG
     NSLog(@"Device token is %@", token);
 #endif // DEBUG

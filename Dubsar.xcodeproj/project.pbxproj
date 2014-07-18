@@ -31,7 +31,6 @@
 		7BAC226619732D6C00D2AEA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226519732D6C00D2AEA4 /* Images.xcassets */; };
 		7BAC227219732D6C00D2AEA4 /* DubsarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC227119732D6C00D2AEA4 /* DubsarTests.swift */; };
 		7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC228A1973322F00D2AEA4 /* Dubsar.m */; };
-		7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */; };
 		7BAC22CF19734A9100D2AEA4 /* AutocompleterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22BE19734A9100D2AEA4 /* AutocompleterTest.m */; };
 		7BAC22D019734A9100D2AEA4 /* DailyWordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22C019734A9100D2AEA4 /* DailyWordTest.m */; };
 		7BAC22D119734A9100D2AEA4 /* ModelTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22C219734A9100D2AEA4 /* ModelTestCase.m */; };
@@ -124,8 +123,6 @@
 		7BAC227119732D6C00D2AEA4 /* DubsarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DubsarTests.swift; sourceTree = "<group>"; };
 		7BAC22891973322F00D2AEA4 /* Dubsar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dubsar.h; sourceTree = "<group>"; };
 		7BAC228A1973322F00D2AEA4 /* Dubsar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dubsar.m; sourceTree = "<group>"; };
-		7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
-		7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
 		7BAC22B71973343900D2AEA4 /* Dubsar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dubsar-Bridging-Header.h"; sourceTree = "<group>"; };
 		7BAC22BD19734A9100D2AEA4 /* AutocompleterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterTest.h; sourceTree = "<group>"; };
 		7BAC22BE19734A9100D2AEA4 /* AutocompleterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterTest.m; sourceTree = "<group>"; };
@@ -310,8 +307,6 @@
 			children = (
 				7B1151FF1974340900869E15 /* DubsarServer.h */,
 				7B1152001974340900869E15 /* DubsarServer.m */,
-				7BAC22B4197333A800D2AEA4 /* KeychainWrapper.h */,
-				7BAC22B5197333A800D2AEA4 /* KeychainWrapper.m */,
 				7B497C981979C3AF00563A4B /* NavButton.swift */,
 				7B62D74E19773272006A797C /* NavButtonImage.h */,
 				7B62D74F19773272006A797C /* NavButtonImage.m */,
@@ -458,7 +453,6 @@
 				7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */,
 				7B62D752197782F2006A797C /* SynsetSampleView.swift in Sources */,
 				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,
-				7BAC22B6197333A800D2AEA4 /* KeychainWrapper.m in Sources */,
 				7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
 				7B497C991979C3AF00563A4B /* NavButton.swift in Sources */,
