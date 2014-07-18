@@ -35,7 +35,7 @@ class SynonymButtonPair {
     }
 
     var selectionButton : UIButton!
-    var navigationButton : UIButton!
+    var navigationButton : NavButton!
 
     var sense: DubsarModelsSense!
 
@@ -48,7 +48,7 @@ class SynonymButtonPair {
         self.view = view
 
         selectionButton = UIButton()
-        navigationButton = UIButton()
+        navigationButton = NavButton()
 
         let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
 
@@ -69,15 +69,9 @@ class SynonymButtonPair {
         view.addSubview(selectionButton)
 
         // configure navigation button.
-        let image = NavButtonImage.imageWithSize(CGSizeMake(height, height), color:UIColor.blackColor())
-        let highlightedImage = NavButtonImage.imageWithSize(CGSizeMake(height, height), color: UIColor.blueColor());
-
-        navigationButton.setImage(image, forState: .Normal)
-        navigationButton.setImage(highlightedImage, forState: .Highlighted)
 
         navigationButton.addTarget(self, action: "synonymNavigated:", forControlEvents: .TouchUpInside)
-        navigationButton.frame.size.width = height
-        navigationButton.frame.size.height = height
+        navigationButton.frame = CGRectMake(0, 0, height, height)
         view.addSubview(navigationButton)
     }
 

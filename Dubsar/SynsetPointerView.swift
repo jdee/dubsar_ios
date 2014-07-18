@@ -20,9 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class PointerButton : UILabel {
+class PointerLabel : UILabel {
     let pointer : DubsarModelsPointer
-    var gestureRecognizer : UITapGestureRecognizer!
     weak var viewController : SynsetViewController?
 
     init(pointer: DubsarModelsPointer!, frame: CGRect) {
@@ -32,28 +31,6 @@ class PointerButton : UILabel {
         lineBreakMode = .ByWordWrapping
         numberOfLines = 0
         font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        gestureRecognizer = UITapGestureRecognizer(target: self, action: "navigate:")
-
-        addGestureRecognizer(gestureRecognizer)
-    }
-
-    func navigate(sender: UITapGestureRecognizer!) {
-        NSLog("tapped")
-        if sender.state != .Ended {
-            return
-        }
-
-        var model : DubsarModelsModel
-        if pointer.targetType == "Sense" {
-            NSLog("target is sense ID %d", pointer.targetId)
-            model = DubsarModelsSense(id: pointer.targetId, name: nil, partOfSpeech: .Unknown)
-        }
-        else { // Synset
-            NSLog("target is synset ID %d", pointer.targetId)
-            model = DubsarModelsSynset(id: pointer.targetId, partOfSpeech: .Unknown)
-        }
-
-        viewController?.pushViewControllerWithIdentifier(SynsetViewController.identifier, model: model)
     }
 }
 
@@ -133,7 +110,8 @@ class SynsetPointerView: UIView {
     func tileViewport() {
         // convenient constants
         let margin = SynsetPointerView.margin
-        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let titleFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
 
         // y is where the next tile will go (frame.origin.y)
@@ -146,9 +124,9 @@ class SynsetPointerView: UIView {
             if let section = object as? DubsarModelsSection {
                 if nextRow == -1 {
                     let title = section.header as NSString
-                    let titleSize = title.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+                    let titleSize = title.sizeOfTextWithConstrainedSize(constrainedSize, font: titleFont)
                     let titleLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, titleSize.height))
-                    titleLabel.font = font
+                    titleLabel.font = titleFont
                     titleLabel.text = title
                     titleLabel.lineBreakMode = .ByWordWrapping
                     titleLabel.numberOfLines = 0
@@ -174,13 +152,13 @@ class SynsetPointerView: UIView {
                     let pointer : DubsarModelsPointer = pointerForRowAtIndexPath(indexPath)
 
                     let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
-                    let textSize = text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
-                    let pointerButton = PointerButton(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
-                    pointerButton.text = text
-                    pointerButton.viewController = viewController
+                    let textSize = text.sizeOfTextWithConstrainedSize(constrainedSize, font: bodyFont)
+                    let pointerLabel = PointerLabel(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
+                    pointerLabel.text = text
+                    pointerLabel.viewController = viewController
 
-                    addSubview(pointerButton)
-                    labels.addObject(pointerButton)
+                    addSubview(pointerLabel)
+                    labels.addObject(pointerLabel)
 
                     y += textSize.height + margin
 

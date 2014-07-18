@@ -26,7 +26,6 @@
     size.width *= [UIScreen mainScreen].scale;
     size.height *= [UIScreen mainScreen].scale;
 
-    // http://stackoverflow.com/a/5017568
     UIGraphicsBeginImageContext(size);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
