@@ -110,95 +110,100 @@ class SynsetPointerView: UIView {
                 return
             }
 
-            let margin = SynsetPointerView.margin
-            let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-            let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
-
-            var y : CGFloat = margin + completedUpToY
-
-            var sectionNumber: Int
-            var finished = false
-            for sectionNumber = nextSection; sectionNumber < numberOfSections; ++sectionNumber {
-                let object: AnyObject = sections[sectionNumber]
-                if let section = object as? DubsarModelsSection {
-                    if nextRow == -1 {
-                        let title = section.header as NSString
-                        let titleSize = title.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
-                        let titleLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, titleSize.height))
-                        titleLabel.font = font
-                        titleLabel.text = title
-                        titleLabel.lineBreakMode = .ByWordWrapping
-                        titleLabel.numberOfLines = 0
-                        titleLabel.textAlignment = .Center
-                        addSubview(titleLabel)
-
-                        labels.addObject(titleLabel)
-                        
-                        y += titleSize.height + margin
-                        nextRow = 0
-                        ++completedUpToRow
-
-                        if y > scrollViewBottom {
-                            break
-                        }
-                    }
-
-                    // NSLog("Title for section %d is %@", sectionNumber, title)
-
-                    let numRows = section.numRows // another SQL query
-                    // NSLog("Section %d (%@) contains %d rows", sectionNumber, title, numRows)
-                    var row: Int
-                    for row=nextRow; row<numRows; ++row {
-                        let indexPath = NSIndexPath(forRow: row, inSection: sectionNumber)
-                        var pointer : DubsarModelsPointer
-                        // could use a base class or a protocol here
-                        // NSLog("Calling pointerForRowAtIndexPath:")
-                        if sense {
-                            pointer = sense!.pointerForRowAtIndexPath(indexPath)
-                        }
-                        else {
-                            pointer = synset.pointerForRowAtIndexPath(indexPath)
-                        }
-
-                        let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
-                        let textSize = text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
-                        let pointerButton = PointerButton(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
-                        pointerButton.text = text
-                        pointerButton.viewController = viewController
-
-                        addSubview(pointerButton)
-                        labels.addObject(pointerButton)
-
-                        y += textSize.height + margin
-
-                        ++completedUpToRow
-
-                        // NSLog("Pointer text for section %d, row %d is %@", sectionNumber, row, title)
-                        if y >= scrollViewBottom {
-                            finished = true
-                            ++row
-                            break
-                        }
-                    }
-
-                    nextRow = row
-                }
-
-                if finished {
-                    break
-                }
-                nextRow = -1
-            }
-            nextSection = sectionNumber
-            completedUpToY = y
+            tileViewport()
 
             // now estimate
             frame.size.height = completedUpToY * CGFloat(totalRows) / CGFloat(completedUpToRow)
-            // NSLog("completed up to y: %f, row: %d, total rows %d, total height: %f", completedUpToY, completedUpToRow, totalRows, frame.size.height)
+            // NSLog("completed up to y: %f, row: %d, total rows %d, est. total height: %f", completedUpToY, completedUpToRow, totalRows, frame.size.height)
         }
 
         hasReset = false
         super.layoutSubviews()
+    }
+
+    func pointerForRowAtIndexPath(indexPath: NSIndexPath!) -> DubsarModelsPointer {
+        // could use a base class or a protocol here
+        // NSLog("Calling pointerForRowAtIndexPath:")
+        if sense {
+            return sense!.pointerForRowAtIndexPath(indexPath)
+        }
+        return synset.pointerForRowAtIndexPath(indexPath)
+    }
+
+    func tileViewport() {
+        // convenient constants
+        let margin = SynsetPointerView.margin
+        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
+
+        // y is where the next tile will go (frame.origin.y)
+        var y : CGFloat = margin + completedUpToY
+
+        var sectionNumber: Int
+        var finished = false
+        for sectionNumber = nextSection; sectionNumber < numberOfSections; ++sectionNumber {
+            let object: AnyObject = sections[sectionNumber]
+            if let section = object as? DubsarModelsSection {
+                if nextRow == -1 {
+                    let title = section.header as NSString
+                    let titleSize = title.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+                    let titleLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, titleSize.height))
+                    titleLabel.font = font
+                    titleLabel.text = title
+                    titleLabel.lineBreakMode = .ByWordWrapping
+                    titleLabel.numberOfLines = 0
+                    titleLabel.textAlignment = .Center
+                    addSubview(titleLabel)
+
+                    labels.addObject(titleLabel)
+
+                    y += titleSize.height + margin
+                    nextRow = 0
+                    ++completedUpToRow
+
+                    if y >= scrollViewBottom {
+                        break
+                    }
+                    // NSLog("Title for section %d is %@", sectionNumber, title)
+                }
+
+                let numRows = section.numRows // another SQL query
+                var row: Int
+                for row=nextRow; row<numRows; ++row {
+                    let indexPath = NSIndexPath(forRow: row, inSection: sectionNumber)
+                    let pointer : DubsarModelsPointer = pointerForRowAtIndexPath(indexPath)
+
+                    let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
+                    let textSize = text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+                    let pointerButton = PointerButton(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
+                    pointerButton.text = text
+                    pointerButton.viewController = viewController
+
+                    addSubview(pointerButton)
+                    labels.addObject(pointerButton)
+
+                    y += textSize.height + margin
+
+                    ++completedUpToRow
+
+                    // NSLog("Pointer text for section %d, row %d is %@", sectionNumber, row, title)
+                    if y >= scrollViewBottom {
+                        finished = true
+                        ++row
+                        break
+                    }
+                }
+
+                nextRow = row
+            }
+
+            if finished {
+                break
+            }
+            nextRow = -1
+        }
+        nextSection = sectionNumber
+        completedUpToY = y
     }
 
     func reset() {
