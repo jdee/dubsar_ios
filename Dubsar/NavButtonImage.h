@@ -21,6 +21,6 @@
 
 @interface NavButtonImage : UIImage
 
-+ (UIImage*) imageWithSize:(CGSize)size;
++ (UIImage*) imageWithSize:(CGSize)size color:(UIColor*)color;
 
 @end

@@ -31,7 +31,14 @@ class SynsetViewController: BaseViewController {
     }
 
     /*
-     * Two computed properties that distinguish between load scenarios.
+     * Three computed properties to help distinguish between load scenarios.
+     * The sense and synset properties are just aliases for model, cast to an
+     * appropriate model optional. They will be nil if the model is of the other
+     * type. The property theSynset always returns a DubsarModelsSynset reference
+     * if an appropriate model is present. If model is nil, or if a different
+     * model type is incorrectly assigned, theSynset will be nil. Otherwise, if
+     * model is a DubsarModelsSense, theSynset will be sense.synset; if model is
+     * a DubsarModelsSynset, theSynset will be equal to synset.
      */
 
     var synset : DubsarModelsSynset? {
@@ -49,6 +56,17 @@ class SynsetViewController: BaseViewController {
     }
     set {
         model = newValue
+    }
+    }
+
+    var theSynset : DubsarModelsSynset? {
+    get {
+        if sense {
+            return sense!.synset
+        }
+        else {
+            return synset
+        }
     }
     }
 
@@ -139,16 +157,6 @@ class SynsetViewController: BaseViewController {
             return
         }
 
-        var theSynset : DubsarModelsSynset!
-        if sense {
-            assert(sense!.synset)
-            theSynset = sense!.synset
-            NSLog("finished sense load. synset ID is %d with %d synonyms", theSynset!._id, theSynset.senses.count)
-        }
-        else if synset {
-            theSynset = synset
-        }
-
         if !scroller {
             scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)
             view.addSubview(scroller)
@@ -190,7 +198,13 @@ class SynsetViewController: BaseViewController {
     }
 
     func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, navigatedToSense sense: DubsarModelsSense!) {
-        // once the WordViewController is ready for dual duty, push one here.
         NSLog("Navigate to sense ID %d (%@)", sense._id, sense.name)
+
+        /*
+         * This sense model may already be complete from an earlier load, but without the word. Force a reload
+         * here.
+         */
+        let newSense = DubsarModelsSense(id: sense._id, name: sense.name, partOfSpeech: sense.partOfSpeech)
+        pushViewControllerWithIdentifier(WordViewController.identifier, model: newSense)
     }
 }

@@ -21,7 +21,7 @@
 
 @implementation NavButtonImage
 
-+ (UIImage*)imageWithSize:(CGSize)size
++ (UIImage*)imageWithSize:(CGSize)size color:(UIColor *)color
 {
     size.width *= [UIScreen mainScreen].scale;
     size.height *= [UIScreen mainScreen].scale;
@@ -30,7 +30,7 @@
     UIGraphicsBeginImageContext(size);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    [self buildImageWithSize:size context:context];
+    [self buildImageWithSize:size color:color context:context];
 
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -38,7 +38,7 @@
     return newImage;
 }
 
-+ (void) buildImageWithSize:(CGSize)size context:(CGContextRef)context
++ (void) buildImageWithSize:(CGSize)size color:(UIColor*)color context:(CGContextRef)context
 {
     // use CG to draw in this context and return a UIImage for use with a UIButton.
     // a/k/a FREEDOM FROM THE @!$@# GIMP!
@@ -52,7 +52,7 @@
     CGContextAddLineToPoint(context, size.width * 0.25, size.height * 0.788);
     CGContextAddLineToPoint(context, size.width * 0.75, size.height * 0.5);
 
-    CGContextSetFillColorWithColor(context, [UIColor blackColor].CGColor);
+    CGContextSetFillColorWithColor(context, color.CGColor);
     CGContextFillPath(context);
 }
 

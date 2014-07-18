@@ -30,7 +30,18 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
     }
 
-    var word : DubsarModelsWord! {
+    /*
+    * Three computed properties to help distinguish between load scenarios.
+    * The sense and word properties are just aliases for model, cast to an
+    * appropriate model optional. They will be nil if the model is of the other
+    * type. The property theWord always returns a DubsarModelsWord reference
+    * if an appropriate model is present. If model is nil, or if a different
+    * model type is incorrectly assigned, theWord will be nil. Otherwise, if
+    * model is a DubsarModelsSense, theWord will be sense.word; if model is
+    * a DubsarModelsWord, theWord will be equal to word.
+    */
+
+    var word : DubsarModelsWord? {
     get {
         return model as? DubsarModelsWord
     }
@@ -40,21 +51,65 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
     }
 
+    var sense : DubsarModelsSense? {
+    get {
+        return model as? DubsarModelsSense
+    }
+
+    set {
+        model = newValue
+    }
+    }
+
+    var theWord : DubsarModelsWord? {
+    get {
+        if (sense) {
+            return sense!.word
+        }
+        return word
+    }
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        // super.viewWillAppear(animated) // calls model.load()
+
+        if (model && model!.complete) {
+            loadComplete(model, withError: nil)
+        }
+        else if (sense) {
+            NSLog("Loading sense ID %d with word", sense!._id)
+            sense!.loadWithWord()
+        }
+        else {
+            word?.load()
+        }
+    }
+
     override func loadComplete(model: DubsarModelsModel!, withError error: String?) {
         super.loadComplete(model, withError: error)
         if error {
             return
         }
 
+        if let s = model as? DubsarModelsSense {
+            NSLog("Load complete for sense ID %d", s._id)
+        }
+        else if let w = model as? DubsarModelsWord {
+            NSLog("Load complete for word ID %d", w._id)
+        }
+
+        assert(theWord)
+        assert(theWord!.complete)
+
         adjustLayout()
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return word.complete ? word.senses.count + 1 : 1
+        return theWord && theWord!.complete ? theWord!.senses.count + 1 : 1
     }
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        if !word.complete {
+        if !theWord || !theWord!.complete {
             var cell = tableView.dequeueReusableCellWithIdentifier(LoadingTableViewCell.identifier) as? LoadingTableViewCell
             if !cell {
                 cell = LoadingTableViewCell()
@@ -70,11 +125,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
                 cell = WordTableViewCell()
             }
             cell!.frame = tableView.bounds
-            cell!.word = word
+            cell!.word = theWord
             return cell
         }
 
-        let sense = word.senses[row-1] as DubsarModelsSense
+        let sense = theWord!.senses[row-1] as DubsarModelsSense
         let frame = tableView.bounds
 
         var cell = tableView.dequeueReusableCellWithIdentifier(SenseTableViewCell.identifier) as? SenseTableViewCell
@@ -92,22 +147,22 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        if !word.complete {
+        if !theWord || !theWord!.complete {
             return 44
         }
 
         let row = indexPath.indexAtPosition(1)
         if row == 0 {
-            return word.sizeOfCellWithConstrainedSize(tableView.bounds.size).height
+            return theWord!.sizeOfCellWithConstrainedSize(tableView.bounds.size).height
         }
 
-        let sense = word.senses[row-1] as DubsarModelsSense
+        let sense = theWord!.senses[row-1] as DubsarModelsSense
         let constrainedSize = CGSizeMake(tableView.bounds.size.width-2*SenseTableViewCell.borderWidth-2*SenseTableViewCell.margin-SenseTableViewCell.accessoryWidth, tableView.bounds.size.height)
         return sense.sizeOfCellWithConstrainedSize(constrainedSize).height
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        if !word.complete {
+        if !theWord || !theWord!.complete {
             return
         }
 
@@ -116,8 +171,13 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             return
         }
 
-        let sense = word.senses[row-1] as DubsarModelsSense
-        pushViewControllerWithIdentifier(SynsetViewController.identifier, model: sense)
+        let sense = theWord!.senses[row-1] as DubsarModelsSense
+        /*
+         * This sense model may already be complete from an earlier load, but without the synset. Force a reload
+         * here.
+         */
+        let newSense = DubsarModelsSense(id: sense._id, name: sense.name, partOfSpeech: sense.partOfSpeech)
+        pushViewControllerWithIdentifier(SynsetViewController.identifier, model: newSense)
     }
 
     override func adjustLayout() {

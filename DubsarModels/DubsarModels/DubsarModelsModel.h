@@ -50,9 +50,12 @@
 
 +(NSString*)incrementString:(NSString*)string;
 
--(void)load;
--(void)databaseThread:(id)database;
--(void)loadFromServer;
+- (void)load;
+- (void)databaseThread:(id)database;
+- (void)loadFromServer;
+
+// load in current thread; use with care.
+- (void)loadSynchronous;
 
 +(void)displayNetworkAlert:(NSString*)error;
 

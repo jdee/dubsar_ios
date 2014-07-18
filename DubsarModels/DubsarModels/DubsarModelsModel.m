@@ -57,12 +57,17 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
 
 - (void)load
 {
+    [self loadSynchronous];
+}
+
+- (void)loadSynchronous
+{
     complete = error = false;
     errorMessage = nil;
     [self loadResults:_database];
     complete = true;
     error = errorMessage != nil;
-    
+
     if (delegate != nil) [delegate loadComplete:self withError:errorMessage];
 }
 

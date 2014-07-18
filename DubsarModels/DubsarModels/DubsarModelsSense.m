@@ -519,14 +519,14 @@
 #ifdef DEBUG
         NSLog(@"loading synset ID %lu", (unsigned long)synset._id);
 #endif // DEBUG
-        [synset load];
+        [synset loadSynchronous];
     }
 
     if (loadingWord) {
 #ifdef DEBUG
         NSLog(@"loading word ID %lu", (unsigned long)word._id);
 #endif // DEBUG
-        [word load];
+        [word loadSynchronous];
     }
 
     loadingSynset = loadingWord = NO;
