@@ -397,7 +397,7 @@
                 words = [words stringByAppendingString:wordList[wordList.count-1]];
             }
             
-            pointer.targetText = [NSString stringWithFormat:@"%@ (%@.)", words, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
+            pointer.targetText = [NSString stringWithFormat:@"%@, %@.", words, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
         }
         
     }

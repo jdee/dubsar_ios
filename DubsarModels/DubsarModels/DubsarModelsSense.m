@@ -612,6 +612,7 @@
     NSUInteger pathRow = [indexPath indexAtPosition:1];
 
     DubsarModelsSection* section = sections[pathSection];
+    NSLog(@"Building pointer for section %d, row %d (section %@, ptype %@)", pathSection, pathRow, section.header, section.ptype);
     DubsarModelsPointer* pointer = [DubsarModelsPointer pointer];
         
     if ([section.ptype isEqualToString:@"synonym"]) {
@@ -651,8 +652,9 @@
             pointer.targetId = sqlite3_column_int(pointerQuery, 1);
             char const* _targetType = (char const*)sqlite3_column_text(pointerQuery, 2);
             pointer.targetType = @(_targetType);
+            NSLog(@"Pointer target type is %@", pointer.targetType);
             
-            if ([pointer.targetType isEqualToString:@"DubsarModelsSense"]) {
+            if ([pointer.targetType isEqualToString:@"Sense"]) {
                 if ((rc=sqlite3_reset(lexicalQuery)) != SQLITE_OK) {
                     NSLog(@"error %d resetting lexical query", rc);
                 }
@@ -669,7 +671,7 @@
                     DubsarModelsPartOfSpeech _partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
                     NSString* definition = @(_definition);
                     pointer.targetGloss = [definition componentsSeparatedByString:@"; \""][0];
-                    pointer.targetText = [NSString stringWithFormat:@"%s (%@.)", _name, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:_partOfSpeech]];
+                    pointer.targetText = [NSString stringWithFormat:@"%s, %@.", _name, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:_partOfSpeech]];
                     // pointer.targetName = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
                 }
                 
@@ -710,7 +712,7 @@
                     words = [words stringByAppendingString:wordList[wordList.count-1]];
                 }
                 
-                pointer.targetText = [NSString stringWithFormat:@"%@ (%@.)", words, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
+                pointer.targetText = [NSString stringWithFormat:@"%@, %@.", words, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
             }
         }
         

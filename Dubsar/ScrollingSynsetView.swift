@@ -27,12 +27,14 @@ class ScrollingSynsetView: UIScrollView {
     didSet {
         headerView.sense = sense
         sampleView.sense = sense
+        pointerView.sense = sense
         setNeedsLayout()
     }
     }
 
     let headerView : SynsetHeaderView
     let sampleView : SynsetSampleView
+    let pointerView : SynsetPointerView
 
     var viewController : SynsetViewController! {
     didSet {
@@ -44,10 +46,12 @@ class ScrollingSynsetView: UIScrollView {
         self.synset = synset
         headerView = SynsetHeaderView(synset: synset, frame: CGRectZero)
         sampleView = SynsetSampleView(synset: synset, frame: CGRectZero)
+        pointerView = SynsetPointerView(synset: synset, frame: CGRectZero)
         super.init(frame: frame)
 
         headerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         sampleView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        pointerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
 
         bounces = false
         showsHorizontalScrollIndicator = false
@@ -55,6 +59,7 @@ class ScrollingSynsetView: UIScrollView {
 
         addSubview(headerView)
         addSubview(sampleView)
+        addSubview(pointerView)
     }
 
     override func layoutSubviews() {
@@ -68,7 +73,10 @@ class ScrollingSynsetView: UIScrollView {
             sampleView.frame = CGRectMake(0, headerView.bounds.size.height, bounds.size.width, bounds.size.height)
             sampleView.layoutSubviews()
 
-            let totalSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height)
+            pointerView.frame = CGRectMake(0, headerView.bounds.size.height + sampleView.bounds.size.height, bounds.size.width, bounds.size.height)
+            pointerView.layoutSubviews()
+
+            let totalSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height + pointerView.bounds.size.height)
             contentSize = totalSize
 
             // NSLog("Set scrolling content size to %f x %f", totalSize.width, totalSize.height)
