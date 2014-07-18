@@ -136,7 +136,7 @@ class SynsetHeaderView: UIView {
     }
 
     func build() {
-        NSLog("Constructing SynsetHeaderView with %d synonyms", synset.senses.count)
+        // NSLog("Constructing SynsetHeaderView with %d synonyms (synset ID %d: %@:)", synset.senses.count, synset._id, synset.synonymsAsString, synset.gloss)
 
         autoresizingMask = .FlexibleHeight | .FlexibleWidth
 

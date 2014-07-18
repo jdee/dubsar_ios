@@ -20,17 +20,50 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class PointerLabel : UILabel {
+class PointerView : UIView {
     let pointer : DubsarModelsPointer
+    let button : NavButton
+    let label : UILabel
     weak var viewController : SynsetViewController?
 
     init(pointer: DubsarModelsPointer!, frame: CGRect) {
         self.pointer = pointer
+        button = NavButton()
+        label = UILabel()
         super.init(frame: frame)
 
-        lineBreakMode = .ByWordWrapping
-        numberOfLines = 0
-        font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let buttonSize = ("X" as NSString).sizeWithAttributes([NSFontAttributeName: bodyFont]).height // height of one line in the body font
+
+        label.lineBreakMode = .ByWordWrapping
+        label.numberOfLines = 0
+        label.font = bodyFont
+        label.frame = CGRectMake(0, 0, bounds.size.width-buttonSize, bounds.size.height)
+
+        addSubview(label)
+
+        addSubview(button)
+        button.frame = CGRectMake(label.bounds.size.width, 0, buttonSize, buttonSize)
+
+        button.addTarget(self, action: "navigate:", forControlEvents: .TouchUpInside)
+    }
+
+    @IBAction
+    func navigate(sender: UIButton!) {
+        var target : DubsarModelsModel
+        // NSLog("Selected pointer targetType \"%@\", targetId %d", pointer.targetType, pointer.targetId)
+        if pointer.targetType == "Sense" {
+            // NSLog("Navigating to sense ID %d (%@)", pointer.targetId, pointer.targetText)
+            target = DubsarModelsSense(id: pointer.targetId, name: nil, partOfSpeech: .Unknown)
+        }
+        else {
+            // NSLog("Navigating to synset ID %d (%@)", pointer.targetId, pointer.targetText)
+            target = DubsarModelsSynset(id: pointer.targetId, partOfSpeech: .Unknown)
+        }
+
+        if let spv = superview as? SynsetPointerView {
+            spv.navigateToModel(target)
+        }
     }
 }
 
@@ -151,14 +184,20 @@ class SynsetPointerView: UIView {
                     let indexPath = NSIndexPath(forRow: row, inSection: sectionNumber)
                     let pointer : DubsarModelsPointer = pointerForRowAtIndexPath(indexPath)
 
-                    let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
-                    let textSize = text.sizeOfTextWithConstrainedSize(constrainedSize, font: bodyFont)
-                    let pointerLabel = PointerLabel(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
-                    pointerLabel.text = text
-                    pointerLabel.viewController = viewController
+                    let buttonSize = ("X" as NSString).sizeWithAttributes([NSFontAttributeName: bodyFont]).height // height of one line in the body font
 
-                    addSubview(pointerLabel)
-                    labels.addObject(pointerLabel)
+                    var pointerConstrainedSize = constrainedSize
+                    pointerConstrainedSize.width -= buttonSize
+
+                    let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
+                    let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
+                    let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height))
+                    pointerView.label.text = text
+                    pointerView.viewController = viewController
+
+                    addSubview(pointerView)
+                    labels.addObject(pointerView)
+                    pointerView.button.refreshImages() // do this after addSubview(). Otherwise, we have no graphics context and can't generate an image.
 
                     y += textSize.height + margin
 
@@ -216,5 +255,10 @@ class SynsetPointerView: UIView {
         completedUpToRow = 0
         nextRow = -1
         nextSection = 0
-   }
+    }
+
+    func navigateToModel(model: DubsarModelsModel?) {
+        assert(model)
+        viewController?.navigateToPointer(model)
+    }
 }

@@ -153,7 +153,11 @@ class SynsetViewController: BaseViewController {
             return
         }
 
+        assert(model)
+        assert(model!.complete)
+        assert(theSynset)
         if !scroller {
+            // NSLog("Constructing new scroller for synset ID %d", theSynset!._id)
             scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)
             view.addSubview(scroller)
         }
@@ -202,5 +206,11 @@ class SynsetViewController: BaseViewController {
          */
         let newSense = DubsarModelsSense(id: sense._id, name: sense.name, partOfSpeech: sense.partOfSpeech)
         pushViewControllerWithIdentifier(WordViewController.identifier, model: newSense)
+    }
+
+    // called from SynsetPointerView
+    func navigateToPointer(model : DubsarModelsModel!) {
+        pushViewControllerWithIdentifier(SynsetViewController.identifier, model: model)
+        // NSLog("Pushed VC for pointer")
     }
 }

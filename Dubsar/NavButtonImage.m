@@ -28,6 +28,10 @@
 
     UIGraphicsBeginImageContext(size);
     CGContextRef context = UIGraphicsGetCurrentContext();
+    if (!context) {
+        UIGraphicsEndImageContext();
+        return nil;
+    }
 
     [self buildImageWithSize:size color:color context:context];
 
