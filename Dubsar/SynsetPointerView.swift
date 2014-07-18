@@ -58,7 +58,6 @@ class PointerButton : UILabel {
 }
 
 class SynsetPointerView: UIView {
-
     class var margin : CGFloat {
     get {
         return 8
@@ -93,33 +92,7 @@ class SynsetPointerView: UIView {
     override func layoutSubviews() {
         if synset.complete {
             if hasReset {
-                for label : AnyObject in labels as NSArray {
-                    if let view = label as? UILabel {
-                        view.removeFromSuperview()
-                    }
-                }
-                labels.removeAllObjects()
-
-                // in both cases, numberOfSections does an SQL query and builds the sections array
-                if sense {
-                    numberOfSections = sense!.numberOfSections
-                    sections = sense!.sections
-                }
-                else {
-                    numberOfSections = synset.numberOfSections
-                    sections = synset.sections
-                }
-
-                totalRows = numberOfSections
-                for object: AnyObject in sections as NSArray { // as NSArray? seriously?
-                    if let section = object as? DubsarModelsSection {
-                        totalRows += section.numRows
-                    }
-                }
-                completedUpToY = 0
-                completedUpToRow = 0
-                nextRow = -1
-                nextSection = 0
+                performReset()
             }
 
             /*
@@ -231,4 +204,34 @@ class SynsetPointerView: UIView {
     func reset() {
         hasReset = true
     }
+
+    func performReset() {
+        for label : AnyObject in labels as NSArray {
+            if let view = label as? UILabel {
+                view.removeFromSuperview()
+            }
+        }
+        labels.removeAllObjects()
+
+        // in both cases, numberOfSections does an SQL query and builds the sections array
+        if sense {
+            numberOfSections = sense!.numberOfSections
+            sections = sense!.sections
+        }
+        else {
+            numberOfSections = synset.numberOfSections
+            sections = synset.sections
+        }
+
+        totalRows = numberOfSections
+        for object: AnyObject in sections as NSArray { // as NSArray? seriously?
+            if let section = object as? DubsarModelsSection {
+                totalRows += section.numRows
+            }
+        }
+        completedUpToY = 0
+        completedUpToRow = 0
+        nextRow = -1
+        nextSection = 0
+   }
 }
