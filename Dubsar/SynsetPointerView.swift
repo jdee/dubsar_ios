@@ -86,7 +86,7 @@ class SynsetPointerView: UIView {
     let synset : DubsarModelsSynset
     var sense : DubsarModelsSense?
 
-    let withoutButtons : Bool
+    let isPreview : Bool
 
     let labels : NSMutableArray
 
@@ -104,9 +104,9 @@ class SynsetPointerView: UIView {
 
     weak var viewController : SynsetViewController?
 
-    init(synset: DubsarModelsSynset!, frame: CGRect, withoutButtons: Bool = false) {
+    init(synset: DubsarModelsSynset!, frame: CGRect, preview: Bool = false) {
         self.synset = synset
-        self.withoutButtons = withoutButtons
+        isPreview = preview
         labels = NSMutableArray()
         super.init(frame: frame)
         clipsToBounds = true
@@ -204,8 +204,11 @@ class SynsetPointerView: UIView {
 
                     let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
                     let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
-                    let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height), withoutButton: withoutButtons)
+                    let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height), withoutButton: isPreview)
                     pointerView.label.text = text
+                    if pointer.targetType == "Sense" {
+                        pointerView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
+                    }
                     pointerView.viewController = viewController
 
                     addSubview(pointerView)

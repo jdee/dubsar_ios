@@ -30,6 +30,7 @@ class SynsetSampleView: UIView {
 
     let synset : DubsarModelsSynset
     var sense : DubsarModelsSense?
+    let isPreview : Bool
 
     var isEmpty : Bool {
     get {
@@ -39,9 +40,10 @@ class SynsetSampleView: UIView {
 
     var labels : NSMutableArray
 
-    init(synset: DubsarModelsSynset!, frame: CGRect) {
+    init(synset: DubsarModelsSynset!, frame: CGRect, preview: Bool) {
         self.synset = synset
         labels = NSMutableArray()
+        isPreview = preview
         super.init(frame: frame)
         backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 0.9, alpha: 1.0)
     }
@@ -59,7 +61,7 @@ class SynsetSampleView: UIView {
             var y = SynsetSampleView.margin
             for sample : AnyObject in synset.samples as NSArray {
                 if let text = sample as? String {
-                    y = addSample(text, atY: y)
+                    y = addSample(text, atY: y, background: UIColor.clearColor())
                     // NSLog("Added %@ at %f", text, y)
                 }
             }
@@ -67,7 +69,7 @@ class SynsetSampleView: UIView {
             if let s = sense {
                 for verbFrame : AnyObject in s.verbFrames as NSArray {
                     if let text = verbFrame as? String {
-                        y = addSample(text, atY: y)
+                        y = addSample(text, atY: y, background: isPreview ? UIColor.clearColor() : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0))
                         // NSLog("Added %@ at %f", text, y)
                     }
                 }
@@ -80,7 +82,7 @@ class SynsetSampleView: UIView {
         super.layoutSubviews()
     }
 
-    func addSample(sample: NSString!, atY y: CGFloat) -> CGFloat {
+    func addSample(sample: NSString!, atY y: CGFloat, background: UIColor!) -> CGFloat {
         let margin = SynsetSampleView.margin
         let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
         let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -91,6 +93,7 @@ class SynsetSampleView: UIView {
         label.lineBreakMode = .ByWordWrapping
         label.numberOfLines = 0
         label.text = sample
+        label.backgroundColor = background
 
         labels.addObject(label)
         addSubview(label)

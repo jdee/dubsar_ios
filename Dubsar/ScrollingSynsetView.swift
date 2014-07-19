@@ -50,8 +50,8 @@ class ScrollingSynsetView: UIScrollView {
     init(synset: DubsarModelsSynset!, frame: CGRect) {
         self.synset = synset
         headerView = SynsetHeaderView(synset: synset, frame: CGRectZero)
-        sampleView = SynsetSampleView(synset: synset, frame: CGRectZero)
-        pointerView = SynsetPointerView(synset: synset, frame: CGRectZero)
+        sampleView = SynsetSampleView(synset: synset, frame: CGRectZero, preview: false)
+        pointerView = SynsetPointerView(synset: synset, frame: CGRectZero, preview: false)
         super.init(frame: frame)
 
         headerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth

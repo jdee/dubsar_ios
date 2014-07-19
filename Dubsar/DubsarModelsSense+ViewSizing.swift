@@ -54,7 +54,7 @@ extension DubsarModelsSense {
 
         if open {
             // Yikes
-            let sampleView = SynsetSampleView(synset: synset, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height))
+            let sampleView = SynsetSampleView(synset: synset, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height), preview: true)
             sampleView.sense = self
             sampleView.layoutSubviews()
             // NSLog("Computed sample view height is %f; cell height will be %f", sampleView.bounds.size.height, size.height)
@@ -65,7 +65,7 @@ extension DubsarModelsSense {
                 return size
             }
 
-            let pointerView = SynsetPointerView(synset: synset, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height), withoutButtons: true)
+            let pointerView = SynsetPointerView(synset: synset, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height), preview: true)
             pointerView.sense = self
             pointerView.scrollViewTop = 0
             pointerView.scrollViewBottom = constrainedSize.height
