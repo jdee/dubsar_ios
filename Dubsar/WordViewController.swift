@@ -151,11 +151,15 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         var selectedRow = selectedIndexPath.indexAtPosition(1)
 
         if selectedRow == row {
-            cell = tableView.dequeueReusableCellWithIdentifier(OpenSenseTableViewCell.openIdentifier) as? SenseTableViewCell
-            if !cell {
-                cell = OpenSenseTableViewCell(sense: sense, frame: frame)
+            var openCell = tableView.dequeueReusableCellWithIdentifier(OpenSenseTableViewCell.openIdentifier) as? OpenSenseTableViewCell
+            if !openCell {
+                openCell = OpenSenseTableViewCell(sense: sense, frame: frame, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
+            }
+            else {
+                openCell!.insertHeightLimit = maxHeightOfAdditionsForRow(row)
             }
             // NSLog("Cell for row %d is open", row)
+            cell = openCell
         }
         else {
             cell = tableView.dequeueReusableCellWithIdentifier(SenseTableViewCell.identifier) as? SenseTableViewCell
@@ -186,7 +190,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         let constrainedSize = CGSizeMake(tableView.bounds.size.width-2*SenseTableViewCell.borderWidth-2*SenseTableViewCell.margin-SenseTableViewCell.accessoryWidth, tableView.bounds.size.height)
         var selectedRow :Int = selectedIndexPath.indexAtPosition(1)
-        let height = sense.sizeOfCellWithConstrainedSize(constrainedSize, open: row == selectedRow).height
+        let height = sense.sizeOfCellWithConstrainedSize(constrainedSize, open: row == selectedRow, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
 
         // NSLog("Height of row %d with row %d selected: %f", row, selectedRow, height)
         return height
@@ -227,6 +231,10 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
          */
         let newSense = DubsarModelsSense(id: sense._id, name: sense.name, partOfSpeech: sense.partOfSpeech)
         pushViewControllerWithIdentifier(SynsetViewController.identifier, model: newSense)
+    }
+
+    func maxHeightOfAdditionsForRow(row: Int) -> CGFloat {
+        return row == theWord!.senses.count ? senseTableView.bounds.size.height : 150
     }
 
     override func adjustLayout() {

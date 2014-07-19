@@ -24,13 +24,17 @@ class PointerView : UIView {
     let pointer : DubsarModelsPointer
     let button : NavButton
     let label : UILabel
+    let withoutButton : Bool
     weak var viewController : SynsetViewController?
 
-    init(pointer: DubsarModelsPointer!, frame: CGRect) {
+    init(pointer: DubsarModelsPointer!, frame: CGRect, withoutButton: Bool) {
         self.pointer = pointer
         button = NavButton()
         label = UILabel()
+        self.withoutButton = withoutButton
         super.init(frame: frame)
+
+        // clipsToBounds = true
 
         let fudge : CGFloat = 8
         let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -39,9 +43,13 @@ class PointerView : UIView {
         label.lineBreakMode = .ByWordWrapping
         label.numberOfLines = 0
         label.font = bodyFont
-        label.frame = CGRectMake(0, 0, bounds.size.width-buttonSize, bounds.size.height)
+        label.frame = CGRectMake(0, 0, withoutButton ? bounds.size.width : bounds.size.width-buttonSize, bounds.size.height)
 
         addSubview(label)
+
+        if withoutButton {
+            return
+        }
 
         addSubview(button)
         button.frame = CGRectMake(label.bounds.size.width, 0, buttonSize, buttonSize)
@@ -78,6 +86,8 @@ class SynsetPointerView: UIView {
     let synset : DubsarModelsSynset
     var sense : DubsarModelsSense?
 
+    let withoutButtons : Bool
+
     let labels : NSMutableArray
 
     var scrollViewTop : CGFloat = 0
@@ -94,10 +104,12 @@ class SynsetPointerView: UIView {
 
     weak var viewController : SynsetViewController?
 
-    init(synset: DubsarModelsSynset!, frame: CGRect) {
+    init(synset: DubsarModelsSynset!, frame: CGRect, withoutButtons: Bool = false) {
         self.synset = synset
+        self.withoutButtons = withoutButtons
         labels = NSMutableArray()
         super.init(frame: frame)
+        clipsToBounds = true
     }
 
     override func layoutSubviews() {
@@ -192,7 +204,7 @@ class SynsetPointerView: UIView {
 
                     let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
                     let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
-                    let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height))
+                    let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height), withoutButton: withoutButtons)
                     pointerView.label.text = text
                     pointerView.viewController = viewController
 

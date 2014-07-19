@@ -21,6 +21,7 @@ import DubsarModels
 import UIKit
 
 class OpenSenseTableViewCell: SenseTableViewCell {
+    var insertHeightLimit : CGFloat
 
     class var openIdentifier : String {
         get {
@@ -28,12 +29,15 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         }
     }
 
-    init(sense: DubsarModelsSense!, frame: CGRect) {
+    init(sense: DubsarModelsSense!, frame: CGRect, maxHeightOfAdditions: CGFloat) {
+        insertHeightLimit = maxHeightOfAdditions
         super.init(sense: sense, frame: frame, identifier: OpenSenseTableViewCell.openIdentifier)
     }
 
     override func rebuild() {
         super.rebuild()
+
+        backgroundColor = backgroundLabel.backgroundColor
 
         let borderWidth = SenseTableViewCell.borderWidth
         let margin = SenseTableViewCell.margin
@@ -41,18 +45,57 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin-SenseTableViewCell.accessoryWidth, frame.size.height)
 
-        let y = bounds.size.height
+        var y = bounds.size.height
 
         let sampleView = SynsetSampleView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height))
         sampleView.sense = sense
         backgroundLabel.addSubview(sampleView)
         sampleView.layoutSubviews()
 
-        sampleView.backgroundColor = backgroundLabel.backgroundColor
-        backgroundColor = backgroundLabel.backgroundColor
-        frame.size.height += sampleView.bounds.size.height
+        sampleView.backgroundColor = UIColor.clearColor()
 
-        // NSLog("sample view height is %f. frame height is now %f", sampleView.bounds.size.height, frame.size.height)
+        var available = insertHeightLimit
+
+        if available > 0 {
+            // NSLog("available = %f", available)
+            if sampleView.bounds.size.height > available {
+                // NSLog("sampleView size of %f truncated", sampleView.bounds.size.height)
+                sampleView.frame.size.height = available
+            }
+            available -= sampleView.bounds.size.height
+            // NSLog("available reduced to %f", available)
+            if available <= 0 {
+                // used up all our space. don't insert the pointer view
+                frame.size.height += sampleView.bounds.size.height
+                // NSLog("No pointer view. sample view height is %f. frame height is now %f", sampleView.bounds.size.height, bounds.size.height)
+                return
+            }
+        }
+
+        frame.size.height += sampleView.bounds.size.height
+        y = bounds.size.height
+
+        // NSLog("sample view height is %f. frame height is now %f (remaining insertHeightLimit: %f)", sampleView.bounds.size.height, frame.size.height, available)
+
+        let pointerView = SynsetPointerView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height), withoutButtons: true)
+        pointerView.sense = sense
+        pointerView.scrollViewTop = 0
+        pointerView.scrollViewBottom = available
+        pointerView.backgroundColor = UIColor.clearColor()
+        backgroundLabel.addSubview(pointerView)
+        pointerView.layoutSubviews()
+
+        if available > 0 {
+            // NSLog("available = %f", available)
+            if pointerView.bounds.size.height > available {
+                // NSLog("pointerView size of %f truncated", pointerView.bounds.size.height)
+                pointerView.frame.size.height = available
+            }
+        }
+
+        frame.size.height += pointerView.bounds.size.height
+
+        // NSLog("pointer view height is %f. frame height is now %f", pointerView.bounds.size.height, frame.size.height)
     }
 
 }

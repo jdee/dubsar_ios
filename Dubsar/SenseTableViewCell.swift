@@ -82,6 +82,7 @@ class SenseTableViewCell: UITableViewCell {
         self.frame = frame
 
         accessoryType = .DetailDisclosureButton
+        clipsToBounds = true
 
         rebuild()
     }
@@ -108,6 +109,7 @@ class SenseTableViewCell: UITableViewCell {
         contentView.addSubview(view)
 
         backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
+        // backgroundLabel.clipsToBounds = true
         backgroundLabel.backgroundColor = cellBackgroundColor
         view!.addSubview(backgroundLabel)
 

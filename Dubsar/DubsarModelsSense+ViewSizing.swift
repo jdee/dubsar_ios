@@ -31,7 +31,7 @@ extension DubsarModelsSense {
         return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
-    func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool) -> CGSize {
+    func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat = 0) -> CGSize {
         var constraint = constrainedSize
         constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth
 
@@ -50,15 +50,33 @@ extension DubsarModelsSense {
             size.height += synonymSize.height + SenseTableViewCell.margin
         }
 
-        NSLog("Cell header height: %f", size.height)
+        // NSLog("Cell header height: %f", size.height)
 
         if open {
             // Yikes
             let sampleView = SynsetSampleView(synset: synset, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height))
             sampleView.sense = self
             sampleView.layoutSubviews()
-            size.height += sampleView.bounds.size.height
-            NSLog("Computed sample view height is %f; cell height will be %f", sampleView.bounds.size.height, size.height)
+            // NSLog("Computed sample view height is %f; cell height will be %f", sampleView.bounds.size.height, size.height)
+
+            var additions = sampleView.bounds.size.height
+            if maxHeightOfAdditions > 0 && additions >= maxHeightOfAdditions {
+                size.height += maxHeightOfAdditions
+                return size
+            }
+
+            let pointerView = SynsetPointerView(synset: synset, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height), withoutButtons: true)
+            pointerView.sense = self
+            pointerView.scrollViewTop = 0
+            pointerView.scrollViewBottom = constrainedSize.height
+            pointerView.layoutSubviews()
+
+            additions += pointerView.bounds.size.height
+            if maxHeightOfAdditions > 0 && additions >= maxHeightOfAdditions {
+                size.height += maxHeightOfAdditions
+                return size
+            }
+            size.height += additions
         }
 
         return size
