@@ -64,6 +64,8 @@ class WordTableViewCell: UITableViewCell {
 
         let headlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let italicFontDescriptor = bodyFont.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitItalic)
+        let italicFont = UIFont(descriptor: italicFontDescriptor, size:0.0)
 
         let margin = WordTableViewCell.margin
         let constrainedSize = CGSizeMake(bounds.size.width-2*margin, bounds.size.height)
@@ -73,7 +75,7 @@ class WordTableViewCell: UITableViewCell {
         let freqCntText = "freq. cnt.: \(word!.freqCnt)" as NSString
 
         let nameAndPosSize = word!.nameAndPosSizeWithConstrainedSize(constrainedSize, font: headlineFont)
-        let inflectionSize = word!.inflectionSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+        let inflectionSize = word!.inflectionSizeWithConstrainedSize(constrainedSize, font: italicFont)
         let freqCntSize = word!.freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
 
         let originalWidth = bounds.size.width
@@ -99,7 +101,7 @@ class WordTableViewCell: UITableViewCell {
             let inflectionLabel = UILabel(frame:CGRectMake(margin, 2*margin+nameAndPosSize.height, constrainedSize.width, inflectionSize.height))
             inflectionLabel.lineBreakMode = .ByWordWrapping
             inflectionLabel.numberOfLines = 0
-            inflectionLabel.font = bodyFont
+            inflectionLabel.font = italicFont
             inflectionLabel.text = inflectionText
             view!.addSubview(inflectionLabel)
         }

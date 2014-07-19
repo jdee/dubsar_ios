@@ -85,7 +85,10 @@ class SynsetSampleView: UIView {
     func addSample(sample: NSString!, atY y: CGFloat, background: UIColor!) -> CGFloat {
         let margin = SynsetSampleView.margin
         let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
-        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let italicFontDescriptor = bodyFont.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitItalic)
+        let italicFont = UIFont(descriptor: italicFontDescriptor, size: 0)
+        let font = isPreview ? italicFont : bodyFont
         let textSize = sample.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
 
         let label = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
