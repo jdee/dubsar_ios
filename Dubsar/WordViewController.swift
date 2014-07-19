@@ -206,6 +206,10 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
     }
 
+    func tableView(tableView: UITableView!, shouldHighlightRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
+        return indexPath != selectedIndexPath
+    }
+
     func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
         if !theWord || !theWord!.complete {
             return
