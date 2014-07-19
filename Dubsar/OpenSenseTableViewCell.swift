@@ -48,7 +48,8 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         backgroundLabel.addSubview(sampleView)
         sampleView.layoutSubviews()
 
-        backgroundColor = sampleView.backgroundColor
+        sampleView.backgroundColor = backgroundLabel.backgroundColor
+        backgroundColor = backgroundLabel.backgroundColor
         frame.size.height += sampleView.bounds.size.height
 
         NSLog("sample view height is %f. frame height is now %f", sampleView.bounds.size.height, frame.size.height)
