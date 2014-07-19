@@ -70,7 +70,21 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
     }
 
-    var selectedRow : Int = 1
+    var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: -1, inSection: 0)
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let s = sense {
+            let index = theWord!.senses.indexOfObject(s)
+            selectedIndexPath = NSIndexPath(forRow:index, inSection: 0)
+            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Top)
+        }
+        else {
+            selectedIndexPath = NSIndexPath(forRow:1, inSection: 0)
+            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
+        }
+    }
 
     override func load() {
         if (model && model!.complete) {
@@ -133,17 +147,21 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         let frame = tableView.bounds
 
         var cell : SenseTableViewCell?
+        var selectedRow = selectedIndexPath.indexAtPosition(1)
+
         if selectedRow == row {
             cell = tableView.dequeueReusableCellWithIdentifier(OpenSenseTableViewCell.openIdentifier) as? SenseTableViewCell
             if !cell {
                 cell = OpenSenseTableViewCell(sense: sense, frame: frame)
             }
+            NSLog("Cell for row %d is open", row)
         }
         else {
             cell = tableView.dequeueReusableCellWithIdentifier(SenseTableViewCell.identifier) as? SenseTableViewCell
             if !cell {
                 cell = SenseTableViewCell(sense: sense, frame: frame)
             }
+            NSLog("Cell for row %d is closed", row)
         }
 
         cell!.frame = frame
@@ -166,17 +184,25 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         let sense = theWord!.senses[row-1] as DubsarModelsSense
 
         let constrainedSize = CGSizeMake(tableView.bounds.size.width-2*SenseTableViewCell.borderWidth-2*SenseTableViewCell.margin-SenseTableViewCell.accessoryWidth, tableView.bounds.size.height)
+        var selectedRow :Int = selectedIndexPath.indexAtPosition(1)
         let height = sense.sizeOfCellWithConstrainedSize(constrainedSize, open: row == selectedRow).height
 
-        NSLog("Height of row %d: %f", row, height)
+        NSLog("Height of row %d with row %d selected: %f", row, selectedRow, height)
         return height
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        selectedRow = indexPath.indexAtPosition(1)
-        NSLog("Selected row %d, BEGIN BLOCKING LOAD", selectedRow)
+        if indexPath == selectedIndexPath {
+            NSLog("row %d reselected, ignoring", indexPath.row)
+            return
+        }
 
-        tableView.reloadData()
+        let current = selectedIndexPath
+
+        selectedIndexPath = indexPath
+
+        NSLog("Selected row %d", selectedIndexPath.indexAtPosition(1))
+        tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
     }
 
     func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
