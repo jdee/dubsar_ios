@@ -105,7 +105,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             assert(index < theWord!.senses.count)
             NSLog("Index of selected row is %d", index)
             selectedIndexPath = NSIndexPath(forRow:index+1, inSection: 0)
-            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Top)
+            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Bottom)
         }
         else if let w = word {
             NSLog("Load complete for word ID %d", w._id)
