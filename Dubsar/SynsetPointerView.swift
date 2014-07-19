@@ -197,7 +197,8 @@ class SynsetPointerView: UIView {
                     let indexPath = NSIndexPath(forRow: row, inSection: sectionNumber)
                     let pointer : DubsarModelsPointer = pointerForRowAtIndexPath(indexPath)
 
-                    let buttonSize = ("X" as NSString).sizeWithAttributes([NSFontAttributeName: bodyFont]).height // height of one line in the body font
+                    let fudge : CGFloat = 8
+                    let buttonSize = bodyFont.pointSize + fudge // height of one line in the body font
 
                     var pointerConstrainedSize = constrainedSize
                     pointerConstrainedSize.width -= buttonSize
