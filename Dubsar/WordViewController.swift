@@ -158,6 +158,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             else {
                 openCell!.insertHeightLimit = maxHeightOfAdditionsForRow(row)
             }
+            openCell!.cellBackgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
             // NSLog("Cell for row %d is open", row)
             cell = openCell
         }
@@ -167,11 +168,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
                 cell = SenseTableViewCell(sense: sense, frame: frame)
             }
             // NSLog("Cell for row %d is closed", row)
+            cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
         }
 
         cell!.frame = frame
         cell!.sense = sense
-        cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
 
         return cell
     }
