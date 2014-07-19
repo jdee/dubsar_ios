@@ -70,6 +70,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
     }
 
+    var selectedRow : Int = 1
+
     override func load() {
         if (model && model!.complete) {
             loadComplete(model, withError: nil)
@@ -79,7 +81,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             sense!.loadWithWord()
         }
         else {
-            word?.load()
+            word?.loadWithSynsets()
         }
     }
 
@@ -130,15 +132,22 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         let sense = theWord!.senses[row-1] as DubsarModelsSense
         let frame = tableView.bounds
 
-        var cell = tableView.dequeueReusableCellWithIdentifier(SenseTableViewCell.identifier) as? SenseTableViewCell
-        if !cell {
-            cell = SenseTableViewCell(sense: sense, frame: frame)
+        var cell : SenseTableViewCell?
+        if selectedRow == row {
+            cell = tableView.dequeueReusableCellWithIdentifier(OpenSenseTableViewCell.openIdentifier) as? SenseTableViewCell
+            if !cell {
+                cell = OpenSenseTableViewCell(sense: sense, frame: frame)
+            }
         }
         else {
-            cell!.frame = frame
-            cell!.sense = sense // resized on assignment to .sense
+            cell = tableView.dequeueReusableCellWithIdentifier(SenseTableViewCell.identifier) as? SenseTableViewCell
+            if !cell {
+                cell = SenseTableViewCell(sense: sense, frame: frame)
+            }
         }
 
+        cell!.frame = frame
+        cell!.sense = sense
         cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
 
         return cell
@@ -155,11 +164,22 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
 
         let sense = theWord!.senses[row-1] as DubsarModelsSense
+
         let constrainedSize = CGSizeMake(tableView.bounds.size.width-2*SenseTableViewCell.borderWidth-2*SenseTableViewCell.margin-SenseTableViewCell.accessoryWidth, tableView.bounds.size.height)
-        return sense.sizeOfCellWithConstrainedSize(constrainedSize).height
+        let height = sense.sizeOfCellWithConstrainedSize(constrainedSize, open: row == selectedRow).height
+
+        NSLog("Height of row %d: %f", row, height)
+        return height
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        selectedRow = indexPath.indexAtPosition(1)
+        NSLog("Selected row %d, BEGIN BLOCKING LOAD", selectedRow)
+
+        tableView.reloadData()
+    }
+
+    func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
         if !theWord || !theWord!.complete {
             return
         }

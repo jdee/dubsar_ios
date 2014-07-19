@@ -31,7 +31,7 @@ extension DubsarModelsSense {
         return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
-    func sizeOfCellWithConstrainedSize(constrainedSize: CGSize) -> CGSize {
+    func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool) -> CGSize {
         var constraint = constrainedSize
         constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth
 
@@ -48,6 +48,17 @@ extension DubsarModelsSense {
         if synonyms.count > 0 {
             let synonymSize = synonymSizeWithConstrainedSize(constraint, font: caption1Font)
             size.height += synonymSize.height + SenseTableViewCell.margin
+        }
+
+        NSLog("Cell header height: %f", size.height)
+
+        if open {
+            // Yikes
+            let sampleView = SynsetSampleView(synset: synset, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height))
+            sampleView.sense = self
+            sampleView.layoutSubviews()
+            size.height += sampleView.bounds.size.height
+            NSLog("Computed sample view height is %f; cell height will be %f", sampleView.bounds.size.height, size.height)
         }
 
         return size

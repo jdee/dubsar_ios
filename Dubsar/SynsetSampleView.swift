@@ -43,6 +43,7 @@ class SynsetSampleView: UIView {
         self.synset = synset
         labels = NSMutableArray()
         super.init(frame: frame)
+        backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 0.9, alpha: 1.0)
     }
 
     override func layoutSubviews() {
@@ -59,6 +60,7 @@ class SynsetSampleView: UIView {
             for sample : AnyObject in synset.samples as NSArray {
                 if let text = sample as? String {
                     y = addSample(text, atY: y)
+                    NSLog("Added %@ at %f", text, y)
                 }
             }
 
@@ -66,12 +68,13 @@ class SynsetSampleView: UIView {
                 for verbFrame : AnyObject in s.verbFrames as NSArray {
                     if let text = verbFrame as? String {
                         y = addSample(text, atY: y)
+                        NSLog("Added %@ at %f", text, y)
                     }
                 }
             }
 
             frame.size.height = y
-            // NSLog("sample view height: %f", bounds.size.height)
+            NSLog("sample view height: %f", bounds.size.height)
         }
 
         super.layoutSubviews()

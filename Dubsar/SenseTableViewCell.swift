@@ -44,7 +44,7 @@ class SenseTableViewCell: UITableViewCell {
     // just some extra margin on the right to avoid getting clobbered by the accessory
     class var accessoryWidth : CGFloat {
         get {
-            return 25
+            return 60
         }
     }
 
@@ -73,14 +73,15 @@ class SenseTableViewCell: UITableViewCell {
      * make this a property.
      */
     var view : UIView?
+    var backgroundLabel : UIView!
 
-    init(sense: DubsarModelsSense!, frame: CGRect) {
+    init(sense: DubsarModelsSense!, frame: CGRect, identifier: String = SenseTableViewCell.identifier) {
         self.sense = sense
-        super.init(style: .Default, reuseIdentifier: SenseTableViewCell.identifier)
+        super.init(style: .Default, reuseIdentifier: identifier)
 
         self.frame = frame
 
-        accessoryType = .DisclosureIndicator
+        accessoryType = .DetailDisclosureButton
 
         rebuild()
     }
@@ -97,7 +98,7 @@ class SenseTableViewCell: UITableViewCell {
         let glossSize = sense.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
         let synonymSize = sense.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
 
-        bounds.size.height = sense.sizeOfCellWithConstrainedSize(constrainedSize).height
+        bounds.size.height = sense.sizeOfCellWithConstrainedSize(constrainedSize, open:false).height
 
         view?.removeFromSuperview()
 
@@ -106,7 +107,7 @@ class SenseTableViewCell: UITableViewCell {
 
         contentView.addSubview(view)
 
-        let backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
+        backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
         backgroundLabel.backgroundColor = cellBackgroundColor
         view!.addSubview(backgroundLabel)
 

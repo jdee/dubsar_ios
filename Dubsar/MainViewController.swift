@@ -68,6 +68,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         super.prepareForSegue(segue, sender: sender)
         if let viewController = segue.destinationViewController as? WordViewController {
             viewController.word = wotd.word
+            wotd.word.complete = false
             viewController.title = "Word of the Day"
         }
     }

@@ -23,9 +23,12 @@
 #import "DubsarModelsDatabaseWrapper.h"
 #import "DubsarModelsPartOfSpeechDictionary.h"
 #import "DubsarModelsSense.h"
+#import "DubsarModelsSynset.h"
 #import "DubsarModelsWord.h"
 
-@implementation DubsarModelsWord
+@implementation DubsarModelsWord {
+    BOOL loadingSynsets;
+}
 
 @synthesize _id;
 @synthesize name;
@@ -53,6 +56,7 @@
         name = theName;
         partOfSpeech = thePartOfSpeech;
         inflections = nil;
+        loadingSynsets = NO;
         [self initUrl];
     }
     return self;
@@ -66,6 +70,7 @@
         name = theName;
         
         partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:posString];
+        loadingSynsets = NO;
         [self initUrl];
     }
     return self;
@@ -113,6 +118,12 @@
 - (void)load
 {
     [self load:true];
+}
+
+- (void)loadWithSynsets
+{
+    loadingSynsets = YES;
+    [self load];
 }
 
 -(void)loadResults:(DubsarModelsDatabaseWrapper *)database
@@ -239,6 +250,21 @@
 #ifdef DEBUG
     NSLog(@"completed word query");
 #endif // DEBUG
+
+    if (loadingSynsets) {
+        NSLog(@"Loading %lu synsets", (unsigned long)senses.count);
+        for (DubsarModelsSense* sense in senses) {
+            [sense loadSynchronous];
+            assert(sense.synset);
+            [sense.synset loadSynchronous];
+            NSLog(@"Loaded synset %lu for sense %lu, word %lu", (unsigned long)sense.synset._id, (unsigned long)sense._id, (unsigned long)_id);
+        }
+    }
+    else {
+        NSLog(@"word not loading synsets");
+    }
+
+    loadingSynsets = NO;
 }
 
 -(void)parseData

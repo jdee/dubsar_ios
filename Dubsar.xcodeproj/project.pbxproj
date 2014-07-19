@@ -50,6 +50,7 @@
 		7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */; };
 		7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */; };
 		7BBF83821975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */; };
+		7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +151,7 @@
 		7BBF837C1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsWord+ViewSizing.swift"; sourceTree = "<group>"; };
 		7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+ViewSizing.swift"; sourceTree = "<group>"; };
 		7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsSense+ViewSizing.swift"; sourceTree = "<group>"; };
+		7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSenseTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				7B82D29D1974A12400F983F6 /* LoadingTableViewCell.swift */,
+				7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */,
 				7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */,
 				7BBF83711974DB8200969765 /* WordTableViewCell.swift */,
 			);
@@ -452,6 +455,7 @@
 				7B497C8D1978546000563A4B /* ScrollingSynsetView.swift in Sources */,
 				7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */,
 				7B62D752197782F2006A797C /* SynsetSampleView.swift in Sources */,
+				7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */,
 				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,
 				7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,

@@ -527,6 +527,10 @@
         NSLog(@"loading word ID %lu", (unsigned long)word._id);
 #endif // DEBUG
         [word loadSynchronous];
+        for (DubsarModelsSense* sense in word.senses) {
+            [sense loadSynchronous];
+            [sense.synset loadSynchronous];
+        }
     }
 
     loadingSynset = loadingWord = NO;
