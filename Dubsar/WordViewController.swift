@@ -77,7 +77,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             loadComplete(model, withError: nil)
         }
         else if (sense) {
-            NSLog("Loading sense ID %d with word", sense!._id)
+            // NSLog("Loading sense ID %d with word", sense!._id)
             sense!.loadWithWord()
         }
         else {
@@ -103,7 +103,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
                 }
             }
             assert(index < theWord!.senses.count)
-            NSLog("Index of selected row is %d", index)
+            // NSLog("Index of selected row is %d", index)
             selectedIndexPath = NSIndexPath(forRow:index+1, inSection: 0)
             senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Bottom)
         }
@@ -155,14 +155,14 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             if !cell {
                 cell = OpenSenseTableViewCell(sense: sense, frame: frame)
             }
-            NSLog("Cell for row %d is open", row)
+            // NSLog("Cell for row %d is open", row)
         }
         else {
             cell = tableView.dequeueReusableCellWithIdentifier(SenseTableViewCell.identifier) as? SenseTableViewCell
             if !cell {
                 cell = SenseTableViewCell(sense: sense, frame: frame)
             }
-            NSLog("Cell for row %d is closed", row)
+            // NSLog("Cell for row %d is closed", row)
         }
 
         cell!.frame = frame
@@ -188,7 +188,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         var selectedRow :Int = selectedIndexPath.indexAtPosition(1)
         let height = sense.sizeOfCellWithConstrainedSize(constrainedSize, open: row == selectedRow).height
 
-        NSLog("Height of row %d with row %d selected: %f", row, selectedRow, height)
+        // NSLog("Height of row %d with row %d selected: %f", row, selectedRow, height)
         return height
     }
 
@@ -202,7 +202,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         selectedIndexPath = indexPath
 
-        NSLog("Selected row %d", selectedIndexPath.indexAtPosition(1))
+        // NSLog("Selected row %d", selectedIndexPath.indexAtPosition(1))
         tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
     }
 
