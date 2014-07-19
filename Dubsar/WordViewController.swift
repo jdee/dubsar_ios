@@ -72,20 +72,6 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
     var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: -1, inSection: 0)
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        if let s = sense {
-            let index = theWord!.senses.indexOfObject(s)
-            selectedIndexPath = NSIndexPath(forRow:index, inSection: 0)
-            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Top)
-        }
-        else {
-            selectedIndexPath = NSIndexPath(forRow:1, inSection: 0)
-            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
-        }
-    }
-
     override func load() {
         if (model && model!.complete) {
             loadComplete(model, withError: nil)
@@ -105,11 +91,26 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             return
         }
 
-        if let s = model as? DubsarModelsSense {
+        if let s = sense {
             NSLog("Load complete for sense ID %d", s._id)
+            var index: Int
+            for index = 0; index < theWord!.senses.count; ++index  {
+                let object: AnyObject = theWord!.senses.objectAtIndex(index)
+                if let sense = object as? DubsarModelsSense {
+                    if sense._id == s._id {
+                        break
+                    }
+                }
+            }
+            assert(index < theWord!.senses.count)
+            NSLog("Index of selected row is %d", index)
+            selectedIndexPath = NSIndexPath(forRow:index+1, inSection: 0)
+            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Top)
         }
-        else if let w = model as? DubsarModelsWord {
+        else if let w = word {
             NSLog("Load complete for word ID %d", w._id)
+            selectedIndexPath = NSIndexPath(forRow:1, inSection: 0)
+            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
         }
 
         assert(theWord)
