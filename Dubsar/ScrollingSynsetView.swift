@@ -25,9 +25,17 @@ class ScrollingSynsetView: UIScrollView {
     let synset : DubsarModelsSynset
     var sense : DubsarModelsSense? {
     didSet {
-        headerView.sense = sense
-        sampleView.sense = sense
-        pointerView.sense = sense
+        if !sense && synset.senses.count == 1 {
+            let firstSense = synset.senses.firstObject as DubsarModelsSense
+            headerView.sense = firstSense
+            sampleView.sense = firstSense
+            pointerView.sense = firstSense
+        }
+        else {
+            headerView.sense = sense
+            sampleView.sense = sense
+            pointerView.sense = sense
+        }
         reset()
         setNeedsLayout()
     }

@@ -189,6 +189,13 @@ class SynsetHeaderView: UIView {
             if sense && !sense!.marker.isEmpty {
                 extraText = "\(extraText) (\(sense!.marker))"
             }
+            else if synset.senses.count == 1 {
+                let firstSense = synset.senses.firstObject as DubsarModelsSense
+                if !firstSense.marker.isEmpty {
+                    extraText = "\(extraText) (\(firstSense.marker))"
+                }
+            }
+
             if sense && sense!.freqCnt > 0 {
                 extraText = "\(extraText) freq. cnt. \(sense!.freqCnt)"
             }
