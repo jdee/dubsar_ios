@@ -64,7 +64,8 @@ class SynonymButtonPair {
         selectionButton.setTitle(sense.name, forState: .Normal)
         selectionButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
         selectionButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
-        selectionButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
+        // selectionButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
+
         selectionButton.addTarget(self, action: "synonymSelected:", forControlEvents: .TouchUpInside)
         view.addSubview(selectionButton)
 
@@ -112,6 +113,7 @@ class SynsetHeaderView: UIView {
 
     let glossLabel : UILabel
     let lexnameLabel : UILabel
+    let extraTextLabel : UILabel
 
     let synonymButtons : NSMutableArray
 
@@ -127,6 +129,7 @@ class SynsetHeaderView: UIView {
 
         glossLabel = UILabel()
         lexnameLabel = UILabel()
+        extraTextLabel = UILabel()
 
         synonymButtons = NSMutableArray()
 
@@ -149,6 +152,10 @@ class SynsetHeaderView: UIView {
         lexnameLabel.numberOfLines = 0
         lexnameLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         addSubview(lexnameLabel)
+
+        extraTextLabel.lineBreakMode = .ByWordWrapping
+        extraTextLabel.numberOfLines = 0
+        extraTextLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
 
     override func layoutSubviews() {
@@ -170,25 +177,46 @@ class SynsetHeaderView: UIView {
 
             // Lexname label
             var lexnameText = "<\(synset.lexname)>" as NSString
-            if sense && !sense!.marker.isEmpty {
-                lexnameText = "\(lexnameText) (\(sense!.marker))"
-            }
-            if sense && sense!.freqCnt > 0 {
-                lexnameText = "\(lexnameText) freq. cnt. \(sense!.freqCnt)"
-            }
-            else if !sense && synset.freqCnt > 0 {
-                lexnameText = "\(lexnameText) freq. cnt. \(synset.freqCnt)"
-            }
 
-            let lexnameSize = lexnameText.sizeOfTextWithConstrainedSize(constrainedSize, font: headlineFont)
+            let lexnameSize = lexnameText.sizeWithAttributes([NSFontAttributeName: headlineFont])
 
-            lexnameLabel.frame = CGRectMake(margin, 2 * margin + glossSize.height, constrainedSize.width, lexnameSize.height)
+            lexnameLabel.frame = CGRectMake(margin, 2 * margin + glossSize.height, lexnameSize.width, lexnameSize.height)
             lexnameLabel.text = lexnameText
             lexnameLabel.font = headlineFont
             lexnameLabel.invalidateIntrinsicContentSize()
 
-            let height = setupSynonymButtons()
-            frame.size.height = height
+            var extraText = "" as NSString
+            if sense && !sense!.marker.isEmpty {
+                extraText = "\(extraText) (\(sense!.marker))"
+            }
+            if sense && sense!.freqCnt > 0 {
+                extraText = "\(extraText) freq. cnt. \(sense!.freqCnt)"
+            }
+            else if !sense && synset.freqCnt > 0 {
+                extraText = "\(extraText) freq. cnt. \(synset.freqCnt)"
+            }
+
+            if extraText.length > 0 {
+                let extraTextSize = extraText.sizeWithAttributes([NSFontAttributeName: headlineFont])
+                extraTextLabel.frame = CGRectMake(2 * margin + lexnameSize.width, 2 * margin + glossSize.height, extraTextSize.width, extraTextSize.height)
+                extraTextLabel.text = extraText
+                extraTextLabel.font = headlineFont
+                extraTextLabel.textAlignment = .Center
+                extraTextLabel.invalidateIntrinsicContentSize()
+                addSubview(extraTextLabel)
+
+                if sense {
+                    extraTextLabel.backgroundColor = UIColor(red:0.9, green:0.9, blue:1.0, alpha:1.0)
+                }
+                else {
+                    extraTextLabel.backgroundColor = UIColor.clearColor()
+                }
+            }
+            else {
+                extraTextLabel.removeFromSuperview()
+            }
+
+            frame.size.height = setupSynonymButtons()
             // NSLog("header view height: %f", bounds.size.height)
         }
 
@@ -213,8 +241,9 @@ class SynsetHeaderView: UIView {
         for object: AnyObject in synset.senses as NSArray {
             if let synonym = object as? DubsarModelsSense {
                 let buttonPair = SynonymButtonPair(sense: synonym, view: self)
-                if sense && sense!._id == synonym._id && synset.senses.count > 1 { // set it to disabled when synset.senses.count == 1?
+                if sense && sense!._id == synonym._id /* && synset.senses.count > 1 */ { // set it to disabled when synset.senses.count == 1?
                     buttonPair.selectionButton.selected = true
+                    buttonPair.selectionButton.backgroundColor = UIColor(red:0.9, green:0.9, blue:1.0, alpha:1.0)
                 }
                 synonymButtons.addObject(buttonPair)
 
@@ -247,6 +276,7 @@ class SynsetHeaderView: UIView {
         for object : AnyObject in synonymButtons {
             if let buttonPair = object as? SynonymButtonPair {
                 buttonPair.selectionButton.selected = false
+                buttonPair.selectionButton.backgroundColor = UIColor.clearColor()
             }
         }
         delegate?.synsetHeaderView(self, selectedSense: sense)

@@ -206,7 +206,7 @@ class SynsetPointerView: UIView {
                     let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
                     let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height), withoutButton: isPreview)
                     pointerView.label.text = text
-                    if pointer.targetType == "Sense" {
+                    if !isPreview && pointer.targetType == "Sense" {
                         pointerView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
                     }
                     pointerView.viewController = viewController
