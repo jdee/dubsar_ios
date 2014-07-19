@@ -150,6 +150,10 @@ class SynsetPointerView: UIView {
         if sense {
             return sense!.pointerForRowAtIndexPath(indexPath)
         }
+        else if synset.senses.count == 1 {
+            let firstSense = synset.senses.firstObject as DubsarModelsSense
+            return firstSense.pointerForRowAtIndexPath(indexPath)
+        }
         return synset.pointerForRowAtIndexPath(indexPath)
     }
 
@@ -256,6 +260,11 @@ class SynsetPointerView: UIView {
         if sense {
             numberOfSections = sense!.numberOfSections
             sections = sense!.sections
+        }
+        else if synset.senses.count == 1 {
+            let firstSense = synset.senses.firstObject as DubsarModelsSense
+            numberOfSections = firstSense.numberOfSections
+            sections = firstSense.sections
         }
         else {
             numberOfSections = synset.numberOfSections

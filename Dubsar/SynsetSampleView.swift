@@ -32,12 +32,6 @@ class SynsetSampleView: UIView {
     var sense : DubsarModelsSense?
     let isPreview : Bool
 
-    var isEmpty : Bool {
-    get {
-        return synset.samples.count == 0
-    }
-    }
-
     var labels : NSMutableArray
 
     init(synset: DubsarModelsSynset!, frame: CGRect, preview: Bool) {
@@ -66,8 +60,12 @@ class SynsetSampleView: UIView {
                 }
             }
 
-            if let s = sense {
-                for verbFrame : AnyObject in s.verbFrames as NSArray {
+            /*
+             * Always include lexical info when displaying synsets with only one word.
+             */
+            let verbFrames : NSArray? = sense ? sense!.verbFrames : synset.senses.count == 1 ? (synset.senses.firstObject as DubsarModelsSense).verbFrames : nil
+            if let frames = verbFrames {
+                for verbFrame : AnyObject in frames as NSArray {
                     if let text = verbFrame as? String {
                         y = addSample(text, atY: y, background: isPreview ? UIColor.clearColor() : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0))
                         // NSLog("Added %@ at %f", text, y)

@@ -205,7 +205,7 @@ class SynsetHeaderView: UIView {
                 extraTextLabel.invalidateIntrinsicContentSize()
                 addSubview(extraTextLabel)
 
-                if sense {
+                if sense || synset.senses.count == 1{
                     extraTextLabel.backgroundColor = UIColor(red:0.9, green:0.9, blue:1.0, alpha:1.0)
                 }
                 else {
@@ -241,7 +241,7 @@ class SynsetHeaderView: UIView {
         for object: AnyObject in synset.senses as NSArray {
             if let synonym = object as? DubsarModelsSense {
                 let buttonPair = SynonymButtonPair(sense: synonym, view: self)
-                if sense && sense!._id == synonym._id /* && synset.senses.count > 1 */ { // set it to disabled when synset.senses.count == 1?
+                if (sense && sense!._id == synonym._id) || synset.senses.count == 1 { // set it to disabled when synset.senses.count == 1?
                     buttonPair.selectionButton.selected = true
                     buttonPair.selectionButton.backgroundColor = UIColor(red:0.9, green:0.9, blue:1.0, alpha:1.0)
                 }
