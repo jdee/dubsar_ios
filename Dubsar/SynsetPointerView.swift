@@ -32,8 +32,9 @@ class PointerView : UIView {
         label = UILabel()
         super.init(frame: frame)
 
+        let fudge : CGFloat = 8
         let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        let buttonSize = ("X" as NSString).sizeWithAttributes([NSFontAttributeName: bodyFont]).height // height of one line in the body font
+        let buttonSize = bodyFont.pointSize + fudge // height of one line in the body font, with a little extra space
 
         label.lineBreakMode = .ByWordWrapping
         label.numberOfLines = 0
@@ -229,7 +230,7 @@ class SynsetPointerView: UIView {
 
     func performReset() {
         for label : AnyObject in labels as NSArray {
-            if let view = label as? UILabel {
+            if let view = label as? UIView {
                 view.removeFromSuperview()
             }
         }

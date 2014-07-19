@@ -667,12 +667,19 @@
                     char const* _name = (char const*)sqlite3_column_text(lexicalQuery, 0);
                     char const* _part_of_speech = (char const*)sqlite3_column_text(lexicalQuery, 1);
                     char const* _definition = (char const*)sqlite3_column_text(lexicalQuery, 2);
+                    char const* _marker = (char const*)sqlite3_column_text(lexicalQuery, 3);
+                    char const* _lexname = (char const*)sqlite3_column_text(lexicalQuery, 4);
+                    NSLog(@"name: %s, part_of_speech: %s, definition: %s, marker: %s, lexname: %s", _name, _part_of_speech, _definition, _marker, _lexname);
                     
                     DubsarModelsPartOfSpeech _partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
                     NSString* definition = @(_definition);
                     pointer.targetGloss = [definition componentsSeparatedByString:@"; \""][0];
-                    pointer.targetText = [NSString stringWithFormat:@"%s, %@.", _name, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:_partOfSpeech]];
-                    // pointer.targetName = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
+                    if (_marker) {
+                        pointer.targetText = [NSString stringWithFormat:@"<%s> (%s) %s, %@.", _lexname, _marker, _name, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:_partOfSpeech]];
+                    }
+                    else {
+                        pointer.targetText = [NSString stringWithFormat:@"<%s> %s, %@.", _lexname, _name, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:_partOfSpeech]];
+                    }
                 }
                 
             }
@@ -687,6 +694,8 @@
                 /* semantic pointers */
                 NSMutableArray* wordList = [NSMutableArray array];
                 DubsarModelsPartOfSpeech ptrPartOfSpeech=DubsarModelsPartOfSpeechUnknown;
+                char const* _lexname = "";
+                NSString* pointerLexname;
                 while (sqlite3_step(semanticQuery) == SQLITE_ROW) {
                     char const* _name;
                     char const* _part_of_speech;
@@ -695,7 +704,9 @@
                         _part_of_speech = (char const*)sqlite3_column_text(semanticQuery, 1);
                         char const* _definition = (char const*)sqlite3_column_text(semanticQuery, 2);
                         NSString* definition = @(_definition);
-                        
+                        _lexname = (char const*)sqlite3_column_text(semanticQuery, 3);
+                        pointerLexname = @(_lexname);
+
                         pointer.targetGloss = [definition componentsSeparatedByString:@"; \""][0];
                         ptrPartOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
                     }
@@ -712,7 +723,7 @@
                     words = [words stringByAppendingString:wordList[wordList.count-1]];
                 }
                 
-                pointer.targetText = [NSString stringWithFormat:@"%@, %@.", words, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
+                pointer.targetText = [NSString stringWithFormat:@"<%@> %@, %@.", pointerLexname, words, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
             }
         }
         
@@ -741,7 +752,7 @@
         return;
     }
     
-    char const* csql = "SELECT w.name, w.part_of_speech, sy.definition, se.marker "
+    char const* csql = "SELECT w.name, w.part_of_speech, sy.definition, se.marker, sy.lexname "
               "FROM words w "
               "INNER JOIN senses se ON se.word_id = w.id "
               "INNER JOIN synsets sy ON sy.id = se.synset_id "
@@ -755,7 +766,7 @@
         return;
     }
     
-    csql = "SELECT w.name, w.part_of_speech, sy.definition "
+    csql = "SELECT w.name, w.part_of_speech, sy.definition, sy.lexname "
            "FROM synsets sy "
            "INNER JOIN senses se ON se.synset_id = sy.id "
            "INNER JOIN words w ON w.id = se.word_id "

@@ -373,6 +373,8 @@
             /* semantic pointers */
             NSMutableArray* wordList = [NSMutableArray array];
             DubsarModelsPartOfSpeech ptrPartOfSpeech=DubsarModelsPartOfSpeechUnknown;
+            char const* _lexname = "";
+            NSString* pointerLexname;
             while (sqlite3_step(semanticQuery) == SQLITE_ROW) {
                 char const* _name;
                 char const* _part_of_speech;
@@ -381,7 +383,9 @@
                     _part_of_speech = (char const*)sqlite3_column_text(semanticQuery, 1);
                     char const* _definition = (char const*)sqlite3_column_text(semanticQuery, 2);
                     NSString* definition = @(_definition);
-                    
+                    _lexname = (char const*)sqlite3_column_text(semanticQuery, 3);
+                    pointerLexname = @(_lexname);
+
                     pointer.targetGloss = [definition componentsSeparatedByString:@"; \""][0];
                     ptrPartOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
                 }
@@ -397,7 +401,7 @@
                 words = [words stringByAppendingString:wordList[wordList.count-1]];
             }
             
-            pointer.targetText = [NSString stringWithFormat:@"%@, %@.", words, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
+            pointer.targetText = [NSString stringWithFormat:@"<%@> %@, %@.", pointerLexname, words, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:ptrPartOfSpeech]];
         }
         
     }
@@ -422,7 +426,7 @@
         return;
     }        
     
-    char const* csql = "SELECT w.name, w.part_of_speech, sy.definition "
+    char const* csql = "SELECT w.name, w.part_of_speech, sy.definition, sy.lexname "
     "FROM synsets sy "
     "INNER JOIN senses se ON se.synset_id = sy.id "
     "INNER JOIN words w ON w.id = se.word_id "
