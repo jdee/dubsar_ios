@@ -24,6 +24,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
     @IBOutlet var searchLabel : UILabel
     @IBOutlet var resultTableView : UITableView
+    @IBOutlet var pageControl : UIPageControl
 
     class var identifier : String {
         get {
@@ -46,7 +47,24 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         super.viewWillAppear(animated)
 
         title = "Search"
-        searchLabel.text = "search results for \"\(search.term)\""
+        updateTitle()
+        pageControl.hidden = search.totalPages <= 1
+    }
+
+    @IBAction
+    func pageChanged(sender: UIPageControl) {
+        search.currentPage = sender.currentPage + 1
+        search.complete = false
+        search.load()
+        resultTableView.reloadData()
+    }
+
+    func updateTitle() {
+        var title = "search results for \"\(search.term)\""
+        if search.totalPages > 1 {
+            title = "\(title) p. \(search.currentPage)/\(search.totalPages)"
+        }
+        searchLabel.text = title
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section:Int) -> Int {
@@ -118,6 +136,10 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             return
         }
 
+        pageControl.hidden = search.totalPages <= 1
+        pageControl.currentPage = search.currentPage - 1
+        pageControl.numberOfPages = search.totalPages
+        updateTitle()
         resultTableView.reloadData()
     }
 

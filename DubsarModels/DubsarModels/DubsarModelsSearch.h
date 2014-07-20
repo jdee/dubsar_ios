@@ -29,9 +29,9 @@
 @property (nonatomic, copy) NSString* title;
 @property (nonatomic, copy) NSString* term;
 @property (nonatomic, strong) NSMutableArray* results;
-@property (nonatomic) int currentPage;
-@property (nonatomic) int totalPages;
-@property (nonatomic) int seqNum;
+@property (nonatomic) NSUInteger currentPage;
+@property (nonatomic) NSUInteger totalPages;
+@property (nonatomic) NSUInteger seqNum;
 
 /*
  * Indicates whether the search result contains an exact match.

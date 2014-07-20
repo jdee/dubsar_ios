@@ -117,22 +117,33 @@
                                     <outlet property="delegate" destination="FHr-Mo-Hqo" id="HVt-le-1yG"/>
                                 </connections>
                             </tableView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="uvz-Jj-0Uq">
+                                <rect key="frame" x="0.0" y="389" width="480" height="37"/>
+                                <color key="pageIndicatorTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="pageChanged:" destination="FHr-Mo-Hqo" eventType="valueChanged" id="Bbr-be-J2L"/>
+                                </connections>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="y1J-Kl-7yT" firstAttribute="top" secondItem="imY-dh-bna" secondAttribute="top" constant="20" id="06c-w5-EHe"/>
+                            <constraint firstItem="uvz-Jj-0Uq" firstAttribute="leading" secondItem="imY-dh-bna" secondAttribute="leading" id="OW4-0Q-Lky"/>
+                            <constraint firstAttribute="trailing" secondItem="uvz-Jj-0Uq" secondAttribute="trailing" id="Ygi-t9-Vgw"/>
                             <constraint firstItem="y1J-Kl-7yT" firstAttribute="leading" secondItem="imY-dh-bna" secondAttribute="leading" constant="8" id="c4l-df-p3W"/>
                             <constraint firstItem="75o-h8-6cW" firstAttribute="top" secondItem="y1J-Kl-7yT" secondAttribute="bottom" constant="8" id="ddn-rl-X0j"/>
                             <constraint firstAttribute="trailing" secondItem="75o-h8-6cW" secondAttribute="trailing" id="fOM-30-jD8"/>
                             <constraint firstItem="75o-h8-6cW" firstAttribute="leading" secondItem="imY-dh-bna" secondAttribute="leading" id="jHk-da-0rx"/>
                             <constraint firstAttribute="trailing" secondItem="y1J-Kl-7yT" secondAttribute="trailing" constant="18" id="m1V-fM-nJe"/>
                             <constraint firstAttribute="bottom" secondItem="75o-h8-6cW" secondAttribute="bottom" id="vBI-cz-d1q"/>
+                            <constraint firstAttribute="bottom" secondItem="uvz-Jj-0Uq" secondAttribute="bottom" constant="-10" id="xX6-V5-5FJ"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="pageControl" destination="uvz-Jj-0Uq" id="POh-wq-ZEk"/>
                         <outlet property="resultTableView" destination="75o-h8-6cW" id="UVL-vN-s6O"/>
                         <outlet property="searchLabel" destination="y1J-Kl-7yT" id="bUT-tF-IVV"/>
                     </connections>
