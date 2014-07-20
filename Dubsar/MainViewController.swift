@@ -26,6 +26,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     @IBOutlet var searchBar : UISearchBar
     @IBOutlet var wotdLabel : UILabel
 
+    var autocompleterView : AutocompleterView!
     var wotd : DubsarModelsDailyWord!
     var autocompleter : DubsarModelsAutocompleter?
     var lastSequence : Int = -1
@@ -36,6 +37,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         wotd = DubsarModelsDailyWord()
         wotd.delegate = self
+
+        // this view resizes its own height
+        autocompleterView = AutocompleterView(frame: CGRectMake(0, searchBar.bounds.size.height+searchBar.frame.origin.y, view.bounds.size.width, view.bounds.size.height))
+        autocompleterView.hidden = true
+        autocompleterView.viewController = self
+        view.addSubview(autocompleterView)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -75,6 +82,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     func autocompleterFinished(theAutocompleter: DubsarModelsAutocompleter!, withError error: String!) {
         NSLog("Autocompleter finished for term %@, seq. %d, result count %d", theAutocompleter.term, theAutocompleter.seqNum, theAutocompleter.results.count)
+        if !searchBarEditing || searchBar.text.isEmpty {
+            return
+        }
+
+        autocompleterView.autocompleter = theAutocompleter
+        autocompleterView.hidden = false
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
@@ -92,8 +105,14 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         return true
     }
 
+    func searchBarWillEndEditing(searchBar: UISearchBar!) {
+        searchBarEditing = false
+        autocompleterView.hidden = true
+    }
+
     func searchBarDidEndEditing(searchBar: UISearchBar!) {
         searchBarEditing = false
+        autocompleterView.hidden = true
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
@@ -112,7 +131,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     func searchBar(searchBar: UISearchBar!, textDidChange searchText: String!) {
         autocompleter?.cancel()
 
-        if !searchBarEditing {
+        if !searchBarEditing || searchText.isEmpty {
+            autocompleterView.hidden = true
             return
         }
 
@@ -131,5 +151,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func setupToolbar() {
+    }
+
+    func autocompleterView(_: AutocompleterView!, selectedResult result: String!) {
+        let search = DubsarModelsSearch(term: result, matchCase: false)
+        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
     }
 }
