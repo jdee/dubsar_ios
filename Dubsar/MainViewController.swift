@@ -27,6 +27,9 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     @IBOutlet var wotdLabel : UILabel
 
     var wotd : DubsarModelsDailyWord!
+    var autocompleter : DubsarModelsAutocompleter?
+    var lastSequence : Int = -1
+    var searchBarEditing : Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +49,13 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             return
         }
 
-        if let dailyWord = model as? DubsarModelsDailyWord {
+        if let a = model as? DubsarModelsAutocompleter {
+            if a.seqNum < lastSequence {
+                return
+            }
+            autocompleterFinished(a, withError: nil)
+        }
+        else if let dailyWord = model as? DubsarModelsDailyWord {
             /*
              * First determine the ID of the WOTD by consulting the user defaults or requesting
              * from the server. Once we have that, load the actual word entry for info to display.
@@ -64,6 +73,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     }
 
+    func autocompleterFinished(theAutocompleter: DubsarModelsAutocompleter!, withError error: String!) {
+        NSLog("Autocompleter finished for term %@, seq. %d, result count %d", theAutocompleter.term, theAutocompleter.seqNum, theAutocompleter.results.count)
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         super.prepareForSegue(segue, sender: sender)
         if let viewController = segue.destinationViewController as? WordViewController {
@@ -75,7 +88,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     func searchBarShouldBeginEditing(searchBar: UISearchBar!) -> Bool {
         searchBar.showsCancelButton = true
+        searchBarEditing = true
         return true
+    }
+
+    func searchBarDidEndEditing(searchBar: UISearchBar!) {
+        searchBarEditing = false
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
@@ -89,6 +107,21 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         let search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
         pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
+    }
+
+    func searchBar(searchBar: UISearchBar!, textDidChange searchText: String!) {
+        autocompleter?.cancel()
+
+        if !searchBarEditing {
+            return
+        }
+
+        NSLog("Autocompletion text: %@", searchText)
+        autocompleter = DubsarModelsAutocompleter(term: searchText, matchCase: false)
+        autocompleter!.delegate = self
+        autocompleter!.max = 3 // should depend on view size. this includes iPads.
+        autocompleter!.load()
+        lastSequence = autocompleter!.seqNum
     }
 
     override func adjustLayout() {

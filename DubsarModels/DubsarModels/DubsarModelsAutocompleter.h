@@ -29,11 +29,12 @@
 @property (nonatomic, copy) NSString* term;
 @property (nonatomic, strong) NSMutableArray* results;
 @property (nonatomic) int max;
-@property bool aborted;
-@property (nonatomic, weak) id lock;
+@property (atomic) bool aborted;
 
-+(instancetype)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
++ (instancetype)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
 
--(instancetype)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase NS_DESIGNATED_INITIALIZER;
+
+- (void)cancel;
 
 @end

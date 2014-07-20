@@ -25,15 +25,18 @@
 #import "DubsarModelsDatabaseWrapper.h"
 #import "NSString+URLEncoding.h"
 
-@implementation DubsarModelsAutocompleter
+@interface DubsarModelsAutocompleter()
+@end
+
+@implementation DubsarModelsAutocompleter {
+    BOOL aborted;
+}
 
 @synthesize seqNum;
 @synthesize results=_results;
 @synthesize term=_term;
 @synthesize matchCase;
 @synthesize max;
-@synthesize aborted;
-@synthesize lock;
 
 + (instancetype)autocompleterWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase
 {
@@ -50,7 +53,7 @@
         _results = nil;
         matchCase = mustMatchCase;
         max = 10;
-        aborted = false;
+        aborted = NO;
         
         /*
         NSString* __url = [NSString stringWithFormat:@"/os?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
@@ -61,18 +64,24 @@
     return self;
 }
 
-/* Called in loadResults: to terminate a search */
+/* Checked in loadResults: to terminate a search */
 - (bool)aborted
 {
-    @synchronized(lock) {
+    @synchronized(self.class) {
         return aborted;
     }
 }
 
-/* Don't synchronize this; leave that to the caller, so termination can be atomic */
 - (void)setAborted:(bool)isAborted
 {
-    aborted = isAborted;
+    @synchronized(self.class) {
+        aborted = isAborted;
+    }
+}
+
+- (void)cancel
+{
+    self.aborted = YES;
 }
 
 - (void)load

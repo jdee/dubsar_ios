@@ -15,8 +15,6 @@
 		7BAC232019735CB400D2AEA4 /* DubsarModelsAutocompleter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230019735CB400D2AEA4 /* DubsarModelsAutocompleter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BAC232119735CB400D2AEA4 /* DubsarModelsAutocompleter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230119735CB400D2AEA4 /* DubsarModelsAutocompleter.m */; };
 		7BAC232219735CB400D2AEA4 /* DubsarModelsAutocompleterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230219735CB400D2AEA4 /* DubsarModelsAutocompleterDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232319735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230319735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7BAC232419735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230419735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.m */; };
 		7BAC232519735CB400D2AEA4 /* DubsarModelsDailyWord.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230519735CB400D2AEA4 /* DubsarModelsDailyWord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BAC232619735CB400D2AEA4 /* DubsarModelsDailyWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC230619735CB400D2AEA4 /* DubsarModelsDailyWord.m */; };
 		7BAC232719735CB400D2AEA4 /* DubsarModelsInflection.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC230719735CB400D2AEA4 /* DubsarModelsInflection.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -72,8 +70,6 @@
 		7BAC230019735CB400D2AEA4 /* DubsarModelsAutocompleter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsAutocompleter.h; sourceTree = "<group>"; };
 		7BAC230119735CB400D2AEA4 /* DubsarModelsAutocompleter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsAutocompleter.m; sourceTree = "<group>"; };
 		7BAC230219735CB400D2AEA4 /* DubsarModelsAutocompleterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsAutocompleterDelegate.h; sourceTree = "<group>"; };
-		7BAC230319735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsAutocompleterProxy.h; sourceTree = "<group>"; };
-		7BAC230419735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsAutocompleterProxy.m; sourceTree = "<group>"; };
 		7BAC230519735CB400D2AEA4 /* DubsarModelsDailyWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsDailyWord.h; sourceTree = "<group>"; };
 		7BAC230619735CB400D2AEA4 /* DubsarModelsDailyWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsDailyWord.m; sourceTree = "<group>"; };
 		7BAC230719735CB400D2AEA4 /* DubsarModelsInflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsInflection.h; sourceTree = "<group>"; };
@@ -152,8 +148,6 @@
 				7BAC230019735CB400D2AEA4 /* DubsarModelsAutocompleter.h */,
 				7BAC230119735CB400D2AEA4 /* DubsarModelsAutocompleter.m */,
 				7BAC230219735CB400D2AEA4 /* DubsarModelsAutocompleterDelegate.h */,
-				7BAC230319735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.h */,
-				7BAC230419735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.m */,
 				7BAC230519735CB400D2AEA4 /* DubsarModelsDailyWord.h */,
 				7BAC230619735CB400D2AEA4 /* DubsarModelsDailyWord.m */,
 				7BAC235419736CDA00D2AEA4 /* DubsarModelsDatabase.h */,
@@ -230,7 +224,6 @@
 				7BAC232219735CB400D2AEA4 /* DubsarModelsAutocompleterDelegate.h in Headers */,
 				7BAC232019735CB400D2AEA4 /* DubsarModelsAutocompleter.h in Headers */,
 				7BAC232519735CB400D2AEA4 /* DubsarModelsDailyWord.h in Headers */,
-				7BAC232319735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.h in Headers */,
 				7BAC232719735CB400D2AEA4 /* DubsarModelsInflection.h in Headers */,
 				7BAC233A19735CB400D2AEA4 /* DubsarModelsSynset.h in Headers */,
 				7BAC233219735CB400D2AEA4 /* DubsarModelsReview.h in Headers */,
@@ -359,7 +352,6 @@
 				7BAC232B19735CB400D2AEA4 /* DubsarModelsModel.m in Sources */,
 				7BAC232F19735CB400D2AEA4 /* DubsarModelsPointer.m in Sources */,
 				7BAC2347197361D800D2AEA4 /* NSString+URLEncoding.m in Sources */,
-				7BAC232419735CB400D2AEA4 /* DubsarModelsAutocompleterProxy.m in Sources */,
 				7BAC231F19735CB400D2AEA4 /* DubsarModelsAugury.m in Sources */,
 				7BAC235719736CDA00D2AEA4 /* DubsarModelsDatabase.m in Sources */,
 				7BAC233319735CB400D2AEA4 /* DubsarModelsReview.m in Sources */,
