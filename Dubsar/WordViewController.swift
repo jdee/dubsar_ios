@@ -251,4 +251,14 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         super.adjustLayout()
     }
 
+    override func setupToolbar() {
+        let string : String? = title
+        if string {
+            // not yet set in an ordinary word view. need a better way to distinguish this.
+            return
+        }
+
+        super.setupToolbar()
+    }
+
 }

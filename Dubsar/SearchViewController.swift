@@ -148,4 +148,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         resultTableView.reloadData()
         super.adjustLayout()
     }
+
+    override func setupToolbar() {
+    }
 }

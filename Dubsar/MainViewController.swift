@@ -96,4 +96,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         wotdButton.titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         super.adjustLayout()
     }
+
+    override func setupToolbar() {
+    }
 }

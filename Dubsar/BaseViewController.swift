@@ -48,6 +48,7 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
 
         load()
         adjustLayout()
+        setupToolbar()
     }
 
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
@@ -95,6 +96,15 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
     func pushViewControllerWithIdentifier(vcIdentifier: String!, model: DubsarModelsModel? = nil) {
         let vc = instantiateViewControllerWithIdentifier(vcIdentifier, model: model)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func setupToolbar() {
+        let homeButton = UIBarButtonItem(title: "Home", style: UIBarButtonItemStyle.Bordered, target: self, action: "home")
+        navigationItem.rightBarButtonItem = homeButton
+    }
+
+    func home() {
+        navigationController.popToRootViewControllerAnimated(true)
     }
 
 }
