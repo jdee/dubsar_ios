@@ -48,6 +48,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         wotd.load()
+        resetSearch()
     }
 
     override func loadComplete(model: DubsarModelsModel!, withError error: String?) {
@@ -105,26 +106,17 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         return true
     }
 
-    func searchBarWillEndEditing(searchBar: UISearchBar!) {
-        searchBarEditing = false
-        autocompleterView.hidden = true
-    }
-
     func searchBarDidEndEditing(searchBar: UISearchBar!) {
-        searchBarEditing = false
-        autocompleterView.hidden = true
+        resetSearch()
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
-        searchBar.resignFirstResponder()
-        searchBar.showsCancelButton = false
+        resetSearch()
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar!) {
-        searchBar.resignFirstResponder()
-        searchBar.showsCancelButton = false
-
         let search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
+        resetSearch()
         pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
     }
 
@@ -151,10 +143,21 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func setupToolbar() {
+        // suppress the home button by not calling super
+    }
+
+    func resetSearch() {
+        searchBar.resignFirstResponder()
+        searchBar.text = ""
+        searchBar.showsCancelButton = false
+
+        autocompleterView.hidden = true
+        searchBarEditing = false
     }
 
     func autocompleterView(_: AutocompleterView!, selectedResult result: String!) {
         let search = DubsarModelsSearch(term: result, matchCase: false)
+        resetSearch()
         pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
     }
 }
