@@ -264,7 +264,7 @@ static int _seqNum = 0;
     sql = [sql stringByAppendingString:@"ORDER BY w.name ASC, w.part_of_speech ASC "];
     sql = [sql stringByAppendingFormat:@"LIMIT %d ", NUM_PER_PAGE];
     if (currentPage > 1) {
-        sql = [sql stringByAppendingFormat:@"OFFSET %lu ", (currentPage-1)*NUM_PER_PAGE];
+        sql = [sql stringByAppendingFormat:@"OFFSET %lu ", (unsigned long)(currentPage-1)*NUM_PER_PAGE];
     }
 
 #ifdef DEBUG
@@ -455,7 +455,7 @@ static int _seqNum = 0;
     @"ORDER BY w.name ASC, w.part_of_speech ASC ";
     
     if (currentPage > 1) {
-        sql = [sql stringByAppendingFormat:@"LIMIT %d OFFSET %lu ", NUM_PER_PAGE, (currentPage-1)*NUM_PER_PAGE-numExact];
+        sql = [sql stringByAppendingFormat:@"LIMIT %d OFFSET %lu ", NUM_PER_PAGE, (unsigned long)(currentPage-1)*NUM_PER_PAGE-numExact];
     }
     else {
         sql = [sql stringByAppendingFormat:@"LIMIT %d ", NUM_PER_PAGE - numExact];
