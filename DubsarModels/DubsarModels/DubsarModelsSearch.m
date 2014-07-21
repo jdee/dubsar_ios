@@ -52,9 +52,9 @@ static int _seqNum = 0;
     return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase page:page seqNum:_seqNum++];
 }
 
-+(instancetype)searchWithWildcard:(NSString *)regexp page:(int)page title:(NSString *)theTitle
++(instancetype)searchWithWildcard:(NSString *)globExpression page:(int)page title:(NSString *)theTitle
 {
-    return [[self alloc]initWithWildcard:regexp page:page title:theTitle seqNum:_seqNum++];
+    return [[self alloc]initWithWildcard:globExpression page:page title:theTitle seqNum:_seqNum++];
 }
 
 -(instancetype)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum
@@ -114,16 +114,16 @@ static int _seqNum = 0;
     return self;
 }
 
--(instancetype)initWithWildcard:(NSString *)regexp page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum
+-(instancetype)initWithWildcard:(NSString *)globExpression page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum
 {
 #ifdef DEBUG
-    NSLog(@"constructing search for \"%@\"", regexp);
+    NSLog(@"constructing search for \"%@\"", globExpression);
 #endif // DEBUG
     
     self = [super init];
     if (self) {   
         matchCase = false;
-        term = regexp;
+        term = globExpression;
         isWildCard = true;
         title = theTitle;
         results = nil;

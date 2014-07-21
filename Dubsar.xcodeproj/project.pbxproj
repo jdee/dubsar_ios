@@ -20,6 +20,7 @@
 		7B670D0D1973851F00E83937 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0B1973851F00E83937 /* iTunesArtwork */; };
 		7B670D0E1973851F00E83937 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0C1973851F00E83937 /* iTunesArtwork@2x */; };
 		7B670D10197398B600E83937 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0F197398B600E83937 /* Settings.bundle */; };
+		7B7D3E93197DB3DC00619DEA /* KeyboardHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3E92197DB3DC00619DEA /* KeyboardHelper.m */; };
 		7B82C93E19760A0E0077D1A0 /* SynsetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */; };
 		7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C94019760D5F0077D1A0 /* SynsetHeaderView.swift */; };
 		7B82C94319760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C94219760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift */; };
@@ -108,6 +109,8 @@
 		7B670D0B1973851F00E83937 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		7B670D0C1973851F00E83937 /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		7B670D0F197398B600E83937 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		7B7D3E91197DB3DC00619DEA /* KeyboardHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardHelper.h; sourceTree = "<group>"; };
+		7B7D3E92197DB3DC00619DEA /* KeyboardHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardHelper.m; sourceTree = "<group>"; };
 		7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynsetViewController.swift; sourceTree = "<group>"; };
 		7B82C94019760D5F0077D1A0 /* SynsetHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynsetHeaderView.swift; sourceTree = "<group>"; };
 		7B82C94219760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsSynset+ViewSizing.swift"; sourceTree = "<group>"; };
@@ -316,6 +319,8 @@
 			children = (
 				7B1151FF1974340900869E15 /* DubsarServer.h */,
 				7B1152001974340900869E15 /* DubsarServer.m */,
+				7B7D3E91197DB3DC00619DEA /* KeyboardHelper.h */,
+				7B7D3E92197DB3DC00619DEA /* KeyboardHelper.m */,
 				7B497C981979C3AF00563A4B /* NavButton.swift */,
 				7B62D74E19773272006A797C /* NavButtonImage.h */,
 				7B62D74F19773272006A797C /* NavButtonImage.m */,
@@ -453,6 +458,7 @@
 				7BBF83741975871300969765 /* BaseViewController.swift in Sources */,
 				7B497C971978889700563A4B /* SynsetPointerView.swift in Sources */,
 				7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */,
+				7B7D3E93197DB3DC00619DEA /* KeyboardHelper.m in Sources */,
 				7BBF83701974D58400969765 /* SearchViewController.swift in Sources */,
 				7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */,
 				7BBF83821975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift in Sources */,
@@ -570,7 +576,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				METAL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -608,7 +614,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				METAL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -627,7 +633,6 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Dubsar-gtxcrwsszmnigedrmhxqqasmxygq/Build/Products/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Dubsar/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dubsar/Dubsar-Bridging-Header.h";
@@ -646,7 +651,6 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Dubsar-gtxcrwsszmnigedrmhxqqasmxygq/Build/Products/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Dubsar/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dubsar/Dubsar-Bridging-Header.h";

@@ -22,7 +22,7 @@ import UIKit
 
 class WordViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet var senseTableView : UITableView
+    @IBOutlet var senseTableView : UITableView!
 
     class var identifier : String {
         get {

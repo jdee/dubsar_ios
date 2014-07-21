@@ -22,9 +22,9 @@ import UIKit
 
 class SearchViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet var searchLabel : UILabel
-    @IBOutlet var resultTableView : UITableView
-    @IBOutlet var pageControl : UIPageControl
+    @IBOutlet var searchLabel : UILabel!
+    @IBOutlet var resultTableView : UITableView!
+    @IBOutlet var pageControl : UIPageControl!
 
     class var identifier : String {
         get {
@@ -138,7 +138,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         pageControl.hidden = search.totalPages <= 1
         pageControl.currentPage = search.currentPage - 1
-        pageControl.numberOfPages = search.totalPages
+        pageControl.numberOfPages = Int(search.totalPages)
         updateTitle()
         resultTableView.reloadData()
     }

@@ -94,9 +94,9 @@ class SynsetPointerView: UIView {
     var scrollViewBottom : CGFloat = 0
 
     var hasReset : Bool = true
-    var numberOfSections : Int = 0
+    var numberOfSections : UInt = 0
     var sections : NSArray!
-    var totalRows : Int = 0
+    var totalRows : UInt = 0
     var completedUpToY : CGFloat = 0
     var completedUpToRow : Int = 0
     var nextSection : Int = 0
@@ -128,7 +128,7 @@ class SynsetPointerView: UIView {
             /*
              * The safest thing to do (to begin with) is start at the top of this view (y = 0) and work our way down.
              */
-            if completedUpToY >= scrollViewBottom || nextSection == numberOfSections {
+            if completedUpToY >= scrollViewBottom || nextSection == Int(numberOfSections) {
                 // nothing to do.
                 return
             }
@@ -169,7 +169,7 @@ class SynsetPointerView: UIView {
 
         var sectionNumber: Int
         var finished = false
-        for sectionNumber = nextSection; sectionNumber < numberOfSections; ++sectionNumber {
+        for sectionNumber = nextSection; sectionNumber < Int(numberOfSections); ++sectionNumber {
             let object: AnyObject = sections[sectionNumber]
             if let section = object as? DubsarModelsSection {
                 if nextRow == -1 {
@@ -197,7 +197,7 @@ class SynsetPointerView: UIView {
 
                 let numRows = section.numRows // another SQL query
                 var row: Int
-                for row=nextRow; row<numRows; ++row {
+                for row=nextRow; row<Int(numRows); ++row {
                     let indexPath = NSIndexPath(forRow: row, inSection: sectionNumber)
                     let pointer : DubsarModelsPointer = pointerForRowAtIndexPath(indexPath)
 

@@ -22,9 +22,9 @@ import UIKit
 
 class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDelegate {
 
-    @IBOutlet var wotdButton : UIButton
-    @IBOutlet var searchBar : UISearchBar
-    @IBOutlet var wotdLabel : UILabel
+    @IBOutlet var wotdButton : UIButton!
+    @IBOutlet var searchBar : UISearchBar!
+    @IBOutlet var wotdLabel : UILabel!
 
     var alphabetView : AlphabetView!
     var autocompleterView : AutocompleterView!
@@ -164,7 +164,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         let margin = AutocompleterView.margin
         let lineHeight = ("Qp" as NSString).sizeWithAttributes([NSFontAttributeName: font]).height + 3*margin
 
-        var max: Int = Int(available / lineHeight) // floor
+        var max: UInt = UInt(available / lineHeight) // floor
         if max < 1 {
             max = 1
         }
@@ -195,14 +195,9 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     func keyboardShowing(notification: NSNotification!) {
-        let keyboardSize = notification.userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey).CGRectValue().size
-        if UIInterfaceOrientationIsPortrait(UIApplication.sharedApplication().statusBarOrientation) {
-            keyboardHeight = keyboardSize.height
-        }
-        else {
-            keyboardHeight = keyboardSize.width
-        }
+        keyboardHeight = KeyboardHelper.keyboardSizeFromNotification(notification)
 
+        // why does this crash?
         // NSLog("Keyboard height is %f, rotated = %@", keyboardHeight, (rotated ? "true" : "false"))
 
         if rotated {

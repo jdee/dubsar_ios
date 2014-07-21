@@ -97,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         let path = url.path
         if path.hasPrefix("/wotd/") {
             let last = url.lastPathComponent as NSString
-            let wotdId = Int(last.intValue)
+            let wotdId = UInt(last.intValue)
             let word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
 
             // crashes, so we use the string literal "Word" below
@@ -111,7 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         }
         else if path.hasPrefix("/words/") {
             let last = url.lastPathComponent as NSString
-            let wotdId = Int(last.intValue)
+            let wotdId = UInt(last.intValue)
             let word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
 
             // crashes, so we use the string literal "Word" below

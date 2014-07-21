@@ -17,8 +17,32 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Dubsar.h"
-#import "DubsarServer.h"
+//
+
 #import "KeyboardHelper.h"
-#import "NavButtonImage.h"
-#import "PushWrapper.h"
+
+@implementation KeyboardHelper
+
++ (CGFloat)keyboardSizeFromNotification:(NSNotification *)notification
+{
+    /*
+     * Can prob. still do this in Swift, but it was causing problems.
+     */
+    NSDictionary* userInfo = notification.userInfo;
+    NSNumber* frameEndValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGSize size = frameEndValue.CGRectValue.size;
+
+    CGFloat height = 0;
+    if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+        height = size.height;
+    }
+    else {
+        height = size.width;
+    }
+
+    // NSLog(@"Keyboard height is %f", height);
+
+    return height;
+}
+
+@end
