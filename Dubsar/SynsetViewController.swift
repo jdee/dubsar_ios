@@ -213,4 +213,8 @@ class SynsetViewController: BaseViewController {
         pushViewControllerWithIdentifier(SynsetViewController.identifier, model: model)
         // NSLog("Pushed VC for pointer")
     }
+
+    override func setupToolbar() {
+        addHomeButton()
+    }
 }

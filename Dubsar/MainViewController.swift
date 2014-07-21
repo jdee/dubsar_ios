@@ -157,10 +157,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         super.adjustLayout()
     }
 
-    override func setupToolbar() {
-        // suppress the home button by not calling super
-    }
-
     func triggerAutocompletion() {
         // compute available space
         let available = view.bounds.size.height - keyboardHeight - searchBar.bounds.size.height

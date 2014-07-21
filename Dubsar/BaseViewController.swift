@@ -99,6 +99,10 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
     }
 
     func setupToolbar() {
+        // Base does nothing. Subviews can addHomeButton() if appropriate.
+    }
+
+    func addHomeButton() {
         let homeButton = UIBarButtonItem(title: "Home", style: UIBarButtonItemStyle.Bordered, target: self, action: "home")
         navigationItem.rightBarButtonItem = homeButton
     }
