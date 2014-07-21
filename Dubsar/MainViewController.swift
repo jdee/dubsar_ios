@@ -31,6 +31,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     var autocompleter : DubsarModelsAutocompleter?
     var lastSequence : Int = -1
     var searchBarEditing : Bool = false
+    var keyboardHeight : CGFloat = 0
+    var rotated : Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,12 +45,15 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         autocompleterView.hidden = true
         autocompleterView.viewController = self
         view.addSubview(autocompleterView)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShowing:", name: UIKeyboardDidShowNotification, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         wotd.load()
         resetSearch()
+        rotated = false
     }
 
     override func loadComplete(model: DubsarModelsModel!, withError error: String?) {
@@ -82,7 +87,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     func autocompleterFinished(theAutocompleter: DubsarModelsAutocompleter!, withError error: String!) {
-        NSLog("Autocompleter finished for term %@, seq. %d, result count %d", theAutocompleter.term, theAutocompleter.seqNum, theAutocompleter.results.count)
+        // NSLog("Autocompleter finished for term %@, seq. %d, result count %d", theAutocompleter.term, theAutocompleter.seqNum, theAutocompleter.results.count)
         if !searchBarEditing || searchBar.text.isEmpty {
             return
         }
@@ -98,6 +103,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             wotd.word.complete = false
             viewController.title = "Word of the Day"
         }
+    }
+
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        rotated = true
+        super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
     }
 
     func searchBarShouldBeginEditing(searchBar: UISearchBar!) -> Bool {
@@ -128,22 +138,46 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             return
         }
 
-        NSLog("Autocompletion text: %@", searchText)
-        autocompleter = DubsarModelsAutocompleter(term: searchText, matchCase: false)
-        autocompleter!.delegate = self
-        autocompleter!.max = 3 // should depend on view size. this includes iPads.
-        autocompleter!.load()
-        lastSequence = autocompleter!.seqNum
+        if !rotated {
+            triggerAutocompletion()
+        }
+        // else wait for keyboardShown: to be called to recompute the keyboard height
     }
 
     override func adjustLayout() {
         wotdLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         wotdButton.titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+
+        // rerun the autocompletion request with the new max
+        searchBar(searchBar, textDidChange: searchBar.text)
+
         super.adjustLayout()
     }
 
     override func setupToolbar() {
         // suppress the home button by not calling super
+    }
+
+    func triggerAutocompletion() {
+        // compute available space
+        let available = view.bounds.size.height - keyboardHeight - searchBar.bounds.size.height
+        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let margin = AutocompleterView.margin
+        let lineHeight = ("Qp" as NSString).sizeWithAttributes([NSFontAttributeName: font]).height + 3*margin
+
+        var max: Int = Int(available / lineHeight) // floor
+        if max < 1 {
+            max = 1
+        }
+
+        // NSLog("avail. ht: %f, lineHeight: %f, max: %d", available, lineHeight, max)
+
+        // NSLog("Autocompletion text: %@", searchText)
+        autocompleter = DubsarModelsAutocompleter(term: searchBar.text, matchCase: false)
+        autocompleter!.delegate = self
+        autocompleter!.max = max
+        autocompleter!.load()
+        lastSequence = autocompleter!.seqNum
     }
 
     func resetSearch() {
@@ -159,5 +193,22 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         let search = DubsarModelsSearch(term: result, matchCase: false)
         resetSearch()
         pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
+    }
+
+    func keyboardShowing(notification: NSNotification!) {
+        let keyboardSize = notification.userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey).CGRectValue().size
+        if UIInterfaceOrientationIsPortrait(UIApplication.sharedApplication().statusBarOrientation) {
+            keyboardHeight = keyboardSize.height
+        }
+        else {
+            keyboardHeight = keyboardSize.width
+        }
+
+        // NSLog("Keyboard height is %f, rotated = %@", keyboardHeight, (rotated ? "true" : "false"))
+
+        if rotated {
+            triggerAutocompletion()
+            rotated = false
+        }
     }
 }

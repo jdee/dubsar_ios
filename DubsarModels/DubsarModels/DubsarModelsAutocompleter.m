@@ -139,7 +139,7 @@
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
-        if ((rc=sqlite3_bind_int(database.autocompleterStmt, 3, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_int(database.autocompleterStmt, 3, (int)(exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;    
         }

@@ -55,7 +55,7 @@ class AutocompleterView: UIView {
         if autocompleter {
             assert(autocompleter.complete)
 
-            NSLog("Laying out AutocompleterView with %d results", autocompleter.results.count)
+            // NSLog("Laying out AutocompleterView with %d results", autocompleter.results.count)
             let margin = AutocompleterView.margin
             var y : CGFloat = margin
             for object : AnyObject in autocompleter.results as NSArray {
@@ -83,7 +83,7 @@ class AutocompleterView: UIView {
     @IBAction
     func resultSelected(sender: UIButton!) {
         let result = sender.titleForState(.Normal)
-        NSLog("Button pressed for result %@", result)
+        // NSLog("Button pressed for result %@", result)
         viewController?.autocompleterView(self, selectedResult: result)
     }
 }
