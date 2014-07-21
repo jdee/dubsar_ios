@@ -44,7 +44,7 @@ class SynsetSampleView: UIView {
     override func layoutSubviews() {
         // NSLog("Entered SynsetSampleView.layoutSubviews()")
         for label in labels {
-                label.removeFromSuperview()
+            label.removeFromSuperview()
         }
         labels = []
 
@@ -60,10 +60,12 @@ class SynsetSampleView: UIView {
              * Always include lexical info when displaying synsets with only one word.
              */
             let verbFrames : NSArray? = sense ? sense!.verbFrames : synset.senses.count == 1 ? (synset.senses.firstObject as DubsarModelsSense).verbFrames : nil
-            let frames = verbFrames as [AnyObject]
-            for verbFrame in frames as [NSString] {
-                y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0))
-                // NSLog("Added %@ at %f", text, y)
+            if verbFrames && verbFrames!.count > 0 {
+                let frames = verbFrames as [AnyObject]
+                for verbFrame in frames as [NSString] {
+                    y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0))
+                    // NSLog("Added %@ at %f", text, y)
+                }
             }
 
             frame.size.height = y
