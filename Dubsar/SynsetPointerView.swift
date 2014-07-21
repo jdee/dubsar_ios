@@ -95,7 +95,7 @@ class SynsetPointerView: UIView {
 
     var hasReset : Bool = true
     var numberOfSections : UInt = 0
-    var sections : NSArray!
+    var sections : [AnyObject] = []
     var totalRows : UInt = 0
     var completedUpToY : CGFloat = 0
     var completedUpToRow : Int = 0
@@ -169,69 +169,67 @@ class SynsetPointerView: UIView {
         var sectionNumber: Int
         var finished = false
         for sectionNumber = nextSection; sectionNumber < Int(numberOfSections); ++sectionNumber {
-            let object: AnyObject = sections[sectionNumber]
-            if let section = object as? DubsarModelsSection {
-                if nextRow == -1 {
-                    let title = section.header as NSString
-                    let titleSize = title.sizeOfTextWithConstrainedSize(constrainedSize, font: titleFont)
-                    let titleLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, titleSize.height))
-                    titleLabel.font = titleFont
-                    titleLabel.text = title
-                    titleLabel.lineBreakMode = .ByWordWrapping
-                    titleLabel.numberOfLines = 0
-                    titleLabel.textAlignment = .Center
-                    addSubview(titleLabel)
-                    labels += titleLabel
+            let section = sections[sectionNumber] as DubsarModelsSection
+            if nextRow == -1 {
+                let title = section.header as NSString
+                let titleSize = title.sizeOfTextWithConstrainedSize(constrainedSize, font: titleFont)
+                let titleLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, titleSize.height))
+                titleLabel.font = titleFont
+                titleLabel.text = title
+                titleLabel.lineBreakMode = .ByWordWrapping
+                titleLabel.numberOfLines = 0
+                titleLabel.textAlignment = .Center
+                addSubview(titleLabel)
+                labels += titleLabel
 
-                    y += titleSize.height + margin
-                    nextRow = 0
-                    ++completedUpToRow
+                y += titleSize.height + margin
+                nextRow = 0
+                ++completedUpToRow
 
-                    if y >= scrollViewBottom {
-                        break
-                    }
-                    // NSLog("Title for section %d is %@", sectionNumber, title)
+                if y >= scrollViewBottom {
+                    break
                 }
-
-                let numRows = section.numRows // another SQL query
-                var row: Int
-                for row=nextRow; row<Int(numRows); ++row {
-                    let indexPath = NSIndexPath(forRow: row, inSection: sectionNumber)
-                    let pointer : DubsarModelsPointer = pointerForRowAtIndexPath(indexPath)
-
-                    let fudge : CGFloat = 8
-                    let buttonSize = bodyFont.pointSize + fudge // height of one line in the body font
-
-                    var pointerConstrainedSize = constrainedSize
-                    pointerConstrainedSize.width -= buttonSize
-
-                    let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
-                    let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
-                    let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height), withoutButton: isPreview)
-                    pointerView.label.text = text
-                    if !isPreview && pointer.targetType == "Sense" {
-                        pointerView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
-                    }
-                    pointerView.viewController = viewController
-
-                    addSubview(pointerView)
-                    labels += pointerView
-                    pointerView.button.refreshImages() // do this after addSubview(). Otherwise, we have no graphics context and can't generate an image.
-
-                    y += textSize.height + margin
-
-                    ++completedUpToRow
-
-                    // NSLog("Pointer text for section %d, row %d is %@", sectionNumber, row, title)
-                    if y >= scrollViewBottom {
-                        finished = true
-                        ++row
-                        break
-                    }
-                }
-
-                nextRow = row
+                // NSLog("Title for section %d is %@", sectionNumber, title)
             }
+
+            let numRows = section.numRows // another SQL query
+            var row: Int
+            for row=nextRow; row<Int(numRows); ++row {
+                let indexPath = NSIndexPath(forRow: row, inSection: sectionNumber)
+                let pointer : DubsarModelsPointer = pointerForRowAtIndexPath(indexPath)
+
+                let fudge : CGFloat = 8
+                let buttonSize = bodyFont.pointSize + fudge // height of one line in the body font
+
+                var pointerConstrainedSize = constrainedSize
+                pointerConstrainedSize.width -= buttonSize
+
+                let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
+                let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
+                let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height), withoutButton: isPreview)
+                pointerView.label.text = text
+                if !isPreview && pointer.targetType == "Sense" {
+                    pointerView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
+                }
+                pointerView.viewController = viewController
+
+                addSubview(pointerView)
+                labels += pointerView
+                pointerView.button.refreshImages() // do this after addSubview(). Otherwise, we have no graphics context and can't generate an image.
+
+                y += textSize.height + margin
+
+                ++completedUpToRow
+
+                // NSLog("Pointer text for section %d, row %d is %@", sectionNumber, row, title)
+                if y >= scrollViewBottom {
+                    finished = true
+                    ++row
+                    break
+                }
+            }
+
+            nextRow = row
 
             if finished {
                 break
@@ -268,10 +266,8 @@ class SynsetPointerView: UIView {
         }
 
         totalRows = numberOfSections
-        for object: AnyObject in sections as NSArray { // as NSArray? seriously?
-            if let section = object as? DubsarModelsSection {
-                totalRows += section.numRows
-            }
+        for section in sections as [DubsarModelsSection] {
+            totalRows += section.numRows
         }
         completedUpToY = 0
         completedUpToRow = 0

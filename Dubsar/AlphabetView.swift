@@ -33,7 +33,7 @@ class AlphabetView: UIView {
     }
     }
 
-    let buttons = NSMutableArray()
+    var buttons: [UIButton] = []
     weak var viewController: MainViewController?
 
     init(frame: CGRect) {
@@ -48,12 +48,10 @@ class AlphabetView: UIView {
         let letterWidth = ("W" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).width // W for Wide Load
         let margin = AlphabetView.margin
 
-        for object: AnyObject in buttons {
-            if let button = object as? UIView {
-                button.removeFromSuperview()
-            }
+        for button in buttons {
+            button.removeFromSuperview()
         }
-        buttons.removeAllObjects()
+        buttons = []
 
         var position = margin
 
@@ -91,7 +89,7 @@ class AlphabetView: UIView {
             button.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
             button.addTarget(self, action: "letterPressed:", forControlEvents: .TouchUpInside)
 
-            buttons.addObject(button)
+            buttons += button
             addSubview(button)
 
         }
@@ -125,13 +123,11 @@ class AlphabetView: UIView {
         // fortunately, there are only three relevant device sizes, in points:
         // 320 x 480, 320 x 568, 768 x 1024.
         // these are all the point sizes required to fit them in portrait and landscape.
-        let sizes = [ 36, 24, 18, 14, 12, 10 ]
+        let sizes: [CGFloat] = [ 36, 24, 18, 14, 12, 10 ]
 
         var fontSize: CGFloat = 0
         var fontToUse: UIFont!
-        for size in sizes {
-            // size is an Int, since things like [CGFloat] aren't recognized by beta2, and beta3 is not so much
-            fontSize = CGFloat(size)
+        for fontSize in sizes {
             fontToUse = UIFont(descriptor: fontDescriptor, size: fontSize)
             let letterHeight = ("Q" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).height // Q has a small tail
             let letterWidth = ("W" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).width // W for Wide Load

@@ -50,24 +50,20 @@ class SynsetSampleView: UIView {
 
         if synset.complete {
             var y = SynsetSampleView.margin
-            for sample : AnyObject in synset.samples as NSArray {
-                if let text = sample as? String {
-                    y = addSample(text, atY: y, background: UIColor.clearColor())
-                    // NSLog("Added %@ at %f", text, y)
-                }
+            let samples = synset.samples as [AnyObject]
+            for sample in samples as [NSString] {
+                y = addSample(sample, atY: y, background: UIColor.clearColor())
+                // NSLog("Added %@ at %f", text, y)
             }
 
             /*
              * Always include lexical info when displaying synsets with only one word.
              */
             let verbFrames : NSArray? = sense ? sense!.verbFrames : synset.senses.count == 1 ? (synset.senses.firstObject as DubsarModelsSense).verbFrames : nil
-            if let frames = verbFrames {
-                for verbFrame : AnyObject in frames as NSArray {
-                    if let text = verbFrame as? String {
-                        y = addSample(text, atY: y, background: isPreview ? UIColor.clearColor() : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0))
-                        // NSLog("Added %@ at %f", text, y)
-                    }
-                }
+            let frames = verbFrames as [AnyObject]
+            for verbFrame in frames as [NSString] {
+                y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0))
+                // NSLog("Added %@ at %f", text, y)
             }
 
             frame.size.height = y

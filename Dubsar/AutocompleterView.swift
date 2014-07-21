@@ -55,20 +55,19 @@ class AutocompleterView: UIView {
             // NSLog("Laying out AutocompleterView with %d results", autocompleter.results.count)
             let margin = AutocompleterView.margin
             var y : CGFloat = margin
-            for object : AnyObject in autocompleter.results as NSArray {
-                if let result = object as? NSString {
-                    let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-                    let textSize = result.sizeWithAttributes([NSFontAttributeName: font])
-                    let button = UIButton(frame: CGRectMake(margin, y, bounds.size.width - 2*margin, textSize.height + 2*margin))
-                    button.setTitle(result, forState: .Normal)
-                    button.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
-                    button.titleLabel.font = font
-                    button.addTarget(self, action: "resultSelected:", forControlEvents: .TouchUpInside)
-                    addSubview(button)
-                    buttons += button
+            let results = autocompleter.results as [AnyObject]
+            for result in results as [NSString] {
+                let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+                let textSize = result.sizeWithAttributes([NSFontAttributeName: font])
+                let button = UIButton(frame: CGRectMake(margin, y, bounds.size.width - 2*margin, textSize.height + 2*margin))
+                button.setTitle(result, forState: .Normal)
+                button.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
+                button.titleLabel.font = font
+                button.addTarget(self, action: "resultSelected:", forControlEvents: .TouchUpInside)
+                addSubview(button)
+                buttons += button
 
-                    y += textSize.height + 3*margin
-                }
+                y += textSize.height + 3*margin
             }
 
             frame.size.height = y

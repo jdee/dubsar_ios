@@ -20,13 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-/*
- * Wow, is Xcode6 a little green! Beta2 will not accept Swift array types like
- * [SynonymButtonPair] (or [String]). But Beta3 has the all-product-headers.yaml
- * problem when building the framework module. There's a workaround for that, but
- * the app crashes when trying to register for push. So we use an NSMutableArray
- * for now, but that requires using a class instead of a struct. :|
- */
 class SynonymButtonPair {
     class var margin : CGFloat {
         get {
@@ -230,8 +223,8 @@ class SynsetHeaderView: UIView {
 
     func setupSynonymButtons() -> CGFloat {
         for buttonPair in synonymButtons {
-                buttonPair.selectionButton.removeFromSuperview()
-                buttonPair.navigationButton.removeFromSuperview()
+            buttonPair.selectionButton.removeFromSuperview()
+            buttonPair.navigationButton.removeFromSuperview()
         }
 
         synonymButtons = []
@@ -277,8 +270,8 @@ class SynsetHeaderView: UIView {
      */
     func resetSelection() {
         for buttonPair in synonymButtons {
-                buttonPair.selectionButton.selected = false
-                buttonPair.selectionButton.backgroundColor = UIColor.clearColor()
+            buttonPair.selectionButton.selected = false
+            buttonPair.selectionButton.backgroundColor = UIColor.clearColor()
         }
         delegate?.synsetHeaderView(self, selectedSense: sense)
     }
