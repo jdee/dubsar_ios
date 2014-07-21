@@ -33,24 +33,21 @@ class AutocompleterView: UIView {
         }
     }
 
-    let buttons : NSMutableArray
+    var buttons : [UIButton] = []
 
     weak var viewController : MainViewController?
 
     init(frame: CGRect) {
-        buttons = NSMutableArray()
         super.init(frame: frame)
         autoresizingMask = .FlexibleHeight | .FlexibleWidth | .FlexibleBottomMargin
         backgroundColor = UIColor.lightGrayColor()
     }
 
     override func layoutSubviews() {
-        for object : AnyObject in buttons as NSArray {
-            if let button = object as? UIView {
-                button.removeFromSuperview()
-            }
+        for button in buttons {
+            button.removeFromSuperview()
         }
-        buttons.removeAllObjects()
+        buttons = []
 
         if autocompleter {
             assert(autocompleter.complete)
@@ -68,7 +65,7 @@ class AutocompleterView: UIView {
                     button.titleLabel.font = font
                     button.addTarget(self, action: "resultSelected:", forControlEvents: .TouchUpInside)
                     addSubview(button)
-                    buttons.addObject(button)
+                    buttons += button
 
                     y += textSize.height + 3*margin
                 }

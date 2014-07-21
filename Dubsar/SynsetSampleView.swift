@@ -32,11 +32,10 @@ class SynsetSampleView: UIView {
     var sense : DubsarModelsSense?
     let isPreview : Bool
 
-    var labels : NSMutableArray
+    var labels : [UILabel] = []
 
     init(synset: DubsarModelsSynset!, frame: CGRect, preview: Bool) {
         self.synset = synset
-        labels = NSMutableArray()
         isPreview = preview
         super.init(frame: frame)
         backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 0.9, alpha: 1.0)
@@ -44,12 +43,10 @@ class SynsetSampleView: UIView {
 
     override func layoutSubviews() {
         // NSLog("Entered SynsetSampleView.layoutSubviews()")
-        for label : AnyObject in labels {
-            if let l = label as? UILabel {
+        for label in labels {
                 label.removeFromSuperview()
-            }
         }
-        labels.removeAllObjects()
+        labels = []
 
         if synset.complete {
             var y = SynsetSampleView.margin
@@ -96,7 +93,7 @@ class SynsetSampleView: UIView {
         label.text = sample
         label.backgroundColor = background
 
-        labels.addObject(label)
+        labels += label
         addSubview(label)
 
         return y + margin + textSize.height

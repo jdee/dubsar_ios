@@ -88,7 +88,7 @@ class SynsetPointerView: UIView {
 
     let isPreview : Bool
 
-    let labels : NSMutableArray
+    var labels : [UIView] = []
 
     var scrollViewTop : CGFloat = 0
     var scrollViewBottom : CGFloat = 0
@@ -107,7 +107,6 @@ class SynsetPointerView: UIView {
     init(synset: DubsarModelsSynset!, frame: CGRect, preview: Bool = false) {
         self.synset = synset
         isPreview = preview
-        labels = NSMutableArray()
         super.init(frame: frame)
         clipsToBounds = true
     }
@@ -182,8 +181,7 @@ class SynsetPointerView: UIView {
                     titleLabel.numberOfLines = 0
                     titleLabel.textAlignment = .Center
                     addSubview(titleLabel)
-
-                    labels.addObject(titleLabel)
+                    labels += titleLabel
 
                     y += titleSize.height + margin
                     nextRow = 0
@@ -217,7 +215,7 @@ class SynsetPointerView: UIView {
                     pointerView.viewController = viewController
 
                     addSubview(pointerView)
-                    labels.addObject(pointerView)
+                    labels += pointerView
                     pointerView.button.refreshImages() // do this after addSubview(). Otherwise, we have no graphics context and can't generate an image.
 
                     y += textSize.height + margin
@@ -249,12 +247,10 @@ class SynsetPointerView: UIView {
     }
 
     func performReset() {
-        for label : AnyObject in labels as NSArray {
-            if let view = label as? UIView {
-                view.removeFromSuperview()
-            }
+        for view in labels {
+            view.removeFromSuperview()
         }
-        labels.removeAllObjects()
+        labels = []
 
         // in both cases, numberOfSections does an SQL query and builds the sections array
         if sense {

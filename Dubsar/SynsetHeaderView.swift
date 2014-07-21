@@ -115,7 +115,7 @@ class SynsetHeaderView: UIView {
     let lexnameLabel : UILabel
     let extraTextLabel : UILabel
 
-    let synonymButtons : NSMutableArray
+    var synonymButtons : [SynonymButtonPair] = []
 
     weak var delegate : SynsetViewController?
 
@@ -130,8 +130,6 @@ class SynsetHeaderView: UIView {
         glossLabel = UILabel()
         lexnameLabel = UILabel()
         extraTextLabel = UILabel()
-
-        synonymButtons = NSMutableArray()
 
         super.init(frame: frame)
 
@@ -231,14 +229,12 @@ class SynsetHeaderView: UIView {
     }
 
     func setupSynonymButtons() -> CGFloat {
-        for object: AnyObject in synonymButtons {
-            if let buttonPair = object as? SynonymButtonPair {
+        for buttonPair in synonymButtons {
                 buttonPair.selectionButton.removeFromSuperview()
                 buttonPair.navigationButton.removeFromSuperview()
-            }
         }
 
-        synonymButtons.removeAllObjects()
+        synonymButtons = []
 
         let margin = SynsetHeaderView.margin
         let constrainedWidth = bounds.size.width - 2 * margin
@@ -252,7 +248,7 @@ class SynsetHeaderView: UIView {
                     buttonPair.selectionButton.selected = true
                     buttonPair.selectionButton.backgroundColor = UIColor(red:0.9, green:0.9, blue:1.0, alpha:1.0)
                 }
-                synonymButtons.addObject(buttonPair)
+                synonymButtons += buttonPair
 
                 assert(height <= 0 || height == buttonPair.navigationButton.frame.size.height) // assume they're all the same height with the same font
                 height = buttonPair.height // the two buttons are the same height
@@ -280,11 +276,9 @@ class SynsetHeaderView: UIView {
      * Could also stuff the delegate methods into the base VC class.
      */
     func resetSelection() {
-        for object : AnyObject in synonymButtons {
-            if let buttonPair = object as? SynonymButtonPair {
+        for buttonPair in synonymButtons {
                 buttonPair.selectionButton.selected = false
                 buttonPair.selectionButton.backgroundColor = UIColor.clearColor()
-            }
         }
         delegate?.synsetHeaderView(self, selectedSense: sense)
     }
