@@ -26,6 +26,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     @IBOutlet var searchBar : UISearchBar
     @IBOutlet var wotdLabel : UILabel
 
+    var alphabetView : AlphabetView!
     var autocompleterView : AutocompleterView!
     var wotd : DubsarModelsDailyWord!
     var autocompleter : DubsarModelsAutocompleter?
@@ -151,6 +152,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         // rerun the autocompletion request with the new max
         searchBar(searchBar, textDidChange: searchBar.text)
 
+        adjustAlphabetView()
+
         super.adjustLayout()
     }
 
@@ -210,5 +213,36 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             triggerAutocompletion()
             rotated = false
         }
+    }
+
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        super.willRotateToInterfaceOrientation(toInterfaceOrientation, duration: duration)
+        if alphabetView {
+            alphabetView.hidden = true
+        }
+    }
+
+    func adjustAlphabetView() {
+        var alphabetFrame = CGRectZero
+        if !alphabetView {
+            alphabetView = AlphabetView(frame: alphabetFrame)
+            alphabetView.viewController = self
+            view.addSubview(alphabetView)
+        }
+
+        let dimension: CGFloat = 50
+        if UIInterfaceOrientationIsPortrait(UIApplication.sharedApplication().statusBarOrientation) {
+            alphabetFrame = CGRectMake(view.bounds.size.width - dimension, searchBar.bounds.size.height, dimension, view.bounds.size.height - searchBar.bounds.size.height)
+        }
+        else {
+            alphabetFrame = CGRectMake(0, view.bounds.size.height - dimension, view.bounds.size.width, dimension)
+        }
+        alphabetView.frame = alphabetFrame
+        alphabetView.hidden = false
+        alphabetView.setNeedsLayout()
+    }
+
+    func alphabetView(_:AlphabetView!, selectedLetter letter: String!) {
+        NSLog("user pressed %@", letter)
     }
 }
