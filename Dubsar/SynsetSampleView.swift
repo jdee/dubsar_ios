@@ -73,7 +73,7 @@ class SynsetSampleView: UIView {
         super.layoutSubviews()
     }
 
-    func addSample(sample: NSString!, atY y: CGFloat, background: UIColor!) -> CGFloat {
+    private func addSample(sample: NSString!, atY y: CGFloat, background: UIColor!) -> CGFloat {
         let margin = SynsetSampleView.margin
         let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
         let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)

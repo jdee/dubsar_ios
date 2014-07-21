@@ -115,7 +115,7 @@ class AlphabetView: UIView {
         viewController?.alphabetView(self, selectedLetter: sender.titleForState(.Normal))
     }
 
-    func getFont() -> UIFont! {
+    private func getFont() -> UIFont! {
         let horizontal = frame.size.width > frame.size.height
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
 

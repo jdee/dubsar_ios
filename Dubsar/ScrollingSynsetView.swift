@@ -45,7 +45,7 @@ class ScrollingSynsetView: UIScrollView {
     let sampleView : SynsetSampleView
     let pointerView : SynsetPointerView
 
-    var hasReset : Bool = false
+    private var hasReset : Bool = false
 
     var viewController : SynsetViewController! {
     didSet {

@@ -93,14 +93,14 @@ class SynsetPointerView: UIView {
     var scrollViewTop : CGFloat = 0
     var scrollViewBottom : CGFloat = 0
 
-    var hasReset : Bool = true
-    var numberOfSections : UInt = 0
-    var sections : [AnyObject] = []
-    var totalRows : UInt = 0
-    var completedUpToY : CGFloat = 0
-    var completedUpToRow : Int = 0
-    var nextSection : Int = 0
-    var nextRow : Int = -1
+    private var hasReset : Bool = true
+    private var numberOfSections : UInt = 0
+    private var sections : [AnyObject] = []
+    private var totalRows : UInt = 0
+    private var completedUpToY : CGFloat = 0
+    private var completedUpToRow : Int = 0
+    private var nextSection : Int = 0
+    private var nextRow : Int = -1
 
     weak var viewController : SynsetViewController?
 
@@ -143,7 +143,7 @@ class SynsetPointerView: UIView {
         super.layoutSubviews()
     }
 
-    func pointerForRowAtIndexPath(indexPath: NSIndexPath!) -> DubsarModelsPointer {
+    private func pointerForRowAtIndexPath(indexPath: NSIndexPath!) -> DubsarModelsPointer {
         // could use a base class or a protocol here
         // NSLog("Calling pointerForRowAtIndexPath:")
         if sense {
@@ -156,7 +156,7 @@ class SynsetPointerView: UIView {
         return synset.pointerForRowAtIndexPath(indexPath)
     }
 
-    func tileViewport() {
+    private func tileViewport() {
         // convenient constants
         let margin = SynsetPointerView.margin
         let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -244,7 +244,7 @@ class SynsetPointerView: UIView {
         hasReset = true
     }
 
-    func performReset() {
+    private func performReset() {
         for view in labels {
             view.removeFromSuperview()
         }

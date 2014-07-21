@@ -129,26 +129,6 @@ class SynsetHeaderView: UIView {
         build()
     }
 
-    func build() {
-        // NSLog("Constructing SynsetHeaderView with %d synonyms (synset ID %d: %@:)", synset.senses.count, synset._id, synset.synonymsAsString, synset.gloss)
-
-        autoresizingMask = .FlexibleHeight | .FlexibleWidth
-
-        glossLabel.lineBreakMode = .ByWordWrapping
-        glossLabel.numberOfLines = 0
-        glossLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        addSubview(glossLabel)
-
-        lexnameLabel.lineBreakMode = .ByWordWrapping
-        lexnameLabel.numberOfLines = 0
-        lexnameLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        addSubview(lexnameLabel)
-
-        extraTextLabel.lineBreakMode = .ByWordWrapping
-        extraTextLabel.numberOfLines = 0
-        extraTextLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-    }
-
     override func layoutSubviews() {
         // NSLog("Entered SynsetHeaderView.layoutSubviews()")
         if synset.complete {
@@ -221,7 +201,36 @@ class SynsetHeaderView: UIView {
         super.layoutSubviews()
     }
 
-    func setupSynonymButtons() -> CGFloat {
+    func buttonPair(buttonPair: SynonymButtonPair!, selectedSense sense: DubsarModelsSense!) {
+        setNeedsLayout()
+        delegate?.synsetHeaderView(self, selectedSense: sense)
+    }
+
+    func buttonPair(buttonPair: SynonymButtonPair!, navigatedToSense sense: DubsarModelsSense!) {
+        delegate?.synsetHeaderView(self, navigatedToSense: sense)
+    }
+
+    private func build() {
+        // NSLog("Constructing SynsetHeaderView with %d synonyms (synset ID %d: %@:)", synset.senses.count, synset._id, synset.synonymsAsString, synset.gloss)
+
+        autoresizingMask = .FlexibleHeight | .FlexibleWidth
+
+        glossLabel.lineBreakMode = .ByWordWrapping
+        glossLabel.numberOfLines = 0
+        glossLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        addSubview(glossLabel)
+
+        lexnameLabel.lineBreakMode = .ByWordWrapping
+        lexnameLabel.numberOfLines = 0
+        lexnameLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        addSubview(lexnameLabel)
+
+        extraTextLabel.lineBreakMode = .ByWordWrapping
+        extraTextLabel.numberOfLines = 0
+        extraTextLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+    }
+
+    private func setupSynonymButtons() -> CGFloat {
         for buttonPair in synonymButtons {
             buttonPair.selectionButton.removeFromSuperview()
             buttonPair.navigationButton.removeFromSuperview()
@@ -268,21 +277,12 @@ class SynsetHeaderView: UIView {
      * here to avoid a loop. But we don't need to use this view with any other VC, so just make it a concrete weak ref. instead of a @class_protocol.
      * Could also stuff the delegate methods into the base VC class.
      */
-    func resetSelection() {
+    private func resetSelection() {
         for buttonPair in synonymButtons {
             buttonPair.selectionButton.selected = false
             buttonPair.selectionButton.backgroundColor = UIColor.clearColor()
         }
         delegate?.synsetHeaderView(self, selectedSense: sense)
-    }
-
-    func buttonPair(buttonPair: SynonymButtonPair!, selectedSense sense: DubsarModelsSense!) {
-        setNeedsLayout()
-        delegate?.synsetHeaderView(self, selectedSense: sense)
-    }
-
-    func buttonPair(buttonPair: SynonymButtonPair!, navigatedToSense sense: DubsarModelsSense!) {
-        delegate?.synsetHeaderView(self, navigatedToSense: sense)
     }
 
 }
