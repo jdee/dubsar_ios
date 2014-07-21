@@ -41,6 +41,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         wotd = DubsarModelsDailyWord()
         wotd.delegate = self
 
+        adjustAlphabetView()
+
         // this view resizes its own height
         autocompleterView = AutocompleterView(frame: CGRectMake(0, searchBar.bounds.size.height+searchBar.frame.origin.y, view.bounds.size.width, view.bounds.size.height))
         autocompleterView.hidden = true
