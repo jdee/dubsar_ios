@@ -93,6 +93,8 @@ class SynsetPointerView: UIView {
     var scrollViewTop : CGFloat = 0
     var scrollViewBottom : CGFloat = 0
 
+    weak var viewController : SynsetViewController?
+
     private var hasReset : Bool = true
     private var numberOfSections : UInt = 0
     private var sections : [AnyObject] = []
@@ -101,8 +103,6 @@ class SynsetPointerView: UIView {
     private var completedUpToRow : Int = 0
     private var nextSection : Int = 0
     private var nextRow : Int = -1
-
-    weak var viewController : SynsetViewController?
 
     init(synset: DubsarModelsSynset!, frame: CGRect, preview: Bool = false) {
         self.synset = synset
@@ -141,6 +141,15 @@ class SynsetPointerView: UIView {
 
         hasReset = false
         super.layoutSubviews()
+    }
+
+    func navigateToModel(model: DubsarModelsModel?) {
+        assert(model)
+        viewController?.navigateToPointer(model)
+    }
+
+    func reset() {
+        hasReset = true
     }
 
     private func pointerForRowAtIndexPath(indexPath: NSIndexPath!) -> DubsarModelsPointer {
@@ -240,10 +249,6 @@ class SynsetPointerView: UIView {
         completedUpToY = y
     }
 
-    func reset() {
-        hasReset = true
-    }
-
     private func performReset() {
         for view in labels {
             view.removeFromSuperview()
@@ -275,8 +280,4 @@ class SynsetPointerView: UIView {
         nextSection = 0
     }
 
-    func navigateToModel(model: DubsarModelsModel?) {
-        assert(model)
-        viewController?.navigateToPointer(model)
-    }
 }

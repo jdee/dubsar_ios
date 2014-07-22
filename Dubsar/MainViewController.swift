@@ -22,9 +22,11 @@ import UIKit
 
 class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDelegate {
 
+    // MARK: Storyboard outlets
     @IBOutlet var wotdButton : UIButton!
     @IBOutlet var searchBar : UISearchBar!
     @IBOutlet var wotdLabel : UILabel!
+    @IBOutlet var wordNetLabel : UILabel!
 
     var alphabetView : AlphabetView!
     var autocompleterView : AutocompleterView!
@@ -35,6 +37,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     var keyboardHeight : CGFloat = 0
     var rotated : Bool = false
 
+    // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -59,6 +62,63 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         rotated = false
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+        super.prepareForSegue(segue, sender: sender)
+        if let viewController = segue.destinationViewController as? WordViewController {
+            viewController.word = wotd.word
+            wotd.word.complete = false
+            viewController.title = "Word of the Day"
+        }
+    }
+
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        rotated = true
+        super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
+    }
+
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        super.willRotateToInterfaceOrientation(toInterfaceOrientation, duration: duration)
+        if alphabetView {
+            alphabetView.hidden = true
+        }
+    }
+
+    // MARK: UISearchBarDelegate
+    func searchBarShouldBeginEditing(searchBar: UISearchBar!) -> Bool {
+        searchBar.showsCancelButton = true
+        searchBarEditing = true
+        return true
+    }
+
+    func searchBarDidEndEditing(searchBar: UISearchBar!) {
+        resetSearch()
+    }
+
+    func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
+        resetSearch()
+    }
+
+    func searchBarSearchButtonClicked(searchBar: UISearchBar!) {
+        let search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
+        resetSearch()
+        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
+    }
+
+    func searchBar(searchBar: UISearchBar!, textDidChange searchText: String!) {
+        autocompleter?.cancel()
+
+        if !searchBarEditing || searchText.isEmpty {
+            autocompleterView.hidden = true
+            return
+        }
+
+        if !rotated {
+            triggerAutocompletion()
+        }
+        // else wait for keyboardShown: to be called to recompute the keyboard height
+    }
+
+    // MARK: DubsarModelsLoadDelegate
     override func loadComplete(model: DubsarModelsModel!, withError error: String?) {
         super.loadComplete(model, withError: error)
         if error {
@@ -99,57 +159,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         autocompleterView.hidden = false
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        super.prepareForSegue(segue, sender: sender)
-        if let viewController = segue.destinationViewController as? WordViewController {
-            viewController.word = wotd.word
-            wotd.word.complete = false
-            viewController.title = "Word of the Day"
-        }
-    }
-
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        rotated = true
-        super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
-    }
-
-    func searchBarShouldBeginEditing(searchBar: UISearchBar!) -> Bool {
-        searchBar.showsCancelButton = true
-        searchBarEditing = true
-        return true
-    }
-
-    func searchBarDidEndEditing(searchBar: UISearchBar!) {
-        resetSearch()
-    }
-
-    func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
-        resetSearch()
-    }
-
-    func searchBarSearchButtonClicked(searchBar: UISearchBar!) {
-        let search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
-        resetSearch()
-        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
-    }
-
-    func searchBar(searchBar: UISearchBar!, textDidChange searchText: String!) {
-        autocompleter?.cancel()
-
-        if !searchBarEditing || searchText.isEmpty {
-            autocompleterView.hidden = true
-            return
-        }
-
-        if !rotated {
-            triggerAutocompletion()
-        }
-        // else wait for keyboardShown: to be called to recompute the keyboard height
-    }
-
     override func adjustLayout() {
-        wotdLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        wotdButton.titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        wotdLabel.font = font
+        wotdButton.titleLabel.font = font
+        wordNetLabel.font = font
 
         // rerun the autocompletion request with the new max
         searchBar(searchBar, textDidChange: searchBar.text)
@@ -208,13 +222,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         }
     }
 
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-        super.willRotateToInterfaceOrientation(toInterfaceOrientation, duration: duration)
-        if alphabetView {
-            alphabetView.hidden = true
-        }
-    }
-
     func adjustAlphabetView() {
         var alphabetFrame = CGRectZero
         if !alphabetView {
@@ -235,7 +242,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         alphabetView.setNeedsLayout()
     }
 
-    func alphabetView(_:AlphabetView!, selectedLetter letter: String!) {
-        NSLog("user pressed %@", letter)
+    func alphabetView(_:AlphabetView!, selectedButton button: GlobButton!) {
+        let search = DubsarModelsSearch(wildcard: button.globExpression, page: 1, title: button.titleForState(.Normal))
+        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
     }
 }

@@ -19,6 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import UIKit
 
+class GlobButton: UIButton {
+    var globExpression: String!
+}
+
 class AlphabetView: UIView {
 
     class var margin : CGFloat {
@@ -27,13 +31,34 @@ class AlphabetView: UIView {
         }
     }
 
+    class var buttonConfig : [(String,String)] {
+        get {
+            return [ ("AB", "[ABab]*"),
+                     ("CD", "[CDcd]*"),
+                     ("EF", "[EFef]*"),
+                     ("GH", "[GHgh]*"),
+                     ("IJ", "[IJij]*"),
+                     ("KL", "[KLkl]*"),
+                     ("MN", "[MNmn]*"),
+                     ("OP", "[OPop]*"),
+                     ("QR", "[QRqr]*"),
+                     ("ST", "[STst]*"),
+                     ("UV", "[UVuv]*"),
+                     ("WX", "[WXwx]*"),
+                     ("YZ", "[YZyz]*"),
+                     ("...", "[^A-Za-z]*") ]
+        }
+    }
+
+    //*
     var font : UIFont! {
     get {
         return getFont()
     }
     }
+    // */
 
-    var buttons: [UIButton] = []
+    var buttons: [GlobButton] = []
     weak var viewController: MainViewController?
 
     init(frame: CGRect) {
@@ -43,7 +68,7 @@ class AlphabetView: UIView {
     override func layoutSubviews() {
         let horizontal = frame.size.width > frame.size.height
 
-        let fontToUse = font // avoid computing twice
+        let fontToUse = getFont() // avoid computing more than once
         let letterHeight = ("Q" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).height // Q has a small tail
         let letterWidth = ("W" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).width // W for Wide Load
         let margin = AlphabetView.margin
@@ -55,24 +80,15 @@ class AlphabetView: UIView {
 
         var position = margin
 
-        // C (1972):
-        // for (char letter='A'; letter <= 'Z'; ++ letter) {
+        let buttonConfig = AlphabetView.buttonConfig
 
-        // Ruby (1995):
-        // [A..Z].each { |letter|
-
-        // drum roll, please
-
-        // Swift (2014):
-        let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" // Hope I didn't mistype that. And never accidentally modify it.
-        assert(countElements(alphabet) == 26) // better check, and make one line into three :|
-        for letter in alphabet {
+        for (label, globExpression) in buttonConfig {
             var x: CGFloat = 0, y: CGFloat = 0
             if horizontal {
                 x = position
                 y = margin
 
-                position += letterWidth
+                position += 2 * letterWidth
             }
             else {
                 x = margin
@@ -82,26 +98,26 @@ class AlphabetView: UIView {
             }
             position += margin
 
-            let button = UIButton(frame: CGRectMake(x, y, letterWidth, letterHeight))
-            button.titleLabel.font = font
-            button.setTitle(String(letter), forState: .Normal)
+            let button = GlobButton(frame: CGRectMake(x, y, 2 * letterWidth, letterHeight))
+            button.globExpression = globExpression
+            button.titleLabel.font = fontToUse
+            button.setTitle(String(label), forState: .Normal)
             button.setTitleColor(UIColor.blackColor(), forState: .Normal)
             button.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
             button.addTarget(self, action: "letterPressed:", forControlEvents: .TouchUpInside)
 
             buttons += button
             addSubview(button)
-
         }
 
         if horizontal {
-            let height = letterHeight + 2*margin
+            let height = letterHeight + 2 * margin
             let delta = frame.size.height - height
             frame.size.height = height
             frame.origin.y += delta
         }
         else {
-            let width = letterWidth + 2*margin
+            let width = 2 * letterWidth + 2 * margin
             let delta = frame.size.width - width
             frame.size.width = width
             frame.origin.x += delta
@@ -111,37 +127,46 @@ class AlphabetView: UIView {
     }
 
     @IBAction
-    func letterPressed(sender: UIButton!) {
-        viewController?.alphabetView(self, selectedLetter: sender.titleForState(.Normal))
+    func letterPressed(sender: GlobButton!) {
+        viewController?.alphabetView(self, selectedButton: sender)
     }
 
     private func getFont() -> UIFont! {
         let horizontal = frame.size.width > frame.size.height
-        let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
+        let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
+        let headlineFontSize = fontDescriptor.pointSize
+        // NSLog("Headline font size is %f", Float(headlineFontSize))
 
-        // nothing to do with dynamic type, just whatever fits the form factor
+        // whatever fits the form factor, but never larger than the current headline font
         // fortunately, there are only three relevant device sizes, in points:
         // 320 x 480, 320 x 568, 768 x 1024.
-        // these are all the point sizes required to fit them in portrait and landscape.
-        let sizes: [CGFloat] = [ 36, 24, 18, 14, 12, 10 ]
+        // 14 is the smallest available headline size, and it fits all screens in any orientation
+        // 23 is the largest ordinary headline size.
+        // TODO: Support extra-large accessibility fonts.
+        let sizes: [CGFloat] = [ 48, 36, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14 ]
 
         var fontSize: CGFloat = 0
         var fontToUse: UIFont!
+        let margin = AlphabetView.margin
+        let labelCount = CGFloat(AlphabetView.buttonConfig.count)
         for fontSize in sizes {
+            if fontSize > headlineFontSize {
+                continue
+            }
+
             fontToUse = UIFont(descriptor: fontDescriptor, size: fontSize)
             let letterHeight = ("Q" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).height // Q has a small tail
             let letterWidth = ("W" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).width // W for Wide Load
-            let margin = AlphabetView.margin
 
             if horizontal {
-                if 27 * margin + 26 * letterWidth <= bounds.size.width {
-                    // NSLog("using %f point font", fontSize)
+                if (labelCount + 1) * margin + 2 * labelCount * letterWidth <= bounds.size.width {
+                    // NSLog("using %f point font", Float(fontSize))
                     break
                 }
             }
             else {
-                if 27 * margin + 26 * letterHeight <= bounds.size.height {
-                    // NSLog("using %f point font", fontSize)
+                if (labelCount + 1) * margin + labelCount * letterHeight <= bounds.size.height {
+                    // NSLog("using %f point font", Float(fontSize))
                     break
                 }
             }

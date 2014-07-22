@@ -60,7 +60,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func updateTitle() {
-        var title = "search results for \"\(search.term)\""
+        var title = "search results for \"\(search.title ? search.title : search.term)\""
         if search.totalPages > 1 {
             title = "\(title) p. \(search.currentPage)/\(search.totalPages)"
         }
