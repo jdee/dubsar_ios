@@ -170,12 +170,11 @@
         /*
          * Exact match first
          */
-        sql = @"SELECT w.name "
-        @"FROM inflections i "
-        @"INNER JOIN words w "
-        @"ON w.id = i.word_id "
-        @"WHERE i.name = ? "
-        @"ORDER BY w.name ASC";
+        sql = @"SELECT name "
+        @"FROM inflections "
+        @"WHERE name >= ? "
+        @"ORDER BY name ASC "
+        @"LIMIT 1";
 
         NSLog(@"preparing statement \"%@\"", sql);
         if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_exactAutocompleterStmt, NULL)) != SQLITE_OK) {

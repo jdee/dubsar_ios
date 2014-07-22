@@ -107,24 +107,17 @@
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
-        
+
         NSString* exactMatch = nil;
-        while (sqlite3_step(database.exactAutocompleterStmt) == SQLITE_ROW) {
+        if (sqlite3_step(database.exactAutocompleterStmt) == SQLITE_ROW) {
             if (aborted) return;
             
             char const* _wName = (char const*)sqlite3_column_text(database.exactAutocompleterStmt, 0);
-            NSString* wName = @(_wName);
-            
-            if (exactMatch == nil) exactMatch = _term;
-            
-            if ([wName compare:exactMatch options:NSCaseInsensitiveSearch] == NSOrderedSame &&
-                [wName compare:exactMatch] == NSOrderedAscending) {
-                exactMatch = wName;
-            }
+            exactMatch = @(_wName);
         }
         
         if (exactMatch != nil) {
-            // NSLog(@"found exact match %@", exactMatch);
+            NSLog(@"found exact match %@", exactMatch);
             self.results = [NSMutableArray arrayWithObject:exactMatch];
         }
         else {
