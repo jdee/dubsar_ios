@@ -158,7 +158,7 @@ class SynsetViewController: BaseViewController {
         assert(theSynset)
         if !scroller {
             // NSLog("Constructing new scroller for synset ID %d", theSynset!._id)
-            scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)
+            scroller = ScrollingSynsetView(synset: theSynset, delegate: self, frame: view.bounds)
             view.addSubview(scroller)
         }
         scroller!.viewController = self

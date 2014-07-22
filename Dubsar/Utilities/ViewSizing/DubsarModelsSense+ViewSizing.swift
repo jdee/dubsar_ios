@@ -65,7 +65,7 @@ extension DubsarModelsSense {
                 return size
             }
 
-            let pointerView = SynsetPointerView(synset: synset, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height), preview: true)
+            let pointerView = SynsetPointerView(synset: synset, delegate:nil, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height), preview: true)
             pointerView.sense = self
             pointerView.scrollViewTop = 0
             pointerView.scrollViewBottom = constrainedSize.height

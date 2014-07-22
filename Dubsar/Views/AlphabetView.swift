@@ -65,9 +65,10 @@ class AlphabetView: UIView {
     }
 
     var buttons: [GlobButton] = []
-    weak var viewController: MainViewController?
+    unowned var viewController: MainViewController
 
-    init(frame: CGRect) {
+    init(delegate: MainViewController!, frame: CGRect) {
+        viewController = delegate
         super.init(frame: frame)
     }
 
@@ -136,7 +137,7 @@ class AlphabetView: UIView {
 
     @IBAction
     func buttonPressed(sender: GlobButton!) {
-        viewController?.alphabetView(self, selectedButton: sender)
+        viewController.alphabetView(self, selectedButton: sender)
     }
 
     private func getFont() -> UIFont! {

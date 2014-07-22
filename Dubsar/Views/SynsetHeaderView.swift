@@ -32,7 +32,7 @@ class SynonymButtonPair {
 
     var sense: DubsarModelsSense!
 
-    weak var view: SynsetHeaderView?
+    unowned var view: SynsetHeaderView
 
     var width : CGFloat, height : CGFloat
 
@@ -69,27 +69,24 @@ class SynonymButtonPair {
         view.addSubview(navigationButton)
     }
 
-    // Apparently in Swift you can't make programmatic action assignments without these annotations.
     @IBAction
     func synonymSelected(sender: UIButton!) {
-        if let v = view {
-            if v.synset.senses.count == 1 {
-                return
-            }
-
-            if !v.sense || v.sense!._id != sense._id {
-                v.sense = sense
-            }
-            else {
-                v.sense = nil // resets all to unselected
-            }
-            v.buttonPair(self, selectedSense: v.sense)
+        if view.synset.senses.count == 1 {
+            return
         }
+
+        if !view.sense || view.sense!._id != sense._id {
+            view.sense = sense
+        }
+        else {
+            view.sense = nil // resets all to unselected
+        }
+        view.buttonPair(self, selectedSense: view.sense)
     }
 
     @IBAction
     func synonymNavigated(sender: UIButton!) {
-        view?.buttonPair(self, navigatedToSense: sense)
+        view.buttonPair(self, navigatedToSense: sense)
     }
 }
 
@@ -110,15 +107,16 @@ class SynsetHeaderView: UIView {
 
     var synonymButtons : [SynonymButtonPair] = []
 
-    weak var delegate : SynsetViewController?
+    unowned var delegate : SynsetViewController
 
     /*
      * The frame argument represents the space to which the view is constrained, or more accurately, the
      * text in the view is assumed constrained to frame.size.width. The view may adjust its height
      * as appropriate.
      */
-    init(synset: DubsarModelsSynset!, frame: CGRect) {
+    init(synset: DubsarModelsSynset!, delegate: SynsetViewController!, frame: CGRect) {
         self.synset = synset
+        self.delegate = delegate
 
         glossLabel = UILabel()
         lexnameLabel = UILabel()
@@ -203,11 +201,11 @@ class SynsetHeaderView: UIView {
 
     func buttonPair(buttonPair: SynonymButtonPair!, selectedSense sense: DubsarModelsSense!) {
         setNeedsLayout()
-        delegate?.synsetHeaderView(self, selectedSense: sense)
+        delegate.synsetHeaderView(self, selectedSense: sense)
     }
 
     func buttonPair(buttonPair: SynonymButtonPair!, navigatedToSense sense: DubsarModelsSense!) {
-        delegate?.synsetHeaderView(self, navigatedToSense: sense)
+        delegate.synsetHeaderView(self, navigatedToSense: sense)
     }
 
     private func build() {
@@ -282,7 +280,7 @@ class SynsetHeaderView: UIView {
             buttonPair.selectionButton.selected = false
             buttonPair.selectionButton.backgroundColor = UIColor.clearColor()
         }
-        delegate?.synsetHeaderView(self, selectedSense: sense)
+        delegate.synsetHeaderView(self, selectedSense: sense)
     }
 
 }

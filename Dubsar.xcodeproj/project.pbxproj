@@ -58,6 +58,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7B6CC039197E325F00151799 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BAC225119732D6C00D2AEA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BAC225819732D6C00D2AEA4;
+			remoteInfo = Dubsar;
+		};
 		7BAC226C19732D6C00D2AEA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7BAC225119732D6C00D2AEA4 /* Project object */;
@@ -383,6 +390,7 @@
 				7BAC234E1973697600D2AEA4 /* PBXTargetDependency */,
 				7BAC235B1973754900D2AEA4 /* PBXTargetDependency */,
 				7BAC235D1973754900D2AEA4 /* PBXTargetDependency */,
+				7B6CC03A197E325F00151799 /* PBXTargetDependency */,
 			);
 			name = DubsarTests;
 			productName = DubsarTests;
@@ -507,6 +515,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7B6CC03A197E325F00151799 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BAC225819732D6C00D2AEA4 /* Dubsar */;
+			targetProxy = 7B6CC039197E325F00151799 /* PBXContainerItemProxy */;
+		};
 		7BAC226D19732D6C00D2AEA4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7BAC225819732D6C00D2AEA4 /* Dubsar */;

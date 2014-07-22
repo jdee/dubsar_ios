@@ -47,7 +47,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         adjustAlphabetView()
 
         // this view resizes its own height
-        autocompleterView = AutocompleterView(frame: CGRectMake(0, searchBar.bounds.size.height+searchBar.frame.origin.y, view.bounds.size.width, view.bounds.size.height))
+        autocompleterView = AutocompleterView(delegate: self, frame: CGRectMake(0, searchBar.bounds.size.height+searchBar.frame.origin.y, view.bounds.size.width, view.bounds.size.height))
         autocompleterView.hidden = true
         autocompleterView.viewController = self
         view.addSubview(autocompleterView)
@@ -225,7 +225,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     func adjustAlphabetView() {
         var alphabetFrame = CGRectZero
         if !alphabetView {
-            alphabetView = AlphabetView(frame: alphabetFrame)
+            alphabetView = AlphabetView(delegate: self, frame: alphabetFrame)
             alphabetView.viewController = self
             view.addSubview(alphabetView)
         }
