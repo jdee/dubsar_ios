@@ -44,7 +44,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         wotd = DubsarModelsDailyWord()
         wotd.delegate = self
 
-        adjustAlphabetView()
+        adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
         // this view resizes its own height
         autocompleterView = AutocompleterView(frame: CGRectMake(0, searchBar.bounds.size.height+searchBar.frame.origin.y, view.bounds.size.width, view.bounds.size.height))
@@ -72,14 +72,52 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        /* avoid the default behavior
         rotated = true
         super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
+         */
     }
 
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         super.willRotateToInterfaceOrientation(toInterfaceOrientation, duration: duration)
         if alphabetView {
-            alphabetView.hidden = true
+            // DEBT: Move this stuff into the AlphabetView
+            let π = CGFloat(M_PI)
+
+            var transform : CGAffineTransform
+            if UIInterfaceOrientationIsPortrait(toInterfaceOrientation) {
+                // rotating from the bottom of the view to the right side
+                let fudge : CGFloat = 3 // yeah
+                let aspect: CGFloat = (view.bounds.size.width - fudge * searchBar.bounds.size.height) / view.bounds.size.width
+                transform = CGAffineTransformMakeRotation(0.5 * π)
+                transform = CGAffineTransformScale(transform, aspect, 1.0)
+            }
+            else {
+                // rotating from the right side of the view to the bottom
+                let aspect = (view.bounds.size.height - searchBar.bounds.size.height) / view.bounds.size.width
+                transform = CGAffineTransformMakeRotation(-0.5 * π)
+                transform = CGAffineTransformScale(transform, 1.0, aspect)
+            }
+
+            // let alphabetFrame = computeAlphabetFrame(UIApplication.sharedApplication().statusBarOrientation)
+
+            rotated = true
+
+            UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveLinear,
+                animations: {
+                    [weak self] in
+                    if let my = self {
+                        my.alphabetView.transform = transform
+                        // my.alphabetView.frame = alphabetFrame
+                    }
+                },
+                completion: {
+                    [weak self]
+                    (finished: Bool) in
+                    if finished {
+                        self?.adjustAlphabetView(toInterfaceOrientation)
+                    }
+                })
         }
     }
 
@@ -168,7 +206,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         // rerun the autocompletion request with the new max
         searchBar(searchBar, textDidChange: searchBar.text)
 
-        adjustAlphabetView()
+        adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
         super.adjustLayout()
     }
@@ -222,7 +260,24 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         }
     }
 
-    func adjustAlphabetView() {
+    private func computeAlphabetFrame(orientation: UIInterfaceOrientation) -> CGRect {
+        var alphabetFrame = CGRectZero
+        let dimension : CGFloat = 50
+
+        if UIInterfaceOrientationIsPortrait(orientation) {
+            alphabetFrame = CGRectMake(view.bounds.size.width - dimension, searchBar.bounds.size.height, dimension, view.bounds.size.height - searchBar.bounds.size.height)
+            // NSLog("portrait: frame (%f, %f) %f x %f", Double(alphabetFrame.origin.x), Double(alphabetFrame.origin.y), Double(alphabetFrame.size.width), Double(alphabetFrame.size.height))
+        }
+        else {
+            alphabetFrame = CGRectMake(0, view.bounds.size.height - dimension, view.bounds.size.width, dimension)
+            // NSLog("landscape: frame (%f, %f) %f x %f", Double(alphabetFrame.origin.x), Double(alphabetFrame.origin.y), Double(alphabetFrame.size.width), Double(alphabetFrame.size.height))
+        }
+
+        return alphabetFrame
+    }
+
+    func adjustAlphabetView(orientation: UIInterfaceOrientation) {
+        // NSLog("adjusting alphabet view")
         var alphabetFrame = CGRectZero
         if !alphabetView {
             alphabetView = AlphabetView(frame: alphabetFrame)
@@ -230,13 +285,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             view.addSubview(alphabetView)
         }
 
-        let dimension: CGFloat = 50
-        if UIInterfaceOrientationIsPortrait(UIApplication.sharedApplication().statusBarOrientation) {
-            alphabetFrame = CGRectMake(view.bounds.size.width - dimension, searchBar.bounds.size.height, dimension, view.bounds.size.height - searchBar.bounds.size.height)
-        }
-        else {
-            alphabetFrame = CGRectMake(0, view.bounds.size.height - dimension, view.bounds.size.width, dimension)
-        }
+        alphabetFrame = computeAlphabetFrame(orientation)
+
+        let dimension: CGFloat = 50 // DEBT <-
+        alphabetView.transform = CGAffineTransformIdentity
         alphabetView.frame = alphabetFrame
         alphabetView.hidden = false
         alphabetView.setNeedsLayout()
