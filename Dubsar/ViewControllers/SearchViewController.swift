@@ -100,7 +100,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             cell = WordTableViewCell()
         }
         cell!.selectionStyle = .Blue // but gray for some reason
-        cell!.accessoryType = .DisclosureIndicator
+        cell!.accessoryType = .DetailDisclosureButton
         cell!.frame = tableView.bounds
         cell!.word = word
         cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
@@ -108,7 +108,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         return cell
     }
 
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
         if !search.complete || search.results.count == 0 {
             return
         }

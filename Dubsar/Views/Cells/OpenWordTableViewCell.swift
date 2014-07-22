@@ -27,4 +27,8 @@ class OpenWordTableViewCell: WordTableViewCell {
         self.frame = frame
     }
 
+    override func rebuild() {
+        super.rebuild()
+
+    }
 }

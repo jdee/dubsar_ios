@@ -22,6 +22,13 @@ import UIKit
 
 class WordTableViewCell: UITableViewCell {
 
+    // just some extra margin on the right to avoid getting clobbered by the accessory
+    class var accessoryWidth : CGFloat {
+        get {
+            return 60
+    }
+    }
+
     class var identifier : String {
         get {
             return "word"
@@ -62,13 +69,14 @@ class WordTableViewCell: UITableViewCell {
             return
         }
 
+        let accessorySize = WordTableViewCell.accessoryWidth
         let headlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         let italicFontDescriptor = bodyFont.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitItalic)
         let italicFont = UIFont(descriptor: italicFontDescriptor, size:0.0)
 
         let margin = WordTableViewCell.margin
-        let constrainedSize = CGSizeMake(bounds.size.width-2*margin, bounds.size.height)
+        let constrainedSize = CGSizeMake(bounds.size.width-2*margin-accessorySize, bounds.size.height)
 
         let nameAndPos = word!.nameAndPos as NSString
         let inflectionText = word!.otherForms as NSString
