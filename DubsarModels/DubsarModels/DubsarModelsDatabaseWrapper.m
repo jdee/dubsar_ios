@@ -178,8 +178,7 @@
         @"ORDER BY w.name ASC";
 
         NSLog(@"preparing statement \"%@\"", sql);
-        if ((rc=sqlite3_prepare_v2(_dbptr,
-                                   [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &_exactAutocompleterStmt, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_exactAutocompleterStmt, NULL)) != SQLITE_OK) {
             NSLog(@"error preparing exact match statement, error %d", rc);
             return;
         }
@@ -192,8 +191,7 @@
         @"LIMIT ?";
 
         NSLog(@"preparing statement \"%@\"", sql);
-        if ((rc=sqlite3_prepare_v2(_dbptr,
-                                   [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &_autocompleterStmt, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_autocompleterStmt, NULL)) != SQLITE_OK) {
             NSLog(@"error preparing match statement, error %d", rc);
             return;
         }
