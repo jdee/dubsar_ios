@@ -204,7 +204,7 @@
 				7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */,
 				7BBF83711974DB8200969765 /* WordTableViewCell.swift */,
 			);
-			name = Cells;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		7BAC225019732D6C00D2AEA4 = {
@@ -302,7 +302,7 @@
 				7B497C961978889700563A4B /* SynsetPointerView.swift */,
 				7B62D751197782F2006A797C /* SynsetSampleView.swift */,
 			);
-			name = Views;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		7BBF836E1974B54A00969765 /* View Controllers */ = {
@@ -315,6 +315,7 @@
 				7B1B4E7A19747EB6008F38BF /* WordViewController.swift */,
 			);
 			name = "View Controllers";
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		7BBF83801975CE7000969765 /* Utilities */ = {
@@ -331,7 +332,7 @@
 				7BA90E09197786D400D5C180 /* PushWrapper.m */,
 				7BBF83831975E87B00969765 /* View Sizing */,
 			);
-			name = Utilities;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		7BBF83831975E87B00969765 /* View Sizing */ = {
@@ -343,6 +344,7 @@
 				7BBF837E1975CDBD00969765 /* NSString+ViewSizing.swift */,
 			);
 			name = "View Sizing";
+			path = ViewSizing;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
