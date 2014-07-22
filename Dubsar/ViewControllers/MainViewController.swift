@@ -73,9 +73,9 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
         /* avoid the default behavior
-        rotated = true
         super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
          */
+        rotated = true
 
         let toInterfaceOrientation = UIApplication.sharedApplication().statusBarOrientation
 
@@ -83,30 +83,48 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             // DEBT: Move this stuff into the AlphabetView
             let π = CGFloat(M_PI)
 
-            var transform : CGAffineTransform
+            var transform = CGAffineTransformIdentity
+
+            // position the alphabet view at its original position after rotation
+            // In each case, move the view to its current location in the new view frame, without resizing, so that the lower
+            // righthand corner of the alphabetView is in the lower righthand corner of the view before the rotation begins.
+            alphabetView.frame.origin.x = view.bounds.size.width - alphabetView.bounds.size.width
+            alphabetView.frame.origin.y = view.bounds.size.height - alphabetView.bounds.size.height
+
+            assert(alphabetView.frame.origin.x + alphabetView.bounds.size.width == view.bounds.size.width)
+            assert(alphabetView.frame.origin.y + alphabetView.bounds.size.height == view.bounds.size.height)
+
+            var inset: CGFloat = 0
+            //*
+            // Then rotate around that lower righthand corner in each case, rather than the center of the view.
             if UIInterfaceOrientationIsPortrait(toInterfaceOrientation) {
+                // alphabetView.frame.size.width = view.bounds.size.width
+
                 // rotating from the bottom of the view to the right side
-                let aspect: CGFloat = (view.bounds.size.height - searchBar.bounds.size.height) / alphabetView.bounds.size.width
-                transform = CGAffineTransformMakeRotation(0.5 * π)
+                let aspect = (view.bounds.size.height - searchBar.bounds.size.height) / alphabetView.bounds.size.width
+                inset = 0.5 * alphabetView.bounds.size.height
+                transform = CGAffineTransformTranslate(transform, 0.5*aspect*alphabetView.bounds.size.width - inset, 0.0)
+                transform = CGAffineTransformRotate(transform, 0.5 * π)
+                transform = CGAffineTransformTranslate(transform, -0.5*aspect*alphabetView.bounds.size.width + inset, 0.0)
                 transform = CGAffineTransformScale(transform, aspect, 1.0)
             }
             else {
+                // alphabetView.frame.size.height = view.bounds.size.height - searchBar.bounds.size.height
+
                 // rotating from the right side of the view to the bottom
                 let aspect = view.bounds.width / alphabetView.bounds.size.height
-                transform = CGAffineTransformMakeRotation(-0.5 * π)
+                inset = 0.5 * alphabetView.bounds.size.width
+                transform = CGAffineTransformTranslate(transform, 0.0, 0.5*aspect*alphabetView.bounds.size.height - inset)
+                transform = CGAffineTransformRotate(transform, -0.5 * π)
+                transform = CGAffineTransformTranslate(transform, 0.0, -0.5*aspect*alphabetView.bounds.size.height + inset)
                 transform = CGAffineTransformScale(transform, 1.0, aspect)
             }
-
-            // let alphabetFrame = computeAlphabetFrame(UIApplication.sharedApplication().statusBarOrientation)
-
-            rotated = true
 
             UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveLinear,
                 animations: {
                     [weak self] in
                     if let my = self {
                         my.alphabetView.transform = transform
-                        // my.alphabetView.frame = alphabetFrame
                     }
                 },
                 completion: {
@@ -116,6 +134,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
                         self?.adjustAlphabetView(toInterfaceOrientation)
                     }
                 })
+            // */
         }
     }
 
