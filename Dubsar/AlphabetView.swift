@@ -25,7 +25,7 @@ class GlobButton: UIButton {
 
 class AlphabetView: UIView {
 
-    class var margin : CGFloat {
+    class var minimumMargin : CGFloat {
         get {
             return 2
         }
@@ -58,6 +58,12 @@ class AlphabetView: UIView {
     }
     // */
 
+    var horizontal : Bool {
+    get {
+        return frame.size.width > frame.size.height
+    }
+    }
+
     var buttons: [GlobButton] = []
     weak var viewController: MainViewController?
 
@@ -66,14 +72,12 @@ class AlphabetView: UIView {
     }
 
     override func layoutSubviews() {
-        let horizontal = frame.size.width > frame.size.height
-
         let fontToUse = getFont() // avoid computing more than once
-        let viewSize = viewSizeAtFontSize(fontToUse.pointSize)
+        let viewSize = viewSizeAtFontSize(fontToUse.pointSize, margin: AlphabetView.minimumMargin)
 
         let letterHeight = ("Q" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).height // Q has a small tail
         let letterWidth = ("W" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).width // W for Wide Load
-        let margin = AlphabetView.margin
+        let margin = marginForViewSize(viewSize)
 
         for button in buttons {
             button.removeFromSuperview()
@@ -81,22 +85,18 @@ class AlphabetView: UIView {
         buttons = []
 
         var position = margin
-        if horizontal {
-            position = 0.5 * (bounds.size.width - viewSize)
-        }
-
         let buttonConfig = AlphabetView.buttonConfig
 
         for (label, globExpression) in buttonConfig {
             var x: CGFloat = 0, y: CGFloat = 0
             if horizontal {
                 x = position
-                y = margin
+                y = AlphabetView.minimumMargin
 
                 position += 2 * letterWidth
             }
             else {
-                x = margin
+                x = AlphabetView.minimumMargin
                 y = position
 
                 position += letterHeight
@@ -119,13 +119,13 @@ class AlphabetView: UIView {
         }
 
         if horizontal {
-            let height = letterHeight + 2 * margin
+            let height = letterHeight + 2 * AlphabetView.minimumMargin
             let delta = frame.size.height - height
             frame.size.height = height
             frame.origin.y += delta
         }
         else {
-            let width = 2 * letterWidth + 2 * margin
+            let width = 2 * letterWidth + 2 * AlphabetView.minimumMargin
             let delta = frame.size.width - width
             frame.size.width = width
             frame.origin.x += delta
@@ -140,7 +140,6 @@ class AlphabetView: UIView {
     }
 
     private func getFont() -> UIFont! {
-        let horizontal = frame.size.width > frame.size.height
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         let headlineFontSize = fontDescriptor.pointSize
         // NSLog("Headline font size is %f", Float(headlineFontSize))
@@ -159,7 +158,7 @@ class AlphabetView: UIView {
                 continue
             }
 
-            let viewSize = viewSizeAtFontSize(fontSize)
+            let viewSize = viewSizeAtFontSize(fontSize, margin: AlphabetView.minimumMargin)
 
             if (horizontal && viewSize < bounds.size.width) || (!horizontal && viewSize < bounds.size.height) {
                 return UIFont(descriptor: fontDescriptor, size: fontSize)
@@ -169,11 +168,18 @@ class AlphabetView: UIView {
         return UIFont(descriptor: fontDescriptor, size: 0.0) // shouldn't really get here, but use the headline font size
     }
 
-    private func viewSizeAtFontSize(fontSize: CGFloat) -> CGFloat {
-        let horizontal = frame.size.width > frame.size.height
+    private func marginForViewSize(viewSize: CGFloat) -> CGFloat {
+        let labelCount = CGFloat(AlphabetView.buttonConfig.count)
+        let sizeOfButtons = viewSize - AlphabetView.minimumMargin * (labelCount + 1)
+        if horizontal {
+            return (bounds.size.width - sizeOfButtons) / (labelCount + 1)
+        }
+        return (bounds.size.height - sizeOfButtons) / (labelCount + 1)
+    }
+
+    private func viewSizeAtFontSize(fontSize: CGFloat, margin: CGFloat) -> CGFloat {
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         let fontToUse = UIFont(descriptor: fontDescriptor, size: fontSize)
-        let margin = AlphabetView.margin
         let labelCount = CGFloat(AlphabetView.buttonConfig.count)
         let letterHeight = ("Q" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).height // Q has a small tail
         let letterWidth = ("W" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).width // W for Wide Load
