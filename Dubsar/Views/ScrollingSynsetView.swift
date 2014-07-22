@@ -47,7 +47,7 @@ class ScrollingSynsetView: UIScrollView {
 
     private var hasReset : Bool = false
 
-    unowned var viewController : SynsetViewController {
+    var viewController : SynsetViewController! {
     didSet {
         // these views have navigation options
         headerView.delegate = viewController
@@ -55,12 +55,11 @@ class ScrollingSynsetView: UIScrollView {
     }
     }
 
-    init(synset: DubsarModelsSynset!, delegate: SynsetViewController!, frame: CGRect) {
+    init(synset: DubsarModelsSynset!, frame: CGRect) {
         self.synset = synset
-        viewController = delegate
-        headerView = SynsetHeaderView(synset: synset, delegate: delegate, frame: CGRectZero)
+        headerView = SynsetHeaderView(synset: synset, frame: CGRectZero)
         sampleView = SynsetSampleView(synset: synset, frame: CGRectZero, preview: false)
-        pointerView = SynsetPointerView(synset: synset, delegate: delegate, frame: CGRectZero, preview: false)
+        pointerView = SynsetPointerView(synset: synset, frame: CGRectZero, preview: false)
         super.init(frame: frame)
 
         headerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth

@@ -25,11 +25,10 @@ class PointerView : UIView {
     let button : NavButton
     let label : UILabel
     let withoutButton : Bool
-    unowned var viewController : SynsetViewController
+    weak var viewController : SynsetViewController?
 
-    init(pointer: DubsarModelsPointer!, frame: CGRect, withoutButton: Bool, delegate: SynsetViewController!) {
+    init(pointer: DubsarModelsPointer!, frame: CGRect, withoutButton: Bool) {
         self.pointer = pointer
-        viewController = delegate
         button = NavButton()
         label = UILabel()
         self.withoutButton = withoutButton
@@ -94,7 +93,7 @@ class SynsetPointerView: UIView {
     var scrollViewTop : CGFloat = 0
     var scrollViewBottom : CGFloat = 0
 
-    unowned var viewController : SynsetViewController
+    weak var viewController : SynsetViewController?
 
     private var hasReset : Bool = true
     private var numberOfSections : UInt = 0
@@ -105,9 +104,8 @@ class SynsetPointerView: UIView {
     private var nextSection : Int = 0
     private var nextRow : Int = -1
 
-    init(synset: DubsarModelsSynset!, delegate: SynsetViewController!, frame: CGRect, preview: Bool = false) {
+    init(synset: DubsarModelsSynset!, frame: CGRect, preview: Bool = false) {
         self.synset = synset
-        viewController = delegate
         isPreview = preview
         super.init(frame: frame)
         clipsToBounds = true
@@ -147,7 +145,7 @@ class SynsetPointerView: UIView {
 
     func navigateToModel(model: DubsarModelsModel?) {
         assert(model)
-        viewController.navigateToPointer(model)
+        viewController?.navigateToPointer(model)
     }
 
     func reset() {
@@ -217,7 +215,7 @@ class SynsetPointerView: UIView {
 
                 let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
                 let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
-                let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height), withoutButton: isPreview, delegate: viewController)
+                let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height), withoutButton: isPreview)
                 pointerView.label.text = text
                 if !isPreview && pointer.targetType == "Sense" {
                     pointerView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)

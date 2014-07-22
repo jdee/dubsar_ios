@@ -35,10 +35,9 @@ class AutocompleterView: UIView {
 
     var buttons : [UIButton] = []
 
-    unowned var viewController : MainViewController
+    weak var viewController : MainViewController?
 
-    init(delegate: MainViewController!, frame: CGRect) {
-        viewController = delegate
+    init(frame: CGRect) {
         super.init(frame: frame)
         autoresizingMask = .FlexibleHeight | .FlexibleWidth | .FlexibleBottomMargin
         backgroundColor = UIColor.lightGrayColor()
@@ -81,6 +80,6 @@ class AutocompleterView: UIView {
     func resultSelected(sender: UIButton!) {
         let result = sender.titleForState(.Normal)
         // NSLog("Button pressed for result %@", result)
-        viewController.autocompleterView(self, selectedResult: result)
+        viewController?.autocompleterView(self, selectedResult: result)
     }
 }
