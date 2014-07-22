@@ -69,6 +69,8 @@ class AlphabetView: UIView {
         let horizontal = frame.size.width > frame.size.height
 
         let fontToUse = getFont() // avoid computing more than once
+        let viewSize = viewSizeAtFontSize(fontToUse.pointSize)
+
         let letterHeight = ("Q" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).height // Q has a small tail
         let letterWidth = ("W" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).width // W for Wide Load
         let margin = AlphabetView.margin
@@ -79,6 +81,9 @@ class AlphabetView: UIView {
         buttons = []
 
         var position = margin
+        if horizontal {
+            position = 0.5 * (bounds.size.width - viewSize)
+        }
 
         let buttonConfig = AlphabetView.buttonConfig
 
@@ -104,7 +109,7 @@ class AlphabetView: UIView {
             button.setTitle(String(label), forState: .Normal)
             button.setTitleColor(UIColor.blackColor(), forState: .Normal)
             button.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
-            button.addTarget(self, action: "letterPressed:", forControlEvents: .TouchUpInside)
+            button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
 
             buttons += button
             addSubview(button)
@@ -127,7 +132,7 @@ class AlphabetView: UIView {
     }
 
     @IBAction
-    func letterPressed(sender: GlobButton!) {
+    func buttonPressed(sender: GlobButton!) {
         viewController?.alphabetView(self, selectedButton: sender)
     }
 
@@ -145,34 +150,35 @@ class AlphabetView: UIView {
         // TODO: Support extra-large accessibility fonts.
         let sizes: [CGFloat] = [ 48, 36, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14 ]
 
-        var fontSize: CGFloat = 0
         var fontToUse: UIFont!
-        let margin = AlphabetView.margin
-        let labelCount = CGFloat(AlphabetView.buttonConfig.count)
         for fontSize in sizes {
             if fontSize > headlineFontSize {
                 continue
             }
 
-            fontToUse = UIFont(descriptor: fontDescriptor, size: fontSize)
-            let letterHeight = ("Q" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).height // Q has a small tail
-            let letterWidth = ("W" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).width // W for Wide Load
+            let viewSize = viewSizeAtFontSize(fontSize)
 
-            if horizontal {
-                if (labelCount + 1) * margin + 2 * labelCount * letterWidth <= bounds.size.width {
-                    // NSLog("using %f point font", Float(fontSize))
-                    break
-                }
-            }
-            else {
-                if (labelCount + 1) * margin + labelCount * letterHeight <= bounds.size.height {
-                    // NSLog("using %f point font", Float(fontSize))
-                    break
-                }
+            if (horizontal && viewSize < bounds.size.width) || (!horizontal && viewSize < bounds.size.height) {
+                return UIFont(descriptor: fontDescriptor, size: fontSize)
             }
         }
 
-        return fontToUse
-   }
+        return UIFont(descriptor: fontDescriptor, size: 0.0) // shouldn't really get here, but use the headline font size
+    }
+
+    private func viewSizeAtFontSize(fontSize: CGFloat) -> CGFloat {
+        let horizontal = frame.size.width > frame.size.height
+        let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
+        let fontToUse = UIFont(descriptor: fontDescriptor, size: fontSize)
+        let margin = AlphabetView.margin
+        let labelCount = CGFloat(AlphabetView.buttonConfig.count)
+        let letterHeight = ("Q" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).height // Q has a small tail
+        let letterWidth = ("W" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).width // W for Wide Load
+
+        if horizontal {
+            return (labelCount + 1) * margin + 2 * labelCount * letterWidth
+        }
+        return (labelCount + 1) * margin + labelCount * letterHeight
+    }
 
 }
