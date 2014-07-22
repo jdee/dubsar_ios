@@ -76,10 +76,9 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         rotated = true
         super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
          */
-    }
 
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-        super.willRotateToInterfaceOrientation(toInterfaceOrientation, duration: duration)
+        let toInterfaceOrientation = UIApplication.sharedApplication().statusBarOrientation
+
         if alphabetView {
             // DEBT: Move this stuff into the AlphabetView
             let π = CGFloat(M_PI)
@@ -87,14 +86,13 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             var transform : CGAffineTransform
             if UIInterfaceOrientationIsPortrait(toInterfaceOrientation) {
                 // rotating from the bottom of the view to the right side
-                let fudge : CGFloat = 3 // yeah
-                let aspect: CGFloat = (view.bounds.size.width - fudge * searchBar.bounds.size.height) / view.bounds.size.width
+                let aspect: CGFloat = (view.bounds.size.height - searchBar.bounds.size.height) / alphabetView.bounds.size.width
                 transform = CGAffineTransformMakeRotation(0.5 * π)
                 transform = CGAffineTransformScale(transform, aspect, 1.0)
             }
             else {
                 // rotating from the right side of the view to the bottom
-                let aspect = (view.bounds.size.height - searchBar.bounds.size.height) / view.bounds.size.width
+                let aspect = view.bounds.width / alphabetView.bounds.size.height
                 transform = CGAffineTransformMakeRotation(-0.5 * π)
                 transform = CGAffineTransformScale(transform, 1.0, aspect)
             }
