@@ -117,7 +117,7 @@
         }
         
         if (exactMatch != nil) {
-            NSLog(@"found exact match %@", exactMatch);
+            // NSLog(@"found exact match %@", exactMatch);
             self.results = [NSMutableArray arrayWithObject:exactMatch];
         }
         else {
@@ -128,11 +128,15 @@
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
-        if ((rc=sqlite3_bind_text(database.autocompleterStmt, 2, _term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(database.autocompleterStmt, 2, exactMatch.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
-        if ((rc=sqlite3_bind_int(database.autocompleterStmt, 3, (int)(exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(database.autocompleterStmt, 3, exactMatch.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
+            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+            return;
+        }
+        if ((rc=sqlite3_bind_int(database.autocompleterStmt, 4, (int)(exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;    
         }

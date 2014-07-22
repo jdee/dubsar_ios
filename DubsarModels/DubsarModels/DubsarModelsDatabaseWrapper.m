@@ -168,7 +168,8 @@
          */
 
         /*
-         * Exact match first
+         * Exact match first. By using >= here, we get back "treatment" when the user types "treatm" as an
+         * exact match, filtered to the top. This makes the app seem to anticipate the typing.
          */
         sql = @"SELECT name "
         @"FROM inflections "
@@ -182,11 +183,23 @@
             return;
         }
 
+        /*
+         * This next step needs work. The idea is to remove any duplication from the AC results by removing any
+         * inflection if the root word is in the results. This doesn't exactly accomplish that. It's possible for
+         * FTS matches to have inflections included, but they are usually phrases that don't have inflections.
+         * To do this right, you'd need a words_fts table and something like NOT w.name MATCH ? in the WHERE
+         * clause, with ? bound to term*, like the i.name MATCH clause above it.
+         *
+         * The w.name != ? condition is enough to filter out "teammates" when the user types "teamm."
+         */
+
         /* FTS search */
-        sql = @"SELECT DISTINCT name "
-        @"FROM inflections_fts "
-        @"WHERE name MATCH ? AND name != ? "
-        @"ORDER BY name ASC "
+        sql = @"SELECT DISTINCT i.name "
+        @"FROM inflections_fts i "
+        @"JOIN words w ON w.id = i.word_id "
+        @"WHERE i.name MATCH ? AND i.name != ? "
+        @"AND w.name != ? " // filter out inflections of the exact match
+        @"ORDER BY i.name ASC "
         @"LIMIT ?";
 
         NSLog(@"preparing statement \"%@\"", sql);
