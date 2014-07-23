@@ -71,6 +71,13 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         }
     }
 
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        super.willRotateToInterfaceOrientation(toInterfaceOrientation, duration: duration)
+        if alphabetView {
+            alphabetView.hidden = true
+        }
+    }
+
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
         /* avoid the default behavior
         super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
@@ -84,6 +91,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             let π = CGFloat(M_PI)
 
             var transform = CGAffineTransformIdentity
+
+            alphabetView.hidden = false
 
             // position the alphabet view at its original position after rotation
             // In each case, move the view to its current location in the new view frame, without resizing, so that the lower
