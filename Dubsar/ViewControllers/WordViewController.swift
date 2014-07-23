@@ -117,7 +117,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         assert(theWord!.complete)
 
         adjustLayout()
-    }
+        senseTableView.backgroundColor = theWord!.senses.count % 2 == 1 ? UIColor.whiteColor() : UIColor.lightGrayColor()
+   }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return theWord && theWord!.complete ? theWord!.senses.count + 1 : 1

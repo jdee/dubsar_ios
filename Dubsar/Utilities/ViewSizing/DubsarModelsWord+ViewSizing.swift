@@ -65,8 +65,8 @@ extension DubsarModelsWord {
             let sense = senses.firstObject as? DubsarModelsSense
             assert(sense)
             let openSenseCell = OpenSenseTableViewCell(sense: sense, frame: CGRectMake(0, 0, constrainedSize.width, constrainedSize.height), maxHeightOfAdditions: maxHeightOfAdditions)
-            let openSenseView: UIView! = openSenseCell.view
-            size.height += openSenseView.bounds.size.height
+            // NSLog("height without open sense cell: %f; with open sense cell: %f", Double(size.height), Double(size.height + openSenseCell.bounds.size.height))
+            size.height += openSenseCell.bounds.size.height
         }
 
         return size

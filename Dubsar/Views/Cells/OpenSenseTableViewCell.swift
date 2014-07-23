@@ -75,7 +75,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         frame.size.height += sampleView.bounds.size.height
         y = bounds.size.height
 
-        // NSLog("sample view height is %f. frame height is now %f (remaining insertHeightLimit: %f)", sampleView.bounds.size.height, frame.size.height, available)
+        NSLog("sample view height is %f. frame height is now %f (remaining insertHeightLimit: %f)", Double(sampleView.bounds.size.height), Double(frame.size.height), Double(available))
 
         let pointerView = SynsetPointerView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height), preview: true)
         pointerView.sense = sense
@@ -95,7 +95,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         frame.size.height += pointerView.bounds.size.height
 
-        // NSLog("pointer view height is %f. frame height is now %f", pointerView.bounds.size.height, frame.size.height)
+        NSLog("pointer view height is %f. frame height is now %f", Double(pointerView.bounds.size.height), Double(frame.size.height))
     }
 
 }

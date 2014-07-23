@@ -59,6 +59,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         updateTitle()
         pageControl.hidden = search.totalPages <= 1
         adjustLayout()
+        view.backgroundColor = UIColor.lightGrayColor()
     }
 
     @IBAction
@@ -135,6 +136,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         cell!.accessoryType = .DetailDisclosureButton
         cell!.frame = tableView.bounds
         cell!.word = word
+        cell!.rebuild()
 
         // NSLog("Height of cell at row %d: %f", row, Double(cell!.bounds.size.height))
 
@@ -192,6 +194,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         pageControl.numberOfPages = Int(search.totalPages)
         updateTitle()
         resultTableView.reloadData()
+
+        resultTableView.backgroundColor = search.results.count % 2 == 0 ? UIColor.whiteColor() : UIColor.lightGrayColor()
     }
 
     override func adjustLayout() {
