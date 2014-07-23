@@ -71,20 +71,18 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         }
     }
 
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        /* avoid the default behavior
+        super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
+        */
+    }
+
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         super.willRotateToInterfaceOrientation(toInterfaceOrientation, duration: duration)
         if alphabetView {
             alphabetView.hidden = true
         }
-    }
-
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        /* avoid the default behavior
-        super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
-         */
         rotated = true
-
-        let toInterfaceOrientation = UIApplication.sharedApplication().statusBarOrientation
 
         if alphabetView {
             // DEBT: Move this stuff into the AlphabetView
@@ -94,23 +92,23 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
             alphabetView.hidden = false
 
-            // position the alphabet view at its original position after rotation
+            // position the alphabet view at its new position after rotation
             // In each case, move the view to its current location in the new view frame, without resizing, so that the lower
             // righthand corner of the alphabetView is in the lower righthand corner of the view before the rotation begins.
-            alphabetView.frame.origin.x = view.bounds.size.width - alphabetView.bounds.size.width
-            alphabetView.frame.origin.y = view.bounds.size.height - alphabetView.bounds.size.height
-
-            assert(alphabetView.frame.origin.x + alphabetView.bounds.size.width == view.bounds.size.width)
-            assert(alphabetView.frame.origin.y + alphabetView.bounds.size.height == view.bounds.size.height)
 
             var inset: CGFloat = 0
+            let fudge : CGFloat = 20 // the difference in the height of the nav bar between orientations
             //*
             // Then rotate around that lower righthand corner in each case, rather than the center of the view.
             if UIInterfaceOrientationIsPortrait(toInterfaceOrientation) {
-                // alphabetView.frame.size.width = view.bounds.size.width
-
                 // rotating from the bottom of the view to the right side
-                let aspect = (view.bounds.size.height - searchBar.bounds.size.height) / alphabetView.bounds.size.width
+                let newWidth = view.bounds.size.height + navigationController.navigationBar.bounds.size.height
+                let newHeight = view.bounds.size.width - navigationController.navigationBar.bounds.size.height - fudge
+
+                alphabetView.frame.origin.x = newWidth - alphabetView.bounds.size.width
+                alphabetView.frame.origin.y = newHeight - alphabetView.bounds.size.height
+
+                let aspect = (newHeight - searchBar.bounds.size.height) / alphabetView.bounds.size.width
                 inset = 0.5 * alphabetView.bounds.size.height
                 transform = CGAffineTransformTranslate(transform, 0.5*aspect*alphabetView.bounds.size.width - inset, 0.0)
                 transform = CGAffineTransformRotate(transform, 0.5 * π)
@@ -118,10 +116,14 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
                 transform = CGAffineTransformScale(transform, aspect, 1.0)
             }
             else {
-                // alphabetView.frame.size.height = view.bounds.size.height - searchBar.bounds.size.height
-
                 // rotating from the right side of the view to the bottom
-                let aspect = view.bounds.width / alphabetView.bounds.size.height
+                let newWidth = view.bounds.size.height + navigationController.navigationBar.bounds.size.width
+                let newHeight = view.bounds.size.width - navigationController.navigationBar.bounds.size.height + fudge
+
+                alphabetView.frame.origin.x = newWidth - alphabetView.bounds.size.width
+                alphabetView.frame.origin.y = newHeight - alphabetView.bounds.size.height
+
+                let aspect = newWidth / alphabetView.bounds.size.height
                 inset = 0.5 * alphabetView.bounds.size.width
                 transform = CGAffineTransformTranslate(transform, 0.0, 0.5*aspect*alphabetView.bounds.size.height - inset)
                 transform = CGAffineTransformRotate(transform, -0.5 * π)
@@ -129,7 +131,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
                 transform = CGAffineTransformScale(transform, 1.0, aspect)
             }
 
-            UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveLinear,
+            UIView.animateWithDuration(duration, delay: 0.0, options: .CurveLinear,
                 animations: {
                     [weak self] in
                     if let my = self {
