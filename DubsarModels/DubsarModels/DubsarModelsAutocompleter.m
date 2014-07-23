@@ -114,6 +114,9 @@
             
             char const* _wName = (char const*)sqlite3_column_text(database.exactAutocompleterStmt, 0);
             exactMatch = @(_wName);
+            if (![exactMatch hasPrefix:_term]) {
+                exactMatch = nil;
+            }
         }
         
         if (exactMatch != nil) {
