@@ -97,7 +97,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             // righthand corner of the alphabetView is in the lower righthand corner of the view before the rotation begins.
 
             var inset: CGFloat = 0
-            let fudge : CGFloat = 20 // the difference in the height of the nav bar between orientations
+            let fudge : CGFloat = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? 12 : 0 // the difference in the height of the nav bar between orientations
             //*
             // Then rotate around that lower righthand corner in each case, rather than the center of the view.
             if UIInterfaceOrientationIsPortrait(toInterfaceOrientation) {

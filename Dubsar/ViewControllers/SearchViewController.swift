@@ -120,6 +120,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             if !openCell {
                 openCell = OpenWordTableViewCell(word: word, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
             }
+            openCell!.cellBackgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
             cell = openCell
         }
         else {
@@ -128,12 +129,12 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
                 cell = WordTableViewCell()
             }
             cell!.selectionStyle = .Blue // but gray for some reason
+            cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
         }
 
         cell!.accessoryType = .DetailDisclosureButton
         cell!.frame = tableView.bounds
         cell!.word = word
-        cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
 
         // NSLog("Height of cell at row %d: %f", row, Double(cell!.bounds.size.height))
 
