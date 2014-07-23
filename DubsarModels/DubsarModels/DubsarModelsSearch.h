@@ -43,16 +43,18 @@
  */
 @property bool exact;
 
-+(instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
--(instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
-+(instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page;
--(instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
-+(instancetype)searchWithWildcard:(NSString*)globExpression page:(int)page title:(NSString*)theTitle;
--(instancetype)initWithWildcard:(NSString*)globExpression page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
++ (instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
+- (instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
++ (instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page;
+- (instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
++ (instancetype)searchWithWildcard:(NSString*)globExpression page:(int)page title:(NSString*)theTitle;
+- (instancetype)initWithWildcard:(NSString*)globExpression page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
 
--(DubsarModelsSearch*)newSearchForPage:(int)page;
+- (DubsarModelsSearch*)newSearchForPage:(int)page;
 
--(void)loadWildcardResults:(DubsarModelsDatabaseWrapper*)appDelegate;
--(void)loadFulltextResults:(DubsarModelsDatabaseWrapper*)appDelegate;
+- (void)loadWildcardResults:(DubsarModelsDatabaseWrapper*)appDelegate;
+- (void)loadFulltextResults:(DubsarModelsDatabaseWrapper*)appDelegate;
+
+- (void)loadWithWords;
 
 @end

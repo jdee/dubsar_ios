@@ -184,7 +184,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         let row = indexPath.indexAtPosition(1)
         if row == 0 {
-            return theWord!.sizeOfCellWithConstrainedSize(tableView.bounds.size).height
+            return theWord!.sizeOfCellWithConstrainedSize(tableView.bounds.size, open: false, maxHeightOfAdditions: 0).height
         }
 
         let sense = theWord!.senses[row-1] as DubsarModelsSense

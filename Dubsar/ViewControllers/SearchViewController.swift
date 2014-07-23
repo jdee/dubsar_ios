@@ -42,13 +42,23 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
     }
 
+    var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+
     override func viewWillAppear(animated: Bool) {
         // NSLog("In SearchViewController.viewWillAppear() before super: search is %@nil, %@complete; model is %@nil, %@complete", (search ? "" : "not "), (search.complete ? "" : "not "), (model ? "" : "not "), (model?.complete ? "" : "not "))
-        super.viewWillAppear(animated)
+        // super.viewWillAppear(animated)
+
+        if !search.complete {
+            search.loadWithWords()
+        }
+        else {
+            loadComplete(search, withError: nil)
+        }
 
         title = "Search"
         updateTitle()
         pageControl.hidden = search.totalPages <= 1
+        adjustLayout()
     }
 
     @IBAction
@@ -65,6 +75,14 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             title = "\(title) p. \(search.currentPage)/\(search.totalPages)"
         }
         searchLabel.text = title
+    }
+
+    func maxHeightOfAdditionsForRow(row: Int) -> CGFloat {
+        return row == search.results.count - 1 ? resultTableView.bounds.size.height : 150
+    }
+
+    func tableView(tableView: UITableView!, shouldHighlightRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
+        return indexPath != selectedIndexPath
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section:Int) -> Int {
@@ -94,18 +112,46 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         let row = indexPath.indexAtPosition(1)
         let word = search.results[row] as DubsarModelsWord
+        let selectedRow = selectedIndexPath.indexAtPosition(1)
 
-        var cell = tableView.dequeueReusableCellWithIdentifier(WordTableViewCell.identifier) as? WordTableViewCell
-        if !cell {
-            cell = WordTableViewCell()
+        var cell: WordTableViewCell?
+        if selectedRow == row {
+            var openCell = tableView.dequeueReusableCellWithIdentifier(OpenWordTableViewCell.openIdentifier) as? OpenWordTableViewCell
+            if !openCell {
+                openCell = OpenWordTableViewCell(word: word, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
+            }
+            cell = openCell
         }
-        cell!.selectionStyle = .Blue // but gray for some reason
+        else {
+            cell = tableView.dequeueReusableCellWithIdentifier(WordTableViewCell.identifier) as? WordTableViewCell
+            if !cell {
+                cell = WordTableViewCell()
+            }
+            cell!.selectionStyle = .Blue // but gray for some reason
+        }
+
         cell!.accessoryType = .DetailDisclosureButton
         cell!.frame = tableView.bounds
         cell!.word = word
         cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
 
+        // NSLog("Height of cell at row %d: %f", row, Double(cell!.bounds.size.height))
+
         return cell
+    }
+
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        if indexPath == selectedIndexPath {
+            NSLog("row %d reselected, ignoring", indexPath.row)
+            return
+        }
+
+        let current = selectedIndexPath
+
+        selectedIndexPath = indexPath
+
+        // NSLog("Selected row %d", selectedIndexPath.indexAtPosition(1))
+        tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
     }
 
     func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
@@ -126,8 +172,12 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         let row = indexPath.indexAtPosition(1)
         let word = search.results[row] as DubsarModelsWord
+        let selectedRow = selectedIndexPath.indexAtPosition(1)
 
-        return word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size).height
+        let height = word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
+
+        // NSLog("Height of row %d: %f", row, Double(height))
+        return height
     }
 
     override func loadComplete(model : DubsarModelsModel!, withError error: String?) {

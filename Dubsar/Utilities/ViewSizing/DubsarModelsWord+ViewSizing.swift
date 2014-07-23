@@ -40,7 +40,7 @@ extension DubsarModelsWord {
         return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
-    func sizeOfCellWithConstrainedSize(constrainedSize: CGSize) -> CGSize {
+    func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat) -> CGSize {
         var constraint = constrainedSize
         constraint.width -= 2 * WordTableViewCell.margin
 
@@ -58,6 +58,15 @@ extension DubsarModelsWord {
         if freqCnt > 0 {
             let freqCntSize = freqCntSizeWithConstrainedSize(constraint, font: bodyFont)
             size.height += freqCntSize.height + WordTableViewCell.margin
+        }
+
+        if open {
+            assert(senses)
+            let sense = senses.firstObject as? DubsarModelsSense
+            assert(sense)
+            let openSenseCell = OpenSenseTableViewCell(sense: sense, frame: CGRectMake(0, 0, constrainedSize.width, constrainedSize.height), maxHeightOfAdditions: maxHeightOfAdditions)
+            let openSenseView: UIView! = openSenseCell.view
+            size.height += openSenseView.bounds.size.height
         }
 
         return size

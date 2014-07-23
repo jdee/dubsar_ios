@@ -21,14 +21,42 @@ import DubsarModels
 import UIKit
 
 class OpenWordTableViewCell: WordTableViewCell {
+    var insertHeightLimit : CGFloat
 
-    init(word: DubsarModelsWord!, frame: CGRect) {
+    class var openIdentifier : String {
+        get {
+            return "openword"
+    }
+    }
+
+    init(word: DubsarModelsWord!, frame: CGRect, maxHeightOfAdditions: CGFloat) {
+        insertHeightLimit = maxHeightOfAdditions
         super.init(word: word)
+        clipsToBounds = true
         self.frame = frame
+        selectionStyle = .None
+        rebuild() // after frame set
     }
 
     override func rebuild() {
         super.rebuild()
 
+        let y = bounds.size.height
+
+        assert(word)
+        assert(word!.senses)
+        let sense = word!.senses.firstObject as DubsarModelsSense
+        let openSenseCell = OpenSenseTableViewCell(sense: sense, frame: CGRectMake(0, y, bounds.size.width, bounds.size.height-y), maxHeightOfAdditions: insertHeightLimit)
+        openSenseCell.cellBackgroundColor = cellBackgroundColor
+
+        let openSenseView: UIView! = openSenseCell.view
+        openSenseView.frame.origin.x = 0
+        openSenseView.frame.origin.y = y
+        openSenseView.clipsToBounds = true
+
+        openSenseView.removeFromSuperview() // remove this nicely built view from the dummy cell's contentView
+        view!.addSubview(openSenseView)
+
+        frame.size.height += openSenseView.bounds.size.height
     }
 }

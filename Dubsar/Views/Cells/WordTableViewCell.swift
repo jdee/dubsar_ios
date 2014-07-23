@@ -87,7 +87,7 @@ class WordTableViewCell: UITableViewCell {
         let freqCntSize = word!.freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
 
         let originalWidth = bounds.size.width
-        bounds.size = word!.sizeOfCellWithConstrainedSize(bounds.size)
+        bounds.size = word!.sizeOfCellWithConstrainedSize(bounds.size, open: false, maxHeightOfAdditions: 0)
         assert(originalWidth == bounds.size.width)
 
         view?.removeFromSuperview()

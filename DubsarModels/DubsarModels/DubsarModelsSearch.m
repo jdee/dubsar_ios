@@ -24,13 +24,17 @@
 #import "DubsarModelsDatabaseWrapper.h"
 #import "DubsarModelsSearch.h"
 #import "DubsarModelsPartOfSpeechDictionary.h"
+#import "DubsarModelsSense.h"
+#import "DubsarModelsSynset.h"
 #import "NSString+URLEncoding.h"
 #import "DubsarModelsWord.h"
 
 static int _seqNum = 0;
 #define NUM_PER_PAGE 30
 
-@implementation DubsarModelsSearch
+@implementation DubsarModelsSearch {
+    BOOL loadingWords;
+}
 
 @synthesize results;
 @synthesize term;
@@ -74,6 +78,7 @@ static int _seqNum = 0;
         totalPages = 0;
         seqNum = theSeqNum;
         exact = false;
+        loadingWords = NO;
         
         /*
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
@@ -103,6 +108,7 @@ static int _seqNum = 0;
         
         // totalPages is set by the server in the response
         totalPages = 0;
+        loadingWords = NO;
         
         /*
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
@@ -133,6 +139,7 @@ static int _seqNum = 0;
         
         // totalPages is set by the server in the response
         totalPages = 0;
+        loadingWords = NO;
         
         /*
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
@@ -159,6 +166,23 @@ static int _seqNum = 0;
     else {
         [self loadFulltextResults:database];
     }
+
+    if (loadingWords) {
+        for (DubsarModelsWord* word in results) {
+            [word loadSynchronous];
+            for (DubsarModelsSense* sense in word.senses) {
+                [sense loadSynchronous];
+                [sense.synset loadSynchronous];
+            }
+        }
+        loadingWords = NO;
+    }
+}
+
+- (void)loadWithWords
+{
+    loadingWords = YES;
+    [self load];
 }
 
 - (void)loadWildcardResults:(DubsarModelsDatabaseWrapper *)database
@@ -177,7 +201,7 @@ static int _seqNum = 0;
     NSString* where;
     switch (first) {
         default:
-            // e.g., 
+            // e.g.,
             // WHERE (w.name >= 'A' AND w.name <'C') OR (w.name >= 'a' AND w.name < 'c') AND w.name GLOB '[ABab]*'
             where = @"WHERE (w.name >= :capital1 AND w.name < :capital2) OR "
             @"(w.name >= :lower1 AND w.name < :lower2) AND w.name GLOB :term ";
