@@ -53,6 +53,9 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         view.addSubview(autocompleterView)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShowing:", name: UIKeyboardDidShowNotification, object: nil)
+
+        // deprecated, but somehow not showing up in the storyboard
+        searchBar.autocapitalizationType = .None
     }
 
     override func viewWillAppear(animated: Bool) {

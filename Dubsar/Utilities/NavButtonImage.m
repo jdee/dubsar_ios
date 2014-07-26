@@ -21,8 +21,28 @@
 
 @implementation NavButtonImage
 
++ (NSString*)keyForSize:(CGSize)size color:(UIColor*)color
+{
+    CGFloat red=0, green=0, blue=0, alpha=0;
+    [color getRed:&red green:&green blue:&blue alpha:&alpha];
+
+    return [NSString stringWithFormat:@"%.1fx%.1f:%02x%02x%02x%02x", size.width, size.height, (int)red*255, (int)green*255, (int)blue*255, (int)alpha*255];
+}
+
 + (UIImage*)imageWithSize:(CGSize)size color:(UIColor *)color
 {
+    static BOOL initialized = NO;
+    static NSMutableDictionary* imageDictionary;
+
+    if (!initialized) {
+        imageDictionary = [NSMutableDictionary dictionary];
+        initialized = YES;
+    }
+
+    NSString* imageKey = [self keyForSize:size color:color];
+    UIImage* storedImage = [imageDictionary objectForKey:imageKey];
+    if (storedImage) return storedImage;
+
     size.width *= [UIScreen mainScreen].scale;
     size.height *= [UIScreen mainScreen].scale;
 
@@ -37,6 +57,8 @@
 
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+
+    [imageDictionary setObject:newImage forKey:imageKey];
 
     return newImage;
 }
