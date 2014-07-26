@@ -37,7 +37,7 @@ class PointerView : UIView {
         // clipsToBounds = true
 
         let fudge : CGFloat = 8
-        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
         let buttonSize = bodyFont.pointSize + fudge // height of one line in the body font, with a little extra space
 
         label.lineBreakMode = .ByWordWrapping
@@ -168,8 +168,8 @@ class SynsetPointerView: UIView {
     private func tileViewport() {
         // convenient constants
         let margin = SynsetPointerView.margin
-        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        let titleFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
+        let titleFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
 
         // y is where the next tile will go (frame.origin.y)

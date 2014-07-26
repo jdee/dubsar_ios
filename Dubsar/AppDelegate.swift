@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     var alertURL: NSURL?
     let dubsar = "dubsar"
 
+    let fontFamilyKey = "DubsarFontFamily"
+
     class var instance : AppDelegate {
         get {
             return UIApplication.sharedApplication().delegate as AppDelegate
@@ -37,6 +39,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     get {
         return window!.rootViewController as UINavigationController
     }
+    }
+
+    func preferredFontDescriptorWithTextStyle(style: String!, italic: Bool=false) -> UIFontDescriptor! {
+        let fontDesc = UIFontDescriptor.preferredFontDescriptorWithTextStyle(style) // just for the pointSize
+
+        var name = "Helvetica"
+
+        // Unable to get this to work on iOS 8 atm.
+        var object: AnyObject? = NSUserDefaults.standardUserDefaults().valueForKey(fontFamilyKey)
+        if object {
+            if var value = object as? String {
+                NSLog("%@ = %@", fontFamilyKey, value)
+
+                name = value
+            }
+            else {
+                NSLog("%@ setting is not a string", fontFamilyKey)
+            }
+        }
+
+        if style == UIFontTextStyleHeadline {
+            name = "\(name) Bold"
+        }
+        if italic {
+            name = "\(name) Italic"
+        }
+
+        return UIFontDescriptor(name: name, size: fontDesc.pointSize)
+    }
+
+    func preferredFontForTextStyle(style: String!, italic: Bool=false) -> UIFont! {
+        let fontDesc = preferredFontDescriptorWithTextStyle(style, italic: italic)
+        return UIFont(descriptor: fontDesc, size: 0.0)
+    }
+
+    func applicationDidBecomeActive(application: UIApplication!) {
+        NSUserDefaults.standardUserDefaults().synchronize()
+
+        let viewController = navigationController.topViewController as BaseViewController
+        viewController.adjustLayout() // in case of a font change in the settings
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {

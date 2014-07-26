@@ -44,11 +44,11 @@ extension DubsarModelsWord {
         var constraint = constrainedSize
         constraint.width -= 2 * WordTableViewCell.margin
 
-        var size = nameAndPosSizeWithConstrainedSize(constraint, font: UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline))
+        var size = nameAndPosSizeWithConstrainedSize(constraint, font: AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline))
         size.width = constrainedSize.width
         size.height += WordTableViewCell.margin * 2
 
-        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
 
         if inflections.count > 0 {
             let inflectionSize = inflectionSizeWithConstrainedSize(constraint, font: bodyFont)

@@ -43,7 +43,7 @@ class SynonymButtonPair {
         selectionButton = UIButton()
         navigationButton = NavButton()
 
-        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
 
         // configure selection button
         selectionButton.titleLabel.font = font
@@ -136,7 +136,7 @@ class SynsetHeaderView: UIView {
             var constrainedSize = bounds.size
             constrainedSize.width -= 2 * margin
 
-            let headlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+            let headlineFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
 
             // Gloss label
             let glossSize = synset.glossSizeWithConstrainedSize(constrainedSize, font: headlineFont)

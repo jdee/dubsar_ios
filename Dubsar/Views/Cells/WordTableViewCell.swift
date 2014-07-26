@@ -70,8 +70,8 @@ class WordTableViewCell: UITableViewCell {
         }
 
         let accessorySize = WordTableViewCell.accessoryWidth
-        let headlineFont = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let headlineFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
         let italicFontDescriptor = bodyFont.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitItalic)
         let italicFont = UIFont(descriptor: italicFontDescriptor, size:0.0)
 

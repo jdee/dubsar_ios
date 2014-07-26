@@ -76,6 +76,10 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
 
     func adjustLayout() {
         view.invalidateIntrinsicContentSize()
+
+        // any modally presented VC will be adjusted too
+        let viewController = presentedViewController as? BaseViewController
+        viewController?.adjustLayout()
     }
 
     func loadComplete(model : DubsarModelsModel!, withError error: String?) {

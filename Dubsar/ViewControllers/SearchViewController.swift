@@ -106,7 +106,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
                 cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
                 cell!.selectionStyle = .None
                 cell!.textLabel.text = "search found no matches"
-                cell!.textLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+                cell!.textLabel.font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
             }
             return cell
         }
@@ -199,7 +199,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     override func adjustLayout() {
-        searchLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        searchLabel.font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
         resultTableView.reloadData()
         super.adjustLayout()
     }

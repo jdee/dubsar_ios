@@ -44,19 +44,21 @@ class AboutViewController: BaseViewController {
         super.viewDidLoad()
 
         versionLabel.text = "Version \(NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)))"
-        modelsVersionLabel.text = "DubsarModels Version \(DubsarModelsVersionNumber)"
+
+        let dubsarModelsVersionString = String(format: "%.2f", 0.01 * floor(DubsarModelsVersionNumber * 100))
+        modelsVersionLabel.text = "DubsarModels Version \(dubsarModelsVersionString)"
 
         adjustLayout()
     }
 
     override func adjustLayout() {
-        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
         bannerLabel.font = font
         versionLabel.font = font
         copyrightLabel.font = font
 
-        var headlineFontDesc = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
-        var bodyFontDesc = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
+        var headlineFontDesc = AppDelegate.instance.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
+        var bodyFontDesc = AppDelegate.instance.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
 
         layoutParagraphs(UIFont(descriptor: bodyFontDesc, size: headlineFontDesc.pointSize))
         super.adjustLayout()

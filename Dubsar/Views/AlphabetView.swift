@@ -140,7 +140,7 @@ class AlphabetView: UIView {
     }
 
     private func getFont() -> UIFont! {
-        let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
+        let fontDescriptor = AppDelegate.instance.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         let headlineFontSize = fontDescriptor.pointSize
         // NSLog("Headline font size is %f", Float(headlineFontSize))
 
@@ -178,7 +178,7 @@ class AlphabetView: UIView {
     }
 
     private func viewSizeAtFontSize(fontSize: CGFloat, margin: CGFloat) -> CGFloat {
-        let fontDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
+        let fontDescriptor = AppDelegate.instance.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         let fontToUse = UIFont(descriptor: fontDescriptor, size: fontSize)
         let labelCount = CGFloat(AlphabetView.buttonConfig.count)
         let letterHeight = ("Q" as NSString).sizeWithAttributes([NSFontAttributeName: fontToUse]).height // Q has a small tail

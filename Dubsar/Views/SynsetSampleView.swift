@@ -51,11 +51,10 @@ class SynsetSampleView: UIView {
         if synset.complete {
             var y = SynsetSampleView.margin
 
-            let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+            let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
             var font = bodyFont
             if isPreview {
-                let italicFontDescriptor = bodyFont.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitItalic)
-                let italicFont = UIFont(descriptor: italicFontDescriptor, size: 0)
+                let italicFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody, italic: true)
                 font = italicFont
             }
 

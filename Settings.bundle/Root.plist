@@ -14,6 +14,52 @@
 			<key>DefaultValue</key>
 			<string>2.0.0.1</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Font Family</string>
+			<key>Key</key>
+			<string>DubsarFontFamily</string>
+			<key>DefaultValue</key>
+			<string>Arial</string>
+			<key>Titles</key>
+			<array>
+				<string>Arial</string>
+				<string>Avenir Next</string>
+				<string>Baskerville</string>
+				<string>Cochin</string>
+				<string>Courier New</string>
+				<string>Didot</string>
+				<string>Euphemia UCAS</string>
+				<string>Georgia</string>
+				<string>Gill Sans</string>
+				<string>Helvetica Neue</string>
+				<string>Menlo</string>
+				<string>Palatino</string>
+				<string>Times New Roman</string>
+				<string>Trebuchet MS</string>
+				<string>Verdana</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>Arial</string>
+				<string>Avenir Next</string>
+				<string>Baskerville</string>
+				<string>Cochin</string>
+				<string>Courier New</string>
+				<string>Didot</string>
+				<string>Euphemia UCAS</string>
+				<string>Georgia</string>
+				<string>Gill Sans</string>
+				<string>Helvetica Neue</string>
+				<string>Menlo</string>
+				<string>Palatino</string>
+				<string>Times New Roman</string>
+				<string>Trebuchet MS</string>
+				<string>Verdana</string>
+			</array>
+		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Root</string>

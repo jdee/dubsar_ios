@@ -229,7 +229,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func adjustLayout() {
-        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
         wotdLabel.font = font
         wotdButton.titleLabel.font = font
         wordNetLabel.font = font
@@ -258,7 +258,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     func triggerAutocompletion() {
         // compute available space
         let available = view.bounds.size.height - keyboardHeight - searchBar.bounds.size.height
-        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let margin = AutocompleterView.margin
         let lineHeight = ("Qp" as NSString).sizeWithAttributes([NSFontAttributeName: font]).height + 3*margin
 
