@@ -21,6 +21,7 @@
 		7B670D0E1973851F00E83937 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0C1973851F00E83937 /* iTunesArtwork@2x */; };
 		7B670D10197398B600E83937 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B670D0F197398B600E83937 /* Settings.bundle */; };
 		7B6CC038197E1C3800151799 /* OpenWordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6CC037197E1C3800151799 /* OpenWordTableViewCell.swift */; };
+		7B7382F5198418EA00880CF2 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7382F4198418EA00880CF2 /* AboutViewController.swift */; };
 		7B7D3E93197DB3DC00619DEA /* KeyboardHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3E92197DB3DC00619DEA /* KeyboardHelper.m */; };
 		7B82C93E19760A0E0077D1A0 /* SynsetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */; };
 		7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C94019760D5F0077D1A0 /* SynsetHeaderView.swift */; };
@@ -111,6 +112,8 @@
 		7B670D0C1973851F00E83937 /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		7B670D0F197398B600E83937 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7B6CC037197E1C3800151799 /* OpenWordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWordTableViewCell.swift; sourceTree = "<group>"; };
+		7B7382F4198418EA00880CF2 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		7B7382F8198420C700880CF2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7B7D3E91197DB3DC00619DEA /* KeyboardHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardHelper.h; sourceTree = "<group>"; };
 		7B7D3E92197DB3DC00619DEA /* KeyboardHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardHelper.m; sourceTree = "<group>"; };
 		7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynsetViewController.swift; sourceTree = "<group>"; };
@@ -188,6 +191,7 @@
 		7B670D1119739B0900E83937 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7B7382F8198420C700880CF2 /* UIKit.framework */,
 				7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */,
 				7BAC23481973639200D2AEA4 /* DubsarModels.framework */,
 			);
@@ -308,6 +312,7 @@
 		7BBF836E1974B54A00969765 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7B7382F4198418EA00880CF2 /* AboutViewController.swift */,
 				7BBF83731975871300969765 /* BaseViewController.swift */,
 				7BAC226019732D6C00D2AEA4 /* MainViewController.swift */,
 				7BBF836F1974D58400969765 /* SearchViewController.swift */,
@@ -467,6 +472,7 @@
 				7BBF83701974D58400969765 /* SearchViewController.swift in Sources */,
 				7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */,
 				7B6CC038197E1C3800151799 /* OpenWordTableViewCell.swift in Sources */,
+				7B7382F5198418EA00880CF2 /* AboutViewController.swift in Sources */,
 				7BBF83821975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift in Sources */,
 				7B82C93E19760A0E0077D1A0 /* SynsetViewController.swift in Sources */,
 				7BA90E0A197786D400D5C180 /* PushWrapper.m in Sources */,

@@ -239,6 +239,19 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         super.adjustLayout()
     }
 
+    override func setupToolbar() {
+        let button = UIBarButtonItem(title: "About", style: UIBarButtonItemStyle.Bordered, target: self, action: "showAboutView")
+        navigationItem.leftBarButtonItem = button
+
+        super.setupToolbar()
+    }
+
+    func showAboutView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewControllerWithIdentifier(AboutViewController.identifier) as AboutViewController
+        presentViewController(viewController, animated: true, completion: nil)
+    }
+
     func triggerAutocompletion() {
         // compute available space
         let available = view.bounds.size.height - keyboardHeight - searchBar.bounds.size.height

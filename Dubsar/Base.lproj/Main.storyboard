@@ -193,6 +193,83 @@
             </objects>
             <point key="canvasLocation" x="836" y="1306"/>
         </scene>
+        <!--About View Controller-->
+        <scene sceneID="hs3-pC-0fH">
+            <objects>
+                <viewController storyboardIdentifier="About" id="GAx-Bg-REs" customClass="AboutViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uod-W2-7c6"/>
+                        <viewControllerLayoutGuide type="bottom" id="q8F-JF-Zlx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vwo-pm-G47">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Dubsar for iOS" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="RLI-y3-ORx">
+                                <rect key="frame" x="20" y="70" width="560" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Version Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="ELp-lO-24Z">
+                                <rect key="frame" x="20" y="99" width="560" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MkK-83-ecc">
+                                <rect key="frame" x="20" y="550" width="46" height="30"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="done:" destination="GAx-Bg-REs" eventType="touchUpInside" id="tZX-1t-akp"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="DubsarModels Version Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="YMh-RE-23b">
+                                <rect key="frame" x="20" y="128" width="560" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Copyright © 2014 Jimmy Dee" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="zpV-zr-QPf">
+                                <rect key="frame" x="20" y="157" width="560" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ELp-lO-24Z" firstAttribute="top" secondItem="RLI-y3-ORx" secondAttribute="bottom" constant="8" id="0W1-6q-K9Y"/>
+                            <constraint firstAttribute="trailing" secondItem="RLI-y3-ORx" secondAttribute="trailing" constant="20" id="1ac-BW-irA"/>
+                            <constraint firstAttribute="trailing" secondItem="YMh-RE-23b" secondAttribute="trailing" constant="20" id="7Jr-cw-Tqw"/>
+                            <constraint firstItem="RLI-y3-ORx" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="7yK-ab-4FM"/>
+                            <constraint firstAttribute="trailing" secondItem="ELp-lO-24Z" secondAttribute="trailing" constant="20" id="CNR-0V-We5"/>
+                            <constraint firstAttribute="bottom" secondItem="MkK-83-ecc" secondAttribute="bottom" constant="20" id="ShN-gL-gwg"/>
+                            <constraint firstItem="RLI-y3-ORx" firstAttribute="top" secondItem="vwo-pm-G47" secondAttribute="top" constant="70" id="beU-L3-bBS"/>
+                            <constraint firstItem="YMh-RE-23b" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="eyI-G8-Bz9"/>
+                            <constraint firstItem="zpV-zr-QPf" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="gI9-hs-Chw"/>
+                            <constraint firstItem="YMh-RE-23b" firstAttribute="top" secondItem="ELp-lO-24Z" secondAttribute="bottom" constant="8" id="gJF-Pf-Veu"/>
+                            <constraint firstAttribute="trailing" secondItem="zpV-zr-QPf" secondAttribute="trailing" constant="20" id="gOP-IL-ary"/>
+                            <constraint firstItem="ELp-lO-24Z" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="mJY-fv-d0o"/>
+                            <constraint firstItem="zpV-zr-QPf" firstAttribute="top" secondItem="YMh-RE-23b" secondAttribute="bottom" constant="8" id="pA4-db-Gnj"/>
+                            <constraint firstItem="MkK-83-ecc" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="xUG-Dg-Tw4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="bannerLabel" destination="RLI-y3-ORx" id="b2c-k4-aaf"/>
+                        <outlet property="copyrightLabel" destination="zpV-zr-QPf" id="WBc-Dj-Mjg"/>
+                        <outlet property="doneButton" destination="MkK-83-ecc" id="8qP-hF-3TM"/>
+                        <outlet property="modelsVersionLabel" destination="YMh-RE-23b" id="QF2-Y5-cy3"/>
+                        <outlet property="versionLabel" destination="ELp-lO-24Z" id="F7N-1n-X0F"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5fT-Lu-AWn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="174" y="1306"/>
+        </scene>
         <!--Synset View Controller-->
         <scene sceneID="Elc-Wq-eJV">
             <objects>
