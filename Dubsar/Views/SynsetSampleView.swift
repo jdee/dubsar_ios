@@ -50,11 +50,21 @@ class SynsetSampleView: UIView {
 
         if synset.complete {
             var y = SynsetSampleView.margin
+
+            let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+            var font = bodyFont
+            if isPreview {
+                let italicFontDescriptor = bodyFont.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitItalic)
+                let italicFont = UIFont(descriptor: italicFontDescriptor, size: 0)
+                font = italicFont
+            }
+
             let samples = synset.samples as [AnyObject]
             for sample in samples as [NSString] {
-                y = addSample(sample, atY: y, background: UIColor.clearColor())
+                y = addSample(sample, atY: y, background: UIColor.clearColor(), font: font)
                 // NSLog("Added %@ at %f", text, y)
             }
+
 
             /*
              * Always include lexical info when displaying synsets with only one word.
@@ -63,7 +73,7 @@ class SynsetSampleView: UIView {
             if verbFrames && verbFrames!.count > 0 {
                 let frames = verbFrames as [AnyObject]
                 for verbFrame in frames as [NSString] {
-                    y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0))
+                    y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0), font: font)
                     // NSLog("Added %@ at %f", text, y)
                 }
             }
@@ -75,13 +85,9 @@ class SynsetSampleView: UIView {
         super.layoutSubviews()
     }
 
-    private func addSample(sample: NSString!, atY y: CGFloat, background: UIColor!) -> CGFloat {
+    private func addSample(sample: NSString!, atY y: CGFloat, background: UIColor!, font: UIFont!) -> CGFloat {
         let margin = SynsetSampleView.margin
         let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
-        let bodyFont = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        let italicFontDescriptor = bodyFont.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitItalic)
-        let italicFont = UIFont(descriptor: italicFontDescriptor, size: 0)
-        let font = isPreview ? italicFont : bodyFont
         let textSize = sample.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
 
         let label = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))

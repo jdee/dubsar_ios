@@ -66,7 +66,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     func pageChanged(sender: UIPageControl) {
         search.currentPage = sender.currentPage + 1
         search.complete = false
-        search.load()
+        search.loadWithWords()
         resultTableView.reloadData()
     }
 

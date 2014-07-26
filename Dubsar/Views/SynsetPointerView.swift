@@ -136,7 +136,7 @@ class SynsetPointerView: UIView {
 
             // now estimate
             frame.size.height = completedUpToY * CGFloat(totalRows) / CGFloat(completedUpToRow)
-            // NSLog("completed up to y: %f, row: %d, total rows %d, est. total height: %f", completedUpToY, completedUpToRow, totalRows, frame.size.height)
+            // NSLog("completed up to y: %f, row: %d, total rows %d, est. total height: %f", Double(completedUpToY), completedUpToRow, totalRows, Double(frame.size.height))
         }
 
         hasReset = false
@@ -201,21 +201,22 @@ class SynsetPointerView: UIView {
                 // NSLog("Title for section %d is %@", sectionNumber, title)
             }
 
+            let fudge : CGFloat = 8
+            let buttonSize = isPreview ? 0 : bodyFont.pointSize + fudge // height of one line in the body font
+
+            var pointerConstrainedSize = constrainedSize
+            pointerConstrainedSize.width -= buttonSize
+
             let numRows = section.numRows // another SQL query
             var row: Int
             for row=nextRow; row<Int(numRows); ++row {
                 let indexPath = NSIndexPath(forRow: row, inSection: sectionNumber)
                 let pointer : DubsarModelsPointer = pointerForRowAtIndexPath(indexPath)
 
-                let fudge : CGFloat = 8
-                let buttonSize = bodyFont.pointSize + fudge // height of one line in the body font
-
-                var pointerConstrainedSize = constrainedSize
-                pointerConstrainedSize.width -= buttonSize
-
                 let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
                 let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
-                let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, pointerConstrainedSize.width + buttonSize, textSize.height), withoutButton: isPreview)
+                // NSLog("Pointer text size is %f x %f", Double(textSize.width), Double(textSize.height))
+                let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height), withoutButton: isPreview)
                 pointerView.label.text = text
                 if !isPreview && pointer.targetType == "Sense" {
                     pointerView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
