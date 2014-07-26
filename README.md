@@ -6,6 +6,15 @@ iPod Touch and iPad that allow users to search and browse the WordNet(R) content
 in a local database. Dubsar 1.3.1 is available for free worldwide
 in the App Store for iOS 5.0 and higher.
 
+Dubsar 2.0
+==========
+
+The version of Dubsar in the master branch has been mostly rewritten in Swift. The
+Objective-C model code has been split into a separate framework. This version will
+be released to the App Store once the iOS 8 SDK is released to production. It will
+require iOS 7.0 or later. The old version (1.3.x) will still be available in the
+App Store for iOS 5 and 6. Stay tuned for more details.
+
 * * *
 
 See the main [Dubsar wiki](https://github.com/jdee/dubsar/wiki) for more information on Dubsar.
@@ -34,9 +43,9 @@ Also see:
 Copyright
 =========
 
-Copyright (C) 2013 Jimmy Dee except as otherwise attributed.
+Copyright (C) 2014 Jimmy Dee except as otherwise attributed.
 
-WordNet(R) Copyright (C) 2013 The Trustees of Princeton University.
+WordNet(R) Copyright (C) 2014 The Trustees of Princeton University.
 
 License
 =======
@@ -45,7 +54,7 @@ Dubsar is free, open-source software, distributed under Version 2 of
 the GNU General Public License (GPL):
 
 >  Dubsar Dictionary Project
->  Copyright (C) 2010-13 Jimmy Dee
+>  Copyright (C) 2010-14 Jimmy Dee
 >
 >  This program is free software; you can redistribute it and/or
 >  modify it under the terms of the GNU General Public License

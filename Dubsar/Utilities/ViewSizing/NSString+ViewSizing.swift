@@ -30,23 +30,4 @@ extension NSString {
         return boundingRectWithSize(constrainedSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font!], context: context).size
     }
 
-    func sizeOfTextWithFont(font: UIFont?) -> CGSize {
-        var size : CGSize = CGSizeZero
-        if !font {
-            return size
-        }
-
-        if respondsToSelector("sizeWithAttributes:") {
-            // iOS 7+
-            size = sizeWithAttributes([NSFontAttributeName: font!])
-        }
-        else if respondsToSelector("sizeWithFont:") {
-            // iOS 6 - though not currently supported because of dynamic type issues
-            // and as of Beta3, anything deprecated in iOS 7.0 is not available in Swift
-            // size = sizeWithFont(font)
-            // so when I care about iOS 6, should use Obj-C.
-        }
-
-        return size
-    }
 }

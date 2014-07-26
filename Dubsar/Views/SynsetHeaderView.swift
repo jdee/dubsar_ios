@@ -47,7 +47,7 @@ class SynonymButtonPair {
 
         // configure selection button
         selectionButton.titleLabel.font = font
-        selectionButton.frame.size = (sense.name as NSString).sizeOfTextWithFont(font)
+        selectionButton.frame.size = (sense.name as NSString).sizeWithAttributes([NSFontAttributeName: font])
         selectionButton.frame.size.width += 2 * SynonymButtonPair.margin
         selectionButton.frame.size.height += 2 * SynonymButtonPair.margin
 
