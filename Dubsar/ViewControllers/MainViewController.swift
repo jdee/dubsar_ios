@@ -243,8 +243,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func setupToolbar() {
-        let button = UIBarButtonItem(title: "About", style: UIBarButtonItemStyle.Bordered, target: self, action: "showAboutView")
-        navigationItem.leftBarButtonItem = button
+        let aboutButton = UIBarButtonItem(title: "About", style: .Bordered, target: self, action: "showAboutView")
+        navigationItem.leftBarButtonItem = aboutButton
+
+        let faqButton = UIBarButtonItem(title: "FAQ", style: .Bordered, target: self, action: "showFAQView")
+        navigationItem.rightBarButtonItem = faqButton
 
         super.setupToolbar()
     }
@@ -252,6 +255,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     func showAboutView() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewControllerWithIdentifier(AboutViewController.identifier) as AboutViewController
+        presentViewController(viewController, animated: true, completion: nil)
+    }
+
+    func showFAQView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewControllerWithIdentifier(FAQViewController.identifier) as FAQViewController
         presentViewController(viewController, animated: true, completion: nil)
     }
 

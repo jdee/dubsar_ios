@@ -77,6 +77,8 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
     func adjustLayout() {
         view.invalidateIntrinsicContentSize()
 
+        NavButtonImage.voidCache() // dump all cached images in case of font size changes
+
         // any modally presented VC will be adjusted too
         let viewController = presentedViewController as? BaseViewController
         viewController?.adjustLayout()

@@ -270,6 +270,55 @@
             </objects>
             <point key="canvasLocation" x="174" y="1306"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="R9c-fd-DOI">
+            <objects>
+                <viewController storyboardIdentifier="FAQ" id="QHC-RY-5Vb" customClass="FAQViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="i2T-wV-Qga"/>
+                        <viewControllerLayoutGuide type="bottom" id="zOl-j1-GqD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FZd-D5-fk7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BNe-CN-YgI">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="delegate" destination="QHC-RY-5Vb" id="o7W-nc-Kg3"/>
+                                </connections>
+                            </webView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FLD-bu-poE">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="done" id="kkw-Yo-DzK">
+                                        <connections>
+                                            <action selector="done:" destination="QHC-RY-5Vb" id="qXT-gh-COo"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="BNe-CN-YgI" secondAttribute="trailing" id="8IN-UG-Up3"/>
+                            <constraint firstItem="BNe-CN-YgI" firstAttribute="leading" secondItem="FZd-D5-fk7" secondAttribute="leading" id="DJ0-QA-1tw"/>
+                            <constraint firstItem="BNe-CN-YgI" firstAttribute="top" secondItem="FZd-D5-fk7" secondAttribute="top" id="Hi4-wr-79q"/>
+                            <constraint firstAttribute="bottom" secondItem="BNe-CN-YgI" secondAttribute="bottom" id="IIC-jj-Qwn"/>
+                            <constraint firstAttribute="bottom" secondItem="FLD-bu-poE" secondAttribute="bottom" id="ROp-Cz-Lxi"/>
+                            <constraint firstItem="FLD-bu-poE" firstAttribute="leading" secondItem="FZd-D5-fk7" secondAttribute="leading" id="l3L-6e-tYt"/>
+                            <constraint firstAttribute="trailing" secondItem="FLD-bu-poE" secondAttribute="trailing" id="rpN-6k-TI4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="faqWebView" destination="BNe-CN-YgI" id="2Z5-5s-CqL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oMC-64-dLT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="173" y="1953"/>
+        </scene>
         <!--Synset View Controller-->
         <scene sceneID="Elc-Wq-eJV">
             <objects>

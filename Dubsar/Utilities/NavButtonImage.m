@@ -19,6 +19,9 @@
 
 #import "NavButtonImage.h"
 
+static BOOL initialized = NO;
+static NSMutableDictionary* imageDictionary;
+
 @implementation NavButtonImage
 
 + (NSString*)keyForSize:(CGSize)size color:(UIColor*)color
@@ -31,12 +34,8 @@
 
 + (UIImage*)imageWithSize:(CGSize)size color:(UIColor *)color
 {
-    static BOOL initialized = NO;
-    static NSMutableDictionary* imageDictionary;
-
     if (!initialized) {
-        imageDictionary = [NSMutableDictionary dictionary];
-        initialized = YES;
+        [self initialize];
     }
 
     NSString* imageKey = [self keyForSize:size color:color];
@@ -63,7 +62,22 @@
     return newImage;
 }
 
-+ (void) buildImageWithSize:(CGSize)size color:(UIColor*)color context:(CGContextRef)context
++ (void)voidCache
+{
+    if (!initialized) {
+        [self initialize];
+    }
+
+    [imageDictionary removeAllObjects];
+}
+
++ (void)initialize
+{
+    imageDictionary = [NSMutableDictionary dictionary];
+    initialized = YES;
+}
+
++ (void)buildImageWithSize:(CGSize)size color:(UIColor*)color context:(CGContextRef)context
 {
     // use CG to draw in this context and return a UIImage for use with a UIButton.
     // a/k/a FREEDOM FROM THE @!$@# GIMP!
