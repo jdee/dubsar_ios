@@ -44,13 +44,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     func preferredFontDescriptorWithTextStyle(style: String!, italic: Bool=false) -> UIFontDescriptor! {
         let fontDesc = UIFontDescriptor.preferredFontDescriptorWithTextStyle(style) // just for the pointSize
 
-        var name = "Helvetica"
+        var name = "Arial"
 
-        // Unable to get this to work on iOS 8 atm.
         var object: AnyObject? = NSUserDefaults.standardUserDefaults().valueForKey(fontFamilyKey)
         if object {
             if var value = object as? String {
-                NSLog("%@ = %@", fontFamilyKey, value)
+                // NSLog("%@ = %@", fontFamilyKey, value)
 
                 name = value
             }
