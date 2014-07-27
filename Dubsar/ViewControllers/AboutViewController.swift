@@ -55,6 +55,7 @@ class AboutViewController: BaseViewController {
         let font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
         bannerLabel.font = font
         versionLabel.font = font
+        modelsVersionLabel.font = font
         copyrightLabel.font = font
 
         var headlineFontDesc = AppDelegate.instance.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
