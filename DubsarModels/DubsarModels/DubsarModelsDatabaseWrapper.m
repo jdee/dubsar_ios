@@ -209,11 +209,10 @@
         }
 
         /* FTS search when no exact match */
-        sql = @"SELECT DISTINCT i.name "
-        @"FROM inflections_fts i "
-        @"JOIN words w ON w.id = i.word_id "
-        @"WHERE i.name MATCH ? "
-        @"ORDER BY i.name ASC "
+        sql = @"SELECT DISTINCT name "
+        @"FROM inflections_fts "
+        @"WHERE name MATCH ? "
+        @"ORDER BY name ASC "
         @"LIMIT ?";
 
         NSLog(@"preparing statement \"%@\"", sql);
