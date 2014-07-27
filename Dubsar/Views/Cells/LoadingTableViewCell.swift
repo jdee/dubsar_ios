@@ -34,6 +34,7 @@ class LoadingTableViewCell: UITableViewCell {
         super.init(style: .Default, reuseIdentifier: LoadingTableViewCell.identifier)
 
         selectionStyle = .None
+        backgroundColor = AppConfiguration.backgroundColor
 
         addSubview(spinner)
         spinner.frame = CGRectMake(2.0, 2.0, 40.0, 40.0)

@@ -55,9 +55,10 @@ struct AppConfiguration {
         return UIFont(descriptor: fontDesc, size: 0.0)
     }
 
-    static let backgroundColor = UIColor.whiteColor()
-    static let alternateBackgroundColor = UIColor.lightGrayColor()
+    static let backgroundColor = UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0)
+    static let alternateBackgroundColor = UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0)
     static let highlightColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
-    static let alternateHighlightColor = UIColor(red: 1.0, green: 1.0, blue: 0.9, alpha: 1.0)
-
+    static let alternateHighlightColor = UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0)
+    static let foregroundColor = UIColor.darkTextColor()
+    static let highlightedForegroundColor = UIColor.blueColor()
 }

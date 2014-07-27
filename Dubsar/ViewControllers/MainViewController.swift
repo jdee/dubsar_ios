@@ -234,6 +234,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         wotdButton.titleLabel.font = font
         wordNetLabel.font = font
 
+        wotdLabel.textColor = AppConfiguration.foregroundColor
+        wordNetLabel.textColor = AppConfiguration.foregroundColor
+        wotdButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+
         // rerun the autocompletion request with the new max
         searchBar(searchBar, textDidChange: searchBar.text)
 

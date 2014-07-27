@@ -94,6 +94,7 @@ class SynsetSampleView: UIView {
         label.lineBreakMode = .ByWordWrapping
         label.numberOfLines = 0
         label.text = sample
+        label.textColor = AppConfiguration.foregroundColor
         label.backgroundColor = background
 
         labels += label

@@ -60,6 +60,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         pageControl.hidden = search.totalPages <= 1
         adjustLayout()
         view.backgroundColor = AppConfiguration.alternateBackgroundColor
+        resultTableView.backgroundColor = UIColor.clearColor()
     }
 
     @IBAction
@@ -207,6 +208,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
     override func adjustLayout() {
         searchLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        searchLabel.textColor = AppConfiguration.foregroundColor
         resultTableView.reloadData()
         super.adjustLayout()
     }

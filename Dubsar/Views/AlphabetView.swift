@@ -69,6 +69,7 @@ class AlphabetView: UIView {
 
     init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = AppConfiguration.alternateBackgroundColor
     }
 
     override func layoutSubviews() {
@@ -110,8 +111,8 @@ class AlphabetView: UIView {
             button.titleLabel.textAlignment = horizontal ? .Center : .Right
 
             button.setTitle(String(label), forState: .Normal)
-            button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-            button.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
+            button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+            button.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
             button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
 
             buttons += button

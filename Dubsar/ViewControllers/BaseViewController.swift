@@ -34,6 +34,14 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)
 
+        view.backgroundColor = AppConfiguration.backgroundColor
+
+        if navigationController {
+            // nil in the About view
+            navigationController.navigationBar.backgroundColor = AppConfiguration.backgroundColor
+            navigationController.navigationBar.tintColor = AppConfiguration.foregroundColor
+        }
+
         if model && model!.complete {
             loadComplete(model, withError: nil)
         }

@@ -58,6 +58,11 @@ class AboutViewController: BaseViewController {
         modelsVersionLabel.font = font
         copyrightLabel.font = font
 
+        bannerLabel.textColor = AppConfiguration.foregroundColor
+        versionLabel.textColor = AppConfiguration.foregroundColor
+        modelsVersionLabel.textColor = AppConfiguration.foregroundColor
+        copyrightLabel.textColor = AppConfiguration.foregroundColor
+
         var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         var bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
 
@@ -105,6 +110,7 @@ class AboutViewController: BaseViewController {
         newLabel.numberOfLines = 0
         newLabel.lineBreakMode = .ByWordWrapping
         newLabel.textAlignment = .Center
+        newLabel.textColor = AppConfiguration.foregroundColor
         newLabel.autoresizingMask = .FlexibleWidth | .FlexibleHeight
 
         paragraphLabels += newLabel

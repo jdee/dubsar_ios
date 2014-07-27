@@ -72,6 +72,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
     var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: -1, inSection: 0)
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLoad()
+        senseTableView.backgroundColor = UIColor.clearColor()
+    }
+
     override func load() {
         if (model && model!.complete) {
             loadComplete(model, withError: nil)
@@ -159,7 +164,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             else {
                 openCell!.insertHeightLimit = maxHeightOfAdditionsForRow(row)
             }
-            openCell!.cellBackgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
+            openCell!.cellBackgroundColor = AppConfiguration.highlightColor
             // NSLog("Cell for row %d is open", row)
             cell = openCell
         }

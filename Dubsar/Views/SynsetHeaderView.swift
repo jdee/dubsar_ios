@@ -55,9 +55,9 @@ class SynonymButtonPair {
         height = selectionButton.frame.size.height
 
         selectionButton.setTitle(sense.name, forState: .Normal)
-        selectionButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        selectionButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
-        // selectionButton.setTitleColor(UIColor.blueColor(), forState: .Selected)
+        selectionButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        selectionButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
+        // selectionButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Selected)
 
         selectionButton.addTarget(self, action: "synonymSelected:", forControlEvents: .TouchUpInside)
         view.addSubview(selectionButton)
@@ -144,6 +144,7 @@ class SynsetHeaderView: UIView {
             glossLabel.frame = CGRectMake(margin, margin, constrainedSize.width, glossSize.height)
             glossLabel.text = synset.gloss
             glossLabel.font = headlineFont
+            glossLabel.textColor = AppConfiguration.foregroundColor
             glossLabel.invalidateIntrinsicContentSize()
 
             // Lexname label
@@ -154,6 +155,7 @@ class SynsetHeaderView: UIView {
             lexnameLabel.frame = CGRectMake(margin, 2 * margin + glossSize.height, lexnameSize.width, lexnameSize.height)
             lexnameLabel.text = lexnameText
             lexnameLabel.font = headlineFont
+            lexnameLabel.textColor = AppConfiguration.foregroundColor
             lexnameLabel.invalidateIntrinsicContentSize()
 
             var extraText = "" as NSString
@@ -180,11 +182,12 @@ class SynsetHeaderView: UIView {
                 extraTextLabel.text = extraText
                 extraTextLabel.font = headlineFont
                 extraTextLabel.textAlignment = .Center
+                extraTextLabel.textColor = AppConfiguration.foregroundColor
                 extraTextLabel.invalidateIntrinsicContentSize()
                 addSubview(extraTextLabel)
 
                 if sense || synset.senses.count == 1{
-                    extraTextLabel.backgroundColor = AppConfiguration.backgroundColor
+                    extraTextLabel.backgroundColor = AppConfiguration.highlightColor
                 }
                 else {
                     extraTextLabel.backgroundColor = UIColor.clearColor()
@@ -248,7 +251,7 @@ class SynsetHeaderView: UIView {
                 let buttonPair = SynonymButtonPair(sense: synonym, view: self)
                 if (sense && sense!._id == synonym._id) || synset.senses.count == 1 { // set it to disabled when synset.senses.count == 1?
                     buttonPair.selectionButton.selected = true
-                    buttonPair.selectionButton.backgroundColor = AppConfiguration.backgroundColor
+                    buttonPair.selectionButton.backgroundColor = AppConfiguration.highlightColor
                 }
                 synonymButtons += buttonPair
 

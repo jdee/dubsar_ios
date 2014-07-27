@@ -104,7 +104,7 @@ class SenseTableViewCell: UITableViewCell {
         view?.removeFromSuperview()
 
         view = UIView(frame: bounds)
-        view!.backgroundColor = UIColor.blackColor()
+        view!.backgroundColor = AppConfiguration.foregroundColor // for a border
 
         contentView.addSubview(view)
 
@@ -126,6 +126,7 @@ class SenseTableViewCell: UITableViewCell {
         lexnameLabel.text = lexnameText
         lexnameLabel.font = subheadlineFont
         lexnameLabel.numberOfLines = 1
+        lexnameLabel.textColor = AppConfiguration.foregroundColor
         backgroundLabel.addSubview(lexnameLabel)
 
         let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SenseTableViewCell.labelLineHeight, constrainedSize.width, glossSize.height))
@@ -133,6 +134,7 @@ class SenseTableViewCell: UITableViewCell {
         textLabel.text = sense.gloss
         textLabel.lineBreakMode = .ByWordWrapping
         textLabel.numberOfLines = 0
+        textLabel.textColor = AppConfiguration.foregroundColor
         backgroundLabel.addSubview(textLabel)
 
         if sense.synonyms.count > 0 {
@@ -141,6 +143,7 @@ class SenseTableViewCell: UITableViewCell {
             synonymLabel.font = caption1Font
             synonymLabel.lineBreakMode = .ByWordWrapping
             synonymLabel.numberOfLines = 0
+            synonymLabel.textColor = AppConfiguration.foregroundColor
             backgroundLabel.addSubview(synonymLabel)
         }
     }

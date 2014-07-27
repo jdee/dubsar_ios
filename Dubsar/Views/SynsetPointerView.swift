@@ -43,6 +43,7 @@ class PointerView : UIView {
         label.lineBreakMode = .ByWordWrapping
         label.numberOfLines = 0
         label.font = bodyFont
+        label.textColor = AppConfiguration.foregroundColor
         label.frame = CGRectMake(0, 0, withoutButton ? bounds.size.width : bounds.size.width-buttonSize, bounds.size.height)
 
         addSubview(label)
@@ -188,6 +189,7 @@ class SynsetPointerView: UIView {
                 titleLabel.lineBreakMode = .ByWordWrapping
                 titleLabel.numberOfLines = 0
                 titleLabel.textAlignment = .Center
+                titleLabel.textColor = AppConfiguration.foregroundColor
                 addSubview(titleLabel)
                 labels += titleLabel
 

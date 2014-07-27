@@ -61,7 +61,7 @@ class AutocompleterView: UIView {
                 let textSize = result.sizeWithAttributes([NSFontAttributeName: font])
                 let button = UIButton(frame: CGRectMake(margin, y, bounds.size.width - 2*margin, textSize.height + 2*margin))
                 button.setTitle(result, forState: .Normal)
-                button.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
+                button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
                 button.titleLabel.font = font
                 button.addTarget(self, action: "resultSelected:", forControlEvents: .TouchUpInside)
                 addSubview(button)

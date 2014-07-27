@@ -103,6 +103,7 @@ class WordTableViewCell: UITableViewCell {
         nameAndPosLabel.numberOfLines = 0
         nameAndPosLabel.font = headlineFont
         nameAndPosLabel.text = nameAndPos
+        nameAndPosLabel.textColor = AppConfiguration.foregroundColor
         view!.addSubview(nameAndPosLabel)
 
         if word!.inflections.count > 0 {
@@ -111,6 +112,7 @@ class WordTableViewCell: UITableViewCell {
             inflectionLabel.numberOfLines = 0
             inflectionLabel.font = italicFont
             inflectionLabel.text = inflectionText
+            inflectionLabel.textColor = AppConfiguration.foregroundColor
             view!.addSubview(inflectionLabel)
         }
 
@@ -125,6 +127,7 @@ class WordTableViewCell: UITableViewCell {
             freqCntLabel.numberOfLines = 0
             freqCntLabel.font = bodyFont
             freqCntLabel.text = freqCntText
+            freqCntLabel.textColor = AppConfiguration.foregroundColor
             view!.addSubview(freqCntLabel)
         }
     }
