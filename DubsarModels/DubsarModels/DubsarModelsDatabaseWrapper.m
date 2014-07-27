@@ -29,7 +29,7 @@
     if (self) {
         _databaseReady = NO;
         _dbptr = NULL;
-        _exactAutocompleterStmt = _autocompleterStmt = NULL;
+        _exactAutocompleterStmt = _autocompleterStmt = _autocompleterStmtWithoutExact = NULL;
     }
     return self;
 }
@@ -207,7 +207,21 @@
             NSLog(@"error preparing match statement, error %d", rc);
             return;
         }
-        
+
+        /* FTS search when no exact match */
+        sql = @"SELECT DISTINCT i.name "
+        @"FROM inflections_fts i "
+        @"JOIN words w ON w.id = i.word_id "
+        @"WHERE i.name MATCH ? "
+        @"ORDER BY i.name ASC "
+        @"LIMIT ?";
+
+        NSLog(@"preparing statement \"%@\"", sql);
+        if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_autocompleterStmtWithoutExact, NULL)) != SQLITE_OK) {
+            NSLog(@"error preparing match statement, error %d", rc);
+            return;
+        }
+
         self.databaseReady = YES;
         
     }
