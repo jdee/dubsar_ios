@@ -152,11 +152,11 @@
 {
     return @"<!DOCTYPE html><html><body style='color:#f85400; background-color:#000; font: bold 24pt Trebuchet MS'>"
     "<p>Dubsar is free, open-source software distributed under version 2 of the GNU General Public License.</p><hr/>"
-    "<h2>Dubsar Dictionary Project</h2><h3>Copyright &copy; 2010&ndash;2013 Jimmy Dee</h3>"
+    "<h2>Dubsar Dictionary Project</h2><h3>Copyright &copy; 2010&ndash;2014 Jimmy Dee</h3>"
     "<p>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</p>"
     "<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>"
     "<p>You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.</p><hr/>"
-    "<p>WordNet&reg; &copy; 2013 The Trustees of Princeton University</p>"
+    "<p>WordNet&reg; &copy; 2014 The Trustees of Princeton University</p>"
     "<p>WordNet&reg; is available under the WordNet 3.0 License."
     "</body></html>";
 }
