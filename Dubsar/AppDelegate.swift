@@ -136,33 +136,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         }
 
         let path = url.path
+        var word : DubsarModelsWord!
+        var title : String?
         if path.hasPrefix("/wotd/") {
             let last = url.lastPathComponent as NSString
             let wotdId = UInt(last.intValue)
-            let word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
-
-            // crashes, so we use the string literal "Word" below
-            // NSLog("Instantiating VC with identifier %@", WordViewController.identifier)
-
-            let top = navigationController.topViewController as BaseViewController
-            let viewController = top.instantiateViewControllerWithIdentifier("Word", model: word)
-            assert(viewController)
-            viewController!.title = "Word of the Day"
-            navigationController.pushViewController(viewController, animated: true)
+            word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
+            title = "Word of the Day"
         }
         else if path.hasPrefix("/words/") {
             let last = url.lastPathComponent as NSString
             let wotdId = UInt(last.intValue)
-            let word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
-
-            // crashes, so we use the string literal "Word" below
-            // NSLog("Instantiating VC with identifier %@", WordViewController.identifier)
-
-            let top = navigationController.topViewController as BaseViewController
-            let viewController = top.instantiateViewControllerWithIdentifier("Word", model: word)
-            assert(viewController)
-            navigationController.pushViewController(viewController, animated: true)
+            word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
         }
+
+        let top = navigationController.topViewController as BaseViewController
+        let viewController : BaseViewController! = top.instantiateViewControllerWithIdentifier("Word", model: word)
+        if title {
+            viewController.title = title
+        }
+        navigationController.dismissViewControllerAnimated(true, completion: nil)
+        navigationController.pushViewController(viewController, animated: true)
 
         return true
     }
