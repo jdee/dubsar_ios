@@ -67,10 +67,17 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         search.currentPage = sender.currentPage + 1
         search.complete = false
         search.loadWithWords()
+
+        updateTitle()
         resultTableView.reloadData()
     }
 
     func updateTitle() {
+        if !search.complete {
+            searchLabel.text = "searching..."
+            return
+        }
+
         var title = "search results for \"\(search.title ? search.title : search.term)\""
         if search.totalPages > 1 {
             title = "\(title) p. \(search.currentPage)/\(search.totalPages)"
