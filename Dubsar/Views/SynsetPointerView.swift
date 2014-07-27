@@ -37,7 +37,7 @@ class PointerView : UIView {
         // clipsToBounds = true
 
         let fudge : CGFloat = 8
-        let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
+        let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
         let buttonSize = bodyFont.pointSize + fudge // height of one line in the body font, with a little extra space
 
         label.lineBreakMode = .ByWordWrapping
@@ -168,8 +168,8 @@ class SynsetPointerView: UIView {
     private func tileViewport() {
         // convenient constants
         let margin = SynsetPointerView.margin
-        let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
-        let titleFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
+        let titleFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
 
         // y is where the next tile will go (frame.origin.y)
@@ -219,7 +219,7 @@ class SynsetPointerView: UIView {
                 let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height), withoutButton: isPreview)
                 pointerView.label.text = text
                 if !isPreview && pointer.targetType == "Sense" {
-                    pointerView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
+                    pointerView.backgroundColor = AppConfiguration.highlightColor
                 }
                 pointerView.viewController = viewController
 

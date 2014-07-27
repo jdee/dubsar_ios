@@ -43,7 +43,7 @@ class SynonymButtonPair {
         selectionButton = UIButton()
         navigationButton = NavButton()
 
-        let font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
+        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
 
         // configure selection button
         selectionButton.titleLabel.font = font
@@ -136,7 +136,7 @@ class SynsetHeaderView: UIView {
             var constrainedSize = bounds.size
             constrainedSize.width -= 2 * margin
 
-            let headlineFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
+            let headlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
 
             // Gloss label
             let glossSize = synset.glossSizeWithConstrainedSize(constrainedSize, font: headlineFont)
@@ -184,7 +184,7 @@ class SynsetHeaderView: UIView {
                 addSubview(extraTextLabel)
 
                 if sense || synset.senses.count == 1{
-                    extraTextLabel.backgroundColor = UIColor(red:0.9, green:0.9, blue:1.0, alpha:1.0)
+                    extraTextLabel.backgroundColor = AppConfiguration.backgroundColor
                 }
                 else {
                     extraTextLabel.backgroundColor = UIColor.clearColor()
@@ -248,7 +248,7 @@ class SynsetHeaderView: UIView {
                 let buttonPair = SynonymButtonPair(sense: synonym, view: self)
                 if (sense && sense!._id == synonym._id) || synset.senses.count == 1 { // set it to disabled when synset.senses.count == 1?
                     buttonPair.selectionButton.selected = true
-                    buttonPair.selectionButton.backgroundColor = UIColor(red:0.9, green:0.9, blue:1.0, alpha:1.0)
+                    buttonPair.selectionButton.backgroundColor = AppConfiguration.backgroundColor
                 }
                 synonymButtons += buttonPair
 

@@ -35,9 +35,9 @@ extension DubsarModelsSense {
         var constraint = constrainedSize
         constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth
 
-        let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
-        let caption1Font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleCaption1)
-        let subheadlineFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleSubheadline)
+        let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
+        let caption1Font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleCaption1)
+        let subheadlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline)
 
         let glossSize = glossSizeWithConstrainedSize(constraint, font: bodyFont)
 

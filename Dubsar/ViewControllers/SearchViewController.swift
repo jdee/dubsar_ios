@@ -59,7 +59,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         updateTitle()
         pageControl.hidden = search.totalPages <= 1
         adjustLayout()
-        view.backgroundColor = UIColor.lightGrayColor()
+        view.backgroundColor = AppConfiguration.alternateBackgroundColor
     }
 
     @IBAction
@@ -113,7 +113,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
                 cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
                 cell!.selectionStyle = .None
                 cell!.textLabel.text = "search found no matches"
-                cell!.textLabel.font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
+                cell!.textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
             }
             return cell
         }
@@ -128,7 +128,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             if !openCell {
                 openCell = OpenWordTableViewCell(word: word, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
             }
-            openCell!.cellBackgroundColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
+            openCell!.cellBackgroundColor = AppConfiguration.highlightColor
             cell = openCell
         }
         else {
@@ -137,7 +137,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
                 cell = WordTableViewCell()
             }
             cell!.selectionStyle = .Blue // but gray for some reason
-            cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
+            cell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
         }
 
         cell!.accessoryType = .DetailDisclosureButton
@@ -202,11 +202,11 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         updateTitle()
         resultTableView.reloadData()
 
-        resultTableView.backgroundColor = search.results.count % 2 == 0 ? UIColor.whiteColor() : UIColor.lightGrayColor()
+        resultTableView.backgroundColor = search.results.count % 2 == 0 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
     }
 
     override func adjustLayout() {
-        searchLabel.font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        searchLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         resultTableView.reloadData()
         super.adjustLayout()
     }

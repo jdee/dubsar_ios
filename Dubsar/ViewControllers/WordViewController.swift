@@ -117,7 +117,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         assert(theWord!.complete)
 
         adjustLayout()
-        senseTableView.backgroundColor = theWord!.senses.count % 2 == 1 ? UIColor.whiteColor() : UIColor.lightGrayColor()
+        senseTableView.backgroundColor = theWord!.senses.count % 2 == 1 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
    }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
@@ -169,7 +169,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
                 cell = SenseTableViewCell(sense: sense, frame: frame)
             }
             // NSLog("Cell for row %d is closed", row)
-            cell!.cellBackgroundColor = row % 2 == 1 ? UIColor.lightGrayColor() : UIColor.whiteColor()
+            cell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
         }
 
         cell!.frame = frame

@@ -38,7 +38,7 @@ class SynsetSampleView: UIView {
         self.synset = synset
         isPreview = preview
         super.init(frame: frame)
-        backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 0.9, alpha: 1.0)
+        backgroundColor = AppConfiguration.alternateHighlightColor
     }
 
     override func layoutSubviews() {
@@ -51,10 +51,10 @@ class SynsetSampleView: UIView {
         if synset.complete {
             var y = SynsetSampleView.margin
 
-            let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
+            let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
             var font = bodyFont
             if isPreview {
-                let italicFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody, italic: true)
+                let italicFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: true)
                 font = italicFont
             }
 
@@ -72,7 +72,7 @@ class SynsetSampleView: UIView {
             if verbFrames && verbFrames!.count > 0 {
                 let frames = verbFrames as [AnyObject]
                 for verbFrame in frames as [NSString] {
-                    y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0), font: font)
+                    y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : AppConfiguration.highlightColor, font: font)
                     // NSLog("Added %@ at %f", text, y)
                 }
             }

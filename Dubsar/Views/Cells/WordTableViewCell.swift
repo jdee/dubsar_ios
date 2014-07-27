@@ -47,7 +47,7 @@ class WordTableViewCell: UITableViewCell {
     }
     }
 
-    var cellBackgroundColor : UIColor! = UIColor.whiteColor() {
+    var cellBackgroundColor : UIColor! = AppConfiguration.backgroundColor {
     didSet {
         rebuild()
     }
@@ -70,8 +70,8 @@ class WordTableViewCell: UITableViewCell {
         }
 
         let accessorySize = WordTableViewCell.accessoryWidth
-        let headlineFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
+        let headlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
         let italicFontDescriptor = bodyFont.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitItalic)
         let italicFont = UIFont(descriptor: italicFontDescriptor, size:0.0)
 

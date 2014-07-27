@@ -60,7 +60,7 @@ class SenseTableViewCell: UITableViewCell {
     }
     }
 
-    var cellBackgroundColor : UIColor! = UIColor.whiteColor() {
+    var cellBackgroundColor : UIColor! = AppConfiguration.backgroundColor {
     didSet {
         rebuild()
     }
@@ -91,9 +91,9 @@ class SenseTableViewCell: UITableViewCell {
         let borderWidth = SenseTableViewCell.borderWidth
         let margin = SenseTableViewCell.margin
 
-        let bodyFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleBody)
-        let caption1Font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleCaption1)
-        let subheadlineFont = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleSubheadline)
+        let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
+        let caption1Font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleCaption1)
+        let subheadlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline)
 
         let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin-SenseTableViewCell.accessoryWidth, frame.size.height)
         let glossSize = sense.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)

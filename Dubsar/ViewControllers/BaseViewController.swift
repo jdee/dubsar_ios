@@ -51,6 +51,13 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
         setupToolbar()
     }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+
+        // this probably amounts to nothing, but any cached images are easily recreated
+        NavButtonImage.voidCache()
+    }
+
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
         super.didRotateFromInterfaceOrientation(fromInterfaceOrientation)
         adjustLayout()

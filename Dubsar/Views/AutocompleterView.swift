@@ -40,7 +40,7 @@ class AutocompleterView: UIView {
     init(frame: CGRect) {
         super.init(frame: frame)
         autoresizingMask = .FlexibleHeight | .FlexibleWidth | .FlexibleBottomMargin
-        backgroundColor = UIColor.lightGrayColor()
+        backgroundColor = AppConfiguration.alternateBackgroundColor
     }
 
     override func layoutSubviews() {
@@ -57,7 +57,7 @@ class AutocompleterView: UIView {
             var y : CGFloat = margin
             let results = autocompleter.results as [AnyObject]
             for result in results as [NSString] {
-                let font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
+                let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
                 let textSize = result.sizeWithAttributes([NSFontAttributeName: font])
                 let button = UIButton(frame: CGRectMake(margin, y, bounds.size.width - 2*margin, textSize.height + 2*margin))
                 button.setTitle(result, forState: .Normal)

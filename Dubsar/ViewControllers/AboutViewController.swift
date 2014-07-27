@@ -52,14 +52,14 @@ class AboutViewController: BaseViewController {
     }
 
     override func adjustLayout() {
-        let font = AppDelegate.instance.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         bannerLabel.font = font
         versionLabel.font = font
         modelsVersionLabel.font = font
         copyrightLabel.font = font
 
-        var headlineFontDesc = AppDelegate.instance.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
-        var bodyFontDesc = AppDelegate.instance.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
+        var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
+        var bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
 
         layoutParagraphs(UIFont(descriptor: bodyFontDesc, size: headlineFontDesc.pointSize))
         super.adjustLayout()
