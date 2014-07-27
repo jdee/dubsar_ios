@@ -295,6 +295,7 @@
     
     sqlite3_finalize(autocompleterStmt);
     sqlite3_finalize(exactAutocompleterStmt);
+    sqlite3_finalize(_autocompleterStmtWithoutExact);
     sqlite3_close(database);
     
     autocompleterStmt = exactAutocompleterStmt = NULL;
@@ -432,34 +433,46 @@
         /*
          * Exact match first
          */
-        sql = @"SELECT w.name "
-        @"FROM inflections i "
-        @"INNER JOIN words w "
-        @"ON w.id = i.word_id "
-        @"WHERE i.name = ? "
-        @"ORDER BY w.name ASC";
+        sql = @"SELECT name "
+        @"FROM inflections "
+        @"WHERE name >= ? "
+        @"ORDER BY name ASC "
+        @"LIMIT 1";
 
         NSLog(@"preparing statement \"%@\"", sql);
-        if ((rc=sqlite3_prepare_v2(database,
-                                   [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &exactAutocompleterStmt, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_prepare_v2(database, sql.UTF8String, -1, &exactAutocompleterStmt, NULL)) != SQLITE_OK) {
             NSLog(@"error preparing exact match statement, error %d", rc);
             return;
         }
         
         /* FTS search */
-        sql = @"SELECT DISTINCT name "
-        @"FROM inflections_fts "
-        @"WHERE name MATCH ? AND name != ? "
-        @"ORDER BY name ASC "
+        sql = @"SELECT DISTINCT i.name "
+        @"FROM inflections_fts i "
+        @"JOIN words w ON w.id = i.word_id "
+        @"WHERE i.name MATCH ? AND i.name != ? "
+        @"AND w.name != ? " // filter out inflections of the exact match
+        @"ORDER BY i.name ASC "
         @"LIMIT ?";
-        
+
         NSLog(@"preparing statement \"%@\"", sql);
-        if ((rc=sqlite3_prepare_v2(database,
-                                   [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &autocompleterStmt, NULL)) != SQLITE_OK) {
+        if ((rc=sqlite3_prepare_v2(database, sql.UTF8String, -1, &autocompleterStmt, NULL)) != SQLITE_OK) {
             NSLog(@"error preparing match statement, error %d", rc);
             return;
         }
-        
+
+        /* FTS search when no exact match */
+        sql = @"SELECT DISTINCT name "
+        @"FROM inflections_fts "
+        @"WHERE name MATCH ? "
+        @"ORDER BY name ASC "
+        @"LIMIT ?";
+
+        NSLog(@"preparing statement \"%@\"", sql);
+        if ((rc=sqlite3_prepare_v2(database, sql.UTF8String, -1, &_autocompleterStmtWithoutExact, NULL)) != SQLITE_OK) {
+            NSLog(@"error preparing match statement, error %d", rc);
+            return;
+        }
+
         self.databaseReady = true;
         
     }

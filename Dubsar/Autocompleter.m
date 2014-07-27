@@ -87,56 +87,88 @@
     @synchronized(appDelegate) {
         sqlite3_reset(appDelegate.exactAutocompleterStmt);
         sqlite3_reset(appDelegate.autocompleterStmt);
-        
+        sqlite3_reset(appDelegate.autocompleterStmtWithoutExact);
+
         int rc;
-        if ((rc=sqlite3_bind_text(appDelegate.exactAutocompleterStmt, 1, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
+        if ((rc=sqlite3_bind_text(appDelegate.exactAutocompleterStmt, 1, _term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
             return;
         }
-        
+
         NSString* exactMatch = nil;
-        while (sqlite3_step(appDelegate.exactAutocompleterStmt) == SQLITE_ROW) {
+        if (sqlite3_step(appDelegate.exactAutocompleterStmt) == SQLITE_ROW) {
             if (aborted) return;
-            
-            char const* _wName = (char const*)sqlite3_column_text(appDelegate.exactAutocompleterStmt, 0);            
-            NSString* wName = [NSString stringWithCString:_wName encoding:NSUTF8StringEncoding];
-            
-            if (exactMatch == nil) exactMatch = _term;
-            
-            if ([wName compare:exactMatch options:NSCaseInsensitiveSearch] == NSOrderedSame &&
-                [wName compare:exactMatch] == NSOrderedAscending) {
-                exactMatch = wName;
+
+            char const* _wName = (char const*)sqlite3_column_text(appDelegate.exactAutocompleterStmt, 0);
+            exactMatch = @(_wName);
+            if (![exactMatch hasPrefix:_term]) {
+                exactMatch = nil;
             }
         }
-        
-        if (exactMatch != nil) {
+
+        if (exactMatch) {
             // NSLog(@"found exact match %@", exactMatch);
             self.results = [NSMutableArray arrayWithObject:exactMatch];
+
+            if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 1, [_term stringByAppendingString:@"*"].UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                return;
+            }
+            if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 2, exactMatch.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                return;
+            }
+            if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 3, exactMatch.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                return;
+            }
+            if ((rc=sqlite3_bind_int(appDelegate.autocompleterStmt, 4, max - 1)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                return;
+            }
+
+            // NSLog(@"searching DB for autocompleter matches for %@", _term);
+            while ((rc=sqlite3_step(appDelegate.autocompleterStmt)) == SQLITE_ROW) {
+                if (aborted) return;
+                char const* _name = (char const*)sqlite3_column_text(appDelegate.autocompleterStmt, 0);
+                NSString* match = @(_name);
+
+                [_results addObject:match];
+            }
+
+            if (rc != SQLITE_DONE) {
+                NSLog(@"Autocompleter FTS search failed: %d", rc);
+            }
         }
         else {
             self.results = [NSMutableArray array];
-        }
-        
-        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 1, [[_term stringByAppendingString:@"*"] cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-            return;
-        }
-        if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmt, 2, [_term cStringUsingEncoding:NSUTF8StringEncoding], -1, SQLITE_STATIC)) != SQLITE_OK) {
-            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-            return;
-        }
-        if ((rc=sqlite3_bind_int(appDelegate.autocompleterStmt, 3, (exactMatch != nil ? max-1 : max))) != SQLITE_OK) {
-            self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
-            return;    
-        }
-        
-        // NSLog(@"searching DB for autocompleter matches for %@", _term);
-        while (sqlite3_step(appDelegate.autocompleterStmt) == SQLITE_ROW) {
-            if (aborted) return;
-            char const* _name = (char const*)sqlite3_column_text(appDelegate.autocompleterStmt, 0);
-            NSString* match = [NSString stringWithCString:_name encoding:NSUTF8StringEncoding];
-            
-            [_results addObject:match];
+
+            if ((rc=sqlite3_bind_text(appDelegate.autocompleterStmtWithoutExact, 1, [_term stringByAppendingString:@"*"].UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                return;
+            }
+            if ((rc=sqlite3_bind_int(appDelegate.autocompleterStmtWithoutExact, 2, max)) != SQLITE_OK) {
+                self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
+                return;
+            }
+
+            // NSLog(@"searching DB for autocompleter matches for %@", _term);
+            while ((rc=sqlite3_step(appDelegate.autocompleterStmtWithoutExact)) == SQLITE_ROW) {
+                if (aborted) {
+                    NSLog(@"Aborted");
+                    return;
+                }
+                char const* _name = (char const*)sqlite3_column_text(appDelegate.autocompleterStmtWithoutExact, 0);
+                NSString* match = @(_name);
+
+                // NSLog(@"autocompleter matched %@", match);
+
+                [_results addObject:match];
+            }
+
+            if (rc != SQLITE_DONE) {
+                NSLog(@"Autocompleter FTS search failed: %d", rc);
+            }
         }
     }
 }

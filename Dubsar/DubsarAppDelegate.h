@@ -35,6 +35,7 @@
 @property (nonatomic) sqlite3* database;
 @property (nonatomic) sqlite3_stmt* exactAutocompleterStmt;
 @property (nonatomic) sqlite3_stmt* autocompleterStmt;
+@property (nonatomic) sqlite3_stmt* autocompleterStmtWithoutExact;
 @property bool databaseReady;
 @property (nonatomic, copy) NSString* authToken;
 @property (nonatomic, copy) NSString* wotdUrl;
