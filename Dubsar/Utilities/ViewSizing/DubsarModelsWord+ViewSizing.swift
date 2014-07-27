@@ -40,9 +40,12 @@ extension DubsarModelsWord {
         return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
-    func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat) -> CGSize {
+    func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat, preview: Bool) -> CGSize {
         var constraint = constrainedSize
         constraint.width -= 2 * WordTableViewCell.margin
+        if preview {
+            constraint.width -= WordTableViewCell.accessoryWidth
+        }
 
         var size = nameAndPosSizeWithConstrainedSize(constraint, font: AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline))
         size.width = constrainedSize.width

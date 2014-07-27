@@ -31,7 +31,7 @@ class OpenWordTableViewCell: WordTableViewCell {
 
     init(word: DubsarModelsWord!, frame: CGRect, maxHeightOfAdditions: CGFloat) {
         insertHeightLimit = maxHeightOfAdditions
-        super.init(word: word)
+        super.init(word: word, preview: true, reuseIdentifier: OpenWordTableViewCell.openIdentifier)
         clipsToBounds = true
         self.frame = frame
         selectionStyle = .None

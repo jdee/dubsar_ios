@@ -54,10 +54,12 @@ class WordTableViewCell: UITableViewCell {
     }
 
     var view : UIView?
+    var isPreview : Bool
 
-    init(word: DubsarModelsWord? = nil) {
+    init(word: DubsarModelsWord?, preview: Bool, reuseIdentifier: String = WordTableViewCell.identifier) {
         self.word = word
-        super.init(style: .Subtitle, reuseIdentifier: WordTableViewCell.identifier)
+        isPreview = preview
+        super.init(style: .Subtitle, reuseIdentifier: reuseIdentifier)
 
         selectionStyle = .None
 
@@ -76,7 +78,7 @@ class WordTableViewCell: UITableViewCell {
         let italicFont = UIFont(descriptor: italicFontDescriptor, size:0.0)
 
         let margin = WordTableViewCell.margin
-        let constrainedSize = CGSizeMake(bounds.size.width-2*margin-accessorySize, bounds.size.height)
+        let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin - (isPreview ? accessorySize : 0), bounds.size.height)
 
         let nameAndPos = word!.nameAndPos as NSString
         let inflectionText = word!.otherForms as NSString
@@ -87,7 +89,7 @@ class WordTableViewCell: UITableViewCell {
         let freqCntSize = word!.freqCntSizeWithConstrainedSize(constrainedSize, font: bodyFont)
 
         let originalWidth = bounds.size.width
-        bounds.size = word!.sizeOfCellWithConstrainedSize(bounds.size, open: false, maxHeightOfAdditions: 0)
+        bounds.size = word!.sizeOfCellWithConstrainedSize(bounds.size, open: false, maxHeightOfAdditions: 0, preview: isPreview)
         assert(originalWidth == bounds.size.width)
 
         view?.removeFromSuperview()

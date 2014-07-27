@@ -137,7 +137,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         else {
             cell = tableView.dequeueReusableCellWithIdentifier(WordTableViewCell.identifier) as? WordTableViewCell
             if !cell {
-                cell = WordTableViewCell()
+                cell = WordTableViewCell(word: word, preview: true)
             }
             cell!.selectionStyle = .Blue // but gray for some reason
             cell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
@@ -145,6 +145,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         cell!.accessoryType = .DetailDisclosureButton
         cell!.frame = tableView.bounds
+        cell!.isPreview = true
         cell!.word = word
         cell!.rebuild()
 
@@ -187,7 +188,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         let word = search.results[row] as DubsarModelsWord
         let selectedRow = selectedIndexPath.indexAtPosition(1)
 
-        let height = word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
+        let height = word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row), preview: true).height
 
         // NSLog("Height of row %d: %f", row, Double(height))
         return height

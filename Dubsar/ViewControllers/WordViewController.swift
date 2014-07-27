@@ -141,12 +141,16 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         let row = indexPath.indexAtPosition(1)
         if row == 0 {
             // Word cell as the header
-            var cell = tableView.dequeueReusableCellWithIdentifier(WordTableViewCell.identifier) as? WordTableViewCell
+            let identifier = "word-without-accessory"
+            var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? WordTableViewCell
             if !cell {
-                cell = WordTableViewCell()
+                cell = WordTableViewCell(word: theWord, preview: false, reuseIdentifier: identifier)
             }
             cell!.frame = tableView.bounds
+            cell!.isPreview = false
             cell!.word = theWord
+
+            // NSLog("Height of word cell at row 0: %f", Double(cell!.bounds.size.height))
             return cell
         }
 
@@ -190,7 +194,9 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         let row = indexPath.indexAtPosition(1)
         if row == 0 {
-            return theWord!.sizeOfCellWithConstrainedSize(tableView.bounds.size, open: false, maxHeightOfAdditions: 0).height
+            let height = theWord!.sizeOfCellWithConstrainedSize(tableView.bounds.size, open: false, maxHeightOfAdditions: 0, preview: false).height
+            // NSLog("Height of row 0 (word header): %f", Double(height))
+            return height
         }
 
         let sense = theWord!.senses[row-1] as DubsarModelsSense
@@ -199,7 +205,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         var selectedRow :Int = selectedIndexPath.indexAtPosition(1)
         let height = sense.sizeOfCellWithConstrainedSize(constrainedSize, open: row == selectedRow, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
 
-        // NSLog("Height of row %d with row %d selected: %f", row, selectedRow, height)
+        // NSLog("Height of row %d with row %d selected: %f", row, selectedRow, Double(height))
         return height
     }
 
