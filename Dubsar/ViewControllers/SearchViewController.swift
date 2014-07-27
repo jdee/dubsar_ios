@@ -42,7 +42,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
     }
 
-    var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+    var selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
     override func viewWillAppear(animated: Bool) {
         // NSLog("In SearchViewController.viewWillAppear() before super: search is %@nil, %@complete; model is %@nil, %@complete", (search ? "" : "not "), (search.complete ? "" : "not "), (model ? "" : "not "), (model?.complete ? "" : "not "))
@@ -68,6 +68,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         search.currentPage = sender.currentPage + 1
         search.complete = false
         search.loadWithWords()
+
+        selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
         updateTitle()
         resultTableView.reloadData()
@@ -209,6 +211,10 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     override func adjustLayout() {
         searchLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         searchLabel.textColor = AppConfiguration.foregroundColor
+
+        pageControl.pageIndicatorTintColor = AppConfiguration.alternateHighlightColor
+        pageControl.currentPageIndicatorTintColor = AppConfiguration.foregroundColor
+
         resultTableView.reloadData()
         super.adjustLayout()
     }
