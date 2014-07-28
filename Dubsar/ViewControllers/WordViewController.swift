@@ -72,8 +72,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
     var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: -1, inSection: 0)
 
-    override func viewDidLayoutSubviews() {
+    var loaded: Bool = false
+
+    override func viewDidLoad() {
         super.viewDidLoad()
+        loaded = true
         senseTableView.backgroundColor = UIColor.clearColor()
     }
 
@@ -251,6 +254,10 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     override func adjustLayout() {
+        if !loaded || !view {
+            return
+        }
+
         let numberOfRows = tableView(senseTableView, numberOfRowsInSection: 0)
         var height : CGFloat = 0
         for var j=0; j<numberOfRows; ++j {
