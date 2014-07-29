@@ -899,6 +899,7 @@
 				PROVISIONING_PROFILE = "E1DBF913-E7AB-4FD1-A220-86B7696FEB0D";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -915,6 +916,7 @@
 				PROVISIONING_PROFILE = "E1DBF913-E7AB-4FD1-A220-86B7696FEB0D";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};
