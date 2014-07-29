@@ -167,15 +167,10 @@ class SynsetViewController: BaseViewController {
         adjustLayout()
     }
 
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        scroller?.reset()
-        super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // just calls adjustLayout()
-    }
-
     override func adjustLayout() {
         if let s = scroller {
             s.frame = view.bounds
-            s.setNeedsLayout()
+            s.reset() // force a full redraw, which will include new fonts
         }
 
         // calls view.invalidateBlahBlah()

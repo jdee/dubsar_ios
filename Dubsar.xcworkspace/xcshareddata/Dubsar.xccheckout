@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>28EDE594-132F-428F-9CC0-73BC2CF9FB46</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Dubsar</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>67747D63-9C6D-4756-A074-47A341B0E6AB</key>
+		<string>ssh://github.com/jdee/dubsar_ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Dubsar.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>67747D63-9C6D-4756-A074-47A341B0E6AB</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/jdee/dubsar_ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>67747D63-9C6D-4756-A074-47A341B0E6AB</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>67747D63-9C6D-4756-A074-47A341B0E6AB</string>
+			<key>IDESourceControlWCCName</key>
+			<string>dubsar_ios</string>
+		</dict>
+	</array>
+</dict>
+</plist>

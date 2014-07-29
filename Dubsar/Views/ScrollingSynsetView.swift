@@ -109,6 +109,7 @@ class ScrollingSynsetView: UIScrollView {
     func reset() {
         hasReset = true
         pointerView.reset()
+        setNeedsLayout()
     }
 
 }
