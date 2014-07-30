@@ -10,6 +10,9 @@
 		7B06EC6C19886FCE00C44892 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC6B19886FCE00C44892 /* SettingsViewController.swift */; };
 		7B06EC701988798600C44892 /* IOSKnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC6F1988798600C44892 /* IOSKnobControl.m */; };
 		7B06EC72198879C500C44892 /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC71198879C500C44892 /* FontViewController.swift */; };
+		7B06EC741988AC6F00C44892 /* SettingLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC731988AC6F00C44892 /* SettingLabelTableViewCell.swift */; };
+		7B06EC761988AD6E00C44892 /* SettingNavigationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC751988AD6E00C44892 /* SettingNavigationTableViewCell.swift */; };
+		7B06EC781988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC771988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift */; };
 		7B1152011974340900869E15 /* DubsarServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1152001974340900869E15 /* DubsarServer.m */; };
 		7B115203197435C100869E15 /* client_secret.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B115202197435C100869E15 /* client_secret.txt */; };
 		7B1B4E79197450F5008F38BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
@@ -106,6 +109,9 @@
 		7B06EC6E1988798600C44892 /* IOSKnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSKnobControl.h; sourceTree = "<group>"; };
 		7B06EC6F1988798600C44892 /* IOSKnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSKnobControl.m; sourceTree = "<group>"; };
 		7B06EC71198879C500C44892 /* FontViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
+		7B06EC731988AC6F00C44892 /* SettingLabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingLabelTableViewCell.swift; sourceTree = "<group>"; };
+		7B06EC751988AD6E00C44892 /* SettingNavigationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNavigationTableViewCell.swift; sourceTree = "<group>"; };
+		7B06EC771988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNavigationValueTableViewCell.swift; sourceTree = "<group>"; };
 		7B1151FF1974340900869E15 /* DubsarServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarServer.h; sourceTree = "<group>"; };
 		7B1152001974340900869E15 /* DubsarServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarServer.m; sourceTree = "<group>"; };
 		7B115202197435C100869E15 /* client_secret.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = client_secret.txt; sourceTree = "<group>"; };
@@ -226,6 +232,9 @@
 				7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */,
 				7B6CC037197E1C3800151799 /* OpenWordTableViewCell.swift */,
 				7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */,
+				7B06EC731988AC6F00C44892 /* SettingLabelTableViewCell.swift */,
+				7B06EC751988AD6E00C44892 /* SettingNavigationTableViewCell.swift */,
+				7B06EC771988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift */,
 				7BBF83711974DB8200969765 /* WordTableViewCell.swift */,
 			);
 			path = Cells;
@@ -493,6 +502,7 @@
 				7B1152011974340900869E15 /* DubsarServer.m in Sources */,
 				7BBF83741975871300969765 /* BaseViewController.swift in Sources */,
 				7B497C971978889700563A4B /* SynsetPointerView.swift in Sources */,
+				7B06EC761988AD6E00C44892 /* SettingNavigationTableViewCell.swift in Sources */,
 				7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */,
 				7BA85A5619848DA100222A6D /* AppConfiguration.swift in Sources */,
 				7B7D3E93197DB3DC00619DEA /* KeyboardHelper.m in Sources */,
@@ -510,7 +520,9 @@
 				7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */,
 				7B06EC6C19886FCE00C44892 /* SettingsViewController.swift in Sources */,
 				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,
+				7B06EC741988AC6F00C44892 /* SettingLabelTableViewCell.swift in Sources */,
 				7BCA161E197D6E260016C104 /* AlphabetView.swift in Sources */,
+				7B06EC781988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift in Sources */,
 				7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */,
 				7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,

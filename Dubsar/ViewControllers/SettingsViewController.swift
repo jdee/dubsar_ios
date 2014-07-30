@@ -29,11 +29,12 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     @IBOutlet var settingsTableView: UITableView!
 
-    let settings = [
-        [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey))],
-        [ "title" : "About", "view" : "About" ],
-        [ "title" : "FAQ", "view" : "FAQ" ],
-        [ "title" : "Font Family", "view" : "Font", "value" : "true" ]
+    let sections = [
+        [ [ "title" : "About", "view" : "About" ],
+        [ "title" : "FAQ", "view" : "FAQ" ] ],
+
+        [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey))],
+        [ "title" : "Font Family", "view" : "Font", "value" : AppConfiguration.fontFamilyKey ] ]
     ]
 
     override func adjustLayout() {
@@ -45,51 +46,59 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
-        return 1
+        return sections.count
     }
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+        let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
+
+        let settings = sections[section] as [Dictionary<String, String>]
         let setting = settings[row] as Dictionary<String, String>
         let view = setting["view"]
         let value = setting["value"]
 
-        let identifier = view ? value ? "settings-with-value" : "settings" : "settings-label"
-
-        var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? UITableViewCell
-        if !cell {
-            cell = UITableViewCell(style: view && !value ? .Default : .Value1, reuseIdentifier: identifier)
-        }
-
-        cell!.textLabel.text = setting["title"]
-        cell!.backgroundColor = AppConfiguration.backgroundColor
-        cell!.textLabel.textColor = AppConfiguration.foregroundColor
-        cell!.textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
-
+        var cell: UITableViewCell?
         if view {
-            cell!.accessoryType = .DisclosureIndicator
             if value {
-                cell!.detailTextLabel.text = AppConfiguration.fontSetting
-                cell!.detailTextLabel.textColor = AppConfiguration.foregroundColor
-                cell!.detailTextLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
+                cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationValueTableViewCell.identifier) as? UITableViewCell
+                if !cell {
+                    cell = SettingNavigationValueTableViewCell()
+                }
+
+                if value == AppConfiguration.fontFamilyKey {
+                    cell!.detailTextLabel.text = AppConfiguration.fontSetting
+                }
+            }
+            else {
+                cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationTableViewCell.identifier) as? UITableViewCell
+                if !cell {
+                    cell = SettingNavigationTableViewCell()
+                }
             }
         }
         else if value {
-            cell!.selectionStyle = .None
-            cell!.detailTextLabel.text = setting["value"]
-            cell!.detailTextLabel.textColor = AppConfiguration.foregroundColor
-            cell!.detailTextLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
+            cell = tableView.dequeueReusableCellWithIdentifier(SettingLabelTableViewCell.identifier) as? UITableViewCell
+            if !cell {
+                cell = SettingLabelTableViewCell()
+            }
+            cell!.detailTextLabel.text = value
         }
+
+        cell!.textLabel.text = setting["title"]
 
         return cell
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        let settings = sections[section] as [Dictionary<String, String>]
         return settings.count
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
+        let settings = sections[section] as [Dictionary<String, String>]
         let setting = settings[row] as Dictionary<String, String>
         let view = setting["view"]
         if view {
