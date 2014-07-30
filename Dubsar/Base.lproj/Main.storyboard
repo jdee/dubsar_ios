@@ -349,11 +349,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Y2-EG-sod">
-                                <rect key="frame" x="0.0" y="0.0" width="268" height="268"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="268" id="Ngn-Ku-Fe4"/>
-                                    <constraint firstAttribute="height" constant="268" id="Tld-H2-Zee"/>
+                                    <constraint firstAttribute="width" constant="320" id="Ngn-Ku-Fe4"/>
+                                    <constraint firstAttribute="height" constant="320" id="Tld-H2-Zee"/>
                                 </constraints>
                             </view>
                         </subviews>
