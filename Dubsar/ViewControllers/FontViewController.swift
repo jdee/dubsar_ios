@@ -44,6 +44,7 @@ class FontViewController: BaseViewController {
         knobControl.positions = UInt(titles.count)
         knobControl.titles = titles
         knobControl.setFillColor(AppConfiguration.alternateBackgroundColor, forState: .Normal)
+        knobControl.setFillColor(AppConfiguration.alternateHighlightColor, forState: .Highlighted)
         knobControl.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
 
         knobControl.positionIndex = selectedFontIndex()
