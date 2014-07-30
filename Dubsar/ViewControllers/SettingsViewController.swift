@@ -34,7 +34,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         [ "title" : "FAQ", "view" : "FAQ" ] ],
 
         [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey))],
-        [ "title" : "Font Family", "view" : "Font", "value" : AppConfiguration.fontFamilyKey ] ]
+        [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey ] ]
     ]
 
     override func adjustLayout() {
@@ -66,8 +66,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                     cell = SettingNavigationValueTableViewCell()
                 }
 
-                if value == AppConfiguration.fontFamilyKey {
-                    cell!.detailTextLabel.text = AppConfiguration.fontSetting
+                if value == AppConfiguration.themeKey {
+                    cell!.detailTextLabel.text = AppConfiguration.themeName
                 }
             }
             else {
@@ -87,8 +87,11 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
         cell!.textLabel.text = setting["title"]
         cell!.textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
+        cell!.backgroundColor = AppConfiguration.backgroundColor
+        cell!.textLabel.textColor = AppConfiguration.foregroundColor
         if cell!.detailTextLabel {
             cell!.detailTextLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
+            cell!.detailTextLabel.textColor = AppConfiguration.foregroundColor
         }
 
         return cell

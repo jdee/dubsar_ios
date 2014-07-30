@@ -29,11 +29,7 @@ class SettingNavigationTableViewCell: UITableViewCell {
 
     init() {
         super.init(style: .Default, reuseIdentifier: SettingNavigationTableViewCell.identifier)
-
         accessoryType = .DisclosureIndicator
-
-        backgroundColor = AppConfiguration.backgroundColor
-        textLabel.textColor = AppConfiguration.foregroundColor
     }
 
 }

@@ -21,56 +21,146 @@ import UIKit
 
 struct AppConfiguration {
 
-    static let fontFamilyKey = "DubsarFontFamily"
+    static let themeKey = "DubsarTheme"
 
-    static var fontSetting: String? {
+    static let nameKey = "name"
+    static let fontKey = "font"
+    static let backgroundKey = "background"
+    static let alternateBackgroundKey = "alternateBackground"
+    static let highlightKey = "highlight"
+    static let alternateHighlightKey = "alternateHighlight"
+    static let foregroundKey = "foreground"
+    static let highlightedForegroundKey = "highlightedForeground"
+
+    static let themes = [
+        [ nameKey : "A", fontKey : "Palatino", backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
+            alternateBackgroundKey : UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0),
+            highlightKey : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0),
+            alternateHighlightKey : UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0),
+            foregroundKey : UIColor.darkTextColor(), highlightedForegroundKey : UIColor.blueColor() ],
+        [ nameKey : "B", fontKey : "Avenir Next", backgroundKey : UIColor(red: 0.941, green: 1.000, blue: 0.941, alpha: 1.0),
+            alternateBackgroundKey : UIColor(red: 0.686, green: 0.933, blue: 0.933, alpha: 1.0),
+            highlightKey : UIColor(red: 1.0, green: 0.980, blue: 0.804, alpha: 1.0),
+            alternateHighlightKey : UIColor(red: 0.518, green: 0.439, blue: 1.0, alpha: 1.0),
+            foregroundKey : UIColor.darkTextColor(), highlightedForegroundKey : UIColor.greenColor() ],
+        [ nameKey : "C", fontKey : "Palatino", backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
+            alternateBackgroundKey : UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0),
+            highlightKey : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0),
+            alternateHighlightKey : UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0),
+            foregroundKey : UIColor.darkTextColor(), highlightedForegroundKey : UIColor.blueColor() ],
+        [ nameKey : "D", fontKey : "Palatino", backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
+            alternateBackgroundKey : UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0),
+            highlightKey : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0),
+            alternateHighlightKey : UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0),
+            foregroundKey : UIColor.darkTextColor(), highlightedForegroundKey : UIColor.blueColor() ]
+    ]
+
+    static var themeSetting: Int? {
         get {
-            var object: AnyObject? = NSUserDefaults.standardUserDefaults().valueForKey(fontFamilyKey)
-            if object {
-                if var value = object as? String {
-                    return value
-                }
-                else {
-                    NSLog("%@ setting is not a string", fontFamilyKey)
-                }
+            let setting = NSUserDefaults.standardUserDefaults().integerForKey(themeKey)
+            // NSLog("Theme setting is %d", setting)
+            return setting
+        }
+    }
+
+    static var themeName: String? {
+        get {
+            if let index = themeSetting {
+                let theme = themes[index] as [String: AnyObject]
+                return theme[nameKey] as? NSString
             }
             return nil
         }
     }
 
-    static func setFontSetting(newFont: String?) {
-        NSUserDefaults.standardUserDefaults().setValue(newFont, forKey: fontFamilyKey)
+    static func setThemeSetting(newTheme: Int!) {
+        NSUserDefaults.standardUserDefaults().setInteger(newTheme, forKey: themeKey)
+    }
+
+    static var fontSetting: String? {
+        get {
+            let setting = themeSetting
+            if let index = setting {
+                let theme = themes[index] as [String: AnyObject]
+                return theme[fontKey] as? NSString
+            }
+            return nil
+        }
     }
 
     static func preferredFontDescriptorWithTextStyle(style: String!, italic: Bool=false) -> UIFontDescriptor! {
         let fontDesc = UIFontDescriptor.preferredFontDescriptorWithTextStyle(style) // just for the pointSize
 
-        var name = "Arial"
+        var name = fontSetting
 
-        let setting = fontSetting
-        if setting {
-            name = setting!
+        // NSLog("font setting is %@", name!)
+
+        if !name {
+            name = "Arial"
         }
 
         if style == UIFontTextStyleHeadline {
-            name = "\(name) Bold"
+            name = "\(name!) Bold"
         }
         if italic {
-            name = "\(name) Italic"
+            name = "\(name!) Italic"
         }
 
+        // NSLog("Returning descriptor for font %@, size %f", name!, fontDesc.pointSize)
         return UIFontDescriptor(name: name, size: fontDesc.pointSize)
     }
 
     static func preferredFontForTextStyle(style: String!, italic: Bool=false) -> UIFont! {
         let fontDesc = preferredFontDescriptorWithTextStyle(style, italic: italic)
-        return UIFont(descriptor: fontDesc, size: 0.0)
+        let font = UIFont(descriptor: fontDesc, size: 0.0)
+        // NSLog("Returning font from family %@, name %@", font.familyName, font.fontName)
+        return font
     }
 
-    static let backgroundColor = UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0)
-    static let alternateBackgroundColor = UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0)
-    static let highlightColor = UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0)
-    static let alternateHighlightColor = UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0)
-    static let foregroundColor = UIColor.darkTextColor()
-    static let highlightedForegroundColor = UIColor.blueColor()
+    static var backgroundColor: UIColor? {
+        get {
+            return getColor(backgroundKey)
+        }
+    }
+
+    static var alternateBackgroundColor: UIColor {
+        get {
+            return getColor(alternateBackgroundKey)
+        }
+    }
+
+    static var highlightColor: UIColor {
+        get {
+            return getColor(highlightKey)
+        }
+    }
+
+    static var alternateHighlightColor: UIColor {
+        get {
+            return getColor(alternateHighlightKey)
+        }
+    }
+
+    static var foregroundColor: UIColor {
+        get {
+            return getColor(foregroundKey)
+        }
+    }
+
+    static var highlightedForegroundColor: UIColor {
+        get {
+            return getColor(highlightedForegroundKey)
+        }
+    }
+
+    private static func getColor(key: String) -> UIColor! {
+        let setting = themeSetting
+        if let index = setting {
+            let theme = themes[index] as [String: AnyObject]
+            return theme[key] as? UIColor
+        }
+
+        let theme = themes[0] as [String: AnyObject]
+        return theme[key] as? UIColor
+    }
 }

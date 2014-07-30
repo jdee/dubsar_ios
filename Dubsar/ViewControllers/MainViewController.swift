@@ -285,6 +285,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     override func adjustLayout() {
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        // NSLog("Using font %@", font.fontName)
         wotdLabel.font = font
         wotdButton.titleLabel.font = font
         wordNetLabel.font = font

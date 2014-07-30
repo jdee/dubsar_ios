@@ -30,10 +30,6 @@ class SettingLabelTableViewCell: UITableViewCell {
     init() {
         super.init(style: .Value1, reuseIdentifier: SettingLabelTableViewCell.identifier)
         selectionStyle = .None
-
-        backgroundColor = AppConfiguration.backgroundColor
-        textLabel.textColor = AppConfiguration.foregroundColor
-        detailTextLabel.textColor = AppConfiguration.foregroundColor
     }
 
 }

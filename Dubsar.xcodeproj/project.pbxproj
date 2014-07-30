@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		7B06EC6C19886FCE00C44892 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC6B19886FCE00C44892 /* SettingsViewController.swift */; };
 		7B06EC701988798600C44892 /* IOSKnobControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC6F1988798600C44892 /* IOSKnobControl.m */; };
-		7B06EC72198879C500C44892 /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC71198879C500C44892 /* FontViewController.swift */; };
+		7B06EC72198879C500C44892 /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC71198879C500C44892 /* ThemeViewController.swift */; };
 		7B06EC741988AC6F00C44892 /* SettingLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC731988AC6F00C44892 /* SettingLabelTableViewCell.swift */; };
 		7B06EC761988AD6E00C44892 /* SettingNavigationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC751988AD6E00C44892 /* SettingNavigationTableViewCell.swift */; };
 		7B06EC781988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC771988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift */; };
@@ -108,7 +108,7 @@
 		7B06EC6B19886FCE00C44892 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		7B06EC6E1988798600C44892 /* IOSKnobControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSKnobControl.h; sourceTree = "<group>"; };
 		7B06EC6F1988798600C44892 /* IOSKnobControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSKnobControl.m; sourceTree = "<group>"; };
-		7B06EC71198879C500C44892 /* FontViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
+		7B06EC71198879C500C44892 /* ThemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeViewController.swift; sourceTree = "<group>"; };
 		7B06EC731988AC6F00C44892 /* SettingLabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingLabelTableViewCell.swift; sourceTree = "<group>"; };
 		7B06EC751988AD6E00C44892 /* SettingNavigationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNavigationTableViewCell.swift; sourceTree = "<group>"; };
 		7B06EC771988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNavigationValueTableViewCell.swift; sourceTree = "<group>"; };
@@ -345,7 +345,7 @@
 				7B7382F4198418EA00880CF2 /* AboutViewController.swift */,
 				7BBF83731975871300969765 /* BaseViewController.swift */,
 				7B7382FA1984700900880CF2 /* FAQViewController.swift */,
-				7B06EC71198879C500C44892 /* FontViewController.swift */,
+				7B06EC71198879C500C44892 /* ThemeViewController.swift */,
 				7BAC226019732D6C00D2AEA4 /* MainViewController.swift */,
 				7BBF836F1974D58400969765 /* SearchViewController.swift */,
 				7B06EC6B19886FCE00C44892 /* SettingsViewController.swift */,
@@ -530,7 +530,7 @@
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
 				7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */,
 				7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */,
-				7B06EC72198879C500C44892 /* FontViewController.swift in Sources */,
+				7B06EC72198879C500C44892 /* ThemeViewController.swift in Sources */,
 				7B62D75019773272006A797C /* NavButtonImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
