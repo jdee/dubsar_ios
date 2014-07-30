@@ -87,8 +87,9 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
         view.backgroundColor = AppConfiguration.backgroundColor
 
         if navigationController {
-            // navigationController.navigationBar.backgroundColor = AppConfiguration.backgroundColor
-            navigationController.navigationBar.tintColor = UIColor.darkTextColor()
+            navigationController.navigationBar.barStyle = AppConfiguration.navBarStyle
+            navigationController.navigationBar.barTintColor = AppConfiguration.backgroundColor
+            navigationController.navigationBar.tintColor = AppConfiguration.foregroundColor
         }
 
         NavButtonImage.voidCache() // dump all cached images in case of font size changes
