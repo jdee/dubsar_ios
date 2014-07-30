@@ -193,16 +193,16 @@
             </objects>
             <point key="canvasLocation" x="836" y="1306"/>
         </scene>
-        <!--About View Controller-->
+        <!--About-->
         <scene sceneID="hs3-pC-0fH">
             <objects>
-                <viewController storyboardIdentifier="About" id="GAx-Bg-REs" customClass="AboutViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="About" title="About" id="GAx-Bg-REs" customClass="AboutViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uod-W2-7c6"/>
                         <viewControllerLayoutGuide type="bottom" id="q8F-JF-Zlx"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vwo-pm-G47">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Dubsar for iOS" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="RLI-y3-ORx">
@@ -217,16 +217,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MkK-83-ecc">
-                                <rect key="frame" x="20" y="550" width="46" height="30"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="done:" destination="GAx-Bg-REs" eventType="touchUpInside" id="tZX-1t-akp"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="DubsarModels Version Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="YMh-RE-23b">
                                 <rect key="frame" x="20" y="128" width="560" height="21"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
@@ -247,7 +237,6 @@
                             <constraint firstAttribute="trailing" secondItem="YMh-RE-23b" secondAttribute="trailing" constant="20" id="7Jr-cw-Tqw"/>
                             <constraint firstItem="RLI-y3-ORx" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="7yK-ab-4FM"/>
                             <constraint firstAttribute="trailing" secondItem="ELp-lO-24Z" secondAttribute="trailing" constant="20" id="CNR-0V-We5"/>
-                            <constraint firstAttribute="bottom" secondItem="MkK-83-ecc" secondAttribute="bottom" constant="20" id="ShN-gL-gwg"/>
                             <constraint firstItem="RLI-y3-ORx" firstAttribute="top" secondItem="vwo-pm-G47" secondAttribute="top" constant="70" id="beU-L3-bBS"/>
                             <constraint firstItem="YMh-RE-23b" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="eyI-G8-Bz9"/>
                             <constraint firstItem="zpV-zr-QPf" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="gI9-hs-Chw"/>
@@ -255,13 +244,12 @@
                             <constraint firstAttribute="trailing" secondItem="zpV-zr-QPf" secondAttribute="trailing" constant="20" id="gOP-IL-ary"/>
                             <constraint firstItem="ELp-lO-24Z" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="mJY-fv-d0o"/>
                             <constraint firstItem="zpV-zr-QPf" firstAttribute="top" secondItem="YMh-RE-23b" secondAttribute="bottom" constant="8" id="pA4-db-Gnj"/>
-                            <constraint firstItem="MkK-83-ecc" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="xUG-Dg-Tw4"/>
                         </constraints>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="bannerLabel" destination="RLI-y3-ORx" id="b2c-k4-aaf"/>
                         <outlet property="copyrightLabel" destination="zpV-zr-QPf" id="WBc-Dj-Mjg"/>
-                        <outlet property="doneButton" destination="MkK-83-ecc" id="8qP-hF-3TM"/>
                         <outlet property="modelsVersionLabel" destination="YMh-RE-23b" id="QF2-Y5-cy3"/>
                         <outlet property="versionLabel" destination="ELp-lO-24Z" id="F7N-1n-X0F"/>
                     </connections>
@@ -270,35 +258,25 @@
             </objects>
             <point key="canvasLocation" x="174" y="1306"/>
         </scene>
-        <!--View Controller-->
+        <!--FAQ-->
         <scene sceneID="R9c-fd-DOI">
             <objects>
-                <viewController storyboardIdentifier="FAQ" id="QHC-RY-5Vb" customClass="FAQViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FAQ" title="FAQ" id="QHC-RY-5Vb" customClass="FAQViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="i2T-wV-Qga"/>
                         <viewControllerLayoutGuide type="bottom" id="zOl-j1-GqD"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FZd-D5-fk7">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BNe-CN-YgI">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="delegate" destination="QHC-RY-5Vb" id="o7W-nc-Kg3"/>
                                 </connections>
                             </webView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FLD-bu-poE">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem systemItem="done" id="kkw-Yo-DzK">
-                                        <connections>
-                                            <action selector="done:" destination="QHC-RY-5Vb" id="qXT-gh-COo"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -306,11 +284,9 @@
                             <constraint firstItem="BNe-CN-YgI" firstAttribute="leading" secondItem="FZd-D5-fk7" secondAttribute="leading" id="DJ0-QA-1tw"/>
                             <constraint firstItem="BNe-CN-YgI" firstAttribute="top" secondItem="FZd-D5-fk7" secondAttribute="top" id="Hi4-wr-79q"/>
                             <constraint firstAttribute="bottom" secondItem="BNe-CN-YgI" secondAttribute="bottom" id="IIC-jj-Qwn"/>
-                            <constraint firstAttribute="bottom" secondItem="FLD-bu-poE" secondAttribute="bottom" id="ROp-Cz-Lxi"/>
-                            <constraint firstItem="FLD-bu-poE" firstAttribute="leading" secondItem="FZd-D5-fk7" secondAttribute="leading" id="l3L-6e-tYt"/>
-                            <constraint firstAttribute="trailing" secondItem="FLD-bu-poE" secondAttribute="trailing" id="rpN-6k-TI4"/>
                         </constraints>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="faqWebView" destination="BNe-CN-YgI" id="2Z5-5s-CqL"/>
                     </connections>
@@ -318,6 +294,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oMC-64-dLT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="173" y="1953"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="3A6-Wp-dsx">
+            <objects>
+                <viewController storyboardIdentifier="Settings" title="Settings" id="QmJ-Xf-wLd" customClass="SettingsViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9RK-wq-S4X"/>
+                        <viewControllerLayoutGuide type="bottom" id="OaN-nY-16m"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ZcW-gv-vGf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="xYP-SV-rAn">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="QmJ-Xf-wLd" id="Gdj-mQ-mBc"/>
+                                    <outlet property="delegate" destination="QmJ-Xf-wLd" id="PwG-jl-hWa"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xYP-SV-rAn" firstAttribute="top" secondItem="ZcW-gv-vGf" secondAttribute="top" id="Nyg-c3-wE1"/>
+                            <constraint firstItem="xYP-SV-rAn" firstAttribute="leading" secondItem="ZcW-gv-vGf" secondAttribute="leading" id="XAL-sJ-w39"/>
+                            <constraint firstAttribute="trailing" secondItem="xYP-SV-rAn" secondAttribute="trailing" id="dYW-sh-gtm"/>
+                            <constraint firstAttribute="bottom" secondItem="xYP-SV-rAn" secondAttribute="bottom" id="fTd-wr-lhM"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="settingsTableView" destination="xYP-SV-rAn" id="7N8-zr-jGK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MiH-Wd-Ghz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="836" y="1952"/>
         </scene>
         <!--Synset View Controller-->
         <scene sceneID="Elc-Wq-eJV">

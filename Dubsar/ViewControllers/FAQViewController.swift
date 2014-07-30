@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import UIKit
 
-class FAQViewController: UIViewController, UIWebViewDelegate {
+class FAQViewController: BaseViewController, UIWebViewDelegate {
 
     class var identifier : String {
         get {

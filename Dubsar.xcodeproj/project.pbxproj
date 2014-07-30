@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B06EC6C19886FCE00C44892 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC6B19886FCE00C44892 /* SettingsViewController.swift */; };
 		7B1152011974340900869E15 /* DubsarServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1152001974340900869E15 /* DubsarServer.m */; };
 		7B115203197435C100869E15 /* client_secret.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B115202197435C100869E15 /* client_secret.txt */; };
 		7B1B4E79197450F5008F38BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
@@ -99,6 +100,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B06EC6B19886FCE00C44892 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		7B1151FF1974340900869E15 /* DubsarServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarServer.h; sourceTree = "<group>"; };
 		7B1152001974340900869E15 /* DubsarServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarServer.m; sourceTree = "<group>"; };
 		7B115202197435C100869E15 /* client_secret.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = client_secret.txt; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				7B7382FA1984700900880CF2 /* FAQViewController.swift */,
 				7BAC226019732D6C00D2AEA4 /* MainViewController.swift */,
 				7BBF836F1974D58400969765 /* SearchViewController.swift */,
+				7B06EC6B19886FCE00C44892 /* SettingsViewController.swift */,
 				7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */,
 				7B1B4E7A19747EB6008F38BF /* WordViewController.swift */,
 			);
@@ -488,6 +491,7 @@
 				7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */,
 				7B62D752197782F2006A797C /* SynsetSampleView.swift in Sources */,
 				7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */,
+				7B06EC6C19886FCE00C44892 /* SettingsViewController.swift in Sources */,
 				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,
 				7BCA161E197D6E260016C104 /* AlphabetView.swift in Sources */,
 				7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */,
