@@ -33,8 +33,6 @@ class SettingNavigationTableViewCell: UITableViewCell {
         accessoryType = .DisclosureIndicator
 
         backgroundColor = AppConfiguration.backgroundColor
-
-        textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
         textLabel.textColor = AppConfiguration.foregroundColor
     }
 

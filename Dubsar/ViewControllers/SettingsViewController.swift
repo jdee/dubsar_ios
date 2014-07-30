@@ -53,8 +53,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
 
-        let settings = sections[section] as [Dictionary<String, String>]
-        let setting = settings[row] as Dictionary<String, String>
+        let settings = sections[section] as [[String: String]]
+        let setting = settings[row] as [String: String]
         let view = setting["view"]
         let value = setting["value"]
 
@@ -86,20 +86,24 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         }
 
         cell!.textLabel.text = setting["title"]
+        cell!.textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
+        if cell!.detailTextLabel {
+            cell!.detailTextLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
+        }
 
         return cell
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        let settings = sections[section] as [Dictionary<String, String>]
+        let settings = sections[section] as [[String: String]]
         return settings.count
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
-        let settings = sections[section] as [Dictionary<String, String>]
-        let setting = settings[row] as Dictionary<String, String>
+        let settings = sections[section] as [[String: String]]
+        let setting = settings[row] as [String: String]
         let view = setting["view"]
         if view {
             pushViewControllerWithIdentifier(view, model: nil)

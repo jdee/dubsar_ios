@@ -32,12 +32,8 @@ class SettingLabelTableViewCell: UITableViewCell {
         selectionStyle = .None
 
         backgroundColor = AppConfiguration.backgroundColor
-
         textLabel.textColor = AppConfiguration.foregroundColor
-        textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
-
         detailTextLabel.textColor = AppConfiguration.foregroundColor
-        detailTextLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
     }
 
 }
