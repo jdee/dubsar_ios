@@ -31,7 +31,7 @@ class ThemeViewController: BaseViewController {
 
     var knobControl: IOSKnobControl!
 
-    let titles = [ "A", "B", "C" ]
+    let titles = [ "Scribe", "Tigris", "Augury" ]
 
     // these are all the iOS 7 fonts that fit the Bold and Italic pattern used in AppConfiguration, with their PS equivs. Should be a dictionary.
     let fonts = [ "Arial", "Avenir Next", "Baskerville", "Cochin", "Courier New", "Didot", "Euphemia UCAS", "Georgia", "Gill Sans", "Helvetica Neue", "Menlo", "Palatino", "Times New Roman", "Trebuchet MS", "Verdana" ]
