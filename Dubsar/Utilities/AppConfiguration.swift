@@ -22,6 +22,7 @@ import UIKit
 struct AppConfiguration {
 
     static let themeKey = "DubsarTheme"
+    static let offlineKey = "DubsarOffline"
 
     static let nameKey = "name"
     static let fontKey = "font"
@@ -60,6 +61,9 @@ struct AppConfiguration {
             // NSLog("Theme setting is %d", setting)
             return setting
         }
+        set {
+            NSUserDefaults.standardUserDefaults().setInteger(newValue, forKey: themeKey)
+        }
     }
 
     static var themeName: String? {
@@ -70,10 +74,6 @@ struct AppConfiguration {
             }
             return nil
         }
-    }
-
-    static func setThemeSetting(newTheme: Int!) {
-        NSUserDefaults.standardUserDefaults().setInteger(newTheme, forKey: themeKey)
     }
 
     static var fontSetting: String? {

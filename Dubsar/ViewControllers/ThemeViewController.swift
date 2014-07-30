@@ -81,7 +81,7 @@ class ThemeViewController: BaseViewController {
             NSLog("knob control position index %d. names.count = %d", knobControl.positionIndex, titles.count)
         }
 
-        AppConfiguration.setThemeSetting(sender.positionIndex)
+        AppConfiguration.themeSetting = sender.positionIndex
         let selected = selectedFontIndex()
 
         if selected >= 0 {

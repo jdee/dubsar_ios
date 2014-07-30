@@ -30,11 +30,12 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     @IBOutlet var settingsTableView: UITableView!
 
     let sections = [
-        [ [ "title" : "About", "view" : "About" ],
-        [ "title" : "FAQ", "view" : "FAQ" ] ],
+        [ [ "title" : "About", "view" : "About", "type" : "nav" ],
+            [ "title" : "FAQ", "view" : "FAQ", "type" : "nav" ] ],
 
-        [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey))],
-        [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey ] ]
+        [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)), "type" : "label" ],
+            [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "type" : "navValue" ],
+            [ "title" : "Offline", "value" : nil, "type" : "switchValue" ] ]
     ]
 
     override func adjustLayout() {
