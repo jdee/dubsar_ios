@@ -37,6 +37,7 @@ class AboutViewController: BaseViewController {
     private var paragraphLabels = [UILabel]()
 
     private let paragraphs = [
+        "iOS Knob Control v. \(IKC_VERSION_STRING) © 2014 by the author",
         "WordNet® 3.1 © 2011 The Trustees of Princeton University",
         "WordNet® is available under the WordNet 3.0 License" ]
 

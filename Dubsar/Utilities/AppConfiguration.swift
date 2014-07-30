@@ -23,21 +23,33 @@ struct AppConfiguration {
 
     static let fontFamilyKey = "DubsarFontFamily"
 
+    static var fontSetting: String? {
+        get {
+            var object: AnyObject? = NSUserDefaults.standardUserDefaults().valueForKey(fontFamilyKey)
+            if object {
+                if var value = object as? String {
+                    return value
+                }
+                else {
+                    NSLog("%@ setting is not a string", fontFamilyKey)
+                }
+            }
+            return nil
+        }
+    }
+
+    static func setFontSetting(newFont: String?) {
+        NSUserDefaults.standardUserDefaults().setValue(newFont, forKey: fontFamilyKey)
+    }
+
     static func preferredFontDescriptorWithTextStyle(style: String!, italic: Bool=false) -> UIFontDescriptor! {
         let fontDesc = UIFontDescriptor.preferredFontDescriptorWithTextStyle(style) // just for the pointSize
 
         var name = "Arial"
 
-        var object: AnyObject? = NSUserDefaults.standardUserDefaults().valueForKey(fontFamilyKey)
-        if object {
-            if var value = object as? String {
-                // NSLog("%@ = %@", fontFamilyKey, value)
-
-                name = value
-            }
-            else {
-                NSLog("%@ setting is not a string", fontFamilyKey)
-            }
+        let setting = fontSetting
+        if setting {
+            name = setting!
         }
 
         if style == UIFontTextStyleHeadline {

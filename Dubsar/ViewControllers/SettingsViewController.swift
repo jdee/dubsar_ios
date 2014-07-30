@@ -32,7 +32,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     let settings = [
         [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey))],
         [ "title" : "About", "view" : "About" ],
-        [ "title" : "FAQ", "view" : "FAQ" ]
+        [ "title" : "FAQ", "view" : "FAQ" ],
+        [ "title" : "Font Family", "view" : "Font", "value" : "true" ]
     ]
 
     override func adjustLayout() {
@@ -53,11 +54,11 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let view = setting["view"]
         let value = setting["value"]
 
-        let identifier = view ? "settings" : "settings-label"
+        let identifier = view ? value ? "settings-with-value" : "settings" : "settings-label"
 
         var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? UITableViewCell
         if !cell {
-            cell = UITableViewCell(style: view ? .Default : .Value1, reuseIdentifier: identifier)
+            cell = UITableViewCell(style: view && !value ? .Default : .Value1, reuseIdentifier: identifier)
         }
 
         cell!.textLabel.text = setting["title"]
@@ -67,6 +68,11 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
         if view {
             cell!.accessoryType = .DisclosureIndicator
+            if value {
+                cell!.detailTextLabel.text = AppConfiguration.fontSetting
+                cell!.detailTextLabel.textColor = AppConfiguration.foregroundColor
+                cell!.detailTextLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
+            }
         }
         else if value {
             cell!.selectionStyle = .None
