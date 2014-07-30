@@ -35,7 +35,7 @@ struct AppConfiguration {
     static let navBarKey = "navBar"
 
     static let themes = [
-        [ nameKey : "Scribe", fontKey : "Palatino", backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
+        [ nameKey : "Scribe", fontKey : "Georgia", backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 1.0, green: 0.843, blue: 0.0, alpha: 1.0),
             highlightKey : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0),
             alternateHighlightKey : UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0),
