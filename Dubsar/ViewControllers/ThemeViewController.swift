@@ -70,6 +70,7 @@ class ThemeViewController: BaseViewController {
         knobControl.setFillColor(AppConfiguration.alternateBackgroundColor, forState: .Normal)
         knobControl.setFillColor(AppConfiguration.alternateHighlightColor, forState: .Highlighted)
         knobControl.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        knobControl.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         knobControl.setNeedsLayout()
 
         super.adjustLayout()
