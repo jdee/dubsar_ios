@@ -55,7 +55,7 @@ struct AppConfiguration {
             highlightedForegroundKey : UIColor.whiteColor(), navBarKey: "dark" ]
     ]
 
-    static var themeSetting: Int? {
+    static var themeSetting: Int {
         get {
             let setting = NSUserDefaults.standardUserDefaults().integerForKey(themeKey)
             // NSLog("Theme setting is %d", setting)
@@ -68,33 +68,27 @@ struct AppConfiguration {
 
     static var themeName: String? {
         get {
-            if let index = themeSetting {
-                let theme = themes[index] as [String: AnyObject]
-                return theme[nameKey] as? NSString
-            }
-            return nil
+            let index = themeSetting
+            let theme = themes[index] as [String: AnyObject]
+            return theme[nameKey] as? NSString
         }
     }
 
     static var fontSetting: String? {
         get {
-            let setting = themeSetting
-            if let index = setting {
-                let theme = themes[index] as [String: AnyObject]
-                return theme[fontKey] as? NSString
-            }
-            return nil
+            let index = themeSetting
+            let theme = themes[index] as [String: AnyObject]
+            return theme[fontKey] as? NSString
         }
     }
 
     static var navBarStyle: UIBarStyle {
         get {
-            if let index = themeSetting {
-                let theme = themes[index] as [String: AnyObject]
-                let style = theme[navBarKey] as? NSString
-                if style == "dark" {
-                    return .Black
-                }
+            let index = themeSetting
+            let theme = themes[index] as [String: AnyObject]
+            let style = theme[navBarKey] as? NSString
+            if style == "dark" {
+                return .Black
             }
             return .Default
         }
@@ -166,13 +160,8 @@ struct AppConfiguration {
     }
 
     private static func getColor(key: String) -> UIColor! {
-        let setting = themeSetting
-        if let index = setting {
-            let theme = themes[index] as [String: AnyObject]
-            return theme[key] as? UIColor
-        }
-
-        let theme = themes[0] as [String: AnyObject]
+        let index = themeSetting
+        let theme = themes[index] as [String: AnyObject]
         return theme[key] as? UIColor
     }
 }

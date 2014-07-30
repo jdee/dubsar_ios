@@ -48,9 +48,7 @@ class ThemeViewController: BaseViewController {
         knobControl.positions = UInt(titles.count)
         knobControl.titles = titles
 
-        if let index = AppConfiguration.themeSetting {
-            knobControl.positionIndex = index
-        }
+        knobControl.positionIndex = AppConfiguration.themeSetting
 
         knobControl.addTarget(self, action: "themeChanged:", forControlEvents: .ValueChanged)
 
