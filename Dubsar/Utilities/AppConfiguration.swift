@@ -38,7 +38,7 @@ struct AppConfiguration {
             alternateBackgroundKey : UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0),
             highlightKey : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0),
             alternateHighlightKey : UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0),
-            foregroundKey : UIColor.darkTextColor(), highlightedForegroundKey : UIColor.blueColor(),
+            foregroundKey : UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0), highlightedForegroundKey : UIColor.blueColor(),
             navBarKey: "light" ],
         [ nameKey : "Tigris", fontKey : "Avenir Next", backgroundKey : UIColor(red: 0.941, green: 1.000, blue: 0.941, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.686, green: 0.933, blue: 0.933, alpha: 1.0),
