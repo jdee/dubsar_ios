@@ -38,7 +38,6 @@ class SynsetSampleView: UIView {
         self.synset = synset
         isPreview = preview
         super.init(frame: frame)
-        backgroundColor = AppConfiguration.alternateHighlightColor
     }
 
     override func layoutSubviews() {
@@ -57,13 +56,15 @@ class SynsetSampleView: UIView {
                 let italicFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: true)
                 font = italicFont
             }
+            else {
+                backgroundColor = AppConfiguration.alternateHighlightColor
+            }
 
             let samples = synset.samples as [AnyObject]
             for sample in samples as [NSString] {
                 y = addSample(sample, atY: y, background: UIColor.clearColor(), font: font)
                 // NSLog("Added %@ at %f", text, y)
             }
-
 
             /*
              * Always include lexical info when displaying synsets with only one word.

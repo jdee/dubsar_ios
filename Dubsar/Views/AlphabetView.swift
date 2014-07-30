@@ -69,7 +69,6 @@ class AlphabetView: UIView {
 
     init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = AppConfiguration.alternateBackgroundColor
     }
 
     override func layoutSubviews() {
@@ -87,6 +86,8 @@ class AlphabetView: UIView {
 
         var position = margin
         let buttonConfig = AlphabetView.buttonConfig
+
+        backgroundColor = AppConfiguration.alternateBackgroundColor
 
         for (label, globExpression) in buttonConfig {
             var x: CGFloat = 0, y: CGFloat = 0

@@ -28,14 +28,12 @@
 				<string>A</string>
 				<string>B</string>
 				<string>C</string>
-				<string>D</string>
 			</array>
 			<key>Values</key>
 			<array>
 				<integer>0</integer>
 				<integer>1</integer>
 				<integer>2</integer>
-				<integer>3</integer>
 			</array>
 		</dict>
 	</array>

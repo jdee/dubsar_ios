@@ -40,7 +40,6 @@ class AutocompleterView: UIView {
     init(frame: CGRect) {
         super.init(frame: frame)
         autoresizingMask = .FlexibleHeight | .FlexibleWidth | .FlexibleBottomMargin
-        backgroundColor = AppConfiguration.alternateBackgroundColor
     }
 
     override func layoutSubviews() {
@@ -48,6 +47,8 @@ class AutocompleterView: UIView {
             button.removeFromSuperview()
         }
         buttons = []
+
+        backgroundColor = AppConfiguration.alternateBackgroundColor
 
         if autocompleter {
             assert(autocompleter.complete)

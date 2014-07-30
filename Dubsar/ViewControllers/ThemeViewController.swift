@@ -31,7 +31,7 @@ class ThemeViewController: BaseViewController {
 
     var knobControl: IOSKnobControl!
 
-    let titles = [ "A", "B", "C", "D" ]
+    let titles = [ "A", "B", "C" ]
 
     // these are all the iOS 7 fonts that fit the Bold and Italic pattern used in AppConfiguration, with their PS equivs. Should be a dictionary.
     let fonts = [ "Arial", "Avenir Next", "Baskerville", "Cochin", "Courier New", "Didot", "Euphemia UCAS", "Georgia", "Gill Sans", "Helvetica Neue", "Menlo", "Palatino", "Times New Roman", "Trebuchet MS", "Verdana" ]
@@ -41,8 +41,6 @@ class ThemeViewController: BaseViewController {
         super.viewDidLoad()
 
         assert(fonts.count == psNames.count)
-
-        view.backgroundColor = AppConfiguration.backgroundColor
 
         knobControl = IOSKnobControl(frame: knobHolder.bounds)
         knobControl.mode = .LinearReturn
@@ -69,7 +67,11 @@ class ThemeViewController: BaseViewController {
     }
 
     override func adjustLayout() {
+        knobControl.setFillColor(AppConfiguration.alternateBackgroundColor, forState: .Normal)
+        knobControl.setFillColor(AppConfiguration.alternateHighlightColor, forState: .Highlighted)
+        knobControl.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         knobControl.setNeedsLayout()
+
         super.adjustLayout()
     }
 
@@ -78,7 +80,7 @@ class ThemeViewController: BaseViewController {
             NSLog("knob control position index %d. names.count = %d", knobControl.positionIndex, titles.count)
         }
 
-        AppConfiguration.setThemeSetting(knobControl.positionIndex)
+        AppConfiguration.setThemeSetting(sender.positionIndex)
         let selected = selectedFontIndex()
 
         if selected >= 0 {
@@ -86,9 +88,7 @@ class ThemeViewController: BaseViewController {
             knobControl.setNeedsLayout()
         }
 
-        knobControl.setFillColor(AppConfiguration.alternateBackgroundColor, forState: .Normal)
-        knobControl.setFillColor(AppConfiguration.alternateHighlightColor, forState: .Highlighted)
-        knobControl.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        adjustLayout()
    }
 
     private func selectedFontIndex() -> Int {

@@ -43,16 +43,12 @@ struct AppConfiguration {
             highlightKey : UIColor(red: 1.0, green: 0.980, blue: 0.804, alpha: 1.0),
             alternateHighlightKey : UIColor(red: 0.518, green: 0.439, blue: 1.0, alpha: 1.0),
             foregroundKey : UIColor.darkTextColor(), highlightedForegroundKey : UIColor.greenColor() ],
-        [ nameKey : "C", fontKey : "Palatino", backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
-            alternateBackgroundKey : UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0),
-            highlightKey : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0),
-            alternateHighlightKey : UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0),
-            foregroundKey : UIColor.darkTextColor(), highlightedForegroundKey : UIColor.blueColor() ],
-        [ nameKey : "D", fontKey : "Palatino", backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
-            alternateBackgroundKey : UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0),
-            highlightKey : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0),
-            alternateHighlightKey : UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0),
-            foregroundKey : UIColor.darkTextColor(), highlightedForegroundKey : UIColor.blueColor() ]
+        [ nameKey : "C", fontKey : "Menlo", backgroundKey : UIColor(red: 0.192, green: 0.310, blue: 0.310, alpha: 1.0),
+            alternateBackgroundKey : UIColor(red: 0.412, green: 0.412, blue: 0.412, alpha: 1.0),
+            highlightKey : UIColor(red: 0.420, green: 0.557, blue: 0.137, alpha: 1.0),
+            alternateHighlightKey : UIColor(red: 0.698, green: 0.133, blue: 0.133, alpha: 1.0),
+            foregroundKey : UIColor(red: 0.878, green: 1.0, blue: 1.0, alpha: 1.0),
+            highlightedForegroundKey : UIColor.whiteColor() ]
     ]
 
     static var themeSetting: Int? {

@@ -76,6 +76,8 @@ class ScrollingSynsetView: UIScrollView {
     }
 
     override func layoutSubviews() {
+        backgroundColor = AppConfiguration.backgroundColor
+
         // NSLog("contentOffset: (%f, %f)", contentOffset.x, contentOffset.y)
         if synset.complete {
             // NSLog("Entered ScrollingSynsetView.layoutSubviews()")

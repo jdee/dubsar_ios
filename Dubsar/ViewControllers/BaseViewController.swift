@@ -34,14 +34,6 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)
 
-        view.backgroundColor = AppConfiguration.backgroundColor
-
-        if navigationController {
-            // nil in the About view
-            navigationController.navigationBar.backgroundColor = AppConfiguration.backgroundColor
-            navigationController.navigationBar.tintColor = AppConfiguration.foregroundColor
-        }
-
         if model && model!.complete {
             loadComplete(model, withError: nil)
         }
@@ -91,6 +83,13 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
 
     func adjustLayout() {
         view.invalidateIntrinsicContentSize()
+
+        view.backgroundColor = AppConfiguration.backgroundColor
+
+        if navigationController {
+            // navigationController.navigationBar.backgroundColor = AppConfiguration.backgroundColor
+            navigationController.navigationBar.tintColor = UIColor.darkTextColor()
+        }
 
         NavButtonImage.voidCache() // dump all cached images in case of font size changes
 
