@@ -58,39 +58,50 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let setting = settings[row] as [String: String]
         let view = setting["view"]
         let value = setting["value"]
+        let type = setting["setting_type"]
 
         var cell: UITableViewCell?
-        if view {
-            if value {
-                cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationValueTableViewCell.identifier) as? UITableViewCell
-                if !cell {
-                    cell = SettingNavigationValueTableViewCell()
-                }
-
-                if value == AppConfiguration.themeKey {
-                    cell!.detailTextLabel.text = AppConfiguration.themeName
-                }
+        if type == "navValue" {
+            cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationValueTableViewCell.identifier) as? UITableViewCell
+            if !cell {
+                cell = SettingNavigationValueTableViewCell()
             }
-            else {
-                cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationTableViewCell.identifier) as? UITableViewCell
-                if !cell {
-                    cell = SettingNavigationTableViewCell()
-                }
+
+            if value == AppConfiguration.themeKey {
+                cell!.detailTextLabel.text = AppConfiguration.themeName
             }
         }
-        else if value {
+        else if type == "nav" {
+            cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationTableViewCell.identifier) as? UITableViewCell
+            if !cell {
+                cell = SettingNavigationTableViewCell()
+            }
+        }
+        else if type == "label" {
             cell = tableView.dequeueReusableCellWithIdentifier(SettingLabelTableViewCell.identifier) as? UITableViewCell
             if !cell {
                 cell = SettingLabelTableViewCell()
             }
             cell!.detailTextLabel.text = value
         }
+        else {
+            var switchCell = tableView.dequeueReusableCellWithIdentifier(SettingSwitchValueTableViewCell.identifier) as? SettingSwitchValueTableViewCell
+            if !switchCell {
+                switchCell = SettingSwitchValueTableViewCell()
+                switchCell!.valueSwitch.on = AppConfiguration.offlineSetting
+            }
+
+            switchCell!.valueSwitch.tintColor = AppConfiguration.alternateBackgroundColor
+            switchCell!.valueSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
+
+            cell = switchCell
+        }
 
         cell!.textLabel.text = setting["title"]
         cell!.textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
         cell!.backgroundColor = AppConfiguration.backgroundColor
         cell!.textLabel.textColor = AppConfiguration.foregroundColor
-        if cell!.detailTextLabel {
+        if type == "label" || type == "navValue" {
             cell!.detailTextLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
             cell!.detailTextLabel.textColor = AppConfiguration.foregroundColor
         }
@@ -108,8 +119,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let row = indexPath.indexAtPosition(1)
         let settings = sections[section] as [[String: String]]
         let setting = settings[row] as [String: String]
+        let type = setting["setting_type"]
         let view = setting["view"]
-        if view {
+
+        if type == "nav" || type == "navValue" {
             pushViewControllerWithIdentifier(view, model: nil)
         }
     }

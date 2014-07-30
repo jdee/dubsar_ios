@@ -30,6 +30,7 @@ class SettingLabelTableViewCell: UITableViewCell {
     init() {
         super.init(style: .Value1, reuseIdentifier: SettingLabelTableViewCell.identifier)
         selectionStyle = .None
+        accessoryType = .None
     }
 
 }

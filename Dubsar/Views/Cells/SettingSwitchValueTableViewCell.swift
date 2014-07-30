@@ -21,7 +21,7 @@ import UIKit
 
 class SettingSwitchValueTableViewCell: UITableViewCell {
 
-    var valueSwitch: UISwitch!
+    var valueSwitch: UISwitch
 
     class var identifier: String {
         get {
@@ -30,19 +30,18 @@ class SettingSwitchValueTableViewCell: UITableViewCell {
     }
 
     init() {
-        super.init(style: .Value1, reuseIdentifier: SettingSwitchValueTableViewCell.identifier)
+        valueSwitch = UISwitch()
+        super.init(style: .Default, reuseIdentifier: SettingSwitchValueTableViewCell.identifier)
         selectionStyle = .None
         accessoryType = .None
+        contentView.addSubview(valueSwitch)
+
+        rebuild()
     }
 
-    override func layoutSubviews() {
-        valueSwitch = UISwitch(frame: detailTextLabel.bounds)
-        detailTextLabel.addSubview(valueSwitch)
-
-        valueSwitch.tintColor = AppConfiguration.alternateBackgroundColor
-        valueSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
-
-        super.layoutSubviews()
+    func rebuild() {
+        let margin = 0.5 * (bounds.size.height - valueSwitch.bounds.size.height)
+        valueSwitch.frame = CGRectMake(bounds.size.width - valueSwitch.bounds.size.width - margin, margin, valueSwitch.bounds.size.width, valueSwitch.bounds.size.height)
     }
 
 }

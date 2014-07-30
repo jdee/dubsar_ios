@@ -36,7 +36,7 @@ struct AppConfiguration {
 
     static let themes = [
         [ nameKey : "Scribe", fontKey : "Palatino", backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
-            alternateBackgroundKey : UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0),
+            alternateBackgroundKey : UIColor(red: 1.0, green: 0.843, blue: 0.0, alpha: 1.0),
             highlightKey : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0),
             alternateHighlightKey : UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0),
             foregroundKey : UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0), highlightedForegroundKey : UIColor.blueColor(),
@@ -52,7 +52,7 @@ struct AppConfiguration {
             highlightKey : UIColor(red: 0.420, green: 0.557, blue: 0.137, alpha: 1.0),
             alternateHighlightKey : UIColor(red: 0.698, green: 0.133, blue: 0.133, alpha: 1.0),
             foregroundKey : UIColor(red: 0.878, green: 1.0, blue: 1.0, alpha: 1.0),
-            highlightedForegroundKey : UIColor.whiteColor(), navBarKey: "dark" ]
+            highlightedForegroundKey : UIColor.redColor(), navBarKey: "dark" ]
     ]
 
     static var themeSetting: Int {
@@ -63,6 +63,15 @@ struct AppConfiguration {
         }
         set {
             NSUserDefaults.standardUserDefaults().setInteger(newValue, forKey: themeKey)
+        }
+    }
+
+    static var offlineSetting: Bool {
+        get {
+            return NSUserDefaults.standardUserDefaults().boolForKey(offlineKey)
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: offlineKey)
         }
     }
 
