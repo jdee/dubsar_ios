@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import UIKit
 
-class SettingsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class SettingsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate {
 
     class var identifier: String {
         get {
@@ -28,6 +28,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     @IBOutlet var settingsTableView: UITableView!
+    var offlineSwitch: UISwitch!
 
     let sections = [
         [ [ "title" : "About", "view" : "About", "setting_type" : "nav" ],
@@ -37,6 +38,11 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "setting_type" : "navValue" ],
             [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue" ] ]
     ]
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
 
     override func adjustLayout() {
         settingsTableView.reloadData()
@@ -91,8 +97,13 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                 switchCell!.valueSwitch.on = AppConfiguration.offlineSetting
             }
 
-            switchCell!.valueSwitch.tintColor = AppConfiguration.alternateBackgroundColor
-            switchCell!.valueSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
+            offlineSwitch = switchCell!.valueSwitch
+
+            offlineSwitch.tintColor = AppConfiguration.alternateBackgroundColor
+            offlineSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
+
+            offlineSwitch.removeTarget(self, action: "offlineSettingChanged:", forControlEvents: .ValueChanged) // necessary?
+            offlineSwitch.addTarget(self, action: "offlineSettingChanged:", forControlEvents: .ValueChanged)
 
             cell = switchCell
         }
@@ -125,5 +136,39 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         if type == "nav" || type == "navValue" {
             pushViewControllerWithIdentifier(view, model: nil)
         }
+    }
+
+    func offlineSettingChanged(sender: UISwitch!) {
+        var text: String
+        var okTitle: String
+        if sender.on {
+            text = "Download and install the database locally? It's between 35 and 40 MB compressed, and about 100 MB on the device."
+            okTitle = "Install"
+        }
+        else {
+            text = "Remove the local database from the device?"
+            okTitle = "Remove"
+        }
+
+        let alert = UIAlertView(title: "Confirm Offline Change", message: text, delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: okTitle)
+        alert.show()
+    }
+
+    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 0 {
+            offlineSwitch.on = !offlineSwitch.on
+            return
+        }
+
+        if offlineSwitch.on {
+            // TODO:
+            NSLog("Downloading database")
+        }
+        else {
+            // TODO:
+            NSLog("Removing database")
+        }
+
+        AppConfiguration.offlineSetting = offlineSwitch.on
     }
 }

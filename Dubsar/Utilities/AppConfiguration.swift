@@ -21,9 +21,11 @@ import UIKit
 
 struct AppConfiguration {
 
+    // MARK: User default keys from settings bundle
     static let themeKey = "DubsarTheme"
     static let offlineKey = "DubsarOffline"
 
+    // MARK: Keys into the theme dictionaries below
     static let nameKey = "name"
     static let fontKey = "font"
     static let backgroundKey = "background"
@@ -34,6 +36,7 @@ struct AppConfiguration {
     static let highlightedForegroundKey = "highlightedForeground"
     static let navBarKey = "navBar"
 
+    // MARK: Dictionaries defining the available themes.
     static let themes = [
         [ nameKey : "Scribe", fontKey : "Georgia", backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 1.0, green: 0.843, blue: 0.0, alpha: 1.0),
@@ -55,11 +58,10 @@ struct AppConfiguration {
             highlightedForegroundKey : UIColor.redColor(), navBarKey: "dark" ]
     ]
 
+    // MARK: Wrappers around  NSUserDefaults
     static var themeSetting: Int {
         get {
-            let setting = NSUserDefaults.standardUserDefaults().integerForKey(themeKey)
-            // NSLog("Theme setting is %d", setting)
-            return setting
+            return NSUserDefaults.standardUserDefaults().integerForKey(themeKey)
         }
         set {
             NSUserDefaults.standardUserDefaults().setInteger(newValue, forKey: themeKey)
@@ -75,27 +77,24 @@ struct AppConfiguration {
         }
     }
 
+    // MARK: Derived conveniences
     static var themeName: String? {
         get {
-            let index = themeSetting
-            let theme = themes[index] as [String: AnyObject]
-            return theme[nameKey] as? NSString
+            let setting: NSString? = getThemeProperty(nameKey)
+            return setting
         }
     }
 
     static var fontSetting: String? {
         get {
-            let index = themeSetting
-            let theme = themes[index] as [String: AnyObject]
-            return theme[fontKey] as? NSString
+            let setting: NSString? = getThemeProperty(fontKey)
+            return setting
         }
     }
 
     static var navBarStyle: UIBarStyle {
         get {
-            let index = themeSetting
-            let theme = themes[index] as [String: AnyObject]
-            let style = theme[navBarKey] as? NSString
+            let style: NSString = getThemeProperty(navBarKey)
             if style == "dark" {
                 return .Black
             }
@@ -103,6 +102,7 @@ struct AppConfiguration {
         }
     }
 
+    // MARK: Font and font descriptor retrieval
     static func preferredFontDescriptorWithTextStyle(style: String!, italic: Bool=false) -> UIFontDescriptor! {
         let fontDesc = UIFontDescriptor.preferredFontDescriptorWithTextStyle(style) // just for the pointSize
 
@@ -132,45 +132,48 @@ struct AppConfiguration {
         return font
     }
 
+    // MARK: Color scheme (derived props)
     static var backgroundColor: UIColor? {
         get {
-            return getColor(backgroundKey)
+            return getThemeProperty(backgroundKey)
         }
     }
 
     static var alternateBackgroundColor: UIColor {
         get {
-            return getColor(alternateBackgroundKey)
+            return getThemeProperty(alternateBackgroundKey)
         }
     }
 
     static var highlightColor: UIColor {
         get {
-            return getColor(highlightKey)
+            return getThemeProperty(highlightKey)
         }
     }
 
     static var alternateHighlightColor: UIColor {
         get {
-            return getColor(alternateHighlightKey)
+            return getThemeProperty(alternateHighlightKey)
         }
     }
 
     static var foregroundColor: UIColor {
         get {
-            return getColor(foregroundKey)
+            return getThemeProperty(foregroundKey)
         }
     }
 
     static var highlightedForegroundColor: UIColor {
         get {
-            return getColor(highlightedForegroundKey)
+            return getThemeProperty(highlightedForegroundKey)
         }
     }
 
-    private static func getColor(key: String) -> UIColor! {
+    // MARK: DRYness
+    private static func getThemeProperty<T: AnyObject>(key: String) -> T! {
         let index = themeSetting
         let theme = themes[index] as [String: AnyObject]
-        return theme[key] as? UIColor
+        return theme[key] as? T
     }
+
 }
