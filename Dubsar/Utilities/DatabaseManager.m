@@ -158,7 +158,7 @@
     NSString* message;
     NSString* okTitle;
     if (offlineSetting) {
-        message = @"Download and install the database? It's about 35 MB compressed and 92 MB on the device.";
+        message = @"Download and install the database? It's about 33 MB compressed and 92 MB on the device.";
         okTitle = @"Download";
     }
     else {
@@ -186,6 +186,7 @@
     // [_delegate downloadComplete:self];
 
     NSLog(@"Download canceled");
+    [self deleteDatabase]; // cleans up the zip too
 }
 
 - (void)download

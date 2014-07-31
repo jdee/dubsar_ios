@@ -122,6 +122,19 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
 
     func setupToolbar() {
         if !AppDelegate.instance.databaseManager.downloadInProgress {
+            // meh
+            let rightBarButtonItems: [UIBarButtonItem]? = navigationItem.rightBarButtonItems as? [UIBarButtonItem]
+            if let items = rightBarButtonItems {
+                var newItems = [UIBarButtonItem]()
+                for item in items {
+                    let itemAsDownloadButton = item as? DownloadBarButtonItem
+                    if !itemAsDownloadButton {
+                        newItems += item
+                    }
+                }
+                navigationItem.rightBarButtonItems = newItems
+            }
+
             return
         }
 
@@ -153,8 +166,7 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
 
     private var downloadButton: UIBarButtonItem {
     get {
-        let image = DownloadButtonImage.imageWithSize(CGSizeMake(20.0, 20.0), color: AppConfiguration.foregroundColor)
-        return UIBarButtonItem(image: image, style: UIBarButtonItemStyle.Bordered, target: self, action: "viewDownload:")
+        return DownloadBarButtonItem(target: self, action: "viewDownload:")
     }
     }
 

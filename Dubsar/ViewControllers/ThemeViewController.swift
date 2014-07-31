@@ -107,4 +107,9 @@ class ThemeViewController: BaseViewController {
         return selected
     }
 
+    override func setupToolbar() {
+        addHomeButton()
+        super.setupToolbar()
+    }
+
 }

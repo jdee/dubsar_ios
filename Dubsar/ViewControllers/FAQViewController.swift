@@ -74,4 +74,9 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
         var html = String(format: "<html><body style=\"background-color: #e0e0ff;\"><h1 style=\"color: #1c94c4; text-align: center; margin-top: 2ex; font: bold 24pt Trebuchet MS\">%@</h1></body></html>", text)
         faqWebView.loadHTMLString(html, baseURL: nil)
     }
+
+    override func setupToolbar() {
+        addHomeButton()
+        super.setupToolbar()
+    }
 }

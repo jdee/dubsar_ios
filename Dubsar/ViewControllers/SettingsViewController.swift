@@ -203,12 +203,19 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
         AppDelegate.instance.databaseManager.cancelDownload()
         reloadOfflineRow()
+        setupToolbar()
     }
 
     func updateProgressViews(downloadProgressView: UIProgressView, unzipProgressView: UIProgressView, downloadLabel: UILabel, unzipLabel: UILabel) {
         let databaseManager = AppDelegate.instance.databaseManager
 
-        if databaseManager.downloadSize > 0 && databaseManager.downloadedSoFar < databaseManager.downloadSize {
+        if databaseManager.downloadSize > 0 && databaseManager.downloadedSoFar == 0 {
+            downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize)) starting..."
+            downloadProgressView.progress = 0
+            unzipLabel.text = "Unzip"
+            unzipProgressView.progress = 0
+        }
+        else if databaseManager.downloadSize > 0 && databaseManager.downloadedSoFar < databaseManager.downloadSize {
             downloadProgressView.progress = Float(databaseManager.downloadedSoFar) / Float(databaseManager.downloadSize)
             downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize - databaseManager.downloadedSoFar)) ÷ \(formatRate(databaseManager.instantaneousDownloadRate)) = \(formatTime(databaseManager.estimatedDownloadTimeRemaining))"
         }
@@ -245,11 +252,13 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         NSLog("error downloading Database: %@", errorMessage)
         AppConfiguration.offlineSetting = false
         reloadOfflineRow()
+        setupToolbar()
     }
 
     func downloadComplete(databaseManager: DatabaseManager!) {
         NSLog("Download and Unzip complete")
         reloadOfflineRow()
+        setupToolbar()
     }
 
     func unzipStarted(databaseManager: DatabaseManager!) {

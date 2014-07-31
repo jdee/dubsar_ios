@@ -278,6 +278,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
 
         addHomeButton()
+        super.setupToolbar()
     }
 
 }

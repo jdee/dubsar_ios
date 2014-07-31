@@ -91,8 +91,9 @@ static NSMutableDictionary* imageDictionary;
     CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
 
     // All strokes. Set color and line width.
+    CGFloat lineWidth = 0.03 * sqrt(size.width * size.height);
     CGContextSetStrokeColorWithColor(context, color.CGColor);
-    CGContextSetLineWidth(context, 0.08 * sqrt(size.width * size.height));
+    CGContextSetLineWidth(context, lineWidth);
 
     // Vertical line down the center
     CGContextMoveToPoint(context, 0.5 * size.width, 0.2 * size.height);

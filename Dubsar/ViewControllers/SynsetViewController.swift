@@ -175,6 +175,7 @@ class SynsetViewController: BaseViewController {
 
         // calls view.invalidateBlahBlah()
         // super.adjustLayout()
+        setupToolbar()
     }
 
     func textSizeChanged() {
@@ -211,5 +212,6 @@ class SynsetViewController: BaseViewController {
 
     override func setupToolbar() {
         addHomeButton()
+        super.setupToolbar()
     }
 }
