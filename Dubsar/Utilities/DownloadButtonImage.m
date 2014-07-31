@@ -91,14 +91,22 @@ static NSMutableDictionary* imageDictionary;
     CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
 
     // All strokes. Set color and line width.
-    CGFloat lineWidth = 0.03 * sqrt(size.width * size.height);
+
+    // basic line width is 1 pixel
+    CGFloat lineWidth = 1.0/[UIScreen mainScreen].scale;
     CGContextSetStrokeColorWithColor(context, color.CGColor);
+
+    // Vertical line down the center. Nice and sharp with no antialiasing.
+    CGContextSetShouldAntialias(context, false);
     CGContextSetLineWidth(context, lineWidth);
 
-    // Vertical line down the center
     CGContextMoveToPoint(context, 0.5 * size.width, 0.25 * size.height);
     CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height);
     CGContextStrokePath(context);
+
+    // For the arrowhead, turn on antialiasing and thicken the line a little.
+    CGContextSetShouldAntialias(context, true);
+    CGContextSetLineWidth(context, 2.0 * lineWidth);
 
     // Left half of arrow head
     CGContextMoveToPoint(context, 0.35 * size.width, 0.50 * size.height);
@@ -110,7 +118,10 @@ static NSMutableDictionary* imageDictionary;
     CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height);
     CGContextStrokePath(context);
 
-    // Horizontal line across the bottom
+    // horizontal line across the bottom. back to a sharp line.
+    CGContextSetShouldAntialias(context, false);
+    CGContextSetLineWidth(context, lineWidth);
+
     CGContextMoveToPoint(context, 0.25 * size.width, 0.75 * size.height);
     CGContextAddLineToPoint(context, 0.75 * size.width, 0.75 * size.height);
     CGContextStrokePath(context);
