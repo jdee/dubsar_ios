@@ -39,7 +39,8 @@ class AboutViewController: BaseViewController {
     private let paragraphs = [
         "iOS Knob Control v. \(IKC_VERSION_STRING) © 2014 by the author",
         "WordNet® 3.1 © 2011 The Trustees of Princeton University",
-        "WordNet® is available under the WordNet 3.0 License" ]
+        "WordNet® is available under the WordNet 3.0 License",
+        "Minizip © 1998-2010 Gilles Vollant" ]
 
     override func viewDidLoad() {
         super.viewDidLoad()

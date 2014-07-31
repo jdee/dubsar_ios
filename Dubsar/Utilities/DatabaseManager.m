@@ -19,6 +19,8 @@
 
 #include <sys/stat.h>
 
+#include "unzip.h"
+
 #import "Dubsar-Swift.h"
 #import "DatabaseManager.h"
 
@@ -217,7 +219,83 @@
     }
     else {
         NSLog(@"Error %d from stat(%@)", errno, self.fileURL.path);
+        return;
     }
+
+    [self unzip];
+}
+
+- (void)unzip
+{
+    unzFile* uf = unzOpen(self.zipURL.path.UTF8String);
+    if (!uf) {
+        NSLog(@"unzOpen(%@) failed", self.zipURL.path);
+        return;
+    }
+    // NSLog(@"Opened zip file");
+
+    int rc = unzLocateFile(uf, DUBSAR_FILE_NAME.UTF8String, 1);
+    if (rc != UNZ_OK) {
+        NSLog(@"failed to locate %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME);
+        unzClose(uf);
+        return;
+    }
+    // NSLog(@"Located %@ in zip file", DUBSAR_FILE_NAME);
+
+    rc = unzOpenCurrentFile(uf);
+    if (rc != UNZ_OK) {
+        NSLog(@"Failed to open %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME);
+        unzClose(uf);
+        return;
+    }
+    // NSLog(@"Opened %@ in zip file", DUBSAR_FILE_NAME);
+
+    FILE* outfile = fopen(self.fileURL.path.UTF8String, "w");
+    if (!outfile) {
+        NSLog(@"Error %d opening %@ for write", errno, self.fileURL.path);
+        unzClose(uf);
+        return;
+    }
+    // NSLog(@"Opened %@ for write", DUBSAR_FILE_NAME);
+
+    unsigned char buffer[32768];
+    int nr;
+
+    while ((nr=unzReadCurrentFile(uf, buffer, sizeof(buffer) * sizeof(unsigned char))) > 0) {
+        ssize_t nw = fwrite(buffer, 1, nr, outfile);
+        if (nw != nr) {
+            NSLog(@"Failed to write %d bytes to %@. Wrote %zd instead. Error %d", nr, DUBSAR_FILE_NAME, nw, errno);
+            fclose(outfile);
+            unzClose(uf);
+            return;
+        }
+    }
+
+    fclose(outfile);
+    unzClose(uf);
+
+    if (nr < 0) {
+        NSLog(@"unzReadCurrentFile returned %d", nr);
+        return;
+    }
+
+    struct stat sb;
+    rc = stat(self.fileURL.path.UTF8String, &sb);
+    if (rc == 0) {
+        NSLog(@"Unzipped file %@ is %lld bytes", DUBSAR_FILE_NAME, sb.st_size);
+    }
+    else {
+        NSLog(@"Error %d from stat(%@)", errno, self.fileURL.path);
+        return;
+    }
+
+    NSError* error;
+    if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
+        NSLog(@"Error removing %@: %@", self.zipURL.path, error.localizedDescription);
+        return;
+    }
+
+    // NSLog(@"Unzip complete. Removed %@", DUBSAR_ZIP_NAME);
 }
 
 @end
