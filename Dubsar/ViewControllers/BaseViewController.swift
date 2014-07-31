@@ -48,7 +48,6 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
 
         load()
         adjustLayout()
-        setupToolbar()
     }
 
     override func didReceiveMemoryWarning() {
@@ -97,6 +96,8 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
         // any modally presented VC will be adjusted too
         let viewController = presentedViewController as? BaseViewController
         viewController?.adjustLayout()
+
+        setupToolbar()
     }
 
     func loadComplete(model : DubsarModelsModel!, withError error: String?) {
@@ -120,12 +121,46 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
     }
 
     func setupToolbar() {
-        // Base does nothing. Subviews can addHomeButton() if appropriate.
+        if !AppDelegate.instance.databaseManager.downloadInProgress {
+            return
+        }
+
+        if navigationItem.rightBarButtonItem {
+            var items = [ downloadButton ]
+            items += navigationItem.rightBarButtonItems as [UIBarButtonItem]
+
+            navigationItem.rightBarButtonItems = items
+        }
+        else if !navigationItem.rightBarButtonItem {
+            navigationItem.rightBarButtonItem = downloadButton
+        }
     }
 
     func addHomeButton() {
         let homeButton = UIBarButtonItem(title: "Home", style: UIBarButtonItemStyle.Bordered, target: self, action: "home")
-        navigationItem.rightBarButtonItem = homeButton
+        let rightBarButtonItem: UIBarButtonItem? = navigationItem.rightBarButtonItem
+        if rightBarButtonItem && navigationItem.rightBarButtonItem.title != "Home" {
+            var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
+
+            items.append(homeButton)
+
+            navigationItem.rightBarButtonItems = items
+        }
+        else if !rightBarButtonItem {
+            navigationItem.rightBarButtonItem = homeButton
+        }
+    }
+
+    private var downloadButton: UIBarButtonItem {
+    get {
+        let image = DownloadButtonImage.imageWithSize(CGSizeMake(20.0, 20.0), color: AppConfiguration.foregroundColor)
+        return UIBarButtonItem(image: image, style: UIBarButtonItemStyle.Bordered, target: self, action: "viewDownload:")
+    }
+    }
+
+    func viewDownload(sender: UIBarButtonItem!) {
+        // Go home first?
+        pushViewControllerWithIdentifier(SettingsViewController.identifier, model: nil)
     }
 
     func home() {

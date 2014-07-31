@@ -19,7 +19,7 @@
 
 @import UIKit;
 
-@interface NavButtonImage : NSObject
+@interface DownloadButtonImage : UIImage
 
 + (UIImage*)imageWithSize:(CGSize)size color:(UIColor*)color;
 + (void)voidCache;

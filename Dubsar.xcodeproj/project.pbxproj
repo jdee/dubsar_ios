@@ -18,6 +18,7 @@
 		7B1B4E79197450F5008F38BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
 		7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B4E7A19747EB6008F38BF /* WordViewController.swift */; };
 		7B1FDE2E19894E81004519D4 /* SettingSwitchValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */; };
+		7B2F4642198AEAC500F57D21 /* DownloadButtonImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F4641198AEAC500F57D21 /* DownloadButtonImage.m */; };
 		7B497C8D1978546000563A4B /* ScrollingSynsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B497C8C1978546000563A4B /* ScrollingSynsetView.swift */; };
 		7B497C971978889700563A4B /* SynsetPointerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B497C961978889700563A4B /* SynsetPointerView.swift */; };
 		7B497C991979C3AF00563A4B /* NavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B497C981979C3AF00563A4B /* NavButton.swift */; };
@@ -122,6 +123,8 @@
 		7B115202197435C100869E15 /* client_secret.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = client_secret.txt; sourceTree = "<group>"; };
 		7B1B4E7A19747EB6008F38BF /* WordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordViewController.swift; sourceTree = "<group>"; };
 		7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingSwitchValueTableViewCell.swift; sourceTree = "<group>"; };
+		7B2F4640198AEAC500F57D21 /* DownloadButtonImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadButtonImage.h; sourceTree = "<group>"; };
+		7B2F4641198AEAC500F57D21 /* DownloadButtonImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadButtonImage.m; sourceTree = "<group>"; };
 		7B497C8C1978546000563A4B /* ScrollingSynsetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollingSynsetView.swift; sourceTree = "<group>"; };
 		7B497C961978889700563A4B /* SynsetPointerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynsetPointerView.swift; sourceTree = "<group>"; };
 		7B497C981979C3AF00563A4B /* NavButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavButton.swift; sourceTree = "<group>"; };
@@ -390,6 +393,8 @@
 				7BA85A5519848DA100222A6D /* AppConfiguration.swift */,
 				7BBBD6D51989B54D0030FDA9 /* DatabaseManager.h */,
 				7BBBD6D61989B54D0030FDA9 /* DatabaseManager.m */,
+				7B2F4640198AEAC500F57D21 /* DownloadButtonImage.h */,
+				7B2F4641198AEAC500F57D21 /* DownloadButtonImage.m */,
 				7B1151FF1974340900869E15 /* DubsarServer.h */,
 				7B1152001974340900869E15 /* DubsarServer.m */,
 				7B7D3E91197DB3DC00619DEA /* KeyboardHelper.h */,
@@ -552,6 +557,7 @@
 				7B06EC6C19886FCE00C44892 /* SettingsViewController.swift in Sources */,
 				7BBBD6D71989B54D0030FDA9 /* DatabaseManager.m in Sources */,
 				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,
+				7B2F4642198AEAC500F57D21 /* DownloadButtonImage.m in Sources */,
 				7B06EC741988AC6F00C44892 /* SettingLabelTableViewCell.swift in Sources */,
 				7BBBD6DD1989C8850030FDA9 /* ioapi.c in Sources */,
 				7BCA161E197D6E260016C104 /* AlphabetView.swift in Sources */,

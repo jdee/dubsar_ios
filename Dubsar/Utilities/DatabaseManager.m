@@ -391,10 +391,12 @@
     self.downloadInProgress = NO;
     if ([NSThread currentThread] != [NSThread mainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self deleteDatabase];
             [_delegate databaseManager:self encounteredError:error];
         });
     }
     else {
+        [self deleteDatabase];
         [_delegate databaseManager:self encounteredError:error];
     }
 }

@@ -18,6 +18,7 @@
  */
 
 #import "DatabaseManager.h"
+#import "DownloadButtonImage.h"
 #import "Dubsar.h"
 #import "DubsarServer.h"
 #import "KeyboardHelper.h"
