@@ -46,6 +46,8 @@
 
 @property (nonatomic, weak) id<DownloadProgressDelegate> delegate;
 
+- (void)initialize;
+
 - (void)checkOfflineSetting;
 
 - (void)download;

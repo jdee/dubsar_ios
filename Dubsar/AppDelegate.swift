@@ -71,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
+        databaseManager.initialize()
         return true
     }
 

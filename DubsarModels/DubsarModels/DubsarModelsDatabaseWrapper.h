@@ -29,8 +29,7 @@
 @property (nonatomic) sqlite3_stmt* autocompleterStmtWithoutExact;
 @property (nonatomic) sqlite3_stmt* exactAutocompleterStmt;
 
-- (void)openDBName:(NSString*)dbName recreateFTSTables:(BOOL)recreateFTSTables;
-- (void)openDBName:(NSString*)dbName;
+- (void)openDBName:(NSURL*)dbURL;
 
 - (void)closeDB;
 

@@ -39,64 +39,19 @@
     [self closeDB];
 }
 
-- (void)openDBName:(NSString *)dbName
-{
-    [self openDBName:dbName recreateFTSTables:NO];
-}
-
-- (void)openDBName:(NSString*)dbName recreateFTSTables:(BOOL)recreateFTSTables
+- (void)openDBName:(NSURL *)dbURL
 {
     @autoreleasepool {
         NSURL* resourceURL = [[NSBundle mainBundle] resourceURL];
 
         NSURL* srcURL = nil;
-        if (dbName) {
-            srcURL = [resourceURL URLByAppendingPathComponent:dbName];
+        if (dbURL) {
+            srcURL = dbURL;
         }
         else {
             srcURL = [resourceURL URLByAppendingPathComponent:PRODUCTION_DB_NAME];
         }
 
-#ifdef DUBSAR_EDITORIAL_BUILD
-        NSFileManager* fileManager = [NSFileManager defaultManager];
-        NSArray* urls = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
-        NSURL* url = [urls objectAtIndex:0];
-        NSString* appBundleID = [[NSBundle mainBundle] bundleIdentifier];
-        NSURL* appDataDir = [[url URLByAppendingPathComponent:appBundleID]
-                             URLByAppendingPathComponent:@"Data"];
-        NSString* installedDBPath = nil;
-        if (dbName) {
-            installedDBPath = [[appDataDir path] stringByAppendingPathComponent:dbName];
-        } else {
-            installedDBPath = [[appDataDir path] stringByAppendingPathComponent:PRODUCTION_DB_NAME];
-        }
-
-        if (![fileManager fileExistsAtPath:[appDataDir path]]) {
-            NSError* error;
-            if (![fileManager createDirectoryAtURL:appDataDir withIntermediateDirectories:YES attributes:nil error:&error]) {
-                NSLog(@"creating app data dir: %@", error.localizedDescription);
-                return;
-            }
-        }
-
-        if (![fileManager fileExistsAtPath:installedDBPath]) {
-            NSError* error;
-            if (![fileManager copyItemAtURL:srcURL toURL:[NSURL fileURLWithPath:installedDBPath] error:&error]) {
-                NSLog(@"copying DB: %@", error.localizedDescription);
-                return;
-            }
-            NSLog(@"Copied DB to application data directory");
-        }
-
-        [self closeDB];
-
-        int rc;
-        if ((rc=sqlite3_open_v2(installedDBPath.UTF8String, &database, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READWRITE, NULL)) != SQLITE_OK) {
-            NSLog(@"error opening database %@, %d", installedDBPath, rc);
-            database = NULL;
-            return;
-        }
-#else
         [self closeDB];
 
         int rc;
@@ -105,63 +60,10 @@
             _dbptr = NULL;
             return;
         }
-#endif // DUBSAR_EDITORIAL_BUILD
 
-        NSLog(@"successfully opened database %@", dbName);
+        NSLog(@"successfully opened database %@", dbURL.path);
         NSString* sql;
 
-#ifdef DUBSAR_EDITORIAL_BUILD
-        if (recreateFTSTables) {
-            sqlite3_stmt* statement;
-            if ((rc=sqlite3_prepare_v2(database,
-                                       "DELETE FROM inflections", -1, &statement, NULL)) != SQLITE_OK) {
-                NSLog(@"sqlite3 error %d", rc);
-                return;
-            }
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-
-            if ((rc=sqlite3_prepare_v2(database,
-                                       "DROP TABLE IF EXISTS inflections_fts", -1, &statement, NULL)) != SQLITE_OK) {
-                NSLog(@"sqlite3 error %d", rc);
-                return;
-            }
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-
-            if ((rc=sqlite3_prepare_v2(database,
-                                       "DROP TABLE IF EXISTS inflections_fts_content", -1, &statement, NULL)) != SQLITE_OK) {
-                NSLog(@"sqlite3 error %d", rc);
-                return;
-            }
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-
-            if ((rc=sqlite3_prepare_v2(database,
-                                       "DROP TABLE IF EXISTS inflections_fts_segdir", -1, &statement, NULL)) != SQLITE_OK) {
-                NSLog(@"sqlite3 error %d", rc);
-                return;
-            }
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-
-            if ((rc=sqlite3_prepare_v2(database,
-                                       "DROP TABLE IF EXISTS inflections_fts_segments", -1, &statement, NULL)) != SQLITE_OK) {
-                NSLog(@"sqlite3 error %d", rc);
-                return;
-            }
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-
-            if ((rc=sqlite3_prepare_v2(database,
-                                       "CREATE VIRTUAL TABLE inflections_fts USING fts3(id, name, word_id)", -1, &statement, NULL)) != SQLITE_OK) {
-                NSLog(@"sqlite3 error %d", rc);
-                return;
-            }
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-        }
-#endif // DUBSAR_EDITORIAL_BUILD
 
         /*
          * Prepared statements for the Autocompleter
@@ -232,9 +134,10 @@
 
     sqlite3_finalize(_autocompleterStmt);
     sqlite3_finalize(_exactAutocompleterStmt);
+    sqlite3_finalize(_autocompleterStmtWithoutExact);
     sqlite3_close(_dbptr);
 
-    _autocompleterStmt = _exactAutocompleterStmt = NULL;
+    _autocompleterStmt = _exactAutocompleterStmt = _autocompleterStmtWithoutExact = NULL;
     _dbptr = NULL;
 }
 

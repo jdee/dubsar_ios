@@ -24,7 +24,7 @@
 
 @property (nonatomic) DubsarModelsDatabaseWrapper* database;
 @property (nonatomic, copy) NSString* authToken;
-@property (nonatomic, copy) NSString* databasePath;
+@property (nonatomic) NSURL* databaseURL;
 
 + (DubsarModelsDatabase*)instance;
 

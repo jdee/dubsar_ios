@@ -169,6 +169,13 @@
     return [url URLByAppendingPathComponent:DUBSAR_ZIP_NAME];
 }
 
+- (void)initialize
+{
+    if (self.fileExists) {
+        [DubsarModelsDatabase instance].databaseURL = self.fileURL;
+    }
+}
+
 - (void)checkOfflineSetting
 {
     BOOL offlineSetting = [AppDelegate offlineSetting];
@@ -330,7 +337,7 @@
 
 - (void)finishDownload
 {
-    [DubsarModelsDatabase instance].databasePath = self.fileURL.path; // reopen the DB that was just downloaded
+    [DubsarModelsDatabase instance].databaseURL = self.fileURL; // reopen the DB that was just downloaded
 
     self.downloadInProgress = NO;
     dispatch_async(dispatch_get_main_queue(), ^{

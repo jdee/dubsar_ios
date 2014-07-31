@@ -36,16 +36,16 @@
     self = [super init];
     if (self) {
         _database = [[DubsarModelsDatabaseWrapper alloc] init];
-        [_database openDBName:_databasePath];
+        [_database openDBName:_databaseURL];
     }
     return self;
 }
 
-- (void)setDatabasePath:(NSString *)databasePath
+- (void)setDatabaseURL:(NSURL*)databaseURL
 {
-    _databasePath = databasePath.copy;
+    _databaseURL = databaseURL;
     [_database closeDB];
-    [_database openDBName:_databasePath];
+    [_database openDBName:_databaseURL];
 }
 
 @end
