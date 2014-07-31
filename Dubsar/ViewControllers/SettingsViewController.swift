@@ -208,7 +208,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     func progressUpdated(databaseManager: DatabaseManager!) {
         if databaseManager.downloadSize > 0 && downloadProgressView {
             downloadProgressView!.progress = Float(databaseManager.downloadedSoFar) / Float(databaseManager.downloadSize)
-            downloadLabel!.text = "Download: \(formatSize(databaseManager.downloadSize - databaseManager.downloadedSoFar)) \(formatRate(databaseManager.instantaneousDownloadRate)) \(formatTime(databaseManager.estimatedDownloadTimeRemaining))"
+            downloadLabel!.text = "Download: \(formatSize(databaseManager.downloadSize - databaseManager.downloadedSoFar)) ÷ \(formatRate(databaseManager.instantaneousDownloadRate)) = \(formatTime(databaseManager.estimatedDownloadTimeRemaining))"
         }
 
         if databaseManager.unzippedSize > 0 && unzipProgressView {
