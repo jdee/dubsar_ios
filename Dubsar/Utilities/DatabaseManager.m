@@ -20,6 +20,7 @@
 @import DubsarModels;
 
 #include <sys/stat.h>
+#include <sys/time.h>
 
 #include "unzip.h"
 
@@ -27,18 +28,22 @@
 #import "DatabaseManager.h"
 
 @interface DatabaseManager()
-@property (atomic) NSInteger downloadSize, downloadedSoFar, unzippedSize, unzippedSoFar;
+@property (atomic) NSInteger downloadSize, downloadedSoFar, unzippedSize, unzippedSoFar, downloadedAtLastStatsUpdate, unzippedAtLastStatsUpdate;
 @property (atomic) BOOL downloadInProgress;
 @property (nonatomic, weak) NSURLConnection* connection;
+@property (atomic) struct timeval downloadStart, lastDownloadStatsUpdate;
+@property (atomic) NSTimeInterval estimatedDownloadTimeRemaining;
+@property (atomic) double instantaneousDownloadRate;
+@property (atomic) struct timeval unzipStart, lastUnzipRead;
+@property (atomic) NSTimeInterval estimatedUnzipTimeRemaining;
+@property (atomic) double instantaneousUnzipRate;
 @end
 
 @implementation DatabaseManager {
     FILE* fp;
-    NSInteger _downloadedSoFar, _downloadSize, _unzippedSoFar, _unzippedSize;
-    BOOL _downloadInProgress;
 }
 
-@dynamic fileExists, fileURL, zipURL, downloadedSoFar, downloadSize, unzippedSize, unzippedSoFar, downloadInProgress;
+@dynamic fileExists, fileURL, zipURL;
 
 - (instancetype)init
 {
@@ -47,6 +52,12 @@
         fp = NULL;
         _downloadedSoFar = _downloadSize = _unzippedSize = _unzippedSoFar = 0;
         _downloadInProgress = NO;
+
+        // are these ivars actually related to the synthesized atomic props?
+        memset(&_downloadStart, 0, sizeof(_downloadStart));
+        memset(&_lastDownloadStatsUpdate, 0, sizeof(_lastDownloadStatsUpdate));
+        memset(&_unzipStart, 0, sizeof(_unzipStart));
+        memset(&_lastUnzipRead, 0, sizeof(_lastUnzipRead));
     }
     return self;
 }
@@ -55,76 +66,6 @@
 {
     if (fp) {
         fclose(fp);
-    }
-}
-
-- (BOOL)downloadInProgress
-{
-    @synchronized(self) {
-        return _downloadInProgress;
-    }
-}
-
-- (void)setDownloadInProgress:(BOOL)downloadInProgress
-{
-    @synchronized(self) {
-        _downloadInProgress = downloadInProgress;
-    }
-}
-
-- (NSInteger)downloadSize
-{
-    @synchronized(self) {
-        return _downloadSize;
-    }
-}
-
-- (NSInteger)downloadedSoFar
-{
-    @synchronized(self) {
-        return _downloadedSoFar;
-    }
-}
-
-- (NSInteger)unzippedSize
-{
-    @synchronized(self) {
-        return _unzippedSize;
-    }
-}
-
-- (NSInteger)unzippedSoFar
-{
-    @synchronized(self) {
-        return _unzippedSoFar;
-    }
-}
-
-- (void)setDownloadSize:(NSInteger)downloadSize
-{
-    @synchronized(self) {
-        _downloadSize = downloadSize;
-    }
-}
-
-- (void)setDownloadedSoFar:(NSInteger)downloadedSoFar
-{
-    @synchronized(self) {
-        _downloadedSoFar = downloadedSoFar;
-    }
-}
-
-- (void)setUnzippedSize:(NSInteger)unzippedSize
-{
-    @synchronized(self) {
-        _unzippedSize = unzippedSize;
-    }
-}
-
-- (void)setUnzippedSoFar:(NSInteger)unzippedSoFar
-{
-    @synchronized(self) {
-        _unzippedSoFar = unzippedSoFar;
     }
 }
 
@@ -257,6 +198,18 @@
     self.downloadSize = self.downloadedSoFar = self.unzippedSoFar = self.unzippedSize = 0;
     self.downloadInProgress = YES;
 
+    struct timeval now;
+    gettimeofday(&now, NULL);
+
+    self.downloadStart = now;
+    self.lastDownloadStatsUpdate = self.downloadStart;
+    self.downloadedAtLastStatsUpdate = 0;
+
+    NSLog(@"Download start: %ld.%06d. Last download read: %ld.%06d", self.downloadStart.tv_sec, self.downloadStart.tv_usec, self.lastDownloadStatsUpdate.tv_sec, self.lastDownloadStatsUpdate.tv_usec);
+
+    memset(&now, 0, sizeof(now));
+    self.unzipStart = now;
+
     NSLog(@"Downloading %@", DUBSAR_DATABASE_URL);
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:DUBSAR_DATABASE_URL]];
     _connection = [NSURLConnection connectionWithRequest:request delegate:self];
@@ -311,8 +264,44 @@
     [_delegate downloadComplete:self];
 }
 
+- (void)updateDownloadStats
+{
+    NSInteger size = self.downloadedSoFar - self.downloadedAtLastStatsUpdate;
+
+    if (size < 1024 * 1024) {
+        // even it out by only checking every so often
+        return;
+    }
+
+    // NSLog(@"On receipt of data, last read time %ld.%06d", self.lastDownloadRead.tv_sec, self.lastDownloadRead.tv_usec);
+
+    struct timeval now;
+    gettimeofday(&now, NULL);
+
+    double delta = (double)(now.tv_sec - self.lastDownloadStatsUpdate.tv_sec) + (double)(now.tv_usec - self.lastDownloadStatsUpdate.tv_usec) * 1.0e-6;
+    // NSLog(@"%f s since last read: %lu bytes", delta, (unsigned long)data.length);
+
+    if (delta > 0.0) {
+        self.instantaneousDownloadRate = ((double)size) / delta;
+        // NSLog(@"%f B/s instantaneous rate", self.instantaneousDownloadRate);
+    }
+
+    if (self.instantaneousDownloadRate > 0) {
+        self.estimatedDownloadTimeRemaining = (double)(self.downloadSize - self.downloadedSoFar) / self.instantaneousDownloadRate;
+        // NSLog(@"%f s remaining", self.estimatedDownloadTimeRemaining);
+    }
+
+    self.downloadedAtLastStatsUpdate = self.downloadedSoFar;
+    self.lastDownloadStatsUpdate = now;
+
+    [_delegate progressUpdated:self];
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+    self.downloadedSoFar += data.length;
+    [self updateDownloadStats];
+
     ssize_t nr = fwrite(data.bytes, 1, data.length, fp);
 
     if (nr == data.length) {
@@ -322,9 +311,6 @@
         NSLog(@"Failed to write %d bytes. Wrote %zd. Error %d", data.length, nr, errno);
         return;
     }
-
-    self.downloadedSoFar += nr;
-    [_delegate progressUpdated:self];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -421,7 +407,26 @@
     unsigned char buffer[32768];
     int nr;
 
+    struct timeval now;
+    gettimeofday(&now, NULL);
+    self.lastUnzipRead = self.unzipStart = now;
+
     while ((nr=unzReadCurrentFile(uf, buffer, sizeof(buffer) * sizeof(unsigned char))) > 0) {
+
+        self.unzippedSoFar += nr;
+
+        gettimeofday(&now, NULL);
+        double delta = (double)(now.tv_sec - self.lastUnzipRead.tv_sec) + (double)(now.tv_usec - self.lastUnzipRead.tv_usec) * 1.0e-6;
+
+        if (delta > 0.0) {
+            self.instantaneousUnzipRate = ((double)nr)/ delta;
+        }
+
+        if (self.instantaneousUnzipRate > 0.0) {
+            self.estimatedUnzipTimeRemaining = ((double)(self.unzippedSize - self.unzippedSoFar)) / self.instantaneousUnzipRate;
+        }
+        self.lastUnzipRead = now;
+
         ssize_t nw = fwrite(buffer, 1, nr, outfile);
         if (nw != nr) {
             NSLog(@"Failed to write %d bytes to %@. Wrote %zd instead. Error %d", nr, DUBSAR_FILE_NAME, nw, errno);
@@ -431,7 +436,6 @@
             return;
         }
 
-        self.unzippedSoFar += nw;
         dispatch_async(dispatch_get_main_queue(), ^{
             [_delegate progressUpdated:self];
         });

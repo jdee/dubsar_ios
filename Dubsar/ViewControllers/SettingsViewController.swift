@@ -31,6 +31,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     private var downloadProgressView: UIProgressView?
     private var unzipProgressView: UIProgressView?
+    private var downloadLabel: UILabel?
+    private var unzipLabel: UILabel?
 
     let sections = [
         [ [ "title" : "About", "view" : "About", "setting_type" : "nav" ],
@@ -125,6 +127,9 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                 cell = dldCell
                 downloadProgressView = dldCell!.downloadProgress
                 unzipProgressView = dldCell!.unzipProgress
+                downloadLabel = dldCell!.downloadLabel
+                unzipLabel = dldCell!.unzipLabel
+
                 dldCell!.cancelButton.addTarget(self, action: "cancelDownload:", forControlEvents: .TouchUpInside)
             }
         }
@@ -203,15 +208,66 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     func progressUpdated(databaseManager: DatabaseManager!) {
         if databaseManager.downloadSize > 0 && downloadProgressView {
             downloadProgressView!.progress = Float(databaseManager.downloadedSoFar) / Float(databaseManager.downloadSize)
+            downloadLabel!.text = "Download: \(formatSize(databaseManager.downloadSize - databaseManager.downloadedSoFar)) \(formatRate(databaseManager.instantaneousDownloadRate)) \(formatTime(databaseManager.estimatedDownloadTimeRemaining))"
         }
 
         if databaseManager.unzippedSize > 0 && unzipProgressView {
             unzipProgressView!.progress = Float(databaseManager.unzippedSoFar) / Float(databaseManager.unzippedSize)
+            unzipLabel!.text = "Unzip: \(formatTime(databaseManager.estimatedUnzipTimeRemaining))"
         }
     }
 
     func downloadComplete(databaseManager: DatabaseManager!) {
         settingsTableView.reloadData()
+    }
+
+    private func formatSize(sizeBytes: Int) -> String {
+        let kB = 1024
+        let MB = 1024 * kB
+
+        if sizeBytes >= MB {
+            return String(format: "%.1f MB", Double(sizeBytes)/Double(MB))
+        }
+        else if sizeBytes >= kB {
+            return String(format: "%.1f kB", Double(sizeBytes)/Double(kB))
+        }
+        return String(format: "%d B", sizeBytes)
+    }
+
+    private func formatRate(rateBytesPerSecond: Double) -> String {
+        let kbps: Double = 128 // 8 bits per byte
+        let Mbps = 1024 * kbps
+
+        // format as bits per second
+        if (rateBytesPerSecond >= Mbps) {
+            return String(format: "%.1f Mbps", rateBytesPerSecond / Mbps)
+        }
+        else if (rateBytesPerSecond >= kbps) {
+            return String(format: "%.1f kbps", rateBytesPerSecond / kbps)
+        }
+
+        return String(format: "%.1f bps", rateBytesPerSecond * 8)
+
+    }
+
+    private func formatTime(intervalSeconds: NSTimeInterval) -> String {
+        let minute: NSTimeInterval = 60
+        let hour = 60 * minute
+
+        if (intervalSeconds >= hour) {
+            let hours: Int = Int(intervalSeconds / hour) // floor
+            let secondsRemainder: Int = Int(intervalSeconds % hour)
+            let minutes: Int = secondsRemainder / Int(minute)
+            let seconds: Int = secondsRemainder % Int(minute)
+            return String(format: "%d h %02d m %02d s", hours, minutes, seconds)
+        }
+        else if (intervalSeconds >= minute) {
+            let minutes = Int(intervalSeconds / minute)
+            let seconds = Int(intervalSeconds % minute)
+            return String(format: "%d m %02d s", minutes, seconds)
+        }
+
+        return String(format: "%d s", Int(intervalSeconds))
     }
 
 }

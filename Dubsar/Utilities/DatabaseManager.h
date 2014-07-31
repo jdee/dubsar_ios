@@ -31,13 +31,15 @@
 
 @end
 
+/**
+ * This will move into DubsarModels.
+ */
 @interface DatabaseManager : NSObject<UIAlertViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @property (nonatomic, readonly) BOOL fileExists;
 
 /**
- * The DB file downloaded by the DatabaseManager needs to reside somewhere other than Caches, where it may be
- * deleted by the OS.
+ * The unzipped DB file downloaded and installed by the DatabaseManager resides in the application support directory.
  */
 @property (nonatomic, readonly) NSURL* fileURL;
 
@@ -55,6 +57,12 @@
 @property (atomic, readonly) NSInteger unzippedSoFar;
 
 @property (atomic, readonly) BOOL downloadInProgress;
+
+@property (atomic, readonly) double instantaneousDownloadRate; // bytes per second
+@property (atomic, readonly) NSTimeInterval estimatedDownloadTimeRemaining; // seconds
+
+@property (atomic, readonly) double instantaneousUnzipRate; // bytes per second
+@property (atomic, readonly) NSTimeInterval estimatedUnzipTimeRemaining; // seconds
 
 @property (nonatomic, weak) id<DownloadProgressDelegate> delegate;
 
