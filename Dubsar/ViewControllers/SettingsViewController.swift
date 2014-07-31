@@ -206,7 +206,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func progressUpdated(databaseManager: DatabaseManager!) {
-        if databaseManager.downloadSize > 0 && downloadProgressView {
+        if databaseManager.downloadSize > 0 && databaseManager.downloadedSoFar < databaseManager.downloadSize && downloadProgressView {
             downloadProgressView!.progress = Float(databaseManager.downloadedSoFar) / Float(databaseManager.downloadSize)
             downloadLabel!.text = "Download: \(formatSize(databaseManager.downloadSize - databaseManager.downloadedSoFar)) ÷ \(formatRate(databaseManager.instantaneousDownloadRate)) = \(formatTime(databaseManager.estimatedDownloadTimeRemaining))"
         }
@@ -221,15 +221,27 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         settingsTableView.reloadData()
     }
 
-    private func formatSize(sizeBytes: Int) -> String {
-        let kB = 1024
-        let MB = 1024 * kB
+    func unzipStarted(databaseManager: DatabaseManager!) {
 
-        if sizeBytes >= MB {
-            return String(format: "%.1f MB", Double(sizeBytes)/Double(MB))
+        // NSLog("Unzip started. %ld bytes downloaded in %f s", databaseManager.downloadSize, databaseManager.elapsedDownloadTime)
+
+        if databaseManager.downloadSize > 0 && downloadProgressView {
+            let averageRate = Double(databaseManager.downloadSize) / databaseManager.elapsedDownloadTime
+            downloadProgressView!.progress = 1.0
+            downloadLabel!.text = "Download: \(formatSize(databaseManager.downloadSize)) ÷ \(formatRate(averageRate)) = \(formatTime(databaseManager.elapsedDownloadTime))"
         }
-        else if sizeBytes >= kB {
-            return String(format: "%.1f kB", Double(sizeBytes)/Double(kB))
+    }
+
+    private func formatSize(sizeBytes: Int) -> String {
+        let kB: Double = 1024
+        let MB = 1024 * kB
+        let doubleBytes = Double(sizeBytes)
+
+        if doubleBytes >= MB {
+            return String(format: "%.1f MB", doubleBytes / MB)
+        }
+        else if doubleBytes >= kB {
+            return String(format: "%.1f kB", doubleBytes / kB)
         }
         return String(format: "%d B", sizeBytes)
     }

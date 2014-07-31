@@ -35,7 +35,7 @@
 @property (atomic) NSTimeInterval estimatedDownloadTimeRemaining;
 @property (atomic) double instantaneousDownloadRate;
 @property (atomic) struct timeval unzipStart, lastUnzipRead;
-@property (atomic) NSTimeInterval estimatedUnzipTimeRemaining;
+@property (atomic) NSTimeInterval estimatedUnzipTimeRemaining, elapsedDownloadTime;
 @property (atomic) double instantaneousUnzipRate;
 @end
 
@@ -204,6 +204,7 @@
     self.downloadStart = now;
     self.lastDownloadStatsUpdate = self.downloadStart;
     self.downloadedAtLastStatsUpdate = 0;
+    self.elapsedDownloadTime = 0;
 
     NSLog(@"Download start: %ld.%06d. Last download read: %ld.%06d", self.downloadStart.tv_sec, self.downloadStart.tv_usec, self.lastDownloadStatsUpdate.tv_sec, self.lastDownloadStatsUpdate.tv_usec);
 
@@ -261,11 +262,21 @@
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.downloadInProgress = NO;
+    [self updateElapsedDownloadTime];
     [_delegate downloadComplete:self];
+}
+
+- (void)updateElapsedDownloadTime
+{
+    struct timeval now;
+    gettimeofday(&now, NULL);
+    self.elapsedDownloadTime = now.tv_sec - self.downloadStart.tv_sec + 1.0e-6 * (now.tv_usec - self.downloadStart.tv_usec);
 }
 
 - (void)updateDownloadStats
 {
+    [self updateElapsedDownloadTime];
+
     NSInteger size = self.downloadedSoFar - self.downloadedAtLastStatsUpdate;
 
     if (size < 1024 * 1024) {
@@ -315,6 +326,8 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+    [self updateElapsedDownloadTime];
+
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
     self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
 
@@ -331,6 +344,9 @@
     }
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+    [self updateElapsedDownloadTime];
+    [_delegate unzipStarted:self];
 
     struct stat sb;
     int rc = stat(self.zipURL.path.UTF8String, &sb);

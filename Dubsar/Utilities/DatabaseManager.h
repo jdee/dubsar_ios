@@ -28,6 +28,7 @@
 
 - (void) progressUpdated:(DatabaseManager*)databaseManager;
 - (void) downloadComplete:(DatabaseManager*)databaseManager;
+- (void) unzipStarted:(DatabaseManager*)databaseManager;
 
 @end
 
@@ -60,6 +61,7 @@
 
 @property (atomic, readonly) double instantaneousDownloadRate; // bytes per second
 @property (atomic, readonly) NSTimeInterval estimatedDownloadTimeRemaining; // seconds
+@property (atomic, readonly) NSTimeInterval elapsedDownloadTime; // seconds
 
 @property (atomic, readonly) double instantaneousUnzipRate; // bytes per second
 @property (atomic, readonly) NSTimeInterval estimatedUnzipTimeRemaining; // seconds
