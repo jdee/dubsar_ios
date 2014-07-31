@@ -172,7 +172,7 @@
 
 - (void)cancelDownload
 {
-    if (!self.downloadInProgress) {
+    if (!self.downloadInProgress || !_connection) {
         return;
     }
 

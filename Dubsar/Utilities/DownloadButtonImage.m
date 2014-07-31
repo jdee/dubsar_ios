@@ -96,23 +96,23 @@ static NSMutableDictionary* imageDictionary;
     CGContextSetLineWidth(context, lineWidth);
 
     // Vertical line down the center
-    CGContextMoveToPoint(context, 0.5 * size.width, 0.2 * size.height);
-    CGContextAddLineToPoint(context, 0.5 * size.width, 0.7 * size.height);
+    CGContextMoveToPoint(context, 0.5 * size.width, 0.25 * size.height);
+    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height);
     CGContextStrokePath(context);
 
     // Left half of arrow head
-    CGContextMoveToPoint(context, 0.35 * size.width, 0.55 * size.height);
-    CGContextAddLineToPoint(context, 0.5 * size.width, 0.7 * size.height);
+    CGContextMoveToPoint(context, 0.35 * size.width, 0.50 * size.height);
+    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height);
     CGContextStrokePath(context);
 
     // Right half of arrow head
-    CGContextMoveToPoint(context, 0.65 * size.width, 0.55 * size.height);
-    CGContextAddLineToPoint(context, 0.5 * size.width, 0.7 * size.height);
+    CGContextMoveToPoint(context, 0.65 * size.width, 0.50 * size.height);
+    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height);
     CGContextStrokePath(context);
 
     // Horizontal line across the bottom
-    CGContextMoveToPoint(context, 0.2 * size.width, 0.8 * size.height);
-    CGContextAddLineToPoint(context, 0.8 * size.width, 0.8 * size.height);
+    CGContextMoveToPoint(context, 0.25 * size.width, 0.75 * size.height);
+    CGContextAddLineToPoint(context, 0.75 * size.width, 0.75 * size.height);
     CGContextStrokePath(context);
 }
 
