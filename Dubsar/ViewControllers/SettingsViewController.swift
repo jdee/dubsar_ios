@@ -243,6 +243,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     func databaseManager(databaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
         NSLog("error downloading Database: %@", errorMessage)
+        AppConfiguration.offlineSetting = false
         reloadOfflineRow()
     }
 
@@ -260,6 +261,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         progressUpdated(databaseManager)
     }
 
+    // These things should move to the DownloadBlahCell
     private func formatSize(sizeBytes: Int) -> String {
         let kB: Double = 1024
         let MB = 1024 * kB
