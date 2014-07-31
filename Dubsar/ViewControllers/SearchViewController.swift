@@ -106,6 +106,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             if !cell {
                 cell = LoadingTableViewCell()
             }
+            cell!.spinner.activityIndicatorViewStyle = AppConfiguration.activityIndicatorViewStyle
+
             return cell
         }
 

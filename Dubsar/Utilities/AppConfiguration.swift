@@ -35,6 +35,7 @@ struct AppConfiguration {
     static let foregroundKey = "foreground"
     static let highlightedForegroundKey = "highlightedForeground"
     static let navBarKey = "navBar"
+    static let activityKey = "activity"
 
     // MARK: Dictionaries defining the available themes.
     static let themes = [
@@ -43,19 +44,19 @@ struct AppConfiguration {
             highlightKey : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0),
             alternateHighlightKey : UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0),
             foregroundKey : UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0), highlightedForegroundKey : UIColor.blueColor(),
-            navBarKey: "light" ],
+            navBarKey: "light", "activity" : "gray" ],
         [ nameKey : "Tigris", fontKey : "Avenir Next", backgroundKey : UIColor(red: 0.941, green: 1.000, blue: 0.941, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.686, green: 0.933, blue: 0.933, alpha: 1.0),
             highlightKey : UIColor(red: 1.0, green: 0.980, blue: 0.804, alpha: 1.0),
             alternateHighlightKey : UIColor(red: 0.518, green: 0.439, blue: 1.0, alpha: 1.0),
             foregroundKey : UIColor.darkTextColor(), highlightedForegroundKey : UIColor.greenColor(),
-            navBarKey: "light" ],
+            navBarKey: "light", "activity" : "gray" ],
         [ nameKey : "Augury", fontKey : "Menlo", backgroundKey : UIColor(red: 0.192, green: 0.310, blue: 0.310, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.412, green: 0.412, blue: 0.412, alpha: 1.0),
             highlightKey : UIColor(red: 0.420, green: 0.557, blue: 0.137, alpha: 1.0),
             alternateHighlightKey : UIColor(red: 0.698, green: 0.133, blue: 0.133, alpha: 1.0),
             foregroundKey : UIColor(red: 0.878, green: 1.0, blue: 1.0, alpha: 1.0),
-            highlightedForegroundKey : UIColor.redColor(), navBarKey: "dark" ]
+            highlightedForegroundKey : UIColor.redColor(), navBarKey: "dark", "activity" : "white" ]
     ]
 
     // MARK: Wrappers around  NSUserDefaults
@@ -99,6 +100,16 @@ struct AppConfiguration {
                 return .Black
             }
             return .Default
+        }
+    }
+
+    static var activityIndicatorViewStyle: UIActivityIndicatorViewStyle {
+        get {
+            let style: NSString = getThemeProperty(activityKey)
+            if style == "gray" {
+                return .Gray
+            }
+            return .White
         }
     }
 
