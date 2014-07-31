@@ -64,7 +64,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
         unzipLabel.textColor = foregroundColor
         cancelButton.setTitleColor(foregroundColor, forState: .Normal)
 
-        contentView.backgroundColor = AppConfiguration.backgroundColor
+        contentView.backgroundColor = AppConfiguration.highlightColor
 
         let alternateBackgroundColor = AppConfiguration.alternateBackgroundColor
         let alternateHighlightColor = AppConfiguration.alternateHighlightColor
