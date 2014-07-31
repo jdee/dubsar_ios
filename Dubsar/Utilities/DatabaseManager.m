@@ -133,25 +133,37 @@
     return [[NSFileManager defaultManager] fileExistsAtPath:self.fileURL.path];
 }
 
-- (NSURL *)fileURL
+- (NSURL*)fileURL
 {
     NSFileManager* fileManager = [NSFileManager defaultManager];
-    NSArray* urls = [fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask];
+    NSArray* urls = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
     NSURL* url = [urls objectAtIndex:0];
 
     url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
 
-    // NSLog(@"Downloads directory: %@", url.path);
+    // NSLog(@"Caches directory: %@", url.path);
 
     BOOL isDir;
     BOOL exists = [fileManager fileExistsAtPath:url.path isDirectory:&isDir];
     // NSLog(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
-    assert(exists && isDir);
+
+    if (!exists) {
+        NSError* error;
+        if (![fileManager createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error]) {
+            NSLog(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+        }
+        else {
+            NSLog(@"Created directory %@", url.path);
+        }
+    }
+    else if (!isDir) {
+        NSLog(@"%@ exists and is not a directory", url.path);
+    }
 
     return [url URLByAppendingPathComponent:DUBSAR_FILE_NAME];
 }
 
-- (NSURL*)zipURL
+- (NSURL *)zipURL
 {
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSArray* urls = [fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask];
@@ -159,12 +171,24 @@
 
     url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
 
-    // NSLog(@"Downloads directory: %@", url.path);
+    // NSLog(@"App. support directory: %@", url.path);
 
     BOOL isDir;
     BOOL exists = [fileManager fileExistsAtPath:url.path isDirectory:&isDir];
     // NSLog(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
-    assert(exists && isDir);
+
+    if (!exists) {
+        NSError* error;
+        if (![fileManager createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error]) {
+            NSLog(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+        }
+        else {
+            NSLog(@"Created directory %@", url.path);
+        }
+    }
+    else if (!isDir) {
+        NSLog(@"%@ exists and is not a directory", url.path);
+    }
 
     return [url URLByAppendingPathComponent:DUBSAR_ZIP_NAME];
 }
@@ -223,11 +247,11 @@
     if (!fp) {
         char errbuf[256];
         strerror_r(errno, errbuf, 255);
-        NSLog(@"Error %d (%s) opening %@", errno, errbuf, self.fileURL.path);
+        NSLog(@"Error %d (%s) opening %@", errno, errbuf, self.zipURL.path);
         return;
     }
     else {
-        NSLog(@"Successfully opened/created %@ for write", self.fileURL.path);
+        NSLog(@"Successfully opened/created %@ for write", self.zipURL.path);
     }
 
     self.downloadSize = self.downloadedSoFar = self.unzippedSoFar = self.unzippedSize = 0;
@@ -434,6 +458,14 @@
     }
 
     NSError* error;
+
+    if (![self.fileURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error]) {
+        NSLog(@"Failed to set %@ attribute for database file: %@", NSURLIsExcludedFromBackupKey, error.localizedDescription);
+    }
+    else {
+        NSLog(@"Database file %@ will not be backed up", self.fileURL.path);
+    }
+
     if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
         NSLog(@"Error removing %@: %@", self.zipURL.path, error.localizedDescription);
     }
