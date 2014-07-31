@@ -17,6 +17,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+@import DubsarModels;
+
 #include <sys/stat.h>
 
 #include "unzip.h"
@@ -328,6 +330,8 @@
 
 - (void)finishDownload
 {
+    [DubsarModelsDatabase instance].databasePath = self.fileURL.path; // reopen the DB that was just downloaded
+
     self.downloadInProgress = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
         [_delegate downloadComplete:self];

@@ -36,9 +36,16 @@
     self = [super init];
     if (self) {
         _database = [[DubsarModelsDatabaseWrapper alloc] init];
-        [_database openDBName:nil];
+        [_database openDBName:_databasePath];
     }
     return self;
+}
+
+- (void)setDatabasePath:(NSString *)databasePath
+{
+    _databasePath = databasePath.copy;
+    [_database closeDB];
+    [_database openDBName:_databasePath];
 }
 
 @end

@@ -32,4 +32,6 @@
 - (void)openDBName:(NSString*)dbName recreateFTSTables:(BOOL)recreateFTSTables;
 - (void)openDBName:(NSString*)dbName;
 
+- (void)closeDB;
+
 @end
