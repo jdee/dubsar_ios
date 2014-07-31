@@ -28,6 +28,7 @@ class ThemeViewController: BaseViewController {
     }
 
     @IBOutlet var knobHolder: UIView!
+    @IBOutlet var highlightLabel: UILabel!
 
     var knobControl: IOSKnobControl!
 
@@ -70,6 +71,10 @@ class ThemeViewController: BaseViewController {
         knobControl.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         knobControl.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         knobControl.setNeedsLayout()
+
+        highlightLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline, italic: false)
+        highlightLabel.backgroundColor = AppConfiguration.highlightColor
+        highlightLabel.textColor = AppConfiguration.foregroundColor
 
         super.adjustLayout()
     }

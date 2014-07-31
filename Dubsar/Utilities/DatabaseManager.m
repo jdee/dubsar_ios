@@ -172,8 +172,14 @@
 
 - (void)cancelDownload
 {
+    if (!self.downloadInProgress) {
+        return;
+    }
+
     assert(_connection);
     [_connection cancel];
+
+    [AppDelegate setOfflineSetting:NO];
 
     self.downloadInProgress = NO;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;

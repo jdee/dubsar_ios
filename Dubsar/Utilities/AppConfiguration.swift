@@ -41,22 +41,24 @@ struct AppConfiguration {
     static let themes = [
         [ nameKey : "Scribe", fontKey : "Georgia", backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 1.0, green: 0.843, blue: 0.0, alpha: 1.0),
-            highlightKey : UIColor(red: 0.9, green: 0.9, blue: 1.0, alpha: 1.0),
-            alternateHighlightKey : UIColor(red: 0.824, green: 0.706, blue: 0.549, alpha: 1.0),
-            foregroundKey : UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0), highlightedForegroundKey : UIColor.blueColor(),
-            navBarKey: "light", "activity" : "gray" ],
+            highlightKey : UIColor(red: 0.529, green: 0.808, blue: 0.980, alpha: 1.0),
+            alternateHighlightKey : UIColor(red: 0.855, green: 0.647, blue: 0.125, alpha: 1.0),
+            foregroundKey : UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0),
+            highlightedForegroundKey : UIColor(red: 0.580, green: 0.0, blue: 0.827, alpha: 1.0),
+            navBarKey: "light", activityKey : "gray" ],
         [ nameKey : "Tigris", fontKey : "Avenir Next", backgroundKey : UIColor(red: 0.941, green: 1.000, blue: 0.941, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.686, green: 0.933, blue: 0.933, alpha: 1.0),
-            highlightKey : UIColor(red: 1.0, green: 0.980, blue: 0.804, alpha: 1.0),
+            highlightKey : UIColor(red: 1.0, green: 0.843, blue: 0.0, alpha: 1.0),
             alternateHighlightKey : UIColor(red: 0.518, green: 0.439, blue: 1.0, alpha: 1.0),
-            foregroundKey : UIColor.darkTextColor(), highlightedForegroundKey : UIColor.greenColor(),
-            navBarKey: "light", "activity" : "gray" ],
+            foregroundKey : UIColor.darkTextColor(),
+            highlightedForegroundKey : UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0),
+            navBarKey: "light", activityKey : "gray" ],
         [ nameKey : "Augury", fontKey : "Menlo", backgroundKey : UIColor(red: 0.192, green: 0.310, blue: 0.310, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.412, green: 0.412, blue: 0.412, alpha: 1.0),
             highlightKey : UIColor(red: 0.420, green: 0.557, blue: 0.137, alpha: 1.0),
-            alternateHighlightKey : UIColor(red: 0.698, green: 0.133, blue: 0.133, alpha: 1.0),
+            alternateHighlightKey : UIColor(red: 0.690, green: 0.188, blue: 0.376, alpha: 1.0),
             foregroundKey : UIColor(red: 0.878, green: 1.0, blue: 1.0, alpha: 1.0),
-            highlightedForegroundKey : UIColor.redColor(), navBarKey: "dark", "activity" : "white" ]
+            highlightedForegroundKey : UIColor(red: 1.0, green: 0.753, blue: 0.796, alpha: 1.0), navBarKey: "dark", activityKey : "white" ]
     ]
 
     // MARK: Wrappers around  NSUserDefaults
