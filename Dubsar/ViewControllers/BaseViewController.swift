@@ -92,7 +92,7 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
             navigationController.navigationBar.tintColor = AppConfiguration.foregroundColor
         }
 
-        NavButtonImage.voidCache() // dump all cached images in case of font size changes
+        NavButtonImage.voidCache() // dump all cached images in case of font size or theme changes
 
         // any modally presented VC will be adjusted too
         let viewController = presentedViewController as? BaseViewController

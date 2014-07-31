@@ -102,6 +102,23 @@ struct AppConfiguration {
         }
     }
 
+    static var offlineHasChanged: Bool {
+        get {
+            NSUserDefaults.standardUserDefaults().synchronize()
+
+            let offline = offlineSetting
+            let changed = initialized && offline != lastOfflineSetting
+
+            initialized = true
+            lastOfflineSetting = offline
+
+            return changed
+        }
+    }
+
+    private static var initialized = false
+    private static var lastOfflineSetting = false
+
     // MARK: Font and font descriptor retrieval
     static func preferredFontDescriptorWithTextStyle(style: String!, italic: Bool=false) -> UIFontDescriptor! {
         let fontDesc = UIFontDescriptor.preferredFontDescriptorWithTextStyle(style) // just for the pointSize

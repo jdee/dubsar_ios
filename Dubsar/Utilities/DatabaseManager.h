@@ -17,10 +17,21 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "DatabaseManager.h"
-#import "Dubsar.h"
-#import "DubsarServer.h"
-#import "KeyboardHelper.h"
-#import "NavButtonImage.h"
-#import "PushWrapper.h"
-#import "IOSKnobControl.h"
+@import UIKit;
+
+#define DUBSAR_DATABASE_URL @"https://s.dubsar-dictionary.com/dubsar-wn3.1-1.zip"
+#define DUBSAR_FILE_NAME @"dubsar-wn3.1-1.sqlite3"
+#define DUBSAR_ZIP_NAME @"dubsar-wn3.1-1.zip"
+
+@interface DatabaseManager : NSObject<UIAlertViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+
+@property (nonatomic, readonly) BOOL fileExists;
+@property (nonatomic, readonly) NSURL* fileURL;
+@property (nonatomic, readonly) NSURL* zipURL;
+
+- (void)checkOfflineSetting;
+
+- (void)download;
+- (void)deleteDatabase;
+
+@end

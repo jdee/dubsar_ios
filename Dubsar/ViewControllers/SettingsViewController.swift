@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import UIKit
 
-class SettingsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate {
+class SettingsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
     class var identifier: String {
         get {
@@ -28,7 +28,6 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     @IBOutlet var settingsTableView: UITableView!
-    var offlineSwitch: UISwitch!
 
     let sections = [
         [ [ "title" : "About", "view" : "About", "setting_type" : "nav" ],
@@ -94,10 +93,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             var switchCell = tableView.dequeueReusableCellWithIdentifier(SettingSwitchValueTableViewCell.identifier) as? SettingSwitchValueTableViewCell
             if !switchCell {
                 switchCell = SettingSwitchValueTableViewCell()
-                switchCell!.valueSwitch.on = AppConfiguration.offlineSetting
             }
 
-            offlineSwitch = switchCell!.valueSwitch
+            let offlineSwitch = switchCell!.valueSwitch
+            offlineSwitch.on = AppConfiguration.offlineSetting
 
             offlineSwitch.tintColor = AppConfiguration.alternateBackgroundColor
             offlineSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
@@ -139,36 +138,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func offlineSettingChanged(sender: UISwitch!) {
-        var text: String
-        var okTitle: String
-        if sender.on {
-            text = "Download and install the database locally? It's between 35 and 40 MB compressed, and about 100 MB on the device."
-            okTitle = "Install"
-        }
-        else {
-            text = "Remove the local database from the device?"
-            okTitle = "Remove"
-        }
-
-        let alert = UIAlertView(title: "Confirm Offline Change", message: text, delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: okTitle)
-        alert.show()
+        AppConfiguration.offlineSetting = sender.on
+        AppDelegate.checkOfflineSetting()
     }
 
-    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {
-        if buttonIndex == 0 {
-            offlineSwitch.on = !offlineSwitch.on
-            return
-        }
-
-        if offlineSwitch.on {
-            // TODO:
-            NSLog("Downloading database")
-        }
-        else {
-            // TODO:
-            NSLog("Removing database")
-        }
-
-        AppConfiguration.offlineSetting = offlineSwitch.on
-    }
 }

@@ -56,6 +56,7 @@
 		7BAC234F1973698100D2AEA4 /* DubsarModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23481973639200D2AEA4 /* DubsarModels.framework */; };
 		7BAC23591973753300D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */; };
 		7BAC235E1973754F00D2AEA4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */; };
+		7BBBD6D71989B54D0030FDA9 /* DatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBD6D61989B54D0030FDA9 /* DatabaseManager.m */; };
 		7BBF83701974D58400969765 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF836F1974D58400969765 /* SearchViewController.swift */; };
 		7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83711974DB8200969765 /* WordTableViewCell.swift */; };
 		7BBF83741975871300969765 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83731975871300969765 /* BaseViewController.swift */; };
@@ -174,6 +175,8 @@
 		7BAC22CE19734A9100D2AEA4 /* WordTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordTest.m; sourceTree = "<group>"; };
 		7BAC23481973639200D2AEA4 /* DubsarModels.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DubsarModels.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Dubsar-gtxcrwsszmnigedrmhxqqasmxygq/Build/Products/Debug-iphoneos/DubsarModels.framework"; sourceTree = "<group>"; };
 		7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		7BBBD6D51989B54D0030FDA9 /* DatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseManager.h; sourceTree = "<group>"; };
+		7BBBD6D61989B54D0030FDA9 /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseManager.m; sourceTree = "<group>"; };
 		7BBF836F1974D58400969765 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		7BBF83711974DB8200969765 /* WordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordTableViewCell.swift; sourceTree = "<group>"; };
 		7BBF83731975871300969765 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -363,6 +366,8 @@
 			isa = PBXGroup;
 			children = (
 				7BA85A5519848DA100222A6D /* AppConfiguration.swift */,
+				7BBBD6D51989B54D0030FDA9 /* DatabaseManager.h */,
+				7BBBD6D61989B54D0030FDA9 /* DatabaseManager.m */,
 				7B1151FF1974340900869E15 /* DubsarServer.h */,
 				7B1152001974340900869E15 /* DubsarServer.m */,
 				7B7D3E91197DB3DC00619DEA /* KeyboardHelper.h */,
@@ -523,6 +528,7 @@
 				7B62D752197782F2006A797C /* SynsetSampleView.swift in Sources */,
 				7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */,
 				7B06EC6C19886FCE00C44892 /* SettingsViewController.swift in Sources */,
+				7BBBD6D71989B54D0030FDA9 /* DatabaseManager.m in Sources */,
 				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,
 				7B06EC741988AC6F00C44892 /* SettingLabelTableViewCell.swift in Sources */,
 				7BCA161E197D6E260016C104 /* AlphabetView.swift in Sources */,

@@ -22,10 +22,31 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
-                            
+
+    class func checkOfflineSetting() {
+        instance.databaseManager.checkOfflineSetting()
+    }
+
+    class var offlineHasChanged: Bool {
+        get {
+            return AppConfiguration.offlineHasChanged
+        }
+    }
+
+    class var offlineSetting: Bool {
+        get {
+            return AppConfiguration.offlineSetting
+        }
+        set {
+            AppConfiguration.offlineSetting = newValue
+        }
+    }
+
     var window: UIWindow?
     var alertURL: NSURL?
     let dubsar = "dubsar"
+
+    let databaseManager = DatabaseManager()
 
     class var instance : AppDelegate {
         get {
@@ -44,6 +65,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
         let viewController = navigationController.topViewController as BaseViewController
         viewController.adjustLayout() // in case of a font change in the settings
+
+        databaseManager.checkOfflineSetting()
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
