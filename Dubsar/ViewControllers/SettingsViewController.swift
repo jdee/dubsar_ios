@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import UIKit
 
-class SettingsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class SettingsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, DownloadProgressDelegate, UIAlertViewDelegate {
 
     class var identifier: String {
         get {
@@ -29,6 +29,9 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     @IBOutlet var settingsTableView: UITableView!
 
+    private var downloadProgressView: UIProgressView?
+    private var unzipProgressView: UIProgressView?
+
     let sections = [
         [ [ "title" : "About", "view" : "About", "setting_type" : "nav" ],
             [ "title" : "FAQ", "view" : "FAQ", "setting_type" : "nav" ] ],
@@ -37,6 +40,11 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "setting_type" : "navValue" ],
             [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue" ] ]
     ]
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        AppDelegate.instance.databaseManager.delegate = self
+    }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -90,21 +98,35 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             cell!.detailTextLabel.text = value
         }
         else {
-            var switchCell = tableView.dequeueReusableCellWithIdentifier(SettingSwitchValueTableViewCell.identifier) as? SettingSwitchValueTableViewCell
-            if !switchCell {
-                switchCell = SettingSwitchValueTableViewCell()
+            if (!AppDelegate.instance.databaseManager.downloadInProgress) {
+                var switchCell = tableView.dequeueReusableCellWithIdentifier(SettingSwitchValueTableViewCell.identifier) as? SettingSwitchValueTableViewCell
+                if !switchCell {
+                    switchCell = SettingSwitchValueTableViewCell()
+                }
+
+                let offlineSwitch = switchCell!.valueSwitch
+                offlineSwitch.on = AppConfiguration.offlineSetting
+
+                offlineSwitch.tintColor = AppConfiguration.alternateBackgroundColor
+                offlineSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
+
+                offlineSwitch.removeTarget(self, action: "offlineSettingChanged:", forControlEvents: .ValueChanged) // necessary?
+                offlineSwitch.addTarget(self, action: "offlineSettingChanged:", forControlEvents: .ValueChanged)
+                
+                cell = switchCell
             }
+            else {
+                var dldCell = tableView.dequeueReusableCellWithIdentifier(DownloadProgressTableViewCell.identifier) as? DownloadProgressTableViewCell
+                if !dldCell {
+                    dldCell = DownloadProgressTableViewCell()
+                }
 
-            let offlineSwitch = switchCell!.valueSwitch
-            offlineSwitch.on = AppConfiguration.offlineSetting
-
-            offlineSwitch.tintColor = AppConfiguration.alternateBackgroundColor
-            offlineSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
-
-            offlineSwitch.removeTarget(self, action: "offlineSettingChanged:", forControlEvents: .ValueChanged) // necessary?
-            offlineSwitch.addTarget(self, action: "offlineSettingChanged:", forControlEvents: .ValueChanged)
-
-            cell = switchCell
+                dldCell!.rebuild()
+                cell = dldCell
+                downloadProgressView = dldCell!.downloadProgress
+                unzipProgressView = dldCell!.unzipProgress
+                dldCell!.cancelButton.addTarget(self, action: "cancelDownload:", forControlEvents: .TouchUpInside)
+            }
         }
 
         cell!.textLabel.text = setting["title"]
@@ -117,6 +139,28 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         }
 
         return cell
+    }
+
+    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+        let section = indexPath.indexAtPosition(0)
+        let row = indexPath.indexAtPosition(1)
+
+        let settings = sections[section] as [[String: String]]
+        let setting = settings[row] as [String: String]
+        let type = setting["setting_type"]
+
+        if type == "switchValue" && AppDelegate.instance.databaseManager.downloadInProgress {
+            let dummyCell = DownloadProgressTableViewCell()
+            dummyCell.frame = CGRectMake(0, 0, view.bounds.width, view.bounds.height)
+            dummyCell.rebuild()
+            return dummyCell.bounds.size.height
+        }
+
+        let fudge: CGFloat = 16
+        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
+        let height = ("Qp" as NSString).sizeWithAttributes([NSFontAttributeName: font]).height + fudge
+
+        return max(height, 44.0)
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
@@ -140,6 +184,34 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     func offlineSettingChanged(sender: UISwitch!) {
         AppConfiguration.offlineSetting = sender.on
         AppDelegate.checkOfflineSetting()
+    }
+
+    @IBAction func cancelDownload(sender: UIButton!) {
+        let alert = UIAlertView(title: "Confirm", message: "Stop download in progress?", delegate: self, cancelButtonTitle: "Continue", otherButtonTitles: "Stop")
+        alert.show()
+    }
+
+    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 0 {
+            return
+        }
+
+        AppDelegate.instance.databaseManager.cancelDownload()
+        settingsTableView.reloadData()
+    }
+
+    func progressUpdated(databaseManager: DatabaseManager!) {
+        if databaseManager.downloadSize > 0 && downloadProgressView {
+            downloadProgressView!.progress = Float(databaseManager.downloadedSoFar) / Float(databaseManager.downloadSize)
+        }
+
+        if databaseManager.unzippedSize > 0 && unzipProgressView {
+            unzipProgressView!.progress = Float(databaseManager.unzippedSoFar) / Float(databaseManager.unzippedSize)
+        }
+    }
+
+    func downloadComplete(databaseManager: DatabaseManager!) {
+        settingsTableView.reloadData()
     }
 
 }

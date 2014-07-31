@@ -26,14 +26,17 @@
 
 @interface DatabaseManager()
 @property (atomic) NSInteger downloadSize, downloadedSoFar, unzippedSize, unzippedSoFar;
+@property (atomic) BOOL downloadInProgress;
+@property (nonatomic, weak) NSURLConnection* connection;
 @end
 
 @implementation DatabaseManager {
     FILE* fp;
     NSInteger _downloadedSoFar, _downloadSize, _unzippedSoFar, _unzippedSize;
+    BOOL _downloadInProgress;
 }
 
-@dynamic fileExists, fileURL, zipURL, downloadedSoFar, downloadSize, unzippedSize, unzippedSoFar;
+@dynamic fileExists, fileURL, zipURL, downloadedSoFar, downloadSize, unzippedSize, unzippedSoFar, downloadInProgress;
 
 - (instancetype)init
 {
@@ -41,6 +44,7 @@
     if (self) {
         fp = NULL;
         _downloadedSoFar = _downloadSize = _unzippedSize = _unzippedSoFar = 0;
+        _downloadInProgress = NO;
     }
     return self;
 }
@@ -49,6 +53,20 @@
 {
     if (fp) {
         fclose(fp);
+    }
+}
+
+- (BOOL)downloadInProgress
+{
+    @synchronized(self) {
+        return _downloadInProgress;
+    }
+}
+
+- (void)setDownloadInProgress:(BOOL)downloadInProgress
+{
+    @synchronized(self) {
+        _downloadInProgress = downloadInProgress;
     }
 }
 
@@ -178,6 +196,18 @@
     [alert show];
 }
 
+- (void)cancelDownload
+{
+    assert(_connection);
+    [_connection cancel];
+
+    self.downloadInProgress = NO;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    // [_delegate downloadComplete:self];
+
+    NSLog(@"Download canceled");
+}
+
 - (void)download
 {
     fp = fopen(self.zipURL.path.UTF8String, "w");
@@ -192,11 +222,12 @@
     }
 
     self.downloadSize = self.downloadedSoFar = self.unzippedSoFar = self.unzippedSize = 0;
+    self.downloadInProgress = YES;
 
     NSLog(@"Downloading %@", DUBSAR_DATABASE_URL);
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:DUBSAR_DATABASE_URL]];
-    NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    [connection start];
+    _connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [_connection start];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
@@ -226,6 +257,8 @@
 
     if ([AppDelegate offlineSetting]) {
         [self download];
+        BaseViewController* viewController = (BaseViewController*)[[AppDelegate instance] navigationController].topViewController;
+        [viewController adjustLayout];
     }
     else {
         [self deleteDatabase];
@@ -241,6 +274,8 @@
         fp = NULL;
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    self.downloadInProgress = NO;
+    [_delegate downloadComplete:self];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -256,6 +291,7 @@
     }
 
     self.downloadedSoFar += nr;
+    [_delegate progressUpdated:self];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -287,7 +323,15 @@
         return;
     }
 
-    [self unzip];
+    [self performSelectorInBackground:@selector(unzip) withObject:nil];
+}
+
+- (void)finishDownload
+{
+    self.downloadInProgress = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_delegate downloadComplete:self];
+    });
 }
 
 - (void)unzip
@@ -295,6 +339,7 @@
     unzFile* uf = unzOpen(self.zipURL.path.UTF8String);
     if (!uf) {
         NSLog(@"unzOpen(%@) failed", self.zipURL.path);
+        [self finishDownload];
         return;
     }
     // NSLog(@"Opened zip file");
@@ -303,6 +348,7 @@
     if (rc != UNZ_OK) {
         NSLog(@"failed to locate %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME);
         unzClose(uf);
+        [self finishDownload];
         return;
     }
     // NSLog(@"Located %@ in zip file", DUBSAR_FILE_NAME);
@@ -311,6 +357,7 @@
     if (rc != UNZ_OK) {
         NSLog(@"Failed to open %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME);
         unzClose(uf);
+        [self finishDownload];
         return;
     }
     // NSLog(@"Opened %@ in zip file", DUBSAR_FILE_NAME);
@@ -320,6 +367,7 @@
     if (rc != UNZ_OK) {
         NSLog(@"Failed to get current file info from zip");
         unzClose(uf);
+        [self finishDownload];
         return;
     }
 
@@ -330,6 +378,7 @@
     if (!outfile) {
         NSLog(@"Error %d opening %@ for write", errno, self.fileURL.path);
         unzClose(uf);
+        [self finishDownload];
         return;
     }
     // NSLog(@"Opened %@ for write", DUBSAR_FILE_NAME);
@@ -343,10 +392,14 @@
             NSLog(@"Failed to write %d bytes to %@. Wrote %zd instead. Error %d", nr, DUBSAR_FILE_NAME, nw, errno);
             fclose(outfile);
             unzClose(uf);
+            [self finishDownload];
             return;
         }
 
         self.unzippedSoFar += nw;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate progressUpdated:self];
+        });
     }
 
     fclose(outfile);
@@ -354,6 +407,7 @@
 
     if (nr < 0) {
         NSLog(@"unzReadCurrentFile returned %d", nr);
+        [self finishDownload];
         return;
     }
 
@@ -364,16 +418,16 @@
     }
     else {
         NSLog(@"Error %d from stat(%@)", errno, self.fileURL.path);
+        [self finishDownload];
         return;
     }
 
     NSError* error;
     if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
         NSLog(@"Error removing %@: %@", self.zipURL.path, error.localizedDescription);
-        return;
     }
 
-    // NSLog(@"Unzip complete. Removed %@", DUBSAR_ZIP_NAME);
+    [self finishDownload];
 }
 
 @end

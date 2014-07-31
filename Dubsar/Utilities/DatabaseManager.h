@@ -23,6 +23,14 @@
 #define DUBSAR_FILE_NAME @"dubsar-wn3.1-1.sqlite3"
 #define DUBSAR_ZIP_NAME @"dubsar-wn3.1-1.zip"
 
+@class DatabaseManager;
+@protocol DownloadProgressDelegate <NSObject>
+
+- (void) progressUpdated:(DatabaseManager*)databaseManager;
+- (void) downloadComplete:(DatabaseManager*)databaseManager;
+
+@end
+
 @interface DatabaseManager : NSObject<UIAlertViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @property (nonatomic, readonly) BOOL fileExists;
@@ -34,9 +42,14 @@
 @property (atomic, readonly) NSInteger unzippedSize;
 @property (atomic, readonly) NSInteger unzippedSoFar;
 
+@property (atomic, readonly) BOOL downloadInProgress;
+
+@property (nonatomic, weak) id<DownloadProgressDelegate> delegate;
+
 - (void)checkOfflineSetting;
 
 - (void)download;
 - (void)deleteDatabase;
+- (void)cancelDownload;
 
 @end

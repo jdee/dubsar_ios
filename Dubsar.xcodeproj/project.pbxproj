@@ -59,6 +59,7 @@
 		7BBBD6DD1989C8850030FDA9 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBD6D91989C8850030FDA9 /* ioapi.c */; };
 		7BBBD6DE1989C8850030FDA9 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBD6DB1989C8850030FDA9 /* unzip.c */; };
 		7BBBD6E01989C8AA0030FDA9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BBBD6DF1989C8AA0030FDA9 /* libz.dylib */; };
+		7BBBD6E21989E6070030FDA9 /* DownloadProgressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBD6E11989E6070030FDA9 /* DownloadProgressTableViewCell.swift */; };
 		7BBF83701974D58400969765 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF836F1974D58400969765 /* SearchViewController.swift */; };
 		7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83711974DB8200969765 /* WordTableViewCell.swift */; };
 		7BBF83741975871300969765 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83731975871300969765 /* BaseViewController.swift */; };
@@ -183,6 +184,7 @@
 		7BBBD6DB1989C8850030FDA9 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
 		7BBBD6DC1989C8850030FDA9 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
 		7BBBD6DF1989C8AA0030FDA9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		7BBBD6E11989E6070030FDA9 /* DownloadProgressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadProgressTableViewCell.swift; sourceTree = "<group>"; };
 		7BBF836F1974D58400969765 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		7BBF83711974DB8200969765 /* WordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordTableViewCell.swift; sourceTree = "<group>"; };
 		7BBF83731975871300969765 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 		7B82C93F19760D1C0077D1A0 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				7BBBD6E11989E6070030FDA9 /* DownloadProgressTableViewCell.swift */,
 				7B82D29D1974A12400F983F6 /* LoadingTableViewCell.swift */,
 				7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */,
 				7B6CC037197E1C3800151799 /* OpenWordTableViewCell.swift */,
@@ -556,6 +559,7 @@
 				7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */,
 				7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
+				7BBBD6E21989E6070030FDA9 /* DownloadProgressTableViewCell.swift in Sources */,
 				7B497C991979C3AF00563A4B /* NavButton.swift in Sources */,
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
 				7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */,

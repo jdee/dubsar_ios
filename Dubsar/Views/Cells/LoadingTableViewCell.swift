@@ -30,7 +30,7 @@ class LoadingTableViewCell: UITableViewCell {
     }
 
     init() {
-        spinner = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        spinner = UIActivityIndicatorView(activityIndicatorStyle: .Gray) // TODO: Determine style from theme
         super.init(style: .Default, reuseIdentifier: LoadingTableViewCell.identifier)
 
         selectionStyle = .None
