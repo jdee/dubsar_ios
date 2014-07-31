@@ -26,6 +26,8 @@
 @class DatabaseManager;
 @protocol DownloadProgressDelegate <NSObject>
 
+- (void) databaseManager:(DatabaseManager*)databaseManager encounteredError:(NSString*)errorMessage;
+- (void) downloadStarted:(DatabaseManager*)databaseManager;
 - (void) progressUpdated:(DatabaseManager*)databaseManager;
 - (void) downloadComplete:(DatabaseManager*)databaseManager;
 - (void) unzipStarted:(DatabaseManager*)databaseManager;

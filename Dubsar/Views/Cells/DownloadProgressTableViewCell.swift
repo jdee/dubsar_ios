@@ -42,8 +42,14 @@ class DownloadProgressTableViewCell: UITableViewCell {
 
         super.init(style: .Default, reuseIdentifier: DownloadProgressTableViewCell.identifier)
 
-        downloadLabel.text = "Download"
+        selectionStyle = .None
+
+        downloadLabel.text = "Download: requesting..."
+        downloadLabel.lineBreakMode = .ByWordWrapping
+        downloadLabel.numberOfLines = 0
         unzipLabel.text = "Unzip"
+        unzipLabel.lineBreakMode = .ByWordWrapping
+        unzipLabel.numberOfLines = 0
         cancelButton.setTitle("Cancel", forState: .Normal)
 
         contentView.addSubview(downloadLabel)
@@ -54,7 +60,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
     }
 
     func rebuild() {
-        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
+        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
         downloadLabel.font = font
         unzipLabel.font = font
         cancelButton.titleLabel.font = font
@@ -77,12 +83,12 @@ class DownloadProgressTableViewCell: UITableViewCell {
         let margin: CGFloat = 8
         let constrainedWidth = bounds.size.width - 2 * margin
 
-        let downloadTextSize = (downloadLabel.text as NSString).sizeWithAttributes([NSFontAttributeName: font])
+        let downloadTextSize = (downloadLabel.text as NSString).sizeOfTextWithConstrainedSize(CGSizeMake(constrainedWidth, bounds.size.height), font: font)
         downloadLabel.frame = CGRectMake(margin, margin, constrainedWidth, downloadTextSize.height)
 
         downloadProgress.frame = CGRectMake(margin, 2 * margin + downloadTextSize.height, constrainedWidth, downloadProgress.bounds.size.height)
 
-        let unzipTextSize = (unzipLabel.text as NSString).sizeWithAttributes([NSFontAttributeName: font])
+        let unzipTextSize = (unzipLabel.text as NSString).sizeOfTextWithConstrainedSize(CGSizeMake(constrainedWidth, bounds.size.height), font: font)
         unzipLabel.frame = CGRectMake(margin, 3 * margin + downloadTextSize.height + downloadProgress.bounds.size.height, constrainedWidth, unzipTextSize.height)
 
         unzipProgress.frame = CGRectMake(margin, 4 * margin + downloadTextSize.height + downloadProgress.bounds.size.height + unzipTextSize.height, constrainedWidth, unzipProgress.bounds.size.height)

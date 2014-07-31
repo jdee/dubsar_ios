@@ -29,10 +29,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     @IBOutlet var settingsTableView: UITableView!
 
-    private var downloadProgressView: UIProgressView?
-    private var unzipProgressView: UIProgressView?
-    private var downloadLabel: UILabel?
-    private var unzipLabel: UILabel?
+    private var downloadCell: DownloadProgressTableViewCell?
+    private var lastDownloadHeight: CGFloat = 0
 
     let sections = [
         [ [ "title" : "About", "view" : "About", "setting_type" : "nav" ],
@@ -112,25 +110,23 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                 offlineSwitch.tintColor = AppConfiguration.alternateBackgroundColor
                 offlineSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
 
-                offlineSwitch.removeTarget(self, action: "offlineSettingChanged:", forControlEvents: .ValueChanged) // necessary?
-                offlineSwitch.addTarget(self, action: "offlineSettingChanged:", forControlEvents: .ValueChanged)
+                offlineSwitch.removeTarget(self, action: "offlineSwitchChanged:", forControlEvents: .ValueChanged) // necessary?
+                offlineSwitch.addTarget(self, action: "offlineSwitchChanged:", forControlEvents: .ValueChanged)
                 
                 cell = switchCell
             }
             else {
-                var dldCell = tableView.dequeueReusableCellWithIdentifier(DownloadProgressTableViewCell.identifier) as? DownloadProgressTableViewCell
-                if !dldCell {
-                    dldCell = DownloadProgressTableViewCell()
+                downloadCell = tableView.dequeueReusableCellWithIdentifier(DownloadProgressTableViewCell.identifier) as? DownloadProgressTableViewCell
+                if !downloadCell {
+                    downloadCell = DownloadProgressTableViewCell()
                 }
 
-                dldCell!.rebuild()
-                cell = dldCell
-                downloadProgressView = dldCell!.downloadProgress
-                unzipProgressView = dldCell!.unzipProgress
-                downloadLabel = dldCell!.downloadLabel
-                unzipLabel = dldCell!.unzipLabel
+                updateProgressViews(downloadCell!.downloadProgress, unzipProgressView: downloadCell!.unzipProgress, downloadLabel: downloadCell!.downloadLabel, unzipLabel: downloadCell!.unzipLabel)
 
-                dldCell!.cancelButton.addTarget(self, action: "cancelDownload:", forControlEvents: .TouchUpInside)
+                downloadCell!.rebuild()
+                cell = downloadCell
+
+                downloadCell!.cancelButton.addTarget(self, action: "cancelDownload:", forControlEvents: .TouchUpInside)
             }
         }
 
@@ -150,15 +146,19 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
 
+
         let settings = sections[section] as [[String: String]]
         let setting = settings[row] as [String: String]
         let type = setting["setting_type"]
 
         if type == "switchValue" && AppDelegate.instance.databaseManager.downloadInProgress {
             let dummyCell = DownloadProgressTableViewCell()
+
+            updateProgressViews(dummyCell.downloadProgress, unzipProgressView: dummyCell.unzipProgress, downloadLabel: dummyCell.downloadLabel, unzipLabel: dummyCell.unzipLabel)
             dummyCell.frame = CGRectMake(0, 0, view.bounds.width, view.bounds.height)
             dummyCell.rebuild()
-            return dummyCell.bounds.size.height
+            lastDownloadHeight = dummyCell.bounds.size.height
+            return lastDownloadHeight
         }
 
         let fudge: CGFloat = 16
@@ -186,7 +186,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         }
     }
 
-    func offlineSettingChanged(sender: UISwitch!) {
+    func offlineSwitchChanged(sender: UISwitch!) {
         AppConfiguration.offlineSetting = sender.on
         AppDelegate.checkOfflineSetting()
     }
@@ -202,34 +202,62 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         }
 
         AppDelegate.instance.databaseManager.cancelDownload()
-        settingsTableView.reloadData()
+        reloadOfflineRow()
+    }
+
+    func updateProgressViews(downloadProgressView: UIProgressView, unzipProgressView: UIProgressView, downloadLabel: UILabel, unzipLabel: UILabel) {
+        let databaseManager = AppDelegate.instance.databaseManager
+
+        if databaseManager.downloadSize > 0 && databaseManager.downloadedSoFar < databaseManager.downloadSize {
+            downloadProgressView.progress = Float(databaseManager.downloadedSoFar) / Float(databaseManager.downloadSize)
+            downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize - databaseManager.downloadedSoFar)) ÷ \(formatRate(databaseManager.instantaneousDownloadRate)) = \(formatTime(databaseManager.estimatedDownloadTimeRemaining))"
+        }
+        else if databaseManager.downloadSize > 0 {
+            let averageRate = Double(databaseManager.downloadSize) / databaseManager.elapsedDownloadTime
+            downloadProgressView.progress = 1.0
+            downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize)) ÷ \(formatRate(averageRate)) = \(formatTime(databaseManager.elapsedDownloadTime))"
+        }
+
+        if databaseManager.unzippedSize > 0 {
+            unzipProgressView.progress = Float(databaseManager.unzippedSoFar) / Float(databaseManager.unzippedSize)
+            unzipLabel.text = "Unzip: \(formatTime(databaseManager.estimatedUnzipTimeRemaining))"
+        }
+    }
+
+    func reloadOfflineRow() {
+        settingsTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 1)], withRowAnimation: .Automatic) // DEBT: should do better than these literal constants
     }
 
     func progressUpdated(databaseManager: DatabaseManager!) {
-        if databaseManager.downloadSize > 0 && databaseManager.downloadedSoFar < databaseManager.downloadSize && downloadProgressView {
-            downloadProgressView!.progress = Float(databaseManager.downloadedSoFar) / Float(databaseManager.downloadSize)
-            downloadLabel!.text = "Download: \(formatSize(databaseManager.downloadSize - databaseManager.downloadedSoFar)) ÷ \(formatRate(databaseManager.instantaneousDownloadRate)) = \(formatTime(databaseManager.estimatedDownloadTimeRemaining))"
+        if !downloadCell {
+            return
         }
 
-        if databaseManager.unzippedSize > 0 && unzipProgressView {
-            unzipProgressView!.progress = Float(databaseManager.unzippedSoFar) / Float(databaseManager.unzippedSize)
-            unzipLabel!.text = "Unzip: \(formatTime(databaseManager.estimatedUnzipTimeRemaining))"
+        updateProgressViews(downloadCell!.downloadProgress, unzipProgressView: downloadCell!.unzipProgress, downloadLabel: downloadCell!.downloadLabel, unzipLabel: downloadCell!.unzipLabel)
+        downloadCell!.rebuild()
+        let height = downloadCell!.bounds.size.height
+        if height != lastDownloadHeight {
+            reloadOfflineRow()
         }
+    }
+
+    func databaseManager(databaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
+        NSLog("error downloading Database: %@", errorMessage)
+        reloadOfflineRow()
     }
 
     func downloadComplete(databaseManager: DatabaseManager!) {
-        settingsTableView.reloadData()
+        NSLog("Download and Unzip complete")
+        reloadOfflineRow()
     }
 
     func unzipStarted(databaseManager: DatabaseManager!) {
-
         // NSLog("Unzip started. %ld bytes downloaded in %f s", databaseManager.downloadSize, databaseManager.elapsedDownloadTime)
+        progressUpdated(databaseManager)
+    }
 
-        if databaseManager.downloadSize > 0 && downloadProgressView {
-            let averageRate = Double(databaseManager.downloadSize) / databaseManager.elapsedDownloadTime
-            downloadProgressView!.progress = 1.0
-            downloadLabel!.text = "Download: \(formatSize(databaseManager.downloadSize)) ÷ \(formatRate(averageRate)) = \(formatTime(databaseManager.elapsedDownloadTime))"
-        }
+    func downloadStarted(databaseManager: DatabaseManager!) {
+        progressUpdated(databaseManager)
     }
 
     private func formatSize(sizeBytes: Int) -> String {
