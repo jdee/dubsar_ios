@@ -104,6 +104,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                     switchCell = SettingSwitchValueTableViewCell()
                 }
 
+                switchCell!.rebuild() // or try to get autoresizing/constraints to work
+
                 let offlineSwitch = switchCell!.valueSwitch
                 offlineSwitch.on = AppConfiguration.offlineSetting
 
