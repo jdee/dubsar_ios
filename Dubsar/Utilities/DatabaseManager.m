@@ -24,17 +24,23 @@
 #import "Dubsar-Swift.h"
 #import "DatabaseManager.h"
 
+@interface DatabaseManager()
+@property (atomic) NSInteger downloadSize, downloadedSoFar, unzippedSize, unzippedSoFar;
+@end
+
 @implementation DatabaseManager {
     FILE* fp;
+    NSInteger _downloadedSoFar, _downloadSize, _unzippedSoFar, _unzippedSize;
 }
 
-@dynamic fileExists, fileURL, zipURL;
+@dynamic fileExists, fileURL, zipURL, downloadedSoFar, downloadSize, unzippedSize, unzippedSoFar;
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
         fp = NULL;
+        _downloadedSoFar = _downloadSize = _unzippedSize = _unzippedSoFar = 0;
     }
     return self;
 }
@@ -43,6 +49,62 @@
 {
     if (fp) {
         fclose(fp);
+    }
+}
+
+- (NSInteger)downloadSize
+{
+    @synchronized(self) {
+        return _downloadSize;
+    }
+}
+
+- (NSInteger)downloadedSoFar
+{
+    @synchronized(self) {
+        return _downloadedSoFar;
+    }
+}
+
+- (NSInteger)unzippedSize
+{
+    @synchronized(self) {
+        return _unzippedSize;
+    }
+}
+
+- (NSInteger)unzippedSoFar
+{
+    @synchronized(self) {
+        return _unzippedSoFar;
+    }
+}
+
+- (void)setDownloadSize:(NSInteger)downloadSize
+{
+    @synchronized(self) {
+        _downloadSize = downloadSize;
+    }
+}
+
+- (void)setDownloadedSoFar:(NSInteger)downloadedSoFar
+{
+    @synchronized(self) {
+        _downloadedSoFar = downloadedSoFar;
+    }
+}
+
+- (void)setUnzippedSize:(NSInteger)unzippedSize
+{
+    @synchronized(self) {
+        _unzippedSize = unzippedSize;
+    }
+}
+
+- (void)setUnzippedSoFar:(NSInteger)unzippedSoFar
+{
+    @synchronized(self) {
+        _unzippedSoFar = unzippedSoFar;
     }
 }
 
@@ -104,7 +166,7 @@
     NSString* message;
     NSString* okTitle;
     if (offlineSetting) {
-        message = @"Download and install the database? It's 35 to 40 MB compressed and about 100 MB on the device.";
+        message = @"Download and install the database? It's about 35 MB compressed and 92 MB on the device.";
         okTitle = @"Download";
     }
     else {
@@ -129,6 +191,8 @@
         NSLog(@"Successfully opened/created %@ for write", self.fileURL.path);
     }
 
+    self.downloadSize = self.downloadedSoFar = self.unzippedSoFar = self.unzippedSize = 0;
+
     NSLog(@"Downloading %@", DUBSAR_DATABASE_URL);
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:DUBSAR_DATABASE_URL]];
     NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
@@ -146,12 +210,8 @@
         NSLog(@"Deleted %@", self.fileURL.path);
     }
 
-    if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
-        NSLog(@"Error deleting DB %@: %@", self.fileURL.path, error.localizedDescription);
-    }
-    else {
-        NSLog(@"Deleted %@", self.zipURL.path);
-    }
+    // might not be there any more. don't care if this fails.
+    [[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:NULL];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -192,13 +252,18 @@
     }
     else {
         NSLog(@"Failed to write %d bytes. Wrote %zd. Error %d", data.length, nr, errno);
+        return;
     }
+
+    self.downloadedSoFar += nr;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
-    NSLog(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
+    self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
+
+    NSLog(@"response status code from %@: %ld (Content-Length: %ld)", httpResp.URL.host, (long)httpResp.statusCode, (long)_downloadSize);
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -250,6 +315,17 @@
     }
     // NSLog(@"Opened %@ in zip file", DUBSAR_FILE_NAME);
 
+    unz_file_info fileInfo;
+    rc = unzGetCurrentFileInfo(uf, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
+    if (rc != UNZ_OK) {
+        NSLog(@"Failed to get current file info from zip");
+        unzClose(uf);
+        return;
+    }
+
+    self.unzippedSize = fileInfo.uncompressed_size;
+    NSLog(@"Unzipped file will be %lu bytes", (long)_unzippedSize);
+
     FILE* outfile = fopen(self.fileURL.path.UTF8String, "w");
     if (!outfile) {
         NSLog(@"Error %d opening %@ for write", errno, self.fileURL.path);
@@ -269,6 +345,8 @@
             unzClose(uf);
             return;
         }
+
+        self.unzippedSoFar += nw;
     }
 
     fclose(outfile);

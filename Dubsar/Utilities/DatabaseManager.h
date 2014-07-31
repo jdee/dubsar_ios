@@ -29,6 +29,11 @@
 @property (nonatomic, readonly) NSURL* fileURL;
 @property (nonatomic, readonly) NSURL* zipURL;
 
+@property (atomic, readonly) NSInteger downloadSize;
+@property (atomic, readonly) NSInteger downloadedSoFar;
+@property (atomic, readonly) NSInteger unzippedSize;
+@property (atomic, readonly) NSInteger unzippedSoFar;
+
 - (void)checkOfflineSetting;
 
 - (void)download;
