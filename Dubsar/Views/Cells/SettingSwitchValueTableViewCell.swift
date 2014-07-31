@@ -42,6 +42,7 @@ class SettingSwitchValueTableViewCell: UITableViewCell {
     func rebuild() {
         let margin = 0.5 * (bounds.size.height - valueSwitch.bounds.size.height)
         valueSwitch.frame = CGRectMake(bounds.size.width - valueSwitch.bounds.size.width - margin, margin, valueSwitch.bounds.size.width, valueSwitch.bounds.size.height)
+        valueSwitch.autoresizingMask = .FlexibleLeftMargin
     }
 
 }
