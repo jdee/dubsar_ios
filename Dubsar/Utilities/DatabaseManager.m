@@ -195,7 +195,7 @@
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
-        [self notifyDelegateOfError: [NSString stringWithFormat:@"Error %d (%s) opening %@", error, errbuf, self.zipURL.path]];
+        [self notifyDelegateOfError: @"Error %d (%s) opening %@", error, errbuf, self.zipURL.path];
         return;
     }
     else {
@@ -312,7 +312,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.downloadInProgress = NO;
     [self updateElapsedDownloadTime];
-    [self notifyDelegateOfError:[NSString stringWithFormat:@"Connection failed with error: %@", error]];
+    [self notifyDelegateOfError:@"Connection failed with error: %@", error];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -368,15 +368,26 @@
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
-        [self notifyDelegateOfError: [NSString stringWithFormat:@"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path]];
+        [self notifyDelegateOfError: @"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path];
         return;
     }
 
     [self performSelectorInBackground:@selector(unzip) withObject:nil];
 }
 
-- (void)notifyDelegateOfError:(NSString*)error
+- (void)notifyDelegateOfError:(NSString*)format, ...
 {
+    va_list args;
+    va_start(args, format);
+
+    char buffer[512];
+
+    vsnprintf(buffer, 511, format.UTF8String, args);
+
+    va_end(args);
+
+    NSString* error = @(buffer);
+
     self.downloadInProgress = NO;
     if ([NSThread currentThread] != [NSThread mainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -413,14 +424,14 @@
 {
     unzFile* uf = unzOpen(self.zipURL.path.UTF8String);
     if (!uf) {
-        [self notifyDelegateOfError: [NSString stringWithFormat:@"unzOpen(%@) failed", self.zipURL.path]];
+        [self notifyDelegateOfError: @"unzOpen(%@) failed", self.zipURL.path];
         return;
     }
     // NSLog(@"Opened zip file");
 
     int rc = unzLocateFile(uf, DUBSAR_FILE_NAME.UTF8String, 1);
     if (rc != UNZ_OK) {
-        [self notifyDelegateOfError: [NSString stringWithFormat:@"failed to locate %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME]];
+        [self notifyDelegateOfError: @"failed to locate %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME];
         unzClose(uf);
         return;
     }
@@ -428,7 +439,7 @@
 
     rc = unzOpenCurrentFile(uf);
     if (rc != UNZ_OK) {
-        [self notifyDelegateOfError: [NSString stringWithFormat:@"Failed to open %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME]];
+        [self notifyDelegateOfError: @"Failed to open %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME];
         unzClose(uf);
         return;
     }
@@ -437,7 +448,7 @@
     unz_file_info fileInfo;
     rc = unzGetCurrentFileInfo(uf, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
     if (rc != UNZ_OK) {
-        [self notifyDelegateOfError:@"Failed to get current file info from zip"];
+        [self notifyDelegateOfError: @"Failed to get current file info from zip"];
         unzClose(uf);
         return;
     }
@@ -450,7 +461,7 @@
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
-        [self notifyDelegateOfError: [NSString stringWithFormat:@"Error %d (%s) opening %@ for write", error, errbuf, self.fileURL.path]];
+        [self notifyDelegateOfError: @"Error %d (%s) opening %@ for write", error, errbuf, self.fileURL.path];
         unzClose(uf);
         return;
     }
@@ -486,7 +497,7 @@
             int error = errno;
             char errbuf[256];
             strerror_r(error, errbuf, 255);
-            [self notifyDelegateOfError: [NSString stringWithFormat:@"Failed to write %d bytes to %@. Wrote %zd instead. Error %d (%s)", nr, DUBSAR_FILE_NAME, nw, error, errbuf]];
+            [self notifyDelegateOfError: @"Failed to write %d bytes to %@. Wrote %zd instead. Error %d (%s)", nr, DUBSAR_FILE_NAME, nw, error, errbuf];
             fclose(outfile);
             unzClose(uf);
             return;
@@ -506,7 +517,7 @@
     unzClose(uf);
 
     if (nr < 0) {
-        [self notifyDelegateOfError: [NSString stringWithFormat:@"unzReadCurrentFile returned %d", nr]];
+        [self notifyDelegateOfError: @"unzReadCurrentFile returned %d", nr];
         return;
     }
 
@@ -519,7 +530,7 @@
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
-        [self notifyDelegateOfError: [NSString stringWithFormat:@"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path]];
+        [self notifyDelegateOfError: @"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path];
         [self finishDownload];
         return;
     }
