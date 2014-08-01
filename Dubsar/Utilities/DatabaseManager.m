@@ -294,6 +294,8 @@
     self.downloadedAtLastStatsUpdate = self.downloadedSoFar;
     self.lastDownloadStatsUpdate = now;
 
+    // DEBT: Currently _delegate is nil if this is a background download. This will need to be redirected to
+    // the main thread if the delegate has to be used in a background download.
     [_delegate progressUpdated:self];
 }
 
@@ -384,6 +386,8 @@
     }
     _totalSize = self.downloadSize;
 
+    // DEBT: Currently _delegate is nil if this is a background download. This will need to be redirected to
+    // the main thread if the delegate has to be used in a background download.
     [_delegate downloadStarted:self];
 }
 
@@ -399,6 +403,9 @@
     fclose(fp);
     fp = NULL;
     [[UIApplication sharedApplication] stopUsingNetwork];
+
+    // DEBT: Currently _delegate is nil if this is a background download. This will need to be redirected to
+    // the main thread if the delegate has to be used in a background download.
     [_delegate unzipStarted:self];
     [self performSelector:@selector(unzip) withObject:nil];
 }
@@ -407,16 +414,16 @@
 {
     va_list args;
     va_start(args, format);
-
     char buffer[512];
 
     vsnprintf(buffer, 511, format.UTF8String, args);
-
     va_end(args);
 
     self.errorMessage = @(buffer);
-
     self.downloadInProgress = NO;
+
+    if (!_delegate) return;
+
     if ([NSThread currentThread] != [NSThread mainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             // [self deleteDatabase];
@@ -431,8 +438,6 @@
 
 - (void)finishDownload
 {
-    // DEBT: Error handling
-
     self.downloadInProgress = NO;
     if ([NSThread currentThread] != [NSThread mainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{

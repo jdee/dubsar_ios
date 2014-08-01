@@ -111,12 +111,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     }
 
     func applicationDidEnterBackground(theApplication: UIApplication!) {
-        NSUserDefaults.standardUserDefaults().synchronize()
-
         NavButtonImage.voidCache()
         DownloadButtonImage.voidCache()
 
-        if !databaseManager.downloadInProgress {
+        // if a bg task is already running, let it go
+        if !databaseManager.downloadInProgress || bgTask != UIBackgroundTaskInvalid {
+            NSUserDefaults.standardUserDefaults().synchronize()
             return
         }
 
@@ -126,6 +126,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
          */
         databaseManager.cancelDownload()
         databaseManager.delegate = nil // avoid calling back any VC in the bg
+        AppConfiguration.offlineSetting = true // was set to false by cancelDownload()
+        NSUserDefaults.standardUserDefaults().synchronize()
 
         /*
          * Now we kick off a fresh download from the BG. This will use an If-Range header
@@ -133,7 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
          * the thread that initiates the NSURLConnection request.
          */
         bgTask = theApplication.beginBackgroundTaskWithExpirationHandler() {
-            [weak self] in
+            [weak self] in // unowned seems appropriate and easier, but crashes
 
             if let my = self {
                 // just cancel the download if the task expires
@@ -150,7 +152,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         }
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            [weak self] in
+            [weak self] in // unowned seems appropriate and easier, but crashes
 
             if let my = self {
                 // initiate the background download
