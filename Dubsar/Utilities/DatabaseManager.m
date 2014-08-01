@@ -38,6 +38,10 @@
 @property (atomic) NSTimeInterval estimatedUnzipTimeRemaining, elapsedDownloadTime;
 @property (atomic) double instantaneousUnzipRate;
 @property (atomic, copy) NSString* errorMessage;
+
+@property (nonatomic, copy) NSString* etag;
+@property (nonatomic) NSInteger start;
+@property (nonatomic) NSInteger totalSize;
 @end
 
 @implementation DatabaseManager {
@@ -53,6 +57,8 @@
         fp = NULL;
         _downloadedSoFar = _downloadSize = _unzippedSize = _unzippedSoFar = 0;
         _downloadInProgress = NO;
+
+        _start = _totalSize = 0;
 
         // are these ivars actually related to the synthesized atomic props?
         memset(&_downloadStart, 0, sizeof(_downloadStart));
@@ -158,14 +164,38 @@
     // [_delegate downloadComplete:self];
 
     NSLog(@"Download canceled");
-    [self deleteDatabase]; // cleans up the zip too
+    // [self deleteDatabase]; // cleans up the zip too
 }
 
 - (void)download
 {
     self.errorMessage = nil;
 
-    fp = fopen(self.zipURL.path.UTF8String, "w");
+    struct stat sb;
+    int rc = stat(self.zipURL.path.UTF8String, &sb);
+    if (rc < 0) {
+        int error = errno;
+        if (error != ENOENT) {
+            char errbuf[256];
+            strerror_r(error, errbuf, 255);
+            [self notifyDelegateOfError:@"Error %d (%s) from stat(%@)", error, errbuf, self.zipURL.path];
+            return;
+        }
+        // not present. just download
+        _etag = nil;
+    }
+    else if (_etag) {
+        _start = (NSInteger)sb.st_size;
+    }
+    else {
+        NSError* error;
+        if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
+            [self notifyDelegateOfError:@"Error removing zip file: %@", error.localizedDescription];
+            return;
+        }
+    }
+
+    fp = fopen(self.zipURL.path.UTF8String, "a");
     if (!fp) {
         int error = errno;
         char errbuf[256];
@@ -194,7 +224,13 @@
     self.unzipStart = now;
 
     NSLog(@"Downloading %@", DUBSAR_DATABASE_URL);
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:DUBSAR_DATABASE_URL]];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:DUBSAR_DATABASE_URL]];
+
+    if (_etag && _start > 0 && _totalSize >= _start) {
+        [request addValue:_etag forHTTPHeaderField:@"If-Range"];
+        [request addValue:[NSString stringWithFormat:@"bytes=%ld-%ld", (long)_start, (long)_totalSize-1] forHTTPHeaderField:@"Range"];
+    }
+
     _connection = [NSURLConnection connectionWithRequest:request delegate:self];
     [_connection start];
     [[UIApplication sharedApplication] startUsingNetwork];
@@ -213,29 +249,6 @@
     // might not be there any more. don't care if this fails.
     if ([[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:NULL]) {
         NSLog(@"Deleted %@", self.zipURL.path);
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        [AppDelegate setOfflineSetting:![AppDelegate offlineSetting]];
-
-        BaseViewController* viewController = (BaseViewController*)[[AppDelegate instance] navigationController].topViewController;
-        [viewController adjustLayout];
-        return;
-    }
-
-    if ([AppDelegate offlineSetting]) {
-        [self download];
-        BaseViewController* viewController = (BaseViewController*)[[AppDelegate instance] navigationController].topViewController;
-        [viewController adjustLayout];
-    }
-    else if (self.downloadInProgress) {
-        [self cancelDownload];
-    }
-    else {
-        [self deleteDatabase];
     }
 }
 
@@ -317,7 +330,24 @@
     [self updateElapsedDownloadTime];
 
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
+    NSString* newETag = (NSString*)httpResp.allHeaderFields[@"ETag"];
+    if (_etag && ![_etag isEqualToString:newETag]) {
+        _totalSize = 0;
+        _start = 0;
+        if (fp) {
+            fclose(fp);
+            fp = NULL;
+        }
+
+        fp = fopen(self.zipURL.path.UTF8String, "w"); // truncate rather than append
+    }
+
     self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
+
+    assert(_totalSize == 0 || self.downloadSize == _totalSize - _start);
+
+    self.downloadedSoFar += _start;
+    self.downloadSize += _start;
 
     NSLog(@"response status code from %@: %ld (Content-Length: %ld)", httpResp.URL.host, (long)httpResp.statusCode, (long)_downloadSize);
     if (httpResp.statusCode >= 400) {
@@ -330,6 +360,12 @@
         }
         return;
     }
+
+    _etag = (NSString*)httpResp.allHeaderFields[@"ETag"];
+    if (_etag) {
+        NSLog(@"ETag for %@ is %@", DUBSAR_DATABASE_URL, _etag);
+    }
+    _totalSize = self.downloadSize;
 
     [_delegate downloadStarted:self];
 }
@@ -380,12 +416,12 @@
     self.downloadInProgress = NO;
     if ([NSThread currentThread] != [NSThread mainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self deleteDatabase];
+            // [self deleteDatabase];
             [_delegate databaseManager:self encounteredError:self.errorMessage];
         });
     }
     else {
-        [self deleteDatabase];
+        // [self deleteDatabase];
         [_delegate databaseManager:self encounteredError:self.errorMessage];
     }
 }

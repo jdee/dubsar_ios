@@ -19,8 +19,8 @@
 
 @import Foundation;
 
-// #define DUBSAR_DATABASE_URL @"https://s.dubsar-dictionary.com/dubsar-wn3.1-1.zip"
-#define DUBSAR_DATABASE_URL @"http://192.168.2.101:3000/dubsar-wn3.1-1.zip"
+#define DUBSAR_DATABASE_URL @"https://s.dubsar-dictionary.com/dubsar-wn3.1-1.zip"
+// #define DUBSAR_DATABASE_URL @"http://192.168.2.101:3000/dubsar-wn3.1-1.zip"
 #define DUBSAR_FILE_NAME @"dubsar-wn3.1-1.sqlite3"
 #define DUBSAR_ZIP_NAME @"dubsar-wn3.1-1.zip"
 
