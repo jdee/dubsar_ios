@@ -108,6 +108,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         checkOfflineSetting()
     }
 
+    func applicationDidEnterBackground(application: UIApplication!) {
+        NavButtonImage.voidCache()
+        DownloadButtonImage.voidCache()
+    }
+
+    func applicationDidReceiveMemoryWarning(application: UIApplication!) {
+        NavButtonImage.voidCache()
+        DownloadButtonImage.voidCache()
+    }
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
         databaseManager.initialize()
