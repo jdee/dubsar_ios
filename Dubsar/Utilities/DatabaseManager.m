@@ -290,7 +290,7 @@
     [[UIApplication sharedApplication] stopUsingNetwork];
     self.downloadInProgress = NO;
     [self updateElapsedDownloadTime];
-    [self notifyDelegateOfError:@"Connection failed with error: %@", error];
+    [self notifyDelegateOfError: error.localizedDescription];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -321,7 +321,7 @@
 
     NSLog(@"response status code from %@: %ld (Content-Length: %ld)", httpResp.URL.host, (long)httpResp.statusCode, (long)_downloadSize);
     if (httpResp.statusCode >= 400) {
-        [self notifyDelegateOfError:@"Status code %ld from server", (long)httpResp.statusCode];
+        [self notifyDelegateOfError:@"Status code %ld from %@", (long)httpResp.statusCode, httpResp.URL.host];
         [[UIApplication sharedApplication] stopUsingNetwork];
         self.downloadInProgress = NO;
         if (fp) {

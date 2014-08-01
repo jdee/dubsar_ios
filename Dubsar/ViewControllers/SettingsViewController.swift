@@ -251,6 +251,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize)) ÷ \(formatRate(averageRate)) = \(formatTime(databaseManager.elapsedDownloadTime))"
         }
 
+        if databaseManager.errorMessage {
+            return
+        }
+
         if databaseManager.unzippedSize > 0 && databaseManager.unzippedSoFar < databaseManager.unzippedSize {
             unzipProgressView.progress = Float(databaseManager.unzippedSoFar) / Float(databaseManager.unzippedSize)
             unzipLabel.text = "Unzip: \(formatTime(databaseManager.estimatedUnzipTimeRemaining))"
