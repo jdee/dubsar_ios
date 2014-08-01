@@ -23,8 +23,47 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
-    class func checkOfflineSetting() {
-        instance.databaseManager.checkOfflineSetting()
+    func checkOfflineSetting() {
+        let offlineSetting = AppConfiguration.offlineSetting
+        let filePresent = databaseManager.downloadInProgress || databaseManager.fileExists
+        if !AppConfiguration.offlineHasChanged {
+            if offlineSetting == filePresent {
+                return
+            }
+        }
+
+        // the user changed the setting in the Settings app or the Settings view
+
+        var message: String
+        var okTitle: String
+        var cancelTitle: String
+
+        if databaseManager.downloadInProgress {
+            if (offlineSetting) {
+                return // happy
+            }
+            else {
+                message = "Stop download in progress?"
+                okTitle = "Stop"
+                cancelTitle = "Continue"
+            }
+        }
+        else if offlineSetting == databaseManager.fileExists {
+            return; // happy
+        }
+        else if offlineSetting {
+            message = "Download and install the database? It's a 33 MB download and 92 MB on the device."
+            okTitle = "Download"
+            cancelTitle = "Cancel"
+        }
+        else {
+            message = "Delete the database?"
+            okTitle = "Delete"
+            cancelTitle = "Cancel"
+        }
+
+        let alert = UIAlertView(title: "Offline setting changed", message: message, delegate: self, cancelButtonTitle: cancelTitle, otherButtonTitles: okTitle)
+        alert.show()
     }
 
     class var offlineHasChanged: Bool {
@@ -66,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         let viewController = navigationController.topViewController as BaseViewController
         viewController.adjustLayout() // in case of a font change in the settings
 
-        databaseManager.checkOfflineSetting()
+        checkOfflineSetting()
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
@@ -156,10 +195,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     }
 
     func alertView(alertView: UIAlertView, clickedButtonAtIndex index: Int) {
-        if index == 1 {
+        if index == 0 {
+            if !alertURL {
+                AppConfiguration.offlineSetting = !AppConfiguration.offlineSetting
+                let viewController = navigationController.topViewController as BaseViewController
+                viewController.adjustLayout()
+            }
+
+            return
+        }
+
+        if alertURL {
             openURL(alertURL)
             alertURL = nil
+            return
         }
+
+        if (databaseManager.downloadInProgress) {
+            databaseManager.cancelDownload()
+        }
+        else if (AppConfiguration.offlineSetting) {
+            databaseManager.download()
+        }
+        else {
+            databaseManager.deleteDatabase()
+        }
+
+        let viewController = navigationController.topViewController as BaseViewController
+        viewController.adjustLayout()
     }
 
     func setupPushNotificationsForApplication(theApplication:UIApplication, withLaunchOptions launchOptions: NSDictionary?) {

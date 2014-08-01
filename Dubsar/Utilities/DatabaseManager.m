@@ -141,46 +141,6 @@
     }
 }
 
-- (void)checkOfflineSetting
-{
-    BOOL offlineSetting = [AppDelegate offlineSetting];
-    if (![AppDelegate offlineHasChanged]) {
-        return;
-    }
-
-    // the user changed the setting in the Settings app or the Settings view
-
-    NSString* message;
-    NSString* okTitle;
-    NSString* cancelTitle;
-    if (self.downloadInProgress) {
-        if (offlineSetting) {
-            return; // happy
-        }
-        else {
-            message = @"Stop download in progress?";
-            okTitle = @"Stop";
-            cancelTitle = @"Continue";
-        }
-    }
-    else if (offlineSetting == self.fileExists) {
-        return; // happy
-    }
-    else if (offlineSetting) {
-        message = @"Download and install the database? It's a 33 MB download and 92 MB on the device.";
-        okTitle = @"Download";
-        cancelTitle = @"Cancel";
-    }
-    else {
-        message = @"Delete the database for good?";
-        okTitle = @"Delete";
-        cancelTitle = @"Cancel";
-    }
-
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Offline setting changed" message:message delegate:self cancelButtonTitle:cancelTitle otherButtonTitles:okTitle, nil];
-    [alert show];
-}
-
 - (void)cancelDownload
 {
     if (!self.downloadInProgress || !_connection) {

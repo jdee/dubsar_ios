@@ -17,7 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-@import UIKit;
+@import Foundation;
 
 // #define DUBSAR_DATABASE_URL @"https://s.dubsar-dictionary.com/dubsar-wn3.1-1.zip"
 #define DUBSAR_DATABASE_URL @"http://192.168.2.101:3000/dubsar-wn3.1-1.zip"
@@ -38,7 +38,7 @@
 /**
  * This will move into DubsarModels.
  */
-@interface DatabaseManager : NSObject<UIAlertViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+@interface DatabaseManager : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @property (nonatomic, readonly) BOOL fileExists;
 
@@ -72,8 +72,6 @@
 @property (nonatomic, weak) id<DownloadProgressDelegate> delegate;
 
 - (void)initialize;
-
-- (void)checkOfflineSetting;
 
 - (void)download;
 - (void)deleteDatabase;

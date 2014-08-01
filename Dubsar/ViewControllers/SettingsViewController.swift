@@ -188,7 +188,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     func offlineSwitchChanged(sender: UISwitch!) {
         AppConfiguration.offlineSetting = sender.on
-        AppDelegate.checkOfflineSetting()
+        AppDelegate.instance.checkOfflineSetting()
     }
 
     @IBAction func cancelDownload(sender: UIButton!) {
