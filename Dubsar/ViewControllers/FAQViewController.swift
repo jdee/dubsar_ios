@@ -84,6 +84,8 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
     }
 
     override func setupToolbar() {
+        navigationItem.rightBarButtonItems = []
+
         addHomeButton()
         super.setupToolbar()
     }

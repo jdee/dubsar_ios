@@ -277,6 +277,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             return
         }
 
+        navigationItem.rightBarButtonItems = []
+
         addHomeButton()
         super.setupToolbar()
     }
