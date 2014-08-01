@@ -267,19 +267,18 @@
     [self updateElapsedDownloadTime];
 
     NSInteger size = self.downloadedSoFar - self.downloadedAtLastStatsUpdate;
+    struct timeval now;
+    gettimeofday(&now, NULL);
 
-    if (size < 128 * 1024) {
+    double delta = (double)(now.tv_sec - self.lastDownloadStatsUpdate.tv_sec) + (double)(now.tv_usec - self.lastDownloadStatsUpdate.tv_usec) * 1.0e-6;
+    // NSLog(@"%f s since last read: %lu bytes", delta, (unsigned long)size);
+
+    if (size < 128 * 1024 && delta < 5.0) {
         // even it out by only checking every so often
         return;
     }
 
     // NSLog(@"On receipt of data, last read time %ld.%06d", self.lastDownloadRead.tv_sec, self.lastDownloadRead.tv_usec);
-
-    struct timeval now;
-    gettimeofday(&now, NULL);
-
-    double delta = (double)(now.tv_sec - self.lastDownloadStatsUpdate.tv_sec) + (double)(now.tv_usec - self.lastDownloadStatsUpdate.tv_usec) * 1.0e-6;
-    // NSLog(@"%f s since last read: %lu bytes", delta, (unsigned long)data.length);
 
     if (delta > 0.0) {
         self.instantaneousDownloadRate = ((double)size) / delta;
