@@ -193,7 +193,7 @@
     [AppDelegate setOfflineSetting:NO];
 
     self.downloadInProgress = NO;
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [[UIApplication sharedApplication] stopUsingNetwork];
     // [_delegate downloadComplete:self];
 
     NSLog(@"Download canceled");
@@ -234,7 +234,7 @@
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:DUBSAR_DATABASE_URL]];
     _connection = [NSURLConnection connectionWithRequest:request delegate:self];
     [_connection start];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [[UIApplication sharedApplication] startUsingNetwork];
 }
 
 - (void)deleteDatabase
@@ -324,7 +324,7 @@
         fclose(fp);
         fp = NULL;
     }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [[UIApplication sharedApplication] stopUsingNetwork];
     self.downloadInProgress = NO;
     [self updateElapsedDownloadTime];
     [self notifyDelegateOfError:@"Connection failed with error: %@", error];
@@ -357,6 +357,17 @@
     self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
 
     NSLog(@"response status code from %@: %ld (Content-Length: %ld)", httpResp.URL.host, (long)httpResp.statusCode, (long)_downloadSize);
+    if (httpResp.statusCode >= 400) {
+        [self notifyDelegateOfError:@"Status code %ld from server", (long)httpResp.statusCode];
+        [[UIApplication sharedApplication] stopUsingNetwork];
+        self.downloadInProgress = NO;
+        if (fp) {
+            fclose(fp);
+            fp = NULL;
+        }
+        return;
+    }
+
     [_delegate downloadStarted:self];
 }
 
@@ -369,7 +380,7 @@
         fp = NULL;
     }
 
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [[UIApplication sharedApplication] stopUsingNetwork];
 
     [self updateElapsedDownloadTime];
     [_delegate unzipStarted:self];

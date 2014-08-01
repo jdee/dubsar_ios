@@ -20,6 +20,7 @@
 		7B1FDE2E19894E81004519D4 /* SettingSwitchValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */; };
 		7B2F4642198AEAC500F57D21 /* DownloadButtonImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F4641198AEAC500F57D21 /* DownloadButtonImage.m */; };
 		7B2F4644198AF79200F57D21 /* DownloadBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F4643198AF79200F57D21 /* DownloadBarButtonItem.swift */; };
+		7B2F464B198B1CC100F57D21 /* UIApplication+NetworkRefCount.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2F464A198B1CC100F57D21 /* UIApplication+NetworkRefCount.m */; };
 		7B497C8D1978546000563A4B /* ScrollingSynsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B497C8C1978546000563A4B /* ScrollingSynsetView.swift */; };
 		7B497C971978889700563A4B /* SynsetPointerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B497C961978889700563A4B /* SynsetPointerView.swift */; };
 		7B497C991979C3AF00563A4B /* NavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B497C981979C3AF00563A4B /* NavButton.swift */; };
@@ -127,6 +128,8 @@
 		7B2F4640198AEAC500F57D21 /* DownloadButtonImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadButtonImage.h; sourceTree = "<group>"; };
 		7B2F4641198AEAC500F57D21 /* DownloadButtonImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadButtonImage.m; sourceTree = "<group>"; };
 		7B2F4643198AF79200F57D21 /* DownloadBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadBarButtonItem.swift; sourceTree = "<group>"; };
+		7B2F4649198B1CC100F57D21 /* UIApplication+NetworkRefCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+NetworkRefCount.h"; sourceTree = "<group>"; };
+		7B2F464A198B1CC100F57D21 /* UIApplication+NetworkRefCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+NetworkRefCount.m"; sourceTree = "<group>"; };
 		7B497C8C1978546000563A4B /* ScrollingSynsetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollingSynsetView.swift; sourceTree = "<group>"; };
 		7B497C961978889700563A4B /* SynsetPointerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynsetPointerView.swift; sourceTree = "<group>"; };
 		7B497C981979C3AF00563A4B /* NavButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavButton.swift; sourceTree = "<group>"; };
@@ -407,6 +410,8 @@
 				7B62D74F19773272006A797C /* NavButtonImage.m */,
 				7BA90E08197786D400D5C180 /* PushWrapper.h */,
 				7BA90E09197786D400D5C180 /* PushWrapper.m */,
+				7B2F4649198B1CC100F57D21 /* UIApplication+NetworkRefCount.h */,
+				7B2F464A198B1CC100F57D21 /* UIApplication+NetworkRefCount.m */,
 				7BBF83831975E87B00969765 /* View Sizing */,
 			);
 			path = Utilities;
@@ -540,6 +545,7 @@
 				7BBF83741975871300969765 /* BaseViewController.swift in Sources */,
 				7B497C971978889700563A4B /* SynsetPointerView.swift in Sources */,
 				7BBBD6DE1989C8850030FDA9 /* unzip.c in Sources */,
+				7B2F464B198B1CC100F57D21 /* UIApplication+NetworkRefCount.m in Sources */,
 				7B06EC761988AD6E00C44892 /* SettingNavigationTableViewCell.swift in Sources */,
 				7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */,
 				7BA85A5619848DA100222A6D /* AppConfiguration.swift in Sources */,

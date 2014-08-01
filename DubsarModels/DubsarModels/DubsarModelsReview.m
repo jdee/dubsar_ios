@@ -16,7 +16,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-@import UIKit;
+@import Foundation;
 
 #import "DubsarModelsDatabase.h"
 #import "DubsarModelsInflection.h"
@@ -87,7 +87,7 @@
     
     connection = [NSURLConnection connectionWithRequest:request delegate:self];
     
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    // [[UIApplication sharedApplication] startUsingNetwork];
     
     NSLog(@"requesting %@", super.url);
 }

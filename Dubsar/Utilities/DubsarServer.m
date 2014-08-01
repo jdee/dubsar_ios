@@ -19,6 +19,7 @@
 
 @import DubsarModels;
 #import "DubsarServer.h"
+#import "UIApplication+NetworkRefCount.h"
 
 @implementation DubsarServer
 
@@ -112,7 +113,7 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
 
     NSURLConnection* connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [[UIApplication sharedApplication] startUsingNetwork];
     [connection start];
 }
 
@@ -121,7 +122,7 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     NSLog(@"HTTPS connection failed: %@", error.localizedDescription);
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [[UIApplication sharedApplication] stopUsingNetwork];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -130,7 +131,7 @@
 
     NSLog(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
 
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [[UIApplication sharedApplication] stopUsingNetwork];
 }
 
 @end

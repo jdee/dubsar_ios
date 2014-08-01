@@ -109,15 +109,12 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
     connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
+
+    [delegate networkLoadStarted:self];
+
     NSLog(@"requesting %@", url);
 }
 
-/* 
- * TODO: Migrate several methods to DailyWord class.
- */
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
@@ -131,12 +128,10 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
     }];
     
     if (httpResponse.statusCode >= 400) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        
         NSString* errMsg = @"The Dubsar server did not return the data properly.";
-        
+
+        [delegate networkLoadFinished:self];
         [delegate loadComplete:self withError:errMsg];
-        [DubsarModelsModel displayNetworkAlert:errMsg];
         error = true;
     }
     
@@ -144,33 +139,27 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
     [data setLength:0];
 }
 
--(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)theData
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)theData
 {
     [data appendData:theData];
 }
 
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)theError
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)theError
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
     NSString* errMsg = [theError localizedDescription];
     NSLog(@"error requesting %@: %@", url, errMsg);
     
     [self setComplete:true];
     [self setError:true];
     [self setErrorMessage:errMsg];
+    [delegate networkLoadFinished:self];
     [[self delegate] loadComplete:self withError:errMsg];
     
     NSLog(@"load processing finished");
-    
-    [DubsarModelsModel displayNetworkAlert:errMsg];
 }
 
--(void)connectionDidFinishLoading:(NSURLConnection *)connection
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-
-    
     // BUG: Why does jsonData show up as (null) in the iPod log?
     NSString* jsonData = @((const char*)[data bytes]);
     NSLog(@"JSON response from URL %@:", url);
@@ -181,17 +170,10 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
     }
 
     [self setComplete:true];
+    [delegate networkLoadFinished:self];
     [[self delegate] loadComplete:self withError:nil];
 
     NSLog(@"load processing finished");
-}
-
-+(void)displayNetworkAlert:(NSString *)error
-{
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
-    
-    UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"Network Error" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];   
 }
 
 @end

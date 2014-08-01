@@ -17,7 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-@import UIKit;
+@import Foundation;
 
 //! Project version number for DubsarModels.
 FOUNDATION_EXPORT double DubsarModelsVersionNumber;

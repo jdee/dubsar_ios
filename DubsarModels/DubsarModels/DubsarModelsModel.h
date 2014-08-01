@@ -57,8 +57,6 @@
 // load in current thread; use with care.
 - (void)loadSynchronous;
 
-+(void)displayNetworkAlert:(NSString*)error;
-
 @end
 
 extern const NSString* DubsarBaseUrl;

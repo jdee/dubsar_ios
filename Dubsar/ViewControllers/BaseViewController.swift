@@ -106,6 +106,14 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
         }
     }
 
+    func networkLoadFinished(model: DubsarModelsModel!) {
+        UIApplication.sharedApplication().stopUsingNetwork()
+    }
+
+    func networkLoadStarted(model: DubsarModelsModel!) {
+        UIApplication.sharedApplication().startUsingNetwork()
+    }
+
     func instantiateViewControllerWithIdentifier(vcIdentifier: String!, model: DubsarModelsModel? = nil) -> BaseViewController? {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewControllerWithIdentifier(vcIdentifier) as? BaseViewController

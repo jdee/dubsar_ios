@@ -41,7 +41,7 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        UIApplication.sharedApplication().stopUsingNetwork()
     }
 
     @IBAction func done(sender: UIBarButtonItem!) {
@@ -57,11 +57,10 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
             webView.loadRequest(request)
             return
         }
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 
     func webViewDidStartLoad(webView: UIWebView!) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.sharedApplication().startUsingNetwork()
     }
 
     func webView(webView: UIWebView!, didFailLoadWithError error: NSError!) {
