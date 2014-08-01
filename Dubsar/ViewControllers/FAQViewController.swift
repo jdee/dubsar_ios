@@ -32,6 +32,7 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
     let url = "https://m.dubsar-dictionary.com/ios_faq_v200"
 
     private var ready = false
+    private var loading = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +42,9 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
-        UIApplication.sharedApplication().stopUsingNetwork()
+        if loading {
+            UIApplication.sharedApplication().stopUsingNetwork()
+        }
     }
 
     @IBAction func done(sender: UIBarButtonItem!) {
@@ -55,18 +58,24 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
             let request = NSURLRequest(URL: NSURL(string: url))
 
             webView.loadRequest(request)
+            UIApplication.sharedApplication().startUsingNetwork()
             return
         }
+
+        UIApplication.sharedApplication().stopUsingNetwork()
+        loading = false
     }
 
     func webViewDidStartLoad(webView: UIWebView!) {
-        UIApplication.sharedApplication().startUsingNetwork()
+        loading = true
     }
 
     func webView(webView: UIWebView!, didFailLoadWithError error: NSError!) {
         let errorMessage = error.localizedDescription
         displayMessage(errorMessage)
         NSLog("error loading FAQ: %@", errorMessage)
+        UIApplication.sharedApplication().stopUsingNetwork()
+        loading = false
     }
 
     func displayMessage(text: String) {

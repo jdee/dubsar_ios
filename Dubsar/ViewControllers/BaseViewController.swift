@@ -162,16 +162,7 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
     func addHomeButton() {
         let homeButton = UIBarButtonItem(title: "Home", style: UIBarButtonItemStyle.Bordered, target: self, action: "home")
         let rightBarButtonItem: UIBarButtonItem? = navigationItem.rightBarButtonItem
-        if rightBarButtonItem && navigationItem.rightBarButtonItem.title != "Home" {
-            var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
-
-            items.append(homeButton)
-
-            navigationItem.rightBarButtonItems = items
-        }
-        else if !rightBarButtonItem {
-            navigationItem.rightBarButtonItem = homeButton
-        }
+        navigationItem.rightBarButtonItem = homeButton // short cut, since no view puts anything there before calling this
     }
 
     private var downloadButton: UIBarButtonItem {
