@@ -89,7 +89,7 @@
 
     url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
 
-    // NSLog(@"Caches directory: %@", url.path);
+    // NSLog(@"App support directory: %@", url.path);
 
     BOOL isDir;
     BOOL exists = [fileManager fileExistsAtPath:url.path isDirectory:&isDir];
@@ -119,7 +119,7 @@
 
     url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
 
-    // NSLog(@"App. support directory: %@", url.path);
+    // NSLog(@"Caches directory: %@", url.path);
 
     BOOL isDir;
     BOOL exists = [fileManager fileExistsAtPath:url.path isDirectory:&isDir];
@@ -203,9 +203,9 @@
         [self notifyDelegateOfError: @"Error %d (%s) opening %@", error, errbuf, self.zipURL.path];
         return;
     }
-    else {
-        NSLog(@"Successfully opened/created %@ for write", self.zipURL.path);
-    }
+
+    NSLog(@"Successfully opened/created %@ for write", self.zipURL.path);
+    [self excludeFromBackup:self.zipURL];
 
     self.downloadSize = self.downloadedSoFar = self.unzippedSoFar = self.unzippedSize = 0;
     self.downloadInProgress = YES;
@@ -330,26 +330,8 @@
     [self updateElapsedDownloadTime];
 
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
-    NSString* newETag = (NSString*)httpResp.allHeaderFields[@"ETag"];
-    if (_etag && ![_etag isEqualToString:newETag]) {
-        _totalSize = 0;
-        _start = 0;
-        if (fp) {
-            fclose(fp);
-            fp = NULL;
-        }
 
-        fp = fopen(self.zipURL.path.UTF8String, "w"); // truncate rather than append
-    }
-
-    self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
-
-    assert(_totalSize == 0 || self.downloadSize == _totalSize - _start);
-
-    self.downloadedSoFar += _start;
-    self.downloadSize += _start;
-
-    NSLog(@"response status code from %@: %ld (Content-Length: %ld)", httpResp.URL.host, (long)httpResp.statusCode, (long)_downloadSize);
+    NSLog(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
     if (httpResp.statusCode >= 400) {
         [self notifyDelegateOfError:@"Status code %ld from %@", (long)httpResp.statusCode, httpResp.URL.host];
         [[UIApplication sharedApplication] stopUsingNetwork];
@@ -361,7 +343,20 @@
         return;
     }
 
-    _etag = (NSString*)httpResp.allHeaderFields[@"ETag"];
+    self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
+
+    NSString* newETag = (NSString*)httpResp.allHeaderFields[@"ETag"];
+    if (_etag && ![_etag isEqualToString:newETag]) {
+        _totalSize = 0;
+        _start = 0;
+        fp = freopen(self.zipURL.path.UTF8String, "w", fp); // truncate rather than append
+    }
+    assert(_totalSize == 0 || self.downloadSize == _totalSize - _start);
+
+    self.downloadedSoFar += _start;
+    self.downloadSize += _start;
+
+    _etag = newETag;
     if (_etag) {
         NSLog(@"ETag for %@ is %@", DUBSAR_DATABASE_URL, _etag);
     }
@@ -494,6 +489,8 @@
     }
     // NSLog(@"Opened %@ for write", DUBSAR_FILE_NAME);
 
+    [self excludeFromBackup:self.fileURL];
+
     unsigned char buffer[32768];
     int nr;
 
@@ -550,10 +547,7 @@
 
     struct stat sb;
     rc = stat(self.fileURL.path.UTF8String, &sb);
-    if (rc == 0) {
-        NSLog(@"Unzipped file %@ is %lld bytes", DUBSAR_FILE_NAME, sb.st_size);
-    }
-    else {
+    if (rc != 0) {
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
@@ -561,21 +555,22 @@
         [self finishDownload];
         return;
     }
+    NSLog(@"Unzipped file %@ is %lld bytes", DUBSAR_FILE_NAME, sb.st_size);
 
     NSError* error;
-
-    if (![self.fileURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error]) {
-        NSLog(@"Failed to set %@ attribute for database file: %@", NSURLIsExcludedFromBackupKey, error.localizedDescription);
-    }
-    else {
-        NSLog(@"Database file %@ will not be backed up", self.fileURL.path);
-    }
 
     if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
         NSLog(@"Error removing %@: %@", self.zipURL.path, error.localizedDescription);
     }
 
     [self finishDownload];
+}
+
+- (void)excludeFromBackup:(NSURL*)url {
+    NSError* error;
+    if (![url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error]) {
+        NSLog(@"Failed to set %@ attribute for file: %@", NSURLIsExcludedFromBackupKey, error.localizedDescription);
+    }
 }
 
 @end
