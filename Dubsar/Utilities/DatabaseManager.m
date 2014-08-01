@@ -226,7 +226,10 @@
     NSLog(@"Downloading %@", DUBSAR_DATABASE_URL);
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:DUBSAR_DATABASE_URL]];
 
-    if (_etag && _start > 0 && _totalSize >= _start) {
+    if (_etag && _start > 0 && _start == _totalSize) {
+        [request addValue:_etag forHTTPHeaderField:@"If-None-Match"];
+    }
+    else if (_etag && _start > 0 && _start < _totalSize) {
         [request addValue:_etag forHTTPHeaderField:@"If-Range"];
         [request addValue:[NSString stringWithFormat:@"bytes=%ld-%ld", (long)_start, (long)_totalSize-1] forHTTPHeaderField:@"Range"];
     }
@@ -342,6 +345,25 @@
         }
         return;
     }
+    else if (_etag && httpResp.statusCode == 304) {
+        NSLog(@"304 Not Modified: verified copy of %@ in Caches (ETag: \"%@\")", DUBSAR_ZIP_NAME, _etag);
+
+        // see [self download].
+        // We used If-None-Match: _etag.
+        // we have the complete zip, and it hasn't changed
+
+        /*
+         * This helps in a scenario like: Successfully downloaded the zip and began unzipping, but ran out
+         * of room on the device. Freed up some space. Now try again, reusing the same zip without
+         * downloading again.
+         */
+
+        // totalSize has to be positive to get here.
+        self.downloadSize = _totalSize;
+        self.downloadedSoFar = _totalSize;
+        [self startUnzip];
+        return;
+    }
 
     self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
 
@@ -368,31 +390,17 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSLog(@"Finished downloading %@", DUBSAR_DATABASE_URL);
-
-    if (fp) {
-        fclose(fp);
-        fp = NULL;
-    }
-
-    [[UIApplication sharedApplication] stopUsingNetwork];
-
     [self updateElapsedDownloadTime];
+    [self startUnzip];
+}
+
+- (void)startUnzip
+{
+    fclose(fp);
+    fp = NULL;
+    [[UIApplication sharedApplication] stopUsingNetwork];
     [_delegate unzipStarted:self];
-
-    struct stat sb;
-    int rc = stat(self.zipURL.path.UTF8String, &sb);
-    if (rc == 0) {
-        NSLog(@"Downloaded file %@ is %lld bytes", DUBSAR_ZIP_NAME, sb.st_size);
-    }
-    else {
-        int error = errno;
-        char errbuf[256];
-        strerror_r(error, errbuf, 255);
-        [self notifyDelegateOfError: @"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path];
-        return;
-    }
-
-    [self performSelectorInBackground:@selector(unzip) withObject:nil];
+    [self performSelector:@selector(unzip) withObject:nil];
 }
 
 - (void)notifyDelegateOfError:(NSString*)format, ...
@@ -444,6 +452,19 @@
 
 - (void)unzip
 {
+    struct stat sb;
+    int rc = stat(self.zipURL.path.UTF8String, &sb);
+    if (rc == 0) {
+        NSLog(@"Downloaded file %@ is %lld bytes", DUBSAR_ZIP_NAME, sb.st_size);
+    }
+    else {
+        int error = errno;
+        char errbuf[256];
+        strerror_r(error, errbuf, 255);
+        [self notifyDelegateOfError: @"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path];
+        return;
+    }
+    
     unzFile* uf = unzOpen(self.zipURL.path.UTF8String);
     if (!uf) {
         [self notifyDelegateOfError: @"unzOpen(%@) failed", self.zipURL.path];
@@ -451,7 +472,7 @@
     }
     // NSLog(@"Opened zip file");
 
-    int rc = unzLocateFile(uf, DUBSAR_FILE_NAME.UTF8String, 1);
+    rc = unzLocateFile(uf, DUBSAR_FILE_NAME.UTF8String, 1);
     if (rc != UNZ_OK) {
         [self notifyDelegateOfError: @"failed to locate %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME];
         unzClose(uf);
@@ -545,7 +566,6 @@
         return;
     }
 
-    struct stat sb;
     rc = stat(self.fileURL.path.UTF8String, &sb);
     if (rc != 0) {
         int error = errno;
