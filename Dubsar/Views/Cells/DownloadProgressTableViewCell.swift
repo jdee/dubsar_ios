@@ -93,7 +93,16 @@ class DownloadProgressTableViewCell: UITableViewCell {
 
         unzipProgress.frame = CGRectMake(margin, 4 * margin + downloadTextSize.height + downloadProgress.bounds.size.height + unzipTextSize.height, constrainedWidth, unzipProgress.bounds.size.height)
 
-        let cancelSize = ("Cancel" as NSString).sizeWithAttributes([NSFontAttributeName: font])
+        var cancelTitle: NSString
+        if AppDelegate.instance.databaseManager.downloadInProgress {
+            cancelTitle = "Cancel"
+        }
+        else {
+            cancelTitle = "Close"
+        }
+        cancelButton.setTitle(cancelTitle, forState: .Normal)
+
+        let cancelSize = cancelTitle.sizeWithAttributes([NSFontAttributeName: font])
         cancelButton.frame = CGRectMake(margin, 5 * margin + downloadTextSize.height + downloadProgress.bounds.size.height + unzipTextSize.height + unzipProgress.bounds.size.height, constrainedWidth, cancelSize.height)
 
         textLabel.hidden = true

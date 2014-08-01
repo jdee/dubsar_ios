@@ -71,6 +71,8 @@
 
 @property (nonatomic, weak) id<DownloadProgressDelegate> delegate;
 
+@property (atomic, readonly, copy) NSString* errorMessage;
+
 - (void)initialize;
 
 - (void)download;

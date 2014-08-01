@@ -37,6 +37,7 @@
 @property (atomic) struct timeval unzipStart, lastUnzipRead;
 @property (atomic) NSTimeInterval estimatedUnzipTimeRemaining, elapsedDownloadTime;
 @property (atomic) double instantaneousUnzipRate;
+@property (atomic, copy) NSString* errorMessage;
 @end
 
 @implementation DatabaseManager {
@@ -162,6 +163,8 @@
 
 - (void)download
 {
+    self.errorMessage = nil;
+
     fp = fopen(self.zipURL.path.UTF8String, "w");
     if (!fp) {
         int error = errno;
@@ -372,18 +375,18 @@
 
     va_end(args);
 
-    NSString* error = @(buffer);
+    self.errorMessage = @(buffer);
 
     self.downloadInProgress = NO;
     if ([NSThread currentThread] != [NSThread mainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self deleteDatabase];
-            [_delegate databaseManager:self encounteredError:error];
+            [_delegate databaseManager:self encounteredError:self.errorMessage];
         });
     }
     else {
         [self deleteDatabase];
-        [_delegate databaseManager:self encounteredError:error];
+        [_delegate databaseManager:self encounteredError:self.errorMessage];
     }
 }
 

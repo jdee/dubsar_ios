@@ -31,6 +31,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     private var downloadCell: DownloadProgressTableViewCell?
     private var lastDownloadHeight: CGFloat = 0
+    private var unzipping = false
+    private var downloadViewShowing = false
 
     let sections = [
         [ [ "title" : "About", "view" : "About", "setting_type" : "nav" ],
@@ -55,6 +57,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         settingsTableView.reloadData()
         settingsTableView.backgroundColor = AppConfiguration.alternateBackgroundColor
         settingsTableView.tintColor = AppConfiguration.foregroundColor
+
+        if !downloadViewShowing {
+            downloadViewShowing = AppDelegate.instance.databaseManager.downloadInProgress
+        }
 
         super.adjustLayout()
     }
@@ -98,7 +104,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             cell!.detailTextLabel.text = value
         }
         else {
-            if (!AppDelegate.instance.databaseManager.downloadInProgress) {
+            if !downloadViewShowing {
                 var switchCell = tableView.dequeueReusableCellWithIdentifier(SettingSwitchValueTableViewCell.identifier) as? SettingSwitchValueTableViewCell
                 if !switchCell {
                     switchCell = SettingSwitchValueTableViewCell()
@@ -126,7 +132,14 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                 downloadCell!.rebuild()
                 cell = downloadCell
 
-                downloadCell!.cancelButton.addTarget(self, action: "cancelDownload:", forControlEvents: .TouchUpInside)
+                if AppDelegate.instance.databaseManager.downloadInProgress {
+                    downloadCell!.cancelButton.removeTarget(self, action: "closeDownloadProgress:", forControlEvents: .TouchUpInside)
+                    downloadCell!.cancelButton.addTarget(self, action: "cancelDownload:", forControlEvents: .TouchUpInside)
+                }
+                else {
+                    downloadCell!.cancelButton.removeTarget(self, action: "cancelDownload:", forControlEvents: .TouchUpInside)
+                    downloadCell!.cancelButton.addTarget(self, action: "closeDownloadProgress:", forControlEvents: .TouchUpInside)
+                }
             }
         }
 
@@ -146,12 +159,11 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
 
-
         let settings = sections[section] as [[String: String]]
         let setting = settings[row] as [String: String]
         let type = setting["setting_type"]
 
-        if type == "switchValue" && AppDelegate.instance.databaseManager.downloadInProgress {
+        if type == "switchValue" && downloadViewShowing {
             let dummyCell = DownloadProgressTableViewCell()
 
             updateProgressViews(dummyCell.downloadProgress, unzipProgressView: dummyCell.unzipProgress, downloadLabel: dummyCell.downloadLabel, unzipLabel: dummyCell.unzipLabel)
@@ -196,6 +208,12 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         alert.show()
     }
 
+    @IBAction func closeDownloadProgress(sender: UIButton!) {
+        downloadViewShowing = false
+        unzipping = false
+        reloadOfflineRow()
+    }
+
     func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 0 {
             return
@@ -209,7 +227,15 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     func updateProgressViews(downloadProgressView: UIProgressView, unzipProgressView: UIProgressView, downloadLabel: UILabel, unzipLabel: UILabel) {
         let databaseManager = AppDelegate.instance.databaseManager
 
-        if databaseManager.downloadSize > 0 && databaseManager.downloadedSoFar == 0 {
+        if databaseManager.errorMessage {
+            if unzipping {
+                unzipLabel.text = "Unzip: \(databaseManager.errorMessage)"
+            }
+            else {
+                downloadLabel.text = "Download: \(databaseManager.errorMessage)"
+            }
+        }
+        else if databaseManager.downloadSize > 0 && databaseManager.downloadedSoFar == 0 {
             downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize)) starting..."
             downloadProgressView.progress = 0
             unzipLabel.text = "Unzip"
@@ -225,9 +251,15 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize)) ÷ \(formatRate(averageRate)) = \(formatTime(databaseManager.elapsedDownloadTime))"
         }
 
-        if databaseManager.unzippedSize > 0 {
+        if databaseManager.unzippedSize > 0 && databaseManager.unzippedSoFar < databaseManager.unzippedSize {
             unzipProgressView.progress = Float(databaseManager.unzippedSoFar) / Float(databaseManager.unzippedSize)
             unzipLabel.text = "Unzip: \(formatTime(databaseManager.estimatedUnzipTimeRemaining))"
+        }
+        else if databaseManager.unzippedSize > 0 {
+            unzipProgressView.progress = 1.0
+            unzipLabel.text = "Unzipped"
+        }
+        else {
         }
     }
 
@@ -257,12 +289,14 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     func downloadComplete(databaseManager: DatabaseManager!) {
         NSLog("Download and Unzip complete")
+        unzipping = false
         reloadOfflineRow()
         setupToolbar()
     }
 
     func unzipStarted(databaseManager: DatabaseManager!) {
         // NSLog("Unzip started. %ld bytes downloaded in %f s", databaseManager.downloadSize, databaseManager.elapsedDownloadTime)
+        unzipping = true
         progressUpdated(databaseManager)
     }
 
