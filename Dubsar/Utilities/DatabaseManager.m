@@ -249,7 +249,7 @@
 
     NSInteger size = self.downloadedSoFar - self.downloadedAtLastStatsUpdate;
 
-    if (size < 1024 * 1024) {
+    if (size < 128 * 1024) {
         // even it out by only checking every so often
         return;
     }
@@ -491,7 +491,7 @@
             return;
         }
 
-        if (self.unzippedSoFar - lastUpdateSize < 1024 * 1024) {
+        if (self.unzippedSoFar - lastUpdateSize < 8 * 1024 * 1024) {
             continue;
         }
 
