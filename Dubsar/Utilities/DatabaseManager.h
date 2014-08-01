@@ -47,14 +47,6 @@
  */
 @property (nonatomic, readonly) NSURL* fileURL;
 
-/**
- * The zip file is downloaded to this directory, under Caches. Files there may be automatically deleted by iOS.
- * The zip is automatically deleted by the DatabaseManager when the unzip operation succeeds or when the user
- * opts to delete the local DB. DEBT: Should also clean this up on failure, especially if the failure occurs
- * during download.
- */
-@property (nonatomic, readonly) NSURL* zipURL;
-
 @property (atomic, readonly) NSInteger downloadSize;
 @property (atomic, readonly) NSInteger downloadedSoFar;
 @property (atomic, readonly) NSInteger unzippedSize;

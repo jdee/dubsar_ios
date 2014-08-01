@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #import "UIApplication+NetworkRefCount.h"
 
-static volatile int networkUseCount = 0;
+/* static */ volatile int networkUseCount = 0;
 
 @implementation UIApplication(DubsarNetworkRefCount)
 

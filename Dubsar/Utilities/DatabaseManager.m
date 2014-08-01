@@ -30,7 +30,6 @@
 @interface DatabaseManager()
 @property (atomic) NSInteger downloadSize, downloadedSoFar, unzippedSize, unzippedSoFar, downloadedAtLastStatsUpdate, unzippedAtLastStatsUpdate;
 @property (atomic) BOOL downloadInProgress;
-@property (nonatomic, weak) NSURLConnection* connection;
 @property (atomic) struct timeval downloadStart, lastDownloadStatsUpdate;
 @property (atomic) NSTimeInterval estimatedDownloadTimeRemaining;
 @property (atomic) double instantaneousDownloadRate;
@@ -39,9 +38,11 @@
 @property (atomic) double instantaneousUnzipRate;
 @property (atomic, copy) NSString* errorMessage;
 
+@property (nonatomic, weak) NSURLConnection* connection;
 @property (nonatomic, copy) NSString* etag;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger totalSize;
+@property (nonatomic) NSURL* zipURL;
 @end
 
 @implementation DatabaseManager {
@@ -161,7 +162,6 @@
 
     self.downloadInProgress = NO;
     [[UIApplication sharedApplication] stopUsingNetwork];
-    // [_delegate downloadComplete:self];
 
     NSLog(@"Download canceled");
     // [self deleteDatabase]; // cleans up the zip too
@@ -553,6 +553,7 @@
         }
 
         lastUpdateSize = self.unzippedSoFar;
+        NSLog(@"Notifying client downloaded %ld so far", (long)self.downloadedSoFar);
         dispatch_async(dispatch_get_main_queue(), ^{
             [_delegate progressUpdated:self];
         });
