@@ -146,13 +146,15 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
             return
         }
 
-        if navigationItem.rightBarButtonItem {
+        let rightBarButtonItem: UIBarButtonItem? = navigationItem.rightBarButtonItem
+
+        if rightBarButtonItem && !(navigationItem.rightBarButtonItem as? DownloadBarButtonItem) {
             var items = [ downloadButton ]
             items += navigationItem.rightBarButtonItems as [UIBarButtonItem]
 
             navigationItem.rightBarButtonItems = items
         }
-        else if !navigationItem.rightBarButtonItem {
+        else if !rightBarButtonItem {
             navigationItem.rightBarButtonItem = downloadButton
         }
     }
