@@ -85,6 +85,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     var alertURL: NSURL?
     let dubsar = "dubsar"
 
+    private var bgTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+
     let databaseManager = DatabaseManager()
 
     class var instance : AppDelegate {
@@ -108,9 +110,74 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         checkOfflineSetting()
     }
 
-    func applicationDidEnterBackground(application: UIApplication!) {
+    func applicationDidEnterBackground(theApplication: UIApplication!) {
+        NSUserDefaults.standardUserDefaults().synchronize()
+
         NavButtonImage.voidCache()
         DownloadButtonImage.voidCache()
+
+        if !databaseManager.downloadInProgress {
+            return
+        }
+
+        /*
+         * If a download is in progress when we enter the background, we first cancel
+         * from the main thread, leaving any partial download in Caches.
+         */
+        databaseManager.cancelDownload()
+        databaseManager.delegate = nil // avoid calling back any VC in the bg
+
+        /*
+         * Now we kick off a fresh download from the BG. This will use an If-Range header
+         * to pick up where the original download left off. Callbacks are performed on
+         * the thread that initiates the NSURLConnection request.
+         */
+        bgTask = theApplication.beginBackgroundTaskWithExpirationHandler() {
+            [weak self] in
+
+            if let my = self {
+                // just cancel the download if the task expires
+                my.databaseManager.cancelDownload()
+
+                var localNotif = UILocalNotification()
+                localNotif.alertBody = "Background download expired"
+
+                theApplication.presentLocalNotificationNow(localNotif)
+
+                theApplication.endBackgroundTask(my.bgTask)
+                my.bgTask = UIBackgroundTaskInvalid
+            }
+        }
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            [weak self] in
+
+            if let my = self {
+                // initiate the background download
+                // (in the foreground. in the background. that is, in the foreground in the background.)
+                my.databaseManager.download()
+
+                while (my.databaseManager.downloadInProgress &&
+                    NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate(timeIntervalSinceNow: 1.0))) {
+                }
+
+                // generate a local notification
+                var localNotif = UILocalNotification()
+                if (my.databaseManager.errorMessage) {
+                    // failure
+                    localNotif.alertBody = my.databaseManager.errorMessage
+                }
+                else {
+                    // success
+                    localNotif.alertBody = "Download complete"
+                }
+
+                theApplication.presentLocalNotificationNow(localNotif)
+                
+                theApplication.endBackgroundTask(my.bgTask)
+                my.bgTask = UIBackgroundTaskInvalid
+            }
+        }
     }
 
     func applicationDidReceiveMemoryWarning(application: UIApplication!) {

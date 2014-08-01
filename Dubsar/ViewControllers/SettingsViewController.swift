@@ -43,17 +43,14 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue" ] ]
     ]
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        AppDelegate.instance.databaseManager.delegate = self
-    }
-
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 
     override func adjustLayout() {
+        AppDelegate.instance.databaseManager.delegate = self
+
         settingsTableView.reloadData()
         settingsTableView.backgroundColor = AppConfiguration.alternateBackgroundColor
         settingsTableView.tintColor = AppConfiguration.foregroundColor

@@ -553,10 +553,11 @@
         }
 
         lastUpdateSize = self.unzippedSoFar;
-        NSLog(@"Notifying client downloaded %ld so far", (long)self.downloadedSoFar);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_delegate progressUpdated:self];
-        });
+        if (_delegate) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_delegate progressUpdated:self];
+            });
+        }
     }
 
     fclose(outfile);
