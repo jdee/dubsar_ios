@@ -167,7 +167,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                 var localNotif = UILocalNotification()
                 if (my.databaseManager.errorMessage) {
                     // failure
-                    localNotif.alertBody = my.databaseManager.errorMessage
+                    localNotif.alertBody = "Download failed: \(my.databaseManager.errorMessage)"
                 }
                 else {
                     // success
