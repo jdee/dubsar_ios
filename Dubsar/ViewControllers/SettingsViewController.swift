@@ -245,7 +245,6 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         }
 
         AppDelegate.instance.databaseManager.cancelDownload()
-        AppConfiguration.offlineSetting = false
         reloadOfflineRow()
         setupToolbar()
     }
@@ -316,7 +315,6 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     func databaseManager(databaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
         NSLog("error downloading Database: %@", errorMessage)
-        AppConfiguration.offlineSetting = false
         reloadOfflineRow()
         setupToolbar()
     }

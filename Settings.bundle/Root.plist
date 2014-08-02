@@ -44,7 +44,7 @@
 			<key>Key</key>
 			<string>DubsarOffline</string>
 			<key>DefaultValue</key>
-			<false/>
+			<true/>
 		</dict>
 	</array>
 	<key>StringsTable</key>

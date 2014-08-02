@@ -28,4 +28,6 @@
 
 + (DubsarModelsDatabase*)instance;
 
+- (void) closeDB;
+
 @end

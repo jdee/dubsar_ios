@@ -48,4 +48,9 @@
     [_database openDBName:_databaseURL];
 }
 
+- (void)closeDB
+{
+    [_database closeDB];
+}
+
 @end

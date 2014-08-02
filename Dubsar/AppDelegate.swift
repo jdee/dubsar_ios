@@ -102,8 +102,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                     my.databaseManager.downloadInBackground()
                 }
                 else {
-                    AppConfiguration.offlineSetting = false
-
                     var localNotif = UILocalNotification()
                     localNotif.alertBody = "Background download expired"
 
@@ -257,7 +255,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
         if (databaseManager.downloadInProgress) {
             databaseManager.cancelDownload()
-            AppConfiguration.offlineSetting = false
         }
         else if (AppConfiguration.offlineSetting) {
             databaseManager.download()
@@ -297,7 +294,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                 return // happy
             }
             else {
-                message = "Stop download in progress?"
+                message = "Stop the download in progress?"
                 okTitle = "Stop"
                 cancelTitle = "Continue"
             }
@@ -311,7 +308,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             cancelTitle = "Cancel"
         }
         else {
-            message = "Delete the database?"
+            message = "Delete the database? You can download it again if you change your mind."
             okTitle = "Delete"
             cancelTitle = "Cancel"
         }

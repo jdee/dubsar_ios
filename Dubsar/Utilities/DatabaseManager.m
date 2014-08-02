@@ -256,6 +256,8 @@
 
 - (void)deleteDatabase
 {
+    [[DubsarModelsDatabase instance] closeDB];
+
     NSError* error;
     if (![[NSFileManager defaultManager] removeItemAtURL:self.fileURL error:&error]) {
         NSLog(@"Error deleting DB %@: %@", self.fileURL.path, error.localizedDescription);
