@@ -34,17 +34,30 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     private var unzipping = false
     private var downloadViewShowing = false
 
-    let sections = [
+    let defaultSections: [[[String: AnyObject]]] = [
         [ [ "title" : "About", "view" : "About", "setting_type" : "nav" ],
             [ "title" : "FAQ", "view" : "FAQ", "setting_type" : "nav" ] ],
 
         [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)), "setting_type" : "label" ],
             [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "setting_type" : "navValue" ],
-            [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue", "setting_action" : "offlineSwitchChanged:" ] ],
+            [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue", "setting_action" : "offlineSwitchChanged:" ] ]
+        ]
+
+    let devSections: [[[String: AnyObject]]] = [
 
         // dev settings (not in settings bundle)
         [ [ "title" : "Production", "value" : AppConfiguration.productionKey, "setting_type" : "switchValue", "setting_action" : "productionSwitchChanged:" ] ]
     ]
+
+    var sections: [[[String: AnyObject]]] {
+    get {
+        #if DEBUG
+            return defaultSections + devSections
+        #else
+            return defaultSections
+        #endif
+    }
+    }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -73,7 +86,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
 
-        let settings = sections[section] as [[String: String]]
+        let settings = sections[section] as [[String: AnyObject]]
         let setting = settings[row] as [String: String]
         let view = setting["view"]
         let value = setting["value"]
@@ -161,7 +174,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
 
-        let settings = sections[section] as [[String: String]]
+        let settings = sections[section] as [[String: AnyObject]]
         let setting = settings[row] as [String: String]
         let type = setting["setting_type"]
 
@@ -183,14 +196,14 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        let settings = sections[section] as [[String: String]]
+        let settings = sections[section] as [[String: AnyObject]]
         return settings.count
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
-        let settings = sections[section] as [[String: String]]
+        let settings = sections[section] as [[String: AnyObject]]
         let setting = settings[row] as [String: String]
         let type = setting["setting_type"]
         let view = setting["view"]
