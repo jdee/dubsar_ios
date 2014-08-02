@@ -68,6 +68,8 @@
 - (void)initialize;
 
 - (void)download;
+- (void)downloadSynchronous;
+- (void)downloadInBackground;
 - (void)deleteDatabase;
 - (void)cancelDownload;
 

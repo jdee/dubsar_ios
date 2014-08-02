@@ -237,6 +237,19 @@
     [[UIApplication sharedApplication] startUsingNetwork];
 }
 
+- (void)downloadSynchronous
+{
+    [self download];
+
+    while (self.downloadInProgress &&
+           [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate: [NSDate dateWithTimeIntervalSinceNow:0.2]]) ;
+}
+
+- (void)downloadInBackground
+{
+    [self performSelectorInBackground:@selector(downloadSynchronous) withObject:nil];
+}
+
 - (void)deleteDatabase
 {
     NSError* error;

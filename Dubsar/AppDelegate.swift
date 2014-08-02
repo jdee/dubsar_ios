@@ -87,12 +87,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             if let my = self {
                 // just cancel the download if the task expires
                 my.databaseManager.cancelDownload()
-                AppConfiguration.offlineSetting = false
 
-                var localNotif = UILocalNotification()
-                localNotif.alertBody = "Background download expired"
+                if theApplication.applicationState == .Active {
+                    /*
+                     * Don't know if this is possible, but if in the meantime, the app has become
+                     * active again, and this background task has expired, just kick off a new
+                     * background download to pick up where we left off. If the app goes into the
+                     * bg after that, that download will go into the bg again as a background task.
+                     * DEBT: Is it possible to run background tasks when the app is in the foreground?
+                     * Is there any sense to making the download a background task every time and just
+                     * letting them continue if the app enters the background?
+                     */
+                    my.databaseManager.downloadInBackground()
+                }
+                else {
+                    AppConfiguration.offlineSetting = false
 
-                theApplication.presentLocalNotificationNow(localNotif)
+                    var localNotif = UILocalNotification()
+                    localNotif.alertBody = "Background download expired"
+
+                    theApplication.presentLocalNotificationNow(localNotif)
+                }
 
                 theApplication.endBackgroundTask(my.bgTask)
                 my.bgTask = UIBackgroundTaskInvalid
@@ -105,11 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             if let my = self {
                 // initiate the background download
                 // (in the foreground. in the background. that is, in the foreground in the background.)
-                my.databaseManager.download()
-
-                while (my.databaseManager.downloadInProgress &&
-                    NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate(timeIntervalSinceNow: 1.0))) {
-                }
+                my.databaseManager.downloadSynchronous()
 
                 // generate a local notification
                 var localNotif = UILocalNotification()
