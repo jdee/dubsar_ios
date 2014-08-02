@@ -217,6 +217,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         }
 
         AppDelegate.instance.databaseManager.cancelDownload()
+        AppConfiguration.offlineSetting = false
         reloadOfflineRow()
         setupToolbar()
     }

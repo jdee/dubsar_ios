@@ -158,8 +158,6 @@
     assert(self.connection);
     [self.connection cancel];
 
-    [AppDelegate setOfflineSetting:NO];
-
     self.downloadInProgress = NO;
     [[UIApplication sharedApplication] stopUsingNetwork];
 
