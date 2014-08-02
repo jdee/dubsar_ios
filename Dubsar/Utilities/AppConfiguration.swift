@@ -178,7 +178,7 @@ struct AppConfiguration {
     }
 
     // MARK: Color scheme (derived props)
-    static var backgroundColor: UIColor? {
+    static var backgroundColor: UIColor {
         get {
             return getThemeProperty(backgroundKey)
         }

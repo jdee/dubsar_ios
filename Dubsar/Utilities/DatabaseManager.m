@@ -29,6 +29,7 @@
 #import "DatabaseManager.h"
 
 @interface DatabaseManager()
+// Many of these atomic props are readonly in the public interface
 @property (atomic) NSInteger downloadSize, downloadedSoFar, unzippedSize, unzippedSoFar, downloadedAtLastStatsUpdate, unzippedAtLastStatsUpdate;
 @property (atomic) BOOL downloadInProgress;
 @property (atomic) struct timeval downloadStart, lastDownloadStatsUpdate;
@@ -286,7 +287,7 @@
     double delta = (double)(now.tv_sec - self.lastDownloadStatsUpdate.tv_sec) + (double)(now.tv_usec - self.lastDownloadStatsUpdate.tv_usec) * 1.0e-6;
     // NSLog(@"%f s since last read: %lu bytes", delta, (unsigned long)size);
 
-    if (size < 128 * 1024 && delta < 5.0) {
+    if (size < 1024 * 1024 && delta < 5.0) {
         // even it out by only checking every so often
         return;
     }
@@ -329,6 +330,8 @@
     }
     [[UIApplication sharedApplication] stopUsingNetwork];
 
+    NSLog(@"Error %@: %ld (%@)", error.domain, (long)error.code, error.localizedDescription);
+
     SCNetworkReachabilityRef hostRef = SCNetworkReachabilityCreateWithName(NULL, self.rootURL.host.UTF8String);
     SCNetworkReachabilityFlags reachabilityFlags;
     if (SCNetworkReachabilityGetFlags(hostRef, &reachabilityFlags)) {
@@ -342,6 +345,7 @@
              * If executing in downloadSynchronous in a background thread, as long as downloadInProgress is never allowed to become
              * false, that run loop will continue until the download stops (success or failure).
              */
+            NSLog(@"Download failed: %@ (error %ld). Host %@ reachable. Restarting download.", error.localizedDescription, (long)error.code, self.rootURL.host);
             [self download];
             return;
         }
@@ -353,6 +357,7 @@
     }
 
     self.downloadInProgress = NO;
+    NSLog(@"Error %@: %ld (%@)", error.domain, (long)error.code, error.localizedDescription);
     [self notifyDelegateOfError: error.localizedDescription];
 }
 

@@ -17,13 +17,14 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "CGHelper.h"
-#import "DatabaseManager.h"
-#import "DownloadButtonImage.h"
-#import "Dubsar.h"
-#import "DubsarServer.h"
-#import "KeyboardHelper.h"
-#import "NavButtonImage.h"
-#import "PushWrapper.h"
-#import "IOSKnobControl.h"
-#import "UIApplication+NetworkRefCount.h"
+@import UIKit;
+
+@interface CGHelper : NSObject
+
+// +[CGHelper gradientImageFirstColor:secondColor:size:startPoint:endPoint:]: unrecognized selector
++ (UIImage*)gradientImageFirstColor:(UIColor*)firstColor secondColor:(UIColor*)secondColor size:(CGSize)size startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint;
++ (void)paintGradientFirstColor:(UIColor*)firstColor secondColor:(UIColor*)secondColor bounds:(CGRect)bounds startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint;
+
++ (void)voidCache;
+
+@end

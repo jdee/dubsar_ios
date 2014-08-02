@@ -69,9 +69,35 @@
 
 - (void)initialize;
 
+/*
+ * These three methods can be called from any thread, and the download can occur on any thread, including in the
+ * background on the main thread (by calling the first method on the main thread). In all cases, callbacks to the
+ * delegate occur on the main thread.
+ */
+
+/**
+ * Download in the background on the current thread. This is mainly useful when running on the main thread. Instantiates an NSURLConnection
+ * whose callbacks will be returned on the same thread by [NSRunLoop currentRunLoop].
+ */
 - (void)download;
+
+/**
+ * Download in the current thread and block until the download completes or fails. Unlike 
+ * [NSURConnection sendSynchronousRequest:returningResponse:error:], which buffers and returns the downloaded data in memory 
+ * (in this case 33 MB), this method saves the data directly to the Caches directory while downloading. Since an interrupted download can be
+ * resumed without repeating the previously downloaded portion, this method is more resilient in case of catastrophic failure. This method
+ * should not be used on the main thread.
+ */
 - (void)downloadSynchronous;
+
+/**
+ * Run [self downloadSynchronous] in a background thread. The [self download] method also downloads in the background, but it does not
+ * execute the run loop. You can execute the run loop separately yourself, but that method is mainly useful when the run loop is already
+ * being executed elsewhere (i.e., when you are on the main thread). This method creates a thread for the sole purpose of dispatching the
+ * download request and its response and content. The thread terminates when the download is complete or fails.
+ */
 - (void)downloadInBackground;
+
 - (void)deleteDatabase;
 - (void)cancelDownload;
 

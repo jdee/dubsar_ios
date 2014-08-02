@@ -32,6 +32,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
     var unzipLabel: UILabel
     var unzipProgress: UIProgressView
     var cancelButton: UIButton
+    var gradientView: GradientView
 
     init() {
         downloadLabel = UILabel(frame: CGRectZero)
@@ -39,10 +40,13 @@ class DownloadProgressTableViewCell: UITableViewCell {
         unzipLabel = UILabel(frame: CGRectZero)
         unzipProgress = UIProgressView(progressViewStyle: .Bar)
         cancelButton = UIButton(frame: CGRectZero)
+        gradientView = GradientView(frame: CGRectZero, firstColor: AppConfiguration.backgroundColor, secondColor: AppConfiguration.highlightColor, startPoint: CGPointMake(0, 0), endPoint: CGPointMake(0, 1))
 
         super.init(style: .Default, reuseIdentifier: DownloadProgressTableViewCell.identifier)
 
         selectionStyle = .None
+
+        gradientView.autoresizingMask = .FlexibleHeight | .FlexibleWidth | .FlexibleBottomMargin | .FlexibleRightMargin
 
         downloadLabel.text = "Download: requesting..."
         downloadLabel.lineBreakMode = .ByWordWrapping
@@ -52,6 +56,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
         unzipLabel.numberOfLines = 0
         cancelButton.setTitle("Cancel", forState: .Normal)
 
+        contentView.addSubview(gradientView)
         contentView.addSubview(downloadLabel)
         contentView.addSubview(downloadProgress)
         contentView.addSubview(unzipLabel)
@@ -69,8 +74,6 @@ class DownloadProgressTableViewCell: UITableViewCell {
         downloadLabel.textColor = foregroundColor
         unzipLabel.textColor = foregroundColor
         cancelButton.setTitleColor(foregroundColor, forState: .Normal)
-
-        contentView.backgroundColor = AppConfiguration.highlightColor
 
         let alternateBackgroundColor = AppConfiguration.alternateBackgroundColor
         let alternateHighlightColor = AppConfiguration.alternateHighlightColor
@@ -108,6 +111,19 @@ class DownloadProgressTableViewCell: UITableViewCell {
         textLabel.hidden = true
 
         frame.size.height = cancelButton.frame.origin.y + cancelButton.bounds.size.height + margin
+
+        contentView.frame = bounds
+
+        fillBackground()
     }
 
+    func fillBackground() {
+        // contentView.backgroundColor = AppConfiguration.highlightColor
+
+        gradientView.firstColor = AppConfiguration.backgroundColor
+        gradientView.secondColor = AppConfiguration.highlightColor
+        gradientView.endPoint = CGPointMake(0, bounds.size.height)
+        gradientView.frame = bounds
+        gradientView.setNeedsDisplay()
+    }
 }

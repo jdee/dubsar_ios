@@ -92,6 +92,8 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
         }
 
         NavButtonImage.voidCache() // dump all cached images in case of font size or theme changes
+        DownloadButtonImage.voidCache()
+        CGHelper.voidCache()
 
         // any modally presented VC will be adjusted too
         let viewController = presentedViewController as? BaseViewController
