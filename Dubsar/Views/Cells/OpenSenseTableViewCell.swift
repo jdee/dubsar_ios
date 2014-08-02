@@ -55,7 +55,6 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         sampleView.backgroundColor = UIColor.clearColor()
 
         var available = insertHeightLimit
-
         if available > 0 {
             // NSLog("available = %f", available)
             if sampleView.bounds.size.height > available {
@@ -67,7 +66,9 @@ class OpenSenseTableViewCell: SenseTableViewCell {
             if available <= 0 {
                 // used up all our space. don't insert the pointer view
                 frame.size.height += sampleView.bounds.size.height
+                view!.frame.size.height = bounds.size.height
                 // NSLog("No pointer view. sample view height is %f. frame height is now %f", sampleView.bounds.size.height, bounds.size.height)
+                addGradientToBottomOfView(view)
                 return
             }
         }
@@ -75,7 +76,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         frame.size.height += sampleView.bounds.size.height
         y = bounds.size.height
 
-        NSLog("sample view height is %f. frame height is now %f (remaining insertHeightLimit: %f)", Double(sampleView.bounds.size.height), Double(frame.size.height), Double(available))
+        // NSLog("sample view height is %f. frame height is now %f (remaining insertHeightLimit: %f)", Double(sampleView.bounds.size.height), Double(frame.size.height), Double(available))
 
         let pointerView = SynsetPointerView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height), preview: true)
         pointerView.sense = sense
@@ -85,17 +86,45 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         backgroundLabel.addSubview(pointerView)
         pointerView.layoutSubviews()
 
+        var truncated = false
+
         if available > 0 {
             // NSLog("available = %f", available)
             if pointerView.bounds.size.height > available {
                 // NSLog("pointerView size of %f truncated", pointerView.bounds.size.height)
                 pointerView.frame.size.height = available
+                truncated = true
             }
         }
 
         frame.size.height += pointerView.bounds.size.height
+        view!.frame.size.height = bounds.size.height
 
-        NSLog("pointer view height is %f. frame height is now %f", Double(pointerView.bounds.size.height), Double(frame.size.height))
+        // NSLog("pointer view height is %f. frame height is now %f", Double(pointerView.bounds.size.height), Double(frame.size.height))
+
+        if truncated {
+            addGradientToBottomOfView(view)
+        }
     }
 
+    private func addGradientToBottomOfView(aView: UIView!) {
+        let topColor = backgroundColor;
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 0
+        var brightness: CGFloat = 0
+        var alpha: CGFloat = 0
+
+        topColor.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+
+        let bottomColor = UIColor(hue: hue, saturation: saturation, brightness: 0.3 * brightness, alpha: alpha)
+
+        let gradientHeight: CGFloat = 20
+        let gradientView = GradientView(frame: CGRectMake(0, aView.bounds.size.height - gradientHeight, aView.bounds.width, gradientHeight), firstColor: topColor, secondColor: bottomColor, startPoint: CGPointMake(0, 0), endPoint: CGPointMake(0, gradientHeight))
+        gradientView.opaque = false
+        gradientView.alpha = 0.4
+        gradientView.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
+
+        // NSLog("Added gradient at %f", Double(gradientView.frame.origin.y))
+        aView.addSubview(gradientView)
+    }
 }

@@ -106,11 +106,14 @@ class SenseTableViewCell: UITableViewCell {
         view = UIView(frame: bounds)
         view!.backgroundColor = AppConfiguration.foregroundColor // for a border
 
+        view!.autoresizingMask = nil
+
         contentView.addSubview(view)
 
         backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
         // backgroundLabel.clipsToBounds = true
         backgroundLabel.backgroundColor = cellBackgroundColor
+        backgroundLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         view!.addSubview(backgroundLabel)
 
         var lexnameText = "<\(sense.lexname)>"
