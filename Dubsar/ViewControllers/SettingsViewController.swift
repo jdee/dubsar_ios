@@ -238,6 +238,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             unzipLabel.text = "Unzip"
             unzipProgressView.progress = 0
         }
+        else if databaseManager.downloadSize > 0 && databaseManager.instantaneousDownloadRate == 0 {
+            downloadProgressView.progress = Float(databaseManager.downloadedSoFar) / Float(databaseManager.downloadSize)
+            downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize - databaseManager.downloadedSoFar)) ÷ \(formatRate(databaseManager.instantaneousDownloadRate)) = ∞"
+        }
         else if databaseManager.downloadSize > 0 && databaseManager.downloadedSoFar < databaseManager.downloadSize {
             downloadProgressView.progress = Float(databaseManager.downloadedSoFar) / Float(databaseManager.downloadSize)
             downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize - databaseManager.downloadedSoFar)) ÷ \(formatRate(databaseManager.instantaneousDownloadRate)) = \(formatTime(databaseManager.estimatedDownloadTimeRemaining))"
