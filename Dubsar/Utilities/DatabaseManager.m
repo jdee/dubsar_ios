@@ -221,8 +221,9 @@
     memset(&now, 0, sizeof(now));
     self.unzipStart = now;
 
-    NSLog(@"Downloading %@", DUBSAR_DATABASE_URL);
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:DUBSAR_DATABASE_URL]];
+    NSURL* url = [self.rootURL URLByAppendingPathComponent:DUBSAR_ZIP_NAME];
+    NSLog(@"Downloading %@", url);
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
 
     if (_etag && _start > 0 && _start == _totalSize) {
         [request addValue:_etag forHTTPHeaderField:@"If-None-Match"];
@@ -401,7 +402,7 @@
 
     _etag = newETag;
     if (_etag) {
-        NSLog(@"ETag for %@ is %@", DUBSAR_DATABASE_URL, _etag);
+        NSLog(@"ETag for %@ is %@", [self.rootURL URLByAppendingPathComponent:DUBSAR_ZIP_NAME], _etag);
     }
     _totalSize = self.downloadSize;
 
@@ -421,7 +422,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSLog(@"Finished downloading %@", DUBSAR_DATABASE_URL);
+    NSLog(@"Finished downloading %@", DUBSAR_ZIP_NAME);
     [self updateElapsedDownloadTime];
     [self startUnzip];
 }

@@ -40,7 +40,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
         [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)), "setting_type" : "label" ],
             [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "setting_type" : "navValue" ],
-            [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue" ] ]
+            [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue", "setting_action" : "offlineSwitchChanged:" ] ],
+
+        // dev settings (not in settings bundle)
+        [ [ "title" : "Production", "value" : AppConfiguration.productionKey, "setting_type" : "switchValue", "setting_action" : "productionSwitchChanged:" ] ]
     ]
 
     override func viewWillDisappear(animated: Bool) {
@@ -51,13 +54,13 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     override func adjustLayout() {
         AppDelegate.instance.databaseManager.delegate = self
 
-        settingsTableView.reloadData()
-        settingsTableView.backgroundColor = AppConfiguration.alternateBackgroundColor
-        settingsTableView.tintColor = AppConfiguration.foregroundColor
-
         if !downloadViewShowing {
             downloadViewShowing = AppDelegate.instance.databaseManager.downloadInProgress
         }
+
+        settingsTableView.reloadData()
+        settingsTableView.backgroundColor = AppConfiguration.alternateBackgroundColor
+        settingsTableView.tintColor = AppConfiguration.foregroundColor
 
         super.adjustLayout()
     }
@@ -75,6 +78,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let view = setting["view"]
         let value = setting["value"]
         let type = setting["setting_type"]
+        let action = setting["setting_action"]
 
         var cell: UITableViewCell?
         if type == "navValue" {
@@ -101,20 +105,21 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             cell!.detailTextLabel.text = value
         }
         else {
-            if !downloadViewShowing {
+            if !downloadViewShowing || AppConfiguration.offlineKey != value {
                 var switchCell = tableView.dequeueReusableCellWithIdentifier(SettingSwitchValueTableViewCell.identifier) as? SettingSwitchValueTableViewCell
                 if !switchCell {
                     switchCell = SettingSwitchValueTableViewCell()
                 }
 
                 let offlineSwitch = switchCell!.valueSwitch
-                offlineSwitch.on = AppConfiguration.offlineSetting
+                offlineSwitch.on = value == AppConfiguration.offlineKey ? AppConfiguration.offlineSetting :
+                    AppConfiguration.productionSetting
 
                 offlineSwitch.tintColor = AppConfiguration.alternateBackgroundColor
                 offlineSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
 
-                offlineSwitch.removeTarget(self, action: "offlineSwitchChanged:", forControlEvents: .ValueChanged) // necessary?
-                offlineSwitch.addTarget(self, action: "offlineSwitchChanged:", forControlEvents: .ValueChanged)
+                offlineSwitch.removeTarget(self, action: Selector(action!), forControlEvents: .ValueChanged) // necessary?
+                offlineSwitch.addTarget(self, action: Selector(action!), forControlEvents: .ValueChanged)
                 
                 cell = switchCell
             }
@@ -160,7 +165,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let setting = settings[row] as [String: String]
         let type = setting["setting_type"]
 
-        if type == "switchValue" && downloadViewShowing {
+        if type == "switchValue" && downloadViewShowing && setting["value"] == AppConfiguration.offlineKey {
             let dummyCell = DownloadProgressTableViewCell()
 
             updateProgressViews(dummyCell.downloadProgress, unzipProgressView: dummyCell.unzipProgress, downloadLabel: dummyCell.downloadLabel, unzipLabel: dummyCell.unzipLabel)
@@ -198,6 +203,16 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     func offlineSwitchChanged(sender: UISwitch!) {
         AppConfiguration.offlineSetting = sender.on
         AppDelegate.instance.checkOfflineSetting()
+    }
+
+    func productionSwitchChanged(sender: UISwitch!) {
+        AppConfiguration.productionSetting = sender.on
+        if AppConfiguration.productionSetting {
+            AppDelegate.instance.databaseManager.rootURL = NSURL(string:DUBSAR_PRODUCTION_ROOT_URL)
+        }
+        else {
+            AppDelegate.instance.databaseManager.rootURL = NSURL(string:DUBSAR_DEVELOPMENT_ROOT_URL)
+        }
     }
 
     @IBAction func cancelDownload(sender: UIButton!) {

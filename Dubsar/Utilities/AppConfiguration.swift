@@ -24,6 +24,8 @@ struct AppConfiguration {
     // MARK: User default keys from settings bundle
     static let themeKey = "DubsarTheme"
     static let offlineKey = "DubsarOffline"
+    // MARK: Dev key(s)
+    static let productionKey = "DubsarProduction"
 
     // MARK: Keys into the theme dictionaries below
     static let nameKey = "name"
@@ -81,6 +83,15 @@ struct AppConfiguration {
         }
         set {
             NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: offlineKey)
+        }
+    }
+
+    static var productionSetting: Bool {
+        get {
+            return NSUserDefaults.standardUserDefaults().boolForKey(productionKey)
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: productionKey)
         }
     }
 
