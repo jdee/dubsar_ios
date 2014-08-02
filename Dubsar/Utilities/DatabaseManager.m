@@ -18,6 +18,7 @@
  */
 
 @import DubsarModels;
+@import SystemConfiguration;
 
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -321,13 +322,37 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    [self updateElapsedDownloadTime];
     if (fp) {
         fclose(fp);
         fp = NULL;
     }
     [[UIApplication sharedApplication] stopUsingNetwork];
+
+    SCNetworkReachabilityRef hostRef = SCNetworkReachabilityCreateWithName(NULL, self.rootURL.host.UTF8String);
+    SCNetworkReachabilityFlags reachabilityFlags;
+    if (SCNetworkReachabilityGetFlags(hostRef, &reachabilityFlags)) {
+        if (reachabilityFlags & kSCNetworkReachabilityFlagsReachable) {
+            /*
+             * Insistent download: If, like me, you have poor Internet, your downloads may regularly time out due to said shit toobs.
+             * Also, being a phone, your device may change networks. If the download fails here, it's usually an indication
+             * of one of these conditions: a lost connection or timed out HTTP request. Calling download here just effectively resumes in
+             * this thread. It will use an If-Range header to avoid downloading the first part of the file again. It creates a new
+             * NSURLConnection executing on the current thread. If this is the main thread, control will return to the main run loop.
+             * If executing in downloadSynchronous in a background thread, as long as downloadInProgress is never allowed to become
+             * false, that run loop will continue until the download stops (success or failure).
+             */
+            [self download];
+            return;
+        }
+
+        // if not reachable, just fall through and report the failure.
+    }
+    else {
+        NSLog(@"Could not determine network reachability for %@", self.rootURL.host);
+    }
+
     self.downloadInProgress = NO;
-    [self updateElapsedDownloadTime];
     [self notifyDelegateOfError: error.localizedDescription];
 }
 
