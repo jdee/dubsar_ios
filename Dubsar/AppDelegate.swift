@@ -201,6 +201,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         NSLog("application did fail (or as we say in English, failed) to register for remote notifications: %@", error.localizedDescription)
     }
 
+    func application(application: UIApplication!, didReceiveLocalNotification notification: UILocalNotification!) {
+        NSLog("Received local notification: %@", notification.alertBody)
+        /* not really necessary
+        let viewController = navigationController.topViewController as BaseViewController
+        viewController.adjustLayout()
+        // */
+    }
+
     func application(application: UIApplication, didReceiveRemoteNotification notification: NSDictionary?) {
         if !notification {
             return

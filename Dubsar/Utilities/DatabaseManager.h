@@ -61,7 +61,7 @@
 @property (atomic, readonly) double instantaneousUnzipRate; // bytes per second
 @property (atomic, readonly) NSTimeInterval estimatedUnzipTimeRemaining; // seconds
 
-@property (nonatomic, weak) id<DownloadProgressDelegate> delegate;
+@property (atomic, weak) id<DownloadProgressDelegate> delegate;
 
 @property (atomic, readonly, copy) NSString* errorMessage;
 

@@ -38,7 +38,7 @@
 @property (atomic) double instantaneousUnzipRate;
 @property (atomic, copy) NSString* errorMessage;
 
-@property (nonatomic, weak) NSURLConnection* connection;
+@property (atomic, weak) NSURLConnection* connection;
 @property (nonatomic, copy) NSString* etag;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger totalSize;
@@ -151,12 +151,12 @@
 
 - (void)cancelDownload
 {
-    if (!self.downloadInProgress || !_connection) {
+    if (!self.downloadInProgress || !self.connection) {
         return;
     }
 
-    assert(_connection);
-    [_connection cancel];
+    assert(self.connection);
+    [self.connection cancel];
 
     [AppDelegate setOfflineSetting:NO];
 
@@ -234,8 +234,8 @@
         [request addValue:[NSString stringWithFormat:@"bytes=%ld-%ld", (long)_start, (long)_totalSize-1] forHTTPHeaderField:@"Range"];
     }
 
-    _connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    [_connection start];
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [self.connection start];
     [[UIApplication sharedApplication] startUsingNetwork];
 }
 
@@ -293,9 +293,18 @@
     self.downloadedAtLastStatsUpdate = self.downloadedSoFar;
     self.lastDownloadStatsUpdate = now;
 
-    // DEBT: Currently _delegate is nil if this is a background download. This will need to be redirected to
-    // the main thread if the delegate has to be used in a background download.
-    [_delegate progressUpdated:self];
+    // This may be a long-running background job on something other than the main thread. But the app may be in the foreground with the
+    // SynsetViewController as a delegate.
+    if (self.delegate) {
+        if ([NSThread currentThread] == [NSThread mainThread]) {
+            [self.delegate progressUpdated:self];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate progressUpdated:self];
+            });
+        }
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -385,9 +394,18 @@
     }
     _totalSize = self.downloadSize;
 
-    // DEBT: Currently _delegate is nil if this is a background download. This will need to be redirected to
-    // the main thread if the delegate has to be used in a background download.
-    [_delegate downloadStarted:self];
+    // This may be a long-running background job on something other than the main thread. But the app may be in the foreground with the
+    // SynsetViewController as a delegate.
+    if (self.delegate) {
+        if ([NSThread currentThread] == [NSThread mainThread]) {
+            [self.delegate downloadStarted:self];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate downloadStarted:self];
+            });
+        }
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -403,9 +421,19 @@
     fp = NULL;
     [[UIApplication sharedApplication] stopUsingNetwork];
 
-    // DEBT: Currently _delegate is nil if this is a background download. This will need to be redirected to
-    // the main thread if the delegate has to be used in a background download.
-    [_delegate unzipStarted:self];
+    // This may be a long-running background job on something other than the main thread. But the app may be in the foreground with the
+    // SynsetViewController as a delegate.
+    if (self.delegate) {
+        if ([NSThread currentThread] == [NSThread mainThread]) {
+            [self.delegate unzipStarted:self];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate unzipStarted:self];
+            });
+        }
+    }
+
     [self performSelector:@selector(unzip) withObject:nil];
 }
 
@@ -421,17 +449,17 @@
     self.errorMessage = @(buffer);
     self.downloadInProgress = NO;
 
-    if (!_delegate) return;
+    if (!self.delegate) return;
 
     if ([NSThread currentThread] != [NSThread mainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             // [self deleteDatabase];
-            [_delegate databaseManager:self encounteredError:self.errorMessage];
+            [self.delegate databaseManager:self encounteredError:self.errorMessage];
         });
     }
     else {
         // [self deleteDatabase];
-        [_delegate databaseManager:self encounteredError:self.errorMessage];
+        [self.delegate databaseManager:self encounteredError:self.errorMessage];
     }
 }
 
@@ -451,7 +479,7 @@
 - (void)reopenAndNotify
 {
     [DubsarModelsDatabase instance].databaseURL = self.fileURL; // reopen the DB that was just downloaded
-    [_delegate downloadComplete:self];
+    [self.delegate downloadComplete:self];
 }
 
 - (void)unzip
@@ -557,9 +585,9 @@
         }
 
         lastUpdateSize = self.unzippedSoFar;
-        if (_delegate) {
+        if (self.delegate) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [_delegate progressUpdated:self];
+                [self.delegate progressUpdated:self];
             });
         }
     }
