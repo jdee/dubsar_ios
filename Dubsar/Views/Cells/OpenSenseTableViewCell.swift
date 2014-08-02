@@ -116,6 +116,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         topColor.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
 
+        // let bottomColor = UIColor(hue: hue, saturation: saturation, brightness: brightness > 0.5 ? 0.3 * brightness : 2.0 * brightness, alpha: alpha)
         let bottomColor = UIColor(hue: hue, saturation: saturation, brightness: 0.3 * brightness, alpha: alpha)
 
         let gradientHeight: CGFloat = 20

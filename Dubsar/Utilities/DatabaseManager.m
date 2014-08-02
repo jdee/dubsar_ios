@@ -161,6 +161,7 @@
     [self.connection cancel];
 
     self.downloadInProgress = NO;
+    self.errorMessage = @"Canceled";
     [[UIApplication sharedApplication] stopUsingNetwork];
 
     NSLog(@"Download canceled");
@@ -477,6 +478,11 @@
     }
 
     [self performSelector:@selector(unzip) withObject:nil];
+}
+
+- (void)reportError:(NSString *)errorMessage
+{
+    [self notifyDelegateOfError:errorMessage];
 }
 
 - (void)notifyDelegateOfError:(NSString*)format, ...

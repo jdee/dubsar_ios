@@ -108,6 +108,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                     localNotif.alertBody = "Background download expired"
 
                     theApplication.presentLocalNotificationNow(localNotif)
+
+                    my.databaseManager.reportError(localNotif.alertBody)
                 }
 
                 theApplication.endBackgroundTask(my.bgTask)

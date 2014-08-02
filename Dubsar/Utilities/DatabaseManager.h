@@ -101,4 +101,7 @@
 - (void)deleteDatabase;
 - (void)cancelDownload;
 
+// for Swift
+- (void)reportError:(NSString*)errorMessage;
+
 @end
