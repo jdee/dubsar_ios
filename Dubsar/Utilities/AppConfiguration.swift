@@ -88,7 +88,11 @@ struct AppConfiguration {
 
     static var productionSetting: Bool {
         get {
+        #if DEBUG
             return NSUserDefaults.standardUserDefaults().boolForKey(productionKey)
+        #else
+            return true
+        #endif
         }
         set {
             NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: productionKey)
