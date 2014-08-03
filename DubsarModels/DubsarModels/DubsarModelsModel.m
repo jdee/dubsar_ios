@@ -62,13 +62,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
 
 - (void)loadSynchronous
 {
-    complete = error = false;
-    errorMessage = nil;
-    [self loadResults:_database];
-    complete = true;
-    error = errorMessage != nil;
-
-    if (delegate != nil) [delegate loadComplete:self withError:errorMessage];
+    [self databaseThread:_database];
 }
 
 - (void)databaseThread:(id)wrapper
@@ -76,7 +70,17 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
     @autoreleasepool {
         complete = error = false;
         errorMessage = nil;
-        [self loadResults:(DubsarModelsDatabaseWrapper*)wrapper];
+
+        if (_database.dbptr) {
+            [self loadResults:(DubsarModelsDatabaseWrapper*)wrapper];
+        }
+        else {
+            // load synchronously in this thread
+            [self loadFromServer];
+            while (!self.complete &&
+                   [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.2]]);
+        }
+
         complete = true;
         error = errorMessage != nil;
 
@@ -171,7 +175,6 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
 
     [self setComplete:true];
     [delegate networkLoadFinished:self];
-    [[self delegate] loadComplete:self withError:nil];
 
     NSLog(@"load processing finished");
 }
