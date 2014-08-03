@@ -276,12 +276,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     }
 
     func checkOfflineSetting() {
-        if AppConfiguration.productionSetting {
-            databaseManager.rootURL = NSURL(string:DUBSAR_PRODUCTION_ROOT_URL)
-        }
-        else {
-            databaseManager.rootURL = NSURL(string:DUBSAR_DEVELOPMENT_ROOT_URL)
-        }
+        databaseManager.rootURL = AppConfiguration.rootURL
 
         let offlineSetting = AppConfiguration.offlineSetting
         let filePresent = databaseManager.downloadInProgress || databaseManager.fileExists

@@ -134,6 +134,13 @@ struct AppConfiguration {
         }
     }
 
+    static var rootURL: NSURL {
+        get {
+            let production = productionSetting
+            return NSURL(string: production ? DUBSAR_PRODUCTION_ROOT_URL : DUBSAR_DEVELOPMENT_ROOT_URL)
+        }
+    }
+
     static var offlineHasChanged: Bool {
         get {
             NSUserDefaults.standardUserDefaults().synchronize()

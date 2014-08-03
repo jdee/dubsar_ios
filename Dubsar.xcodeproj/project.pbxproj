@@ -162,7 +162,6 @@
 		7B670D0F197398B600E83937 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7B6CC037197E1C3800151799 /* OpenWordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWordTableViewCell.swift; sourceTree = "<group>"; };
 		7B7382F4198418EA00880CF2 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		7B7382F8198420C700880CF2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7B7382FA1984700900880CF2 /* FAQViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
 		7B7D3E91197DB3DC00619DEA /* KeyboardHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardHelper.h; sourceTree = "<group>"; };
 		7B7D3E92197DB3DC00619DEA /* KeyboardHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardHelper.m; sourceTree = "<group>"; };
@@ -263,7 +262,6 @@
 			children = (
 				7B66C018198D3E5200257DDB /* SystemConfiguration.framework */,
 				7BBBD6DF1989C8AA0030FDA9 /* libz.dylib */,
-				7B7382F8198420C700880CF2 /* UIKit.framework */,
 				7BAC23581973753300D2AEA4 /* libsqlite3.0.dylib */,
 				7BAC23481973639200D2AEA4 /* DubsarModels.framework */,
 			);

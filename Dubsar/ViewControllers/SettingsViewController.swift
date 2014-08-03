@@ -220,12 +220,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     func productionSwitchChanged(sender: UISwitch!) {
         AppConfiguration.productionSetting = sender.on
-        if AppConfiguration.productionSetting {
-            AppDelegate.instance.databaseManager.rootURL = NSURL(string:DUBSAR_PRODUCTION_ROOT_URL)
-        }
-        else {
-            AppDelegate.instance.databaseManager.rootURL = NSURL(string:DUBSAR_DEVELOPMENT_ROOT_URL)
-        }
+        AppDelegate.instance.databaseManager.rootURL = AppConfiguration.rootURL
     }
 
     @IBAction func cancelDownload(sender: UIButton!) {
