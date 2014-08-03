@@ -68,6 +68,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
             assert(sense && wordSense && sense === wordSense)
 
+            NSLog("Received response for sense %d (%@). Updating row %d", sense!._id, sense!.gloss, row)
+
             senseTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
 
         case .UpdateViewWithDependency:
@@ -136,15 +138,15 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         var selectedRow = selectedIndexPath.indexAtPosition(1)
 
         if selectedRow == row {
-            var openCell = tableView.dequeueReusableCellWithIdentifier(OpenSenseTableViewCell.openIdentifier) as? OpenSenseTableViewCell
+            let identifier = OpenSenseTableViewCell.openIdentifier
+            var openCell = tableView.dequeueReusableCellWithIdentifier(identifier) as? OpenSenseTableViewCell
             if !openCell {
                 openCell = OpenSenseTableViewCell(sense: sense, frame: frame, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
             }
             else {
                 openCell!.insertHeightLimit = maxHeightOfAdditionsForRow(row)
             }
-            openCell!.cellBackgroundColor = AppConfiguration.highlightColor
-            openCell!.rebuild()
+            openCell!.cellBackgroundColor = AppConfiguration.highlightColor // calls rebuild()
             // NSLog("Cell for row %d is open", row)
             cell = openCell
         }
@@ -154,11 +156,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
                 cell = SenseTableViewCell(sense: sense, frame: frame)
             }
             // NSLog("Cell for row %d is closed", row)
-            cell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
+            cell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor // calls rebuild()
         }
 
         cell!.frame = frame
-        cell!.sense = sense
+        cell!.sense = sense // calls rebuild()
 
         return cell
     }

@@ -113,7 +113,7 @@ class SynsetPointerView: UIView {
     }
 
     override func layoutSubviews() {
-        if synset.complete {
+        if synset.complete || (sense && sense!.complete) {
             if hasReset {
                 performReset()
             }

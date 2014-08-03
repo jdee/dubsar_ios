@@ -38,7 +38,6 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         super.rebuild()
 
         backgroundColor = backgroundLabel.backgroundColor
-        let margin = SenseTableViewCell.margin
 
         var y = bounds.size.height
 
@@ -51,10 +50,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
             return
         }
 
-        let borderWidth = SenseTableViewCell.borderWidth
         let accessoryWidth = SenseTableViewCell.accessoryWidth
-
-        let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin-SenseTableViewCell.accessoryWidth, frame.size.height)
 
         let sampleView = SynsetSampleView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height), preview: true)
         sampleView.sense = sense
@@ -65,18 +61,18 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         var available = insertHeightLimit
         if available > 0 {
-            // NSLog("available = %f", available)
+            // NSLog("available = %f", Double(available))
             if sampleView.bounds.size.height > available {
-                // NSLog("sampleView size of %f truncated", sampleView.bounds.size.height)
+                // NSLog("sampleView size of %f truncated", Double(sampleView.bounds.size.height))
                 sampleView.frame.size.height = available
             }
             available -= sampleView.bounds.size.height
-            // NSLog("available reduced to %f", available)
+            // NSLog("available reduced to %f", Double(available))
             if available <= 0 {
                 // used up all our space. don't insert the pointer view
                 frame.size.height += sampleView.bounds.size.height
                 view!.frame.size.height = bounds.size.height
-                // NSLog("No pointer view. sample view height is %f. frame height is now %f", sampleView.bounds.size.height, bounds.size.height)
+                // NSLog("No pointer view. sample view height is %f. frame height is now %f", Double(sampleView.bounds.size.height), Double(bounds.size.height))
                 addGradientToBottomOfView(view)
                 return
             }
@@ -104,7 +100,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         var truncated = false
 
         if available > 0 {
-            // NSLog("available = %f", available)
+            // NSLog("available = %f", Double(available))
             if pointerView.bounds.size.height > available {
                 // NSLog("pointerView size of %f truncated", pointerView.bounds.size.height)
                 pointerView.frame.size.height = available

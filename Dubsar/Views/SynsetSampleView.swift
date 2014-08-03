@@ -47,40 +47,45 @@ class SynsetSampleView: UIView {
         }
         labels = []
 
+        var samples = [AnyObject]()
         if synset.complete {
-            var y = SynsetSampleView.margin
-
-            let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
-            var font = bodyFont
-            if isPreview {
-                let italicFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: true)
-                font = italicFont
-            }
-            else {
-                backgroundColor = AppConfiguration.alternateHighlightColor
-            }
-
-            let samples = synset.samples as [AnyObject]
-            for sample in samples as [NSString] {
-                y = addSample(sample, atY: y, background: UIColor.clearColor(), font: font)
-                // NSLog("Added %@ at %f", text, y)
-            }
-
-            /*
-             * Always include lexical info when displaying synsets with only one word.
-             */
-            let verbFrames : NSArray? = sense ? sense!.verbFrames : synset.senses.count == 1 ? (synset.senses.firstObject as DubsarModelsSense).verbFrames : nil
-            if verbFrames && verbFrames!.count > 0 {
-                let frames = verbFrames as [AnyObject]
-                for verbFrame in frames as [NSString] {
-                    y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : AppConfiguration.highlightColor, font: font)
-                    // NSLog("Added %@ at %f", text, y)
-                }
-            }
-
-            frame.size.height = y
-            // NSLog("sample view height: %f", bounds.size.height)
+            samples = synset.samples
         }
+        else if sense && sense!.complete {
+            samples = sense!.samples
+        }
+
+        var y = SynsetSampleView.margin
+
+        let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
+        var font = bodyFont
+        if isPreview {
+            let italicFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: true)
+            font = italicFont
+        }
+        else {
+            backgroundColor = AppConfiguration.alternateHighlightColor
+        }
+
+        for sample in samples as [NSString] {
+            y = addSample(sample, atY: y, background: UIColor.clearColor(), font: font)
+            // NSLog("Added %@ at %f", sample, Double(y))
+        }
+
+        /*
+        * Always include lexical info when displaying synsets with only one word.
+        */
+        let verbFrames : NSArray? = sense ? sense!.verbFrames : synset.senses.count == 1 ? (synset.senses.firstObject as DubsarModelsSense).verbFrames : nil
+        if verbFrames && verbFrames!.count > 0 {
+            let frames = verbFrames as [AnyObject]
+            for verbFrame in frames as [NSString] {
+                y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : AppConfiguration.highlightColor, font: font)
+                // NSLog("Added %@ at %f", verbFrame, Double(y))
+            }
+        }
+
+        frame.size.height = y
+        // NSLog("sample view height: %f", Double(bounds.size.height))
 
         super.layoutSubviews()
     }
