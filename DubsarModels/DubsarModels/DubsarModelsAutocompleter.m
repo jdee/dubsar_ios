@@ -175,7 +175,7 @@
     
     NSMutableArray* r = [NSMutableArray array];
     NSArray* list = response[1];
-    for (int j=0; j<list.count; ++j) {
+    for (int j=0; j<list.count && j < max; ++j) {
         [r addObject:list[j]];
     }
     _results = r;
