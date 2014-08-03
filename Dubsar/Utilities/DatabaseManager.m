@@ -364,7 +364,7 @@
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
-        NSLog(@"Failed to write %d bytes. Wrote %zd. Error %d (%s)", data.length, nr, error, errbuf);
+        NSLog(@"Failed to write %lu bytes. Wrote %zd. Error %d (%s)", (unsigned long)data.length, nr, error, errbuf);
         return;
     }
 }

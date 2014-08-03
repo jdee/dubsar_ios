@@ -363,7 +363,7 @@
 
 - (void)initUrl
 {
-    // [self set_url: [NSString stringWithFormat:@"/senses/%d", _id]];
+    [self set_url: [NSString stringWithFormat:@"/senses/%lu", (unsigned long)_id]];
 }
 
 - (NSComparisonResult)compareFreqCnt:(DubsarModelsSense*)sense

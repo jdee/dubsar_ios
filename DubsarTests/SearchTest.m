@@ -23,29 +23,29 @@
 
 @implementation SearchTest
 
-/*
+//*
 -(void)testParsing
 {
     NSString* stringData = @"[\"food\",[[26063,\"food\",\"n\",29,\"foods\"]],1]";
 
-    Search* search = [Search searchWithTerm:@"food" matchCase:NO];
+    DubsarModelsSearch* search = [DubsarModelsSearch searchWithTerm:@"food" matchCase:NO];
     search.data = [self.class dataWithString:stringData];
     [search parseData];
 
-    XCTAssertEquals(1, search.totalPages, @"total pages failed");
+    XCTAssertEqual(1, search.totalPages, @"total pages failed");
     
     NSArray* results = search.results;
-    Word* word = [results objectAtIndex:0];
+    DubsarModelsWord* word = [results objectAtIndex:0];
     
-    XCTAssertEquals((unsigned int)1, results.count, @"results count failed");
-    XCTAssertEquals(26063, word._id, @"word ID failed");
+    XCTAssertEqual((unsigned int)1, results.count, @"results count failed");
+    XCTAssertEqual(26063, word._id, @"word ID failed");
     XCTAssertEqualObjects(@"food", word.name, @"word name failed");
-    XCTAssertEquals(POSNoun, word.partOfSpeech, @"word part of speech failed");
-    XCTAssertEquals(29, word.freqCnt, @"word frequency count failed");
+    XCTAssertEqual(DubsarModelsPartOfSpeechNoun, word.partOfSpeech, @"word part of speech failed");
+    XCTAssertEqual(29, word.freqCnt, @"word frequency count failed");
     XCTAssertNotNil(word.inflections, @"word inflections failed");
-    XCTAssertEqualObjects(@"foods", word.inflections, @"word inflection content failed");
+    XCTAssertEqualObjects(@[@"foods"], word.inflections, @"word inflection content failed");
 }
- */
+// */
 
 -(void)testExactInflectionMatch
 {

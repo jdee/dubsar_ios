@@ -26,7 +26,6 @@
 #import "DubsarModelsPartOfSpeechDictionary.h"
 #import "DubsarModelsSense.h"
 #import "DubsarModelsSynset.h"
-#import "NSString+URLEncoding.h"
 #import "DubsarModelsWord.h"
 
 static int _seqNum = 0;
@@ -76,11 +75,9 @@ static int _seqNum = 0;
         seqNum = theSeqNum;
         exact = false;
 
-        /*
-        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
+        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
         [self set_url:__url];
-         */
     }
     return self;
 }
@@ -105,12 +102,10 @@ static int _seqNum = 0;
         // totalPages is set by the server in the response
         totalPages = 0;
 
-        /*
-        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
+        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
         if (page > 1) __url = [__url stringByAppendingFormat:@"&page=%d", page];
         [self set_url:__url];
-         */
     }
     return self;
 }
@@ -135,12 +130,10 @@ static int _seqNum = 0;
         // totalPages is set by the server in the response
         totalPages = 0;
 
-        /*
-        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
+        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         __url = [__url stringByAppendingString:@"&match=regexp"];
         if (page > 1) __url = [__url stringByAppendingFormat:@"&page=%d", page];
         [self set_url:__url];
-         */
     }
     return self;
 }
@@ -609,9 +602,8 @@ static int _seqNum = 0;
         DubsarModelsWord* word = [DubsarModelsWord wordWithId:numericId.intValue name:name posString:posString];
         word.freqCnt = numericFc.intValue;
         
-        // DEBT: Fix this before working with the server again
-        // NSString* otherForms = [entry objectAtIndex:4];
-        // word.inflections = otherForms;
+        NSString* otherForms = [entry objectAtIndex:4];
+        word.inflections = [otherForms componentsSeparatedByString:@","].mutableCopy;
         
         [results insertObject:word atIndex:j];
     }

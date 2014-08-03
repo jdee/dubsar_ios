@@ -23,7 +23,6 @@
 
 #import "DubsarModelsAutocompleter.h"
 #import "DubsarModelsDatabaseWrapper.h"
-#import "NSString+URLEncoding.h"
 
 @interface DubsarModelsAutocompleter()
 @end
@@ -55,11 +54,9 @@
         max = 10;
         aborted = NO;
         
-        /*
-        NSString* __url = [NSString stringWithFormat:@"/os?term=%@", [_term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
+        NSString* __url = [NSString stringWithFormat:@"/os?term=%@", [_term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
         [self set_url:__url];
-         */
     }
     return self;
 }

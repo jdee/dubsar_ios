@@ -64,7 +64,7 @@
         samples = nil;
         senses = nil;
         _includeExtraSections = NO;
-        // [self set_url: [NSString stringWithFormat:@"/synsets/%d", _id]];
+        [self set_url: [NSString stringWithFormat:@"/synsets/%lu", (unsigned long)_id]];
         [self prepareStatements];
     }
     return self;
@@ -82,7 +82,7 @@
         samples = nil;
         senses = nil;
         _includeExtraSections = NO;
-        // [self set_url: [NSString stringWithFormat:@"/synsets/%d", _id]];
+        [self set_url: [NSString stringWithFormat:@"/synsets/%lu", (unsigned long)_id]];
         [self prepareStatements];
     }
     return self;

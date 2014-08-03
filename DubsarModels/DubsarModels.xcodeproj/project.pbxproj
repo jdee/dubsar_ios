@@ -36,8 +36,6 @@
 		7BAC233D19735CB400D2AEA4 /* DubsarModelsWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC231D19735CB400D2AEA4 /* DubsarModelsWord.m */; };
 		7BAC234019735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC233E19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h */; };
 		7BAC234119735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC233F19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m */; };
-		7BAC2346197361D800D2AEA4 /* NSString+URLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC2344197361D800D2AEA4 /* NSString+URLEncoding.h */; };
-		7BAC2347197361D800D2AEA4 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC2345197361D800D2AEA4 /* NSString+URLEncoding.m */; };
 		7BAC235619736CDA00D2AEA4 /* DubsarModelsDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC235419736CDA00D2AEA4 /* DubsarModelsDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BAC235719736CDA00D2AEA4 /* DubsarModelsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC235519736CDA00D2AEA4 /* DubsarModelsDatabase.m */; };
 /* End PBXBuildFile section */
@@ -85,8 +83,6 @@
 		7BAC231D19735CB400D2AEA4 /* DubsarModelsWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsWord.m; sourceTree = "<group>"; };
 		7BAC233E19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsDatabaseWrapper.h; sourceTree = "<group>"; };
 		7BAC233F19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsDatabaseWrapper.m; sourceTree = "<group>"; };
-		7BAC2344197361D800D2AEA4 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
-		7BAC2345197361D800D2AEA4 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
 		7BAC235419736CDA00D2AEA4 /* DubsarModelsDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsDatabase.h; sourceTree = "<group>"; };
 		7BAC235519736CDA00D2AEA4 /* DubsarModelsDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsDatabase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -160,8 +156,6 @@
 				7BAC231B19735CB400D2AEA4 /* DubsarModelsSynset.m */,
 				7BAC231C19735CB400D2AEA4 /* DubsarModelsWord.h */,
 				7BAC231D19735CB400D2AEA4 /* DubsarModelsWord.m */,
-				7BAC2344197361D800D2AEA4 /* NSString+URLEncoding.h */,
-				7BAC2345197361D800D2AEA4 /* NSString+URLEncoding.m */,
 				7BAC22E519735C2C00D2AEA4 /* Supporting Files */,
 			);
 			path = DubsarModels;
@@ -214,7 +208,6 @@
 				7BAC233C19735CB400D2AEA4 /* DubsarModelsWord.h in Headers */,
 				7BAC232919735CB400D2AEA4 /* DubsarModelsLoadDelegate.h in Headers */,
 				7BAC234019735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h in Headers */,
-				7BAC2346197361D800D2AEA4 /* NSString+URLEncoding.h in Headers */,
 				7BAC22E819735C2C00D2AEA4 /* DubsarModels.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -329,7 +322,6 @@
 				7BAC233719735CB400D2AEA4 /* DubsarModelsSection.m in Sources */,
 				7BAC232B19735CB400D2AEA4 /* DubsarModelsModel.m in Sources */,
 				7BAC232F19735CB400D2AEA4 /* DubsarModelsPointer.m in Sources */,
-				7BAC2347197361D800D2AEA4 /* NSString+URLEncoding.m in Sources */,
 				7BAC235719736CDA00D2AEA4 /* DubsarModelsDatabase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -264,7 +264,7 @@
 
 -(void)initUrl
 {
-    // [self set_url: [NSString stringWithFormat:@"/words/%d", _id]];
+    [self set_url: [NSString stringWithFormat:@"/words/%ld", (long)_id]];
 }
 
 - (NSComparisonResult)compareFreqCnt:(DubsarModelsWord*)word
