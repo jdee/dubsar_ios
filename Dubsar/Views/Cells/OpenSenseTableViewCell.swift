@@ -38,9 +38,18 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         super.rebuild()
 
         backgroundColor = backgroundLabel.backgroundColor
+        let margin = SenseTableViewCell.margin
+
+        if !sense.complete {
+            let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
+            backgroundLabel.addSubview(spinner)
+            spinner.startAnimating()
+            spinner.frame = CGRectMake(2.0, 2.0, 40.0, 40.0)
+
+            return
+        }
 
         let borderWidth = SenseTableViewCell.borderWidth
-        let margin = SenseTableViewCell.margin
         let accessoryWidth = SenseTableViewCell.accessoryWidth
 
         let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin-SenseTableViewCell.accessoryWidth, frame.size.height)

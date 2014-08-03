@@ -23,10 +23,7 @@
 #import "DubsarModelsLoadDelegate.h"
 #import "DubsarModelsModel.h"
 
-// const NSString* DubsarBaseUrl = @"http://fatman:3000";
-
-const NSString* DubsarSecureUrl = @"https://dubsar-dictionary.com";
-const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS by default
+const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
 @implementation DubsarModelsModel
 
@@ -57,7 +54,14 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
 
 - (void)load
 {
-    [self loadSynchronous];
+    if (_database.dbptr) {
+        // DB is fast. Load in the FG by default. Slow-loading classes override this.
+        [self loadSynchronous];
+    }
+    else {
+        // All network loads have to be in the BG though.
+        [self performSelectorInBackground:@selector(loadSynchronous) withObject:nil];
+    }
 }
 
 - (void)loadSynchronous
@@ -72,10 +76,12 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
         errorMessage = nil;
 
         if (_database.dbptr) {
+            NSLog(@"Loading from the DB");
             [self loadResults:(DubsarModelsDatabaseWrapper*)wrapper];
         }
         else {
             // load synchronously in this thread
+            NSLog(@"Loading from the server");
             [self loadFromServer];
             while (!self.complete &&
                    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.2]]);
@@ -114,7 +120,16 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
     
     connection = [NSURLConnection connectionWithRequest:request delegate:self];
 
-    [delegate networkLoadStarted:self];
+    if ([delegate respondsToSelector:@selector(networkLoadStarted:)]) {
+        if ([NSThread mainThread] == [NSThread currentThread]) {
+            [delegate networkLoadStarted:self];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [delegate networkLoadStarted:self];
+            });
+        }
+    }
 
     NSLog(@"requesting %@", url);
 }
@@ -132,10 +147,18 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
     }];
     
     if (httpResponse.statusCode >= 400) {
-        NSString* errMsg = @"The Dubsar server did not return the data properly.";
+        self.errorMessage = @"The Dubsar server did not return the data properly.";
 
-        [delegate networkLoadFinished:self];
-        [delegate loadComplete:self withError:errMsg];
+        if ([delegate respondsToSelector:@selector(networkLoadFinished:)]) {
+            if ([NSThread mainThread] == [NSThread currentThread]) {
+                [delegate networkLoadFinished:self];
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [delegate networkLoadFinished:self];
+                });
+            }
+        }
         error = true;
     }
     
@@ -156,9 +179,18 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
     [self setComplete:true];
     [self setError:true];
     [self setErrorMessage:errMsg];
-    [delegate networkLoadFinished:self];
-    [[self delegate] loadComplete:self withError:errMsg];
-    
+
+    if ([delegate respondsToSelector:@selector(networkLoadFinished:)]) {
+        if ([NSThread mainThread] == [NSThread currentThread]) {
+            [delegate networkLoadFinished:self];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [delegate networkLoadFinished:self];
+            });
+        }
+    }
+
     NSLog(@"load processing finished");
 }
 
@@ -174,7 +206,16 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com"; // use HTTPS b
     }
 
     [self setComplete:true];
-    [delegate networkLoadFinished:self];
+    if ([delegate respondsToSelector:@selector(networkLoadFinished:)]) {
+        if ([NSThread mainThread] == [NSThread currentThread]) {
+            [delegate networkLoadFinished:self];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [delegate networkLoadFinished:self];
+            });
+        }
+    }
 
     NSLog(@"load processing finished");
 }

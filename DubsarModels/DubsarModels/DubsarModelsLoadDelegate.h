@@ -25,9 +25,8 @@
 
 @optional
 - (void)networkLoadStarted:(DubsarModelsModel*)model;
+@optional
 - (void)networkLoadFinished:(DubsarModelsModel*)model;
 
-/* The SearchBarViewController_iPhone base class does
-   not implement this. */
 - (void)loadComplete:(DubsarModelsModel*)model withError:(NSString*)error;
 @end

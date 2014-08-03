@@ -20,31 +20,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
+class BaseViewController: UIViewController {
 
-    var model : DubsarModelsModel? {
-    didSet {
-        if let m = model {
-            m.delegate = self
-        }
-    }
-    }
+    var router: Router?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)
 
-        if model && model!.complete {
-            loadComplete(model, withError: nil)
+        if router && router!.model.complete {
+            routeResponse(router)
         }
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-        // NSLog("In BaseViewController.viewWillAppear(): model is %@nil, %@complete", (model ? "" : "not "), (model?.complete ? "" : "not "))
-
-        assert(!model || model!.delegate === self)
 
         load()
         adjustLayout()
@@ -62,21 +52,19 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
         adjustLayout()
     }
 
+    func routeResponse(router: Router!) {
+        if router.model.errorMessage {
+            NSLog("Error from request: %@", router.model.errorMessage)
+        }
+    }
+
     func load() {
-        if model && model!.complete {
+        if router && router!.model.complete {
             // NSLog("reloading view from complete model")
-            loadComplete(model, withError: nil)
+            routeResponse(router)
         }
         else {
-            /*
-            if model {
-            NSLog("loading incomplete model")
-            }
-            else {
-            NSLog("No model in base class")
-            }
-            // */
-            model?.load()
+            router?.load()
         }
     }
 
@@ -116,18 +104,40 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
         UIApplication.sharedApplication().startUsingNetwork()
     }
 
-    func instantiateViewControllerWithIdentifier(vcIdentifier: String!, model: DubsarModelsModel? = nil) -> BaseViewController? {
+    func instantiateViewControllerWithIdentifier(vcIdentifier: String!, router: Router? = nil) -> BaseViewController? {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewControllerWithIdentifier(vcIdentifier) as? BaseViewController
         if let vc = viewController {
-            vc.model = model
+            if let r = router {
+                vc.router = r
+            }
         }
         return viewController
     }
 
-    func pushViewControllerWithIdentifier(vcIdentifier: String!, model: DubsarModelsModel? = nil) {
-        let vc = instantiateViewControllerWithIdentifier(vcIdentifier, model: model)
+    func pushViewControllerWithIdentifier(vcIdentifier: String!, router: Router? = nil) {
+        let vc = instantiateViewControllerWithIdentifier(vcIdentifier, router: router)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func pushViewControllerWithIdentifier(vcIdentifier: String!, model: DubsarModelsModel!, routerAction: RouterAction, indexPath: NSIndexPath? = nil) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewControllerWithIdentifier(vcIdentifier) as? BaseViewController
+        if let vc = viewController {
+            var router: Router
+
+            if let search = model as? DubsarModelsSearch {
+                router = SearchRouter(viewController: vc, search: search)
+            }
+            else {
+                router = Router(viewController: vc, model: model)
+                router.routerAction = routerAction
+                router.indexPath = indexPath
+            }
+
+            vc.router = router
+            navigationController.pushViewController(vc, animated: true)
+        }
     }
 
     func setupToolbar() {
@@ -175,7 +185,7 @@ class BaseViewController: UIViewController, DubsarModelsLoadDelegate {
 
     func viewDownload(sender: UIBarButtonItem!) {
         // Go home first?
-        pushViewControllerWithIdentifier(SettingsViewController.identifier, model: nil)
+        pushViewControllerWithIdentifier(SettingsViewController.identifier, router: nil)
     }
 
     func home() {

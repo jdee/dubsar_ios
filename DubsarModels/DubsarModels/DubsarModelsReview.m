@@ -79,7 +79,7 @@
 
 -(void)loadFromServer
 {
-    super.url = [NSString stringWithFormat:@"%@%@", DubsarSecureUrl, _url];
+    super.url = [NSString stringWithFormat:@"%@%@", DubsarBaseUrl, _url];
     NSURL* nsurl = [NSURL URLWithString:super.url];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:nsurl];

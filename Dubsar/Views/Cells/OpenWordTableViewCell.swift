@@ -48,6 +48,15 @@ class OpenWordTableViewCell: WordTableViewCell {
 
         assert(word)
         assert(word!.senses)
+
+        if !word!.complete {
+            let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
+            spinner.frame = CGRectMake(2.0, 2.0, 40.0, 40.0)
+            spinner.startAnimating()
+            view!.addSubview(spinner)
+            return
+        }
+
         let sense = word!.senses.firstObject as DubsarModelsSense
         let openSenseCell = OpenSenseTableViewCell(sense: sense, frame: CGRectMake(0, y, bounds.size.width, bounds.size.height-y), maxHeightOfAdditions: insertHeightLimit)
         openSenseCell.cellBackgroundColor = cellBackgroundColor

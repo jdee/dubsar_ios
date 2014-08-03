@@ -222,10 +222,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         }
 
         let top = navigationController.topViewController as BaseViewController
-        let viewController : BaseViewController! = top.instantiateViewControllerWithIdentifier("Word", model: word)
+        let viewController : BaseViewController! = top.instantiateViewControllerWithIdentifier("Word", router: nil)
         if title {
             viewController.title = title
         }
+        viewController.router = Router(viewController: viewController, model: word)
+
         navigationController.dismissViewControllerAnimated(true, completion: nil)
         navigationController.pushViewController(viewController, animated: true)
 

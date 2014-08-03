@@ -17,28 +17,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+import DubsarModels
 import UIKit
 
-class LoadingTableViewCell: UITableViewCell {
+class SearchRouter: Router {
 
-    let spinner : UIActivityIndicatorView
-
-    class var identifier : String {
-        get {
-            return "spinner"
-        }
+    init(viewController: BaseViewController!, search: DubsarModelsSearch!) {
+        super.init(viewController: viewController, model: search)
+        routerAction = .UpdateView
     }
 
-    init() {
-        spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
-        super.init(style: .Default, reuseIdentifier: LoadingTableViewCell.identifier)
-
-        selectionStyle = .None
-        backgroundColor = AppConfiguration.backgroundColor
-
-        contentView.addSubview(spinner)
-        spinner.frame = CGRectMake(2.0, 2.0, 40.0, 40.0)
-        spinner.startAnimating()
+    override func load() {
+        let search = model as DubsarModelsSearch
+        search.loadWithWords()
     }
-
 }

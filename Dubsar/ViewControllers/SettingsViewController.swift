@@ -209,7 +209,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let view = setting["view"]
 
         if type == "nav" || type == "navValue" {
-            pushViewControllerWithIdentifier(view, model: nil)
+            pushViewControllerWithIdentifier(view, router: nil)
         }
     }
 

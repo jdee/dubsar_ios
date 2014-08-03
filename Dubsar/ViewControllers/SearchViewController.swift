@@ -32,33 +32,21 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
     }
 
-    var search : DubsarModelsSearch! {
-    get {
-        return model as? DubsarModelsSearch
-    }
-
-    set {
-        model = newValue
-    }
+    var search: DubsarModelsSearch! {
+        get {
+            return router!.model as? DubsarModelsSearch
+        }
     }
 
     var selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
     override func viewWillAppear(animated: Bool) {
         // NSLog("In SearchViewController.viewWillAppear() before super: search is %@nil, %@complete; model is %@nil, %@complete", (search ? "" : "not "), (search.complete ? "" : "not "), (model ? "" : "not "), (model?.complete ? "" : "not "))
-        // super.viewWillAppear(animated)
-
-        if !search.complete {
-            search.loadWithWords()
-        }
-        else {
-            loadComplete(search, withError: nil)
-        }
+        super.viewWillAppear(animated)
 
         title = "Search"
         updateTitle()
         pageControl.hidden = search.totalPages <= 1
-        adjustLayout()
         view.backgroundColor = AppConfiguration.alternateBackgroundColor
         resultTableView.backgroundColor = UIColor.clearColor()
     }
@@ -178,7 +166,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         let row = indexPath.indexAtPosition(1)
         let word = search.results[row] as DubsarModelsWord
 
-        pushViewControllerWithIdentifier(WordViewController.identifier, model: word)
+        pushViewControllerWithIdentifier(WordViewController.identifier, model: word, routerAction: .UpdateView)
     }
 
     func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
@@ -196,9 +184,9 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         return height
     }
 
-    override func loadComplete(model : DubsarModelsModel!, withError error: String?) {
-        super.loadComplete(model, withError: error)
-        if error {
+    override func routeResponse(router: Router!) {
+        super.routeResponse(router)
+        if router.model.error {
             return
         }
 

@@ -30,19 +30,20 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     var alphabetView : AlphabetView!
     var autocompleterView : AutocompleterView!
-    var wotd : DubsarModelsDailyWord!
     var autocompleter : DubsarModelsAutocompleter?
     var lastSequence : Int = -1
     var searchBarEditing : Bool = false
     var keyboardHeight : CGFloat = 0
     var rotated : Bool = false
 
+    let wotd = DubsarModelsDailyWord()
+
     // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        wotd = DubsarModelsDailyWord()
-        wotd.delegate = self
+        router = Router(viewController: self, model: wotd)
+        router!.routerAction = .UpdateView
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
@@ -60,7 +61,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        wotd.load()
         resetSearch()
         rotated = false
     }
@@ -68,7 +68,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         super.prepareForSegue(segue, sender: sender)
         if let viewController = segue.destinationViewController as? WordViewController {
-            viewController.word = wotd.word
+            viewController.router = Router(viewController: viewController, model: wotd.word)
             wotd.word.complete = false
             viewController.title = "Word of the Day"
         }
@@ -225,7 +225,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     func searchBarSearchButtonClicked(searchBar: UISearchBar!) {
         let search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
         resetSearch()
-        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
+
+        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
     }
 
     func searchBar(searchBar: UISearchBar!, textDidChange searchText: String!) {
@@ -242,35 +243,27 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         // else wait for keyboardShown: to be called to recompute the keyboard height
     }
 
-    // MARK: DubsarModelsLoadDelegate
-    override func loadComplete(model: DubsarModelsModel!, withError error: String?) {
-        super.loadComplete(model, withError: error)
-        if error {
+    override func routeResponse(router: Router!) {
+        super.routeResponse(router)
+        if router.model.error {
             return
         }
 
-        if let a = model as? DubsarModelsAutocompleter {
-            if a.seqNum < lastSequence {
-                return
+        switch router.routerAction {
+        case .UpdateView:
+            if let wotd = router.model as? DubsarModelsDailyWord {
+                wotdButton.setTitle(wotd.word.nameAndPos, forState: .Normal)
             }
-            autocompleterFinished(a, withError: nil)
-        }
-        else if let dailyWord = model as? DubsarModelsDailyWord {
-            /*
-             * First determine the ID of the WOTD by consulting the user defaults or requesting
-             * from the server. Once we have that, load the actual word entry for info to display.
-             */
-            dailyWord.word.delegate = self
-            dailyWord.word.load()
-        }
-        else if let word = model as? DubsarModelsWord {
-            /*
-             * Now we've loaded the word from the DB. Display it.
-             */
 
-            wotdButton.setTitle(word.nameAndPos, forState: .Normal)
-        }
+        case .UpdateAutocompleter:
+            let ac = router.model as DubsarModelsAutocompleter
+            if ac.seqNum >= lastSequence {
+                autocompleterFinished(ac, withError: nil)
+            }
 
+        default:
+            break
+        }
     }
 
     func autocompleterFinished(theAutocompleter: DubsarModelsAutocompleter!, withError error: String!) {
@@ -312,7 +305,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     func showSettingsView() {
-        pushViewControllerWithIdentifier(SettingsViewController.identifier, model: nil)
+        pushViewControllerWithIdentifier(SettingsViewController.identifier, router: nil)
     }
 
     func triggerAutocompletion() {
@@ -331,10 +324,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         // NSLog("Autocompletion text: %@", searchText)
         autocompleter = DubsarModelsAutocompleter(term: searchBar.text, matchCase: false)
-        autocompleter!.delegate = self
         autocompleter!.max = max
-        autocompleter!.load()
         lastSequence = autocompleter!.seqNum
+
+        router = Router(viewController: self, model: autocompleter)
+        router!.routerAction = .UpdateAutocompleter
+        router!.load()
     }
 
     func resetSearch() {
@@ -349,7 +344,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     func autocompleterView(_: AutocompleterView!, selectedResult result: String!) {
         let search = DubsarModelsSearch(term: result, matchCase: false)
         resetSearch()
-        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
+        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
     }
 
     func keyboardShowing(notification: NSNotification!) {
@@ -399,6 +394,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     func alphabetView(_:AlphabetView!, selectedButton button: GlobButton!) {
         let search = DubsarModelsSearch(wildcard: button.globExpression, page: 1, title: button.titleForState(.Normal))
-        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search)
+        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
     }
 }

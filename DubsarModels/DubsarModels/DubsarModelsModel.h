@@ -60,4 +60,3 @@
 @end
 
 extern const NSString* DubsarBaseUrl;
-extern const NSString* DubsarSecureUrl;

@@ -53,6 +53,11 @@ extension DubsarModelsSense {
         // NSLog("Cell header height: %f", size.height)
 
         if open {
+            if !complete {
+                size.height += 44
+                return size
+            }
+
             // Yikes
             let sampleView = SynsetSampleView(synset: synset, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height), preview: true)
             sampleView.sense = self
