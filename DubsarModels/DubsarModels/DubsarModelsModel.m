@@ -59,14 +59,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
     self.loading = true;
 
-    if (_database.dbptr) {
-        // DB is fast. Load in the FG by default. Slow-loading classes override this.
-        [self loadSynchronous];
-    }
-    else {
-        // All network loads have to be in the BG though.
-        [self performSelectorInBackground:@selector(loadSynchronous) withObject:nil];
-    }
+    [self performSelectorInBackground:@selector(loadSynchronous) withObject:nil];
 }
 
 - (void)loadSynchronous
@@ -103,6 +96,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         self.loading = false;
 
         if (delegate != nil) {
+            NSLog(@"Dispatching callback to router");
             if ([NSThread currentThread] != [NSThread mainThread]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [delegate loadComplete:self withError:errorMessage];
@@ -111,6 +105,9 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
             else {
                 [delegate loadComplete:self withError:errorMessage];
             }
+        }
+        else {
+            NSLog(@"No delegate (weak ref.)");
         }
     }
 }

@@ -151,15 +151,6 @@ static int _seqNum = 0;
     return self;
 }
 
-- (void)load
-{
-    if (self.loading) return;
-
-    self.loading = true;
-    
-    [self performSelectorInBackground:@selector(databaseThread:) withObject:self.database];
-}
-
 - (void)loadResults:(DubsarModelsDatabaseWrapper*)database
 {    
     self.results = [NSMutableArray array];

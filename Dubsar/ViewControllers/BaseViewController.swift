@@ -114,33 +114,28 @@ class BaseViewController: UIViewController {
 
             var router: Router
 
-            if let search = model as? DubsarModelsSearch {
-                router = SearchRouter(viewController: vc, search: search)
-            }
-            else {
-                if routerAction == RouterAction.UpdateViewWithDependency {
-                    if vcIdentifier == WordViewController.identifier {
-                        let sense = model as DubsarModelsSense
-                        router = Router(viewController: vc, model: sense.word)
-                        router.dependency = sense
-                    }
-                    else if vcIdentifier == SynsetViewController.identifier {
-                        let sense = model as DubsarModelsSense
-                        router = Router(viewController: vc, model: sense.synset)
-                        router.dependency = sense
-                    }
-                    else {
-                        // shouldn't actually happen
-                        router = Router(viewController: vc, model: model)
-                    }
+            if routerAction == RouterAction.UpdateViewWithDependency {
+                if vcIdentifier == WordViewController.identifier {
+                    let sense = model as DubsarModelsSense
+                    router = Router(viewController: vc, model: sense.word)
+                    router.dependency = sense
+                }
+                else if vcIdentifier == SynsetViewController.identifier {
+                    let sense = model as DubsarModelsSense
+                    router = Router(viewController: vc, model: sense.synset)
+                    router.dependency = sense
                 }
                 else {
+                    // shouldn't actually happen
                     router = Router(viewController: vc, model: model)
                 }
-
-                router.routerAction = routerAction
-                router.indexPath = indexPath
             }
+            else {
+                router = Router(viewController: vc, model: model)
+            }
+
+            router.routerAction = routerAction
+            router.indexPath = indexPath
 
             vc.router = router
             navigationController.pushViewController(vc, animated: true)

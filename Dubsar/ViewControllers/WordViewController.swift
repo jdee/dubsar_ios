@@ -62,7 +62,13 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
             assert(router.indexPath == selectedIndexPath)
 
-            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Bottom)
+            let sense = router.model as? DubsarModelsSense
+            let row = selectedIndexPath.indexAtPosition(1)
+            let wordSense = theWord!.senses[row-1] as? DubsarModelsSense
+
+            assert(sense && wordSense && sense === wordSense)
+
+            senseTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
 
         case .UpdateViewWithDependency:
             theWord = router.model as? DubsarModelsWord

@@ -40,11 +40,13 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         backgroundColor = backgroundLabel.backgroundColor
         let margin = SenseTableViewCell.margin
 
+        var y = bounds.size.height
+
         if !sense.complete {
             let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
             backgroundLabel.addSubview(spinner)
             spinner.startAnimating()
-            spinner.frame = CGRectMake(2.0, 2.0, 40.0, 40.0)
+            spinner.frame = CGRectMake(2.0, y + 2.0, 40.0, 40.0)
 
             return
         }
@@ -53,8 +55,6 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         let accessoryWidth = SenseTableViewCell.accessoryWidth
 
         let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin-SenseTableViewCell.accessoryWidth, frame.size.height)
-
-        var y = bounds.size.height
 
         let sampleView = SynsetSampleView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height), preview: true)
         sampleView.sense = sense

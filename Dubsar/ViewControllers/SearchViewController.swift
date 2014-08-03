@@ -149,6 +149,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         selectedIndexPath = indexPath
 
+        synchSelectedRow()
+
         // NSLog("Selected row %d", selectedIndexPath.indexAtPosition(1))
         tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
     }
@@ -179,19 +181,76 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         return height
     }
 
+    func synchSelectedRow() {
+        let row = selectedIndexPath.indexAtPosition(1)
+        if row < 0 || !search {
+            return
+        }
+
+        let word = search!.results[row] as DubsarModelsWord
+        if word.complete {
+            return
+        }
+
+        self.router = Router(viewController: self, model: word)
+        self.router!.routerAction = .UpdateRowAtIndexPath
+        self.router!.indexPath = selectedIndexPath
+        self.router!.load()
+    }
+
+    func selectRowForWord(word: DubsarModelsWord!) {
+        let results = search!.results as [AnyObject]
+        var index = results.count
+        for (j, w) in enumerate(results as [DubsarModelsWord]) {
+            if w._id == word._id {
+                index = j
+                break
+            }
+        }
+        assert(index < results.count)
+
+        // NSLog("Index of selected row is %d", index)
+        selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
+    }
+
     override func routeResponse(router: Router!) {
         super.routeResponse(router)
         if router.model.error {
             return
         }
 
-        search = router.model as? DubsarModelsSearch
+        switch (router.routerAction) {
+        case .UpdateView:
+            search = router.model as? DubsarModelsSearch
+
+            if search!.results.count > 0 {
+                selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+                synchSelectedRow()
+                NSLog("Sent request to synch row for word");
+            }
+
+            resultTableView.reloadData()
+
+        case .UpdateRowAtIndexPath:
+            assert(router.indexPath == selectedIndexPath)
+            let word = router.model as? DubsarModelsWord
+            let row = selectedIndexPath.indexAtPosition(1)
+            let resultWord = search!.results[row] as? DubsarModelsWord
+            assert(word && resultWord && word === resultWord)
+
+            assert(search && search!.complete && search!.results.count > 0)
+
+            resultTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
+            return
+
+        default:
+            break
+        }
 
         pageControl.hidden = search!.totalPages <= 1
         pageControl.currentPage = search!.currentPage - 1
         pageControl.numberOfPages = Int(search!.totalPages)
         updateTitle()
-        resultTableView.reloadData()
 
         resultTableView.backgroundColor = search!.results.count % 2 == 0 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
     }

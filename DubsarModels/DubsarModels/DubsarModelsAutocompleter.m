@@ -84,22 +84,6 @@
     self.aborted = YES;
 }
 
-- (void)load
-{
-    if (self.loading) return;
-
-    self.loading = true;
-    
-#if 1
-    // Seems to perform better this way
-    [NSThread detachNewThreadSelector:@selector(databaseThread:) toTarget:self withObject:self.database];
-#else
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self databaseThread:self.database];
-    });
-#endif
-}
-
 - (void)loadResults:(DubsarModelsDatabaseWrapper*)database
 {
     @synchronized(database) {

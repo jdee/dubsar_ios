@@ -101,29 +101,6 @@
     return result;
 }
 
-- (void)load:(bool)mainThread
-{
-    // either way, [delegate loadComplete:withError:] is called on the main thread
-    if (mainThread) {
-        // dispatch on the main thread in the background
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self databaseThread:self.database];
-        });
-    }
-    else {
-        [self performSelectorInBackground:@selector(databaseThread:) withObject:self.database];
-    }
-}
-
-- (void)load
-{
-    if (self.loading) return;
-
-    self.loading = true;
-    
-    [self load:true];
-}
-
 - (void)loadWithSynsets
 {
     loadingSynsets = YES;

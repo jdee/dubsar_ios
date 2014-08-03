@@ -30,32 +30,8 @@ class SynsetViewController: BaseViewController {
         }
     }
 
-    var theSynset : DubsarModelsSynset? {
-    get {
-        if !router {
-            return nil
-        }
-
-        switch router!.routerAction {
-        case .UpdateView:
-            return router!.model as? DubsarModelsSynset
-        case .UpdateRowAtIndexPath, .UpdateViewWithDependency:
-            return sense?.synset
-        default:
-            return nil
-        }
-    }
-    }
-
-    var sense : DubsarModelsSense? {
-    get {
-        if !router {
-            return nil
-        }
-
-        return router!.model as? DubsarModelsSense
-    }
-    }
+    var theSynset : DubsarModelsSynset?
+    var sense: DubsarModelsSense?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,9 +45,17 @@ class SynsetViewController: BaseViewController {
             return
         }
 
-        self.router = router
-
+        theSynset = router.model as? DubsarModelsSynset
         assert(theSynset)
+
+        switch router.routerAction {
+        case .UpdateViewWithDependency:
+            sense = router.dependency
+            break
+        default:
+            break
+        }
+
         if !scroller {
             // NSLog("Constructing new scroller for synset ID %d", theSynset!._id)
             scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)

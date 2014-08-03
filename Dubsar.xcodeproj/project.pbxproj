@@ -74,7 +74,6 @@
 		7BBF83821975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */; };
 		7BCA161E197D6E260016C104 /* AlphabetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA161D197D6E260016C104 /* AlphabetView.swift */; };
 		7BD8459D198DD013000C3EA5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD8459C198DD013000C3EA5 /* Router.swift */; };
-		7BD8459F198DD79A000C3EA5 /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD8459E198DD79A000C3EA5 /* SearchRouter.swift */; };
 		7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */; };
 		7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */; };
 /* End PBXBuildFile section */
@@ -223,7 +222,6 @@
 		7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsSense+ViewSizing.swift"; sourceTree = "<group>"; };
 		7BCA161D197D6E260016C104 /* AlphabetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlphabetView.swift; sourceTree = "<group>"; };
 		7BD8459C198DD013000C3EA5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		7BD8459E198DD79A000C3EA5 /* SearchRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
 		7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSenseTableViewCell.swift; sourceTree = "<group>"; };
 		7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -439,7 +437,6 @@
 				7BA90E08197786D400D5C180 /* PushWrapper.h */,
 				7BA90E09197786D400D5C180 /* PushWrapper.m */,
 				7BD8459C198DD013000C3EA5 /* Router.swift */,
-				7BD8459E198DD79A000C3EA5 /* SearchRouter.swift */,
 				7B2F4649198B1CC100F57D21 /* UIApplication+NetworkRefCount.h */,
 				7B2F464A198B1CC100F57D21 /* UIApplication+NetworkRefCount.m */,
 				7BBF83831975E87B00969765 /* View Sizing */,
@@ -606,7 +603,6 @@
 				7BBBD6DD1989C8850030FDA9 /* ioapi.c in Sources */,
 				7BCA161E197D6E260016C104 /* AlphabetView.swift in Sources */,
 				7B06EC781988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift in Sources */,
-				7BD8459F198DD79A000C3EA5 /* SearchRouter.swift in Sources */,
 				7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */,
 				7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,

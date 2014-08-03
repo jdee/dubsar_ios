@@ -64,6 +64,11 @@ extension DubsarModelsWord {
         }
 
         if open {
+            if !complete {
+                size.height += 44
+                return size
+            }
+
             assert(senses)
             let sense = senses.firstObject as? DubsarModelsSense
             assert(sense)

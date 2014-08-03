@@ -71,6 +71,13 @@ class WordTableViewCell: UITableViewCell {
             return
         }
 
+        if !word!.complete {
+            let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
+            spinner.startAnimating()
+            spinner.frame = CGRectMake(2, 2, 40, 40)
+            view?.addSubview(spinner)
+        }
+
         let accessorySize = WordTableViewCell.accessoryWidth
         let headlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
