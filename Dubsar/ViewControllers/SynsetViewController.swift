@@ -39,7 +39,7 @@ class SynsetViewController: BaseViewController {
         switch router!.routerAction {
         case .UpdateView:
             return router!.model as? DubsarModelsSynset
-        case .UpdateRowAtIndexPath:
+        case .UpdateRowAtIndexPath, .UpdateViewWithDependency:
             return sense?.synset
         default:
             return nil
@@ -68,6 +68,8 @@ class SynsetViewController: BaseViewController {
         if router.model.error {
             return
         }
+
+        self.router = router
 
         assert(theSynset)
         if !scroller {

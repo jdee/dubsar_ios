@@ -32,12 +32,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
     }
 
-    var search: DubsarModelsSearch! {
-        get {
-            return router!.model as? DubsarModelsSearch
-        }
-    }
-
+    var search: DubsarModelsSearch?
     var selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
     override func viewWillAppear(animated: Bool) {
@@ -46,16 +41,16 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         title = "Search"
         updateTitle()
-        pageControl.hidden = search.totalPages <= 1
+        pageControl.hidden = !search || search!.totalPages <= 1
         view.backgroundColor = AppConfiguration.alternateBackgroundColor
         resultTableView.backgroundColor = UIColor.clearColor()
     }
 
     @IBAction
     func pageChanged(sender: UIPageControl) {
-        search.currentPage = sender.currentPage + 1
-        search.complete = false
-        search.loadWithWords()
+        search!.currentPage = sender.currentPage + 1
+        search!.complete = false
+        search!.loadWithWords()
 
         selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
@@ -64,20 +59,20 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func updateTitle() {
-        if !search.complete {
+        if !search || !search!.complete {
             searchLabel.text = "searching..."
             return
         }
 
-        var title = "search results for \"\(search.title ? search.title : search.term)\""
-        if search.totalPages > 1 {
-            title = "\(title) p. \(search.currentPage)/\(search.totalPages)"
+        var title = "search results for \"\(search!.title ? search!.title : search!.term)\""
+        if search!.totalPages > 1 {
+            title = "\(title) p. \(search!.currentPage)/\(search!.totalPages)"
         }
         searchLabel.text = title
     }
 
     func maxHeightOfAdditionsForRow(row: Int) -> CGFloat {
-        return row == search.results.count - 1 ? resultTableView.bounds.size.height : 150
+        return row == search!.results.count - 1 ? resultTableView.bounds.size.height : 150
     }
 
     func tableView(tableView: UITableView!, shouldHighlightRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
@@ -85,11 +80,11 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section:Int) -> Int {
-        return search.complete && search.results.count > 0 ? search.results.count : 1
+        return search && search!.complete && search!.results.count > 0 ? search!.results.count : 1
     }
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath:NSIndexPath!) -> UITableViewCell! {
-        if !search.complete {
+        if !search || !search!.complete {
             var cell = tableView.dequeueReusableCellWithIdentifier(LoadingTableViewCell.identifier) as? LoadingTableViewCell
             if !cell {
                 cell = LoadingTableViewCell()
@@ -99,7 +94,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             return cell
         }
 
-        if search.results.count == 0 {
+        if search!.results.count == 0 {
             let identifier = "no-results"
             var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? UITableViewCell
             if !cell {
@@ -112,7 +107,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
 
         let row = indexPath.indexAtPosition(1)
-        let word = search.results[row] as DubsarModelsWord
+        let word = search!.results[row] as DubsarModelsWord
         let selectedRow = selectedIndexPath.indexAtPosition(1)
 
         var cell: WordTableViewCell?
@@ -159,23 +154,23 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
-        if !search.complete || search.results.count == 0 {
+        if !search || !search!.complete || search!.results.count == 0 {
             return
         }
 
         let row = indexPath.indexAtPosition(1)
-        let word = search.results[row] as DubsarModelsWord
+        let word = search!.results[row] as DubsarModelsWord
 
         pushViewControllerWithIdentifier(WordViewController.identifier, model: word, routerAction: .UpdateView)
     }
 
     func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        if !search.complete || search.results.count == 0 {
+        if !search || !search!.complete || search!.results.count == 0 {
             return 44
         }
 
         let row = indexPath.indexAtPosition(1)
-        let word = search.results[row] as DubsarModelsWord
+        let word = search!.results[row] as DubsarModelsWord
         let selectedRow = selectedIndexPath.indexAtPosition(1)
 
         let height = word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row), preview: true).height
@@ -190,13 +185,15 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             return
         }
 
-        pageControl.hidden = search.totalPages <= 1
-        pageControl.currentPage = search.currentPage - 1
-        pageControl.numberOfPages = Int(search.totalPages)
+        search = router.model as? DubsarModelsSearch
+
+        pageControl.hidden = search!.totalPages <= 1
+        pageControl.currentPage = search!.currentPage - 1
+        pageControl.numberOfPages = Int(search!.totalPages)
         updateTitle()
         resultTableView.reloadData()
 
-        resultTableView.backgroundColor = search.results.count % 2 == 0 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
+        resultTableView.backgroundColor = search!.results.count % 2 == 0 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
     }
 
     override func adjustLayout() {

@@ -37,7 +37,7 @@
     NSString* _url;
 }
 
-@property (nonatomic, strong) NSMutableData* data;
+@property (nonatomic) NSMutableData* data;
 @property (nonatomic, copy, setter=set_url:) NSString* _url;
 @property (nonatomic, copy) NSString* url;
 @property (nonatomic) bool complete;
@@ -45,6 +45,7 @@
 @property (nonatomic, copy) NSString* errorMessage;
 @property (nonatomic, weak) id<DubsarModelsLoadDelegate> delegate;
 @property (nonatomic, weak) DubsarModelsDatabaseWrapper* database;
+@property (atomic) BOOL loading;
 
 @property bool preview;
 

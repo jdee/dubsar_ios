@@ -32,26 +32,13 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
     var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: -1, inSection: 0)
 
-    var theWord: DubsarModelsWord? {
-    get {
-        if !router {
-            return nil
-        }
-
-        switch (router!.routerAction) {
-        case .UpdateView:
-            return router!.model as? DubsarModelsWord
-        default:
-            let sense = router!.model as? DubsarModelsSense
-            return sense?.word
-        }
-    }
-    }
+    var theWord: DubsarModelsWord?
 
     var loaded: Bool = false
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad() // just calls load()
+
         loaded = true
         senseTableView.backgroundColor = UIColor.clearColor()
     }
@@ -64,30 +51,24 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         switch (router.routerAction) {
         case .UpdateView:
+            theWord = router.model as? DubsarModelsWord
             selectedIndexPath = NSIndexPath(forRow:1, inSection:0)
-            let firstSense = theWord!.senses.firstObject as DubsarModelsSense
-            if !firstSense.complete {
-                self.router = Router(viewController: self, model: firstSense)
-                self.router!.routerAction = .UpdateRowAtIndexPath
-                self.router!.indexPath = selectedIndexPath
-                self.router!.load()
-            }
+            synchSelectedRow()
 
             senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
 
-        case .UpdateRowAtIndexPath, .UpdateViewWithDependency:
-            let sense = router!.model as? DubsarModelsSense
-            let senses = theWord!.senses as [AnyObject]
-            var index = senses.count
-            for (j, s) in enumerate(senses as [DubsarModelsSense]) {
-                if s._id == sense!._id {
-                    break
-                }
-            }
-            assert(index < senses.count)
+        case .UpdateRowAtIndexPath: // we get here as a result of calling synchSelectedRow()
+            assert(theWord)
 
-            // NSLog("Index of selected row is %d", index)
-            selectedIndexPath = NSIndexPath(forRow:index+1, inSection: 0)
+            assert(router.indexPath == selectedIndexPath)
+
+            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Bottom)
+
+        case .UpdateViewWithDependency:
+            theWord = router.model as? DubsarModelsWord
+            selectRowForSense(router.dependency)
+            synchSelectedRow()
+
             senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Bottom)
 
         default:
@@ -96,6 +77,21 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         adjustLayout()
         senseTableView.backgroundColor = theWord!.senses.count % 2 == 1 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
+    }
+
+    func selectRowForSense(sense: DubsarModelsSense!) {
+        let senses = theWord!.senses as [AnyObject]
+        var index = senses.count
+        for (j, s) in enumerate(senses as [DubsarModelsSense]) {
+            if s._id == sense._id {
+                index = j
+                break
+            }
+        }
+        assert(index < senses.count)
+
+        // NSLog("Index of selected row is %d", index)
+        selectedIndexPath = NSIndexPath(forRow: index+1, inSection: 0)
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
@@ -201,17 +197,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         selectedIndexPath = indexPath
 
-        let sense = theWord!.senses[row-1] as? DubsarModelsSense
-        let originalWord = theWord!
-        if !sense!.complete {
-            self.router = Router(viewController: self, model: sense)
-            self.router!.routerAction = .UpdateRowAtIndexPath
-            self.router!.indexPath = selectedIndexPath
-            self.router!.load()
-        }
-        else {
-            // NSLog("Sense %ld (%@) already complete", sense!._id, sense!.gloss)
-        }
+        synchSelectedRow()
 
         // NSLog("Reloading rows %d & %d", row, current.indexAtPosition(1))
 
@@ -239,11 +225,28 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
          * here.
          */
         let newSense = DubsarModelsSense(id: sense._id, name: sense.name, partOfSpeech: sense.partOfSpeech)
-        pushViewControllerWithIdentifier(SynsetViewController.identifier, model: newSense, routerAction: .UpdateView)
+        pushViewControllerWithIdentifier(SynsetViewController.identifier, model: newSense, routerAction: .UpdateViewWithDependency)
     }
 
     func maxHeightOfAdditionsForRow(row: Int) -> CGFloat {
         return row == theWord!.senses.count ? senseTableView.bounds.size.height : 150
+    }
+
+    func synchSelectedRow() {
+        let row = selectedIndexPath.indexAtPosition(1)
+        if row < 1 || !theWord {
+            return
+        }
+
+        let sense = theWord!.senses[row - 1] as DubsarModelsSense
+        if sense.complete {
+            return
+        }
+
+        self.router = Router(viewController: self, model: sense)
+        self.router!.routerAction = .UpdateRowAtIndexPath
+        self.router!.indexPath = selectedIndexPath
+        self.router!.load()
     }
 
     override func adjustLayout() {

@@ -36,14 +36,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     var keyboardHeight : CGFloat = 0
     var rotated : Bool = false
 
-    let wotd = DubsarModelsDailyWord()
+    var wotd: DubsarModelsDailyWord?
 
     // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        router = Router(viewController: self, model: wotd)
-        router!.routerAction = .UpdateView
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
@@ -68,8 +65,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         super.prepareForSegue(segue, sender: sender)
         if let viewController = segue.destinationViewController as? WordViewController {
-            viewController.router = Router(viewController: viewController, model: wotd.word)
-            wotd.word.complete = false
+            viewController.router = Router(viewController: viewController, model: wotd!.word)
             viewController.title = "Word of the Day"
         }
     }
@@ -251,19 +247,40 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         switch router.routerAction {
         case .UpdateView:
+            NSLog(".UpdateView")
             if let wotd = router.model as? DubsarModelsDailyWord {
+                self.wotd = wotd
                 wotdButton.setTitle(wotd.word.nameAndPos, forState: .Normal)
             }
 
         case .UpdateAutocompleter:
+            NSLog(".UpdateAutocompleter")
             let ac = router.model as DubsarModelsAutocompleter
             if ac.seqNum >= lastSequence {
                 autocompleterFinished(ac, withError: nil)
             }
 
         default:
+            NSLog("Unexpected routerAction")
             break
         }
+    }
+
+    override func load() {
+        /*
+         * This is an exceptional case where we want to load every time. The load entails checking the
+         * user defaults for the expiration.
+         */
+
+        // new router and model each time
+        router = Router(viewController: self, model: DubsarModelsDailyWord())
+        router!.load()
+
+        /*
+         * If the data stored in user defaults are current (expiration is present and in the future),
+         * routeResponse() is immediately called in the same thread to refresh the WOTD button. Otherwise,
+         * the new WOTD is fetched from the server.
+         */
     }
 
     func autocompleterFinished(theAutocompleter: DubsarModelsAutocompleter!, withError error: String!) {

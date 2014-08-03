@@ -28,10 +28,11 @@ enum RouterAction {
 
 class Router: NSObject, DubsarModelsLoadDelegate {
 
-    var viewController: BaseViewController
+    weak var viewController: BaseViewController?
     var model: DubsarModelsModel
     var routerAction = RouterAction.UpdateView
     var indexPath: NSIndexPath?
+    var dependency: DubsarModelsSense?
 
     init(viewController: BaseViewController!, model: DubsarModelsModel!) {
         self.viewController = viewController
@@ -43,10 +44,17 @@ class Router: NSObject, DubsarModelsLoadDelegate {
     }
 
     func load() {
+        assert(model.delegate === self)
+        NSLog("Model loading")
         model.load()
     }
 
     func loadComplete(model: DubsarModelsModel!, withError error: String!) {
-        viewController.routeResponse(self)
+        NSLog("Router.loadComplete()")
+        if let vc = viewController {
+            NSLog("Routing response")
+            vc.routeResponse(self)
+            vc.router = nil
+        }
     }
 }

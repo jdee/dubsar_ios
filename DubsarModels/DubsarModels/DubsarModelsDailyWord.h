@@ -24,7 +24,7 @@
 
 @interface DubsarModelsDailyWord : DubsarModelsModel<DubsarModelsLoadDelegate>
 @property (nonatomic, strong) DubsarModelsWord* word;
-@property bool fresh;
+@property bool fresh; // not loaded from user defaults
 @property time_t expiration;
 
 + (instancetype)dailyWord;

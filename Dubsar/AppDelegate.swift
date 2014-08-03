@@ -59,9 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     }
 
     func applicationDidEnterBackground(theApplication: UIApplication!) {
-        NavButtonImage.voidCache()
-        DownloadButtonImage.voidCache()
-        CGHelper.voidCache()
+        voidCache()
 
         // if a bg task is already running, let it go
         if bgTask != UIBackgroundTaskInvalid || !databaseManager.downloadInProgress {
@@ -143,9 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     }
 
     func applicationDidReceiveMemoryWarning(application: UIApplication!) {
-        NavButtonImage.voidCache()
-        DownloadButtonImage.voidCache()
-        CGHelper.voidCache()
+        voidCache()
     }
 
     func application(application: UIApplication!, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData!) {
@@ -236,6 +232,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
     func application(application: UIApplication!, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings!) {
         NSLog("Application did register user notification settings")
+    }
+
+    func voidCache() {
+        NavButtonImage.voidCache()
+        DownloadButtonImage.voidCache()
+        CGHelper.voidCache()
     }
 
     func alertView(alertView: UIAlertView, clickedButtonAtIndex index: Int) {

@@ -27,10 +27,7 @@ class BaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)
-
-        if router && router!.model.complete {
-            routeResponse(router)
-        }
+        load()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -41,10 +38,8 @@ class BaseViewController: UIViewController {
     }
 
     override func didReceiveMemoryWarning() {
+        AppDelegate.instance.voidCache()
         super.didReceiveMemoryWarning()
-
-        // this probably amounts to nothing, but any cached images are easily recreated
-        NavButtonImage.voidCache()
     }
 
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
@@ -79,21 +74,13 @@ class BaseViewController: UIViewController {
             navigationController.navigationBar.tintColor = AppConfiguration.foregroundColor
         }
 
-        NavButtonImage.voidCache() // dump all cached images in case of font size or theme changes
-        DownloadButtonImage.voidCache()
-        CGHelper.voidCache()
+        AppDelegate.instance.voidCache()
 
         // any modally presented VC will be adjusted too
         let viewController = presentedViewController as? BaseViewController
         viewController?.adjustLayout()
 
         setupToolbar()
-    }
-
-    func loadComplete(model : DubsarModelsModel!, withError error: String?) {
-        if let errorMessage = error {
-            NSLog("error: %@", errorMessage)
-        }
     }
 
     func networkLoadFinished(model: DubsarModelsModel!) {
@@ -124,13 +111,33 @@ class BaseViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewControllerWithIdentifier(vcIdentifier) as? BaseViewController
         if let vc = viewController {
+
             var router: Router
 
             if let search = model as? DubsarModelsSearch {
                 router = SearchRouter(viewController: vc, search: search)
             }
             else {
-                router = Router(viewController: vc, model: model)
+                if routerAction == RouterAction.UpdateViewWithDependency {
+                    if vcIdentifier == WordViewController.identifier {
+                        let sense = model as DubsarModelsSense
+                        router = Router(viewController: vc, model: sense.word)
+                        router.dependency = sense
+                    }
+                    else if vcIdentifier == SynsetViewController.identifier {
+                        let sense = model as DubsarModelsSense
+                        router = Router(viewController: vc, model: sense.synset)
+                        router.dependency = sense
+                    }
+                    else {
+                        // shouldn't actually happen
+                        router = Router(viewController: vc, model: model)
+                    }
+                }
+                else {
+                    router = Router(viewController: vc, model: model)
+                }
+
                 router.routerAction = routerAction
                 router.indexPath = indexPath
             }

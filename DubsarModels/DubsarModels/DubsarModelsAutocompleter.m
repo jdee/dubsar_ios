@@ -86,6 +86,10 @@
 
 - (void)load
 {
+    if (self.loading) return;
+
+    self.loading = true;
+    
 #if 1
     // Seems to perform better this way
     [NSThread detachNewThreadSelector:@selector(databaseThread:) toTarget:self withObject:self.database];

@@ -48,12 +48,17 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         errorMessage = nil;
         preview = false;
         _database = [DubsarModelsDatabase instance].database;
+        _loading = false;
     }
     return self;
 }
 
 - (void)load
 {
+    if (self.loading) return;
+
+    self.loading = true;
+
     if (_database.dbptr) {
         // DB is fast. Load in the FG by default. Slow-loading classes override this.
         [self loadSynchronous];
@@ -72,12 +77,17 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 - (void)databaseThread:(id)wrapper
 {
     @autoreleasepool {
+        DubsarModelsDatabaseWrapper* database = (DubsarModelsDatabaseWrapper*)wrapper;
+        if (!database) {
+            database = _database;
+        }
+
         complete = error = false;
         errorMessage = nil;
 
-        if (_database.dbptr) {
+        if (database.dbptr) {
             NSLog(@"Loading from the DB");
-            [self loadResults:(DubsarModelsDatabaseWrapper*)wrapper];
+            [self loadResults:database];
         }
         else {
             // load synchronously in this thread
@@ -89,6 +99,8 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
         complete = true;
         error = errorMessage != nil;
+
+        self.loading = false;
 
         if (delegate != nil) {
             if ([NSThread currentThread] != [NSThread mainThread]) {

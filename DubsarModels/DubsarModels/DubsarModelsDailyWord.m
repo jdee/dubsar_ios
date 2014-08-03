@@ -103,14 +103,7 @@
         // this results in the WOTD indicator appearing in the app.
         fresh = true;
         [self loadFromServer];
-        return;
     }
-    
-    self.complete = true;
-    self.error = false;
-    self.errorMessage = nil;
-    
-    [self.delegate loadComplete:self withError:self.errorMessage];
 }
 
 - (void)parseData
@@ -146,6 +139,11 @@
     
     self.word = [DubsarModelsWord wordWithId:wotdId name:nil partOfSpeech:DubsarModelsPartOfSpeechUnknown];
     self.word.delegate = self;
+
+    self.complete = true;
+    self.error = false;
+    self.errorMessage = nil;
+
     [word load];
     
     expiration = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordExpirationKey];

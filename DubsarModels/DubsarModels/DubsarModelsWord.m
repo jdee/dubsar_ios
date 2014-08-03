@@ -117,6 +117,10 @@
 
 - (void)load
 {
+    if (self.loading) return;
+
+    self.loading = true;
+    
     [self load:true];
 }
 

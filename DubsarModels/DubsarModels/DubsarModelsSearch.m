@@ -153,6 +153,10 @@ static int _seqNum = 0;
 
 - (void)load
 {
+    if (self.loading) return;
+
+    self.loading = true;
+    
     [self performSelectorInBackground:@selector(databaseThread:) withObject:self.database];
 }
 
