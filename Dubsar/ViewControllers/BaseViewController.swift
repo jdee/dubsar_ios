@@ -22,7 +22,14 @@ import UIKit
 
 class BaseViewController: UIViewController {
 
-    var router: Router?
+    var router: Router? {
+    willSet {
+        NSLog("Will set router")
+    }
+    didSet {
+        NSLog("Did set router")
+    }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

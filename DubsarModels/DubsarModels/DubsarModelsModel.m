@@ -79,12 +79,12 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         errorMessage = nil;
 
         if (database.dbptr) {
-            NSLog(@"Loading from the DB");
+            // NSLog(@"Loading from the DB");
             [self loadResults:database];
         }
         else {
             // load synchronously in this thread
-            NSLog(@"Loading from the server");
+            // NSLog(@"Loading from the server");
             [self loadFromServer];
             while (!self.complete &&
                    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.2]]);
@@ -96,10 +96,10 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         self.loading = false;
 
         if (delegate != nil) {
-            NSLog(@"Dispatching callback to router");
+            // NSLog(@"Dispatching callback to router");
             if ([NSThread currentThread] != [NSThread mainThread]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [delegate loadComplete:self withError:errorMessage];
+                    [self.delegate loadComplete:self withError:errorMessage];
                 });
             }
             else {
@@ -107,7 +107,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
             }
         }
         else {
-            NSLog(@"No delegate (weak ref.)");
+            // NSLog(@"No delegate (weak ref.)");
         }
     }
 }

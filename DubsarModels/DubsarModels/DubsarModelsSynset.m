@@ -191,7 +191,7 @@
 - (void)loadResults:(DubsarModelsDatabaseWrapper*)database
 {
     NSString* sql = [NSString stringWithFormat:
-                     @"SELECT sy.definition, sy.lexname, sy.part_of_speech, se.freq_cnt, se.id, w.name "
+                     @"SELECT sy.definition, sy.lexname, sy.part_of_speech, se.freq_cnt, se.id, w.name, w.id "
                      @"FROM senses se "
                      @"INNER JOIN synsets sy ON sy.id = se.synset_id "
                      @"INNER JOIN words w ON se.word_id = w.id "
@@ -218,6 +218,7 @@
         freqCnt += senseFreqCnt;
         int senseId = sqlite3_column_int(statement, 4);
         char const* _name = (char const*)sqlite3_column_text(statement, 5);
+        int wordId = sqlite3_column_int(statement, 6);
  
         if (samples == nil) {
             partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
@@ -248,8 +249,9 @@
         
         DubsarModelsSense* synonym = [DubsarModelsSense senseWithId:senseId name:@(_name) partOfSpeech:partOfSpeech];
         synonym.freqCnt = senseFreqCnt;
-        [synonym load];
-        NSLog(@"Loaded synonym %@", synonym.name);
+        synonym.word = [DubsarModelsWord wordWithId:wordId name:synonym.name partOfSpeech:partOfSpeech];
+        [synonym loadSynchronous]; // we're in loadResults, so we know this isn't kicking off a fresh load
+        NSLog(@"Loaded synonym %@, word with ID %ld", synonym.name, (long)synonym.word._id);
         [senses addObject:synonym];
     }
     sqlite3_finalize(statement);

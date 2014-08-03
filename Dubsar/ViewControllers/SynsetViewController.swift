@@ -96,12 +96,7 @@ class SynsetViewController: BaseViewController {
     func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, navigatedToSense sense: DubsarModelsSense!) {
         NSLog("Navigate to sense ID %d (%@)", sense._id, sense.name)
 
-        /*
-         * This sense model may already be complete from an earlier load, but without the word. Force a reload
-         * here.
-         */
-        let newSense = DubsarModelsSense(id: sense._id, name: sense.name, partOfSpeech: sense.partOfSpeech)
-        pushViewControllerWithIdentifier(WordViewController.identifier, model: newSense, routerAction: .UpdateViewWithDependency)
+        pushViewControllerWithIdentifier(WordViewController.identifier, model: sense, routerAction: .UpdateViewWithDependency)
     }
 
     // called from SynsetPointerView

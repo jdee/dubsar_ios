@@ -26,10 +26,7 @@
 #import "DubsarModelsSynset.h"
 #import "DubsarModelsWord.h"
 
-@implementation DubsarModelsWord {
-    BOOL loadingSynsets;
-}
-
+@implementation DubsarModelsWord
 @synthesize _id;
 @synthesize name;
 @synthesize partOfSpeech;
@@ -56,7 +53,6 @@
         name = theName;
         partOfSpeech = thePartOfSpeech;
         inflections = nil;
-        loadingSynsets = NO;
         [self initUrl];
     }
     return self;
@@ -70,7 +66,6 @@
         name = theName;
         
         partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:posString];
-        loadingSynsets = NO;
         [self initUrl];
     }
     return self;
@@ -99,12 +94,6 @@
         }
     }
     return result;
-}
-
-- (void)loadWithSynsets
-{
-    loadingSynsets = YES;
-    [self load];
 }
 
 -(void)loadResults:(DubsarModelsDatabaseWrapper *)database
@@ -221,9 +210,10 @@
         sense.lexname = @(_lexname);
         sense.freqCnt = senseFC;
         sense.marker = _marker == NULL ? @"" : @(_marker);
+        sense.synset = [DubsarModelsSynset synsetWithId:synsetId gloss:gloss partOfSpeech:partOfSpeech];
         [senses addObject:sense];
 #ifdef DEBUG
-        NSLog(@"added sense ID %d, gloss \"%@\", lexname \"%@\", freq. cnt. %d", senseId, gloss, sense.lexname, senseFC);
+        NSLog(@"added sense ID %d, gloss \"%@\", lexname \"%@\", freq. cnt. %d, synset with ID %ld", senseId, gloss, sense.lexname, senseFC, (long)sense.synset._id);
 #endif // DEBUG
     }
     
@@ -231,21 +221,6 @@
 #ifdef DEBUG
     NSLog(@"completed word query");
 #endif // DEBUG
-
-    if (loadingSynsets) {
-        NSLog(@"Loading %lu synsets", (unsigned long)senses.count);
-        for (DubsarModelsSense* sense in senses) {
-            [sense loadSynchronous];
-            assert(sense.synset);
-            [sense.synset loadSynchronous];
-            NSLog(@"Loaded synset %lu for sense %lu, word %lu", (unsigned long)sense.synset._id, (unsigned long)sense._id, (unsigned long)_id);
-        }
-    }
-    else {
-        NSLog(@"word not loading synsets");
-    }
-
-    loadingSynsets = NO;
 }
 
 -(void)parseData

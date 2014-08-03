@@ -32,10 +32,7 @@
 static int _seqNum = 0;
 #define NUM_PER_PAGE 30
 
-@implementation DubsarModelsSearch {
-    BOOL loadingWords;
-}
-
+@implementation DubsarModelsSearch
 @synthesize results;
 @synthesize term;
 @synthesize matchCase;
@@ -78,8 +75,7 @@ static int _seqNum = 0;
         totalPages = 0;
         seqNum = theSeqNum;
         exact = false;
-        loadingWords = NO;
-        
+
         /*
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
@@ -108,8 +104,7 @@ static int _seqNum = 0;
         
         // totalPages is set by the server in the response
         totalPages = 0;
-        loadingWords = NO;
-        
+
         /*
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
@@ -139,8 +134,7 @@ static int _seqNum = 0;
         
         // totalPages is set by the server in the response
         totalPages = 0;
-        loadingWords = NO;
-        
+
         /*
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term urlEncodeUsingEncoding:NSUTF8StringEncoding]];
         __url = [__url stringByAppendingString:@"&match=regexp"];
@@ -161,23 +155,6 @@ static int _seqNum = 0;
     else {
         [self loadFulltextResults:database];
     }
-
-    if (loadingWords) {
-        for (DubsarModelsWord* word in results) {
-            [word loadSynchronous];
-            for (DubsarModelsSense* sense in word.senses) {
-                [sense loadSynchronous];
-                [sense.synset loadSynchronous];
-            }
-        }
-        loadingWords = NO;
-    }
-}
-
-- (void)loadWithWords
-{
-    loadingWords = YES;
-    [self load];
 }
 
 - (void)loadWildcardResults:(DubsarModelsDatabaseWrapper *)database

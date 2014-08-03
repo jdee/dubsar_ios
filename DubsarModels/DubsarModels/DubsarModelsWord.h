@@ -45,6 +45,4 @@
 
 - (NSComparisonResult)compareFreqCnt:(DubsarModelsWord*)word;
 
-- (void)loadWithSynsets;
-
 @end

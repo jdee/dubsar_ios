@@ -54,7 +54,7 @@ class Router: NSObject, DubsarModelsLoadDelegate {
         if let vc = viewController {
             NSLog("Routing response")
             vc.routeResponse(self)
-            vc.router = nil
+            // vc.router = nil
         }
     }
 }

@@ -228,12 +228,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
 
         let sense = theWord!.senses[row-1] as DubsarModelsSense
-        /*
-         * This sense model may already be complete from an earlier load, but without the synset. Force a reload
-         * here.
-         */
-        let newSense = DubsarModelsSense(id: sense._id, name: sense.name, partOfSpeech: sense.partOfSpeech)
-        pushViewControllerWithIdentifier(SynsetViewController.identifier, model: newSense, routerAction: .UpdateViewWithDependency)
+        pushViewControllerWithIdentifier(SynsetViewController.identifier, model: sense, routerAction: .UpdateViewWithDependency)
     }
 
     func maxHeightOfAdditionsForRow(row: Int) -> CGFloat {

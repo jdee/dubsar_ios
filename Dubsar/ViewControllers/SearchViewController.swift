@@ -50,7 +50,9 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     func pageChanged(sender: UIPageControl) {
         search!.currentPage = sender.currentPage + 1
         search!.complete = false
-        search!.loadWithWords()
+        self.router = Router(viewController: self, model: search)
+        self.router!.routerAction = .UpdateView
+        self.router!.load()
 
         selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
@@ -184,11 +186,13 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     func synchSelectedRow() {
         let row = selectedIndexPath.indexAtPosition(1)
         if row < 0 || !search {
+            NSLog("Can't synch row %d", row)
             return
         }
 
         let word = search!.results[row] as DubsarModelsWord
         if word.complete {
+            NSLog("Word %@ already complete", word.nameAndPos)
             return
         }
 
@@ -196,6 +200,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         self.router!.routerAction = .UpdateRowAtIndexPath
         self.router!.indexPath = selectedIndexPath
         self.router!.load()
+        NSLog("Synching selected row")
     }
 
     func selectRowForWord(word: DubsarModelsWord!) {
@@ -232,13 +237,30 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             resultTableView.reloadData()
 
         case .UpdateRowAtIndexPath:
-            assert(router.indexPath == selectedIndexPath)
+            if (router.indexPath != selectedIndexPath) {
+                return
+            }
+
             let word = router.model as? DubsarModelsWord
             let row = selectedIndexPath.indexAtPosition(1)
-            let resultWord = search!.results[row] as? DubsarModelsWord
-            assert(word && resultWord && word === resultWord)
+            if word {
+                let resultWord = search!.results[row] as? DubsarModelsWord
+                assert(word && resultWord && word === resultWord)
 
-            assert(search && search!.complete && search!.results.count > 0)
+                assert(search && search!.complete && search!.results.count > 0)
+
+                let firstSense = word!.senses.firstObject as DubsarModelsSense
+                if !firstSense.complete {
+                    self.router = Router(viewController: self, model: firstSense)
+                    self.router!.routerAction = .UpdateRowAtIndexPath
+                    self.router!.indexPath = selectedIndexPath
+                    self.router!.load()
+                    NSLog("Sent request to synch first sense in open word cell")
+                }
+            }
+            else {
+                NSLog("Got response for first sense in open word cell")
+            }
 
             resultTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
             return
