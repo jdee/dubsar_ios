@@ -80,10 +80,6 @@ class ThemeViewController: BaseViewController {
     }
 
     func themeChanged(sender: IOSKnobControl!) {
-        if knobControl.positionIndex < 0 || knobControl.positionIndex >= titles.count {
-            NSLog("knob control position index %d. names.count = %d", knobControl.positionIndex, titles.count)
-        }
-
         AppConfiguration.themeSetting = sender.positionIndex
         let selected = selectedFontIndex()
 

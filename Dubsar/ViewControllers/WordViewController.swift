@@ -53,9 +53,6 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         case .UpdateView:
             theWord = router.model as? DubsarModelsWord
             selectedIndexPath = NSIndexPath(forRow:1, inSection:0)
-            synchSelectedRow()
-
-            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
 
         case .UpdateRowAtIndexPath: // we get here as a result of calling synchSelectedRow()
             assert(theWord)
@@ -68,22 +65,22 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
             assert(sense && wordSense && sense === wordSense)
 
-            NSLog("Received response for sense %d (%@). Updating row %d", sense!._id, sense!.gloss, row)
+            // NSLog("Received response for sense %d (%@). Updating row %d", sense!._id, sense!.gloss, row)
 
             senseTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
+            return
 
         case .UpdateViewWithDependency:
             theWord = router.model as? DubsarModelsWord
             selectRowForSense(router.dependency)
-            synchSelectedRow()
-
-            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Bottom)
 
         default:
             break
         }
 
+        synchSelectedRow()
         adjustLayout()
+        senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: router.routerAction == RouterAction.UpdateViewWithDependency ? .Bottom : .None)
         senseTableView.backgroundColor = theWord!.senses.count % 2 == 1 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
     }
 
@@ -195,7 +192,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
 
         if indexPath == selectedIndexPath {
-            NSLog("row %d reselected, ignoring", indexPath.indexAtPosition(1))
+            // NSLog("row %d reselected, ignoring", indexPath.indexAtPosition(1))
             return
         }
 

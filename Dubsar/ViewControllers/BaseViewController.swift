@@ -22,15 +22,7 @@ import UIKit
 
 class BaseViewController: UIViewController {
 
-    var router: Router? {
-    willSet {
-        NSLog("Will set router")
-    }
-    didSet {
-        NSLog("Did set router")
-    }
-    }
-
+    var router: Router?
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "adjustLayout", name: UIContentSizeCategoryDidChangeNotification, object: nil)

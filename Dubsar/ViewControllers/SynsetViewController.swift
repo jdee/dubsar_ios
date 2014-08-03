@@ -84,17 +84,17 @@ class SynsetViewController: BaseViewController {
 
     func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, selectedSense sense: DubsarModelsSense?) {
         if let s = sense {
-            NSLog("Selected synonym ID %d (%@)", s._id, s.name)
+            // NSLog("Selected synonym ID %d (%@)", s._id, s.name)
         }
         else {
-            NSLog("No synonym selected")
+            // NSLog("No synonym selected")
         }
 
         scroller!.sense = sense // maybe this can be done inside the scroller
     }
 
     func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, navigatedToSense sense: DubsarModelsSense!) {
-        NSLog("Navigate to sense ID %d (%@)", sense._id, sense.name)
+        // NSLog("Navigate to sense ID %d (%@)", sense._id, sense.name)
 
         pushViewControllerWithIdentifier(WordViewController.identifier, model: sense, routerAction: .UpdateViewWithDependency)
     }
