@@ -76,7 +76,4 @@
 -(void)destroyStatements;
 -(DubsarModelsPointer*)pointerForRowAtIndexPath:(NSIndexPath*)indexPath;
 
-- (void)loadWithWord;
-- (void)loadWithSynset;
-
 @end

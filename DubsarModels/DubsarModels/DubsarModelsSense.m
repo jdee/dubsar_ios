@@ -373,25 +373,6 @@
         NSOrderedSame;
 }
 
-/*
-- (void)load
-{
-    [NSThread detachNewThreadSelector:@selector(databaseThread) toTarget:self withObject:nil];
-}
- */
-
-- (void)loadWithSynset
-{
-    loadingSynset = YES;
-    [self load];
-}
-
-- (void)loadWithWord
-{
-    loadingWord = YES;
-    [self load];
-}
-
 - (void)loadResults:(DubsarModelsDatabaseWrapper *)database
 {
     NSString* sql = [NSString stringWithFormat:
@@ -538,6 +519,10 @@
 
 -(NSUInteger)numberOfSections
 {
+    if (!self.database.dbptr) {
+        return sections.count;
+    }
+
 #ifdef DEBUG
     NSLog(@"in numberOfSections");
 #endif // DEBUG

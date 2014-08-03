@@ -259,6 +259,10 @@
 
 -(NSUInteger)numberOfSections
 {
+    if (!self.database.dbptr) {
+        return sections.count;
+    }
+
 #ifdef DEBUG
     NSLog(@"in numberOfSections");
 #endif // DEBUG
