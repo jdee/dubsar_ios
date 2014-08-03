@@ -238,7 +238,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
     func alertView(alertView: UIAlertView, clickedButtonAtIndex index: Int) {
         if index == 0 {
-            if !alertURL {
+            /*
+             * If the question was stop or continue the download, getting here means continue.
+             * In either case, we don't change the preference setting.
+             *
+             * The only other time we get here is if the user changes a setting, in the Settings view or the
+             * Settings app, and then cancels. We then revert the setting, assuming they've changed their mind,
+             * or the original change was an accident.
+             */
+            if !alertURL && !databaseManager.downloadInProgress {
                 AppConfiguration.offlineSetting = !AppConfiguration.offlineSetting
                 let viewController = navigationController.topViewController as BaseViewController
                 viewController.adjustLayout()

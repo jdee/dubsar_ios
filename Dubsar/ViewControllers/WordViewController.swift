@@ -213,8 +213,13 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        let row = indexPath.indexAtPosition(1)
+        if row == 0 {
+            return
+        }
+
         if indexPath == selectedIndexPath {
-            NSLog("row %d reselected, ignoring", indexPath.row)
+            NSLog("row %d reselected, ignoring", indexPath.indexAtPosition(1))
             return
         }
 
@@ -227,7 +232,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView!, shouldHighlightRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
-        return indexPath != selectedIndexPath
+        let row = indexPath.indexAtPosition(1)
+        return row != 0 && indexPath != selectedIndexPath
     }
 
     func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {

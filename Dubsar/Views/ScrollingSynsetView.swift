@@ -82,7 +82,12 @@ class ScrollingSynsetView: UIScrollView {
         if synset.complete {
             // NSLog("Entered ScrollingSynsetView.layoutSubviews()")
 
+            let firstSense = synset.senses.firstObject as DubsarModelsSense
+            let hasPointers = (sense && sense!.numberOfSections > 0) || (!sense && firstSense.numberOfSections > 0) || synset.numberOfSections > 0
+
             if hasReset {
+                hasReset = false
+
                 // these automatically adjust their heights in layoutSubviews()
                 headerView.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height)
                 headerView.layoutSubviews()
@@ -90,19 +95,25 @@ class ScrollingSynsetView: UIScrollView {
                 sampleView.frame = CGRectMake(0, headerView.bounds.size.height, bounds.size.width, bounds.size.height)
                 sampleView.layoutSubviews()
 
-                pointerView.frame = CGRectMake(0, headerView.bounds.size.height + sampleView.bounds.size.height, bounds.size.width, bounds.size.height)
+                if hasPointers {
+                    pointerView.frame = CGRectMake(0, headerView.bounds.size.height + sampleView.bounds.size.height, bounds.size.width, bounds.size.height)
+                }
             }
-            // vertical screen bounds in the pointerView's coordinate system
-            pointerView.scrollViewTop = contentOffset.y - pointerView.frame.origin.y
-            pointerView.scrollViewBottom = pointerView.scrollViewTop + bounds.size.height
-            pointerView.layoutSubviews()
 
-            let totalSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height + pointerView.bounds.size.height)
-            contentSize = totalSize
+            if hasPointers {
+                // vertical screen bounds in the pointerView's coordinate system
+                pointerView.scrollViewTop = contentOffset.y - pointerView.frame.origin.y
+                pointerView.scrollViewBottom = pointerView.scrollViewTop + bounds.size.height
+                pointerView.layoutSubviews()
+
+                contentSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height + pointerView.bounds.size.height)
+            }
+            else {
+                contentSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height)
+            }
 
             // NSLog("Set scrolling content size to %f x %f. header ht: %f, sample ht: %f, pointer ht: %f", totalSize.width, totalSize.height, headerView.bounds.size.height, sampleView.bounds.size.height, pointerView.bounds.size.height)
 
-            hasReset = false
         }
 
         super.layoutSubviews()

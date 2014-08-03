@@ -74,6 +74,12 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         }
 
         frame.size.height += sampleView.bounds.size.height
+        view!.frame.size.height = bounds.size.height
+
+        if sense.numberOfSections == 0 {
+            return
+        }
+
         y = bounds.size.height
 
         // NSLog("sample view height is %f. frame height is now %f (remaining insertHeightLimit: %f)", Double(sampleView.bounds.size.height), Double(frame.size.height), Double(available))
