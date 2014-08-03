@@ -25,6 +25,8 @@
 #define DUBSAR_ZIP_NAME @"dubsar-wn3.1-1.zip"
 
 @class DatabaseManager;
+
+#pragma mark - Delegate
 @protocol DownloadProgressDelegate <NSObject>
 
 - (void) databaseManager:(DatabaseManager*)databaseManager encounteredError:(NSString*)errorMessage;
@@ -40,33 +42,31 @@
  */
 @interface DatabaseManager : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
-@property (nonatomic, readonly) BOOL fileExists;
+#pragma mark - Readonly properties
 
 /**
  * The unzipped DB file downloaded and installed by the DatabaseManager resides in the application support directory.
  */
 @property (nonatomic, readonly) NSURL* fileURL;
-
+@property (nonatomic, readonly) BOOL fileExists;
 @property (atomic, readonly) NSInteger downloadSize;
 @property (atomic, readonly) NSInteger downloadedSoFar;
 @property (atomic, readonly) NSInteger unzippedSize;
 @property (atomic, readonly) NSInteger unzippedSoFar;
-
 @property (atomic, readonly) BOOL downloadInProgress;
-
 @property (atomic, readonly) double instantaneousDownloadRate; // bytes per second
 @property (atomic, readonly) NSTimeInterval estimatedDownloadTimeRemaining; // seconds
 @property (atomic, readonly) NSTimeInterval elapsedDownloadTime; // seconds
-
 @property (atomic, readonly) double instantaneousUnzipRate; // bytes per second
 @property (atomic, readonly) NSTimeInterval estimatedUnzipTimeRemaining; // seconds
-
-@property (atomic, weak) id<DownloadProgressDelegate> delegate;
-
 @property (atomic, readonly, copy) NSString* errorMessage;
 
+#pragma mark - Configurable properties
+
+@property (atomic, weak) id<DownloadProgressDelegate> delegate;
 @property (atomic) NSURL* rootURL;
 
+#pragma mark - Public methods
 - (void)initialize;
 
 /*

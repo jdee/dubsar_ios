@@ -29,6 +29,7 @@
 #import "DatabaseManager.h"
 
 @interface DatabaseManager()
+// MARK: Internal properties
 // Many of these atomic props are readonly in the public interface
 @property (atomic) NSInteger downloadSize, downloadedSoFar, unzippedSize, unzippedSoFar, downloadedAtLastStatsUpdate, unzippedAtLastStatsUpdate;
 @property (atomic) BOOL downloadInProgress;
@@ -52,6 +53,8 @@
 }
 
 @dynamic fileExists, fileURL, zipURL;
+
+#pragma mark - Object lifecycle
 
 - (instancetype)init
 {
@@ -79,6 +82,7 @@
     }
 }
 
+#pragma mark - Dynamic properties (file management)
 - (BOOL)fileExists
 {
     return [[NSFileManager defaultManager] fileExistsAtPath:self.fileURL.path];
@@ -144,6 +148,7 @@
     return [url URLByAppendingPathComponent:DUBSAR_ZIP_NAME];
 }
 
+#pragma mark - Public interface
 - (void)initialize
 {
     if (self.fileExists) {
@@ -272,57 +277,38 @@
     }
 }
 
-- (void)updateElapsedDownloadTime
+- (void)reportError:(NSString *)errorMessage
 {
-    struct timeval now;
-    gettimeofday(&now, NULL);
-    self.elapsedDownloadTime = now.tv_sec - self.downloadStart.tv_sec + 1.0e-6 * (now.tv_usec - self.downloadStart.tv_usec);
+    [self notifyDelegateOfError:errorMessage];
 }
 
-- (void)updateDownloadStats
+- (void)notifyDelegateOfError:(NSString*)format, ...
 {
-    [self updateElapsedDownloadTime];
+    va_list args;
+    va_start(args, format);
+    char buffer[512];
 
-    NSInteger size = self.downloadedSoFar - self.downloadedAtLastStatsUpdate;
-    struct timeval now;
-    gettimeofday(&now, NULL);
+    vsnprintf(buffer, 511, format.UTF8String, args);
+    va_end(args);
 
-    double delta = (double)(now.tv_sec - self.lastDownloadStatsUpdate.tv_sec) + (double)(now.tv_usec - self.lastDownloadStatsUpdate.tv_usec) * 1.0e-6;
-    // NSLog(@"%f s since last read: %lu bytes", delta, (unsigned long)size);
+    self.errorMessage = @(buffer);
+    self.downloadInProgress = NO;
 
-    if (size < 1024 * 1024 && delta < 5.0) {
-        // even it out by only checking every so often
-        return;
+    if (!self.delegate) return;
+
+    if ([NSThread currentThread] != [NSThread mainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // [self deleteDatabase];
+            [self.delegate databaseManager:self encounteredError:self.errorMessage];
+        });
     }
-
-    // NSLog(@"On receipt of data, last read time %ld.%06d", self.lastDownloadRead.tv_sec, self.lastDownloadRead.tv_usec);
-
-    if (delta > 0.0) {
-        self.instantaneousDownloadRate = ((double)size) / delta;
-        // NSLog(@"%f B/s instantaneous rate", self.instantaneousDownloadRate);
-    }
-
-    if (self.instantaneousDownloadRate > 0) {
-        self.estimatedDownloadTimeRemaining = (double)(self.downloadSize - self.downloadedSoFar) / self.instantaneousDownloadRate;
-        // NSLog(@"%f s remaining", self.estimatedDownloadTimeRemaining);
-    }
-
-    self.downloadedAtLastStatsUpdate = self.downloadedSoFar;
-    self.lastDownloadStatsUpdate = now;
-
-    // This may be a long-running background job on something other than the main thread. But the app may be in the foreground with the
-    // SynsetViewController as a delegate.
-    if (self.delegate) {
-        if ([NSThread currentThread] == [NSThread mainThread]) {
-            [self.delegate progressUpdated:self];
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate progressUpdated:self];
-            });
-        }
+    else {
+        // [self deleteDatabase];
+        [self.delegate databaseManager:self encounteredError:self.errorMessage];
     }
 }
+
+#pragma mark - NSURLConnectionDelegate and NSURLConnectionDataDelegate
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
@@ -460,6 +446,60 @@
     [self startUnzip];
 }
 
+#pragma mark - Internal convenience methods
+
+- (void)updateElapsedDownloadTime
+{
+    struct timeval now;
+    gettimeofday(&now, NULL);
+    self.elapsedDownloadTime = now.tv_sec - self.downloadStart.tv_sec + 1.0e-6 * (now.tv_usec - self.downloadStart.tv_usec);
+}
+
+- (void)updateDownloadStats
+{
+    [self updateElapsedDownloadTime];
+
+    NSInteger size = self.downloadedSoFar - self.downloadedAtLastStatsUpdate;
+    struct timeval now;
+    gettimeofday(&now, NULL);
+
+    double delta = (double)(now.tv_sec - self.lastDownloadStatsUpdate.tv_sec) + (double)(now.tv_usec - self.lastDownloadStatsUpdate.tv_usec) * 1.0e-6;
+    // NSLog(@"%f s since last read: %lu bytes", delta, (unsigned long)size);
+
+    if (size < 1024 * 1024 && delta < 5.0) {
+        // even it out by only checking every so often
+        return;
+    }
+
+    // NSLog(@"On receipt of data, last read time %ld.%06d", self.lastDownloadRead.tv_sec, self.lastDownloadRead.tv_usec);
+
+    if (delta > 0.0) {
+        self.instantaneousDownloadRate = ((double)size) / delta;
+        // NSLog(@"%f B/s instantaneous rate", self.instantaneousDownloadRate);
+    }
+
+    if (self.instantaneousDownloadRate > 0) {
+        self.estimatedDownloadTimeRemaining = (double)(self.downloadSize - self.downloadedSoFar) / self.instantaneousDownloadRate;
+        // NSLog(@"%f s remaining", self.estimatedDownloadTimeRemaining);
+    }
+
+    self.downloadedAtLastStatsUpdate = self.downloadedSoFar;
+    self.lastDownloadStatsUpdate = now;
+
+    // This may be a long-running background job on something other than the main thread. But the app may be in the foreground with the
+    // SynsetViewController as a delegate.
+    if (self.delegate) {
+        if ([NSThread currentThread] == [NSThread mainThread]) {
+            [self.delegate progressUpdated:self];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate progressUpdated:self];
+            });
+        }
+    }
+}
+
 - (void)startUnzip
 {
     fclose(fp);
@@ -480,37 +520,6 @@
     }
 
     [self performSelector:@selector(unzip) withObject:nil];
-}
-
-- (void)reportError:(NSString *)errorMessage
-{
-    [self notifyDelegateOfError:errorMessage];
-}
-
-- (void)notifyDelegateOfError:(NSString*)format, ...
-{
-    va_list args;
-    va_start(args, format);
-    char buffer[512];
-
-    vsnprintf(buffer, 511, format.UTF8String, args);
-    va_end(args);
-
-    self.errorMessage = @(buffer);
-    self.downloadInProgress = NO;
-
-    if (!self.delegate) return;
-
-    if ([NSThread currentThread] != [NSThread mainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // [self deleteDatabase];
-            [self.delegate databaseManager:self encounteredError:self.errorMessage];
-        });
-    }
-    else {
-        // [self deleteDatabase];
-        [self.delegate databaseManager:self encounteredError:self.errorMessage];
-    }
 }
 
 - (void)finishDownload
