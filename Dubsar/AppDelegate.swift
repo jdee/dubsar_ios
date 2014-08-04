@@ -21,7 +21,7 @@ import DubsarModels
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, DatabaseManagerDelegate {
 
     var window: UIWindow?
     var alertURL: NSURL?
@@ -46,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
         databaseManager.initialize()
+        databaseManager.delegate = self
         return true
     }
 
@@ -55,15 +56,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         let viewController = navigationController.topViewController as BaseViewController
         viewController.adjustLayout() // in case of a font change in the settings
 
+        // probably taken care of in the VC's viewWillAppear:
+        if let interface = viewController as? DatabaseManagerDelegate {
+            databaseManager.delegate = interface
+        }
+
         checkOfflineSetting()
     }
 
     func applicationDidEnterBackground(theApplication: UIApplication!) {
         voidCache()
+        NSUserDefaults.standardUserDefaults().synchronize()
 
-        // if a bg task is already running, let it go
+        // if a bg task is already running, let it go. or if no download in progress, nothing to do.
         if bgTask != UIBackgroundTaskInvalid || !databaseManager.downloadInProgress {
-            NSUserDefaults.standardUserDefaults().synchronize()
             return
         }
 
@@ -72,8 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
          * from the main thread, leaving any partial download in Caches.
          */
         databaseManager.cancelDownload()
-        databaseManager.delegate = nil // avoid calling back any VC in the bg
-        NSUserDefaults.standardUserDefaults().synchronize()
+        databaseManager.delegate = self // avoid calling back any VC in the bg
 
         /*
          * Now we kick off a fresh download from the BG. This will use an If-Range header
@@ -81,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
          * the thread that initiates the NSURLConnection request.
          */
         bgTask = theApplication.beginBackgroundTaskWithExpirationHandler() {
-            [weak self] in // unowned seems appropriate and easier, but crashes
+            [weak self] in
 
             if let my = self {
                 // just cancel the download if the task expires
@@ -89,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
                 if theApplication.applicationState == .Active {
                     /*
-                     * Don't know if this is possible, but if in the meantime, the app has become
+                     * If in the meantime, the app has become
                      * active again, and this background task has expired, just kick off a new
                      * background download to pick up where we left off. If the app goes into the
                      * bg after that, that download will go into the bg again as a background task.
@@ -106,6 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                     theApplication.presentLocalNotificationNow(localNotif)
 
                     my.databaseManager.reportError(localNotif.alertBody)
+                    AppConfiguration.offlineSetting = false
                 }
 
                 theApplication.endBackgroundTask(my.bgTask)
@@ -114,7 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         }
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            [weak self] in // unowned seems appropriate and easier, but crashes
+            [weak self] in
 
             if let my = self {
                 // initiate the background download
@@ -275,6 +281,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             databaseManager.deleteDatabase()
         }
 
+        let viewController = navigationController.topViewController as BaseViewController
+        viewController.adjustLayout()
+    }
+
+    func databaseManager(databaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
+        AppConfiguration.offlineSetting = false
+        let viewController = navigationController.topViewController as BaseViewController
+        viewController.adjustLayout()
+    }
+
+    func downloadComplete(databaseManager: DatabaseManager!) {
         let viewController = navigationController.topViewController as BaseViewController
         viewController.adjustLayout()
     }

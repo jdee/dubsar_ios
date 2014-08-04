@@ -27,7 +27,7 @@
 @class DatabaseManager;
 
 #pragma mark - Delegate
-@protocol DownloadProgressDelegate <NSObject>
+@protocol DatabaseManagerDelegate <NSObject>
 
 @optional
 - (void) databaseManager:(DatabaseManager*)databaseManager encounteredError:(NSString*)errorMessage;
@@ -68,7 +68,7 @@
 
 #pragma mark - Configurable properties
 
-@property (atomic, weak) id<DownloadProgressDelegate> delegate;
+@property (atomic, weak) id<DatabaseManagerDelegate> delegate;
 @property (atomic) NSURL* rootURL;
 
 #pragma mark - Public methods

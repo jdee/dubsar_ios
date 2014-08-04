@@ -26,7 +26,7 @@ operator infix ||= {}
 
 import UIKit
 
-class SettingsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, DownloadProgressDelegate, UIAlertViewDelegate {
+class SettingsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, DatabaseManagerDelegate, UIAlertViewDelegate {
 
     class var identifier: String {
         get {
@@ -68,6 +68,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+
+        let appDelegate = AppDelegate.instance
+        appDelegate.databaseManager.delegate = appDelegate
+
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 
@@ -251,7 +255,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             // 2. Set the offline setting to false/NO/off. Otherwise, if you look at the settings, it looks like you're in Offline mode,
             // and if you guess that you're not, you have to cycle the switch, off first then on again, to retry the download. We could
             // reset it as soon as the download fails. But the switch is not showing, and it's convenient if you haven't cleared this
-            // state that the app will prompt you to retry the download the next time you resume from background.
+            // state that the app will prompt you to retry the download the next time you resume from the background.
             AppConfiguration.offlineSetting = false
         }
 
