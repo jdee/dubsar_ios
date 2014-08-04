@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarModels.h"
 #import "DubsarModelsDatabase.h"
 #import "DubsarModelsDatabaseWrapper.h"
 #import "DubsarModelsPartOfSpeechDictionary.h"
@@ -218,7 +219,7 @@
     NSRange posStartRange = [nameAndPos rangeOfString:@", "];
     if (posStartRange.location == NSNotFound) {
 #ifdef DEBUG
-        NSLog(@"did not find \", ");
+        DMLOG(@"%@", @"did not find \", ");
 #endif // DEBUG
         return;
     }
@@ -233,12 +234,12 @@
 -(void)parseData
 {
 #ifdef DEBUG
-    NSLog(@"parsing Sense response for %@, %lu bytes", self.nameAndPos, (unsigned long)[self data].length);
+    DMLOG(@"parsing Sense response for %@, %lu bytes", self.nameAndPos, (unsigned long)[self data].length);
 #endif // DEBUG
     
     NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
 #ifdef DEBUG
-    NSLog(@"sense response array has %lu entries", (unsigned long)response.count);
+    DMLOG(@"sense response array has %lu entries", (unsigned long)response.count);
 #endif // DEBUG
     
     NSArray* _word = response[1];
@@ -264,7 +265,7 @@
     
     lexname = response[3];
 #ifdef DEBUG
-    NSLog(@"lexname: \"%@\"", lexname);
+    DMLOG(@"lexname: \"%@\"", lexname);
 #endif // DEBUG
     
     synset.lexname = lexname;
@@ -278,12 +279,12 @@
     freqCnt = fc.intValue;
 
 #ifdef DEBUG
-    NSLog(@"freq. cnt.: %d", freqCnt);
+    DMLOG(@"freq. cnt.: %d", freqCnt);
 #endif // DEBUG
     
     NSArray* _synonyms = response[6];
 #ifdef DEBUG
-    NSLog(@"found %lu synonyms", (unsigned long)[_synonyms count]);
+    DMLOG(@"found %lu synonyms", (unsigned long)[_synonyms count]);
 #endif // DEBUG
     synonyms = [NSMutableArray arrayWithCapacity:_synonyms.count];
     for (int j=0; j< _synonyms.count; ++j) {
@@ -300,7 +301,7 @@
         int wordId = ((NSNumber*)_synonym[4]).intValue;
         sense.word = [DubsarModelsWord wordWithId:wordId name:_synonym[1] partOfSpeech:partOfSpeech];
 #ifdef DEBUG
-        NSLog(@" found %@, ID %lu, freq. cnt. %d", sense.nameAndPos, (unsigned long)sense._id, sense.freqCnt);
+        DMLOG(@" found %@, ID %lu, freq. cnt. %d", sense.nameAndPos, (unsigned long)sense._id, sense.freqCnt);
 #endif // DEBUG
         [synonyms insertObject:sense atIndex:j];
     }
@@ -308,21 +309,21 @@
     
     NSArray* _verbFrames = response[7];
 #ifdef DEBUG
-    NSLog(@"found %lu verb frames", (unsigned long)_verbFrames.count);
+    DMLOG(@"found %lu verb frames", (unsigned long)_verbFrames.count);
 #endif // DEBUG
     verbFrames = [NSMutableArray arrayWithCapacity:_verbFrames.count];
     for (int j=0; j<_verbFrames.count; ++j) {
         NSString* frame = _verbFrames[j];
         NSString* format = [frame stringByReplacingOccurrencesOfString:@"%s" withString:@"%@"];
 #ifdef DEBUG
-        NSLog(@" %@", format);
+        DMLOG(@" %@", format);
 #endif // DEBUG
         [verbFrames insertObject:[NSString stringWithFormat:format, name] atIndex:j];
     }
     samples = response[8];
 
 #ifdef DEBUG
-    NSLog(@"found %lu verb frames and %lu sample sentences", (unsigned long)[verbFrames count], (unsigned long)[samples count]);
+    DMLOG(@"found %lu verb frames and %lu sample sentences", (unsigned long)[verbFrames count], (unsigned long)[samples count]);
 #endif // DEBUG
     
     [self parsePointers:response];
@@ -334,7 +335,7 @@
     [sections removeAllObjects];
 
     NSArray* _pointers = response[9];
-    NSLog(@"%lu pointers", (unsigned long)_pointers.count);
+    DMLOG(@"%lu pointers", (unsigned long)_pointers.count);
     for (int j=0; j<_pointers.count; ++j) {
         NSArray* _pointer = _pointers[j];
         
@@ -389,7 +390,7 @@
 
         ++ section.numRows;
 
-        NSLog(@"After %@: %lu rows of type %@", targetText, (unsigned long)section.numRows, ptype);
+        DMLOG(@"After %@: %lu rows of type %@", targetText, (unsigned long)section.numRows, ptype);
     }
 }
 
@@ -426,7 +427,7 @@
     }
 
 #ifdef DEBUG
-    NSLog(@"executing %@", sql);
+    DMLOG(@"executing %@", sql);
 #endif // DEBUG
     self.verbFrames = [NSMutableArray array];
     while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -442,7 +443,7 @@
         self.name = @(_name);
 
 #ifdef DEBUG
-        NSLog(@"matching row: synsetId = %d, wordId = %d", synsetId, wordId);
+        DMLOG(@"matching row: synsetId = %d, wordId = %d", synsetId, wordId);
 #endif // DEBUG
         
         if (samples == nil) {
@@ -451,7 +452,7 @@
             synset = [DubsarModelsSynset synsetWithId:synsetId partOfSpeech:partOfSpeech];
             weakSynsetLink = weakWordLink = false;
 #ifdef DEBUG
-            NSLog(@"created synset with id %lu", (unsigned long)synset._id);
+            DMLOG(@"created synset with id %lu", (unsigned long)synset._id);
 #endif // DEBUG
             
             self.lexname = @(_lexname);
@@ -513,7 +514,7 @@
     }
 
 #ifdef DEBUG
-    NSLog(@"executing %@", sql);
+    DMLOG(@"executing %@", sql);
 #endif // DEBUG
     self.synonyms = [NSMutableArray array];
     while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -538,7 +539,7 @@
     }
 
 #ifdef DEBUG
-    NSLog(@"in numberOfSections");
+    DMLOG(@"%@", @"in numberOfSections");
 #endif // DEBUG
     DubsarModelsDatabaseWrapper* database = [DubsarModelsDatabase instance].database;
 
@@ -583,12 +584,12 @@
            @"(source_id = %lu AND source_type = 'Synset') ", (unsigned long)_id, (unsigned long)synset._id];
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-        NSLog(@"%@", self.errorMessage);
+        DMLOG(@"%@", self.errorMessage);
         return 1;
     }
 
 #ifdef DEBUG
-    NSLog(@"executing %@", sql);
+    DMLOG(@"executing %@", sql);
 #endif // DEBUG
     while (sqlite3_step(statement) == SQLITE_ROW) {
         char const* _ptype = (char const*)sqlite3_column_text(statement, 0);
@@ -604,7 +605,7 @@
     }
     sqlite3_finalize(statement);
 #ifdef DEBUG
-    NSLog(@"%lu sections in tableView", (unsigned long)sections.count);
+    DMLOG(@"%lu sections in tableView", (unsigned long)sections.count);
 #endif // DEBUG
     return sections.count;
 }
@@ -615,13 +616,13 @@
     NSUInteger pathRow = [indexPath indexAtPosition:1];
 
     DubsarModelsSection* section = sections[pathSection];
-    // NSLog(@"Building pointer for section %d, row %d (section %@, ptype %@)", pathSection, pathRow, section.header, section.ptype);
+    // DMLOG(@"Building pointer for section %d, row %d (section %@, ptype %@)", pathSection, pathRow, section.header, section.ptype);
     DubsarModelsPointer* pointer = [DubsarModelsPointer pointer];
         
     if ([section.ptype isEqualToString:@"synonym"]) {
         DubsarModelsSense* synonym = synonyms[pathRow];
 #ifdef DEBUG
-        NSLog(@"requesting synonym %@", synonym.name);
+        DMLOG(@"requesting synonym %@", synonym.name);
 #endif // DEBUG
         pointer.targetText = synonym.name;
         pointer.targetId = synonym._id;
@@ -666,14 +667,14 @@
             pointer.targetId = sqlite3_column_int(pointerQuery, 1);
             char const* _targetType = (char const*)sqlite3_column_text(pointerQuery, 2);
             pointer.targetType = @(_targetType);
-            // NSLog(@"Pointer target type is %@", pointer.targetType);
+            // DMLOG(@"Pointer target type is %@", pointer.targetType);
             
             if ([pointer.targetType isEqualToString:@"Sense"]) {
                 if ((rc=sqlite3_reset(lexicalQuery)) != SQLITE_OK) {
-                    NSLog(@"error %d resetting lexical query", rc);
+                    DMLOG(@"error %d resetting lexical query", rc);
                 }
                 if ((rc=sqlite3_bind_int(lexicalQuery, 1, (int)pointer.targetId)) != SQLITE_OK) {
-                    NSLog(@"error %d binding lexical query", rc);
+                    DMLOG(@"error %d binding lexical query", rc);
                 }
                 
                 /* lexical pointers */
@@ -683,7 +684,7 @@
                     char const* _definition = (char const*)sqlite3_column_text(lexicalQuery, 2);
                     char const* _marker = (char const*)sqlite3_column_text(lexicalQuery, 3);
                     char const* _lexname = (char const*)sqlite3_column_text(lexicalQuery, 4);
-                    NSLog(@"name: %s, part_of_speech: %s, definition: %s, marker: %s, lexname: %s", _name, _part_of_speech, _definition, _marker, _lexname);
+                    DMLOG(@"name: %s, part_of_speech: %s, definition: %s, marker: %s, lexname: %s", _name, _part_of_speech, _definition, _marker, _lexname);
                     
                     DubsarModelsPartOfSpeech _partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
                     NSString* definition = @(_definition);
@@ -699,10 +700,10 @@
             }
             else {
                 if ((rc=sqlite3_reset(semanticQuery)) != SQLITE_OK) {
-                    NSLog(@"error %d resetting semantic query", rc);
+                    DMLOG(@"error %d resetting semantic query", rc);
                 }
                 if ((rc=sqlite3_bind_int(semanticQuery, 1, (int)pointer.targetId)) != SQLITE_OK) {
-                    NSLog(@"error %d binding semantic query", rc);
+                    DMLOG(@"error %d binding semantic query", rc);
                 }
                 
                 /* semantic pointers */
@@ -762,7 +763,7 @@
                      @"OFFSET :offset ", (unsigned long)_id, (unsigned long)synset._id];
 
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &pointerQuery, NULL)) != SQLITE_OK) {
-        NSLog(@"error %d preparing pointer query", rc);
+        DMLOG(@"error %d preparing pointer query", rc);
         return;
     }
     
@@ -773,10 +774,10 @@
               "WHERE se.id = ? "
               "ORDER BY w.name ASC, w.part_of_speech ASC ";
 #ifdef DEBUG
-    NSLog(@"preparing lexical query %s", csql);
+    DMLOG(@"preparing lexical query %s", csql);
 #endif // DEBUG
     if ((rc=sqlite3_prepare_v2(database.dbptr, csql, -1, &lexicalQuery, NULL)) != SQLITE_OK) {
-        NSLog(@"error %d preparing lexical query", rc);
+        DMLOG(@"error %d preparing lexical query", rc);
         return;
     }
     
@@ -788,10 +789,10 @@
            "ORDER BY w.name ASC";
 
 #ifdef DEBUG
-    NSLog(@"preparing semantic query %s", csql);
+    DMLOG(@"preparing semantic query %s", csql);
 #endif // DEBUG
     if ((rc=sqlite3_prepare_v2(database.dbptr, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
-        NSLog(@"error %d preparing semantic query", rc);
+        DMLOG(@"error %d preparing semantic query", rc);
         return;
     }
 }

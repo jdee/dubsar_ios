@@ -61,15 +61,15 @@ class PointerView : UIView {
     @IBAction
     func navigate(sender: UIButton!) {
         var target : DubsarModelsModel
-        // NSLog("Selected pointer targetType \"%@\", targetId %d", pointer.targetType, pointer.targetId)
+        // DMLOG("Selected pointer targetType \"%@\", targetId %d", pointer.targetType, pointer.targetId)
         if pointer.targetType == "Sense" || pointer.targetType == "sense" {
-            // NSLog("Navigating to sense ID %d (%@)", pointer.targetId, pointer.targetText)
+            // DMLOG("Navigating to sense ID %d (%@)", pointer.targetId, pointer.targetText)
             let sense = DubsarModelsSense(id: pointer.targetId, name: nil, partOfSpeech: .Unknown)
             sense.synset = DubsarModelsSynset(id: pointer.targetSynsetId, partOfSpeech: .Unknown)
             target = sense
         }
         else {
-            // NSLog("Navigating to synset ID %d (%@)", pointer.targetId, pointer.targetText)
+            // DMLOG("Navigating to synset ID %d (%@)", pointer.targetId, pointer.targetText)
             target = DubsarModelsSynset(id: pointer.targetId, partOfSpeech: .Unknown)
         }
 
@@ -139,7 +139,7 @@ class SynsetPointerView: UIView {
 
             // now estimate
             frame.size.height = completedUpToY * CGFloat(totalRows) / CGFloat(completedUpToRow)
-            // NSLog("completed up to y: %f, row: %d, total rows %d, est. total height: %f", Double(completedUpToY), completedUpToRow, totalRows, Double(frame.size.height))
+            // DMLOG("completed up to y: %f, row: %d, total rows %d, est. total height: %f", Double(completedUpToY), completedUpToRow, totalRows, Double(frame.size.height))
         }
 
         hasReset = false
@@ -157,7 +157,7 @@ class SynsetPointerView: UIView {
 
     private func pointerForRowAtIndexPath(indexPath: NSIndexPath!) -> DubsarModelsPointer {
         // could use a base class or a protocol here
-        // NSLog("Calling pointerForRowAtIndexPath:")
+        // DMLOG("Calling pointerForRowAtIndexPath:")
         if sense {
             return sense!.pointerForRowAtIndexPath(indexPath)
         }
@@ -202,7 +202,7 @@ class SynsetPointerView: UIView {
                 if y >= scrollViewBottom {
                     break
                 }
-                // NSLog("Title for section %d is %@", sectionNumber, title)
+                // DMLOG("Title for section %d is %@", sectionNumber, title)
             }
 
             let fudge : CGFloat = 8
@@ -219,7 +219,7 @@ class SynsetPointerView: UIView {
 
                 let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
                 let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
-                // NSLog("Pointer text size is %f x %f", Double(textSize.width), Double(textSize.height))
+                // DMLOG("Pointer text size is %f x %f", Double(textSize.width), Double(textSize.height))
                 let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height), withoutButton: isPreview)
                 pointerView.label.text = text
                 if !isPreview && pointer.targetType == "Sense" {
@@ -235,7 +235,7 @@ class SynsetPointerView: UIView {
 
                 ++completedUpToRow
 
-                // NSLog("Pointer text for section %d, row %d is %@", sectionNumber, row, title)
+                // DMLOG("Pointer text for section %d, row %d is %@", sectionNumber, row, title)
                 if y >= scrollViewBottom {
                     finished = true
                     ++row

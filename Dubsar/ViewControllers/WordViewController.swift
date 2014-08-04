@@ -65,7 +65,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
             assert(sense && wordSense && sense === wordSense)
 
-            // NSLog("Received response for sense %d (%@). Updating row %d", sense!._id, sense!.gloss, row)
+            // DMLOG("Received response for sense %d (%@). Updating row %d", sense!._id, sense!.gloss, row)
 
             senseTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
             return
@@ -95,7 +95,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
         assert(index < senses.count)
 
-        // NSLog("Index of selected row is %d", index)
+        // DMLOG("Index of selected row is %d", index)
         selectedIndexPath = NSIndexPath(forRow: index+1, inSection: 0)
     }
 
@@ -124,7 +124,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             cell!.isPreview = false
             cell!.word = theWord
 
-            // NSLog("Height of word cell at row 0: %f", Double(cell!.bounds.size.height))
+            // DMLOG("Height of word cell at row 0: %f", Double(cell!.bounds.size.height))
             return cell
         }
 
@@ -144,7 +144,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
                 openCell!.insertHeightLimit = maxHeightOfAdditionsForRow(row)
             }
             openCell!.cellBackgroundColor = AppConfiguration.highlightColor // calls rebuild()
-            // NSLog("Cell for row %d is open", row)
+            // DMLOG("Cell for row %d is open", row)
             cell = openCell
         }
         else {
@@ -152,7 +152,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             if !cell {
                 cell = SenseTableViewCell(sense: sense, frame: frame)
             }
-            // NSLog("Cell for row %d is closed", row)
+            // DMLOG("Cell for row %d is closed", row)
             cell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor // calls rebuild()
         }
 
@@ -170,7 +170,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         let row = indexPath.indexAtPosition(1)
         if row == 0 {
             let height = theWord!.sizeOfCellWithConstrainedSize(tableView.bounds.size, open: false, maxHeightOfAdditions: 0, preview: false).height
-            // NSLog("Height of row 0 (word header): %f", Double(height))
+            // DMLOG("Height of row 0 (word header): %f", Double(height))
             return height
         }
 
@@ -180,23 +180,23 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         var selectedRow :Int = selectedIndexPath.indexAtPosition(1)
         let height = sense.sizeOfCellWithConstrainedSize(constrainedSize, open: row == selectedRow, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
 
-        // NSLog("Height of row %d with row %d selected: %f", row, selectedRow, Double(height))
+        // DMLOG("Height of row %d with row %d selected: %f", row, selectedRow, Double(height))
         return height
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        // NSLog("Selected row is %d", selectedIndexPath.indexAtPosition(1))
+        // DMLOG("Selected row is %d", selectedIndexPath.indexAtPosition(1))
         let row = indexPath.indexAtPosition(1)
         if row == 0 {
             return
         }
 
         if indexPath == selectedIndexPath {
-            // NSLog("row %d reselected, ignoring", indexPath.indexAtPosition(1))
+            // DMLOG("row %d reselected, ignoring", indexPath.indexAtPosition(1))
             return
         }
 
-        // NSLog("Selected new row %d", row)
+        // DMLOG("Selected new row %d", row)
 
         let current = selectedIndexPath
 
@@ -204,7 +204,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         synchSelectedRow()
 
-        // NSLog("Reloading rows %d & %d", row, current.indexAtPosition(1))
+        // DMLOG("Reloading rows %d & %d", row, current.indexAtPosition(1))
 
         tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
     }

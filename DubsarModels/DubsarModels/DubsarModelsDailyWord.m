@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarModels.h"
 #import "DubsarModelsDailyWord.h"
 #import "DubsarModelsLoadDelegate.h"
 #import "DubsarModelsWord.h"
@@ -98,7 +99,7 @@
     if (![self loadFromUserDefaults] || !expiration || expiration <= time(0)) {
         
         if (expiration && expiration <= time(0)) {
-            NSLog(@"cached wotd expired, requesting");
+            DMLOG(@"%@", @"cached wotd expired, requesting");
         }
         
         // fresh is set to true when the wotd is not in the defaults.
@@ -130,12 +131,12 @@
     NSInteger wotdId = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordIdKey];
 
     if (wotdId <= 0) {
-        NSLog(@"User defaults value for %@: %@", DubsarDailyWordIdKey, [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey]);
+        DMLOG(@"User defaults value for %@: %@", DubsarDailyWordIdKey, [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey]);
         return false;
     }
 #ifdef DEBUG
     else {
-        NSLog(@"Found wotd in user defaults, id %ld", (long)wotdId);
+        DMLOG(@"Found wotd in user defaults, id %ld", (long)wotdId);
     }
 #endif // DEBUG
 
@@ -163,7 +164,7 @@
 
 - (void)saveToUserDefaults
 {
-    NSLog(@"Saving WOTD: ID: %lu, expiration: %ld", (unsigned long)word._id, expiration);
+    DMLOG(@"Saving WOTD: ID: %lu, expiration: %ld", (unsigned long)word._id, expiration);
     [[NSUserDefaults standardUserDefaults] setInteger:word._id forKey:DubsarDailyWordIdKey];
     [[NSUserDefaults standardUserDefaults] setInteger:expiration forKey:DubsarDailyWordExpirationKey];
     [[NSUserDefaults standardUserDefaults] setValue:word.name forKey:DubsarDailyWordNameKey];
@@ -174,7 +175,7 @@
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
 {
 #ifdef DEBUG
-    NSLog(@"Loaded WOTD");
+    DMLOG(@"%@", @"Loaded WOTD");
 #endif // DEBUG
     [self.delegate loadComplete:self withError:error];
 }

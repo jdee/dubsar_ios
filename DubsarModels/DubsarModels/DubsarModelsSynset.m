@@ -18,6 +18,7 @@
  */
 #import <sqlite3.h>
 
+#import "DubsarModels.h"
 #import "DubsarModelsDatabase.h"
 #import "DubsarModelsDatabaseWrapper.h"
 #import "DubsarModelsPartOfSpeechDictionary.h"
@@ -109,7 +110,7 @@
     partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:response[1]];
     lexname = response[2];
 #ifdef DEBUG
-    NSLog(@"lexname: \"%@\"", lexname);
+    DMLOG(@"lexname: \"%@\"", lexname);
 #endif // DEBUG
     if (!gloss) {
         gloss = response[3];
@@ -118,7 +119,7 @@
     NSNumber* _freqCnt;
     NSArray* _senses = response[5];
 #ifdef DEBUG
-    NSLog(@"found %lu senses", (unsigned long)_senses.count);
+    DMLOG(@"found %lu senses", (unsigned long)_senses.count);
 #endif // DEBUG
     senses = [NSMutableArray arrayWithCapacity:_senses.count];
     for (int j=0; j<_senses.count; ++j) {
@@ -251,7 +252,7 @@
     }
 
 #ifdef DEBUG
-    NSLog(@"executing %@", sql);
+    DMLOG(@"executing %@", sql);
 #endif // DEBUG
     freqCnt = 0;
     self.senses = [NSMutableArray array];
@@ -296,7 +297,7 @@
         synonym.freqCnt = senseFreqCnt;
         synonym.word = [DubsarModelsWord wordWithId:wordId name:synonym.name partOfSpeech:partOfSpeech];
         [synonym loadSynchronous]; // we're in loadResults, so we know this isn't kicking off a fresh load
-        NSLog(@"Loaded synonym %@, word with ID %ld", synonym.name, (long)synonym.word._id);
+        DMLOG(@"Loaded synonym %@, word with ID %ld", synonym.name, (long)synonym.word._id);
         [senses addObject:synonym];
     }
     sqlite3_finalize(statement);
@@ -309,7 +310,7 @@
     }
 
 #ifdef DEBUG
-    NSLog(@"in numberOfSections");
+    DMLOG(@"%@", @"in numberOfSections");
 #endif // DEBUG
     DubsarModelsDatabaseWrapper* database = [DubsarModelsDatabase instance].database;
     
@@ -344,12 +345,12 @@
            @"SELECT DISTINCT ptype FROM pointers WHERE source_id = %lu AND source_type = 'Synset' ", (unsigned long)_id];
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-        NSLog(@"%@", self.errorMessage);
+        DMLOG(@"%@", self.errorMessage);
         return 1;
     }
 
 #ifdef DEBUG
-    NSLog(@"executing %@", sql);
+    DMLOG(@"executing %@", sql);
 #endif // DEBUG
     while (sqlite3_step(statement) == SQLITE_ROW) {
         char const* _ptype = (char const*)sqlite3_column_text(statement, 0);
@@ -366,7 +367,7 @@
     }
     sqlite3_finalize(statement);
 #ifdef DEBUG
-    NSLog(@"%lu sections in tableView", (unsigned long)sections.count);
+    DMLOG(@"%lu sections in tableView", (unsigned long)sections.count);
 #endif // DEBUG
     return sections.count;
 }
@@ -382,7 +383,7 @@
     if ([section.ptype isEqualToString:@"synonym"]) {
         DubsarModelsSense* synonym = senses[pathRow];
 #ifdef DEBUG
-        NSLog(@"requesting synonym %@", synonym.name);
+        DMLOG(@"requesting synonym %@", synonym.name);
 #endif // DEBUG
         pointer.targetText = synonym.name;
         pointer.targetId = synonym._id;
@@ -405,7 +406,7 @@
     else {
         int rc;
         if ((rc=sqlite3_reset(pointerQuery)) != SQLITE_OK) {
-            NSLog(@"error %d preparing statement", rc);
+            DMLOG(@"error %d preparing statement", rc);
             return pointer;
         }
 
@@ -426,10 +427,10 @@
             pointer.targetType = @(_targetType);
             
             if ((rc=sqlite3_reset(semanticQuery)) != SQLITE_OK) {
-                NSLog(@"error %d resetting semantic query", rc);
+                DMLOG(@"error %d resetting semantic query", rc);
             }
             if ((rc=sqlite3_bind_int(semanticQuery, 1, (int)pointer.targetId)) != SQLITE_OK) {
-                NSLog(@"error %d binding semantic query", rc);
+                DMLOG(@"error %d binding semantic query", rc);
             }
             
             /* semantic pointers */
@@ -484,7 +485,7 @@
                      @"LIMIT 1 "
                      @"OFFSET :offset ", (unsigned long)_id];
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &pointerQuery, NULL)) != SQLITE_OK) {
-        NSLog(@"error %d preparing statement", rc);
+        DMLOG(@"error %d preparing statement", rc);
         return;
     }        
     
@@ -496,10 +497,10 @@
     "ORDER BY w.name ASC";
 
 #ifdef DEBUG
-    NSLog(@"preparing semantic query %s", csql);
+    DMLOG(@"preparing semantic query %s", csql);
 #endif // DEBUG
     if ((rc=sqlite3_prepare_v2(database.dbptr, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
-        NSLog(@"error %d preparing semantic query", rc);
+        DMLOG(@"error %d preparing semantic query", rc);
         return;
     }
 }

@@ -40,7 +40,7 @@
         height = size.width;
     }
 
-    // NSLog(@"Keyboard height is %f", height);
+    // DMLOG(@"Keyboard height is %f", height);
 
     return height;
 }

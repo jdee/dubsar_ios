@@ -96,23 +96,23 @@
 
     url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
 
-    // NSLog(@"App support directory: %@", url.path);
+    // DMLOG(@"App support directory: %@", url.path);
 
     BOOL isDir;
     BOOL exists = [fileManager fileExistsAtPath:url.path isDirectory:&isDir];
-    // NSLog(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
+    // DMLOG(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
 
     if (!exists) {
         NSError* error;
         if (![fileManager createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error]) {
-            NSLog(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+            DMLOG(@"Could not create directory %@: %@", url.path, error.localizedDescription);
         }
         else {
-            NSLog(@"Created directory %@", url.path);
+            DMLOG(@"Created directory %@", url.path);
         }
     }
     else if (!isDir) {
-        NSLog(@"%@ exists and is not a directory", url.path);
+        DMLOG(@"%@ exists and is not a directory", url.path);
     }
 
     return [url URLByAppendingPathComponent:DUBSAR_FILE_NAME];
@@ -126,23 +126,23 @@
 
     url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
 
-    // NSLog(@"Caches directory: %@", url.path);
+    // DMLOG(@"Caches directory: %@", url.path);
 
     BOOL isDir;
     BOOL exists = [fileManager fileExistsAtPath:url.path isDirectory:&isDir];
-    // NSLog(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
+    // DMLOG(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
 
     if (!exists) {
         NSError* error;
         if (![fileManager createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error]) {
-            NSLog(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+            DMLOG(@"Could not create directory %@: %@", url.path, error.localizedDescription);
         }
         else {
-            NSLog(@"Created directory %@", url.path);
+            DMLOG(@"Created directory %@", url.path);
         }
     }
     else if (!isDir) {
-        NSLog(@"%@ exists and is not a directory", url.path);
+        DMLOG(@"%@ exists and is not a directory", url.path);
     }
 
     return [url URLByAppendingPathComponent:DUBSAR_ZIP_NAME];
@@ -169,7 +169,7 @@
     self.errorMessage = @"Canceled";
     [[UIApplication sharedApplication] stopUsingNetwork];
 
-    NSLog(@"Download canceled");
+    DMLOG(@"%@", @"Download canceled");
     // [self deleteDatabase]; // cleans up the zip too
 }
 
@@ -210,7 +210,7 @@
         return;
     }
 
-    NSLog(@"Successfully opened/created %@ for write", self.zipURL.path);
+    DMLOG(@"Successfully opened/created %@ for write", self.zipURL.path);
     [self excludeFromBackup:self.zipURL];
 
     self.downloadSize = self.downloadedSoFar = self.unzippedSoFar = self.unzippedSize = 0;
@@ -224,13 +224,13 @@
     self.downloadedAtLastStatsUpdate = 0;
     self.elapsedDownloadTime = 0;
 
-    // NSLog(@"Download start: %ld.%06d. Last download read: %ld.%06d", self.downloadStart.tv_sec, self.downloadStart.tv_usec, self.lastDownloadStatsUpdate.tv_sec, self.lastDownloadStatsUpdate.tv_usec);
+    // DMLOG(@"Download start: %ld.%06d. Last download read: %ld.%06d", self.downloadStart.tv_sec, self.downloadStart.tv_usec, self.lastDownloadStatsUpdate.tv_sec, self.lastDownloadStatsUpdate.tv_usec);
 
     memset(&now, 0, sizeof(now));
     self.unzipStart = now;
 
     NSURL* url = [self.rootURL URLByAppendingPathComponent:DUBSAR_ZIP_NAME];
-    NSLog(@"Downloading %@", url);
+    DMLOG(@"Downloading %@", url);
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
 
     if (_etag && _start > 0 && _start == _totalSize) {
@@ -265,15 +265,15 @@
 
     NSError* error;
     if (![[NSFileManager defaultManager] removeItemAtURL:self.fileURL error:&error]) {
-        NSLog(@"Error deleting DB %@: %@", self.fileURL.path, error.localizedDescription);
+        DMLOG(@"Error deleting DB %@: %@", self.fileURL.path, error.localizedDescription);
     }
     else {
-        NSLog(@"Deleted %@", self.fileURL.path);
+        DMLOG(@"Deleted %@", self.fileURL.path);
     }
 
     // might not be there any more. don't care if this fails.
     if ([[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:NULL]) {
-        NSLog(@"Deleted %@", self.zipURL.path);
+        DMLOG(@"Deleted %@", self.zipURL.path);
     }
 }
 
@@ -324,7 +324,7 @@
     }
     [[UIApplication sharedApplication] stopUsingNetwork];
 
-    NSLog(@"Error %@: %ld (%@)", error.domain, (long)error.code, error.localizedDescription);
+    DMLOG(@"Error %@: %ld (%@)", error.domain, (long)error.code, error.localizedDescription);
 
     if ([error.domain isEqualToString:NSURLErrorDomain] &&
         (error.code == NSURLErrorTimedOut || error.code == NSURLErrorNetworkConnectionLost)) {
@@ -342,7 +342,7 @@
                  * If executing in downloadSynchronous in a background thread, as long as downloadInProgress is never allowed to become
                  * false, that run loop will continue until the download stops (success or failure).
                  */
-                NSLog(@"Download failed: %@ (error %ld). Host %@ reachable. Restarting download.", error.localizedDescription, (long)error.code, self.rootURL.host);
+                DMLOG(@"Download failed: %@ (error %ld). Host %@ reachable. Restarting download.", error.localizedDescription, (long)error.code, self.rootURL.host);
                 [self download];
                 return;
             }
@@ -350,7 +350,7 @@
             // if not reachable, just fall through and report the failure.
         }
         else {
-            NSLog(@"Could not determine network reachability for %@", self.rootURL.host);
+            DMLOG(@"Could not determine network reachability for %@", self.rootURL.host);
         }
     }
 
@@ -366,13 +366,13 @@
     ssize_t nr = fwrite(data.bytes, 1, data.length, fp);
 
     if (nr == data.length) {
-        // NSLog(@"Wrote %d bytes to %@", data.length, DUBSAR_FILE_NAME);
+        // DMLOG(@"Wrote %d bytes to %@", data.length, DUBSAR_FILE_NAME);
     }
     else {
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
-        NSLog(@"Failed to write %lu bytes. Wrote %zd. Error %d (%s)", (unsigned long)data.length, nr, error, errbuf);
+        DMLOG(@"Failed to write %lu bytes. Wrote %zd. Error %d (%s)", (unsigned long)data.length, nr, error, errbuf);
         return;
     }
 }
@@ -383,7 +383,7 @@
 
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
 
-    NSLog(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
+    DMLOG(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
     if (httpResp.statusCode >= 400) {
         [self notifyDelegateOfError:@"Status code %ld from %@", (long)httpResp.statusCode, httpResp.URL.host];
         [[UIApplication sharedApplication] stopUsingNetwork];
@@ -395,7 +395,7 @@
         return;
     }
     else if (_etag && httpResp.statusCode == 304) {
-        NSLog(@"304 Not Modified: verified copy of %@ in Caches (ETag: \"%@\")", DUBSAR_ZIP_NAME, _etag);
+        DMLOG(@"304 Not Modified: verified copy of %@ in Caches (ETag: \"%@\")", DUBSAR_ZIP_NAME, _etag);
 
         // see [self download].
         // We used If-None-Match: _etag.
@@ -429,7 +429,7 @@
 
     _etag = newETag;
     if (_etag) {
-        NSLog(@"ETag for %@ is %@", [self.rootURL URLByAppendingPathComponent:DUBSAR_ZIP_NAME], _etag);
+        DMLOG(@"ETag for %@ is %@", [self.rootURL URLByAppendingPathComponent:DUBSAR_ZIP_NAME], _etag);
     }
     _totalSize = self.downloadSize;
 
@@ -449,7 +449,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSLog(@"Finished downloading %@", DUBSAR_ZIP_NAME);
+    DMLOG(@"Finished downloading %@", DUBSAR_ZIP_NAME);
     [self updateElapsedDownloadTime];
     [self startUnzip];
 }
@@ -472,23 +472,23 @@
     gettimeofday(&now, NULL);
 
     double delta = (double)(now.tv_sec - self.lastDownloadStatsUpdate.tv_sec) + (double)(now.tv_usec - self.lastDownloadStatsUpdate.tv_usec) * 1.0e-6;
-    // NSLog(@"%f s since last read: %lu bytes", delta, (unsigned long)size);
+    // DMLOG(@"%f s since last read: %lu bytes", delta, (unsigned long)size);
 
     if (size < 1024 * 1024 && delta < 5.0) {
         // even it out by only checking every so often
         return;
     }
 
-    // NSLog(@"On receipt of data, last read time %ld.%06d", self.lastDownloadRead.tv_sec, self.lastDownloadRead.tv_usec);
+    // DMLOG(@"On receipt of data, last read time %ld.%06d", self.lastDownloadRead.tv_sec, self.lastDownloadRead.tv_usec);
 
     if (delta > 0.0) {
         self.instantaneousDownloadRate = ((double)size) / delta;
-        // NSLog(@"%f B/s instantaneous rate", self.instantaneousDownloadRate);
+        // DMLOG(@"%f B/s instantaneous rate", self.instantaneousDownloadRate);
     }
 
     if (self.instantaneousDownloadRate > 0) {
         self.estimatedDownloadTimeRemaining = (double)(self.downloadSize - self.downloadedSoFar) / self.instantaneousDownloadRate;
-        // NSLog(@"%f s remaining", self.estimatedDownloadTimeRemaining);
+        // DMLOG(@"%f s remaining", self.estimatedDownloadTimeRemaining);
     }
 
     self.downloadedAtLastStatsUpdate = self.downloadedSoFar;
@@ -556,7 +556,7 @@
     struct stat sb;
     int rc = stat(self.zipURL.path.UTF8String, &sb);
     if (rc == 0) {
-        NSLog(@"Downloaded file %@ is %lld bytes", DUBSAR_ZIP_NAME, sb.st_size);
+        DMLOG(@"Downloaded file %@ is %lld bytes", DUBSAR_ZIP_NAME, sb.st_size);
     }
     else {
         int error = errno;
@@ -571,7 +571,7 @@
         [self notifyDelegateOfError: @"unzOpen(%@) failed", self.zipURL.path];
         return;
     }
-    // NSLog(@"Opened zip file");
+    // DMLOG(@"Opened zip file");
 
     rc = unzLocateFile(uf, DUBSAR_FILE_NAME.UTF8String, 1);
     if (rc != UNZ_OK) {
@@ -579,7 +579,7 @@
         unzClose(uf);
         return;
     }
-    // NSLog(@"Located %@ in zip file", DUBSAR_FILE_NAME);
+    // DMLOG(@"Located %@ in zip file", DUBSAR_FILE_NAME);
 
     rc = unzOpenCurrentFile(uf);
     if (rc != UNZ_OK) {
@@ -587,7 +587,7 @@
         unzClose(uf);
         return;
     }
-    // NSLog(@"Opened %@ in zip file", DUBSAR_FILE_NAME);
+    // DMLOG(@"Opened %@ in zip file", DUBSAR_FILE_NAME);
 
     unz_file_info fileInfo;
     rc = unzGetCurrentFileInfo(uf, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
@@ -598,7 +598,7 @@
     }
 
     self.unzippedSize = fileInfo.uncompressed_size;
-    NSLog(@"Unzipped file will be %lu bytes", (long)_unzippedSize);
+    DMLOG(@"Unzipped file will be %lu bytes", (long)_unzippedSize);
 
     FILE* outfile = fopen(self.fileURL.path.UTF8String, "w");
     if (!outfile) {
@@ -609,7 +609,7 @@
         unzClose(uf);
         return;
     }
-    // NSLog(@"Opened %@ for write", DUBSAR_FILE_NAME);
+    // DMLOG(@"Opened %@ for write", DUBSAR_FILE_NAME);
 
     [self excludeFromBackup:self.fileURL];
 
@@ -678,12 +678,12 @@
         [self finishDownload];
         return;
     }
-    NSLog(@"Unzipped file %@ is %lld bytes", DUBSAR_FILE_NAME, sb.st_size);
+    DMLOG(@"Unzipped file %@ is %lld bytes", DUBSAR_FILE_NAME, sb.st_size);
 
     NSError* error;
 
     if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
-        NSLog(@"Error removing %@: %@", self.zipURL.path, error.localizedDescription);
+        DMLOG(@"Error removing %@: %@", self.zipURL.path, error.localizedDescription);
     }
 
     [self finishDownload];
@@ -692,7 +692,7 @@
 - (void)excludeFromBackup:(NSURL*)url {
     NSError* error;
     if (![url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error]) {
-        NSLog(@"Failed to set %@ attribute for file: %@", NSURLIsExcludedFromBackupKey, error.localizedDescription);
+        DMLOG(@"Failed to set %@ attribute for file: %@", NSURLIsExcludedFromBackupKey, error.localizedDescription);
     }
 }
 

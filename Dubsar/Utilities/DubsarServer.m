@@ -64,7 +64,7 @@
 
     NSString* token = @(sdata);
 #ifdef DEBUG
-    NSLog(@"Device token is %@", token);
+    DMLOG(@"Device token is %@", token);
 #endif // DEBUG
 
     /*
@@ -75,7 +75,7 @@
     NSString* secret = [NSString stringWithContentsOfFile:filepath encoding:NSUTF8StringEncoding error:&error];
 #ifndef DUBSAR_DEVELOPMENT
     if (error && !secret) {
-        NSLog(@"Failed to read client_secret.txt: %@", error.localizedDescription);
+        DMLOG(@"Failed to read client_secret.txt: %@", error.localizedDescription);
     }
 #endif // DUBSAR_DEVELOPMENT
 
@@ -87,7 +87,7 @@
      * Could also use kCFBundleVersionKey and strip the .x from the end
      */
     NSString* version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSLog(@"App version is %@", version);
+    DMLOG(@"App version is %@", version);
 
     /*
      * 1d. Determine production flag from preprocessor macro
@@ -130,7 +130,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"HTTPS connection failed: %@", error.localizedDescription);
+    DMLOG(@"HTTPS connection failed: %@", error.localizedDescription);
     [[UIApplication sharedApplication] stopUsingNetwork];
 }
 
@@ -138,7 +138,7 @@
 {
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
 
-    NSLog(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
+    DMLOG(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
 
     [[UIApplication sharedApplication] stopUsingNetwork];
 }

@@ -21,6 +21,7 @@
 
 #import <sqlite3.h>
 
+#import "DubsarModels.h"
 #import "DubsarModelsAutocompleter.h"
 #import "DubsarModelsDatabaseWrapper.h"
 
@@ -106,7 +107,7 @@
         }
         
         if (exactMatch) {
-            // NSLog(@"found exact match %@", exactMatch);
+            // DMLOG(@"found exact match %@", exactMatch);
             self.results = [NSMutableArray arrayWithObject:exactMatch];
 
             if ((rc=sqlite3_bind_text(database.autocompleterStmt, 1, [_term stringByAppendingString:@"*"].UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
@@ -126,7 +127,7 @@
                 return;
             }
 
-            // NSLog(@"searching DB for autocompleter matches for %@", _term);
+            // DMLOG(@"searching DB for autocompleter matches for %@", _term);
             while ((rc=sqlite3_step(database.autocompleterStmt)) == SQLITE_ROW) {
                 if (aborted) return;
                 char const* _name = (char const*)sqlite3_column_text(database.autocompleterStmt, 0);
@@ -136,7 +137,7 @@
             }
 
             if (rc != SQLITE_DONE) {
-                NSLog(@"Autocompleter FTS search failed: %d", rc);
+                DMLOG(@"Autocompleter FTS search failed: %d", rc);
             }
         }
         else {
@@ -151,19 +152,19 @@
                 return;
             }
 
-            // NSLog(@"searching DB for autocompleter matches for %@", _term);
+            // DMLOG(@"searching DB for autocompleter matches for %@", _term);
             while ((rc=sqlite3_step(database.autocompleterStmtWithoutExact)) == SQLITE_ROW) {
                 if (aborted) return;
                 char const* _name = (char const*)sqlite3_column_text(database.autocompleterStmtWithoutExact, 0);
                 NSString* match = @(_name);
 
-                // NSLog(@"autocompleter matched %@", match);
+                // DMLOG(@"autocompleter matched %@", match);
 
                 [_results addObject:match];
             }
 
             if (rc != SQLITE_DONE) {
-                NSLog(@"Autocompleter FTS search failed: %d", rc);
+                DMLOG(@"Autocompleter FTS search failed: %d", rc);
             }
         }
     }
@@ -181,7 +182,7 @@
     _results = r;
 
 #ifdef DEBUG
-    NSLog(@"autocompleter for term \"%@\" (URL \"%@\") finished with %lu results:", response[0], [self _url], (unsigned long)_results.count);
+    DMLOG(@"autocompleter for term \"%@\" (URL \"%@\") finished with %lu results:", response[0], [self _url], (unsigned long)_results.count);
 #endif // DEBUG
 }
 

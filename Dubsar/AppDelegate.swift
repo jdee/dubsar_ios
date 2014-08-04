@@ -155,11 +155,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        NSLog("application did fail (or as we say in English, failed) to register for remote notifications: %@", error.localizedDescription)
+        DMLOG("application did fail (or as we say in English, failed) to register for remote notifications: \(error.localizedDescription)")
     }
 
     func application(application: UIApplication!, didReceiveLocalNotification notification: UILocalNotification!) {
-        NSLog("Received local notification: %@", notification.alertBody)
+        DMLOG("Received local notification: \(notification.alertBody)")
         /* not really necessary
         let viewController = navigationController.topViewController as BaseViewController
         viewController.adjustLayout()
@@ -198,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func application(theApplication: UIApplication!, handleActionWithIdentifier identifier: String!, forRemoteNotification userInfo: NSDictionary!, completionHandler: (() -> Void)!) {
-        NSLog("Received remote notification action %@", identifier)
+        DMLOG("Received remote notification action \(identifier)")
         application(theApplication, didReceiveRemoteNotification: userInfo)
     }
 
@@ -237,7 +237,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func application(application: UIApplication!, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings!) {
-        NSLog("Application did register user notification settings")
+        DMLOG("Application did register user notification settings")
     }
 
     func voidCache() {

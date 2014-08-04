@@ -89,9 +89,9 @@ struct AppConfiguration {
     static var productionSetting: Bool {
         get {
         #if DEBUG
-            return NSUserDefaults.standardUserDefaults().boolForKey(productionKey)
+        return NSUserDefaults.standardUserDefaults().boolForKey(productionKey)
         #else
-            return true
+        return true
         #endif
         }
         set {
@@ -164,7 +164,7 @@ struct AppConfiguration {
 
         var name = fontSetting
 
-        // NSLog("font setting is %@", name!)
+        // DMLOG("font setting is %@", name!)
 
         if !name {
             name = "Arial"
@@ -177,14 +177,14 @@ struct AppConfiguration {
             name = "\(name!) Italic"
         }
 
-        // NSLog("Returning descriptor for font %@, size %f", name!, fontDesc.pointSize)
+        // DMLOG("Returning descriptor for font %@, size %f", name!, fontDesc.pointSize)
         return UIFontDescriptor(name: name, size: fontDesc.pointSize)
     }
 
     static func preferredFontForTextStyle(style: String!, italic: Bool=false) -> UIFont! {
         let fontDesc = preferredFontDescriptorWithTextStyle(style, italic: italic)
         let font = UIFont(descriptor: fontDesc, size: 0.0)
-        // NSLog("Returning font from family %@, name %@", font.familyName, font.fontName)
+        // DMLOG("Returning font from family %@, name %@", font.familyName, font.fontName)
         return font
     }
 

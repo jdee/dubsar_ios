@@ -130,7 +130,7 @@ class SynsetHeaderView: UIView {
     }
 
     override func layoutSubviews() {
-        // NSLog("Entered SynsetHeaderView.layoutSubviews()")
+        // DMLOG("Entered SynsetHeaderView.layoutSubviews()")
         if synset.complete {
             let margin = SynsetHeaderView.margin
             var constrainedSize = bounds.size
@@ -198,7 +198,7 @@ class SynsetHeaderView: UIView {
             }
 
             frame.size.height = setupSynonymButtons()
-            // NSLog("header view height: %f", bounds.size.height)
+            // DMLOG("header view height: %f", bounds.size.height)
         }
 
         super.layoutSubviews()
@@ -214,7 +214,7 @@ class SynsetHeaderView: UIView {
     }
 
     private func build() {
-        // NSLog("Constructing SynsetHeaderView with %d synonyms (synset ID %d: %@:)", synset.senses.count, synset._id, synset.synonymsAsString, synset.gloss)
+        // DMLOG("Constructing SynsetHeaderView with %d synonyms (synset ID %d: %@:)", synset.senses.count, synset._id, synset.synonymsAsString, synset.gloss)
 
         autoresizingMask = .FlexibleHeight | .FlexibleWidth
 

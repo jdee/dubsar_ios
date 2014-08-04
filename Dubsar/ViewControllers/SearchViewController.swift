@@ -36,7 +36,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     var selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
     override func viewWillAppear(animated: Bool) {
-        // NSLog("In SearchViewController.viewWillAppear() before super: search is %@nil, %@complete; model is %@nil, %@complete", (search ? "" : "not "), (search.complete ? "" : "not "), (model ? "" : "not "), (model?.complete ? "" : "not "))
+        // DMLOG("In SearchViewController.viewWillAppear() before super: search is %@nil, %@complete; model is %@nil, %@complete", (search ? "" : "not "), (search.complete ? "" : "not "), (model ? "" : "not "), (model?.complete ? "" : "not "))
         super.viewWillAppear(animated)
 
         title = "Search"
@@ -136,14 +136,14 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         cell!.word = word
         cell!.rebuild()
 
-        // NSLog("Height of cell at row %d: %f", row, Double(cell!.bounds.size.height))
+        // DMLOG("Height of cell at row %d: %f", row, Double(cell!.bounds.size.height))
 
         return cell
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         if indexPath == selectedIndexPath {
-            // NSLog("row %d reselected, ignoring", indexPath.row)
+            // DMLOG("row %d reselected, ignoring", indexPath.row)
             return
         }
 
@@ -153,7 +153,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         synchSelectedRow()
 
-        // NSLog("Selected row %d", selectedIndexPath.indexAtPosition(1))
+        // DMLOG("Selected row %d", selectedIndexPath.indexAtPosition(1))
         tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
     }
 
@@ -179,20 +179,20 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         let height = word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row), preview: true).height
 
-        // NSLog("Height of row %d: %f", row, Double(height))
+        // DMLOG("Height of row %d: %f", row, Double(height))
         return height
     }
 
     func synchSelectedRow() {
         let row = selectedIndexPath.indexAtPosition(1)
         if row < 0 || !search {
-            // NSLog("Can't synch row %d", row)
+            // DMLOG("Can't synch row %d", row)
             return
         }
 
         let word = search!.results[row] as DubsarModelsWord
         if word.complete {
-            // NSLog("Word %@ already complete", word.nameAndPos)
+            // DMLOG("Word %@ already complete", word.nameAndPos)
             return
         }
 
@@ -200,7 +200,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         self.router!.routerAction = .UpdateRowAtIndexPath
         self.router!.indexPath = selectedIndexPath
         self.router!.load()
-        // NSLog("Synching selected row")
+        // DMLOG("Synching selected row")
     }
 
     func selectRowForWord(word: DubsarModelsWord!) {
@@ -214,7 +214,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
         assert(index < results.count)
 
-        // NSLog("Index of selected row is %d", index)
+        // DMLOG("Index of selected row is %d", index)
         selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
     }
 
@@ -231,7 +231,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             if search!.results.count > 0 {
                 selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
                 synchSelectedRow()
-                // NSLog("Sent request to synch row for word");
+                // DMLOG("Sent request to synch row for word");
             }
 
             resultTableView.reloadData()
@@ -255,11 +255,11 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
                     self.router!.routerAction = .UpdateRowAtIndexPath
                     self.router!.indexPath = selectedIndexPath
                     self.router!.load()
-                    // NSLog("Sent request to synch first sense in open word cell")
+                    // DMLOG("Sent request to synch first sense in open word cell")
                 }
             }
             else {
-                // NSLog("Got response for first sense in open word cell")
+                // DMLOG("Got response for first sense in open word cell")
             }
 
             resultTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)

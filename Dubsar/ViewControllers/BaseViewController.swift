@@ -54,13 +54,13 @@ class BaseViewController: UIViewController {
 
     func routeResponse(router: Router!) {
         if router.model.errorMessage {
-            NSLog("Error from request: %@", router.model.errorMessage)
+            DMLOG("Error from request: \(router.model.errorMessage)")
         }
     }
 
     func load() {
         if router && router!.model.complete {
-            // NSLog("reloading view from complete model")
+            // DMLOG("reloading view from complete model")
             routeResponse(router)
         }
         else {

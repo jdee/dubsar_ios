@@ -79,12 +79,12 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         errorMessage = nil;
 
         if (database.dbptr) {
-            // NSLog(@"Loading from the DB");
+            // DMLOG(@"Loading from the DB");
             [self loadResults:database];
         }
         else {
             // load synchronously in this thread
-            // NSLog(@"Loading from the server");
+            // DMLOG(@"Loading from the server");
             [self loadFromServer];
             while (!self.complete &&
                    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.2]]);
@@ -96,7 +96,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         self.loading = false;
 
         if (delegate != nil) {
-            // NSLog(@"Dispatching callback to router");
+            // DMLOG(@"Dispatching callback to router");
             if ([NSThread currentThread] != [NSThread mainThread]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.delegate loadComplete:self withError:errorMessage];
@@ -107,7 +107,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
             }
         }
         else {
-            // NSLog(@"No delegate (weak ref.)");
+            // DMLOG(@"No delegate (weak ref.)");
         }
     }
 }
@@ -140,19 +140,19 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         }
     }
 
-    NSLog(@"requesting %@", url);
+    DMLOG(@"requesting %@", url);
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
     
-    NSLog(@"GET request for URL %@ returned HTTP status code %ld", url, (long)httpResponse.statusCode);
+    DMLOG(@"GET request for URL %@ returned HTTP status code %ld", url, (long)httpResponse.statusCode);
     
     NSDictionary* headers = [httpResponse allHeaderFields];
     [headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         NSString* value = (NSString*)obj;
-        NSLog(@"%@: \"%@\"", key, value);
+        DMLOG(@"%@: \"%@\"", key, value);
     }];
     
     if (httpResponse.statusCode >= 400) {
@@ -171,7 +171,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         error = true;
     }
     
-    NSLog(@"received response");
+    DMLOG(@"%@", @"received response");
     [data setLength:0];
 }
 
@@ -183,7 +183,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)theError
 {
     NSString* errMsg = [theError localizedDescription];
-    NSLog(@"error requesting %@: %@", url, errMsg);
+    DMLOG(@"error requesting %@: %@", url, errMsg);
     
     [self setComplete:true];
     [self setError:true];
@@ -200,15 +200,15 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         }
     }
 
-    NSLog(@"load processing finished");
+    DMLOG(@"%@", @"load processing finished");
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     // BUG: Why does jsonData show up as (null) in the iPod log?
     NSString* jsonData = @((const char*)[data bytes]);
-    NSLog(@"JSON response from URL %@:", url);
-    NSLog(@"%@", jsonData);
+    DMLOG(@"JSON response from URL %@:", url);
+    DMLOG(@"%@", jsonData);
 
     @autoreleasepool {
         [self parseData];
@@ -226,7 +226,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         }
     }
 
-    NSLog(@"load processing finished");
+    DMLOG(@"%@", @"load processing finished");
 }
 
 @end

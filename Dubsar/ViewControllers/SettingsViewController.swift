@@ -346,20 +346,20 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func databaseManager(databaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
-        NSLog("error downloading Database: %@", errorMessage)
+        DMLOG("error downloading Database: \(errorMessage)")
         reloadOfflineRow()
         setupToolbar()
     }
 
     func downloadComplete(databaseManager: DatabaseManager!) {
-        NSLog("Download and Unzip complete")
+        DMLOG("Download and Unzip complete")
         unzipping = false
         reloadOfflineRow()
         setupToolbar()
     }
 
     func unzipStarted(databaseManager: DatabaseManager!) {
-        // NSLog("Unzip started. %ld bytes downloaded in %f s", databaseManager.downloadSize, databaseManager.elapsedDownloadTime)
+        // DMLOG("Unzip started. %ld bytes downloaded in %f s", databaseManager.downloadSize, databaseManager.elapsedDownloadTime)
         unzipping = true
         progressUpdated(databaseManager)
     }

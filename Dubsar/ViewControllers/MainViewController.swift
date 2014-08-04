@@ -75,7 +75,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
         */
 
-        // NSLog("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))
+        // DMLOG("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))
     }
 
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
@@ -129,7 +129,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             // but be lined up with the lower righthand corner of the view after the rotation, at the beginning of the animation.
 
             /*
-            NSLog("new view size: %f x %f. alphabet view size: %f x %f. alphabet view origin: %f, %f", Double(newViewWidth), Double(newViewHeight),
+            DMLOG("new view size: %f x %f. alphabet view size: %f x %f. alphabet view origin: %f, %f", Double(newViewWidth), Double(newViewHeight),
                 Double(alphabetView.bounds.size.width), Double(alphabetView.bounds.size.height), Double(alphabetView.frame.origin.x), Double(alphabetView.frame.origin.y))
             // */
 
@@ -247,21 +247,21 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         switch router.routerAction {
         case .UpdateView:
-            // NSLog(".UpdateView")
+            // DMLOG(".UpdateView")
             if let wotd = router.model as? DubsarModelsDailyWord {
                 self.wotd = wotd
                 wotdButton.setTitle(wotd.word.nameAndPos, forState: .Normal)
             }
 
         case .UpdateAutocompleter:
-            // NSLog(".UpdateAutocompleter")
+            // DMLOG(".UpdateAutocompleter")
             let ac = router.model as DubsarModelsAutocompleter
             if ac.seqNum >= lastSequence {
                 autocompleterFinished(ac, withError: nil)
             }
 
         default:
-            // NSLog("Unexpected routerAction")
+            // DMLOG("Unexpected routerAction")
             break
         }
     }
@@ -284,7 +284,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     func autocompleterFinished(theAutocompleter: DubsarModelsAutocompleter!, withError error: String!) {
-        // NSLog("Autocompleter finished for term %@, seq. %d, result count %d", theAutocompleter.term, theAutocompleter.seqNum, theAutocompleter.results.count)
+        // DMLOG("Autocompleter finished for term %@, seq. %d, result count %d", theAutocompleter.term, theAutocompleter.seqNum, theAutocompleter.results.count)
         if !searchBarEditing || searchBar.text.isEmpty {
             return
         }
@@ -295,7 +295,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     override func adjustLayout() {
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        // NSLog("Using font %@", font.fontName)
+        // DMLOG("Using font %@", font.fontName)
         wotdLabel.font = font
         wotdButton.titleLabel.font = font
         wordNetLabel.font = font
@@ -309,7 +309,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
-        // NSLog("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))
+        // DMLOG("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))
 
         super.adjustLayout()
     }
@@ -337,9 +337,9 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             max = 1
         }
 
-        // NSLog("avail. ht: %f, lineHeight: %f, max: %d", available, lineHeight, max)
+        // DMLOG("avail. ht: %f, lineHeight: %f, max: %d", available, lineHeight, max)
 
-        // NSLog("Autocompletion text: %@", searchText)
+        // DMLOG("Autocompletion text: %@", searchText)
         autocompleter = DubsarModelsAutocompleter(term: searchBar.text, matchCase: false)
         autocompleter!.max = max
         lastSequence = autocompleter!.seqNum
@@ -368,7 +368,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         keyboardHeight = KeyboardHelper.keyboardSizeFromNotification(notification)
 
         // why does this crash?
-        // NSLog("Keyboard height is %f, rotated = %@", keyboardHeight, (rotated ? "true" : "false"))
+        // DMLOG("Keyboard height is %f, rotated = %@", keyboardHeight, (rotated ? "true" : "false"))
 
         if rotated {
             triggerAutocompletion()
@@ -382,18 +382,18 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         if UIInterfaceOrientationIsPortrait(orientation) {
             alphabetFrame = CGRectMake(view.bounds.size.width - dimension, searchBar.bounds.size.height, dimension, view.bounds.size.height - searchBar.bounds.size.height)
-            // NSLog("portrait: frame (%f, %f) %f x %f", Double(alphabetFrame.origin.x), Double(alphabetFrame.origin.y), Double(alphabetFrame.size.width), Double(alphabetFrame.size.height))
+            // DMLOG("portrait: frame (%f, %f) %f x %f", Double(alphabetFrame.origin.x), Double(alphabetFrame.origin.y), Double(alphabetFrame.size.width), Double(alphabetFrame.size.height))
         }
         else {
             alphabetFrame = CGRectMake(0, view.bounds.size.height - dimension, view.bounds.size.width, dimension)
-            // NSLog("landscape: frame (%f, %f) %f x %f", Double(alphabetFrame.origin.x), Double(alphabetFrame.origin.y), Double(alphabetFrame.size.width), Double(alphabetFrame.size.height))
+            // DMLOG("landscape: frame (%f, %f) %f x %f", Double(alphabetFrame.origin.x), Double(alphabetFrame.origin.y), Double(alphabetFrame.size.width), Double(alphabetFrame.size.height))
         }
 
         return alphabetFrame
     }
 
     func adjustAlphabetView(orientation: UIInterfaceOrientation) {
-        // NSLog("adjusting alphabet view")
+        // DMLOG("adjusting alphabet view")
         var alphabetFrame = CGRectZero
         if !alphabetView {
             alphabetView = AlphabetView(frame: alphabetFrame)

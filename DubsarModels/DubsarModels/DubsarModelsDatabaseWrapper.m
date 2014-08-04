@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarModels.h"
 #import "DubsarModelsDatabaseWrapper.h"
 
 @implementation DubsarModelsDatabaseWrapper
@@ -48,12 +49,12 @@
 
         int rc;
         if ((rc=sqlite3_open_v2(srcURL.path.UTF8String, &_dbptr, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
-            NSLog(@"error opening database %@, %d", srcURL.path, rc);
+            DMLOG(@"error opening database %@, %d", srcURL.path, rc);
             _dbptr = NULL;
             return;
         }
 
-        NSLog(@"successfully opened database %@", srcURL.path);
+        DMLOG(@"successfully opened database %@", srcURL.path);
         NSString* sql;
 
 
@@ -71,9 +72,9 @@
         @"ORDER BY name ASC "
         @"LIMIT 1";
 
-        NSLog(@"preparing statement \"%@\"", sql);
+        DMLOG(@"preparing statement \"%@\"", sql);
         if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_exactAutocompleterStmt, NULL)) != SQLITE_OK) {
-            NSLog(@"error preparing exact match statement, error %d", rc);
+            DMLOG(@"error preparing exact match statement, error %d", rc);
             return;
         }
 
@@ -96,9 +97,9 @@
         @"ORDER BY i.name ASC "
         @"LIMIT ?";
 
-        NSLog(@"preparing statement \"%@\"", sql);
+        DMLOG(@"preparing statement \"%@\"", sql);
         if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_autocompleterStmt, NULL)) != SQLITE_OK) {
-            NSLog(@"error preparing match statement, error %d", rc);
+            DMLOG(@"error preparing match statement, error %d", rc);
             return;
         }
 
@@ -109,9 +110,9 @@
         @"ORDER BY name ASC "
         @"LIMIT ?";
 
-        NSLog(@"preparing statement \"%@\"", sql);
+        DMLOG(@"preparing statement \"%@\"", sql);
         if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_autocompleterStmtWithoutExact, NULL)) != SQLITE_OK) {
-            NSLog(@"error preparing match statement, error %d", rc);
+            DMLOG(@"error preparing match statement, error %d", rc);
             return;
         }
 

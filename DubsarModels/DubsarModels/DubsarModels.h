@@ -39,3 +39,10 @@ FOUNDATION_EXPORT const unsigned char DubsarModelsVersionString[];
 #import <DubsarModels/DubsarModelsSense.h>
 #import <DubsarModels/DubsarModelsSynset.h>
 #import <DubsarModels/DubsarModelsWord.h>
+
+#ifdef DEBUG
+#define DMLOG(fmt, ...) \
+  NSLog(fmt, __VA_ARGS__)
+#else
+#define DMLOG(fmt, ...)
+#endif // DEBUG

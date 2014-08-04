@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "DubsarModels.h"
 #import "DubsarModelsPartOfSpeechDictionary.h"
 
 static DubsarModelsPartOfSpeechDictionary* theInstance=nil;
@@ -98,7 +99,7 @@ static DubsarModelsPartOfSpeechDictionary* theInstance=nil;
 
 -(void)setupDictionary
 {
-    NSLog(@"setting up part of speech dictionary");
+    DMLOG(@"%@", @"setting up part of speech dictionary");
     dictionary = [[NSMutableDictionary alloc]init];
     verboseDictionary = [[NSMutableDictionary alloc]init];
 

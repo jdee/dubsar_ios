@@ -74,6 +74,7 @@
 		7BBF83821975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */; };
 		7BCA161E197D6E260016C104 /* AlphabetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA161D197D6E260016C104 /* AlphabetView.swift */; };
 		7BD8459D198DD013000C3EA5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD8459C198DD013000C3EA5 /* Router.swift */; };
+		7BD845AA19904D2E000C3EA5 /* DMLOG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD845A919904D2E000C3EA5 /* DMLOG.swift */; };
 		7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */; };
 		7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */; };
 /* End PBXBuildFile section */
@@ -222,6 +223,7 @@
 		7BBF83811975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsSense+ViewSizing.swift"; sourceTree = "<group>"; };
 		7BCA161D197D6E260016C104 /* AlphabetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlphabetView.swift; sourceTree = "<group>"; };
 		7BD8459C198DD013000C3EA5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		7BD845A919904D2E000C3EA5 /* DMLOG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMLOG.swift; sourceTree = "<group>"; };
 		7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSenseTableViewCell.swift; sourceTree = "<group>"; };
 		7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -422,6 +424,7 @@
 				7BA85A5519848DA100222A6D /* AppConfiguration.swift */,
 				7B66C01A198D4D5900257DDB /* CGHelper.h */,
 				7B66C01B198D4D5900257DDB /* CGHelper.m */,
+				7BD845A919904D2E000C3EA5 /* DMLOG.swift */,
 				7BBBD6D51989B54D0030FDA9 /* DatabaseManager.h */,
 				7BBBD6D61989B54D0030FDA9 /* DatabaseManager.m */,
 				7B2F4643198AF79200F57D21 /* DownloadBarButtonItem.swift */,
@@ -608,6 +611,7 @@
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
 				7BBBD6E21989E6070030FDA9 /* DownloadProgressTableViewCell.swift in Sources */,
 				7B497C991979C3AF00563A4B /* NavButton.swift in Sources */,
+				7BD845AA19904D2E000C3EA5 /* DMLOG.swift in Sources */,
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
 				7B66C01C198D4D5900257DDB /* CGHelper.m in Sources */,
 				7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */,

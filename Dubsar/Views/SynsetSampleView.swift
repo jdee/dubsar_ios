@@ -41,7 +41,7 @@ class SynsetSampleView: UIView {
     }
 
     override func layoutSubviews() {
-        // NSLog("Entered SynsetSampleView.layoutSubviews()")
+        // DMLOG("Entered SynsetSampleView.layoutSubviews()")
         for label in labels {
             label.removeFromSuperview()
         }
@@ -69,7 +69,7 @@ class SynsetSampleView: UIView {
 
         for sample in samples as [NSString] {
             y = addSample(sample, atY: y, background: UIColor.clearColor(), font: font)
-            // NSLog("Added %@ at %f", sample, Double(y))
+            // DMLOG("Added %@ at %f", sample, Double(y))
         }
 
         /*
@@ -80,12 +80,12 @@ class SynsetSampleView: UIView {
             let frames = verbFrames as [AnyObject]
             for verbFrame in frames as [NSString] {
                 y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : AppConfiguration.highlightColor, font: font)
-                // NSLog("Added %@ at %f", verbFrame, Double(y))
+                // DMLOG("Added %@ at %f", verbFrame, Double(y))
             }
         }
 
         frame.size.height = y
-        // NSLog("sample view height: %f", Double(bounds.size.height))
+        // DMLOG("sample view height: %f", Double(bounds.size.height))
 
         super.layoutSubviews()
     }

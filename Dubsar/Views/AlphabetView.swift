@@ -144,7 +144,7 @@ class AlphabetView: UIView {
     private func getFont() -> UIFont! {
         let fontDescriptor = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         let headlineFontSize = fontDescriptor.pointSize
-        // NSLog("Headline font size is %f", Float(headlineFontSize))
+        // DMLOG("Headline font size is %f", Float(headlineFontSize))
 
         // whatever fits the form factor, but never larger than the current headline font
         // fortunately, there are only three relevant device sizes, in points:

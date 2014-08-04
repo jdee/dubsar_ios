@@ -18,6 +18,7 @@
  */
 #import <sqlite3.h>
 
+#import "DubsarModels.h"
 #import "DubsarModelsDatabase.h"
 #import "DubsarModelsDatabaseWrapper.h"
 #import "DubsarModelsSection.h"
@@ -57,14 +58,14 @@
         [ptype isEqualToString:@"sample sentence"]) return _numRows;
 
 #ifdef DEBUG
-    NSLog(@"counting rows");
+    DMLOG(@"%@", @"counting rows");
 #endif // DEBUG
 
     DubsarModelsDatabaseWrapper* database = [DubsarModelsDatabase instance].database;
 
     if (!database.dbptr) {
 #ifdef DEBUG
-        NSLog(@"%d rows of type %@", _numRows, ptype);
+        DMLOG(@"%d rows of type %@", _numRows, ptype);
 #endif // DEBUG
         return _numRows;
     }
@@ -85,18 +86,18 @@
     int rc;
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
-        NSLog(@"error %d preparing statement", rc);
+        DMLOG(@"error %d preparing statement", rc);
         return 0;
     }
 
 #ifdef DEBUG
-    NSLog(@"executing %@", sql);
+    DMLOG(@"executing %@", sql);
 #endif // DEBUG
     int count;
     if (sqlite3_step(statement) == SQLITE_ROW) {
         count = sqlite3_column_int(statement, 0);
 #ifdef DEBUG
-        NSLog(@"%d rows of type %@", count, ptype);
+        DMLOG(@"%d rows of type %@", count, ptype);
 #endif // DEBUG
     }
     

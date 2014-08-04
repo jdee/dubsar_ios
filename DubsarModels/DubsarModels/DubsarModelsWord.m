@@ -20,6 +20,7 @@
 
 #import <sqlite3.h>
 
+#import "DubsarModels.h"
 #import "DubsarModelsDatabaseWrapper.h"
 #import "DubsarModelsPartOfSpeechDictionary.h"
 #import "DubsarModelsSense.h"
@@ -107,11 +108,11 @@
     int rc;
     sqlite3_stmt* statement;
 #ifdef DEBUG
-    NSLog(@"preparing statement \"%@\"", sql);
+    DMLOG(@"preparing statement \"%@\"", sql);
 #endif // DEBUG
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-        NSLog(@"%@", self.errorMessage);
+        DMLOG(@"%@", self.errorMessage);
         return;
     }
     
@@ -127,7 +128,7 @@
         NSString* inflection = @(_inflection);
         [self addInflection:inflection];
 #ifdef DEBUG
-        NSLog(@"added inflection %@", inflection);
+        DMLOG(@"added inflection %@", inflection);
 #endif // DEBUG
         
         if (partOfSpeech == DubsarModelsPartOfSpeechUnknown) {
@@ -136,7 +137,7 @@
     }
 
 #ifdef DEBUG
-    NSLog(@"%lu inflections", (unsigned long)inflections.count);
+    DMLOG(@"%lu inflections", (unsigned long)inflections.count);
 #endif // DEBUG
     
     sqlite3_finalize(statement);
@@ -148,11 +149,11 @@
            @"ORDER BY se.freq_cnt DESC ", (unsigned long)_id];
 
 #ifdef DEBUG
-    NSLog(@"preparing statement \"%@\"", sql);
+    DMLOG(@"preparing statement \"%@\"", sql);
 #endif // DEBUG
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-        NSLog(@"%@", self.errorMessage);
+        DMLOG(@"%@", self.errorMessage);
         return;
     }
     
@@ -176,7 +177,7 @@
         
         sqlite3_stmt* synStatement;
 #ifdef DEBUG
-        NSLog(@"preparing statement \"%@\"", synSql);
+        DMLOG(@"preparing statement \"%@\"", synSql);
 #endif // DEBUG
         if ((rc=sqlite3_prepare_v2(database.dbptr, synSql.UTF8String, -1, &synStatement, NULL))
             != SQLITE_OK) {
@@ -196,7 +197,7 @@
             int synonymSenseId = sqlite3_column_int(synStatement, 0);
             char const* _synonym = (char const*)sqlite3_column_text(synStatement, 1);
 #ifdef DEBUG
-            NSLog(@"synonym %s (%d)", _synonym, synonymSenseId);
+            DMLOG(@"synonym %s (%d)", _synonym, synonymSenseId);
 #endif // DEBUG
     
             DubsarModelsSense* synonym = [DubsarModelsSense senseWithId:synonymSenseId name:@(_synonym) partOfSpeech:partOfSpeech];
@@ -213,13 +214,13 @@
         sense.synset = [DubsarModelsSynset synsetWithId:synsetId gloss:gloss partOfSpeech:partOfSpeech];
         [senses addObject:sense];
 #ifdef DEBUG
-        NSLog(@"added sense ID %d, gloss \"%@\", lexname \"%@\", freq. cnt. %d, synset with ID %ld", senseId, gloss, sense.lexname, senseFC, (long)sense.synset._id);
+        DMLOG(@"added sense ID %d, gloss \"%@\", lexname \"%@\", freq. cnt. %d, synset with ID %ld", senseId, gloss, sense.lexname, senseFC, (long)sense.synset._id);
 #endif // DEBUG
     }
     
     sqlite3_finalize(statement);
 #ifdef DEBUG
-    NSLog(@"completed word query");
+    DMLOG(@"%@", @"completed word query");
 #endif // DEBUG
 }
 
