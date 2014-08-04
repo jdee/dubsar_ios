@@ -273,6 +273,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         if (databaseManager.downloadInProgress) {
             databaseManager.cancelDownload()
+            AppConfiguration.offlineSetting = false
         }
         else if (AppConfiguration.offlineSetting) {
             databaseManager.download()
