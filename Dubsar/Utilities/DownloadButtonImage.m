@@ -42,7 +42,7 @@ static NSMutableDictionary* imageDictionary;
     // All strokes. Set color and line width.
 
     // basic line width is 1 pixel
-    CGFloat lineWidth = 1.0/[UIScreen mainScreen].scale;
+    CGFloat lineWidth = 1.41421359 /*/[UIScreen mainScreen].scale*/;
     CGContextSetStrokeColorWithColor(context, color.CGColor);
 
     // Vertical line down the center. Nice and sharp with no antialiasing.
@@ -50,15 +50,15 @@ static NSMutableDictionary* imageDictionary;
     CGContextSetLineWidth(context, lineWidth);
 
     CGContextMoveToPoint(context, 0.5 * size.width, 0.25 * size.height);
-    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height - 2.0 * lineWidth);
+    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height - lineWidth);
     CGContextStrokePath(context);
 
     // For the arrowhead, turn on antialiasing and thicken the line a little.
     CGContextSetShouldAntialias(context, true);
-    CGContextSetLineWidth(context, 2.0 * lineWidth);
+    CGContextSetLineWidth(context, 1.41421359 * lineWidth);
     CGContextSetLineJoin(context, kCGLineJoinMiter);
 
-    CGFloat fudge = 0.75 * lineWidth;
+    CGFloat fudge = 0;
 
     // Arrow head
     CGContextMoveToPoint(context, 0.35 * size.width + fudge, 0.50 * size.height);
@@ -96,8 +96,8 @@ static NSMutableDictionary* imageDictionary;
     UIImage* storedImage = [imageDictionary objectForKey:imageKey];
     if (storedImage) return storedImage;
 
-    size.width *= [UIScreen mainScreen].scale;
-    size.height *= [UIScreen mainScreen].scale;
+    // size.width *= [UIScreen mainScreen].scale;
+    // size.height *= [UIScreen mainScreen].scale;
 
     UIGraphicsBeginImageContext(size);
     CGContextRef context = UIGraphicsGetCurrentContext();
