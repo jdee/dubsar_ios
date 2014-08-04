@@ -57,4 +57,12 @@ class Router: NSObject, DubsarModelsLoadDelegate {
             // vc.router = nil
         }
     }
+
+    func networkLoadStarted(model: DubsarModelsModel!) {
+        UIApplication.sharedApplication().startUsingNetwork()
+    }
+
+    func networkLoadFinished(model: DubsarModelsModel!) {
+        UIApplication.sharedApplication().stopUsingNetwork()
+    }
 }
