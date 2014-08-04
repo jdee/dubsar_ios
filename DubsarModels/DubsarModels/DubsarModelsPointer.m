@@ -36,6 +36,7 @@
     if (self) {
         targetType = targetText = targetGloss = nil;
         targetId = 0;
+        _targetSynsetId = 0;
     }
     
     return self;

@@ -64,7 +64,9 @@ class PointerView : UIView {
         // NSLog("Selected pointer targetType \"%@\", targetId %d", pointer.targetType, pointer.targetId)
         if pointer.targetType == "Sense" || pointer.targetType == "sense" {
             // NSLog("Navigating to sense ID %d (%@)", pointer.targetId, pointer.targetText)
-            target = DubsarModelsSense(id: pointer.targetId, name: nil, partOfSpeech: .Unknown)
+            let sense = DubsarModelsSense(id: pointer.targetId, name: nil, partOfSpeech: .Unknown)
+            sense.synset = DubsarModelsSynset(id: pointer.targetSynsetId, partOfSpeech: .Unknown)
+            target = sense
         }
         else {
             // NSLog("Navigating to synset ID %d (%@)", pointer.targetId, pointer.targetText)

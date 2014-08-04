@@ -132,6 +132,10 @@
         if (marker != NSNull.null) {
             sense.marker = marker;
         }
+
+        int wordId = ((NSNumber*)_sense[4]).intValue;
+        sense.word = [DubsarModelsWord wordWithId:wordId name:_sense[1] partOfSpeech:partOfSpeech];
+
         [senses insertObject:sense atIndex:j];
     }
     [senses sortUsingSelector:@selector(compareFreqCnt:)];
@@ -156,7 +160,10 @@
         NSNumber* targetId = _pointer[2];
         NSString* targetText = _pointer[3];
         NSString* targetGloss = _pointer[4];
-        
+        NSNumber* targetSynsetId;
+
+        if (_pointer.count > 5) targetSynsetId = _pointer[5];
+
         NSMutableArray* _pointersByType = [pointers valueForKey:ptype];
         if (_pointersByType == nil) {
             _pointersByType = [NSMutableArray array];
@@ -168,6 +175,9 @@
         [_ptr addObject:targetId];
         [_ptr addObject:targetText];
         [_ptr addObject:targetGloss];
+        if (targetSynsetId) {
+            [_ptr addObject:targetSynsetId];
+        }
         
         [_pointersByType addObject:_ptr];
         [pointers setValue:_pointersByType forKey:ptype];
@@ -385,9 +395,12 @@
         NSArray* pointersByType = pointers[section.ptype];
         NSArray* pointerArray = pointersByType[pathRow];
         pointer.targetType = pointerArray[0];
-        pointer.targetId = ((NSNumber*)pointerArray[1]).intValue;
+        pointer.targetId = ((NSNumber*)pointerArray[1]).integerValue;
         pointer.targetText = pointerArray[2];
         pointer.targetGloss = pointerArray[3];
+        if (pointerArray.count > 4) {
+            pointer.targetSynsetId = ((NSNumber*)pointerArray[4]).integerValue;
+        }
     }
     else {
         int rc;

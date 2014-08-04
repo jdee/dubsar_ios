@@ -25,6 +25,7 @@
 @property (nonatomic) NSUInteger targetId;
 @property (nonatomic, copy) NSString* targetText;
 @property (nonatomic, copy) NSString* targetGloss;
+@property (nonatomic) NSUInteger targetSynsetId; // for senses
 
 + (instancetype)pointer;
 
