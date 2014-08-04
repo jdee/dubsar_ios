@@ -61,8 +61,15 @@
 #endif // DEBUG
 
     DubsarModelsDatabaseWrapper* database = [DubsarModelsDatabase instance].database;
-    NSString* sql;
+
+    if (!database.dbptr) {
+#ifdef DEBUG
+        NSLog(@"%d rows of type %@", _numRows, ptype);
+#endif // DEBUG
+        return _numRows;
+    }
     
+    NSString* sql;
     if (senseId != 0) {
         sql = [NSString stringWithFormat:
            @"SELECT COUNT(*) FROM "

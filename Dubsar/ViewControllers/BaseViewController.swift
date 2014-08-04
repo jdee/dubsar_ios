@@ -36,6 +36,12 @@ class BaseViewController: UIViewController {
         adjustLayout()
     }
 
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        router = nil // avoid coming back to a stale request
+    }
+
     override func didReceiveMemoryWarning() {
         AppDelegate.instance.voidCache()
         super.didReceiveMemoryWarning()

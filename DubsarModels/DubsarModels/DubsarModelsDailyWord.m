@@ -23,6 +23,8 @@
 
 #define DubsarDailyWordIdKey @"DubsarDailyWordId"
 #define DubsarDailyWordExpirationKey @"DubsarDailyWordExpiration"
+#define DubsarDailyWordNameKey @"DubsarDailyWordName"
+#define DubsarDailyWordPosKey @"DubsarDailyWordPos"
 
 @implementation DubsarModelsDailyWord
 
@@ -123,7 +125,7 @@
     [self saveToUserDefaults];
 }
 
-- (bool) loadFromUserDefaults
+- (bool)loadFromUserDefaults
 {
     NSInteger wotdId = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordIdKey];
 
@@ -136,26 +138,36 @@
         NSLog(@"Found wotd in user defaults, id %ld", (long)wotdId);
     }
 #endif // DEBUG
+
+    NSString* name = [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordNameKey];
+    NSString* pos = [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordPosKey];
     
-    self.word = [DubsarModelsWord wordWithId:wotdId name:nil partOfSpeech:DubsarModelsPartOfSpeechUnknown];
+    self.word = [DubsarModelsWord wordWithId:wotdId name:name posString:pos];
     self.word.delegate = self;
 
     self.complete = true;
     self.error = false;
     self.errorMessage = nil;
 
-    [word load];
-    
     expiration = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordExpirationKey];
-    
+
+    if (name) {
+        [self.delegate loadComplete:self withError:nil];
+    }
+    else {
+        [word load]; // need to parse the name and pos out of the push notification. for now, get it from the server.
+    }
+
     return true;
 }
 
-- (void) saveToUserDefaults
+- (void)saveToUserDefaults
 {
     NSLog(@"Saving WOTD: ID: %lu, expiration: %ld", (unsigned long)word._id, expiration);
     [[NSUserDefaults standardUserDefaults] setInteger:word._id forKey:DubsarDailyWordIdKey];
     [[NSUserDefaults standardUserDefaults] setInteger:expiration forKey:DubsarDailyWordExpirationKey];
+    [[NSUserDefaults standardUserDefaults] setValue:word.name forKey:DubsarDailyWordNameKey];
+    [[NSUserDefaults standardUserDefaults] setValue:word.pos forKey:DubsarDailyWordPosKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

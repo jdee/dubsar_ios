@@ -31,8 +31,6 @@
     sqlite3_stmt* pointerQuery;
     sqlite3_stmt* lexicalQuery;
     sqlite3_stmt* semanticQuery;
-
-    BOOL loadingWord, loadingSynset;
 }
 
 @synthesize _id;
@@ -87,7 +85,7 @@
         pointers = nil;
         weakSynsetLink = true;
         weakWordLink = false;
-        loadingSynset = loadingWord = _includeExtraSections = NO;
+        _includeExtraSections = NO;
         [self initUrl];
     }
     return self;
@@ -109,7 +107,7 @@
         samples = nil;
         pointers = nil;
         weakWordLink = weakSynsetLink = false;
-        loadingSynset = loadingWord = _includeExtraSections = NO;
+        _includeExtraSections = NO;
         [self initUrl];
     }
     return self;
@@ -133,7 +131,7 @@
         pointers = nil;
         weakSynsetLink = false;
         weakWordLink = true;
-        loadingSynset = loadingWord = _includeExtraSections = NO;
+        _includeExtraSections = NO;
         [self initUrl];
     }
     return self;
@@ -154,7 +152,7 @@
         pointers = nil;
         weakSynsetLink = false;
         weakWordLink = false;
-        loadingSynset = loadingWord = _includeExtraSections = NO;
+        _includeExtraSections = NO;
         [self initUrl];
         [self parseNameAndPos:nameAndPos];
     }
@@ -208,29 +206,21 @@
 
 -(NSString *)nameAndPos
 {
-    return [NSString stringWithFormat:@"%@ (%@.)", name, self.pos];
+    return [NSString stringWithFormat:@"%@, %@.", name, self.pos];
 }
 
 -(void)parseNameAndPos:(NSString *)nameAndPos
 {
-    NSRange posStartRange = [nameAndPos rangeOfString:@" ("];
+    NSRange posStartRange = [nameAndPos rangeOfString:@", "];
     if (posStartRange.location == NSNotFound) {
 #ifdef DEBUG
-        NSLog(@"did not find \" (\"");
+        NSLog(@"did not find \", ");
 #endif // DEBUG
         return;
     }
-    
-    NSRange posEndRange = [nameAndPos rangeOfString:@".)" options:0 range:NSMakeRange(posStartRange.location+2, nameAndPos.length-posStartRange.location-2)];
-    if (posEndRange.location == NSNotFound) {
-#ifdef DEBUG
-        NSLog(@"did not find \".)\"");
-#endif // DEBUG
-        return;
-    }
-    
+
     NSRange nameRange = NSMakeRange(0, posStartRange.location);
-    NSRange posRange = NSMakeRange(posStartRange.location+2, posEndRange.location-posStartRange.location-2);
+    NSRange posRange = NSMakeRange(posStartRange.location+2, nameAndPos.length-posStartRange.location-3);
     
     name = [nameAndPos substringWithRange:nameRange];
     partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:[nameAndPos substringWithRange:posRange]];
@@ -334,7 +324,10 @@
 - (void)parsePointers:(NSArray*)response
 {    
     pointers = [NSMutableDictionary dictionary];
+    sections = [NSMutableArray array];
+
     NSArray* _pointers = response[9];
+    NSLog(@"%lu pointers", (unsigned long)_pointers.count);
     for (int j=0; j<_pointers.count; ++j) {
         NSArray* _pointer = _pointers[j];
         
@@ -358,6 +351,29 @@
         
         [_pointersByType addObject:_ptr];
         [pointers setValue:_pointersByType forKey:ptype];
+
+        DubsarModelsSection* section;
+        BOOL found = NO;
+        for (DubsarModelsSection* s in sections) {
+            if (s.ptype == ptype) {
+                found = YES;
+                break;
+            }
+        }
+
+        if (!found) {
+            section = [DubsarModelsSection section];
+            section.ptype = ptype;
+            section.header = [DubsarModelsPointerDictionary titleWithPointerType:section.ptype];
+            section.footer = [DubsarModelsPointerDictionary helpWithPointerType:section.ptype];
+            section.senseId = _id;
+            section.synsetId = synset._id;
+            section.numRows = 0;
+            section.linkType = @"pointer";
+            [sections addObject:section];
+        }
+
+        ++ section.numRows;
     }
 }
 
@@ -495,26 +511,6 @@
     sqlite3_finalize(statement);
     
     [self prepareStatements];
-
-    if (loadingSynset) {
-#ifdef DEBUG
-        NSLog(@"loading synset ID %lu", (unsigned long)synset._id);
-#endif // DEBUG
-        [synset loadSynchronous];
-    }
-
-    if (loadingWord) {
-#ifdef DEBUG
-        NSLog(@"loading word ID %lu", (unsigned long)word._id);
-#endif // DEBUG
-        [word loadSynchronous];
-        for (DubsarModelsSense* sense in word.senses) {
-            [sense loadSynchronous];
-            [sense.synset loadSynchronous];
-        }
-    }
-
-    loadingSynset = loadingWord = NO;
 }
 
 -(NSUInteger)numberOfSections
@@ -619,8 +615,16 @@
     else if ([section.ptype isEqualToString:@"sample sentence"]) {
         pointer.targetText = samples[pathRow];
     }
+    else if (!self.database.dbptr) {
+        NSArray* pointersByType = pointers[section.ptype];
+        NSArray* pointerArray = pointersByType[pathRow];
+        pointer.targetType = pointerArray[0];
+        pointer.targetId = ((NSNumber*)pointerArray[1]).intValue;
+        pointer.targetText = pointerArray[2];
+        pointer.targetGloss = pointerArray[3];
+    }
     else {
-        int rc;        
+        int rc;
         int ptypeIdx = sqlite3_bind_parameter_index(pointerQuery, ":ptype");
         int offsetIdx = sqlite3_bind_parameter_index(pointerQuery, ":offset");
         

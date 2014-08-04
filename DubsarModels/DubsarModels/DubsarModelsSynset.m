@@ -65,7 +65,9 @@
         senses = nil;
         _includeExtraSections = NO;
         [self set_url: [NSString stringWithFormat:@"/synsets/%lu", (unsigned long)_id]];
-        [self prepareStatements];
+        if (self.database.dbptr) {
+            [self prepareStatements];
+        }
     }
     return self;
 
@@ -83,7 +85,9 @@
         senses = nil;
         _includeExtraSections = NO;
         [self set_url: [NSString stringWithFormat:@"/synsets/%lu", (unsigned long)_id]];
-        [self prepareStatements];
+        if (self.database.dbptr) {
+            [self prepareStatements];
+        }
     }
     return self;
 }
@@ -135,6 +139,8 @@
 - (void)parsePointers:(NSArray*)response
 {    
     pointers = [NSMutableDictionary dictionary];
+    sections = [NSMutableArray array];
+
     NSArray* _pointers = response[7];
     for (int j=0; j<_pointers.count; ++j) {
         NSArray* _pointer = _pointers[j];
@@ -159,6 +165,29 @@
         
         [_pointersByType addObject:_ptr];
         [pointers setValue:_pointersByType forKey:ptype];
+
+        DubsarModelsSection* section;
+        BOOL found = NO;
+        for (DubsarModelsSection* s in sections) {
+            if (s.ptype == ptype) {
+                found = YES;
+                break;
+            }
+        }
+
+        if (!found) {
+            section = [DubsarModelsSection section];
+            section.ptype = ptype;
+            section.header = [DubsarModelsPointerDictionary titleWithPointerType:section.ptype];
+            section.footer = [DubsarModelsPointerDictionary helpWithPointerType:section.ptype];
+            section.senseId = 0;
+            section.synsetId = _id;
+            section.numRows = 0;
+            section.linkType = @"pointer";
+            [sections addObject:section];
+        }
+
+        ++ section.numRows;
     }
 }
 
@@ -345,6 +374,14 @@
     }
     else if ([section.ptype isEqualToString:@"sample sentence"]) {
         pointer.targetText = samples[pathRow];
+    }
+    else if (!self.database.dbptr) {
+        NSArray* pointersByType = pointers[section.ptype];
+        NSArray* pointerArray = pointersByType[pathRow];
+        pointer.targetType = pointerArray[0];
+        pointer.targetId = ((NSNumber*)pointerArray[1]).intValue;
+        pointer.targetText = pointerArray[2];
+        pointer.targetGloss = pointerArray[3];
     }
     else {
         int rc;
