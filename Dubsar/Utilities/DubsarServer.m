@@ -73,9 +73,11 @@
     NSError* error;
     NSString* filepath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"client_secret.txt"];
     NSString* secret = [NSString stringWithContentsOfFile:filepath encoding:NSUTF8StringEncoding error:&error];
+#ifndef DUBSAR_DEVELOPMENT
     if (error && !secret) {
         NSLog(@"Failed to read client_secret.txt: %@", error.localizedDescription);
     }
+#endif // DUBSAR_DEVELOPMENT
 
     /*
      * 1c. Get app version
@@ -100,7 +102,14 @@
     /*
      * 2. Construct JSON payload from this info
      */
-    NSData* payload = [NSJSONSerialization dataWithJSONObject:@{@"version":version, @"secret":secret, @"device_token":@{@"token": token, @"production":@(production)}} options:0 error:NULL];
+    NSData* payload;
+
+    if (secret) {
+        payload = [NSJSONSerialization dataWithJSONObject:@{@"version":version, @"secret":secret, @"device_token":@{@"token": token, @"production":@(production)}} options:0 error:NULL];
+    }
+    else {
+        payload = [NSJSONSerialization dataWithJSONObject:@{@"device_token":@{@"token": token, @"production":@(production)}} options:0 error:NULL];
+    }
 
     /*
      * 3. Execute POST
