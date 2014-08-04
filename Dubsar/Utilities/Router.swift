@@ -45,14 +45,14 @@ class Router: NSObject, DubsarModelsLoadDelegate {
 
     func load() {
         assert(model.delegate === self)
-        NSLog("Model loading")
+        // NSLog("Model loading")
         model.load()
     }
 
     func loadComplete(model: DubsarModelsModel!, withError error: String!) {
-        NSLog("Router.loadComplete()")
+        // NSLog("Router.loadComplete()")
         if let vc = viewController {
-            NSLog("Routing response")
+            // NSLog("Routing response")
             vc.routeResponse(self)
             // vc.router = nil
         }

@@ -479,7 +479,7 @@
     }
     
     sql = [NSString stringWithFormat:
-           @"SELECT se.id, w.name "
+           @"SELECT se.id, w.name, w.id "
            @"FROM senses se "
            @"INNER JOIN words w ON w.id = se.word_id "
            @"WHERE se.synset_id = %lu AND w.name != ? "
@@ -503,8 +503,10 @@
     while (sqlite3_step(statement) == SQLITE_ROW) {
         int senseId = sqlite3_column_int(statement, 0);
         char const* _name = (char const*)sqlite3_column_text(statement, 1);
+        int wordId = sqlite3_column_int(statement, 2);
         
         DubsarModelsSense* synonym = [DubsarModelsSense senseWithId:senseId name:@(_name) partOfSpeech:partOfSpeech];
+        synonym.word = [DubsarModelsWord wordWithId:wordId name:@(_name) partOfSpeech:partOfSpeech];
         [synonyms addObject:synonym];
     }
     

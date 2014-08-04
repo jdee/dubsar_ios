@@ -247,21 +247,21 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         switch router.routerAction {
         case .UpdateView:
-            NSLog(".UpdateView")
+            // NSLog(".UpdateView")
             if let wotd = router.model as? DubsarModelsDailyWord {
                 self.wotd = wotd
                 wotdButton.setTitle(wotd.word.nameAndPos, forState: .Normal)
             }
 
         case .UpdateAutocompleter:
-            NSLog(".UpdateAutocompleter")
+            // NSLog(".UpdateAutocompleter")
             let ac = router.model as DubsarModelsAutocompleter
             if ac.seqNum >= lastSequence {
                 autocompleterFinished(ac, withError: nil)
             }
 
         default:
-            NSLog("Unexpected routerAction")
+            // NSLog("Unexpected routerAction")
             break
         }
     }

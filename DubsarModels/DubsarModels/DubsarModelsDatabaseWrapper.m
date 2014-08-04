@@ -19,8 +19,6 @@
 
 #import "DubsarModelsDatabaseWrapper.h"
 
-#define PRODUCTION_DB_NAME @"production.sqlite3"
-
 @implementation DubsarModelsDatabaseWrapper
 
 - (instancetype)init
@@ -39,20 +37,14 @@
     [self closeDB];
 }
 
-- (void)openDBName:(NSURL *)dbURL
+- (void)openDBName:(NSURL *)srcURL
 {
     @autoreleasepool {
-        NSURL* resourceURL = [[NSBundle mainBundle] resourceURL];
-
-        NSURL* srcURL = nil;
-        if (dbURL) {
-            srcURL = dbURL;
-        }
-        else {
-            srcURL = [resourceURL URLByAppendingPathComponent:PRODUCTION_DB_NAME];
-        }
-
         [self closeDB];
+
+        if (!srcURL) {
+            return;
+        }
 
         int rc;
         if ((rc=sqlite3_open_v2(srcURL.path.UTF8String, &_dbptr, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
@@ -61,7 +53,7 @@
             return;
         }
 
-        NSLog(@"successfully opened database %@", dbURL.path);
+        NSLog(@"successfully opened database %@", srcURL.path);
         NSString* sql;
 
 
