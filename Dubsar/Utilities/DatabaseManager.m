@@ -308,6 +308,11 @@
     }
 }
 
+- (void)clearError
+{
+    self.errorMessage = nil; // readonly to the outside
+}
+
 #pragma mark - NSURLConnectionDelegate and NSURLConnectionDataDelegate
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error

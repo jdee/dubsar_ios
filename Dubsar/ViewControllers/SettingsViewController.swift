@@ -17,6 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+operator infix ||= {}
+
+@infix @assignment func ||=(inout left: Bool, right: Bool) -> Bool {
+    left = left || right
+    return left
+}
+
 import UIKit
 
 class SettingsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, DownloadProgressDelegate, UIAlertViewDelegate {
@@ -118,6 +125,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             cell!.detailTextLabel.text = value
         }
         else {
+            downloadViewShowing ||= AppDelegate.instance.databaseManager.errorMessage != nil
             if !downloadViewShowing || AppConfiguration.offlineKey != value {
                 var switchCell = tableView.dequeueReusableCellWithIdentifier(SettingSwitchValueTableViewCell.identifier) as? SettingSwitchValueTableViewCell
                 if !switchCell {
@@ -229,6 +237,23 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     @IBAction func closeDownloadProgress(sender: UIButton!) {
+        let databaseManager = AppDelegate.instance.databaseManager
+        if databaseManager.errorMessage {
+            /*
+             * The download progress view will continue showing indefinitely once the database manager encounters an error or is canceled.
+             * A Retry button will be available. Once it is manually closed, we do two things:
+             */
+
+            // 1. clear the error to make sure the download view doesn't come back now that it's been dismissed
+            databaseManager.clearError()
+
+            // 2. Set the offline setting to false/NO/off. Otherwise, if you look at the settings, it looks like you're in Offline mode,
+            // and if you guess that you're not, you have to cycle the switch, off first then on again, to retry the download. We could
+            // reset it as soon as the download fails. But the switch is not showing, and it's convenient if you haven't cleared this
+            // state that the app will prompt you to retry the download the next time you resume from background.
+            AppConfiguration.offlineSetting = false
+        }
+
         downloadViewShowing = false
         unzipping = false
         reloadOfflineRow()

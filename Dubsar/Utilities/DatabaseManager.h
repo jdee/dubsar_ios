@@ -103,5 +103,6 @@
 
 // for Swift
 - (void)reportError:(NSString*)errorMessage;
+- (void)clearError;
 
 @end
