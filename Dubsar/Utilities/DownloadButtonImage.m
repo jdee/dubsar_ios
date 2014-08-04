@@ -24,21 +24,75 @@ static NSMutableDictionary* imageDictionary;
 
 @implementation DownloadButtonImage
 
-+ (NSString*)keyForSize:(CGSize)size color:(UIColor*)color
+/*
+ * Makes a download button: an arrow pointing downward toward a horizontal
+ * line across the bottom.
+ */
++ (void)buildImageWithSize:(CGSize)size color:(UIColor*)color background:(UIColor*)backgroundColor context:(CGContextRef)context
+{
+    // use CG to draw in this context and return a UIImage for use with a UIButton.
+    // a/k/a FREEDOM FROM THE @!$@# GIMP!
+
+    CGContextSetAllowsAntialiasing(context, true);
+
+    // transparent background
+    CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
+    CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
+
+    // All strokes. Set color and line width.
+
+    // basic line width is 1 pixel
+    CGFloat lineWidth = 1.0/[UIScreen mainScreen].scale;
+    CGContextSetStrokeColorWithColor(context, color.CGColor);
+
+    // Vertical line down the center. Nice and sharp with no antialiasing.
+    CGContextSetShouldAntialias(context, false);
+    CGContextSetLineWidth(context, lineWidth);
+
+    CGContextMoveToPoint(context, 0.5 * size.width, 0.25 * size.height);
+    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height - 2.0 * lineWidth);
+    CGContextStrokePath(context);
+
+    // For the arrowhead, turn on antialiasing and thicken the line a little.
+    CGContextSetShouldAntialias(context, true);
+    CGContextSetLineWidth(context, 2.0 * lineWidth);
+    CGContextSetLineJoin(context, kCGLineJoinMiter);
+
+    CGFloat fudge = 0.75 * lineWidth;
+
+    // Arrow head
+    CGContextMoveToPoint(context, 0.35 * size.width + fudge, 0.50 * size.height);
+    CGContextAddLineToPoint(context, 0.5 * size.width + fudge, 0.65 * size.height);
+    CGContextAddLineToPoint(context, 0.65 * size.width + fudge, 0.50 * size.height);
+    CGContextStrokePath(context);
+
+    // horizontal line across the bottom. back to a sharp line.
+    CGContextSetShouldAntialias(context, false);
+    CGContextSetLineWidth(context, lineWidth);
+
+    CGContextMoveToPoint(context, 0.25 * size.width, 0.75 * size.height);
+    CGContextAddLineToPoint(context, 0.75 * size.width, 0.75 * size.height);
+    CGContextStrokePath(context);
+}
+
++ (NSString*)keyForSize:(CGSize)size color:(UIColor*)color background:(UIColor*)backgroundColor
 {
     CGFloat red=0, green=0, blue=0, alpha=0;
     [color getRed:&red green:&green blue:&blue alpha:&alpha];
 
-    return [NSString stringWithFormat:@"%.1fx%.1f:%02x%02x%02x%02x", size.width, size.height, (int)red*255, (int)green*255, (int)blue*255, (int)alpha*255];
+    CGFloat bgred=0, bggreen=0, bgblue=0, bgalpha=0;
+    [backgroundColor getRed:&bgred green:&bggreen blue:&bgblue alpha:&bgalpha];
+
+    return [NSString stringWithFormat:@"%.1fx%.1f:%02x%02x%02x%02x:%02x%02x%02x%02x", size.width, size.height, (int)red*255, (int)green*255, (int)blue*255, (int)alpha*255, (int)bgred*255, (int)bggreen*255, (int)bgblue*255, (int)bgalpha*255];
 }
 
-+ (UIImage *)imageWithSize:(CGSize)size color:(UIColor *)color
++ (UIImage *)imageWithSize:(CGSize)size color:(UIColor *)color background:(UIColor *)backgroundColor
 {
     if (!initialized) {
         [self initialize];
     }
 
-    NSString* imageKey = [self keyForSize:size color:color];
+    NSString* imageKey = [self keyForSize:size color:color background:backgroundColor];
     UIImage* storedImage = [imageDictionary objectForKey:imageKey];
     if (storedImage) return storedImage;
 
@@ -52,7 +106,7 @@ static NSMutableDictionary* imageDictionary;
         return nil;
     }
 
-    [self buildImageWithSize:size color:color context:context];
+    [self buildImageWithSize:size color:color background:backgroundColor context:context];
 
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -75,56 +129,6 @@ static NSMutableDictionary* imageDictionary;
     }
 
     [imageDictionary removeAllObjects];
-}
-
-/*
- * Makes a download button: an arrow pointing downward toward a horizontal
- * line across the bottom.
- */
-+ (void)buildImageWithSize:(CGSize)size color:(UIColor*)color context:(CGContextRef)context
-{
-    // use CG to draw in this context and return a UIImage for use with a UIButton.
-    // a/k/a FREEDOM FROM THE @!$@# GIMP!
-
-    // transparent background
-    CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
-    CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
-
-    // All strokes. Set color and line width.
-
-    // basic line width is 1 pixel
-    CGFloat lineWidth = 1.0/[UIScreen mainScreen].scale;
-    CGContextSetStrokeColorWithColor(context, color.CGColor);
-
-    // Vertical line down the center. Nice and sharp with no antialiasing.
-    CGContextSetShouldAntialias(context, false);
-    CGContextSetLineWidth(context, lineWidth);
-
-    CGContextMoveToPoint(context, 0.5 * size.width, 0.25 * size.height);
-    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height);
-    CGContextStrokePath(context);
-
-    // For the arrowhead, turn on antialiasing and thicken the line a little.
-    CGContextSetShouldAntialias(context, true);
-    CGContextSetLineWidth(context, 2.0 * lineWidth);
-
-    // Left half of arrow head
-    CGContextMoveToPoint(context, 0.35 * size.width, 0.50 * size.height);
-    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height);
-    CGContextStrokePath(context);
-
-    // Right half of arrow head
-    CGContextMoveToPoint(context, 0.65 * size.width, 0.50 * size.height);
-    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height);
-    CGContextStrokePath(context);
-
-    // horizontal line across the bottom. back to a sharp line.
-    CGContextSetShouldAntialias(context, false);
-    CGContextSetLineWidth(context, lineWidth);
-
-    CGContextMoveToPoint(context, 0.25 * size.width, 0.75 * size.height);
-    CGContextAddLineToPoint(context, 0.75 * size.width, 0.75 * size.height);
-    CGContextStrokePath(context);
 }
 
 @end
