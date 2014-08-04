@@ -120,6 +120,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
         if retryShowing {
             retryButton.frame = CGRectMake(margin + 0.5 * constrainedWidth, 5 * margin + downloadTextSize.height + downloadProgress.bounds.size.height + unzipTextSize.height + unzipProgress.bounds.size.height, 0.5 * constrainedWidth, cancelSize.height)
             retryButton.autoresizingMask = .FlexibleWidth
+            retryButton.hidden = false
         }
         else {
             retryButton.hidden = true
