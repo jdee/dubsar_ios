@@ -191,6 +191,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let setting = settings[row] as [String: String]
         let type = setting["setting_type"]
 
+        downloadViewShowing ||= AppDelegate.instance.databaseManager.errorMessage != nil
         if type == "switchValue" && downloadViewShowing && setting["value"] == AppConfiguration.offlineKey {
             let dummyCell = DownloadProgressTableViewCell()
 
