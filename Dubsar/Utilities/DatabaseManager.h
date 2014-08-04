@@ -29,10 +29,15 @@
 #pragma mark - Delegate
 @protocol DownloadProgressDelegate <NSObject>
 
+@optional
 - (void) databaseManager:(DatabaseManager*)databaseManager encounteredError:(NSString*)errorMessage;
+@optional
 - (void) downloadStarted:(DatabaseManager*)databaseManager;
+@optional
 - (void) progressUpdated:(DatabaseManager*)databaseManager;
+@optional
 - (void) downloadComplete:(DatabaseManager*)databaseManager;
+@optional
 - (void) unzipStarted:(DatabaseManager*)databaseManager;
 
 @end

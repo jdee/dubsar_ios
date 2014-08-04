@@ -294,7 +294,7 @@
     self.errorMessage = @(buffer);
     self.downloadInProgress = NO;
 
-    if (!self.delegate) return;
+    if (![self.delegate respondsToSelector:@selector(databaseManager:encounteredError:)]) return;
 
     if ([NSThread currentThread] != [NSThread mainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -432,7 +432,7 @@
 
     // This may be a long-running background job on something other than the main thread. But the app may be in the foreground with the
     // SynsetViewController as a delegate.
-    if (self.delegate) {
+    if ([self.delegate respondsToSelector:@selector(downloadStarted:)]) {
         if ([NSThread currentThread] == [NSThread mainThread]) {
             [self.delegate downloadStarted:self];
         }
@@ -493,7 +493,7 @@
 
     // This may be a long-running background job on something other than the main thread. But the app may be in the foreground with the
     // SynsetViewController as a delegate.
-    if (self.delegate) {
+    if ([self.delegate respondsToSelector:@selector(progressUpdated:)]) {
         if ([NSThread currentThread] == [NSThread mainThread]) {
             [self.delegate progressUpdated:self];
         }
@@ -513,7 +513,7 @@
 
     // This may be a long-running background job on something other than the main thread. But the app may be in the foreground with the
     // SynsetViewController as a delegate.
-    if (self.delegate) {
+    if ([self.delegate respondsToSelector:@selector(unzipStarted:)]) {
         if ([NSThread currentThread] == [NSThread mainThread]) {
             [self.delegate unzipStarted:self];
         }
@@ -543,7 +543,9 @@
 - (void)reopenAndNotify
 {
     [DubsarModelsDatabase instance].databaseURL = self.fileURL; // reopen the DB that was just downloaded
-    [self.delegate downloadComplete:self];
+    if ([self.delegate respondsToSelector:@selector(downloadComplete:)]) {
+        [self.delegate downloadComplete:self];
+    }
 }
 
 - (void)unzip
@@ -649,7 +651,7 @@
         }
 
         lastUpdateSize = self.unzippedSoFar;
-        if (self.delegate) {
+        if ([self.delegate respondsToSelector:@selector(progressUpdated:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate progressUpdated:self];
             });

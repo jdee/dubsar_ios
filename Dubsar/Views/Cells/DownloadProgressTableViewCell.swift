@@ -115,11 +115,11 @@ class DownloadProgressTableViewCell: UITableViewCell {
         var cancelSize = cancelTitle.sizeWithAttributes([NSFontAttributeName: font])
         cancelSize.width = retryShowing ? 0.5 * constrainedWidth : constrainedWidth
         cancelButton.frame = CGRectMake(margin, 5 * margin + downloadTextSize.height + downloadProgress.bounds.size.height + unzipTextSize.height + unzipProgress.bounds.size.height, cancelSize.width, cancelSize.height)
-        cancelButton.titleLabel.textAlignment = retryShowing ? .Right : .Center
+        cancelButton.autoresizingMask = .FlexibleWidth
 
         if retryShowing {
             retryButton.frame = CGRectMake(margin + 0.5 * constrainedWidth, 5 * margin + downloadTextSize.height + downloadProgress.bounds.size.height + unzipTextSize.height + unzipProgress.bounds.size.height, 0.5 * constrainedWidth, cancelSize.height)
-            retryButton.titleLabel.textAlignment = .Left
+            retryButton.autoresizingMask = .FlexibleWidth
         }
         else {
             retryButton.hidden = true
