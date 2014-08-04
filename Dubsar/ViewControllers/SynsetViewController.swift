@@ -101,7 +101,12 @@ class SynsetViewController: BaseViewController {
 
     // called from SynsetPointerView
     func navigateToPointer(model : DubsarModelsModel!) {
-        pushViewControllerWithIdentifier(SynsetViewController.identifier, model: model, routerAction: .UpdateView)
+        if model as? DubsarModelsSense {
+            pushViewControllerWithIdentifier(SynsetViewController.identifier, model: model, routerAction: .UpdateViewWithDependency)
+        }
+        else {
+            pushViewControllerWithIdentifier(SynsetViewController.identifier, model: model, routerAction: .UpdateView)
+        }
         // NSLog("Pushed VC for pointer")
     }
 

@@ -63,10 +63,13 @@
         lexname = nil;
         samples = nil;
         senses = nil;
+        sections = [NSMutableArray array];
         _includeExtraSections = NO;
-        [self set_url: [NSString stringWithFormat:@"/synsets/%lu", (unsigned long)_id]];
         if (self.database.dbptr) {
             [self prepareStatements];
+        }
+        else {
+            [self set_url: [NSString stringWithFormat:@"/synsets/%lu", (unsigned long)_id]];
         }
     }
     return self;
@@ -83,12 +86,15 @@
         lexname = nil;
         samples = nil;
         senses = nil;
+        sections = [NSMutableArray array];
         _includeExtraSections = NO;
-        [self set_url: [NSString stringWithFormat:@"/synsets/%lu", (unsigned long)_id]];
         if (self.database.dbptr) {
             [self prepareStatements];
         }
-    }
+        else {
+            [self set_url: [NSString stringWithFormat:@"/synsets/%lu", (unsigned long)_id]];
+        }
+   }
     return self;
 }
 
@@ -139,7 +145,7 @@
 - (void)parsePointers:(NSArray*)response
 {    
     pointers = [NSMutableDictionary dictionary];
-    sections = [NSMutableArray array];
+    [sections removeAllObjects];
 
     NSArray* _pointers = response[7];
     for (int j=0; j<_pointers.count; ++j) {
@@ -301,7 +307,7 @@
     int rc;
     sqlite3_stmt* statement;
     
-    self.sections = [NSMutableArray array];
+    [sections removeAllObjects];
 
     if (_includeExtraSections) {
         if (senses.count > 0) {

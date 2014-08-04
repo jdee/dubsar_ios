@@ -86,6 +86,7 @@
         weakSynsetLink = true;
         weakWordLink = false;
         _includeExtraSections = NO;
+        sections = [NSMutableArray array];
         [self initUrl];
     }
     return self;
@@ -108,6 +109,7 @@
         pointers = nil;
         weakWordLink = weakSynsetLink = false;
         _includeExtraSections = NO;
+        sections = [NSMutableArray array];
         [self initUrl];
     }
     return self;
@@ -132,6 +134,7 @@
         weakSynsetLink = false;
         weakWordLink = true;
         _includeExtraSections = NO;
+        sections = [NSMutableArray array];
         [self initUrl];
     }
     return self;
@@ -154,6 +157,7 @@
         weakWordLink = false;
         _includeExtraSections = NO;
         [self initUrl];
+        sections = [NSMutableArray array];
         [self parseNameAndPos:nameAndPos];
     }
     return self;
@@ -324,7 +328,7 @@
 - (void)parsePointers:(NSArray*)response
 {    
     pointers = [NSMutableDictionary dictionary];
-    sections = [NSMutableArray array];
+    [sections removeAllObjects];
 
     NSArray* _pointers = response[9];
     NSLog(@"%lu pointers", (unsigned long)_pointers.count);
@@ -530,7 +534,7 @@
     int rc;
     sqlite3_stmt* statement;
     
-    self.sections = [NSMutableArray array];
+    [sections removeAllObjects];
 
     if (_includeExtraSections) {
         if (synonyms.count > 0) {

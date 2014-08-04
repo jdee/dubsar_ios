@@ -62,7 +62,7 @@ class PointerView : UIView {
     func navigate(sender: UIButton!) {
         var target : DubsarModelsModel
         // NSLog("Selected pointer targetType \"%@\", targetId %d", pointer.targetType, pointer.targetId)
-        if pointer.targetType == "Sense" {
+        if pointer.targetType == "Sense" || pointer.targetType == "sense" {
             // NSLog("Navigating to sense ID %d (%@)", pointer.targetId, pointer.targetText)
             target = DubsarModelsSense(id: pointer.targetId, name: nil, partOfSpeech: .Unknown)
         }
