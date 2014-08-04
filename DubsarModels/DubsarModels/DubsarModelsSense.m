@@ -363,13 +363,14 @@
         }
         
         [_pointersByType addObject:_ptr];
-        [pointers setValue:_pointersByType forKey:ptype];
+        // [pointers setValue:_pointersByType forKey:ptype];
 
         DubsarModelsSection* section;
         BOOL found = NO;
         for (DubsarModelsSection* s in sections) {
             if (s.ptype == ptype) {
                 found = YES;
+                section = s;
                 break;
             }
         }
@@ -387,6 +388,8 @@
         }
 
         ++ section.numRows;
+
+        NSLog(@"After %@: %lu rows of type %@", targetText, (unsigned long)section.numRows, ptype);
     }
 }
 

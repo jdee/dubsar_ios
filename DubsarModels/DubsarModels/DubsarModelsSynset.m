@@ -180,13 +180,13 @@
         }
         
         [_pointersByType addObject:_ptr];
-        [pointers setValue:_pointersByType forKey:ptype];
 
         DubsarModelsSection* section;
         BOOL found = NO;
         for (DubsarModelsSection* s in sections) {
             if (s.ptype == ptype) {
                 found = YES;
+                section = s;
                 break;
             }
         }
