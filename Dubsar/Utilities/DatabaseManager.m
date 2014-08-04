@@ -216,18 +216,16 @@
     self.downloadSize = self.downloadedSoFar = self.unzippedSoFar = self.unzippedSize = 0;
     self.downloadInProgress = YES;
 
-    struct timeval now;
-    gettimeofday(&now, NULL);
-
-    self.downloadStart = now;
     self.lastDownloadStatsUpdate = self.downloadStart;
     self.downloadedAtLastStatsUpdate = 0;
     self.elapsedDownloadTime = 0;
 
     // DMLOG(@"Download start: %ld.%06d. Last download read: %ld.%06d", self.downloadStart.tv_sec, self.downloadStart.tv_usec, self.lastDownloadStatsUpdate.tv_sec, self.lastDownloadStatsUpdate.tv_usec);
 
+    struct timeval now;
     memset(&now, 0, sizeof(now));
     self.unzipStart = now;
+    self.downloadStart = now;
 
     NSURL* url = [self.rootURL URLByAppendingPathComponent:DUBSAR_ZIP_NAME];
     DMLOG(@"Downloading %@", url);
@@ -379,7 +377,10 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    [self updateElapsedDownloadTime];
+    struct timeval now;
+    gettimeofday(&now, NULL);
+
+    self.downloadStart = now;
 
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
 
