@@ -162,6 +162,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                 else {
                     downloadCell!.cancelButton.removeTarget(self, action: "cancelDownload:", forControlEvents: .TouchUpInside)
                     downloadCell!.cancelButton.addTarget(self, action: "closeDownloadProgress:", forControlEvents: .TouchUpInside)
+                    downloadCell!.retryButton.addTarget(self, action: "retryDownload:", forControlEvents: .TouchUpInside)
                 }
             }
         }
@@ -257,6 +258,12 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         downloadViewShowing = false
         unzipping = false
         reloadOfflineRow()
+    }
+
+    @IBAction func retryDownload(sender: UIButton!) {
+        AppDelegate.instance.databaseManager.download()
+        reloadOfflineRow()
+        setupToolbar()
     }
 
     func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {

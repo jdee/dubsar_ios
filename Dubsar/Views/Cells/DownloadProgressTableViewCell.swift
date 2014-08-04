@@ -32,6 +32,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
     var unzipLabel: UILabel
     var unzipProgress: UIProgressView
     var cancelButton: UIButton
+    var retryButton: UIButton
     var gradientView: GradientView
 
     init() {
@@ -40,6 +41,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
         unzipLabel = UILabel(frame: CGRectZero)
         unzipProgress = UIProgressView(progressViewStyle: .Bar)
         cancelButton = UIButton(frame: CGRectZero)
+        retryButton = UIButton(frame: CGRectZero)
         gradientView = GradientView(frame: CGRectZero, firstColor: AppConfiguration.backgroundColor, secondColor: AppConfiguration.highlightColor, startPoint: CGPointMake(0, 0), endPoint: CGPointMake(0, 1))
 
         super.init(style: .Default, reuseIdentifier: DownloadProgressTableViewCell.identifier)
@@ -55,6 +57,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
         unzipLabel.lineBreakMode = .ByWordWrapping
         unzipLabel.numberOfLines = 0
         cancelButton.setTitle("Cancel", forState: .Normal)
+        retryButton.setTitle("Retry", forState: .Normal)
 
         contentView.addSubview(gradientView)
         contentView.addSubview(downloadLabel)
@@ -62,6 +65,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
         contentView.addSubview(unzipLabel)
         contentView.addSubview(unzipProgress)
         contentView.addSubview(cancelButton)
+        contentView.addSubview(retryButton)
     }
 
     func rebuild() {
@@ -69,11 +73,13 @@ class DownloadProgressTableViewCell: UITableViewCell {
         downloadLabel.font = font
         unzipLabel.font = font
         cancelButton.titleLabel.font = font
+        retryButton.titleLabel.font = font
 
         let foregroundColor = AppConfiguration.foregroundColor
         downloadLabel.textColor = foregroundColor
         unzipLabel.textColor = foregroundColor
         cancelButton.setTitleColor(foregroundColor, forState: .Normal)
+        retryButton.setTitleColor(foregroundColor, forState: .Normal)
 
         let alternateBackgroundColor = AppConfiguration.alternateBackgroundColor
         let alternateHighlightColor = AppConfiguration.alternateHighlightColor
@@ -105,8 +111,19 @@ class DownloadProgressTableViewCell: UITableViewCell {
         }
         cancelButton.setTitle(cancelTitle, forState: .Normal)
 
-        let cancelSize = cancelTitle.sizeWithAttributes([NSFontAttributeName: font])
-        cancelButton.frame = CGRectMake(margin, 5 * margin + downloadTextSize.height + downloadProgress.bounds.size.height + unzipTextSize.height + unzipProgress.bounds.size.height, constrainedWidth, cancelSize.height)
+        let retryShowing = !AppDelegate.instance.databaseManager.downloadInProgress && AppDelegate.instance.databaseManager.errorMessage != nil
+        var cancelSize = cancelTitle.sizeWithAttributes([NSFontAttributeName: font])
+        cancelSize.width = retryShowing ? 0.5 * constrainedWidth : constrainedWidth
+        cancelButton.frame = CGRectMake(margin, 5 * margin + downloadTextSize.height + downloadProgress.bounds.size.height + unzipTextSize.height + unzipProgress.bounds.size.height, cancelSize.width, cancelSize.height)
+        cancelButton.titleLabel.textAlignment = retryShowing ? .Right : .Center
+
+        if retryShowing {
+            retryButton.frame = CGRectMake(margin + 0.5 * constrainedWidth, 5 * margin + downloadTextSize.height + downloadProgress.bounds.size.height + unzipTextSize.height + unzipProgress.bounds.size.height, 0.5 * constrainedWidth, cancelSize.height)
+            retryButton.titleLabel.textAlignment = .Left
+        }
+        else {
+            retryButton.hidden = true
+        }
 
         textLabel.hidden = true
 
