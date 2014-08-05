@@ -73,6 +73,21 @@ static NSMutableDictionary* imageDictionary;
     CGContextMoveToPoint(context, 0.25 * size.width, 0.75 * size.height);
     CGContextAddLineToPoint(context, 0.75 * size.width, 0.75 * size.height);
     CGContextStrokePath(context);
+
+    // Rounded-rectangle border
+    const CGFloat cornerRadius = 0.1 * sqrt(size.width * size.height); // points
+    const CGFloat ratio = 0.9; // width of border to size.width
+    CGContextSetShouldAntialias(context, true);
+    CGContextMoveToPoint(context, ratio * size.width, ratio * size.height - cornerRadius);
+    CGContextAddLineToPoint(context, ratio * size.width, (1 - ratio) * size.height + cornerRadius);
+    CGContextAddArcToPoint(context, ratio * size.width, (1 - ratio) * size.height, ratio * size.width - cornerRadius, (1 - ratio) * size.height, cornerRadius);
+    CGContextAddLineToPoint(context, (1 - ratio) * size.width + cornerRadius, (1 - ratio) * size.height);
+    CGContextAddArcToPoint(context, (1 - ratio) * size.width, (1 - ratio) * size.height, (1 - ratio) * size.width, (1 - ratio) * size.height + cornerRadius, cornerRadius);
+    CGContextAddLineToPoint(context, (1 - ratio) * size.width, ratio * size.height - cornerRadius);
+    CGContextAddArcToPoint(context, (1 - ratio) * size.width, ratio * size.height, (1 - ratio) * size.width + cornerRadius, ratio * size.height, cornerRadius);
+    CGContextAddLineToPoint(context, ratio * size.width - cornerRadius, ratio * size.height);
+    CGContextAddArcToPoint(context, ratio * size.width, ratio * size.height, ratio * size.width, ratio * size.height - cornerRadius, cornerRadius);
+    CGContextStrokePath(context);
 }
 
 + (NSString*)keyForSize:(CGSize)size color:(UIColor*)color background:(UIColor*)backgroundColor
