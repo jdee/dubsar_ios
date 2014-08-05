@@ -25,8 +25,8 @@
 
 #include "unzip.h"
 
-#import "Dubsar-Swift.h"
 #import "DatabaseManager.h"
+#import "UIApplication+NetworkRefCount.h"
 
 @interface DatabaseManager()
 // MARK: Internal properties

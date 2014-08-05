@@ -328,7 +328,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             return; // happy
         }
         else if offlineSetting {
-            message = "Download and install the database? It's a 33 MB download and 92 MB on the device."
+            message = "Download and install the database? It's a 33 MB download and 92 MB on the device. You can remain online without it."
             okTitle = "Download"
             cancelTitle = "Cancel"
         }
