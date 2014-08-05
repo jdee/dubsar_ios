@@ -331,6 +331,7 @@
         SCNetworkReachabilityFlags reachabilityFlags;
         if (SCNetworkReachabilityGetFlags(hostRef, &reachabilityFlags)) {
             if (reachabilityFlags & kSCNetworkReachabilityFlagsReachable) {
+                CFRelease(hostRef);
                 /*
                  * Insistent download: If, like me, you have poor Internet, your downloads may regularly time out due to said shit toobs.
                  * Also, being a phone, your device may change networks. If the download fails here, it's usually an indication
@@ -350,6 +351,7 @@
         else {
             DMLOG(@"Could not determine network reachability for %@", self.rootURL.host);
         }
+        CFRelease(hostRef);
     }
 
     self.downloadInProgress = NO;
