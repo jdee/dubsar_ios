@@ -621,7 +621,7 @@
     gettimeofday(&now, NULL);
     self.lastUnzipRead = self.unzipStart = now;
 
-    int lastUpdateSize = 0;
+    NSInteger lastUpdateSize = 0;
 
     while ((nr=unzReadCurrentFile(uf, buffer, sizeof(buffer) * sizeof(unsigned char))) > 0) {
 
