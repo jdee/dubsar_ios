@@ -252,10 +252,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
                 self.wotd = wotd
                 DMLOG("Updating with WOTD \(wotd.word.nameAndPos)")
                 wotdButton.setTitle(wotd.word.nameAndPos, forState: .Normal)
+                wotdButton.enabled = true
             }
             else if let word = router.model as? DubsarModelsWord {
                 DMLOG("Updating with word \(word.nameAndPos)")
                 wotdButton.setTitle(word.nameAndPos, forState: .Normal)
+                wotdButton.enabled = true
             }
 
         case .UpdateAutocompleter:
@@ -312,6 +314,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         wotdLabel.textColor = AppConfiguration.foregroundColor
         wordNetLabel.textColor = AppConfiguration.foregroundColor
         wotdButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        wotdButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
+        wotdButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
 
         // rerun the autocompletion request with the new max
         searchBar(searchBar, textDidChange: searchBar.text)
