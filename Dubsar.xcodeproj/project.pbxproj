@@ -73,7 +73,7 @@
 		7BCA161E197D6E260016C104 /* AlphabetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA161D197D6E260016C104 /* AlphabetView.swift */; };
 		7BCAA9D719929E2F00B23F4F /* DownloadBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9D519929E2F00B23F4F /* DownloadBarButtonItem.swift */; };
 		7BCAA9D819929E2F00B23F4F /* NavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9D619929E2F00B23F4F /* NavButton.swift */; };
-		7BCAA9DF1992A71A00B23F4F /* DMLOG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9DE1992A71A00B23F4F /* DMLOG.swift */; };
+		7BCAA9E51992EAEA00B23F4F /* DMLOG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9E41992EAEA00B23F4F /* DMLOG.swift */; };
 		7BD8459D198DD013000C3EA5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD8459C198DD013000C3EA5 /* Router.swift */; };
 		7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */; };
 		7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */; };
@@ -222,7 +222,7 @@
 		7BCA161D197D6E260016C104 /* AlphabetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlphabetView.swift; sourceTree = "<group>"; };
 		7BCAA9D519929E2F00B23F4F /* DownloadBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadBarButtonItem.swift; sourceTree = "<group>"; };
 		7BCAA9D619929E2F00B23F4F /* NavButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavButton.swift; sourceTree = "<group>"; };
-		7BCAA9DE1992A71A00B23F4F /* DMLOG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMLOG.swift; sourceTree = "<group>"; };
+		7BCAA9E41992EAEA00B23F4F /* DMLOG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMLOG.swift; sourceTree = "<group>"; };
 		7BD8459C198DD013000C3EA5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSenseTableViewCell.swift; sourceTree = "<group>"; };
 		7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleterView.swift; sourceTree = "<group>"; };
@@ -423,7 +423,7 @@
 			isa = PBXGroup;
 			children = (
 				7BA85A5519848DA100222A6D /* AppConfiguration.swift */,
-				7BCAA9DE1992A71A00B23F4F /* DMLOG.swift */,
+				7BCAA9E41992EAEA00B23F4F /* DMLOG.swift */,
 				7BBBD6D51989B54D0030FDA9 /* DatabaseManager.h */,
 				7BBBD6D61989B54D0030FDA9 /* DatabaseManager.m */,
 				7B1151FF1974340900869E15 /* DubsarServer.h */,
@@ -627,7 +627,7 @@
 				7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */,
 				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
 				7BBBD6E21989E6070030FDA9 /* DownloadProgressTableViewCell.swift in Sources */,
-				7BCAA9DF1992A71A00B23F4F /* DMLOG.swift in Sources */,
+				7BCAA9E51992EAEA00B23F4F /* DMLOG.swift in Sources */,
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,
 				7B66C01C198D4D5900257DDB /* CGHelper.m in Sources */,
 				7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */,

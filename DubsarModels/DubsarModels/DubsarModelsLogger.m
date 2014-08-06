@@ -31,6 +31,11 @@ void DMLOG(NSString* format, ...)
 }
  */
 
+/*
+ * This category makes it possible to write your own varargs Obj-C methods. The problem is that
+ * vsprintf and friends don't understand %@. So we convert on an arg-by-arg basis and build a
+ * new string.
+ */
 @interface NSString(Dubsar)
 + (NSString*)stringWithFormat:(NSString*)format args:(va_list)args;
 @end
@@ -82,6 +87,10 @@ void DMLOG(NSString* format, ...)
         buflen = strlen(buffer);
 
         switch(discriminator) {
+            case '%':
+                ++ p;
+                buffer[buflen ++] = '%';
+                break;
             case 'z': // might need review
             case 'l':
                 // NSLog(@"Found %%l: %s", start);
