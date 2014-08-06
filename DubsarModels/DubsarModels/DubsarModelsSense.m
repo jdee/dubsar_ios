@@ -648,7 +648,8 @@
                     char const* _definition = (char const*)sqlite3_column_text(lexicalQuery, 2);
                     char const* _marker = (char const*)sqlite3_column_text(lexicalQuery, 3);
                     char const* _lexname = (char const*)sqlite3_column_text(lexicalQuery, 4);
-                    DMLOG(@"name: %s, part_of_speech: %s, definition: %s, marker: %s, lexname: %s", _name, _part_of_speech, _definition, _marker, _lexname);
+                    int _synsetId = sqlite3_column_int(lexicalQuery, 5);
+                    DMLOG(@"name: %s, part_of_speech: %s, definition: %s, marker: %s, lexname: %s, synset ID: %d", _name, _part_of_speech, _definition, _marker, _lexname, _synsetId);
                     
                     DubsarModelsPartOfSpeech _partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
                     NSString* definition = @(_definition);
@@ -659,6 +660,7 @@
                     else {
                         pointer.targetText = [NSString stringWithFormat:@"<%s> %s, %@.", _lexname, _name, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:_partOfSpeech]];
                     }
+                    pointer.targetSynsetId = _synsetId;
                 }
                 
             }
@@ -731,7 +733,7 @@
         return;
     }
     
-    char const* csql = "SELECT w.name, w.part_of_speech, sy.definition, se.marker, sy.lexname "
+    char const* csql = "SELECT w.name, w.part_of_speech, sy.definition, se.marker, sy.lexname, sy.id "
               "FROM words w "
               "INNER JOIN senses se ON se.word_id = w.id "
               "INNER JOIN synsets sy ON sy.id = se.synset_id "
