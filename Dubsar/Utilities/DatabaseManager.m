@@ -26,6 +26,7 @@
 #include "unzip.h"
 
 #import "DatabaseManager.h"
+#import "NSString+Varargs.h"
 #import "UIApplication+NetworkRefCount.h"
 
 @interface DatabaseManager()
@@ -169,7 +170,7 @@
     self.errorMessage = @"Canceled";
     [[UIApplication sharedApplication] stopUsingNetwork];
 
-    DMLOG(@"%@", @"Download canceled");
+    DMLOG(@"Download canceled");
     // [self deleteDatabase]; // cleans up the zip too
 }
 
@@ -284,12 +285,11 @@
 {
     va_list args;
     va_start(args, format);
-    char buffer[512];
 
-    vsnprintf(buffer, 511, format.UTF8String, args);
+    self.errorMessage = [NSString stringWithFormat:format args:args];
+
     va_end(args);
 
-    self.errorMessage = @(buffer);
     self.downloadInProgress = NO;
 
     if (![self.delegate respondsToSelector:@selector(databaseManager:encounteredError:)]) return;

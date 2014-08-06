@@ -74,6 +74,7 @@
 		7BCAA9D719929E2F00B23F4F /* DownloadBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9D519929E2F00B23F4F /* DownloadBarButtonItem.swift */; };
 		7BCAA9D819929E2F00B23F4F /* NavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9D619929E2F00B23F4F /* NavButton.swift */; };
 		7BCAA9E51992EAEA00B23F4F /* DMLOG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9E41992EAEA00B23F4F /* DMLOG.swift */; };
+		7BCAA9E81992EC1300B23F4F /* NSString+Varargs.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9E71992EC1300B23F4F /* NSString+Varargs.m */; };
 		7BD8459D198DD013000C3EA5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD8459C198DD013000C3EA5 /* Router.swift */; };
 		7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */; };
 		7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */; };
@@ -223,6 +224,8 @@
 		7BCAA9D519929E2F00B23F4F /* DownloadBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadBarButtonItem.swift; sourceTree = "<group>"; };
 		7BCAA9D619929E2F00B23F4F /* NavButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavButton.swift; sourceTree = "<group>"; };
 		7BCAA9E41992EAEA00B23F4F /* DMLOG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMLOG.swift; sourceTree = "<group>"; };
+		7BCAA9E61992EC1300B23F4F /* NSString+Varargs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Varargs.h"; sourceTree = "<group>"; };
+		7BCAA9E71992EC1300B23F4F /* NSString+Varargs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Varargs.m"; sourceTree = "<group>"; };
 		7BD8459C198DD013000C3EA5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSenseTableViewCell.swift; sourceTree = "<group>"; };
 		7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleterView.swift; sourceTree = "<group>"; };
@@ -430,6 +433,8 @@
 				7B1152001974340900869E15 /* DubsarServer.m */,
 				7B7D3E91197DB3DC00619DEA /* KeyboardHelper.h */,
 				7B7D3E92197DB3DC00619DEA /* KeyboardHelper.m */,
+				7BCAA9E61992EC1300B23F4F /* NSString+Varargs.h */,
+				7BCAA9E71992EC1300B23F4F /* NSString+Varargs.m */,
 				7BA90E08197786D400D5C180 /* PushWrapper.h */,
 				7BA90E09197786D400D5C180 /* PushWrapper.m */,
 				7BD8459C198DD013000C3EA5 /* Router.swift */,
@@ -618,6 +623,7 @@
 				7BBBD6D71989B54D0030FDA9 /* DatabaseManager.m in Sources */,
 				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,
 				7B2F4642198AEAC500F57D21 /* DownloadButtonImage.m in Sources */,
+				7BCAA9E81992EC1300B23F4F /* NSString+Varargs.m in Sources */,
 				7B06EC741988AC6F00C44892 /* SettingLabelTableViewCell.swift in Sources */,
 				7BD8459D198DD013000C3EA5 /* Router.swift in Sources */,
 				7BBBD6DD1989C8850030FDA9 /* ioapi.c in Sources */,

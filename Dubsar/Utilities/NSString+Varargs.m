@@ -17,30 +17,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "DubsarModelsLogger.h"
+#import "NSString+Varargs.h"
 
-/*
-void DMLOG(NSString* format, ...)
-{
-    va_list args;
-    va_start(args, format);
-
-    [DubsarModelsLogger log:format args:args];
-
-    va_end(args);
-}
- */
-
-/*
- * This category makes it possible to write your own varargs Obj-C methods. The problem is that
- * vsprintf and friends don't understand %@. So we convert on an arg-by-arg basis and build a
- * new string.
- */
-@interface NSString(Dubsar)
-+ (NSString*)stringWithFormat:(NSString*)format args:(va_list)args;
-@end
-
-@implementation NSString(Dubsar)
+@implementation NSString(DubsarVarargs)
 
 + (NSString *)stringWithFormat:(NSString *)format args:(va_list)args
 {
@@ -152,16 +131,16 @@ void DMLOG(NSString* format, ...)
             case 'f':
             default:
                 /*
-                if (discriminator != 'f') {
-                    NSLog(@"Treating %%%c like %%f", discriminator);
-                }
-                // */
+                 if (discriminator != 'f') {
+                 NSLog(@"Treating %%%c like %%f", discriminator);
+                 }
+                 // */
 
                 f = va_arg(args, double);
                 buflen += sprintf(buffer+buflen, localFormat, f);
                 break;
         }
-
+        
         buffer[buflen] = '\0';
         
         start = p;
@@ -169,26 +148,6 @@ void DMLOG(NSString* format, ...)
     while (start - fmt < strlen(fmt));
     
     return @(buffer);
-}
-
-@end
-
-@implementation DubsarModelsLogger
-
-+ (void)log:(NSString *)format, ...
-{
-    va_list args;
-    va_start(args, format);
-
-    [self log:format args:args];
-
-    va_end(args);
-}
-
-+ (void)log:(NSString *)format args:(va_list)args
-{
-    NSString* s = [NSString stringWithFormat:format args:args];
-    NSLog(@"%@", s);
 }
 
 @end

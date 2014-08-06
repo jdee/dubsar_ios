@@ -155,7 +155,7 @@
         [self.delegate loadComplete:self withError:nil];
     }
     else {
-        DMLOG(@"%@", @"Loading WOTD");
+        DMLOG(@"Loading WOTD");
         [word load]; // need to parse the name and pos out of the push notification. for now, get it from the server.
     }
 
