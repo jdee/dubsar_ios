@@ -17,9 +17,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+@import DubsarModels;
+
 #import "UIApplication+NetworkRefCount.h"
 
-/* static */ volatile int networkUseCount = 0;
+static volatile int networkUseCount = 0;
 
 @implementation UIApplication(DubsarNetworkRefCount)
 
@@ -27,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 {
     @synchronized(self) {
         ++ networkUseCount;
+        DMLOG(@"request started: NETWORK USE increased to %d", networkUseCount);
     }
     self.networkActivityIndicatorVisible = YES;
 }
@@ -34,8 +37,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 - (void)stopUsingNetwork
 {
     @synchronized(self) {
+        DMLOG(@"request finished: NETWORK USE decreased to %d", networkUseCount-1);
         if (-- networkUseCount > 0) return;
     }
+    DMLOG(@"hiding network activity indicator");
     self.networkActivityIndicatorVisible = NO;
 }
 

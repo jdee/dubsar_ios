@@ -32,7 +32,6 @@
 
 @interface DubsarModelsModel : NSObject <DubsarModelsModel> {
     JSONDecoder* decoder;
-    NSURLConnection* connection;
     NSMutableData* data;
     NSString* _url;
 }
@@ -57,6 +56,9 @@
 
 // load in current thread; use with care.
 - (void)loadSynchronous;
+
+// for now, make this public
+- (void)callDelegateSelectorOnMainThread:(SEL)action withError:(NSString*)loadError
 
 @end
 

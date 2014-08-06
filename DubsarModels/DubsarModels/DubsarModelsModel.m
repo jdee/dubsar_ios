@@ -25,6 +25,10 @@
 
 const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
+@interface DubsarModelsModel()
+@property (nonatomic) NSURLConnection* connection;
+@end
+
 @implementation DubsarModelsModel
 
 @synthesize data;
@@ -35,6 +39,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 @synthesize delegate;
 @synthesize url;
 @synthesize preview;
+@synthesize connection;
 
 -(instancetype)init
 {
@@ -94,22 +99,8 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         error = errorMessage != nil;
 
         self.loading = false;
-
-        if (delegate != nil) {
-            // DMLOG(@"Dispatching callback to router");
-            if ([NSThread currentThread] != [NSThread mainThread]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate loadComplete:self withError:errorMessage];
-                });
-            }
-            else {
-                [delegate loadComplete:self withError:errorMessage];
-            }
-        }
-        else {
-            // DMLOG(@"No delegate (weak ref.)");
-        }
-    }
+        [self callDelegateSelectorOnMainThread:@selector(loadComplete:withError:) withError:errorMessage];
+     }
 }
 
 +(NSString*)incrementString:(NSString*)string
@@ -129,18 +120,11 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
     
     connection = [NSURLConnection connectionWithRequest:request delegate:self];
 
-    if ([delegate respondsToSelector:@selector(networkLoadStarted:)]) {
-        if ([NSThread mainThread] == [NSThread currentThread]) {
-            [delegate networkLoadStarted:self];
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [delegate networkLoadStarted:self];
-            });
-        }
-    }
+    error = true;
 
     DMLOG(@"requesting %@", url);
+
+    [self callDelegateSelectorOnMainThread:@selector(networkLoadStarted:) withError:nil];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -157,18 +141,9 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
     
     if (httpResponse.statusCode >= 400) {
         self.errorMessage = @"The Dubsar server did not return the data properly.";
-
-        if ([delegate respondsToSelector:@selector(networkLoadFinished:)]) {
-            if ([NSThread mainThread] == [NSThread currentThread]) {
-                [delegate networkLoadFinished:self];
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [delegate networkLoadFinished:self];
-                });
-            }
-        }
         error = true;
+
+        [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
     }
     
     DMLOG(@"received response");
@@ -189,16 +164,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
     [self setError:true];
     [self setErrorMessage:errMsg];
 
-    if ([delegate respondsToSelector:@selector(networkLoadFinished:)]) {
-        if ([NSThread mainThread] == [NSThread currentThread]) {
-            [delegate networkLoadFinished:self];
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [delegate networkLoadFinished:self];
-            });
-        }
-    }
+    [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
 
     DMLOG(@"load processing finished");
 }
@@ -215,18 +181,37 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
     }
 
     [self setComplete:true];
-    if ([delegate respondsToSelector:@selector(networkLoadFinished:)]) {
-        if ([NSThread mainThread] == [NSThread currentThread]) {
-            [delegate networkLoadFinished:self];
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [delegate networkLoadFinished:self];
-            });
-        }
-    }
+
+    [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
 
     DMLOG(@"load processing finished");
+}
+
+- (void)callDelegateSelectorOnMainThread:(SEL)action withError:(NSString*)loadError
+{
+    if (![delegate respondsToSelector:action]) return;
+
+    if ([NSThread currentThread] == [NSThread mainThread]) {
+        [self callDelegateSelector:action withError:loadError];
+    }
+    else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self callDelegateSelector:action withError:loadError];
+        });
+    }
+}
+
+- (void)callDelegateSelector:(SEL)action withError:(NSString*)loadError
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    if (action == @selector(loadComplete:withError:)) {
+        [delegate performSelector:action withObject:self withObject:loadError];
+    }
+    else {
+        [delegate performSelector:action withObject:self];
+    }
+#pragma clan diagnostic pop
 }
 
 @end

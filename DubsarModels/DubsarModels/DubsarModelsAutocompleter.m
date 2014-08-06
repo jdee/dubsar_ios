@@ -26,6 +26,7 @@
 #import "DubsarModelsDatabaseWrapper.h"
 
 @interface DubsarModelsAutocompleter()
+@property (nonatomic) NSURLConnection* connection;
 @end
 
 @implementation DubsarModelsAutocompleter {
@@ -80,6 +81,8 @@
 - (void)cancel
 {
     self.aborted = YES;
+    [self.connection cancel];
+    [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
 }
 
 - (void)loadResults:(DubsarModelsDatabaseWrapper*)database
