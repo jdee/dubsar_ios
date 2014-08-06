@@ -250,7 +250,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             // DMLOG(".UpdateView")
             if let wotd = router.model as? DubsarModelsDailyWord {
                 self.wotd = wotd
+                DMLOG("Updating with WOTD \(wotd.word.nameAndPos)")
                 wotdButton.setTitle(wotd.word.nameAndPos, forState: .Normal)
+            }
+            else if let word = router.model as? DubsarModelsWord {
+                DMLOG("Updating with word \(word.nameAndPos)")
+                wotdButton.setTitle(word.nameAndPos, forState: .Normal)
             }
 
         case .UpdateAutocompleter:
@@ -267,6 +272,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func load() {
+        if router && router!.model.loading {
+            return
+        }
+
         /*
          * This is an exceptional case where we want to load every time. The load entails checking the
          * user defaults for the expiration.

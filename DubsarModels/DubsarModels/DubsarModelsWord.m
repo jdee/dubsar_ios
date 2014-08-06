@@ -227,7 +227,10 @@
 -(void)parseData
 {
     NSArray* response =[NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
-    
+
+    name = response[1];
+    partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:response[2]];
+
     inflections = [[response[3] componentsSeparatedByString:@", "] mutableCopy];
 
     NSNumber* _freqCnt;
@@ -261,6 +264,7 @@
     [senses sortUsingSelector:@selector(compareFreqCnt:)];
     _freqCnt = response[5];
     freqCnt = _freqCnt.intValue;
+    return;
 }
 
 -(void)initUrl

@@ -51,7 +51,8 @@ class SynsetViewController: BaseViewController {
         switch router.routerAction {
         case .UpdateViewWithDependency:
             sense = router.dependency
-            break
+            assert(sense)
+
         default:
             break
         }

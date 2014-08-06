@@ -158,8 +158,9 @@ class SynsetPointerView: UIView {
     private func pointerForRowAtIndexPath(indexPath: NSIndexPath!) -> DubsarModelsPointer {
         // could use a base class or a protocol here
         // DMLOG("Calling pointerForRowAtIndexPath:")
-        if sense {
-            return sense!.pointerForRowAtIndexPath(indexPath)
+        if let s = sense {
+            assert(indexPath)
+            return s.pointerForRowAtIndexPath(indexPath)
         }
         else if synset.senses.count == 1 {
             let firstSense = synset.senses.firstObject as DubsarModelsSense

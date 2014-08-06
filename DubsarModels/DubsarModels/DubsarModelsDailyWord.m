@@ -115,6 +115,7 @@
     NSNumber* numericId = wotd[0];
     
     word = [DubsarModelsWord wordWithId:numericId.intValue name:wotd[1] posString:wotd[2]];
+    DMLOG(@"Received WOTD response: %@", word.nameAndPos);
     
     NSNumber* fc = wotd[3];
     word.freqCnt = fc.intValue;
@@ -156,6 +157,7 @@
         [self.delegate loadComplete:self withError:nil];
     }
     else {
+        DMLOG(@"%@", @"Loading WOTD");
         [word load]; // need to parse the name and pos out of the push notification. for now, get it from the server.
     }
 
@@ -175,7 +177,8 @@
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
 {
 #ifdef DEBUG
-    DMLOG(@"%@", @"Loaded WOTD");
+    DubsarModelsWord* aWord = (DubsarModelsWord*)model;
+    DMLOG(@"Loaded WOTD %@", aWord.nameAndPos);
 #endif // DEBUG
     [self.delegate loadComplete:self withError:error];
 }

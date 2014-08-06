@@ -224,7 +224,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             return
         }
 
-        let sense = theWord!.senses[row-1] as DubsarModelsSense
+
+        assert(row <= theWord!.senses.count)
+
+        let sense = theWord!.senses[row-1] as? DubsarModelsSense
+        assert(sense)
         pushViewControllerWithIdentifier(SynsetViewController.identifier, model: sense, routerAction: .UpdateViewWithDependency)
     }
 
