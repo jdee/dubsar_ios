@@ -32,7 +32,7 @@
  */
 
 #ifdef DEBUG
-#define DMLOG(...) NSLog(__VA_ARGS__)
+#define DMLOG(...) [DubsarModelsLogger log:__VA_ARGS__]
 #else
 #define DMLOG(...)
 #endif // DEBUG
