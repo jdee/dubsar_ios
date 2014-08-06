@@ -26,11 +26,6 @@
 
 @end
 
-/*
- * The above is not working yet. This macro at least doesn't require a separate format arg, so
- * no more need for DMLOG(@"%@", @"String literal.");
- */
-
 #ifdef DEBUG
 #define DMLOG(...) [DubsarModelsLogger log:__VA_ARGS__]
 #else
