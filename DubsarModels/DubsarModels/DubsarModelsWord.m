@@ -258,6 +258,9 @@
             sense.marker = marker;
         }
         sense.freqCnt = _freqCnt.intValue;
+
+        int synsetId = ((NSNumber*)_sense[6]).intValue;
+        sense.synset = [DubsarModelsSynset synsetWithId:synsetId gloss:_sense[2] partOfSpeech:partOfSpeech];
         
         [senses insertObject:sense atIndex:j];
     }

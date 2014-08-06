@@ -83,7 +83,7 @@ class ScrollingSynsetView: UIScrollView {
             // DMLOG("Entered ScrollingSynsetView.layoutSubviews()")
 
             let firstSense = synset.senses.firstObject as DubsarModelsSense
-            let hasPointers = (sense && sense!.numberOfSections > 0) || (!sense && firstSense.numberOfSections > 0) || synset.numberOfSections > 0
+            let hasPointers = (sense && sense!.complete && sense!.numberOfSections > 0) || (!sense && firstSense.complete && firstSense.numberOfSections > 0) || synset.numberOfSections > 0
 
             if hasReset {
                 hasReset = false

@@ -38,7 +38,10 @@ class NavButton: UIButton {
     func refreshImages() {
         let normalImage = NavButtonImage.imageWithSize(bounds.size, color: AppConfiguration.foregroundColor)
         let highlightedImage = NavButtonImage.imageWithSize(bounds.size, color: AppConfiguration.highlightedForegroundColor)
+        let disabledImage = NavButtonImage.imageWithSize(bounds.size, color: AppConfiguration.alternateBackgroundColor)
+
         setImage(normalImage, forState: .Normal)
         setImage(highlightedImage, forState: .Highlighted)
+        setImage(disabledImage, forState: .Disabled)
     }
 }

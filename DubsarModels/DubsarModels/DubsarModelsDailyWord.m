@@ -177,8 +177,7 @@
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
 {
 #ifdef DEBUG
-    DubsarModelsWord* aWord = (DubsarModelsWord*)model;
-    DMLOG(@"Loaded WOTD %@", aWord.nameAndPos);
+    DMLOG(@"%@", @"Loaded WOTD");
 #endif // DEBUG
     [self.delegate loadComplete:self withError:error];
 }

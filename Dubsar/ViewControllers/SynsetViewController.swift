@@ -45,13 +45,14 @@ class SynsetViewController: BaseViewController {
             return
         }
 
-        theSynset = router.model as? DubsarModelsSynset
-        assert(theSynset)
-
         switch router.routerAction {
         case .UpdateViewWithDependency:
+            theSynset = router.model as? DubsarModelsSynset
+            assert(theSynset)
+
             sense = router.dependency
             assert(sense)
+            synchSelectedWord()
 
         default:
             break
@@ -91,7 +92,9 @@ class SynsetViewController: BaseViewController {
             // DMLOG("No synonym selected")
         }
 
+        self.sense = sense
         scroller!.sense = sense // maybe this can be done inside the scroller
+        synchSelectedWord()
     }
 
     func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, navigatedToSense sense: DubsarModelsSense!) {
@@ -116,5 +119,29 @@ class SynsetViewController: BaseViewController {
 
         addHomeButton()
         super.setupToolbar()
+    }
+
+    private func synchSelectedWord() {
+        assert(sense)
+        if sense!.complete {
+            return
+        }
+
+        let senses = theSynset!.senses as [AnyObject]
+
+        var index = senses.count
+        for (j, s) in enumerate(senses as [DubsarModelsSense]) {
+            if s._id == sense!._id {
+                sense = s
+                index = j
+                break
+            }
+        }
+
+        self.router = Router(viewController: self, model: sense)
+        self.router!.routerAction = .UpdateRowAtIndexPath
+        self.router!.indexPath = nil // should make use of this
+        self.router!.load()
+        scroller?.reset()
     }
 }

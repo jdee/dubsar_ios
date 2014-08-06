@@ -122,12 +122,18 @@ class BaseViewController: UIViewController {
             if routerAction == RouterAction.UpdateViewWithDependency {
                 if vcIdentifier == WordViewController.identifier {
                     let sense = model as DubsarModelsSense
-                    router = Router(viewController: vc, model: sense.word)
+                    let word: DubsarModelsWord? = sense.word
+                    assert(word)
+                    router = Router(viewController: vc, model: word)
                     router.dependency = sense
                 }
                 else if vcIdentifier == SynsetViewController.identifier {
                     let sense = model as DubsarModelsSense
-                    router = Router(viewController: vc, model: sense.synset)
+                    let synset: DubsarModelsSynset? = sense.synset
+                    assert(synset)
+                    DMLOG("Displaying synset view for synset \(synset!._id), sense \(sense._id)")
+
+                    router = Router(viewController: vc, model: synset)
                     router.dependency = sense
                 }
                 else {

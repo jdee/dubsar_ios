@@ -45,19 +45,32 @@ class SynonymButtonPair {
 
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
 
+        selectionButton.enabled = !sense.loading
+        navigationButton.enabled = selectionButton.enabled
+
         // configure selection button
         selectionButton.titleLabel.font = font
         selectionButton.frame.size = (sense.name as NSString).sizeWithAttributes([NSFontAttributeName: font])
         selectionButton.frame.size.width += 2 * SynonymButtonPair.margin
         selectionButton.frame.size.height += 2 * SynonymButtonPair.margin
 
+        if !selectionButton.enabled {
+            let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
+            spinner.startAnimating()
+            spinner.frame = selectionButton.bounds
+            selectionButton.setTitle(" ", forState: .Normal)
+            selectionButton.addSubview(spinner)
+        }
+        else {
+            selectionButton.setTitle(sense.name, forState: .Normal)
+        }
+
         width = selectionButton.frame.size.width + selectionButton.frame.size.height // nav. button is a square of the same height; no margin between them
         height = selectionButton.frame.size.height
 
-        selectionButton.setTitle(sense.name, forState: .Normal)
         selectionButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         selectionButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
-        // selectionButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Selected)
+        selectionButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
 
         selectionButton.addTarget(self, action: "synonymSelected:", forControlEvents: .TouchUpInside)
         view.addSubview(selectionButton)
