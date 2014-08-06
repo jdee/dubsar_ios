@@ -19,6 +19,7 @@
 
 #import "DubsarModelsLogger.h"
 
+/*
 void DMLOG(NSString* format, ...)
 {
     va_list args;
@@ -28,6 +29,7 @@ void DMLOG(NSString* format, ...)
 
     va_end(args);
 }
+ */
 
 @implementation DubsarModelsLogger
 
@@ -44,7 +46,7 @@ void DMLOG(NSString* format, ...)
 + (void)log:(NSString *)format args:(va_list)args
 {
     char buffer[512];
-    vsnprintf(buffer, 511, format.UTF8String, args);
+    vsnprintf(buffer, 511, format.UTF8String, args); // vsnprintf and friends don't understand %@, and there's no equivalent to stringWithFormat: that takes a va_list.
 
     NSLog(@"%s", buffer);
 }

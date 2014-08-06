@@ -26,4 +26,13 @@
 
 @end
 
-extern void DMLOG(NSString* message, ...);
+/*
+ * The above is not working yet. This macro at least doesn't require a separate format arg, so
+ * no more need for DMLOG(@"%@", @"String literal.");
+ */
+
+#ifdef DEBUG
+#define DMLOG(...) NSLog(__VA_ARGS__)
+#else
+#define DMLOG(...)
+#endif // DEBUG
