@@ -57,16 +57,12 @@
         [ptype isEqualToString:@"verb frame"] ||
         [ptype isEqualToString:@"sample sentence"]) return _numRows;
 
-#ifdef DEBUG
-    DMLOG(@"%@", @"counting rows");
-#endif // DEBUG
+    DMLOG(@"counting rows");
 
     DubsarModelsDatabaseWrapper* database = [DubsarModelsDatabase instance].database;
 
     if (!database.dbptr) {
-#ifdef DEBUG
         DMLOG(@"%d rows of type %@", _numRows, ptype);
-#endif // DEBUG
         return _numRows;
     }
     
@@ -90,15 +86,11 @@
         return 0;
     }
 
-#ifdef DEBUG
     DMLOG(@"executing %@", sql);
-#endif // DEBUG
     int count;
     if (sqlite3_step(statement) == SQLITE_ROW) {
         count = sqlite3_column_int(statement, 0);
-#ifdef DEBUG
         DMLOG(@"%d rows of type %@", count, ptype);
-#endif // DEBUG
     }
     
     sqlite3_finalize(statement);

@@ -136,7 +136,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         cell!.word = word
         cell!.rebuild()
 
-        // DMLOG("Height of cell at row %d: %f", row, Double(cell!.bounds.size.height))
+        DMLOG("Height of cell at row %\(row): \(cell!.bounds.size.height)")
 
         return cell
     }
@@ -179,7 +179,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         let height = word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row), preview: true).height
 
-        // DMLOG("Height of row %d: %f", row, Double(height))
+        DMLOG("Height of row \(row): \(height)")
         return height
     }
 
@@ -200,7 +200,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         self.router!.routerAction = .UpdateRowAtIndexPath
         self.router!.indexPath = selectedIndexPath
         self.router!.load()
-        // DMLOG("Synching selected row")
+        DMLOG("Synching selected row")
     }
 
     func selectRowForWord(word: DubsarModelsWord!) {

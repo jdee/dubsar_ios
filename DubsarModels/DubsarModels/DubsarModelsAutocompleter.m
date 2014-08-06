@@ -181,9 +181,7 @@
     }
     _results = r;
 
-#ifdef DEBUG
     DMLOG(@"autocompleter for term \"%@\" (URL \"%@\") finished with %lu results:", response[0], [self _url], (unsigned long)_results.count);
-#endif // DEBUG
 }
 
 @end

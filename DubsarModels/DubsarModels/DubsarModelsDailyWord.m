@@ -99,7 +99,7 @@
     if (![self loadFromUserDefaults] || !expiration || expiration <= time(0)) {
         
         if (expiration && expiration <= time(0)) {
-            DMLOG(@"%@", @"cached wotd expired, requesting");
+            DMLOG(@"cached wotd expired, requesting");
         }
         
         // fresh is set to true when the wotd is not in the defaults.
@@ -135,11 +135,9 @@
         DMLOG(@"User defaults value for %@: %@", DubsarDailyWordIdKey, [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey]);
         return false;
     }
-#ifdef DEBUG
     else {
         DMLOG(@"Found wotd in user defaults, id %ld", (long)wotdId);
     }
-#endif // DEBUG
 
     NSString* name = [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordNameKey];
     NSString* pos = [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordPosKey];
@@ -176,9 +174,7 @@
 
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
 {
-#ifdef DEBUG
-    DMLOG(@"%@", @"Loaded WOTD");
-#endif // DEBUG
+    DMLOG(@"Loaded WOTD");
     [self.delegate loadComplete:self withError:error];
 }
 

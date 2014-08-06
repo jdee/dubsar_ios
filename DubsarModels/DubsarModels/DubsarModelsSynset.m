@@ -107,20 +107,21 @@
 - (void)parseData
 {
     NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
+
     partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:response[1]];
     lexname = response[2];
-#ifdef DEBUG
     DMLOG(@"lexname: \"%@\"", lexname);
-#endif // DEBUG
+
     if (!gloss) {
         gloss = response[3];
     }
+
     samples = response[4];
+
     NSNumber* _freqCnt;
     NSArray* _senses = response[5];
-#ifdef DEBUG
     DMLOG(@"found %lu senses", (unsigned long)_senses.count);
-#endif // DEBUG
+
     senses = [NSMutableArray arrayWithCapacity:_senses.count];
     for (int j=0; j<_senses.count; ++j) {
         NSArray* _sense = _senses[j];
@@ -212,13 +213,6 @@
 {
     NSString* synonymList = [NSString string];
     
-    /* 
-     * The app still sometimes crashes when this autorelease pool is used.
-     */
-#ifdef AUTORELEASE_POOL_FOR_SYNONYMS
-    @autoreleasepool {
-#endif // AUTORELEASE_POOL_FOR_SYNOYMS
-    
     for(int j=0; j<senses.count; ++j) {
         DubsarModelsSense* sense = senses[j];
         synonymList = [synonymList stringByAppendingString:sense.name];
@@ -226,10 +220,6 @@
             synonymList = [synonymList stringByAppendingString:@", "];
         }
     }
-    
-#ifdef AUTORELEASE_POOL_FOR_SYNONYMS
-    }
-#endif // AUTORELEASE_POOL_FOR_SYNONYMS    
     return synonymList;
 }
 
@@ -251,9 +241,7 @@
         return;
     }
 
-#ifdef DEBUG
     DMLOG(@"executing %@", sql);
-#endif // DEBUG
     freqCnt = 0;
     self.senses = [NSMutableArray array];
     while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -309,9 +297,7 @@
         return sections.count;
     }
 
-#ifdef DEBUG
-    DMLOG(@"%@", @"in numberOfSections");
-#endif // DEBUG
+    DMLOG(@"in numberOfSections");
     DubsarModelsDatabaseWrapper* database = [DubsarModelsDatabase instance].database;
     
     NSString* sql;
@@ -349,9 +335,7 @@
         return 1;
     }
 
-#ifdef DEBUG
     DMLOG(@"executing %@", sql);
-#endif // DEBUG
     while (sqlite3_step(statement) == SQLITE_ROW) {
         char const* _ptype = (char const*)sqlite3_column_text(statement, 0);
         
@@ -366,9 +350,7 @@
         [sections addObject:section];
     }
     sqlite3_finalize(statement);
-#ifdef DEBUG
     DMLOG(@"%lu sections in tableView", (unsigned long)sections.count);
-#endif // DEBUG
     return sections.count;
 }
 
@@ -382,9 +364,7 @@
     
     if ([section.ptype isEqualToString:@"synonym"]) {
         DubsarModelsSense* synonym = senses[pathRow];
-#ifdef DEBUG
         DMLOG(@"requesting synonym %@", synonym.name);
-#endif // DEBUG
         pointer.targetText = synonym.name;
         pointer.targetId = synonym._id;
         pointer.targetType = @"sense";
@@ -496,9 +476,7 @@
     "WHERE sy.id = ? "
     "ORDER BY w.name ASC";
 
-#ifdef DEBUG
     DMLOG(@"preparing semantic query %s", csql);
-#endif // DEBUG
     if ((rc=sqlite3_prepare_v2(database.dbptr, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
         DMLOG(@"error %d preparing semantic query", rc);
         return;

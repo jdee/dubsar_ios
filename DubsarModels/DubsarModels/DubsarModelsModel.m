@@ -171,7 +171,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         error = true;
     }
     
-    DMLOG(@"%@", @"received response");
+    DMLOG(@"received response");
     [data setLength:0];
 }
 
@@ -200,7 +200,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         }
     }
 
-    DMLOG(@"%@", @"load processing finished");
+    DMLOG(@"load processing finished");
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -226,7 +226,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         }
     }
 
-    DMLOG(@"%@", @"load processing finished");
+    DMLOG(@"load processing finished");
 }
 
 @end

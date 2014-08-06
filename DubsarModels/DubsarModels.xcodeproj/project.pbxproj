@@ -38,6 +38,8 @@
 		7BAC234119735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC233F19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m */; };
 		7BAC235619736CDA00D2AEA4 /* DubsarModelsDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC235419736CDA00D2AEA4 /* DubsarModelsDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BAC235719736CDA00D2AEA4 /* DubsarModelsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC235519736CDA00D2AEA4 /* DubsarModelsDatabase.m */; };
+		7BCAA9DC1992A46A00B23F4F /* DubsarModelsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BCAA9DA1992A46A00B23F4F /* DubsarModelsLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7BCAA9DD1992A46A00B23F4F /* DubsarModelsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9DB1992A46A00B23F4F /* DubsarModelsLogger.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		7BAC233F19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsDatabaseWrapper.m; sourceTree = "<group>"; };
 		7BAC235419736CDA00D2AEA4 /* DubsarModelsDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsDatabase.h; sourceTree = "<group>"; };
 		7BAC235519736CDA00D2AEA4 /* DubsarModelsDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsDatabase.m; sourceTree = "<group>"; };
+		7BCAA9DA1992A46A00B23F4F /* DubsarModelsLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsLogger.h; sourceTree = "<group>"; };
+		7BCAA9DB1992A46A00B23F4F /* DubsarModelsLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsLogger.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +141,8 @@
 				7BAC233E19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h */,
 				7BAC233F19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m */,
 				7BAC22E719735C2C00D2AEA4 /* DubsarModels.h */,
+				7BCAA9DA1992A46A00B23F4F /* DubsarModelsLogger.h */,
+				7BCAA9DB1992A46A00B23F4F /* DubsarModelsLogger.m */,
 				7BAC230919735CB400D2AEA4 /* DubsarModelsLoadDelegate.h */,
 				7BAC230A19735CB400D2AEA4 /* DubsarModelsModel.h */,
 				7BAC230B19735CB400D2AEA4 /* DubsarModelsModel.m */,
@@ -203,6 +209,7 @@
 				7BAC233A19735CB400D2AEA4 /* DubsarModelsSynset.h in Headers */,
 				7BAC232A19735CB400D2AEA4 /* DubsarModelsModel.h in Headers */,
 				7BAC233819735CB400D2AEA4 /* DubsarModelsSense.h in Headers */,
+				7BCAA9DC1992A46A00B23F4F /* DubsarModelsLogger.h in Headers */,
 				7BAC233619735CB400D2AEA4 /* DubsarModelsSection.h in Headers */,
 				7BAC232C19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.h in Headers */,
 				7BAC233C19735CB400D2AEA4 /* DubsarModelsWord.h in Headers */,
@@ -318,6 +325,7 @@
 				7BAC232119735CB400D2AEA4 /* DubsarModelsAutocompleter.m in Sources */,
 				7BAC233D19735CB400D2AEA4 /* DubsarModelsWord.m in Sources */,
 				7BAC233519735CB400D2AEA4 /* DubsarModelsSearch.m in Sources */,
+				7BCAA9DD1992A46A00B23F4F /* DubsarModelsLogger.m in Sources */,
 				7BAC232619735CB400D2AEA4 /* DubsarModelsDailyWord.m in Sources */,
 				7BAC233719735CB400D2AEA4 /* DubsarModelsSection.m in Sources */,
 				7BAC232B19735CB400D2AEA4 /* DubsarModelsModel.m in Sources */,
