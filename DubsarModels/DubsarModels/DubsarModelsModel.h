@@ -58,7 +58,7 @@
 - (void)loadSynchronous;
 
 // for now, make this public
-- (void)callDelegateSelectorOnMainThread:(SEL)action withError:(NSString*)loadError
+- (void)callDelegateSelectorOnMainThread:(SEL)action withError:(NSString*)loadError;
 
 @end
 
