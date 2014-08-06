@@ -41,11 +41,16 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         var y = bounds.size.height
 
+        DMLOG("Height of sense header \(y)")
+
         if !sense.complete {
             let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
             backgroundLabel.addSubview(spinner)
             spinner.startAnimating()
             spinner.frame = CGRectMake(2.0, y + 2.0, 40.0, 40.0)
+
+            frame.size.height += 44
+            view!.frame.size.height = bounds.size.height
 
             return
         }
