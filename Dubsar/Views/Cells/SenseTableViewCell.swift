@@ -152,4 +152,12 @@ class SenseTableViewCell: UITableViewCell {
         }
     }
 
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        if let v = view {
+            v.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
+        }
+    }
+
 }

@@ -68,6 +68,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             // DMLOG("Received response for sense %d (%@). Updating row %d", sense!._id, sense!.gloss, row)
 
             senseTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
+            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Bottom)
             return
 
         case .UpdateViewWithDependency:
@@ -207,6 +208,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         // DMLOG("Reloading rows %d & %d", row, current.indexAtPosition(1))
 
         tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
+        tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
     }
 
     func tableView(tableView: UITableView!, shouldHighlightRowAtIndexPath indexPath: NSIndexPath!) -> Bool {

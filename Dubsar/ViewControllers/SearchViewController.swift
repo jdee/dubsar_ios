@@ -155,6 +155,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         // DMLOG("Selected row %d", selectedIndexPath.indexAtPosition(1))
         tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
+        tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
     }
 
     func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
@@ -263,6 +264,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             }
 
             resultTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
+            resultTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: router.routerAction != RouterAction.UpdateView ? .Bottom : .None)
             return
 
         default:
