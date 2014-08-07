@@ -75,6 +75,7 @@
 		7BCAA9D819929E2F00B23F4F /* NavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9D619929E2F00B23F4F /* NavButton.swift */; };
 		7BCAA9E51992EAEA00B23F4F /* DMLOG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9E41992EAEA00B23F4F /* DMLOG.swift */; };
 		7BCAA9E81992EC1300B23F4F /* NSString+Varargs.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9E71992EC1300B23F4F /* NSString+Varargs.m */; };
+		7BCAA9F219933F4300B23F4F /* DownloadBarButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCAA9F119933F4300B23F4F /* DownloadBarButtonView.m */; };
 		7BD8459D198DD013000C3EA5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD8459C198DD013000C3EA5 /* Router.swift */; };
 		7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */; };
 		7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */; };
@@ -226,6 +227,8 @@
 		7BCAA9E41992EAEA00B23F4F /* DMLOG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMLOG.swift; sourceTree = "<group>"; };
 		7BCAA9E61992EC1300B23F4F /* NSString+Varargs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Varargs.h"; sourceTree = "<group>"; };
 		7BCAA9E71992EC1300B23F4F /* NSString+Varargs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Varargs.m"; sourceTree = "<group>"; };
+		7BCAA9F019933F4300B23F4F /* DownloadBarButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadBarButtonView.h; sourceTree = "<group>"; };
+		7BCAA9F119933F4300B23F4F /* DownloadBarButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadBarButtonView.m; sourceTree = "<group>"; };
 		7BD8459C198DD013000C3EA5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSenseTableViewCell.swift; sourceTree = "<group>"; };
 		7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleterView.swift; sourceTree = "<group>"; };
@@ -462,6 +465,8 @@
 			isa = PBXGroup;
 			children = (
 				7BCAA9D519929E2F00B23F4F /* DownloadBarButtonItem.swift */,
+				7BCAA9F019933F4300B23F4F /* DownloadBarButtonView.h */,
+				7BCAA9F119933F4300B23F4F /* DownloadBarButtonView.m */,
 				7BCAA9D619929E2F00B23F4F /* NavButton.swift */,
 			);
 			path = Buttons;
@@ -619,6 +624,7 @@
 				7B66C01E198D585B00257DDB /* GradientView.swift in Sources */,
 				7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */,
 				7BCAA9D819929E2F00B23F4F /* NavButton.swift in Sources */,
+				7BCAA9F219933F4300B23F4F /* DownloadBarButtonView.m in Sources */,
 				7B06EC6C19886FCE00C44892 /* SettingsViewController.swift in Sources */,
 				7BBBD6D71989B54D0030FDA9 /* DatabaseManager.m in Sources */,
 				7BBF837D1975C8A400969765 /* DubsarModelsWord+ViewSizing.swift in Sources */,

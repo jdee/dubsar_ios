@@ -26,8 +26,13 @@ class DownloadBarButtonItem: UIBarButtonItem {
     }
 
     init(target: AnyObject!, action: Selector!) {
-        super.init(image: DownloadButtonImage.imageWithSize(CGSizeMake(44, 44), color: AppConfiguration.foregroundColor, background:UIColor.clearColor()),
-            style: .Bordered, target: target, action: action)
+        let buttonView = DownloadBarButtonView(frame: CGRectMake(0, 0, 44, 44))
+        buttonView.tintColor = AppConfiguration.foregroundColor
+        buttonView.backgroundColor = UIColor.clearColor()
+
+        super.init(customView: buttonView)
+        self.target = target
+        self.action = action
     }
    
 }

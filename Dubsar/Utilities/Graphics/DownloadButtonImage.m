@@ -41,7 +41,7 @@ static NSMutableDictionary* imageDictionary;
 
     // All strokes. Set color and line width.
 
-    CGFloat lineWidth = 1.41421359;
+    CGFloat lineWidth = 1.0;
     CGContextSetStrokeColorWithColor(context, color.CGColor);
 
     // Vertical line down the center. Nice and sharp with no antialiasing.
@@ -54,7 +54,6 @@ static NSMutableDictionary* imageDictionary;
 
     // For the arrowhead, turn on antialiasing and thicken the line a little.
     CGContextSetShouldAntialias(context, true);
-    CGContextSetLineWidth(context, 1.41421359 * lineWidth);
     CGContextSetLineJoin(context, kCGLineJoinMiter);
 
     // Arrow head
@@ -65,12 +64,12 @@ static NSMutableDictionary* imageDictionary;
 
     // horizontal line across the bottom. back to a sharp line.
     CGContextSetShouldAntialias(context, false);
-    CGContextSetLineWidth(context, lineWidth);
 
     CGContextMoveToPoint(context, 0.25 * size.width, 0.75 * size.height);
     CGContextAddLineToPoint(context, 0.75 * size.width, 0.75 * size.height);
     CGContextStrokePath(context);
 
+    /*
     // Rounded-rectangle border
     const CGFloat cornerRadius = 0.1 * sqrt(size.width * size.height); // points
     const CGFloat ratio = 0.9; // width of border / size.width
@@ -115,6 +114,7 @@ static NSMutableDictionary* imageDictionary;
     CGContextMoveToPoint(context, ratio * size.width - cornerRadius, ratio * size.height);
     CGContextAddArcToPoint(context, ratio * size.width, ratio * size.height, ratio * size.width, ratio * size.height - cornerRadius, cornerRadius);
     CGContextStrokePath(context);
+    // */
 }
 
 + (NSString*)keyForSize:(CGSize)size color:(UIColor*)color background:(UIColor*)backgroundColor

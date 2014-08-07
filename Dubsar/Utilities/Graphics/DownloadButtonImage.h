@@ -21,6 +21,7 @@
 
 @interface DownloadButtonImage : UIImage
 
++ (void)buildImageWithSize:(CGSize)size color:(UIColor*)color background:(UIColor*)backgroundColor context:(CGContextRef)context;
 + (UIImage*)imageWithSize:(CGSize)size color:(UIColor*)color background:(UIColor*)backgroundColor;
 + (void)voidCache;
 

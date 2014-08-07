@@ -17,14 +17,10 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "CGHelper.h"
-#import "DatabaseManager.h"
-#import "DownloadBarButtonView.h"
-#import "DownloadButtonImage.h"
-#import "Dubsar.h"
-#import "DubsarServer.h"
-#import "KeyboardHelper.h"
-#import "NavButtonImage.h"
-#import "PushWrapper.h"
-#import "IOSKnobControl.h"
-#import "UIApplication+NetworkRefCount.h"
+@import UIKit;
+
+@interface DownloadBarButtonView : UIView
+
+@property (nonatomic) CALayer *borderLayer;
+
+@end
