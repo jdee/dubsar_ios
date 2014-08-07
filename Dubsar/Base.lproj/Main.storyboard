@@ -356,11 +356,10 @@
                                     <constraint firstAttribute="height" constant="207" id="Tld-H2-Zee"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected Theme" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="167" translatesAutoresizingMaskIntoConstraints="NO" id="fWN-je-cE7">
-                                <rect key="frame" x="20" y="20" width="167" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected Theme" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="fWN-je-cE7">
+                                <rect key="frame" x="20" y="20" width="560" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="68t-cQ-CiF"/>
-                                    <constraint firstAttribute="width" constant="167" id="nlc-Ay-cOf"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -370,10 +369,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fWN-je-cE7" firstAttribute="top" secondItem="aek-oX-MBC" secondAttribute="top" constant="20" id="3v2-d5-Xo6"/>
-                            <constraint firstItem="fWN-je-cE7" firstAttribute="leading" secondItem="aek-oX-MBC" secondAttribute="leading" constant="20" id="CtI-Nz-Lf5"/>
+                            <constraint firstItem="fWN-je-cE7" firstAttribute="leading" secondItem="aek-oX-MBC" secondAttribute="leading" constant="20" id="W0m-NH-FnZ"/>
                             <constraint firstItem="5Y2-EG-sod" firstAttribute="top" secondItem="fWN-je-cE7" secondAttribute="bottom" constant="19" id="ifn-by-t3i"/>
                             <constraint firstItem="5Y2-EG-sod" firstAttribute="leading" secondItem="aek-oX-MBC" secondAttribute="leading" id="m6v-5M-c7Q"/>
-                            <constraint firstItem="5Y2-EG-sod" firstAttribute="leading" secondItem="fWN-je-cE7" secondAttribute="trailing" constant="-187" id="yJU-gJ-u0d"/>
+                            <constraint firstAttribute="trailing" secondItem="fWN-je-cE7" secondAttribute="trailing" constant="20" id="nae-1n-QYo"/>
+                            <constraint firstItem="5Y2-EG-sod" firstAttribute="leading" secondItem="aek-oX-MBC" secondAttribute="leading" id="wlR-Nx-qZ0"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>

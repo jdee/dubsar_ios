@@ -70,11 +70,16 @@ class ThemeViewController: BaseViewController {
         knobControl.setFillColor(AppConfiguration.alternateHighlightColor, forState: .Highlighted)
         knobControl.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         knobControl.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
-        knobControl.setNeedsLayout()
 
         highlightLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline, italic: false)
         highlightLabel.backgroundColor = AppConfiguration.highlightColor
         highlightLabel.textColor = AppConfiguration.foregroundColor
+
+        let offset: CGFloat = 19
+        let dimension = min(view.bounds.size.width, view.bounds.size.height - highlightLabel.frame.origin.y - highlightLabel.frame.size.height - offset)
+
+        knobHolder.frame = CGRectMake(0, highlightLabel.frame.origin.y + highlightLabel.frame.size.height + offset, dimension, dimension)
+        knobControl.frame = knobHolder.bounds
 
         super.adjustLayout()
     }
@@ -85,7 +90,6 @@ class ThemeViewController: BaseViewController {
 
         if selected >= 0 {
             knobControl.fontName = psNames[selected]
-            knobControl.setNeedsLayout()
         }
 
         adjustLayout()
