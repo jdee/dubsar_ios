@@ -47,6 +47,9 @@ class ThemeViewController: BaseViewController {
         knobControl.mode = .LinearReturn
         knobControl.gesture = .OneFingerRotation
         knobControl.positions = UInt(titles.count)
+        knobControl.min = -Float(M_PI_2)
+        knobControl.max = Float(M_PI_2)
+        knobControl.circular = false
         knobControl.titles = titles
 
         knobControl.positionIndex = AppConfiguration.themeSetting

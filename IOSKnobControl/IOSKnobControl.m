@@ -36,7 +36,7 @@
 #define IKC_FINGER_HOLE_RADIUS 22.0
 
 // Must match IKC_VERSION and IKC_BUILD from IOSKnobControl.h.
-#define IKC_TARGET_VERSION 0x010201
+#define IKC_TARGET_VERSION 0x010300
 #define IKC_TARGET_BUILD 1
 
 /*
@@ -548,8 +548,15 @@ static CGRect adjustFrame(CGRect frame) {
 {
     UIFontDescriptor* fontDescriptor = [UIFontDescriptor fontDescriptorWithName:fontName size:0.0];
     if ([fontDescriptor matchingFontDescriptorsWithMandatoryKeys:nil].count == 0) {
-        NSLog(@"Failed to find font name \"%@\".", fontName);
-        return;
+        /*
+         * On iOS 6, the matchingBlah: call returns 0 for valid fonts. So we do this check too
+         * before giving up.
+         */
+        UIFont* font = [UIFont fontWithName:fontName size:17.0];
+        if (!font) {
+            NSLog(@"Failed to find font name \"%@\".", fontName);
+            return;
+        }
     }
 
     _fontName = fontName;
