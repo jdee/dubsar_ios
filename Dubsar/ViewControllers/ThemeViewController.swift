@@ -51,6 +51,8 @@ class ThemeViewController: BaseViewController {
         knobControl.max = Float(M_PI_2)
         knobControl.circular = false
         knobControl.titles = titles
+        knobControl.shadow = true
+        knobControl.clipsToBounds = false
 
         knobControl.positionIndex = AppConfiguration.themeSetting
 

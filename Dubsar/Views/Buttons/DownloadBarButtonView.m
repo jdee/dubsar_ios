@@ -22,22 +22,30 @@
 
 @implementation DownloadBarButtonView
 
-- (void)layoutSubviews
+- (instancetype)initWithFrame:(CGRect)frame
 {
-    [super layoutSubviews];
+    self = [super initWithFrame:frame];
+    if (self) {
+        _borderLayer = [CALayer layer];
+        _borderLayer.opaque = NO;
+        _borderLayer.backgroundColor = [UIColor clearColor].CGColor;
+        _borderLayer.position = CGPointMake(0.5 * self.bounds.size.width, 0.5 * self.bounds.size.height);
+        _borderLayer.bounds = CGRectMake(0, 0, 0.75 * self.bounds.size.width, 0.75 * self.bounds.size.height);
 
-    [_borderLayer removeFromSuperlayer];
-    _borderLayer = [CALayer layer];
-    _borderLayer.opaque = NO;
-    _borderLayer.backgroundColor = [UIColor clearColor].CGColor;
-    _borderLayer.position = CGPointMake(0.5 * self.bounds.size.width, 0.5 * self.bounds.size.height);
-    _borderLayer.bounds = CGRectMake(0, 0, 0.75 * self.bounds.size.width, 0.75 * self.bounds.size.height);
+        _borderLayer.cornerRadius = 0.1 * sqrt(self.bounds.size.width * self.bounds.size.height);
+        _borderLayer.borderColor = self.tintColor.CGColor;
+        _borderLayer.borderWidth = 1.0;
 
-    _borderLayer.cornerRadius = 0.1 * sqrt(self.bounds.size.width * self.bounds.size.height);
+        [self.layer addSublayer:_borderLayer];
+    }
+    return self;
+}
+
+- (void)tintColorDidChange
+{
+    [super tintColorDidChange]; // ?
+
     _borderLayer.borderColor = self.tintColor.CGColor;
-    _borderLayer.borderWidth = 1.0;
-
-    [self.layer addSublayer:_borderLayer];
 }
 
 - (void)drawRect:(CGRect)rect

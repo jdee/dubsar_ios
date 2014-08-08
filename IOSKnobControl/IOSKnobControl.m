@@ -34,6 +34,7 @@
 // but I'm reluctant to introduce a new property just for rotary dial mode, and I'm not sure whether it's really necessary. it would only be useful for very
 // large dials (on an iPad).
 #define IKC_FINGER_HOLE_RADIUS 22.0
+#define IKC_TITLE_MARGIN_RATIO 0.1
 
 // Must match IKC_VERSION and IKC_BUILD from IOSKnobControl.h.
 #define IKC_TARGET_VERSION 0x010300
@@ -108,6 +109,149 @@ static CGRect adjustFrame(CGRect frame) {
 
 @end
 
+#pragma mark - IKCTextLayer interface
+/**
+ * Custom text layer. Looks much better than CATextLayer. Destined for the Violation framework.
+ */
+@interface IKCTextLayer : CALayer
+
+#pragma mark - Properties
+@property (nonatomic, copy) NSString* fontName;
+@property (nonatomic) CGFloat fontSize;
+@property (nonatomic) CGColorRef foregroundColor;
+@property (nonatomic, copy) id string;
+@property (nonatomic) CGFloat horizMargin, vertMargin;
+
+#pragma mark - Object lifecycle
++ (instancetype)layer;
+
+@end
+
+#pragma mark - IKCTextLayer implementation
+@implementation IKCTextLayer
+
+#pragma mark - Object lifecycle
++ (instancetype)layer
+{
+    return [[self alloc] init];
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _fontSize = 0.0;
+        _foregroundColor = [UIColor blackColor].CGColor;
+        CFRetain(_foregroundColor);
+        _horizMargin = _vertMargin = 0.0;
+
+        self.opaque = NO;
+        self.backgroundColor = [UIColor clearColor].CGColor;
+
+        [self setNeedsDisplay];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    if (_foregroundColor) CFRelease(_foregroundColor);
+}
+
+#pragma mark - Property override
+- (void)setForegroundColor:(CGColorRef)foregroundColor
+{
+    if (!foregroundColor) return;
+
+    if (_foregroundColor) CFRelease(_foregroundColor);
+    _foregroundColor = foregroundColor;
+    CFRetain(_foregroundColor);
+}
+
+#pragma mark - Custom text display with CoreText.
+- (void)display
+{
+    CGSize size = self.bounds.size;
+    CGFloat horizMargin = _horizMargin;
+    CGFloat vertMargin = _vertMargin;
+
+    // Use CoreText to render directly
+    // from https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/CoreText_Programming/LayoutOperations/LayoutOperations.html#//apple_ref/doc/uid/TP40005533-CH12-SW2
+
+    CTFontRef font;
+
+    CFAttributedStringRef attributed;
+    if ([_string isKindOfClass:NSAttributedString.class]) {
+        attributed = CFAttributedStringCreateCopy(kCFAllocatorDefault, (CFAttributedStringRef)_string);
+        font = CFAttributedStringGetAttribute(attributed, 0, kCTFontAttributeName, NULL);
+        assert(font);
+        CGColorRef fg = (CGColorRef)CFAttributedStringGetAttribute(attributed, 0, kCTForegroundColorAttributeName, NULL);
+
+        /*
+         * As with views like UILabel, reset the foregroundColor and fontName properties to those attributes of the
+         * string at location 0.
+         */
+        _foregroundColor = (CGColorRef)CFBridgingRetain([UIColor colorWithCGColor: fg]);
+        _fontName = CFBridgingRelease(CTFontCopyPostScriptName(font));
+    }
+    else {
+        size.width *= [UIScreen mainScreen].scale;
+        size.height *= [UIScreen mainScreen].scale;
+
+        CGFloat fontSize = _fontSize * [UIScreen mainScreen].scale;
+
+        horizMargin = _horizMargin * [UIScreen mainScreen].scale;
+        vertMargin = _vertMargin * [UIScreen mainScreen].scale;
+
+        font = CTFontCreateWithName((CFStringRef)_fontName, fontSize, NULL);
+        assert(font);
+
+        /*
+        CFStringRef fname = CTFontCopyPostScriptName(font);
+        NSLog(@"Using font %@", (__bridge NSString*)fname);
+        CFRelease(fname);
+        // */
+
+        CFStringRef keys[] = { kCTFontAttributeName, kCTForegroundColorAttributeName };
+        CFTypeRef values[] = { font, _foregroundColor };
+
+        CFDictionaryRef attributes =
+        CFDictionaryCreate(kCFAllocatorDefault, (const void**)&keys,
+                           (const void**)&values, sizeof(keys) / sizeof(keys[0]),
+                           &kCFTypeDictionaryKeyCallBacks,
+                           &kCFTypeDictionaryValueCallBacks);
+        CFRelease(font);
+        attributed = CFAttributedStringCreate(kCFAllocatorDefault, (CFStringRef)_string, attributes);
+        CFRelease(attributes);
+    }
+
+    CTLineRef line = CTLineCreateWithAttributedString(attributed);
+    CFRelease(attributed);
+
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    // flip y
+    CGContextTranslateCTM(context, 0.0, size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+
+    // compute vertical position from font metrics
+    CGFloat belowBaseline = CTFontGetLeading(font) + CTFontGetDescent(font) + vertMargin;
+    CGFloat lineHeight = belowBaseline + CTFontGetAscent(font) + vertMargin;
+
+    CGFloat x = horizMargin;
+    CGFloat y = belowBaseline / lineHeight * size.height;
+
+    CGContextSetTextPosition(context, x, y);
+    CTLineDraw(line, context);
+    CFRelease(line);
+
+    self.contents = (id)UIGraphicsGetImageFromCurrentImageContext().CGImage;
+    UIGraphicsEndImageContext();
+}
+
+@end
+
 /*
  * Used in dialNumber:. There doesn't seem to be an appropriate delegate protocol for CAAnimation. 
  * The animationDidStop:finished: message is
@@ -148,6 +292,7 @@ static CGRect adjustFrame(CGRect frame) {
     UIColor* titleColor[4];
     BOOL rotating;
     int lastNumberDialed, _numberDialed;
+    NSInteger lastPositionIndex;
 }
 
 @dynamic positionIndex, nearestPosition;
@@ -200,9 +345,12 @@ static CGRect adjustFrame(CGRect frame) {
     _gesture = IKCGestureOneFingerRotation;
     _normalized = YES;
     _fontName = @"Helvetica";
+    _shadow = NO;
 
     rotating = NO;
     lastNumberDialed = _numberDialed = -1;
+
+    lastPositionIndex = 0;
 
     self.opaque = NO;
     self.backgroundColor = [UIColor clearColor];
@@ -374,10 +522,14 @@ static CGRect adjustFrame(CGRect frame) {
 
 - (void)setPositions:(NSUInteger)positions
 {
+    if (_positions == positions) return;
+
     _positions = positions;
+
     [imageLayer removeFromSuperlayer];
     shapeLayer = nil;
     imageLayer = [self createShapeLayer];
+    [self addMarkings]; // gets rid of any old ones
     [self.layer addSublayer:imageLayer];
 }
 
@@ -552,7 +704,8 @@ static CGRect adjustFrame(CGRect frame) {
          * On iOS 6, the matchingBlah: call returns 0 for valid fonts. So we do this check too
          * before giving up.
          */
-        UIFont* font = [UIFont fontWithName:fontName size:17.0];
+        UIFontDescriptor* fontDescriptor = [UIFontDescriptor fontDescriptorWithName:fontName size:17.0];
+        UIFont* font = [UIFont fontWithDescriptor:fontDescriptor size:0.0];
         if (!font) {
             NSLog(@"Failed to find font name \"%@\".", fontName);
             return;
@@ -560,6 +713,12 @@ static CGRect adjustFrame(CGRect frame) {
     }
 
     _fontName = fontName;
+    [self setNeedsLayout];
+}
+
+- (void)setShadow:(BOOL)shadow
+{
+    _shadow = shadow;
     [self setNeedsLayout];
 }
 
@@ -624,10 +783,21 @@ static CGRect adjustFrame(CGRect frame) {
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    lastPositionIndex = self.positionIndex;
     [self updateImage];
 }
 
 #pragma mark - Private Methods: Geometry
+
+- (void)checkPositionIndex
+{
+    if (self.positionIndex == lastPositionIndex) {
+        return;
+    }
+
+    lastPositionIndex = self.positionIndex;
+    [self setNeedsLayout];
+}
 
 - (NSInteger)positionIndexForPosition:(float)position
 {
@@ -798,6 +968,10 @@ static CGRect adjustFrame(CGRect frame) {
     [CATransaction commit];
 
     _position = position;
+
+    if (_mode == IKCModeLinearReturn || _mode == IKCModeWheelOfFortune) {
+        [self checkPositionIndex];
+    }
 }
 
 #pragma mark - Private Methods: Gesture Recognition
@@ -1088,6 +1262,8 @@ static CGRect adjustFrame(CGRect frame) {
     }
     middleLayer.bounds = self.bounds;
     middleLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
+    middleLayer.shadowOpacity = _shadow ? 1.0 : 0.0;
+    middleLayer.shadowOffset = CGSizeMake(0, 3); // DEBT: Make all the shadow params configurable
 
     UIImage* image = self.currentImage;
     if (image) {
@@ -1111,7 +1287,9 @@ static CGRect adjustFrame(CGRect frame) {
     }
     else {
         [imageLayer removeFromSuperlayer];
-        imageLayer = [self createShapeLayer];
+        if (![imageLayer isKindOfClass:CAShapeLayer.class]) {
+            imageLayer = [self createShapeLayer];
+        }
         [middleLayer addSublayer:imageLayer];
     }
     imageLayer.bounds = self.bounds;
@@ -1125,6 +1303,8 @@ static CGRect adjustFrame(CGRect frame) {
         foregroundLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
         foregroundLayer.backgroundColor = [UIColor clearColor].CGColor;
         foregroundLayer.opaque = NO;
+        foregroundLayer.shadowOpacity = _shadow ? 1.0 : 0.0;
+        foregroundLayer.shadowOffset = CGSizeMake(0, 3);
         [self.layer addSublayer:foregroundLayer];
 
         if (_foregroundImage)
@@ -1153,41 +1333,188 @@ static CGRect adjustFrame(CGRect frame) {
 
 - (void)updateShapeLayer
 {
-    shapeLayer.fillColor = self.currentFillColor.CGColor;
-    pipLayer.fillColor = self.currentTitleColor.CGColor;
-    stopLayer.fillColor = self.currentTitleColor.CGColor;
+    if (!self.currentImage) {
+        switch (_mode) {
+            case IKCModeLinearReturn:
+            case IKCModeWheelOfFortune:
+                [self updateKnobWithMarkings];
+                break;
+            case IKCModeRotaryDial:
+                [self updateRotaryDial];
+                break;
+            default:
+                break;
+        }
 
-    [self addMarkings];
-
-    [self createDialNumbers];
+        shapeLayer.fillColor = self.currentFillColor.CGColor;
+        pipLayer.fillColor = self.currentTitleColor.CGColor;
+        stopLayer.fillColor = self.currentTitleColor.CGColor;
+    }
 }
 
-- (void)addMarkings
+- (void)updateKnobWithMarkings
 {
-    for (CATextLayer* layer in markings) {
-        [layer removeFromSuperlayer];
-    }
-    markings = [NSMutableArray array];
+    shapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.5) radius:self.bounds.size.width*0.45 startAngle:0.0 endAngle:2.0*M_PI clockwise:NO].CGPath;
+    shapeLayer.bounds = self.bounds;
+    shapeLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
 
-    if ((_mode != IKCModeLinearReturn && _mode != IKCModeWheelOfFortune) || self.currentImage) return;
+    [self updateMarkings];
+}
+
+- (void)updateRotaryDial
+{
+    float const dialRadius = 0.5 * self.bounds.size.width;
+    UIBezierPath* path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.5) radius:dialRadius startAngle:0.0 endAngle:2.0*M_PI clockwise:NO];
+
+    // this follows because the holes are positioned so that the margin between adjacent holes
+    // is the same as the margin between each hole and the rim of the dial. see the discussion
+    // in handleTap:. the radius of a finger hole is constant, 22 pts, for a 44 pt diameter,
+    // the minimum size for a tap target. the minimum value of dialRadius is 107. the control
+    // must be at least 214x214.
+    float const margin = (dialRadius - 4.86*IKC_FINGER_HOLE_RADIUS)/2.93;
+    float const centerRadius = dialRadius - margin - IKC_FINGER_HOLE_RADIUS;
+
+    int j;
+    for (j=0; j<10; ++j)
+    {
+        double centerAngle = M_PI_4 + j*M_PI/6.0;
+        double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
+        double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
+        [path addArcWithCenter:CGPointMake(centerX, centerY) radius:IKC_FINGER_HOLE_RADIUS startAngle:M_PI_2-centerAngle endAngle:1.5*M_PI-centerAngle clockwise:YES];
+    }
+    for (--j; j>=0; --j)
+    {
+        double centerAngle = M_PI_4 + j*M_PI/6.0;
+        double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
+        double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
+        [path addArcWithCenter:CGPointMake(centerX, centerY) radius:IKC_FINGER_HOLE_RADIUS startAngle:1.5*M_PI-centerAngle endAngle:M_PI_2-centerAngle clockwise:YES];
+    }
+
+    shapeLayer.path = path.CGPath;
+    shapeLayer.bounds = self.bounds;
+    shapeLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
+}
+
+- (void)updateDialNumbers
+{
+    float const dialRadius = 0.5 * self.bounds.size.width;
+
+    // this follows because the holes are positioned so that the margin between adjacent holes
+    // is the same as the margin between each hole and the rim of the dial. see the discussion
+    // in handleTap:. the radius of a finger hole is constant, 22 pts, for a 44 pt diameter,
+    // the minimum size for a tap target. the minimum value of dialRadius is 107. the control
+    // must be at least 214x214.
+    float const margin = (dialRadius - 4.86*IKC_FINGER_HOLE_RADIUS)/2.93;
+    float const centerRadius = dialRadius - margin - IKC_FINGER_HOLE_RADIUS;
 
     CGFloat fontSize = self.fontSizeForTitles;
     UIFont* font = [UIFont fontWithName:_fontName size:fontSize];
     int j;
+    for (j=0; j<10; ++j)
+    {
+        double centerAngle = M_PI_4 + j*M_PI/6.0;
+        double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
+        double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
+
+        NSString* text = [NSString stringWithFormat:@"%d", (j+1)%10];
+        CGSize textSize = [text sizeOfTextWithFont:font];
+        IKCTextLayer* textLayer = dialMarkings[j];
+        textLayer.string = text;
+        textLayer.foregroundColor = self.currentTitleColor.CGColor;
+        textLayer.fontSize = fontSize;
+        textLayer.fontName = _fontName;
+
+        textLayer.bounds = CGRectMake(0, 0, textSize.width, textSize.height);
+        textLayer.position = CGPointMake(centerX, centerY);
+        /*
+        textLayer.borderColor = self.currentTitleColor.CGColor;
+        textLayer.borderWidth = 1.0;
+        textLayer.cornerRadius = 2.0;
+        // */
+
+        [textLayer setNeedsDisplay];
+
+        [dialMarkings addObject:textLayer];
+        [backgroundLayer addSublayer:textLayer];
+    }
+}
+
+- (void)updateMarkings
+{
+    CGFloat fontSize = self.fontSizeForTitles;
+    UIFontDescriptor* fontDescriptor = [UIFontDescriptor fontDescriptorWithName:_fontName size:fontSize];
+    UIFont* font = [UIFont fontWithDescriptor:fontDescriptor size:0.0];
+    assert(font);
+
+    /*
+     * Zoom the title at the top to the headline size if fontSize is smaller than the current headline font size
+     * (makes use of Dynamic Type, so requires iOS 7+). DEBT: Zoom to 17 pts or something on iOS 6?
+     */
+    UIFont* headlineFont = font;
+    CGFloat headlinePointSize = font.pointSize;
+    if ([UIFontDescriptor respondsToSelector:@selector(preferredFontDescriptorWithTextStyle:)]) {
+        UIFontDescriptor* headlineFontDesc = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
+        if (headlineFontDesc.pointSize > fontSize) {
+            headlinePointSize = headlineFontDesc.pointSize;
+            headlineFontDesc = [UIFontDescriptor fontDescriptorWithName:_fontName size:headlinePointSize];
+            headlineFont = [UIFont fontWithDescriptor:headlineFontDesc size:0.0];
+            assert(headlineFont);
+        }
+    }
+
+    assert(font);
+    assert(headlineFont);
+
+    assert(markings.count == _positions);
+
+    int j;
     for (j=0; j<_positions; ++j) {
         // get the title for this marking (use j if none)
         NSString* title;
-        if (j < _titles.count) title = [_titles objectAtIndex:j];
+        NSAttributedString* attribTitle;
+        id titleObject;
+        if (j < _titles.count) titleObject = [_titles objectAtIndex:j];
 
-        if (!title) {
+        if (!titleObject) {
             title = [NSString stringWithFormat:@"%d", j];
         }
+        else if ([titleObject isKindOfClass:NSAttributedString.class]) {
+            attribTitle = titleObject;
+        }
+        else if ([titleObject isKindOfClass:NSString.class]) {
+            title = titleObject;
+        }
 
-        CALayer* layer = [CALayer layer];
+        NSInteger currentIndex = self.positionIndex;
+        UIFont* titleFont = currentIndex == j ? headlineFont : font;
 
-        CGSize textSize = [title sizeOfTextWithFont:font];
-        UIImage* image = [self renderLabelImageWithText:title size:textSize fontName:_fontName fontSize:fontSize backgroundColor:[UIColor clearColor] foregroundColor:self.currentTitleColor];
-        layer.contents = (id)image.CGImage;
+        // NSLog(@"Using title font %@ %f", titleFont.fontName, titleFont.pointSize);
+
+        // These computations need work.
+        CGSize textSize;
+
+        if (attribTitle) {
+            textSize = attribTitle.size;
+        }
+        else if (title) {
+            textSize = [title sizeOfTextWithFont:titleFont];
+        }
+        CGFloat horizMargin = IKC_TITLE_MARGIN_RATIO * textSize.width;
+        CGFloat vertMargin = IKC_TITLE_MARGIN_RATIO * textSize.height;
+
+        textSize.width += 2.0 * horizMargin;
+        textSize.height += 2.0 * vertMargin;
+        
+        IKCTextLayer* layer = markings[j];
+
+        layer.string = titleObject;
+        layer.horizMargin = horizMargin;
+        layer.vertMargin = vertMargin;
+
+        // these things are all ignored if layer.string is an attributed string
+        layer.fontSize = titleFont.pointSize;
+        layer.fontName = _fontName;
+        layer.foregroundColor = self.currentTitleColor.CGColor;
 
         // place it at the appropriate angle, taking the clockwise switch into account
         float position;
@@ -1204,73 +1531,33 @@ static CGRect adjustFrame(CGRect frame) {
         float radius = 0.4*self.bounds.size.width - 0.5*textSize.height;
 
         // place and rotate
-        //*
         layer.position = CGPointMake(self.bounds.origin.x + 0.5*self.bounds.size.width+radius*sin(actual), self.bounds.origin.y + 0.5*self.bounds.size.height-radius*cos(actual));
         layer.bounds = CGRectMake(0, 0, textSize.width, textSize.height);
         layer.transform = CATransform3DMakeRotation(actual, 0, 0, 1);
+
+        /*
+        layer.borderColor = self.currentTitleColor.CGColor;
+        layer.borderWidth = 1.0;
+        layer.cornerRadius = 2.0;
         // */
 
-        // background is transparent
-        layer.opaque = NO;
-        layer.backgroundColor = [UIColor clearColor].CGColor;
-
-        [markings addObject:layer];
-
-        [shapeLayer addSublayer:layer];
+        [layer setNeedsDisplay];
     }
 }
 
-- (UIImage*)renderLabelImageWithText:(NSString*)text size:(CGSize)size fontName:(NSString*)fontName fontSize:(CGFloat)fontSize backgroundColor:(UIColor*)background foregroundColor:(UIColor*)foregroundColor
+- (void)addMarkings
 {
-    // Account for screen resolution.
-    size.width *= [UIScreen mainScreen].scale;
-    size.height *= [UIScreen mainScreen].scale;
+    for (CATextLayer* layer in markings) {
+        [layer removeFromSuperlayer];
+    }
+    markings = [NSMutableArray array];
 
-    fontSize *= [UIScreen mainScreen].scale;
-
-    // create a bitmap context for CG and render into it with CT. then convert to a UIImage.
-    UIGraphicsBeginImageContext(size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
-    // fill with background color
-    CGContextSetFillColorWithColor(context, background.CGColor);
-    CGContextFillRect(context, CGRectMake(0.0, 0.0, size.width, size.height));
-
-    // Use CoreText to render directly
-    // from https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/CoreText_Programming/LayoutOperations/LayoutOperations.html#//apple_ref/doc/uid/TP40005533-CH12-SW2
-
-    CTFontRef font = CTFontCreateWithName((CFStringRef)fontName, fontSize, NULL);
-    CFStringRef keys[] = { kCTFontAttributeName, kCTForegroundColorAttributeName };
-    CFTypeRef values[] = { font, foregroundColor.CGColor };
-
-    CFDictionaryRef attributes =
-    CFDictionaryCreate(kCFAllocatorDefault, (const void**)&keys,
-                       (const void**)&values, sizeof(keys) / sizeof(keys[0]),
-                       &kCFTypeDictionaryKeyCallBacks,
-                       &kCFTypeDictionaryValueCallBacks);
-    CFRelease(font);
-
-    CFAttributedStringRef attributed = CFAttributedStringCreate(kCFAllocatorDefault, (CFStringRef)text, attributes);
-    CFRelease(attributes);
-
-    CTLineRef line = CTLineCreateWithAttributedString(attributed);
-    CFRelease(attributed);
-
-    // flip y
-    CGContextTranslateCTM(context, 0.0, size.height);
-    CGContextScaleCTM(context, 1.0, -1.0);
-
-    // DEBT: This 0.2 is probably related to font ascents and shit like that. Should compute it. But this works for now.
-    CGContextSetTextPosition(context, 0.0, 0.2*size.height);
-    CTLineDraw(line, context);
-    CFRelease(line);
-
-    // get an image from the CG context
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-    // here ya go
-    return newImage;
+    int j;
+    for (j=0; j<_positions; ++j) {
+        IKCTextLayer* layer = [IKCTextLayer layer];
+        [markings addObject:layer];
+        [shapeLayer addSublayer:layer];
+    }
 }
 
 /*
@@ -1333,9 +1620,6 @@ static CGRect adjustFrame(CGRect frame) {
 - (CAShapeLayer*)createKnobWithMarkings
 {
     shapeLayer = [CAShapeLayer layer];
-    shapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.5) radius:self.bounds.size.width*0.45 startAngle:0.0 endAngle:2.0*M_PI clockwise:NO].CGPath;
-    shapeLayer.bounds = self.bounds;
-    shapeLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
     shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
     shapeLayer.opaque = NO;
 
@@ -1347,40 +1631,12 @@ static CGRect adjustFrame(CGRect frame) {
 
 - (CAShapeLayer*)createRotaryDial
 {
-    UIBezierPath* path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.5) radius:self.bounds.size.width*0.5 startAngle:0.0 endAngle:2.0*M_PI clockwise:NO];
-
-    float const dialRadius = 0.5 * self.frame.size.width;
-
-    // this follows because the holes are positioned so that the margin between adjacent holes
-    // is the same as the margin between each hole and the rim of the dial. see the discussion
-    // in handleTap:. the radius of a finger hole is constant, 22 pts, for a 44 pt diameter,
-    // the minimum size for a tap target. the minimum value of dialRadius is 107. the control
-    // must be at least 214x214.
-    float const margin = (dialRadius - 4.86*IKC_FINGER_HOLE_RADIUS)/2.93;
-    float const centerRadius = dialRadius - margin - IKC_FINGER_HOLE_RADIUS;
-
-    int j;
-    for (j=0; j<10; ++j)
-    {
-        double centerAngle = M_PI_4 + j*M_PI/6.0;
-        double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
-        double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
-        [path addArcWithCenter:CGPointMake(centerX, centerY) radius:IKC_FINGER_HOLE_RADIUS startAngle:M_PI_2-centerAngle endAngle:1.5*M_PI-centerAngle clockwise:YES];
-    }
-    for (--j; j>=0; --j)
-    {
-        double centerAngle = M_PI_4 + j*M_PI/6.0;
-        double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
-        double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
-        [path addArcWithCenter:CGPointMake(centerX, centerY) radius:IKC_FINGER_HOLE_RADIUS startAngle:1.5*M_PI-centerAngle endAngle:M_PI_2-centerAngle clockwise:YES];
-    }
 
     shapeLayer = [CAShapeLayer layer];
-    shapeLayer.path = path.CGPath;
-    shapeLayer.bounds = self.bounds;
-    shapeLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
     shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
     shapeLayer.opaque = NO;
+
+    [self createDialNumbers];
 
     return shapeLayer;
 }
@@ -1396,40 +1652,12 @@ static CGRect adjustFrame(CGRect frame) {
     }
     dialMarkings = [NSMutableArray array];
 
-    float const dialRadius = 0.5 * self.frame.size.width;
-
-    // this follows because the holes are positioned so that the margin between adjacent holes
-    // is the same as the margin between each hole and the rim of the dial. see the discussion
-    // in handleTap:. the radius of a finger hole is constant, 22 pts, for a 44 pt diameter,
-    // the minimum size for a tap target. the minimum value of dialRadius is 107. the control
-    // must be at least 214x214.
-    float const margin = (dialRadius - 4.86*IKC_FINGER_HOLE_RADIUS)/2.93;
-    float const centerRadius = dialRadius - margin - IKC_FINGER_HOLE_RADIUS;
-
-    CGFloat fontSize = self.fontSizeForTitles;
-    UIFont* font = [UIFont fontWithName:_fontName size:fontSize];
     int j;
-    for (j=0; j<10; ++j)
-    {
-        double centerAngle = M_PI_4 + j*M_PI/6.0;
-        double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
-        double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
-
-        CALayer* textLayer = [CALayer layer];
-        NSString* text = [NSString stringWithFormat:@"%d", (j+1)%10];
-        CGSize textSize = [text sizeOfTextWithFont:font];
-        UIImage* image = [self renderLabelImageWithText:text size:textSize fontName:_fontName fontSize:fontSize backgroundColor:[UIColor clearColor] foregroundColor:self.currentTitleColor];
-        textLayer.contents = (id)image.CGImage;
-
-        textLayer.backgroundColor = [UIColor clearColor].CGColor;
-        textLayer.opaque = NO;
-
-        textLayer.bounds = CGRectMake(0, 0, textSize.width, textSize.height);
-        textLayer.position = CGPointMake(centerX, centerY);
-
-        [dialMarkings addObject:textLayer];
-        [backgroundLayer addSublayer:textLayer];
+    for (j=0; j<10; ++j) {
+        [dialMarkings addObject: [IKCTextLayer layer]];
     }
+
+    [self updateDialNumbers];
 
     return backgroundLayer;
 }
@@ -1471,13 +1699,20 @@ static CGRect adjustFrame(CGRect frame) {
     return stopLayer;
 }
 
-- (CGFloat)titleCircumferenceWithFontSize:(CGFloat)fontSize
+- (CGFloat)titleCircumferenceWithFont:(UIFont*)font
 {
     CGFloat max = 0.0;
-    UIFont* font = [UIFont fontWithName:_fontName size:fontSize];
-    for (NSString* title in _titles) {
-        CGSize textSize = [title sizeOfTextWithFont:font];
-        max = MAX(max, textSize.width);
+    for (id titleObject in _titles) {
+
+        CGSize textSize;
+        if ([titleObject isKindOfClass:NSAttributedString.class]) {
+            textSize = [(NSAttributedString*)titleObject size];
+        }
+        else if ([titleObject isKindOfClass:NSString.class]) {
+            textSize = [(NSString*)titleObject sizeOfTextWithFont:font];
+        }
+        CGFloat width = textSize.width * (1.0 + 2.0 * IKC_TITLE_MARGIN_RATIO);
+        max = MAX(max, width);
     }
 
     return max * _positions;
@@ -1504,7 +1739,16 @@ static CGRect adjustFrame(CGRect frame) {
             continue;
         }
 
-        CGFloat circumference = [self titleCircumferenceWithFontSize:fontSize];
+        // NSLog(@"Looking for font %@ %f", _fontName, fontSize);
+        UIFontDescriptor* fontDescriptor = [UIFontDescriptor fontDescriptorWithName:_fontName size:fontSize];
+        UIFont* font = [UIFont fontWithDescriptor:fontDescriptor size:0.0];
+
+        if (!font) {
+            // Assume it will eventually find one.
+            continue;
+        }
+
+        CGFloat circumference = [self titleCircumferenceWithFont:font];
 
         // Empirically, this 0.25 works out well. This allows for a little padding between text segments.
         if (circumference <= angle*self.bounds.size.width*0.25) break;

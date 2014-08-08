@@ -199,6 +199,11 @@ static const NSInteger IKCGTap DEPRECATED_MSG_ATTRIBUTE("Use IKCGestureTap inste
 @property (nonatomic) NSUInteger positions;
 
 /**
+ * Determine whether to draw a shadow behind the knob. Default is NO.
+ */
+@property (nonatomic) BOOL shadow;
+
+/**
  * Used to specify the time scale for return animations.
  * Default is 1.0. The duration of the animation is proportional to this property.
  * Set the number below 1.0 to speed up the animation, and above to slow it down.
@@ -210,6 +215,16 @@ static const NSInteger IKCGTap DEPRECATED_MSG_ATTRIBUTE("Use IKCGestureTap inste
 /**
  * Only used when no image is provided in a discrete mode. These titles are rendered around the knob for each position index. If this property is nil (the default), the position
  * indices will be rendered instead (0, 1, 2, ...). If the length of titles is less than positions, remaining titles will be supplied by indices.
+ *
+ * Entries may be NSStrings, NSAttributedStrings, or a mix. If NSAttributedStrings are used, the kCTFontAttributeName/NSFontAttributeName must be set at the initial position.
+ * NSStrings make use of the fontName property and titleColorForState(). NSAttributedStrings do not use the configured title colors per state either. You have to specify the
+ * foreground color for an NSAttributedString.
+ *
+ * DEBT: This is a strong argument for having an array of titles per state. Alternately, when attributed strings are used, any missing attribute (font or foreground color)
+ * could be filled in from the defaults. Attributed string support is very fresh and not well tested.
+ *
+ * Note that if you use attributed strings, you have total control over how the text will be rendered. In particular, the font size will never be computed or altered for an
+ * attributed string. This means an attributed string cannot zoom to a larger size.
  */
 @property (nonatomic) NSArray* titles;
 
