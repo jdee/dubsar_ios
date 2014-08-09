@@ -119,7 +119,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         else if type == "nav" {
             cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationTableViewCell.identifier) as? UITableViewCell
             if !cell {
-                cell = SettingNavigationTableViewCell()
+                cell = SettingNavigationTableViewCell(style: .Default, reuseIdentifier: SettingNavigationTableViewCell.identifier)
             }
         }
         else if type == "label" {

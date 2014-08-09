@@ -27,9 +27,33 @@ class SettingNavigationTableViewCell: UITableViewCell {
         }
     }
 
-    init() {
-        super.init(style: .Default, reuseIdentifier: SettingNavigationTableViewCell.identifier)
+    private var spinner: UIActivityIndicatorView
+
+    init(style cellType: UITableViewCellStyle = .Default, reuseIdentifier ident: String = SettingNavigationTableViewCell.identifier) {
+        spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
+        super.init(style: cellType, reuseIdentifier: ident)
         accessoryType = .DisclosureIndicator
+
+        spinner.hidesWhenStopped = true
+        spinner.frame = CGRectMake(2, 2, 40, 40)
+        contentView.addSubview(spinner)
+    }
+
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        if (selected) {
+            spinner.startAnimating()
+            textLabel.hidden = true
+            accessoryType = .None
+            contentView.backgroundColor = AppConfiguration.highlightColor
+        }
+        else {
+            spinner.stopAnimating()
+            textLabel.hidden = false
+            accessoryType = .DisclosureIndicator
+            contentView.backgroundColor = UIColor.clearColor()
+        }
     }
 
 }

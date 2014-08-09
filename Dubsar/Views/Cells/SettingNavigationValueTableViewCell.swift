@@ -19,17 +19,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import UIKit
 
-class SettingNavigationValueTableViewCell: UITableViewCell {
+class SettingNavigationValueTableViewCell: SettingNavigationTableViewCell {
 
-    class var identifier: String {
+    class var valueIdentifier: String {
         get {
             return "setting-navigation-value"
         }
     }
 
     init() {
-        super.init(style: .Value1, reuseIdentifier: reuseIdentifier)
+        super.init(style: .Value1, reuseIdentifier: SettingNavigationValueTableViewCell.valueIdentifier)
         accessoryType = .DisclosureIndicator
+    }
+
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        if (selected) {
+            detailTextLabel.hidden = true
+        }
+        else {
+            detailTextLabel.hidden = false
+        }
     }
 
 }
