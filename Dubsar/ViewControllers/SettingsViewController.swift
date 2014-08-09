@@ -47,7 +47,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
         [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)), "setting_type" : "label" ],
             [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "setting_type" : "navValue" ],
-            [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue", "setting_action" : "offlineSwitchChanged:" ] ]
+            [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue", "setting_action" : "offlineSwitchChanged:" ],
+            [ "title" : "Auto-update", "value" : AppConfiguration.autoUpdateKey, "setting_type" : "switch_value", "setting_action" : "autoUpdateChanged:" ] ]
         ]
 
     let devSections: [[[String: AnyObject]]] = [
@@ -136,15 +137,20 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                     switchCell = SettingSwitchValueTableViewCell()
                 }
 
-                let offlineSwitch = switchCell!.valueSwitch
-                offlineSwitch.on = value == AppConfiguration.offlineKey ? AppConfiguration.offlineSetting :
+                let optionSwitch = switchCell!.valueSwitch
+                optionSwitch.on = value == AppConfiguration.offlineKey ? AppConfiguration.offlineSetting :
+                    value == AppConfiguration.autoUpdateKey ? AppConfiguration.autoUpdateSetting :
                     AppConfiguration.productionSetting
 
-                offlineSwitch.tintColor = AppConfiguration.alternateBackgroundColor
-                offlineSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
+                if AppConfiguration.autoUpdateKey == value {
+                    optionSwitch.enabled = AppConfiguration.offlineSetting
+                }
 
-                offlineSwitch.removeTarget(self, action: Selector(action!), forControlEvents: .ValueChanged) // necessary?
-                offlineSwitch.addTarget(self, action: Selector(action!), forControlEvents: .ValueChanged)
+                optionSwitch.tintColor = AppConfiguration.alternateBackgroundColor
+                optionSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
+
+                optionSwitch.removeTarget(self, action: Selector(action!), forControlEvents: .ValueChanged) // necessary?
+                optionSwitch.addTarget(self, action: Selector(action!), forControlEvents: .ValueChanged)
                 
                 cell = switchCell
             }
@@ -225,6 +231,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         if type == "nav" || type == "navValue" {
             pushViewControllerWithIdentifier(view, router: nil)
         }
+    }
+
+    func autoUpdateChanged(sender: UISwitch!) {
+        AppConfiguration.autoUpdateSetting = sender.on
     }
 
     func offlineSwitchChanged(sender: UISwitch!) {
@@ -329,7 +339,9 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func reloadOfflineRow() {
-        settingsTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 1)], withRowAnimation: .Automatic) // DEBT: should do better than these literal constants
+        // 2: offline switch; 3: auto-update switch
+        let rows = [NSIndexPath(forRow: 2, inSection: 1), NSIndexPath(forRow: 3, inSection: 1)]
+        settingsTableView.reloadRowsAtIndexPaths(rows, withRowAnimation: .Automatic)
     }
 
     func progressUpdated(databaseManager: DatabaseManager!) {

@@ -24,6 +24,7 @@ struct AppConfiguration {
     // MARK: User default keys from settings bundle
     static let themeKey = "DubsarTheme"
     static let offlineKey = "DubsarOffline"
+    static let autoUpdateKey = "DubsarAutoUpdate"
     // MARK: Dev key(s)
     static let productionKey = "DubsarProduction"
 
@@ -97,6 +98,15 @@ struct AppConfiguration {
         set {
             NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: productionKey)
         }
+    }
+
+    static var autoUpdateSetting: Bool {
+        get {
+        return NSUserDefaults.standardUserDefaults().boolForKey(autoUpdateKey)
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: autoUpdateKey)
+    }
     }
 
     // MARK: Derived conveniences
