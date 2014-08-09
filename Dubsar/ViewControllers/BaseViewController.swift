@@ -194,18 +194,22 @@ class BaseViewController: UIViewController {
             DMLOG("Right bar button item is a download bar button item")
         }
 
-        if navigationItem.rightBarButtonItem {
-            let targetName = navigationItem.rightBarButtonItem.target === self ? "self" :
-                (navigationItem.rightBarButtonItem.target as? UIBarButtonItem) ? "non-nil" : "nil"
-            DMLOG("Action for right bar button item is \(navigationItem.rightBarButtonItem.action.description)")
-            DMLOG("Target for right bar button item is \(targetName)")
+        #if DEBUG
+            if navigationItem.rightBarButtonItem {
+                // this could be the home button
+                let targetName = navigationItem.rightBarButtonItem.target === self ? "self" :
+                    (navigationItem.rightBarButtonItem.target as? UIBarButtonItem) ? "non-nil" : "nil"
+                DMLOG("Action for right bar button item is \(navigationItem.rightBarButtonItem.action.description)")
+                DMLOG("Target for right bar button item is \(targetName)")
 
-            let responds = navigationItem.rightBarButtonItem.target.respondsToSelector(navigationItem.rightBarButtonItem.action) ? "responds" : "doesn't respond"
-            DMLOG("Target \(responds) to selector")
+                let responds = navigationItem.rightBarButtonItem.target.respondsToSelector(navigationItem.rightBarButtonItem.action) ? "responds" : "doesn't respond"
+                DMLOG("Target \(responds) to selector \(navigationItem.rightBarButtonItem.action.description)")
 
-            assert(navigationItem.rightBarButtonItem.target === self)
-            assert(navigationItem.rightBarButtonItem.target.respondsToSelector(navigationItem.rightBarButtonItem.action))
-        }
+                assert(navigationItem.rightBarButtonItem.target === self)
+                assert(navigationItem.rightBarButtonItem.target.respondsToSelector(navigationItem.rightBarButtonItem.action))
+                assert(navigationItem.rightBarButtonItem.enabled)
+            }
+        #endif
     }
 
     func addHomeButton() {
