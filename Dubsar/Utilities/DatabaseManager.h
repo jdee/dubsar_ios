@@ -59,6 +59,7 @@
 @property (nonatomic, copy, readonly) NSString* oldFileName;
 @property (nonatomic, readonly) NSURL* oldFileURL;
 @property (nonatomic, readonly) BOOL oldFileExists;
+@property (nonatomic, copy, readonly) NSString* requiredDBVersion;
 @property (atomic, readonly) NSInteger downloadSize;
 @property (atomic, readonly) NSInteger downloadedSoFar;
 @property (atomic, readonly) NSInteger unzippedSize;

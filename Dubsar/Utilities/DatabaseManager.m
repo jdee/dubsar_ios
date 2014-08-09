@@ -30,9 +30,11 @@
 #import "UIApplication+NetworkRefCount.h"
 
 #define DUBSAR_CURRENT_DOWNLOAD_KEY @"DubsarCurrentDownload"
+#define DUBSAR_REQUIRED_DB_VERSION @"dubsar-wn3.1-1"
+#define DUBSAR_DOWNLOAD_PREFIX @"dubsar-wn"
 
 @interface DatabaseManager()
-// MARK: Internal properties
+#pragma mark - Internal properties
 // Many of these atomic props are readonly in the public interface
 @property (atomic) NSInteger downloadSize, downloadedSoFar, unzippedSize, unzippedSoFar, downloadedAtLastStatsUpdate, unzippedAtLastStatsUpdate;
 @property (atomic) BOOL downloadInProgress;
@@ -72,17 +74,27 @@
 
         _start = _totalSize = 0;
 
+        _requiredDBVersion = DUBSAR_REQUIRED_DB_VERSION;
+
+        int requiredNumericVersion = [self versionFromDownloadName:_requiredDBVersion];
+
         NSString* download = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
         if (download) {
-            _fileName = [download stringByAppendingString:@".sqlite3"];
-            _zipName = [download stringByAppendingString:@".zip"];
-        }
-        else {
-            _fileName = @"UNKNOWN";
-            _zipName = @"UNKNOWN";
+            int currentNumericVersion = [self versionFromDownloadName:download];
+
+            if (currentNumericVersion >= requiredNumericVersion) {
+                _fileName = [download stringByAppendingString:@".sqlite3"];
+                _zipName = [download stringByAppendingString:@".zip"];
+                DMLOG(@"Application requires %@. Acceptable version %@ installed.", _requiredDBVersion, download);
+            }
+            else {
+                DMLOG(@"Application requires %@. Removing %@.", _requiredDBVersion, download);
+                // It'll check for updates as soon as the app foregrounds.
+                [self cleanOldDatabases];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
+            }
         }
 
-        // are these ivars actually related to the synthesized atomic props?
         memset(&_downloadStart, 0, sizeof(_downloadStart));
         memset(&_lastDownloadStatsUpdate, 0, sizeof(_lastDownloadStatsUpdate));
         memset(&_unzipStart, 0, sizeof(_unzipStart));
@@ -104,11 +116,15 @@
 #pragma mark - Dynamic properties (file management)
 - (BOOL)fileExists
 {
+    if (!self.fileURL) return NO;
+
     return [[NSFileManager defaultManager] fileExistsAtPath:self.fileURL.path];
 }
 
 - (NSURL*)fileURL
 {
+    if (!_fileName) return nil;
+
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSArray* urls = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
     NSURL* url = [urls objectAtIndex:0];
@@ -182,6 +198,8 @@
 
 - (NSURL *)zipURL
 {
+    if (!_zipName) return nil;
+
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSArray* urls = [fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask];
     NSURL* url = [urls objectAtIndex:0];
@@ -240,6 +258,12 @@
 - (void)download
 {
     if (self.downloadInProgress) {
+        return;
+    }
+
+    if (!_fileName || !_zipName) {
+        DMLOG(@"Nothing to download. Checking for available downloads.");
+        [self checkForUpdate];
         return;
     }
 
@@ -329,17 +353,20 @@
 {
     [[DubsarModelsDatabase instance] closeDB];
 
+
     NSError* error;
-    if (![[NSFileManager defaultManager] removeItemAtURL:self.fileURL error:&error]) {
+    NSURL* fileURL = self.fileURL;
+    if (fileURL && ![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error]) {
         DMLOG(@"Error deleting DB %@: %@", self.fileURL.path, error.localizedDescription);
     }
-    else {
-        DMLOG(@"Deleted %@", self.fileURL.path);
+    else if (fileURL) {
+        DMLOG(@"Deleted %@", fileURL.path);
     }
 
     // might not be there any more. don't care if this fails.
-    if ([[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:NULL]) {
-        DMLOG(@"Deleted %@", self.zipURL.path);
+    NSURL* zipURL = self.zipURL;
+    if (zipURL && [[NSFileManager defaultManager] removeItemAtURL:zipURL error:NULL]) {
+        DMLOG(@"Deleted %@", zipURL.path);
     }
 
     [self cleanOldDatabases];
@@ -403,9 +430,9 @@
     DMLOG(@"Cleaning old DBS. Current is %@", self.fileName);
 
     for (NSString* file in files) {
-        if (![file hasPrefix:@"dubsar-wn"]) continue;
+        if (![file hasPrefix:DUBSAR_DOWNLOAD_PREFIX]) continue;
 
-        if (![file isEqualToString:self.fileName] ) {
+        if (![_fileName isEqualToString:file] ) {
             NSURL* fileURL = [url URLByAppendingPathComponent:file];
             DMLOG(@"Removing %@", fileURL);
             if (![fileManager removeItemAtURL:fileURL error:&error]) {
@@ -427,9 +454,9 @@
     }
 
     for (NSString* file in files) {
-        if (![file hasPrefix:@"dubsar-wn"]) continue;
+        if (![file hasPrefix:DUBSAR_DOWNLOAD_PREFIX]) continue;
 
-        if (![file isEqualToString:self.zipName]) {
+        if (![_zipName isEqualToString:file]) {
             NSURL* fileURL = [url URLByAppendingPathComponent:file];
             DMLOG(@"Removing %@", fileURL);
             if (![fileManager removeItemAtURL:fileURL error:&error]) {
@@ -895,6 +922,16 @@
     if (![url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error]) {
         DMLOG(@"Failed to set %@ attribute for file: %@", NSURLIsExcludedFromBackupKey, error.localizedDescription);
     }
+}
+
+- (int)versionFromDownloadName:(NSString*)download
+{
+    if (![download hasPrefix:DUBSAR_DOWNLOAD_PREFIX]) {
+        return 0;
+    }
+
+    // /^dubsar-wn3.1-([0-9]+)$/
+    return ((NSString*)[download componentsSeparatedByString:@"-"].lastObject).intValue;
 }
 
 @end
