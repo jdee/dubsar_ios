@@ -63,9 +63,7 @@
     }
 
     NSString* token = @(sdata);
-#ifdef DEBUG
-    DMLOG(@"Device token is %@", token);
-#endif // DEBUG
+    DMDEBUG(@"Device token is %@", token);
 
     /*
      * 1b. Read client secret from bundle
@@ -75,7 +73,7 @@
     NSString* secret = [NSString stringWithContentsOfFile:filepath encoding:NSUTF8StringEncoding error:&error];
 #ifndef DUBSAR_DEVELOPMENT
     if (error && !secret) {
-        DMLOG(@"Failed to read client_secret.txt: %@", error.localizedDescription);
+        DMWARN(@"Failed to read client_secret.txt: %@", error.localizedDescription);
     }
 #endif // DUBSAR_DEVELOPMENT
 

@@ -73,7 +73,7 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
     func webView(webView: UIWebView!, didFailLoadWithError error: NSError!) {
         let errorMessage = error.localizedDescription
         displayMessage(errorMessage)
-        DMLOG("error loading FAQ: \(errorMessage)")
+        DMERROR("error loading FAQ: \(errorMessage)")
         UIApplication.sharedApplication().stopUsingNetwork()
         loading = false
     }

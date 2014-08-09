@@ -54,7 +54,7 @@ class BaseViewController: UIViewController {
 
     func routeResponse(router: Router!) {
         if router.model.errorMessage {
-            DMLOG("Error from request: \(router.model.errorMessage)")
+            DMERROR("Error from request: \(router.model.errorMessage)")
         }
     }
 
@@ -69,7 +69,7 @@ class BaseViewController: UIViewController {
     }
 
     func adjustLayout() {
-        DMLOG("In BaseViewController.adjustLayout()")
+        DMTRACE("In BaseViewController.adjustLayout()")
         view.invalidateIntrinsicContentSize()
 
         view.backgroundColor = AppConfiguration.backgroundColor
@@ -117,7 +117,7 @@ class BaseViewController: UIViewController {
                 my.navigationController.pushViewController(vc, animated: true)
             }
         }
-        DMLOG("push \(vcIdentifier) view controller")
+        DMTRACE("push \(vcIdentifier) view controller")
     }
 
     func pushViewControllerWithIdentifier(vcIdentifier: String!, model: DubsarModelsModel!, routerAction: RouterAction, indexPath: NSIndexPath? = nil) {
@@ -143,7 +143,7 @@ class BaseViewController: UIViewController {
                             let sense = model as DubsarModelsSense
                             let synset: DubsarModelsSynset? = sense.synset
                             assert(synset)
-                            DMLOG("Displaying synset view for synset \(synset!._id), sense \(sense._id)")
+                            DMTRACE("Displaying synset view for synset \(synset!._id), sense \(sense._id)")
 
                             router = Router(viewController: vc, model: synset)
                             router.dependency = sense
@@ -165,13 +165,13 @@ class BaseViewController: UIViewController {
                 }
             }
         }
-        DMLOG("push \(vcIdentifier) view controller")
+        DMTRACE("push \(vcIdentifier) view controller")
     }
 
     func setupToolbar() {
-        DMLOG("In BaseViewController.setupToolbar()")
+        DMTRACE("In BaseViewController.setupToolbar()")
         if !AppDelegate.instance.databaseManager.downloadInProgress {
-            DMLOG("No download in progress")
+            DMTRACE("No download in progress")
             // meh
             let rightBarButtonItems: [UIBarButtonItem]? = navigationItem.rightBarButtonItems as? [UIBarButtonItem]
             if let items = rightBarButtonItems {
@@ -182,7 +182,7 @@ class BaseViewController: UIViewController {
                         newItems += item
                     }
                     else {
-                        DMLOG("Removing download bar button item")
+                        DMTRACE("Removing download bar button item")
                     }
                 }
                 navigationItem.rightBarButtonItems = newItems
@@ -199,11 +199,11 @@ class BaseViewController: UIViewController {
             items += myDownloadButton
 
             navigationItem.rightBarButtonItems = items
-            DMLOG("Added a download bar button item")
+            DMTRACE("Added a download bar button item")
         }
         else if !rightBarButtonItem {
             navigationItem.rightBarButtonItem = myDownloadButton
-            DMLOG("Right bar button item is a download bar button item")
+            DMTRACE("Right bar button item is a download bar button item")
         }
 
         #if DEBUG
@@ -211,11 +211,11 @@ class BaseViewController: UIViewController {
                 // this could be the home button
                 let targetName = navigationItem.rightBarButtonItem.target === self ? "self" :
                     (navigationItem.rightBarButtonItem.target as? UIBarButtonItem) ? "non-nil" : "nil"
-                DMLOG("Action for right bar button item is \(navigationItem.rightBarButtonItem.action.description)")
-                DMLOG("Target for right bar button item is \(targetName)")
+                DMTRACE("Action for right bar button item is \(navigationItem.rightBarButtonItem.action.description)")
+                DMTRACE("Target for right bar button item is \(targetName)")
 
                 let responds = navigationItem.rightBarButtonItem.target.respondsToSelector(navigationItem.rightBarButtonItem.action) ? "responds" : "doesn't respond"
-                DMLOG("Target \(responds) to selector \(navigationItem.rightBarButtonItem.action.description)")
+                DMTRACE("Target \(responds) to selector \(navigationItem.rightBarButtonItem.action.description)")
 
                 assert(navigationItem.rightBarButtonItem.target === self)
                 assert(navigationItem.rightBarButtonItem.target.respondsToSelector(navigationItem.rightBarButtonItem.action))

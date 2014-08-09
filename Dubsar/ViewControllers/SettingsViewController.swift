@@ -355,7 +355,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func databaseManager(databaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
-        DMLOG("error downloading Database: \(errorMessage)")
+        DMERROR("error downloading Database: \(errorMessage)")
         AppConfiguration.offlineSetting = databaseManager.fileExists // may have rolled back to an old DB in case of DL failure.
         reloadOfflineRow()
         setupToolbar()
@@ -366,7 +366,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func downloadComplete(databaseManager: DatabaseManager!) {
-        DMLOG("Download and Unzip complete")
+        DMDEBUG("Download and Unzip complete")
         unzipping = false
         reloadOfflineRow()
         setupToolbar()

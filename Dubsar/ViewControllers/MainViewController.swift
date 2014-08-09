@@ -67,10 +67,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         if let viewController = segue.destinationViewController as? WordViewController {
             viewController.router = Router(viewController: viewController, model: wotd!.word)
             viewController.title = "Word of the Day"
-            DMLOG("Prepared segue for WOTD VC")
+            DMTRACE("Prepared segue for WOTD VC")
         }
         else {
-            DMLOG("WOTD segue prep failed")
+            DMERROR("WOTD segue prep failed")
         }
     }
 
@@ -254,12 +254,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             // DMLOG(".UpdateView")
             if let wotd = router.model as? DubsarModelsDailyWord {
                 self.wotd = wotd
-                DMLOG("Updating with WOTD \(wotd.word.nameAndPos)")
+                DMTRACE("Updating with WOTD \(wotd.word.nameAndPos)")
                 wotdButton.setTitle(wotd.word.nameAndPos, forState: .Normal)
                 wotdButton.enabled = true
             }
             else if let word = router.model as? DubsarModelsWord {
-                DMLOG("Updating with word \(word.nameAndPos)")
+                DMTRACE("Updating with word \(word.nameAndPos)")
                 wotdButton.setTitle(word.nameAndPos, forState: .Normal)
                 wotdButton.enabled = true
             }

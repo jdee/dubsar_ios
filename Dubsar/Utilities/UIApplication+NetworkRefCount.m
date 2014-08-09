@@ -29,7 +29,7 @@ static volatile int networkUseCount = 0;
 {
     @synchronized(self) {
         ++ networkUseCount;
-        DMLOG(@"request started: NETWORK USE increased to %d", networkUseCount);
+        DMTRACE(@"request started: NETWORK USE increased to %d", networkUseCount);
     }
     self.networkActivityIndicatorVisible = YES;
 }
@@ -37,10 +37,10 @@ static volatile int networkUseCount = 0;
 - (void)stopUsingNetwork
 {
     @synchronized(self) {
-        DMLOG(@"request finished: NETWORK USE decreased to %d", networkUseCount-1);
+        DMTRACE(@"request finished: NETWORK USE decreased to %d", networkUseCount-1);
         if (-- networkUseCount > 0) return;
     }
-    DMLOG(@"hiding network activity indicator");
+    DMTRACE(@"hiding network activity indicator");
     self.networkActivityIndicatorVisible = NO;
 }
 

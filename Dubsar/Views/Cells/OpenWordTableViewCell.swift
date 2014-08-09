@@ -44,7 +44,7 @@ class OpenWordTableViewCell: WordTableViewCell {
         let y = bounds.size.height
         backgroundColor = cellBackgroundColor
 
-        DMLOG("Word header height \(y) for open word cell")
+        DMTRACE("Word header height \(y) for open word cell")
 
         assert(word)
 
@@ -73,8 +73,8 @@ class OpenWordTableViewCell: WordTableViewCell {
         openSenseView.removeFromSuperview() // remove this nicely built view from the dummy cell's contentView
         view!.addSubview(openSenseView)
 
-        DMLOG("Open sense view height \(openSenseView.bounds.size.height)")
+        DMTRACE("Open sense view height \(openSenseView.bounds.size.height)")
         frame.size.height += openSenseView.bounds.size.height
-        DMLOG("Overall frame height \(frame.size.height)")
+        DMTRACE("Overall frame height \(frame.size.height)")
     }
 }

@@ -41,7 +41,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         var y = bounds.size.height
 
-        DMLOG("Height of sense header \(y)")
+        DMTRACE("Height of sense header \(y)")
 
         if !sense.complete {
             let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)

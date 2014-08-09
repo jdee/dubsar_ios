@@ -209,7 +209,11 @@ void DMLOG(NSString* format, ...)
 {
     self = [super init];
     if (self) {
+#ifdef DEBUG
         _logLevel = DubsarModelsLogLevelDebug;
+#else
+        _logLevel = DubsarModelsLogLevelNone;
+#endif // DEBUG
     }
     return self;
 }
