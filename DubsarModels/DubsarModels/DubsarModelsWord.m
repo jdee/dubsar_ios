@@ -210,7 +210,7 @@
 
 -(void)parseData
 {
-    NSArray* response =[NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
+    NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
 
     name = response[1];
     partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:response[2]];

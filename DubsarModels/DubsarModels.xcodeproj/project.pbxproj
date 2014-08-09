@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B98C86F1995B363009CFA76 /* DubsarModelsDownloadList.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B98C86D1995B363009CFA76 /* DubsarModelsDownloadList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B98C8701995B363009CFA76 /* DubsarModelsDownloadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B98C86E1995B363009CFA76 /* DubsarModelsDownloadList.m */; };
 		7BAC22E819735C2C00D2AEA4 /* DubsarModels.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC22E719735C2C00D2AEA4 /* DubsarModels.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BAC22EE19735C2C00D2AEA4 /* DubsarModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAC22E219735C2C00D2AEA4 /* DubsarModels.framework */; };
 		7BAC22F519735C2C00D2AEA4 /* DubsarModelsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22F419735C2C00D2AEA4 /* DubsarModelsTests.m */; };
@@ -53,6 +55,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B98C86D1995B363009CFA76 /* DubsarModelsDownloadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsDownloadList.h; sourceTree = "<group>"; };
+		7B98C86E1995B363009CFA76 /* DubsarModelsDownloadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsDownloadList.m; sourceTree = "<group>"; };
 		7BAC22E219735C2C00D2AEA4 /* DubsarModels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DubsarModels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BAC22E619735C2C00D2AEA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BAC22E719735C2C00D2AEA4 /* DubsarModels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DubsarModels.h; sourceTree = "<group>"; };
@@ -140,6 +144,8 @@
 				7BAC235519736CDA00D2AEA4 /* DubsarModelsDatabase.m */,
 				7BAC233E19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h */,
 				7BAC233F19735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.m */,
+				7B98C86D1995B363009CFA76 /* DubsarModelsDownloadList.h */,
+				7B98C86E1995B363009CFA76 /* DubsarModelsDownloadList.m */,
 				7BAC22E719735C2C00D2AEA4 /* DubsarModels.h */,
 				7BCAA9DA1992A46A00B23F4F /* DubsarModelsLogger.h */,
 				7BCAA9DB1992A46A00B23F4F /* DubsarModelsLogger.m */,
@@ -208,6 +214,7 @@
 				7BAC232519735CB400D2AEA4 /* DubsarModelsDailyWord.h in Headers */,
 				7BAC233A19735CB400D2AEA4 /* DubsarModelsSynset.h in Headers */,
 				7BAC232A19735CB400D2AEA4 /* DubsarModelsModel.h in Headers */,
+				7B98C86F1995B363009CFA76 /* DubsarModelsDownloadList.h in Headers */,
 				7BAC233819735CB400D2AEA4 /* DubsarModelsSense.h in Headers */,
 				7BCAA9DC1992A46A00B23F4F /* DubsarModelsLogger.h in Headers */,
 				7BAC233619735CB400D2AEA4 /* DubsarModelsSection.h in Headers */,
@@ -327,6 +334,7 @@
 				7BAC233519735CB400D2AEA4 /* DubsarModelsSearch.m in Sources */,
 				7BCAA9DD1992A46A00B23F4F /* DubsarModelsLogger.m in Sources */,
 				7BAC232619735CB400D2AEA4 /* DubsarModelsDailyWord.m in Sources */,
+				7B98C8701995B363009CFA76 /* DubsarModelsDownloadList.m in Sources */,
 				7BAC233719735CB400D2AEA4 /* DubsarModelsSection.m in Sources */,
 				7BAC232B19735CB400D2AEA4 /* DubsarModelsModel.m in Sources */,
 				7BAC232F19735CB400D2AEA4 /* DubsarModelsPointer.m in Sources */,
