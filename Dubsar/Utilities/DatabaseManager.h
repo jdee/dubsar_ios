@@ -21,7 +21,7 @@
 @import Foundation;
 
 #define DUBSAR_PRODUCTION_ROOT_URL @"https://s.dubsar-dictionary.com"
-#define DUBSAR_DEVELOPMENT_ROOT_URL @"http://192.168.2.101:3000"
+#define DUBSAR_DEVELOPMENT_ROOT_URL @"http://192.168.2.101"
 
 @class DatabaseManager;
 
@@ -56,6 +56,9 @@
 @property (nonatomic, copy, readonly) NSString* fileName;
 @property (nonatomic, readonly) NSURL* fileURL;
 @property (nonatomic, readonly) BOOL fileExists;
+@property (nonatomic, copy, readonly) NSString* oldFileName;
+@property (nonatomic, readonly) NSURL* oldFileURL;
+@property (nonatomic, readonly) BOOL oldFileExists;
 @property (atomic, readonly) NSInteger downloadSize;
 @property (atomic, readonly) NSInteger downloadedSoFar;
 @property (atomic, readonly) NSInteger unzippedSize;

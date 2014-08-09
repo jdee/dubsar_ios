@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                     theApplication.presentLocalNotificationNow(localNotif)
 
                     my.databaseManager.reportError(localNotif.alertBody)
-                    AppConfiguration.offlineSetting = false
+                    AppConfiguration.offlineSetting = my.databaseManager.fileExists // may have rolled back to an old DB if the DL fails
                 }
 
                 theApplication.endBackgroundTask(my.bgTask)
@@ -281,7 +281,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         if (databaseManager.downloadInProgress) {
             databaseManager.cancelDownload()
-            AppConfiguration.offlineSetting = false
+            AppConfiguration.offlineSetting = databaseManager.fileExists // may have rolled back to an old DB in case of DL failure.
         }
         else if (updatePending || AppConfiguration.offlineSetting) {
             databaseManager.download()
@@ -296,8 +296,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         updatePending = false
     }
 
-    func databaseManager(databaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
-        AppConfiguration.offlineSetting = false
+    func databaseManager(theDatabaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
+        AppConfiguration.offlineSetting = theDatabaseManager.fileExists // may have rolled back to an old DB in case of DL failure.
         let viewController = navigationController.topViewController as BaseViewController
         viewController.adjustLayout()
     }

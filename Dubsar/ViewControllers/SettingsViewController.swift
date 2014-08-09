@@ -264,7 +264,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             // and if you guess that you're not, you have to cycle the switch, off first then on again, to retry the download. We could
             // reset it as soon as the download fails. But the switch is not showing, and it's convenient if you haven't cleared this
             // state that the app will prompt you to retry the download the next time you resume from the background.
-            AppConfiguration.offlineSetting = false
+            AppConfiguration.offlineSetting = databaseManager.fileExists // may have rolled back to an old DB in case of DL failure.
         }
 
         downloadViewShowing = false
@@ -356,6 +356,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     func databaseManager(databaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
         DMLOG("error downloading Database: \(errorMessage)")
+        AppConfiguration.offlineSetting = databaseManager.fileExists // may have rolled back to an old DB in case of DL failure.
         reloadOfflineRow()
         setupToolbar()
     }

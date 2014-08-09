@@ -137,6 +137,49 @@
     return [url URLByAppendingPathComponent:_fileName];
 }
 
+- (BOOL)oldFileExists
+{
+    if (!self.oldFileURL) {
+        return NO;
+    }
+
+    return [[NSFileManager defaultManager] fileExistsAtPath:self.oldFileURL.path];
+}
+
+- (NSURL*)oldFileURL
+{
+    if (!_oldFileName) {
+        return nil;
+    }
+
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSArray* urls = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+    NSURL* url = [urls objectAtIndex:0];
+
+    url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
+
+    // DMLOG(@"App support directory: %@", url.path);
+
+    BOOL isDir;
+    BOOL exists = [fileManager fileExistsAtPath:url.path isDirectory:&isDir];
+    // DMLOG(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
+
+    if (!exists) {
+        NSError* error;
+        if (![fileManager createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error]) {
+            DMLOG(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+        }
+        else {
+            DMLOG(@"Created directory %@", url.path);
+        }
+    }
+    else if (!isDir) {
+        DMLOG(@"%@ exists and is not a directory", url.path);
+    }
+
+    return [url URLByAppendingPathComponent:_oldFileName];
+}
+
 - (NSURL *)zipURL
 {
     NSFileManager* fileManager = [NSFileManager defaultManager];
@@ -187,6 +230,8 @@
     self.downloadInProgress = NO;
     self.errorMessage = @"Canceled";
     [[UIApplication sharedApplication] stopUsingNetwork];
+
+    [self restoreOldFileOnFailure];
 
     DMLOG(@"Download canceled");
     // [self deleteDatabase]; // cleans up the zip too
@@ -440,6 +485,8 @@
         CFRelease(hostRef);
     }
 
+    [self restoreOldFileOnFailure];
+
     self.downloadInProgress = NO;
     [self notifyDelegateOfError: error.localizedDescription];
 }
@@ -481,6 +528,8 @@
             fclose(fp);
             fp = NULL;
         }
+
+        [self restoreOldFileOnFailure];
         return;
     }
     else if (_etag && httpResp.statusCode == 304) {
@@ -560,6 +609,8 @@
 
     DMLOG(@"download: %@. zipped: %d, unzipped: %d", download.name, zipped, unzipped);
 
+    _oldFileName = _fileName;
+
     _zipName = [download.name stringByAppendingString:@".zip"];
     _fileName = [download.name stringByAppendingString:@".sqlite3"];
 
@@ -596,6 +647,14 @@
 }
 
 #pragma mark - Internal convenience methods
+
+- (void)restoreOldFileOnFailure
+{
+    if (!self.oldFileExists) return;
+
+    _fileName = _oldFileName;
+    _oldFileName = nil;
+}
 
 - (void)updateElapsedDownloadTime
 {
