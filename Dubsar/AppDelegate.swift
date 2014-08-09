@@ -232,7 +232,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         viewController.router = Router(viewController: viewController, model: word)
 
         navigationController.dismissViewControllerAnimated(true, completion: nil)
-        navigationController.pushViewController(viewController, animated: true)
+        dispatch_async(dispatch_get_main_queue()) {
+            [weak self] in
+
+            if let my = self {
+                my.navigationController.pushViewController(viewController, animated: true)
+            }
+        }
 
         DMLOG("push \(WordViewController.identifier) view controller")
         return true

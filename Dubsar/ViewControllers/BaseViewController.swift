@@ -110,7 +110,13 @@ class BaseViewController: UIViewController {
 
     func pushViewControllerWithIdentifier(vcIdentifier: String!, router: Router? = nil) {
         let vc = instantiateViewControllerWithIdentifier(vcIdentifier, router: router)
-        navigationController.pushViewController(vc, animated: true)
+        dispatch_async(dispatch_get_main_queue()) {
+            [weak self] in
+
+            if let my = self {
+                my.navigationController.pushViewController(vc, animated: true)
+            }
+        }
         DMLOG("push \(vcIdentifier) view controller")
     }
 
@@ -151,7 +157,13 @@ class BaseViewController: UIViewController {
             router.indexPath = indexPath
 
             vc.router = router
-            navigationController.pushViewController(vc, animated: true)
+            dispatch_async(dispatch_get_main_queue()) {
+                [weak self] in
+
+                if let my = self {
+                    my.navigationController.pushViewController(vc, animated: true)
+                }
+            }
             DMLOG("push \(vcIdentifier) view controller")
         }
     }
