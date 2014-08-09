@@ -19,7 +19,7 @@
 
 #import "CGHelper.h"
 #import "DatabaseManager.h"
-#import "DownloadBarButtonView.h"
+#import "DownloadBarButton.h"
 #import "DownloadButtonImage.h"
 #import "Dubsar.h"
 #import "DubsarServer.h"

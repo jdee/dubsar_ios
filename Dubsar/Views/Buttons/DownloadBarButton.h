@@ -19,8 +19,11 @@
 
 @import UIKit;
 
-@interface DownloadBarButtonView : UIView
+@interface DownloadBarButton : UIButton
 
 @property (nonatomic) CALayer *borderLayer;
+@property (nonatomic, weak) id barButtonItem;
+@property (nonatomic, weak) id target;
+@property (nonatomic) SEL action;
 
 @end

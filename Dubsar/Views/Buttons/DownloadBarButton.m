@@ -18,9 +18,9 @@
  */
 
 #import "DownloadButtonImage.h"
-#import "DownloadBarButtonView.h"
+#import "DownloadBarButton.h"
 
-@implementation DownloadBarButtonView
+@implementation DownloadBarButton
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -33,24 +33,50 @@
         _borderLayer.bounds = CGRectMake(0, 0, 0.75 * self.bounds.size.width, 0.75 * self.bounds.size.height);
 
         _borderLayer.cornerRadius = 0.1 * sqrt(self.bounds.size.width * self.bounds.size.height);
-        _borderLayer.borderColor = self.tintColor.CGColor;
+        _borderLayer.borderColor = self.currentTitleColor.CGColor;
         _borderLayer.borderWidth = 1.0;
 
         [self.layer addSublayer:_borderLayer];
+
+        [self addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
 
-- (void)tintColorDidChange
-{
-    [super tintColorDidChange]; // ?
-
-    _borderLayer.borderColor = self.tintColor.CGColor;
-}
-
 - (void)drawRect:(CGRect)rect
 {
-    [DownloadButtonImage buildImageWithSize:self.bounds.size color:self.tintColor background:self.backgroundColor context:UIGraphicsGetCurrentContext()];
+    [DownloadButtonImage buildImageWithSize:self.bounds.size color:self.currentTitleColor background:self.backgroundColor context:UIGraphicsGetCurrentContext()];
+    _borderLayer.borderColor = self.currentTitleColor.CGColor;
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    [super setHighlighted:highlighted];
+    [self setNeedsDisplay];
+}
+
+- (void)setEnabled:(BOOL)enabled
+{
+    [super setEnabled:enabled];
+    [self setNeedsDisplay];
+}
+
+- (void)setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+    [self setNeedsDisplay];
+}
+
+- (void)buttonPressed:(UIButton*)sender
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    if ([_target respondsToSelector:_action]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_target performSelector:_action withObject:_barButtonItem];
+        });
+    }
+#pragma clang diagnostic pop
 }
 
 @end
