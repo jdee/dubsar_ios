@@ -142,10 +142,6 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                     value == AppConfiguration.autoUpdateKey ? AppConfiguration.autoUpdateSetting :
                     AppConfiguration.productionSetting
 
-                if AppConfiguration.autoUpdateKey == value {
-                    optionSwitch.enabled = AppConfiguration.offlineSetting
-                }
-
                 optionSwitch.tintColor = AppConfiguration.alternateBackgroundColor
                 optionSwitch.onTintColor = AppConfiguration.highlightedForegroundColor
 
@@ -340,8 +336,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func reloadOfflineRow() {
-        // 2: offline switch; 3: auto-update switch
-        let rows = [NSIndexPath(forRow: 2, inSection: 1), NSIndexPath(forRow: 3, inSection: 1)]
+        // 2: offline switch
+        let rows = [NSIndexPath(forRow: 2, inSection: 1)]
         settingsTableView.reloadRowsAtIndexPaths(rows, withRowAnimation: .Automatic)
     }
 

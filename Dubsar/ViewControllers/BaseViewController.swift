@@ -233,7 +233,6 @@ class BaseViewController: UIViewController {
     @IBAction
     func viewDownload(sender: UIBarButtonItem!) {
         // Go home first?
-        DMLOG("Time to view the download")
         pushViewControllerWithIdentifier(SettingsViewController.identifier, router: nil)
     }
 
