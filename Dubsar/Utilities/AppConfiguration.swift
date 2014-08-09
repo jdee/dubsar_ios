@@ -64,7 +64,7 @@ struct AppConfiguration {
             highlightKey : UIColor(red: 0.420, green: 0.557, blue: 0.137, alpha: 1.0),
             alternateHighlightKey : UIColor(red: 0.690, green: 0.188, blue: 0.376, alpha: 1.0),
             foregroundKey : UIColor(red: 0.878, green: 1.0, blue: 1.0, alpha: 1.0),
-            highlightedForegroundKey : UIColor(red: 1.0, green: 0.753, blue: 0.796, alpha: 1.0),
+            highlightedForegroundKey : UIColor(red: 0.0, green: 0.980, blue: 0.604, alpha: 1.0),
             navBarKey: "dark", activityKey : "white" ]
     ]
 
