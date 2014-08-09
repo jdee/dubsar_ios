@@ -34,7 +34,7 @@
 // but I'm reluctant to introduce a new property just for rotary dial mode, and I'm not sure whether it's really necessary. it would only be useful for very
 // large dials (on an iPad).
 #define IKC_FINGER_HOLE_RADIUS 22.0
-#define IKC_TITLE_MARGIN_RATIO 0.1
+#define IKC_TITLE_MARGIN_RATIO 0.2
 
 // Must match IKC_VERSION and IKC_BUILD from IOSKnobControl.h.
 #define IKC_TARGET_VERSION 0x010300
@@ -78,6 +78,8 @@ static CGRect adjustFrame(CGRect frame) {
     return frame;
 }
 
+#pragma mark - String deprecation wrapper
+
 @protocol NSStringDeprecatedMethods
 - (CGSize)sizeWithFont:(UIFont*)font;
 @end
@@ -115,14 +117,15 @@ static CGRect adjustFrame(CGRect frame) {
  */
 @interface IKCTextLayer : CALayer
 
-#pragma mark - Properties
 @property (nonatomic, copy) NSString* fontName;
 @property (nonatomic) CGFloat fontSize;
 @property (nonatomic) CGColorRef foregroundColor;
 @property (nonatomic, copy) id string;
 @property (nonatomic) CGFloat horizMargin, vertMargin;
+@property (nonatomic) BOOL adjustsFontSizeForAttributed;
 
-#pragma mark - Object lifecycle
+@property (nonatomic, readonly) CFAttributedStringRef attributedString;
+
 + (instancetype)layer;
 
 @end
@@ -130,7 +133,6 @@ static CGRect adjustFrame(CGRect frame) {
 #pragma mark - IKCTextLayer implementation
 @implementation IKCTextLayer
 
-#pragma mark - Object lifecycle
 + (instancetype)layer
 {
     return [[self alloc] init];
@@ -144,6 +146,7 @@ static CGRect adjustFrame(CGRect frame) {
         _foregroundColor = [UIColor blackColor].CGColor;
         CFRetain(_foregroundColor);
         _horizMargin = _vertMargin = 0.0;
+        _adjustsFontSizeForAttributed = NO;
 
         self.opaque = NO;
         self.backgroundColor = [UIColor clearColor].CGColor;
@@ -158,7 +161,6 @@ static CGRect adjustFrame(CGRect frame) {
     if (_foregroundColor) CFRelease(_foregroundColor);
 }
 
-#pragma mark - Property override
 - (void)setForegroundColor:(CGColorRef)foregroundColor
 {
     if (!foregroundColor) return;
@@ -166,51 +168,157 @@ static CGRect adjustFrame(CGRect frame) {
     if (_foregroundColor) CFRelease(_foregroundColor);
     _foregroundColor = foregroundColor;
     CFRetain(_foregroundColor);
+
+    [self setNeedsDisplay];
 }
 
-#pragma mark - Custom text display with CoreText.
 - (void)display
 {
+    /*
+     * Scale params for display resolution.
+     */
     CGSize size = self.bounds.size;
     CGFloat horizMargin = _horizMargin;
     CGFloat vertMargin = _vertMargin;
 
-    // Use CoreText to render directly
-    // from https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/CoreText_Programming/LayoutOperations/LayoutOperations.html#//apple_ref/doc/uid/TP40005533-CH12-SW2
+    size.width *= [UIScreen mainScreen].scale;
+    size.height *= [UIScreen mainScreen].scale;
+
+    horizMargin = _horizMargin * [UIScreen mainScreen].scale;
+    vertMargin = _vertMargin * [UIScreen mainScreen].scale;
+
+    /*
+     * Get the attributed string to render
+     */
+    CFAttributedStringRef attributed = self.attributedString;
+
+    // the font used by the attributed string
+    CTFontRef font = CFAttributedStringGetAttribute(attributed, 0, kCTFontAttributeName, NULL);
+    assert(font);
+
+    // compute vertical position from font metrics
+    CGFloat belowBaseline = CTFontGetLeading(font) + CTFontGetDescent(font) + vertMargin;
+    CGFloat lineHeight = belowBaseline + CTFontGetAscent(font) + vertMargin;
+
+    // Make a CTLine to render from the attributed string
+    CTLineRef line = CTLineCreateWithAttributedString(attributed);
+    CFRelease(attributed);
+
+    // Generate a bitmap context at the correct resolution
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    // flip y
+    CGContextTranslateCTM(context, 0.0, size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+
+    CGFloat x = horizMargin;
+    CGFloat y = belowBaseline / lineHeight * size.height;
+
+    CGContextSetTextPosition(context, x, y);
+    CTLineDraw(line, context);
+    CFRelease(line);
+
+    // Get the generated bitmap and use it for the layer's contents.
+    self.contents = (id)UIGraphicsGetImageFromCurrentImageContext().CGImage;
+    UIGraphicsEndImageContext();
+}
+
+- (CFAttributedStringRef)attributedString
+{
+    CGFloat fontSize = _fontSize * [UIScreen mainScreen].scale;
 
     CTFontRef font;
 
     CFAttributedStringRef attributed;
+
+    /*
+     * _string can be an attributed string or a plain string. in the end, we need an attributed string.
+     */
     if ([_string isKindOfClass:NSAttributedString.class]) {
-        attributed = CFAttributedStringCreateCopy(kCFAllocatorDefault, (CFAttributedStringRef)_string);
+        /*
+         * It's an attributed string. Make a mutable copy.
+         */
+        CFMutableAttributedStringRef mutableAttributed = CFAttributedStringCreateMutableCopy(kCFAllocatorDefault, 0, (CFAttributedStringRef)_string);
+        attributed = mutableAttributed;
+
+        CFRange wholeString;
+        wholeString.location = 0;
+        wholeString.length = CFAttributedStringGetLength(attributed);
+
         font = CFAttributedStringGetAttribute(attributed, 0, kCTFontAttributeName, NULL);
+
+        /*
+         * Massage the font attribute for a number of reasons:
+         * 1. No font was specified for the input (like a plain string)
+         */
+        if (!font) {
+            font = CTFontCreateWithName((CFStringRef)_fontName, fontSize, NULL);
+            CFAttributedStringSetAttribute(mutableAttributed, wholeString, kCTFontAttributeName, font);
+            CFRelease(font);
+        }
         assert(font);
-        CGColorRef fg = (CGColorRef)CFAttributedStringGetAttribute(attributed, 0, kCTForegroundColorAttributeName, NULL);
+
+        CGFloat pointSize = CTFontGetSize(font);
+        // NSLog(@"point size for attrib. string: %f", pointSize);
+
+        // 2. It's at the top and has to zoom.
+        if (_adjustsFontSizeForAttributed && pointSize != fontSize) {
+            /*
+             * Need to adjust to the specified fontSize
+             */
+            CTFontRef newFont = CTFontCreateCopyWithAttributes(font, fontSize, NULL, NULL);
+            CFAttributedStringSetAttribute(mutableAttributed, wholeString, kCTFontAttributeName, newFont);
+            CFRelease(newFont);
+            // NSLog(@"point size for new font: %f", fontSize);
+        }
+        // 3. This is a high-res image, so we render at double the size.
+        else if (!_adjustsFontSizeForAttributed && [UIScreen mainScreen].scale > 1.0) {
+            /*
+             * Need to increase the font size for this hi-res image
+             */
+            fontSize = [UIScreen mainScreen].scale * pointSize;
+
+            CTFontRef newFont = CTFontCreateCopyWithAttributes(font, fontSize, NULL, NULL);
+            CFAttributedStringSetAttribute(mutableAttributed, wholeString, kCTFontAttributeName, newFont);
+            CFRelease(newFont);
+            // NSLog(@"point size for new font: %f", fontSize);
+        }
+        else {
+            /*
+             * No change. Update the fontName attribute.
+             */
+            font = CFAttributedStringGetAttribute(attributed, 0, kCTFontAttributeName, NULL);
+            _fontName = CFBridgingRelease(CTFontCopyPostScriptName(font));
+        }
 
         /*
          * As with views like UILabel, reset the foregroundColor and fontName properties to those attributes of the
          * string at location 0.
          */
-        _foregroundColor = (CGColorRef)CFBridgingRetain([UIColor colorWithCGColor: fg]);
-        _fontName = CFBridgingRelease(CTFontCopyPostScriptName(font));
+        CGColorRef fg = (CGColorRef)CFAttributedStringGetAttribute(attributed, 0, kCTForegroundColorAttributeName, NULL);
+        if (fg) {
+            _foregroundColor = (CGColorRef)CFBridgingRetain([UIColor colorWithCGColor: fg]);
+        }
+        else {
+            // no foreground color specified, so give it one (like a plain string)
+            CFAttributedStringSetAttribute(mutableAttributed, wholeString, kCTForegroundColorAttributeName, _foregroundColor);
+        }
+
+        _fontSize = fontSize / [UIScreen mainScreen].scale;
     }
     else {
-        size.width *= [UIScreen mainScreen].scale;
-        size.height *= [UIScreen mainScreen].scale;
-
-        CGFloat fontSize = _fontSize * [UIScreen mainScreen].scale;
-
-        horizMargin = _horizMargin * [UIScreen mainScreen].scale;
-        vertMargin = _vertMargin * [UIScreen mainScreen].scale;
-
+        /*
+         * Plain string. Get the necessary font.
+         */
         font = CTFontCreateWithName((CFStringRef)_fontName, fontSize, NULL);
         assert(font);
 
         /*
-        CFStringRef fname = CTFontCopyPostScriptName(font);
-        NSLog(@"Using font %@", (__bridge NSString*)fname);
-        CFRelease(fname);
-        // */
+         CFStringRef fname = CTFontCopyPostScriptName(font);
+         NSLog(@"Using font %@", (__bridge NSString*)fname);
+         CFRelease(fname);
+         // */
 
         CFStringRef keys[] = { kCTFontAttributeName, kCTForegroundColorAttributeName };
         CFTypeRef values[] = { font, _foregroundColor };
@@ -221,37 +329,18 @@ static CGRect adjustFrame(CGRect frame) {
                            &kCFTypeDictionaryKeyCallBacks,
                            &kCFTypeDictionaryValueCallBacks);
         CFRelease(font);
+
+        // create an attributed string with a foreground color and a font
         attributed = CFAttributedStringCreate(kCFAllocatorDefault, (CFStringRef)_string, attributes);
         CFRelease(attributes);
     }
 
-    CTLineRef line = CTLineCreateWithAttributedString(attributed);
-    CFRelease(attributed);
-
-    UIGraphicsBeginImageContext(size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
-    // flip y
-    CGContextTranslateCTM(context, 0.0, size.height);
-    CGContextScaleCTM(context, 1.0, -1.0);
-
-    // compute vertical position from font metrics
-    CGFloat belowBaseline = CTFontGetLeading(font) + CTFontGetDescent(font) + vertMargin;
-    CGFloat lineHeight = belowBaseline + CTFontGetAscent(font) + vertMargin;
-
-    CGFloat x = horizMargin;
-    CGFloat y = belowBaseline / lineHeight * size.height;
-
-    CGContextSetTextPosition(context, x, y);
-    CTLineDraw(line, context);
-    CFRelease(line);
-
-    self.contents = (id)UIGraphicsGetImageFromCurrentImageContext().CGImage;
-    UIGraphicsEndImageContext();
+    return attributed;
 }
 
 @end
 
+#pragma mark - IKCAnimationDelegate
 /*
  * Used in dialNumber:. There doesn't seem to be an appropriate delegate protocol for CAAnimation. 
  * The animationDidStop:finished: message is
@@ -273,6 +362,8 @@ static CGRect adjustFrame(CGRect frame) {
     _knobControl.enabled = YES;
 }
 @end
+
+#pragma mark - IOSKnobControl implementation
 
 @interface IOSKnobControl()
 /*
@@ -346,6 +437,7 @@ static CGRect adjustFrame(CGRect frame) {
     _normalized = YES;
     _fontName = @"Helvetica";
     _shadow = NO;
+    _zoomTopTitle = YES;
 
     rotating = NO;
     lastNumberDialed = _numberDialed = -1;
@@ -505,19 +597,19 @@ static CGRect adjustFrame(CGRect frame) {
     [super setEnabled:enabled];
     gestureRecognizer.enabled = enabled;
 
-    [self setNeedsLayout];
+    [self updateControlState];
 }
 
 - (void)setHighlighted:(BOOL)highlighted
 {
     [super setHighlighted:highlighted];
-    [self setNeedsLayout];
+    [self updateControlState];
 }
 
 - (void)setSelected:(BOOL)selected
 {
     [super setSelected:selected];
-    [self setNeedsLayout];
+    [self updateControlState];
 }
 
 - (void)setPositions:(NSUInteger)positions
@@ -571,6 +663,15 @@ static CGRect adjustFrame(CGRect frame) {
 {
     if (_mode == IKCModeRotaryDial) return;
     _circular = circular;
+
+    if (!_circular) {
+        self.position = MIN(MAX(_position, _min), _max);
+    }
+    else if (_normalized) {
+        while (_position > M_PI) _position -= 2.0 * M_PI;
+        while (_position <= -M_PI) _position += 2.0 * M_PI;
+    }
+
     [self setNeedsLayout];
 }
 
@@ -643,7 +744,7 @@ static CGRect adjustFrame(CGRect frame) {
 
     if (_position < _min) self.position = _min;
 
-    if (_mode == IKCModeContinuous || _mode == IKCModeRotaryDial || [self imageForState:UIControlStateNormal]) return;
+    if (_mode == IKCModeContinuous || self.currentImage) return;
 
     // if we are rendering a discrete knob with titles, re-render the titles now that min/max has changed
     [imageLayer removeFromSuperlayer];
@@ -664,7 +765,7 @@ static CGRect adjustFrame(CGRect frame) {
 
     if (_position > _max) self.position = _max;
 
-    if (_mode == IKCModeContinuous || _mode == IKCModeRotaryDial || [self imageForState:UIControlStateNormal]) return;
+    if (_mode == IKCModeContinuous || self.currentImage) return;
 
     // if we are rendering a discrete knob with titles, re-render the titles now that min/max has changed
     [imageLayer removeFromSuperlayer];
@@ -690,10 +791,16 @@ static CGRect adjustFrame(CGRect frame) {
 - (void)setNormalized:(BOOL)normalized
 {
     _normalized = normalized;
-    if (_normalized) {
+
+    if (!_circular) {
+        self.position = MIN(MAX(_position, _min), _max);
+    }
+    else if (_normalized) {
         while (_position > M_PI) _position -= 2.0 * M_PI;
         while (_position <= -M_PI) _position += 2.0 * M_PI;
     }
+
+    [self setNeedsLayout];
 }
 
 - (void)setFontName:(NSString *)fontName
@@ -705,8 +812,7 @@ static CGRect adjustFrame(CGRect frame) {
          * before giving up.
          */
         UIFontDescriptor* fontDescriptor = [UIFontDescriptor fontDescriptorWithName:fontName size:17.0];
-        UIFont* font = [UIFont fontWithDescriptor:fontDescriptor size:0.0];
-        if (!font) {
+        if (![UIFont fontWithDescriptor:fontDescriptor size:0.0] && ![UIFont fontWithName:fontName size:17.0]) {
             NSLog(@"Failed to find font name \"%@\".", fontName);
             return;
         }
@@ -719,6 +825,12 @@ static CGRect adjustFrame(CGRect frame) {
 - (void)setShadow:(BOOL)shadow
 {
     _shadow = shadow;
+    [self setNeedsLayout];
+}
+
+- (void)setZoomTopTitle:(BOOL)zoomTopTitle
+{
+    _zoomTopTitle = zoomTopTitle;
     [self setNeedsLayout];
 }
 
@@ -1162,7 +1274,7 @@ static CGRect adjustFrame(CGRect frame) {
             rotating = NO;
 
             // revert from highlighted to normal
-            [self setNeedsLayout];
+            [self updateControlState];
             break;
         default:
             // just track the touch while the gesture is in progress
@@ -1178,6 +1290,19 @@ static CGRect adjustFrame(CGRect frame) {
 }
 
 #pragma mark - Private Methods: Image Management
+
+- (UIFont*)fontWithSize:(CGFloat)fontSize
+{
+    /*
+     * Different things work in different environments, so:
+     */
+
+    UIFontDescriptor* fontDescriptor = [UIFontDescriptor fontDescriptorWithName:_fontName size:fontSize];
+    UIFont* font = [UIFont fontWithDescriptor:fontDescriptor size:0.0];
+    if (font) return font;
+
+    return [UIFont fontWithName:_fontName size:fontSize];
+}
 
 - (UIColor*)getTintColor
 {
@@ -1346,9 +1471,31 @@ static CGRect adjustFrame(CGRect frame) {
                 break;
         }
 
+        [self updateControlState];
+    }
+}
+
+/*
+ * There are several things that require a full layout: Changing the appearance of the control (image vs. none, different font size, etc.),
+ * changing the frame (resizing). And many other things, like changing the background image, redraw the control entirely because it's
+ * easier to call setNeedsLayout than it is to factor out the pieces that are affected by each possible property change.
+ * 
+ * However, control state changes frequently, and the changes have to be fast to avoid interfering with animations. Hence this separate method
+ * called whenever state changes.
+ */
+- (void)updateControlState
+{
+    if (self.currentImage) {
+        imageLayer.contents = (id)self.currentImage.CGImage;
+    }
+    else {
         shapeLayer.fillColor = self.currentFillColor.CGColor;
         pipLayer.fillColor = self.currentTitleColor.CGColor;
         stopLayer.fillColor = self.currentTitleColor.CGColor;
+
+        for (IKCTextLayer* layer in markings) {
+            layer.foregroundColor = self.currentTitleColor.CGColor;
+        }
     }
 }
 
@@ -1407,7 +1554,11 @@ static CGRect adjustFrame(CGRect frame) {
     float const margin = (dialRadius - 4.86*IKC_FINGER_HOLE_RADIUS)/2.93;
     float const centerRadius = dialRadius - margin - IKC_FINGER_HOLE_RADIUS;
 
-    CGFloat fontSize = self.fontSizeForTitles;
+    CGFloat fontSize = 17.0;
+    if ([UIFontDescriptor respondsToSelector:@selector(preferredFontDescriptorWithTextStyle:)]) {
+        fontSize = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline].pointSize;
+    }
+
     UIFont* font = [UIFont fontWithName:_fontName size:fontSize];
     int j;
     for (j=0; j<10; ++j)
@@ -1416,7 +1567,7 @@ static CGRect adjustFrame(CGRect frame) {
         double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
         double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
 
-        NSString* text = [NSString stringWithFormat:@"%d", (j+1)%10];
+        NSString* text = [NSString stringWithFormat:@"%d", (j + 1) % 10];
         CGSize textSize = [text sizeOfTextWithFont:font];
         IKCTextLayer* textLayer = dialMarkings[j];
         textLayer.string = text;
@@ -1442,8 +1593,7 @@ static CGRect adjustFrame(CGRect frame) {
 - (void)updateMarkings
 {
     CGFloat fontSize = self.fontSizeForTitles;
-    UIFontDescriptor* fontDescriptor = [UIFontDescriptor fontDescriptorWithName:_fontName size:fontSize];
-    UIFont* font = [UIFont fontWithDescriptor:fontDescriptor size:0.0];
+    UIFont* font = [self fontWithSize:fontSize];
     assert(font);
 
     /*
@@ -1452,12 +1602,20 @@ static CGRect adjustFrame(CGRect frame) {
      */
     UIFont* headlineFont = font;
     CGFloat headlinePointSize = font.pointSize;
-    if ([UIFontDescriptor respondsToSelector:@selector(preferredFontDescriptorWithTextStyle:)]) {
+    if (_zoomTopTitle && [UIFontDescriptor respondsToSelector:@selector(preferredFontDescriptorWithTextStyle:)]) {
+        // iOS 7+
         UIFontDescriptor* headlineFontDesc = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
         if (headlineFontDesc.pointSize > fontSize) {
             headlinePointSize = headlineFontDesc.pointSize;
-            headlineFontDesc = [UIFontDescriptor fontDescriptorWithName:_fontName size:headlinePointSize];
-            headlineFont = [UIFont fontWithDescriptor:headlineFontDesc size:0.0];
+            headlineFont = [self fontWithSize:headlinePointSize];
+            assert(headlineFont);
+        }
+    }
+    else if (_zoomTopTitle) {
+        // iOS 5 & 6
+        headlinePointSize = 17.0;
+        if (headlinePointSize > fontSize) {
+            headlineFont = [self fontWithSize:headlinePointSize];
             assert(headlineFont);
         }
     }
@@ -1487,14 +1645,15 @@ static CGRect adjustFrame(CGRect frame) {
 
         NSInteger currentIndex = self.positionIndex;
         UIFont* titleFont = currentIndex == j ? headlineFont : font;
+        CGFloat pointSize = currentIndex == j ? headlinePointSize : fontSize;
 
-        // NSLog(@"Using title font %@ %f", titleFont.fontName, titleFont.pointSize);
+        // NSLog(@"Using title font %@, %f", titleFont.fontName, titleFont.pointSize);
 
         // These computations need work.
         CGSize textSize;
 
         if (attribTitle) {
-            textSize = attribTitle.size;
+            textSize = _zoomTopTitle && currentIndex == j ? [attribTitle.string sizeOfTextWithFont:titleFont] : attribTitle.size;
         }
         else if (title) {
             textSize = [title sizeOfTextWithFont:titleFont];
@@ -1510,9 +1669,10 @@ static CGRect adjustFrame(CGRect frame) {
         layer.string = titleObject;
         layer.horizMargin = horizMargin;
         layer.vertMargin = vertMargin;
+        layer.adjustsFontSizeForAttributed = _zoomTopTitle && currentIndex == j;
 
         // these things are all ignored if layer.string is an attributed string
-        layer.fontSize = titleFont.pointSize;
+        layer.fontSize = pointSize; // except this if adjustsFontSizeForAttributed is set
         layer.fontName = _fontName;
         layer.foregroundColor = self.currentTitleColor.CGColor;
 
@@ -1528,7 +1688,7 @@ static CGRect adjustFrame(CGRect frame) {
         float actual = _clockwise ? -position : position;
 
         // distance from the center to place the upper left corner
-        float radius = 0.4*self.bounds.size.width - 0.5*textSize.height;
+        float radius = 0.45*self.bounds.size.width - 0.5*textSize.height;
 
         // place and rotate
         layer.position = CGPointMake(self.bounds.origin.x + 0.5*self.bounds.size.width+radius*sin(actual), self.bounds.origin.y + 0.5*self.bounds.size.height-radius*cos(actual));
@@ -1706,10 +1866,12 @@ static CGRect adjustFrame(CGRect frame) {
 
         CGSize textSize;
         if ([titleObject isKindOfClass:NSAttributedString.class]) {
-            textSize = [(NSAttributedString*)titleObject size];
+            NSAttributedString* attributed = (NSAttributedString*)titleObject;
+            textSize = attributed.size;
         }
         else if ([titleObject isKindOfClass:NSString.class]) {
             textSize = [(NSString*)titleObject sizeOfTextWithFont:font];
+            // NSLog(@"textSize: %f x %f", textSize.width, textSize.height);
         }
         CGFloat width = textSize.width * (1.0 + 2.0 * IKC_TITLE_MARGIN_RATIO);
         max = MAX(max, width);
@@ -1720,29 +1882,24 @@ static CGRect adjustFrame(CGRect frame) {
 
 - (CGFloat)fontSizeForTitles
 {
-    CGFloat fontSize = 0.0;
-    CGFloat fontSizes[] = { 23.0, 22.0, 21.0, 20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0 };
-
-    CGFloat styleHeadlineSize = 23.0;
+    CGFloat styleHeadlineSize = 17.0;
 
     if ([UIFontDescriptor respondsToSelector:@selector(preferredFontDescriptorWithTextStyle:)]) {
         styleHeadlineSize = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline].pointSize;
     }
+    // NSLog(@"Size of headline style: %f", styleHeadlineSize);
 
     double angle = _circular ? 2.0*M_PI : _max - _min;
 
-    int index;
-    for (index=0; index<sizeof(fontSizes)/sizeof(CGFloat); ++index) {
-        fontSize = fontSizes[index];
+    CGFloat fontSize;
+    for (fontSize = 23.0; fontSize >= 7.0; fontSize -= 1.0) {
         if (fontSize > styleHeadlineSize) {
             // don't display anything larger than the current headline size (max. 23 pts.)
             continue;
         }
 
         // NSLog(@"Looking for font %@ %f", _fontName, fontSize);
-        UIFontDescriptor* fontDescriptor = [UIFontDescriptor fontDescriptorWithName:_fontName size:fontSize];
-        UIFont* font = [UIFont fontWithDescriptor:fontDescriptor size:0.0];
-
+        UIFont* font = [self fontWithSize:fontSize];
         if (!font) {
             // Assume it will eventually find one.
             continue;
@@ -1750,8 +1907,10 @@ static CGRect adjustFrame(CGRect frame) {
 
         CGFloat circumference = [self titleCircumferenceWithFont:font];
 
-        // Empirically, this 0.25 works out well. This allows for a little padding between text segments.
-        if (circumference <= angle*self.bounds.size.width*0.25) break;
+        // NSLog(@"With font size %f: circumference %f/%f", fontSize, circumference, angle*self.bounds.size.width*0.25);
+
+        // Empirically, this factor works out well. This allows for a little padding between text segments.
+        if (circumference <= angle*self.bounds.size.width*0.4) break;
     }
 
     return fontSize;
