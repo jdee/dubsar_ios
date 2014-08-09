@@ -109,11 +109,11 @@ class BaseViewController: UIViewController {
     }
 
     func pushViewControllerWithIdentifier(vcIdentifier: String!, router: Router? = nil) {
-        let vc = instantiateViewControllerWithIdentifier(vcIdentifier, router: router)
         dispatch_async(dispatch_get_main_queue()) {
             [weak self] in
 
             if let my = self {
+                let vc = my.instantiateViewControllerWithIdentifier(vcIdentifier, router: router)
                 my.navigationController.pushViewController(vc, animated: true)
             }
         }
@@ -121,51 +121,51 @@ class BaseViewController: UIViewController {
     }
 
     func pushViewControllerWithIdentifier(vcIdentifier: String!, model: DubsarModelsModel!, routerAction: RouterAction, indexPath: NSIndexPath? = nil) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewControllerWithIdentifier(vcIdentifier) as? BaseViewController
-        if let vc = viewController {
+        dispatch_async(dispatch_get_main_queue()) {
+            [weak self] in
 
-            var router: Router
+            if let my = self {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let viewController = storyboard.instantiateViewControllerWithIdentifier(vcIdentifier) as? BaseViewController
+                if let vc = viewController {
 
-            if routerAction == RouterAction.UpdateViewWithDependency {
-                if vcIdentifier == WordViewController.identifier {
-                    let sense = model as DubsarModelsSense
-                    let word: DubsarModelsWord? = sense.word
-                    assert(word)
-                    router = Router(viewController: vc, model: word)
-                    router.dependency = sense
-                }
-                else if vcIdentifier == SynsetViewController.identifier {
-                    let sense = model as DubsarModelsSense
-                    let synset: DubsarModelsSynset? = sense.synset
-                    assert(synset)
-                    DMLOG("Displaying synset view for synset \(synset!._id), sense \(sense._id)")
+                    var router: Router
 
-                    router = Router(viewController: vc, model: synset)
-                    router.dependency = sense
-                }
-                else {
-                    // shouldn't happen
-                    router = Router(viewController: vc, model: model)
-                }
-            }
-            else {
-                router = Router(viewController: vc, model: model)
-            }
+                    if routerAction == RouterAction.UpdateViewWithDependency {
+                        if vcIdentifier == WordViewController.identifier {
+                            let sense = model as DubsarModelsSense
+                            let word: DubsarModelsWord? = sense.word
+                            assert(word)
+                            router = Router(viewController: vc, model: word)
+                            router.dependency = sense
+                        }
+                        else if vcIdentifier == SynsetViewController.identifier {
+                            let sense = model as DubsarModelsSense
+                            let synset: DubsarModelsSynset? = sense.synset
+                            assert(synset)
+                            DMLOG("Displaying synset view for synset \(synset!._id), sense \(sense._id)")
 
-            router.routerAction = routerAction
-            router.indexPath = indexPath
+                            router = Router(viewController: vc, model: synset)
+                            router.dependency = sense
+                        }
+                        else {
+                            // shouldn't happen
+                            router = Router(viewController: vc, model: model)
+                        }
+                    }
+                    else {
+                        router = Router(viewController: vc, model: model)
+                    }
 
-            vc.router = router
-            dispatch_async(dispatch_get_main_queue()) {
-                [weak self] in
+                    router.routerAction = routerAction
+                    router.indexPath = indexPath
 
-                if let my = self {
+                    vc.router = router
                     my.navigationController.pushViewController(vc, animated: true)
                 }
             }
-            DMLOG("push \(vcIdentifier) view controller")
         }
+        DMLOG("push \(vcIdentifier) view controller")
     }
 
     func setupToolbar() {

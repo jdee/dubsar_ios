@@ -225,17 +225,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
 
         let top = navigationController.topViewController as BaseViewController
-        let viewController : BaseViewController! = top.instantiateViewControllerWithIdentifier(WordViewController.identifier, router: nil)
-        if title {
-            viewController.title = title
-        }
-        viewController.router = Router(viewController: viewController, model: word)
 
         navigationController.dismissViewControllerAnimated(true, completion: nil)
         dispatch_async(dispatch_get_main_queue()) {
             [weak self] in
 
             if let my = self {
+                let viewController : BaseViewController! = top.instantiateViewControllerWithIdentifier(WordViewController.identifier, router: nil)
+                if title {
+                    viewController.title = title
+                }
+                viewController.router = Router(viewController: viewController, model: word)
                 my.navigationController.pushViewController(viewController, animated: true)
             }
         }
