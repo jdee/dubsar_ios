@@ -308,6 +308,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func newDownloadAvailable(theDatabaseManager: DatabaseManager!, name downloadName: String!, zipped zippedSize: UInt, unzipped unzippedSize: UInt) {
+        if !AppConfiguration.offlineSetting {
+            // this can change in the interim. the checkForUpdate() request doesn't take long, so the user just set the offline switch to off.
+            return
+        }
+
         if AppConfiguration.autoUpdateSetting {
             theDatabaseManager.download()
             let viewController = navigationController.topViewController as BaseViewController
