@@ -185,6 +185,11 @@ void DMLOG(NSString* format, ...)
     return _instance;
 }
 
++ (void)logLevel:(DubsarModelsLogLevel)level message:(NSString *)message
+{
+    [[self instance] logLevel:level message:message];
+}
+
 + (void)logFile:(const char *)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString *)format, ...
 {
     va_list args;
@@ -204,9 +209,14 @@ void DMLOG(NSString* format, ...)
 {
     self = [super init];
     if (self) {
-        _logLevel = DubsarModelsLogLevelTrace;
+        _logLevel = DubsarModelsLogLevelDebug;
     }
     return self;
+}
+
+- (void)logLevel:(DubsarModelsLogLevel)level message:(NSString *)message
+{
+    [self logFile:NULL line:0 level:level format:@"%@", message];
 }
 
 - (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString *)format, ...
@@ -227,7 +237,12 @@ void DMLOG(NSString* format, ...)
     const char* cLevel = cLevels[level];
 
     NSString* s = [NSString stringWithFormat:format args:args];
-    NSLog(@"%s|%s:%lu|%@", cLevel, file, line, s);
+    if (file) {
+        NSLog(@"%s|%s:%lu|%@", cLevel, file, line, s);
+    }
+    else {
+        NSLog(@"%s|%@", cLevel, s);
+    }
 }
 
 @end

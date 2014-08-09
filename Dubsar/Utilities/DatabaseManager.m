@@ -85,10 +85,10 @@
             if (currentNumericVersion >= requiredNumericVersion) {
                 _fileName = [download stringByAppendingString:@".sqlite3"];
                 _zipName = [download stringByAppendingString:@".zip"];
-                DMLOG(@"Application requires %@. Acceptable version %@ installed.", _requiredDBVersion, download);
+                DMINFO(@"Application requires %@. Acceptable version %@ installed.", _requiredDBVersion, download);
             }
             else {
-                DMLOG(@"Application requires %@. Removing %@.", _requiredDBVersion, download);
+                DMWARN(@"Application requires %@. Removing %@.", _requiredDBVersion, download);
                 // It'll check for updates as soon as the app foregrounds.
                 [self cleanOldDatabases];
                 [[NSUserDefaults standardUserDefaults] removeObjectForKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
@@ -104,11 +104,11 @@
              */
             _fileName = [_requiredDBVersion stringByAppendingString:@".sqlite3"];
             if (self.fileExists) {
-                DMLOG(@"Required database %@ already installed", self.requiredDBVersion);
+                DMINFO(@"Required database %@ already installed", self.requiredDBVersion);
                 [[NSUserDefaults standardUserDefaults] setValue:_requiredDBVersion forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
             }
             else {
-                DMLOG(@"Application requires %@. Removing any older databases.", _requiredDBVersion);
+                DMWARN(@"Application requires %@. Removing any older databases.", _requiredDBVersion);
                 _fileName = nil;
             }
             [self cleanOldDatabases]; // cleans everything but _fileName, or everything if _fileName is nil
@@ -159,14 +159,16 @@
     if (!exists) {
         NSError* error;
         if (![fileManager createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error]) {
-            DMLOG(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+            DMERROR(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+            return nil;
         }
         else {
-            DMLOG(@"Created directory %@", url.path);
+            DMINFO(@"Created directory %@", url.path);
         }
     }
     else if (!isDir) {
-        DMLOG(@"%@ exists and is not a directory", url.path);
+        DMERROR(@"%@ exists and is not a directory", url.path);
+        return nil;
     }
 
     return [url URLByAppendingPathComponent:_fileName];
@@ -202,14 +204,16 @@
     if (!exists) {
         NSError* error;
         if (![fileManager createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error]) {
-            DMLOG(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+            DMERROR(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+            return nil;
         }
         else {
-            DMLOG(@"Created directory %@", url.path);
+            DMINFO(@"Created directory %@", url.path);
         }
     }
     else if (!isDir) {
-        DMLOG(@"%@ exists and is not a directory", url.path);
+        DMERROR(@"%@ exists and is not a directory", url.path);
+        return nil;
     }
 
     return [url URLByAppendingPathComponent:_oldFileName];
@@ -234,14 +238,16 @@
     if (!exists) {
         NSError* error;
         if (![fileManager createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error]) {
-            DMLOG(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+            DMERROR(@"Could not create directory %@: %@", url.path, error.localizedDescription);
+            return nil;
         }
         else {
-            DMLOG(@"Created directory %@", url.path);
+            DMINFO(@"Created directory %@", url.path);
         }
     }
     else if (!isDir) {
-        DMLOG(@"%@ exists and is not a directory", url.path);
+        DMERROR(@"%@ exists and is not a directory", url.path);
+        return nil;
     }
 
     return [url URLByAppendingPathComponent:_zipName];
@@ -270,7 +276,7 @@
 
     [self restoreOldFileOnFailure];
 
-    DMLOG(@"Download canceled");
+    DMINFO(@"Download canceled");
     // [self deleteDatabase]; // cleans up the zip too
 }
 
@@ -281,7 +287,7 @@
     }
 
     if (!_fileName || !_zipName) {
-        DMLOG(@"Nothing to download. Checking for available downloads.");
+        DMWARN(@"Nothing to download. Checking for available downloads.");
         [self checkForUpdate];
         return;
     }
@@ -321,7 +327,7 @@
         return;
     }
 
-    DMLOG(@"Successfully opened/created %@ for write", self.zipURL.path);
+    DMDEBUG(@"Successfully opened/created %@ for write", self.zipURL.path);
     [self excludeFromBackup:self.zipURL];
 
     self.downloadSize = self.downloadedSoFar = self.unzippedSoFar = self.unzippedSize = 0;
@@ -339,7 +345,7 @@
     self.downloadStart = now;
 
     NSURL* url = [self.rootURL URLByAppendingPathComponent:_zipName];
-    DMLOG(@"Downloading %@", url);
+    DMINFO(@"Downloading %@", url);
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
 
     if (_etag && _start > 0 && _start == _totalSize) {
@@ -376,16 +382,16 @@
     NSError* error;
     NSURL* fileURL = self.fileURL;
     if (fileURL && ![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error]) {
-        DMLOG(@"Error deleting DB %@: %@", self.fileURL.path, error.localizedDescription);
+        DMERROR(@"Error deleting DB %@: %@", self.fileURL.path, error.localizedDescription);
     }
     else if (fileURL) {
-        DMLOG(@"Deleted %@", fileURL.path);
+        DMINFO(@"Deleted %@", fileURL.path);
     }
 
     // might not be there any more. don't care if this fails.
     NSURL* zipURL = self.zipURL;
     if (zipURL && [[NSFileManager defaultManager] removeItemAtURL:zipURL error:NULL]) {
-        DMLOG(@"Deleted %@", zipURL.path);
+        DMINFO(@"Deleted %@", zipURL.path);
     }
 
     [self cleanOldDatabases];
@@ -442,24 +448,24 @@
     NSError* error;
     NSArray* files = [fileManager contentsOfDirectoryAtPath:url.path error:&error];
     if (!files) {
-        DMLOG(@"Reading %@: %@", url.path, error.localizedDescription);
+        DMERROR(@"Reading %@: %@", url.path, error.localizedDescription);
         return;
     }
 
-    DMLOG(@"Cleaning old DBS. Current is %@", self.fileName);
+    DMINFO(@"Cleaning old DBS. Current is %@", self.fileName);
 
     for (NSString* file in files) {
         if (![file hasPrefix:DUBSAR_DOWNLOAD_PREFIX]) continue;
 
         if (![_fileName isEqualToString:file] ) {
             NSURL* fileURL = [url URLByAppendingPathComponent:file];
-            DMLOG(@"Removing %@", fileURL);
+            DMINFO(@"Removing %@", fileURL);
             if (![fileManager removeItemAtURL:fileURL error:&error]) {
-                DMLOG(@"Error removing %@: %@", fileURL.path, error.localizedDescription);
+                DMERROR(@"Error removing %@: %@", fileURL.path, error.localizedDescription);
             }
         }
         else {
-            DMLOG(@"Keeping %@", file);
+            DMINFO(@"Keeping %@", file);
         }
     }
 
@@ -468,7 +474,7 @@
 
     files = [fileManager contentsOfDirectoryAtPath:url.path error:&error];
     if (!files) {
-        DMLOG(@"Reading %@: %@", url.path, error.localizedDescription);
+        DMERROR(@"Reading %@: %@", url.path, error.localizedDescription);
         return;
     }
 
@@ -477,13 +483,13 @@
 
         if (![_zipName isEqualToString:file]) {
             NSURL* fileURL = [url URLByAppendingPathComponent:file];
-            DMLOG(@"Removing %@", fileURL);
+            DMINFO(@"Removing %@", fileURL);
             if (![fileManager removeItemAtURL:fileURL error:&error]) {
-                DMLOG(@"Error removing %@: %@", fileURL.path, error.localizedDescription);
+                DMERROR(@"Error removing %@: %@", fileURL.path, error.localizedDescription);
             }
         }
         else {
-            DMLOG(@"Keeping %@", file); // to resume the download later
+            DMINFO(@"Keeping %@", file); // to resume the download later
         }
     }
 }
@@ -499,7 +505,7 @@
     }
     [[UIApplication sharedApplication] stopUsingNetwork];
 
-    DMLOG(@"Error %@: %ld (%@)", error.domain, (long)error.code, error.localizedDescription);
+    DMERROR(@"Error %@: %ld (%@)", error.domain, (long)error.code, error.localizedDescription);
 
     if ([error.domain isEqualToString:NSURLErrorDomain] &&
         (error.code == NSURLErrorTimedOut || error.code == NSURLErrorNetworkConnectionLost)) {
@@ -518,7 +524,7 @@
                  * If executing in downloadSynchronous in a background thread, as long as downloadInProgress is never allowed to become
                  * false, that run loop will continue until the download stops (success or failure).
                  */
-                DMLOG(@"Download failed: %@ (error %ld). Host %@ reachable. Restarting download.", error.localizedDescription, (long)error.code, self.rootURL.host);
+                DMINFO(@"Download failed: %@ (error %ld). Host %@ reachable. Restarting download.", error.localizedDescription, (long)error.code, self.rootURL.host);
                 [self download];
                 return;
             }
@@ -526,7 +532,7 @@
             // if not reachable, just fall through and report the failure.
         }
         else {
-            DMLOG(@"Could not determine network reachability for %@", self.rootURL.host);
+            DMWARN(@"Could not determine network reachability for %@", self.rootURL.host);
         }
         CFRelease(hostRef);
     }
@@ -545,13 +551,13 @@
     ssize_t nr = fwrite(data.bytes, 1, data.length, fp);
 
     if (nr == data.length) {
-        // DMLOG(@"Wrote %d bytes to %@", data.length, _fileName);
+        DMTRACE(@"Wrote %d bytes to %@", data.length, _fileName);
     }
     else {
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
-        DMLOG(@"Failed to write %lu bytes. Wrote %zd. Error %d (%s)", (unsigned long)data.length, nr, error, errbuf);
+        DMERROR(@"Failed to write %lu bytes. Wrote %zd. Error %d (%s)", (unsigned long)data.length, nr, error, errbuf);
         return;
     }
 }
@@ -565,7 +571,7 @@
 
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
 
-    DMLOG(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
+    DMINFO(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
     if (httpResp.statusCode >= 400) {
         [self notifyDelegateOfError:@"Status code %ld from %@", (long)httpResp.statusCode, httpResp.URL.host];
         [[UIApplication sharedApplication] stopUsingNetwork];
@@ -579,7 +585,7 @@
         return;
     }
     else if (_etag && httpResp.statusCode == 304) {
-        DMLOG(@"304 Not Modified: verified copy of %@ in Caches (ETag: \"%@\")", _zipName, _etag);
+        DMINFO(@"304 Not Modified: verified copy of %@ in Caches (ETag: \"%@\")", _zipName, _etag);
 
         // see [self download].
         // We used If-None-Match: _etag.
@@ -613,7 +619,7 @@
 
     _etag = newETag;
     if (_etag) {
-        DMLOG(@"ETag for %@ is %@", [self.rootURL URLByAppendingPathComponent:_zipName], _etag);
+        DMDEBUG(@"ETag for %@ is %@", [self.rootURL URLByAppendingPathComponent:_zipName], _etag);
     }
     _totalSize = self.downloadSize;
 
@@ -633,7 +639,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    DMLOG(@"Finished downloading %@", _zipName);
+    DMINFO(@"Finished downloading %@", _zipName);
     [self updateElapsedDownloadTime];
     [self startUnzip];
 }
@@ -644,7 +650,7 @@
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
 {
     if (error) {
-        DMLOG(@"Error getting download list: %@", error);
+        DMERROR(@"Error getting download list: %@", error);
         return;
     }
 
@@ -653,7 +659,7 @@
     int zipped = ((NSNumber*)download.properties[@"zipped"]).intValue;
     int unzipped = ((NSNumber*)download.properties[@"unzipped"]).intValue;
 
-    DMLOG(@"download: %@. zipped: %d, unzipped: %d", download.name, zipped, unzipped);
+    DMINFO(@"download: %@. zipped: %d, unzipped: %d", download.name, zipped, unzipped);
 
     _oldFileName = _fileName;
 
@@ -663,12 +669,12 @@
     [[NSUserDefaults standardUserDefaults] setValue:download.name forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
 
     if (self.fileExists) {
-        DMLOG(@"Already have %@", self.fileURL.path);
+        DMINFO(@"Already have %@", self.fileURL.path);
         [self cleanOldDatabases];
         return;
     }
 
-    DMLOG(@"%@ is a new download", download.name);
+    DMINFO(@"%@ is a new download", download.name);
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(newDownloadAvailable:name:zipped:unzipped:)]) {
         if ([NSThread currentThread] == [NSThread mainThread]) {
@@ -718,23 +724,23 @@
     gettimeofday(&now, NULL);
 
     double delta = (double)(now.tv_sec - self.lastDownloadStatsUpdate.tv_sec) + (double)(now.tv_usec - self.lastDownloadStatsUpdate.tv_usec) * 1.0e-6;
-    // DMLOG(@"%f s since last read: %lu bytes", delta, (unsigned long)size);
+    DMTRACE(@"%f s since last read: %lu bytes", delta, (unsigned long)size);
 
     if (size < 1024 * 1024 && delta < 5.0) {
         // even it out by only checking every so often
         return;
     }
 
-    // DMLOG(@"On receipt of data, last read time %ld.%06d", self.lastDownloadRead.tv_sec, self.lastDownloadRead.tv_usec);
+    DMTRACE(@"On receipt of data, last read time %ld.%06d", self.lastDownloadStatsUpdate.tv_sec, self.lastDownloadStatsUpdate.tv_usec);
 
     if (delta > 0.0) {
         self.instantaneousDownloadRate = ((double)size) / delta;
-        // DMLOG(@"%f B/s instantaneous rate", self.instantaneousDownloadRate);
+        DMTRACE(@"%f B/s instantaneous rate", self.instantaneousDownloadRate);
     }
 
     if (self.instantaneousDownloadRate > 0) {
         self.estimatedDownloadTimeRemaining = (double)(self.downloadSize - self.downloadedSoFar) / self.instantaneousDownloadRate;
-        // DMLOG(@"%f s remaining", self.estimatedDownloadTimeRemaining);
+        DMTRACE(@"%f s remaining", self.estimatedDownloadTimeRemaining);
     }
 
     self.downloadedAtLastStatsUpdate = self.downloadedSoFar;
@@ -803,7 +809,7 @@
     struct stat sb;
     int rc = stat(self.zipURL.path.UTF8String, &sb);
     if (rc == 0) {
-        DMLOG(@"Downloaded file %@ is %lld bytes", _zipName, sb.st_size);
+        DMDEBUG(@"Downloaded file %@ is %lld bytes", _zipName, sb.st_size);
     }
     else {
         int error = errno;
@@ -845,7 +851,7 @@
     }
 
     self.unzippedSize = fileInfo.uncompressed_size;
-    DMLOG(@"Unzipped file will be %lu bytes", (long)_unzippedSize);
+    DMDEBUG(@"Unzipped file will be %lu bytes", (long)_unzippedSize);
 
     FILE* outfile = fopen(self.fileURL.path.UTF8String, "w");
     if (!outfile) {
@@ -925,12 +931,12 @@
         [self finishDownload];
         return;
     }
-    DMLOG(@"Unzipped file %@ is %lld bytes", _fileName, sb.st_size);
+    DMDEBUG(@"Unzipped file %@ is %lld bytes", _fileName, sb.st_size);
 
     NSError* error;
 
     if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
-        DMLOG(@"Error removing %@: %@", self.zipURL.path, error.localizedDescription);
+        DMERROR(@"Error removing %@: %@", self.zipURL.path, error.localizedDescription);
     }
 
     [self finishDownload];
@@ -939,7 +945,7 @@
 - (void)excludeFromBackup:(NSURL*)url {
     NSError* error;
     if (![url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error]) {
-        DMLOG(@"Failed to set %@ attribute for file: %@", NSURLIsExcludedFromBackupKey, error.localizedDescription);
+        DMERROR(@"Failed to set %@ attribute for file: %@", NSURLIsExcludedFromBackupKey, error.localizedDescription);
     }
 }
 

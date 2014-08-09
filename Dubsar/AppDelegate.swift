@@ -156,11 +156,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        DMLOG("application did fail (or as we say in English, failed) to register for remote notifications: \(error.localizedDescription)")
+        DMERROR("application did fail (or as we say in English, failed) to register for remote notifications: \(error.localizedDescription)")
     }
 
     func application(application: UIApplication!, didReceiveLocalNotification notification: UILocalNotification!) {
-        DMLOG("Received local notification: \(notification.alertBody)")
+        DMINFO("Received local notification: \(notification.alertBody)")
         /* not really necessary
         let viewController = navigationController.topViewController as BaseViewController
         viewController.adjustLayout()
@@ -199,7 +199,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func application(theApplication: UIApplication!, handleActionWithIdentifier identifier: String!, forRemoteNotification userInfo: NSDictionary!, completionHandler: (() -> Void)!) {
-        DMLOG("Received remote notification action \(identifier)")
+        DMINFO("Received remote notification action \(identifier)")
         application(theApplication, didReceiveRemoteNotification: userInfo)
     }
 
@@ -240,12 +240,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             }
         }
 
-        DMLOG("push \(WordViewController.identifier) view controller")
+        DMTRACE("push \(WordViewController.identifier) view controller")
         return true
     }
 
     func application(application: UIApplication!, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings!) {
-        DMLOG("Application did register user notification settings")
+        DMTRACE("Application did register user notification settings")
     }
 
     func voidCache() {
@@ -343,7 +343,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         let offlineSetting = AppConfiguration.offlineSetting
         if databaseManager.downloadInProgress {
             if (offlineSetting) {
-                DMLOG("Download in progress")
+                DMTRACE("Download in progress")
                 return // happy. DEBT: Do we need to check for update? If a DL is in progress, we probably just checked.
             }
             else {
@@ -354,13 +354,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
         else if offlineSetting == databaseManager.fileExists {
             if offlineSetting {
-                DMLOG("\(databaseManager.fileURL.path) exists. checking for updates")
+                DMDEBUG("\(databaseManager.fileURL.path) exists. checking for updates")
                 databaseManager.checkForUpdate()
             }
             return
         }
         else if offlineSetting {
-            DMLOG("No database. Offline setting is on. Getting download list.")
+            DMTRACE("No database. Offline setting is on. Getting download list.")
             databaseManager.checkForUpdate()
             return
         }

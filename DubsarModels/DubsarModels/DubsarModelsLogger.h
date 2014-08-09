@@ -34,8 +34,12 @@ typedef NS_ENUM(NSInteger, DubsarModelsLogLevel) {
 
 + (DubsarModelsLogger volatile*)instance;
 
++ (void)logLevel:(DubsarModelsLogLevel)level message:(NSString*)message;
+
 + (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString*)format,...;
 + (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString*)format args:(va_list)args;
+
+- (void)logLevel:(DubsarModelsLogLevel)level message:(NSString*)message;
 
 - (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString*)format,...;
 - (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString*)format args:(va_list)args;
