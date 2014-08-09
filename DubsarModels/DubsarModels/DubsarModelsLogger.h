@@ -19,15 +19,41 @@
 
 @import Foundation;
 
+typedef NS_ENUM(NSInteger, DubsarModelsLogLevel) {
+    DubsarModelsLogLevelNone,
+    DubsarModelsLogLevelError,
+    DubsarModelsLogLevelWarn,
+    DubsarModelsLogLevelInfo,
+    DubsarModelsLogLevelDebug,
+    DubsarModelsLogLevelTrace
+};
+
 @interface DubsarModelsLogger : NSObject
 
-+ (void)logFile:(const char*)file line:(unsigned long)line format:(NSString*)format,...;
-+ (void)logFile:(const char*)file line:(unsigned long)line format:(NSString*)format args:(va_list)args;
+@property (atomic) DubsarModelsLogLevel logLevel;
+
++ (DubsarModelsLogger volatile*)instance;
+
++ (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString*)format,...;
++ (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString*)format args:(va_list)args;
+
+- (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString*)format,...;
+- (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString*)format args:(va_list)args;
 
 @end
 
 #ifdef DEBUG
-#define DMLOG(...) [DubsarModelsLogger logFile:__FILE__ line:__LINE__ format:__VA_ARGS__]
+#define DMLOG(...) [DubsarModelsLogger logFile:__FILE__ line:__LINE__ level:DubsarModelsLogLevelTrace format:__VA_ARGS__]
+#define DMTRACE(...) DMLOG(__VA_ARGS__)
+#define DMDEBUG(...) [DubsarModelsLogger logFile:__FILE__ line:__LINE__ level:DubsarModelsLogLevelDebug format:__VA_ARGS__]
+#define DMINFO(...) [DubsarModelsLogger logFile:__FILE__ line:__LINE__ level:DubsarModelsLogLevelInfo format:__VA_ARGS__]
+#define DMWARN(...) [DubsarModelsLogger logFile:__FILE__ line:__LINE__ level:DubsarModelsLogLevelWarn format:__VA_ARGS__]
+#define DMERROR(...) [DubsarModelsLogger logFile:__FILE__ line:__LINE__ level:DubsarModelsLogLevelError format:__VA_ARGS__]
 #else
 #define DMLOG(...)
+#define DMTRACE(...)
+#define DMDEBUG(...)
+#define DMINFO(...)
+#define DMWARN(...)
+#define DMERROR(...)
 #endif // DEBUG

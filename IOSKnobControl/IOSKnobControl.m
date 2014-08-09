@@ -1740,7 +1740,7 @@ static CGRect adjustFrame(CGRect frame) {
             break;
 #ifdef DEBUG
         default:
-            NSLog(@"Unexpected mode: %d", _mode);
+            NSLog(@"Unexpected mode: %ld", (long)_mode);
             abort();
 #endif // DEBUG
     }

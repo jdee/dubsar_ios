@@ -47,7 +47,8 @@ void DMLOG(NSString* format, ...)
     long l;
     long long ll;
     unsigned u;
-    int i, len, buflen;
+    int i;
+    unsigned long len, buflen;
     double f;
     const char* s;
     id object;
@@ -175,20 +176,58 @@ void DMLOG(NSString* format, ...)
 
 @implementation DubsarModelsLogger
 
-+ (void)logFile:(const char*)file line:(unsigned long)line format:(NSString *)format, ...
++ (DubsarModelsLogger volatile *)instance
+{
+    static volatile DubsarModelsLogger* _instance;
+    if (!_instance) {
+        _instance = [[self alloc] init];
+    }
+    return _instance;
+}
+
++ (void)logFile:(const char *)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString *)format, ...
 {
     va_list args;
     va_start(args, format);
 
-    [self logFile:file line:line format:format args:args];
+    [[self instance] logFile:file line:line level:level format:format args:args];
 
     va_end(args);
 }
 
-+ (void)logFile:(const char*)file line:(unsigned long)line format:(NSString *)format args:(va_list)args
++ (void)logFile:(const char *)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString *)format args:(va_list)args
 {
+    [[self instance] logFile:file line:line level:level format:format args:args];
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _logLevel = DubsarModelsLogLevelTrace;
+    }
+    return self;
+}
+
+- (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString *)format, ...
+{
+    va_list args;
+    va_start(args, format);
+
+    [self logFile:file line:line level:level format:format args:args];
+
+    va_end(args);
+}
+
+- (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString *)format args:(va_list)args
+{
+    if (level <= DubsarModelsLogLevelNone || level > self.logLevel) return;
+
+    const char* cLevels[] = { "NONE ", "ERROR", "WARN ", "INFO ", "DEBUG", "TRACE" };
+    const char* cLevel = cLevels[level];
+
     NSString* s = [NSString stringWithFormat:format args:args];
-    NSLog(@"%s:%lu|%@", file, line, s);
+    NSLog(@"%s|%s:%lu|%@", cLevel, file, line, s);
 }
 
 @end

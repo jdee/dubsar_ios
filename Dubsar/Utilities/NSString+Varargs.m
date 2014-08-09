@@ -26,7 +26,8 @@
     long l;
     long long ll;
     unsigned u;
-    int i, len, buflen;
+    int i;
+    unsigned long buflen, len;
     double f;
     const char* s;
     id object;
