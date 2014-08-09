@@ -94,6 +94,25 @@
                 [[NSUserDefaults standardUserDefaults] removeObjectForKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
             }
         }
+        else {
+            /*
+             * In case the user default ever vanished for any reason, but the required DB was actually
+             * there. DEBT: If the user default vanished, there could be a compatible later version installed,
+             * and this check would delete it. Instead of checking if _fileName exists, it should iterate
+             * through everything in the app support directory that matches the pattern to see what version(s)
+             * might be there.
+             */
+            _fileName = [_requiredDBVersion stringByAppendingString:@".sqlite3"];
+            if (self.fileExists) {
+                DMLOG(@"Required database %@ already installed", self.requiredDBVersion);
+                [[NSUserDefaults standardUserDefaults] setValue:_requiredDBVersion forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
+            }
+            else {
+                DMLOG(@"Application requires %@. Removing any older databases.", _requiredDBVersion);
+                _fileName = nil;
+            }
+            [self cleanOldDatabases]; // cleans everything but _fileName, or everything if _fileName is nil
+        }
 
         memset(&_downloadStart, 0, sizeof(_downloadStart));
         memset(&_lastDownloadStatsUpdate, 0, sizeof(_lastDownloadStatsUpdate));

@@ -175,20 +175,20 @@ void DMLOG(NSString* format, ...)
 
 @implementation DubsarModelsLogger
 
-+ (void)log:(NSString *)format, ...
++ (void)logFile:(const char*)file line:(unsigned long)line format:(NSString *)format, ...
 {
     va_list args;
     va_start(args, format);
 
-    [self log:format args:args];
+    [self logFile:file line:line format:format args:args];
 
     va_end(args);
 }
 
-+ (void)log:(NSString *)format args:(va_list)args
++ (void)logFile:(const char*)file line:(unsigned long)line format:(NSString *)format args:(va_list)args
 {
     NSString* s = [NSString stringWithFormat:format args:args];
-    NSLog(@"%@", s);
+    NSLog(@"%s:%lu|%@", file, line, s);
 }
 
 @end

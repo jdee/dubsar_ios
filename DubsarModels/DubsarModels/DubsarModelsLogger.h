@@ -21,13 +21,13 @@
 
 @interface DubsarModelsLogger : NSObject
 
-+ (void)log:(NSString*)format,...;
-+ (void)log:(NSString*)format args:(va_list)args;
++ (void)logFile:(const char*)file line:(unsigned long)line format:(NSString*)format,...;
++ (void)logFile:(const char*)file line:(unsigned long)line format:(NSString*)format args:(va_list)args;
 
 @end
 
 #ifdef DEBUG
-#define DMLOG(...) [DubsarModelsLogger log:__VA_ARGS__]
+#define DMLOG(...) [DubsarModelsLogger logFile:__FILE__ line:__LINE__ format:__VA_ARGS__]
 #else
 #define DMLOG(...)
 #endif // DEBUG
