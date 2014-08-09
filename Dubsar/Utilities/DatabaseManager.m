@@ -29,6 +29,8 @@
 #import "NSString+Varargs.h"
 #import "UIApplication+NetworkRefCount.h"
 
+#define DUBSAR_CURRENT_DOWNLOAD_KEY @"DubsarCurrentDownload"
+
 @interface DatabaseManager()
 // MARK: Internal properties
 // Many of these atomic props are readonly in the public interface
@@ -70,8 +72,15 @@
 
         _start = _totalSize = 0;
 
-        _fileName = @"UNKNOWN";
-        _zipName = @"UNKNOWN";
+        NSString* download = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
+        if (download) {
+            _fileName = [download stringByAppendingString:@".sqlite3"];
+            _zipName = [download stringByAppendingString:@".zip"];
+        }
+        else {
+            _fileName = @"UNKNOWN";
+            _zipName = @"UNKNOWN";
+        }
 
         // are these ivars actually related to the synthesized atomic props?
         memset(&_downloadStart, 0, sizeof(_downloadStart));
@@ -349,7 +358,9 @@
     DMLOG(@"Cleaning old DBS. Current is %@", self.fileName);
 
     for (NSString* file in files) {
-        if (![file isEqualToString:self.fileName] && [file hasPrefix:@"dubsar-wn3.1-"]) {
+        if (![file hasPrefix:@"dubsar-wn3.1-1"]) continue;
+
+        if (![file isEqualToString:self.fileName] ) {
             NSURL* fileURL = [url URLByAppendingPathComponent:file];
             DMLOG(@"Removing %@", fileURL);
             if (![fileManager removeItemAtURL:fileURL error:&error]) {
@@ -549,6 +560,8 @@
 
     _zipName = [download.name stringByAppendingString:@".zip"];
     _fileName = [download.name stringByAppendingString:@".sqlite3"];
+
+    [[NSUserDefaults standardUserDefaults] setValue:download.name forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
 
     if (self.fileExists) {
         DMLOG(@"Already have %@", self.fileURL.path);

@@ -240,6 +240,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     func offlineSwitchChanged(sender: UISwitch!) {
         AppConfiguration.offlineSetting = sender.on
         AppDelegate.instance.checkOfflineSetting()
+        settingsTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 3, inSection: 1)], withRowAnimation: .Automatic)
     }
 
     func productionSwitchChanged(sender: UISwitch!) {
@@ -361,6 +362,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         DMLOG("error downloading Database: \(errorMessage)")
         reloadOfflineRow()
         setupToolbar()
+    }
+
+    func newDownloadAvailable(databaseManager: DatabaseManager!, name downloadName: String!, zipped zippedSize: UInt, unzipped unzippedSize: UInt) {
+        AppDelegate.instance.newDownloadAvailable(databaseManager, name: downloadName, zipped: zippedSize, unzipped: unzippedSize)
     }
 
     func downloadComplete(databaseManager: DatabaseManager!) {

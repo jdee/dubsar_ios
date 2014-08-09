@@ -136,7 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                 }
                 else {
                     // success
-                    localNotif.alertBody = "Download complete"
+                    localNotif.alertBody = "Database updated"
                 }
 
                 theApplication.presentLocalNotificationNow(localNotif)
