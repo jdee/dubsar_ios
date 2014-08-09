@@ -57,12 +57,12 @@
         [ptype isEqualToString:@"verb frame"] ||
         [ptype isEqualToString:@"sample sentence"]) return _numRows;
 
-    DMLOG(@"counting rows");
+    DMTRACE(@"counting rows");
 
     DubsarModelsDatabaseWrapper* database = [DubsarModelsDatabase instance].database;
 
     if (!database.dbptr) {
-        DMLOG(@"%d rows of type %@", _numRows, ptype);
+        DMTRACE(@"%d rows of type %@", _numRows, ptype);
         return _numRows;
     }
     
@@ -82,15 +82,15 @@
     int rc;
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
-        DMLOG(@"error %d preparing statement", rc);
+        DMERROR(@"error %d preparing statement", rc);
         return 0;
     }
 
-    DMLOG(@"executing %@", sql);
+    DMTRACE(@"executing %@", sql);
     int count;
     if (sqlite3_step(statement) == SQLITE_ROW) {
         count = sqlite3_column_int(statement, 0);
-        DMLOG(@"%d rows of type %@", count, ptype);
+        DMTRACE(@"%d rows of type %@", count, ptype);
     }
     
     sqlite3_finalize(statement);

@@ -218,7 +218,7 @@
 {
     NSRange posStartRange = [nameAndPos rangeOfString:@", "];
     if (posStartRange.location == NSNotFound) {
-        DMLOG(@"did not find \", ");
+        DMWARN(@"did not find \", ");
         return;
     }
 
@@ -231,10 +231,10 @@
 
 -(void)parseData
 {
-    DMLOG(@"parsing Sense response for %@, %lu bytes", self.nameAndPos, (unsigned long)[self data].length);
+    DMTRACE(@"parsing Sense response for %@, %lu bytes", self.nameAndPos, (unsigned long)[self data].length);
 
     NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
-    DMLOG(@"sense response array has %lu entries", (unsigned long)response.count);
+    DMTRACE(@"sense response array has %lu entries", (unsigned long)response.count);
 
     NSArray* _word = response[1];
     NSNumber* _wordId = _word[0];
@@ -258,7 +258,7 @@
     }
     
     lexname = response[3];
-    DMLOG(@"lexname: \"%@\"", lexname);
+    DMTRACE(@"lexname: \"%@\"", lexname);
 
     synset.lexname = lexname;
 
@@ -270,10 +270,10 @@
     NSNumber* fc = response[5];
     freqCnt = fc.intValue;
 
-    DMLOG(@"freq. cnt.: %d", freqCnt);
+    DMTRACE(@"freq. cnt.: %d", freqCnt);
 
     NSArray* _synonyms = response[6];
-    DMLOG(@"found %lu synonyms", (unsigned long)[_synonyms count]);
+    DMTRACE(@"found %lu synonyms", (unsigned long)[_synonyms count]);
     synonyms = [NSMutableArray arrayWithCapacity:_synonyms.count];
     for (int j=0; j< _synonyms.count; ++j) {
         NSArray* _synonym = _synonyms[j];
@@ -288,23 +288,23 @@
 
         int wordId = ((NSNumber*)_synonym[4]).intValue;
         sense.word = [DubsarModelsWord wordWithId:wordId name:_synonym[1] partOfSpeech:partOfSpeech];
-        DMLOG(@" found %@, ID %lu, freq. cnt. %d", sense.nameAndPos, (unsigned long)sense._id, sense.freqCnt);
+        DMTRACE(@" found %@, ID %lu, freq. cnt. %d", sense.nameAndPos, (unsigned long)sense._id, sense.freqCnt);
         [synonyms insertObject:sense atIndex:j];
     }
     [synonyms sortUsingSelector:@selector(compareFreqCnt:)];
     
     NSArray* _verbFrames = response[7];
-    DMLOG(@"found %lu verb frames", (unsigned long)_verbFrames.count);
+    DMTRACE(@"found %lu verb frames", (unsigned long)_verbFrames.count);
     verbFrames = [NSMutableArray arrayWithCapacity:_verbFrames.count];
     for (int j=0; j<_verbFrames.count; ++j) {
         NSString* frame = _verbFrames[j];
         NSString* format = [frame stringByReplacingOccurrencesOfString:@"%s" withString:@"%@"];
-        DMLOG(@" %@", format);
+        DMTRACE(@" %@", format);
         [verbFrames insertObject:[NSString stringWithFormat:format, name] atIndex:j];
     }
     samples = response[8];
 
-    DMLOG(@"found %lu verb frames and %lu sample sentences", (unsigned long)[verbFrames count], (unsigned long)[samples count]);
+    DMTRACE(@"found %lu verb frames and %lu sample sentences", (unsigned long)[verbFrames count], (unsigned long)[samples count]);
 
     [self parsePointers:response];
 }
@@ -315,7 +315,7 @@
     [sections removeAllObjects];
 
     NSArray* _pointers = response[9];
-    DMLOG(@"%lu pointers", (unsigned long)_pointers.count);
+    DMTRACE(@"%lu pointers", (unsigned long)_pointers.count);
     for (int j=0; j<_pointers.count; ++j) {
         NSArray* _pointer = _pointers[j];
         
@@ -370,7 +370,7 @@
 
         ++ section.numRows;
 
-        DMLOG(@"After %@: %lu rows of type %@", targetText, (unsigned long)section.numRows, ptype);
+        DMTRACE(@"After %@: %lu rows of type %@", targetText, (unsigned long)section.numRows, ptype);
     }
 }
 
@@ -406,7 +406,7 @@
         return;
     }
 
-    DMLOG(@"executing %@", sql);
+    DMTRACE(@"executing %@", sql);
     self.verbFrames = [NSMutableArray array];
     while (sqlite3_step(statement) == SQLITE_ROW) {
         int synsetId = sqlite3_column_int(statement, 0);
@@ -420,14 +420,14 @@
         char const* _name = (char const*)sqlite3_column_text(statement, 9);
         self.name = @(_name);
 
-        DMLOG(@"matching row: synsetId = %d, wordId = %d", synsetId, wordId);
+        DMTRACE(@"matching row: synsetId = %d, wordId = %d", synsetId, wordId);
 
         if (samples == nil) {
             partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
             word = [DubsarModelsWord wordWithId:wordId name:name partOfSpeech:partOfSpeech];
             synset = [DubsarModelsSynset synsetWithId:synsetId partOfSpeech:partOfSpeech];
             weakSynsetLink = weakWordLink = false;
-            DMLOG(@"created synset with id %lu", (unsigned long)synset._id);
+            DMTRACE(@"created synset with id %lu", (unsigned long)synset._id);
 
             self.lexname = @(_lexname);
             self.marker = _marker == NULL ? @"" : @(_marker);
@@ -487,7 +487,7 @@
         return;       
     }
 
-    DMLOG(@"executing %@", sql);
+    DMTRACE(@"executing %@", sql);
     self.synonyms = [NSMutableArray array];
     while (sqlite3_step(statement) == SQLITE_ROW) {
         int senseId = sqlite3_column_int(statement, 0);
@@ -510,7 +510,7 @@
         return sections.count;
     }
 
-    DMLOG(@"in numberOfSections");
+    DMTRACE(@"in numberOfSections");
     DubsarModelsDatabaseWrapper* database = [DubsarModelsDatabase instance].database;
 
     NSString* sql;
@@ -554,11 +554,11 @@
            @"(source_id = %lu AND source_type = 'Synset') ", (unsigned long)_id, (unsigned long)synset._id];
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-        DMLOG(@"%@", self.errorMessage);
+        DMERROR(@"%@", self.errorMessage);
         return 1;
     }
 
-    DMLOG(@"executing %@", sql);
+    DMTRACE(@"executing %@", sql);
     while (sqlite3_step(statement) == SQLITE_ROW) {
         char const* _ptype = (char const*)sqlite3_column_text(statement, 0);
         
@@ -572,7 +572,7 @@
         [sections addObject:section];
     }
     sqlite3_finalize(statement);
-    DMLOG(@"%lu sections in tableView", (unsigned long)sections.count);
+    DMTRACE(@"%lu sections in tableView", (unsigned long)sections.count);
     return sections.count;
 }
 
@@ -587,7 +587,7 @@
         
     if ([section.ptype isEqualToString:@"synonym"]) {
         DubsarModelsSense* synonym = synonyms[pathRow];
-        DMLOG(@"requesting synonym %@", synonym.name);
+        DMTRACE(@"requesting synonym %@", synonym.name);
         pointer.targetText = synonym.name;
         pointer.targetId = synonym._id;
         pointer.targetType = @"sense";
@@ -635,10 +635,10 @@
             
             if ([pointer.targetType isEqualToString:@"Sense"]) {
                 if ((rc=sqlite3_reset(lexicalQuery)) != SQLITE_OK) {
-                    DMLOG(@"error %d resetting lexical query", rc);
+                    DMERROR(@"error %d resetting lexical query", rc);
                 }
                 if ((rc=sqlite3_bind_int(lexicalQuery, 1, (int)pointer.targetId)) != SQLITE_OK) {
-                    DMLOG(@"error %d binding lexical query", rc);
+                    DMERROR(@"error %d binding lexical query", rc);
                 }
                 
                 /* lexical pointers */
@@ -649,7 +649,7 @@
                     char const* _marker = (char const*)sqlite3_column_text(lexicalQuery, 3);
                     char const* _lexname = (char const*)sqlite3_column_text(lexicalQuery, 4);
                     int _synsetId = sqlite3_column_int(lexicalQuery, 5);
-                    DMLOG(@"name: %s, part_of_speech: %s, definition: %s, marker: %s, lexname: %s, synset ID: %d", _name, _part_of_speech, _definition, _marker, _lexname, _synsetId);
+                    DMTRACE(@"name: %s, part_of_speech: %s, definition: %s, marker: %s, lexname: %s, synset ID: %d", _name, _part_of_speech, _definition, _marker, _lexname, _synsetId);
                     
                     DubsarModelsPartOfSpeech _partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
                     NSString* definition = @(_definition);
@@ -666,10 +666,10 @@
             }
             else {
                 if ((rc=sqlite3_reset(semanticQuery)) != SQLITE_OK) {
-                    DMLOG(@"error %d resetting semantic query", rc);
+                    DMERROR(@"error %d resetting semantic query", rc);
                 }
                 if ((rc=sqlite3_bind_int(semanticQuery, 1, (int)pointer.targetId)) != SQLITE_OK) {
-                    DMLOG(@"error %d binding semantic query", rc);
+                    DMERROR(@"error %d binding semantic query", rc);
                 }
                 
                 /* semantic pointers */
@@ -739,7 +739,7 @@
               "INNER JOIN synsets sy ON sy.id = se.synset_id "
               "WHERE se.id = ? "
               "ORDER BY w.name ASC, w.part_of_speech ASC ";
-    DMLOG(@"preparing lexical query %s", csql);
+    DMTRACE(@"preparing lexical query %s", csql);
     if ((rc=sqlite3_prepare_v2(database.dbptr, csql, -1, &lexicalQuery, NULL)) != SQLITE_OK) {
         DMLOG(@"error %d preparing lexical query", rc);
         return;
@@ -752,7 +752,7 @@
            "WHERE sy.id = ? "
            "ORDER BY w.name ASC";
 
-    DMLOG(@"preparing semantic query %s", csql);
+    DMTRACE(@"preparing semantic query %s", csql);
     if ((rc=sqlite3_prepare_v2(database.dbptr, csql, -1, &semanticQuery, NULL)) != SQLITE_OK) {
         DMLOG(@"error %d preparing semantic query", rc);
         return;

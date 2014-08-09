@@ -49,12 +49,12 @@
 
         int rc;
         if ((rc=sqlite3_open_v2(srcURL.path.UTF8String, &_dbptr, SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_READONLY, NULL)) != SQLITE_OK) {
-            DMLOG(@"error opening database %@, %d", srcURL.path, rc);
+            DMERROR(@"error opening database %@, %d", srcURL.path, rc);
             _dbptr = NULL;
             return;
         }
 
-        DMLOG(@"successfully opened database %@", srcURL.path);
+        DMDEBUG(@"successfully opened database %@", srcURL.path);
         NSString* sql;
 
 
@@ -72,9 +72,9 @@
         @"ORDER BY name ASC "
         @"LIMIT 1";
 
-        DMLOG(@"preparing statement \"%@\"", sql);
+        DMDEBUG(@"preparing statement \"%@\"", sql);
         if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_exactAutocompleterStmt, NULL)) != SQLITE_OK) {
-            DMLOG(@"error preparing exact match statement, error %d", rc);
+            DMERROR(@"error preparing exact match statement, error %d", rc);
             return;
         }
 
@@ -97,9 +97,9 @@
         @"ORDER BY i.name ASC "
         @"LIMIT ?";
 
-        DMLOG(@"preparing statement \"%@\"", sql);
+        DMDEBUG(@"preparing statement \"%@\"", sql);
         if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_autocompleterStmt, NULL)) != SQLITE_OK) {
-            DMLOG(@"error preparing match statement, error %d", rc);
+            DMERROR(@"error preparing match statement, error %d", rc);
             return;
         }
 
@@ -110,9 +110,9 @@
         @"ORDER BY name ASC "
         @"LIMIT ?";
 
-        DMLOG(@"preparing statement \"%@\"", sql);
+        DMDEBUG(@"preparing statement \"%@\"", sql);
         if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_autocompleterStmtWithoutExact, NULL)) != SQLITE_OK) {
-            DMLOG(@"error preparing match statement, error %d", rc);
+            DMERROR(@"error preparing match statement, error %d", rc);
             return;
         }
 

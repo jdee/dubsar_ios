@@ -122,7 +122,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
     error = true;
 
-    DMLOG(@"requesting %@", url);
+    DMDEBUG(@"requesting %@", url);
 
     [self callDelegateSelectorOnMainThread:@selector(networkLoadStarted:) withError:nil];
 }
@@ -131,12 +131,12 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 {
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
     
-    DMLOG(@"GET request for URL %@ returned HTTP status code %ld", url, (long)httpResponse.statusCode);
+    DMDEBUG(@"GET request for URL %@ returned HTTP status code %ld", url, (long)httpResponse.statusCode);
     
     NSDictionary* headers = [httpResponse allHeaderFields];
     [headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         NSString* value = (NSString*)obj;
-        DMLOG(@"%@: \"%@\"", key, value);
+        DMTRACE(@"%@: \"%@\"", key, value);
     }];
     
     if (httpResponse.statusCode >= 400) {
@@ -146,7 +146,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
     }
     
-    DMLOG(@"received response");
+    DMDEBUG(@"received response");
     [data setLength:0];
 }
 
@@ -158,7 +158,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)theError
 {
     NSString* errMsg = [theError localizedDescription];
-    DMLOG(@"error requesting %@: %@", url, errMsg);
+    DMERROR(@"error requesting %@: %@", url, errMsg);
     
     [self setComplete:true];
     [self setError:true];
@@ -166,15 +166,15 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
     [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
 
-    DMLOG(@"load processing finished");
+    DMDEBUG(@"load processing finished");
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     // BUG: Why does jsonData show up as (null) in the iPod log?
     NSString* jsonData = @((const char*)[data bytes]);
-    DMLOG(@"JSON response from URL %@:", url);
-    DMLOG(@"%@", jsonData);
+    DMDEBUG(@"JSON response from URL %@:", url);
+    DMDEBUG(@"%@", jsonData);
 
     @autoreleasepool {
         [self parseData];
@@ -189,7 +189,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
     self.loading = false;
     [self callDelegateSelectorOnMainThread:@selector(loadComplete:withError:) withError:errorMessage];
 
-    DMLOG(@"load processing finished");
+    DMDEBUG(@"load processing finished");
 }
 
 - (void)callDelegateSelectorOnMainThread:(SEL)action withError:(NSString*)loadError

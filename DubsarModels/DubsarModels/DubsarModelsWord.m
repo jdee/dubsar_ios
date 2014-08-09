@@ -107,10 +107,10 @@
                      @"ORDER BY i.name ASC ", (unsigned long)_id];
     int rc;
     sqlite3_stmt* statement;
-    DMLOG(@"preparing statement \"%@\"", sql);
+    DMTRACE(@"preparing statement \"%@\"", sql);
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-        DMLOG(@"%@", self.errorMessage);
+        DMERROR(@"%@", self.errorMessage);
         return;
     }
     
@@ -125,14 +125,14 @@
         
         NSString* inflection = @(_inflection);
         [self addInflection:inflection];
-        DMLOG(@"added inflection %@", inflection);
+        DMTRACE(@"added inflection %@", inflection);
 
         if (partOfSpeech == DubsarModelsPartOfSpeechUnknown) {
             partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
         }
     }
 
-    DMLOG(@"%lu inflections", (unsigned long)inflections.count);
+    DMTRACE(@"%lu inflections", (unsigned long)inflections.count);
 
     sqlite3_finalize(statement);
 
@@ -142,7 +142,7 @@
            @"WHERE se.word_id = %lu "
            @"ORDER BY se.freq_cnt DESC ", (unsigned long)_id];
 
-    DMLOG(@"preparing statement \"%@\"", sql);
+    DMTRACE(@"preparing statement \"%@\"", sql);
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
         DMLOG(@"%@", self.errorMessage);
@@ -168,7 +168,7 @@
                             @"ORDER BY w.name ASC ", synsetId];
         
         sqlite3_stmt* synStatement;
-        DMLOG(@"preparing statement \"%@\"", synSql);
+        DMTRACE(@"preparing statement \"%@\"", synSql);
         if ((rc=sqlite3_prepare_v2(database.dbptr, synSql.UTF8String, -1, &synStatement, NULL))
             != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
@@ -186,7 +186,7 @@
         while (sqlite3_step(synStatement) == SQLITE_ROW) {
             int synonymSenseId = sqlite3_column_int(synStatement, 0);
             char const* _synonym = (char const*)sqlite3_column_text(synStatement, 1);
-            DMLOG(@"synonym %s (%d)", _synonym, synonymSenseId);
+            DMTRACE(@"synonym %s (%d)", _synonym, synonymSenseId);
 
             DubsarModelsSense* synonym = [DubsarModelsSense senseWithId:synonymSenseId name:@(_synonym) partOfSpeech:partOfSpeech];
             [synonyms addObject:synonym];
@@ -201,11 +201,11 @@
         sense.marker = _marker == NULL ? @"" : @(_marker);
         sense.synset = [DubsarModelsSynset synsetWithId:synsetId gloss:gloss partOfSpeech:partOfSpeech];
         [senses addObject:sense];
-        DMLOG(@"added sense ID %d, gloss \"%@\", lexname \"%@\", freq. cnt. %d, synset with ID %ld", senseId, gloss, sense.lexname, senseFC, (long)sense.synset._id);
+        DMTRACE(@"added sense ID %d, gloss \"%@\", lexname \"%@\", freq. cnt. %d, synset with ID %ld", senseId, gloss, sense.lexname, senseFC, (long)sense.synset._id);
     }
     
     sqlite3_finalize(statement);
-    DMLOG(@"completed word query");
+    DMTRACE(@"completed word query");
 }
 
 -(void)parseData

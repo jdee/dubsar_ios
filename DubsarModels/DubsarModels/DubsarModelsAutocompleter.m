@@ -140,7 +140,7 @@
             }
 
             if (rc != SQLITE_DONE) {
-                DMLOG(@"Autocompleter FTS search failed: %d", rc);
+                DMERROR(@"Autocompleter FTS search failed: %d", rc);
             }
         }
         else {
@@ -167,7 +167,7 @@
             }
 
             if (rc != SQLITE_DONE) {
-                DMLOG(@"Autocompleter FTS search failed: %d", rc);
+                DMERROR(@"Autocompleter FTS search failed: %d", rc);
             }
         }
     }
@@ -184,7 +184,7 @@
     }
     _results = r;
 
-    DMLOG(@"autocompleter for term \"%@\" (URL \"%@\") finished with %lu results:", response[0], [self _url], (unsigned long)_results.count);
+    DMTRACE(@"autocompleter for term \"%@\" (URL \"%@\") finished with %lu results:", response[0], [self _url], (unsigned long)_results.count);
 }
 
 @end

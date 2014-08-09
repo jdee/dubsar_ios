@@ -99,7 +99,7 @@
     if (![self loadFromUserDefaults] || !expiration || expiration <= time(0)) {
         
         if (expiration && expiration <= time(0)) {
-            DMLOG(@"cached wotd expired, requesting");
+            DMINFO(@"cached wotd expired, requesting");
         }
         
         // fresh is set to true when the wotd is not in the defaults.
@@ -115,7 +115,7 @@
     NSNumber* numericId = wotd[0];
     
     word = [DubsarModelsWord wordWithId:numericId.intValue name:wotd[1] posString:wotd[2]];
-    DMLOG(@"Received WOTD response: %@", word.nameAndPos);
+    DMINFO(@"Received WOTD response: %@", word.nameAndPos);
     
     NSNumber* fc = wotd[3];
     word.freqCnt = fc.intValue;
@@ -132,11 +132,11 @@
     NSInteger wotdId = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordIdKey];
 
     if (wotdId <= 0) {
-        DMLOG(@"User defaults value for %@: %@", DubsarDailyWordIdKey, [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey]);
+        DMWARN(@"User defaults value for %@: %@", DubsarDailyWordIdKey, [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordIdKey]);
         return false;
     }
     else {
-        DMLOG(@"Found wotd in user defaults, id %ld", (long)wotdId);
+        DMINFO(@"Found wotd in user defaults, id %ld", (long)wotdId);
     }
 
     NSString* name = [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordNameKey];
@@ -155,7 +155,7 @@
         [self.delegate loadComplete:self withError:nil];
     }
     else {
-        DMLOG(@"Loading WOTD");
+        DMINFO(@"Loading WOTD");
         [word load]; // need to parse the name and pos out of the push notification. for now, get it from the server.
     }
 
@@ -164,7 +164,7 @@
 
 - (void)saveToUserDefaults
 {
-    DMLOG(@"Saving WOTD: ID: %lu, expiration: %ld", (unsigned long)word._id, expiration);
+    DMDEBUG(@"Saving WOTD: ID: %lu, expiration: %ld", (unsigned long)word._id, expiration);
     [[NSUserDefaults standardUserDefaults] setInteger:word._id forKey:DubsarDailyWordIdKey];
     [[NSUserDefaults standardUserDefaults] setInteger:expiration forKey:DubsarDailyWordExpirationKey];
     [[NSUserDefaults standardUserDefaults] setValue:word.name forKey:DubsarDailyWordNameKey];
@@ -174,7 +174,7 @@
 
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
 {
-    DMLOG(@"Loaded WOTD");
+    DMINFO(@"Loaded WOTD");
     [self.delegate loadComplete:self withError:error];
 }
 

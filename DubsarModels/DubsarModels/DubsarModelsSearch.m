@@ -228,10 +228,10 @@ static int _seqNum = 0;
         }
     }
 
-    DMLOG(@"executing \"%@\"", countSql);
+    DMTRACE(@"executing \"%@\"", countSql);
     if (sqlite3_step(countStmt) == SQLITE_ROW) {
         int totalRows = sqlite3_column_int(countStmt, 0);
-        DMLOG(@"count statement returned %d total matching rows", totalRows);
+        DMTRACE(@"count statement returned %d total matching rows", totalRows);
         totalPages = totalRows/NUM_PER_PAGE;
         if (totalRows % NUM_PER_PAGE != 0) {
             ++ totalPages;
@@ -247,7 +247,7 @@ static int _seqNum = 0;
         sql = [sql stringByAppendingFormat:@"OFFSET %lu ", (unsigned long)(currentPage-1)*NUM_PER_PAGE];
     }
 
-    DMLOG(@"preparing SQL statement \"%@\"", sql);
+    DMTRACE(@"preparing SQL statement \"%@\"", sql);
 
     sqlite3_stmt* statement;
     if ((rc=sqlite3_prepare_v2(database.dbptr,
@@ -256,7 +256,7 @@ static int _seqNum = 0;
         return;
     }
     else {
-        DMLOG(@"prepared statement successfully");
+        DMTRACE(@"prepared statement successfully");
     }
     
     int termIdx = sqlite3_bind_parameter_index(statement, ":term");
@@ -271,7 +271,7 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return;   
         }
-        DMLOG(@"bound :term to \"%@\"", term);
+        DMTRACE(@"bound :term to \"%@\"", term);
     }
     if (c1Idx != 0) {
         if ((rc=sqlite3_bind_text(statement, c1Idx, capital1.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
@@ -279,7 +279,7 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return; 
         }
-        DMLOG(@"bound :capital1 to \"%@\"", capital1);
+        DMTRACE(@"bound :capital1 to \"%@\"", capital1);
     }
     if (c2Idx != 0) {
         if ((rc=sqlite3_bind_text(statement, c2Idx, capital2.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
@@ -287,7 +287,7 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return;
         }
-        DMLOG(@"bound :capital2 to \"%@\"", capital2);
+        DMTRACE(@"bound :capital2 to \"%@\"", capital2);
     }
     if (l1Idx != 0) {
         if ((rc=sqlite3_bind_text(statement, l1Idx, lower1.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
@@ -295,7 +295,7 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return;
         }
-        DMLOG(@"bound :lower1 to \"%@\"", lower1);
+        DMTRACE(@"bound :lower1 to \"%@\"", lower1);
     }
     if (l2Idx != 0) {
         if ((rc=sqlite3_bind_text(statement, l2Idx, lower2.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
@@ -303,11 +303,11 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return;
         }
-        DMLOG(@"bound :lower2 to \"%@\"", lower2);
+        DMTRACE(@"bound :lower2 to \"%@\"", lower2);
     }
     
     while (sqlite3_step(statement) == SQLITE_ROW && results.count < NUM_PER_PAGE) {
-        DMLOG(@"found matching row");
+        DMTRACE(@"found matching row");
         int _id = sqlite3_column_int(statement, 0);
         char const* _name = (char const*)sqlite3_column_text(statement, 1);
         char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
@@ -332,7 +332,7 @@ static int _seqNum = 0;
         sqlite3_stmt* istmt;
         if ((rc=sqlite3_prepare_v2(database.dbptr, isql.UTF8String, -1, &istmt, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-            DMLOG(@"%@", self.errorMessage);
+            DMERROR(@"%@", self.errorMessage);
             return;
         }
         
@@ -347,7 +347,7 @@ static int _seqNum = 0;
     
     sqlite3_finalize(statement);
 
-    DMLOG(@"completed database search (delegate is %@)", (self.delegate == nil ? @"nil" : @"not nil"));
+    DMTRACE(@"completed database search (delegate is %@)", (self.delegate == nil ? @"nil" : @"not nil"));
 }
 
 - (void)loadFulltextResults:(DubsarModelsDatabaseWrapper*)database
@@ -357,7 +357,7 @@ static int _seqNum = 0;
     sqlite3_stmt* statement;
     
     NSString* countSql = @"SELECT COUNT(*) FROM words WHERE id IN (SELECT word_id FROM inflections_fts WHERE name MATCH :term )";
-    DMLOG(@"preparing statement %@", countSql);
+    DMTRACE(@"preparing statement %@", countSql);
     if ((rc=sqlite3_prepare_v2(database.dbptr, countSql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;
@@ -372,7 +372,7 @@ static int _seqNum = 0;
     
     if (sqlite3_step(statement) == SQLITE_ROW) {
         int totalRows = sqlite3_column_int(statement, 0);
-        DMLOG(@"count statement returned %d total matching rows", totalRows);
+        DMTRACE(@"count statement returned %d total matching rows", totalRows);
         totalPages = totalRows/NUM_PER_PAGE;
         if (totalRows % NUM_PER_PAGE != 0) {
             ++ totalPages;
@@ -383,7 +383,7 @@ static int _seqNum = 0;
     // number of exact matches
     int numExact = 0;
     sql = @"SELECT COUNT(*) FROM words w INNER JOIN inflections i ON i.word_id = w.id WHERE i.name = ?";
-    DMLOG(@"preparing statement %@", sql);
+    DMTRACE(@"preparing statement %@", sql);
     if ((rc=sqlite3_prepare_v2(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
         return;        
@@ -396,7 +396,7 @@ static int _seqNum = 0;
     
     if (sqlite3_step(statement) == SQLITE_ROW) {
         numExact = sqlite3_column_int(statement, 0);
-        DMLOG(@"%d exact matches", numExact);
+        DMTRACE(@"%d exact matches", numExact);
     }
     sqlite3_finalize(statement);
 
@@ -420,7 +420,7 @@ static int _seqNum = 0;
         @"INNER JOIN inflections i ON i.word_id = w.id "
         @"WHERE i.name = ? "
         @"ORDER BY w.name ASC, w.freq_cnt DESC, w.part_of_speech ASC";
-        DMLOG(@"preparing statement %@", exactSql);
+        DMTRACE(@"preparing statement %@", exactSql);
         if ((rc=sqlite3_prepare_v2(database.dbptr, exactSql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error preparing statement, error %d", rc];
             return;          
@@ -432,13 +432,13 @@ static int _seqNum = 0;
         }
         
         while (sqlite3_step(statement) == SQLITE_ROW) {
-            DMLOG(@"found matching row");
+            DMTRACE(@"found matching row");
             int _id = sqlite3_column_int(statement, 0);
             char const* _name = (char const*)sqlite3_column_text(statement, 1);
             char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
             int freqCnt = sqlite3_column_int(statement, 3);
 
-            DMLOG(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d",
+            DMTRACE(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d",
                   _id, _name, _part_of_speech, freqCnt);
 
             DubsarModelsPartOfSpeech partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
@@ -454,7 +454,7 @@ static int _seqNum = 0;
         sqlite3_finalize(statement);
     }
 
-    DMLOG(@"preparing SQL statement \"%@\"", sql);
+    DMTRACE(@"preparing SQL statement \"%@\"", sql);
 
     if ((rc=sqlite3_prepare_v2(database.dbptr,
                                sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
@@ -462,7 +462,7 @@ static int _seqNum = 0;
         return;
     }
     else {
-        DMLOG(@"prepared statement successfully");
+        DMTRACE(@"prepared statement successfully");
     }
 
     termIdx = sqlite3_bind_parameter_index(statement, ":term");    
@@ -472,17 +472,17 @@ static int _seqNum = 0;
             sqlite3_finalize(statement);
             return;   
         }
-        DMLOG(@"bound :term to \"%@\"", term);
+        DMTRACE(@"bound :term to \"%@\"", term);
     }
     
     while (sqlite3_step(statement) == SQLITE_ROW && results.count < NUM_PER_PAGE) {
-        DMLOG(@"found matching row");
+        DMTRACE(@"found matching row");
         int _id = sqlite3_column_int(statement, 0);
         char const* _name = (char const*)sqlite3_column_text(statement, 1);
         char const* _part_of_speech = (char const*)sqlite3_column_text(statement, 2);
         int freqCnt = sqlite3_column_int(statement, 3);
 
-        DMLOG(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d",
+        DMTRACE(@"ID=%d, NAME=%s, PART_OF_SPEECH=%s, FREQ_CNT=%d",
               _id, _name, _part_of_speech, freqCnt);
 
         DubsarModelsPartOfSpeech partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];   
@@ -505,7 +505,7 @@ static int _seqNum = 0;
         sqlite3_stmt* istmt;
         if ((rc=sqlite3_prepare_v2(database.dbptr, isql.UTF8String, -1, &istmt, NULL)) != SQLITE_OK) {
             self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];
-            DMLOG(@"%@", self.errorMessage);
+            DMERROR(@"%@", self.errorMessage);
             return;
         }
         
@@ -520,7 +520,7 @@ static int _seqNum = 0;
     
     sqlite3_finalize(statement);
 
-    DMLOG(@"completed database search (delegate is %@)", (self.delegate == nil ? @"nil" : @"not nil"));
+    DMTRACE(@"completed database search (delegate is %@)", (self.delegate == nil ? @"nil" : @"not nil"));
 }
 
 - (void)parseData
@@ -531,8 +531,8 @@ static int _seqNum = 0;
     totalPages = pages.intValue;
     
     results = [NSMutableArray arrayWithCapacity:list.count];
-    DMLOG(@"search request for \"%@\" returned %lu results", response[0], (unsigned long)list.count);
-    DMLOG(@"(%lu total pages)", (unsigned long)totalPages);
+    DMTRACE(@"search request for \"%@\" returned %lu results", response[0], (unsigned long)list.count);
+    DMTRACE(@"(%lu total pages)", (unsigned long)totalPages);
     int j;
     for (j=0; j<list.count; ++j) {
         NSArray* entry = list[j];

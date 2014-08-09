@@ -99,7 +99,7 @@ static DubsarModelsPartOfSpeechDictionary* theInstance=nil;
 
 -(void)setupDictionary
 {
-    DMLOG(@"%@", @"setting up part of speech dictionary");
+    DMTRACE(@"%@", @"setting up part of speech dictionary");
     dictionary = [[NSMutableDictionary alloc]init];
     verboseDictionary = [[NSMutableDictionary alloc]init];
 
