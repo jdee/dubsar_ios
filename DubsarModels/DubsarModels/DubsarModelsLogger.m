@@ -242,11 +242,37 @@ void DMLOG(NSString* format, ...)
 
     NSString* s = [NSString stringWithFormat:format args:args];
     if (file) {
-        NSLog(@"%s|%s:%lu|%@", cLevel, file, line, s);
+        NSLog(@"%s|%s:%lu|%@", cLevel, [self strippedFile:file], line, s);
     }
     else {
         NSLog(@"%s|%@", cLevel, s);
     }
+}
+
+- (const char*)strippedFile:(const char*)file
+{
+    // NSLog(@"file: %s", file);
+    const char* slash = strchr(file, '/');
+    if (!slash) return file;
+
+    // NSLog(@"found slash");
+
+    while (slash) {
+        const char* next = strchr(slash+1, '/');
+
+        if (!next) return file;
+
+        char component[256];
+        strncpy(component, slash+1, next-slash-1);
+        component[next-slash-1] = '\0';
+        // NSLog(@"component: %s", component);
+
+        if (!strcmp(component, "dubsar_ios")) return ++next;
+        
+        slash = next;
+    }
+
+    return file;
 }
 
 @end
