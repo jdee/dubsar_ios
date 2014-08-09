@@ -47,6 +47,8 @@
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger totalSize;
 @property (nonatomic) NSURL* zipURL;
+
+@property (nonatomic) DubsarModelsDownloadList* downloadList;
 @end
 
 @implementation DatabaseManager {
@@ -72,6 +74,9 @@
         memset(&_lastDownloadStatsUpdate, 0, sizeof(_lastDownloadStatsUpdate));
         memset(&_unzipStart, 0, sizeof(_unzipStart));
         memset(&_lastUnzipRead, 0, sizeof(_lastUnzipRead));
+
+        _downloadList = [[DubsarModelsDownloadList alloc] init];
+        _downloadList.delegate = self;
     }
     return self;
 }
@@ -311,6 +316,12 @@
     self.errorMessage = nil; // readonly to the outside
 }
 
+- (void)checkForUpdate
+{
+    _downloadList.complete = false;
+    [_downloadList load];
+}
+
 #pragma mark - NSURLConnectionDelegate and NSURLConnectionDataDelegate
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -455,6 +466,33 @@
     DMLOG(@"Finished downloading %@", DUBSAR_ZIP_NAME);
     [self updateElapsedDownloadTime];
     [self startUnzip];
+}
+
+#pragma mark - DubsarModelsLoadDelegate
+- (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
+{
+    if (error) {
+        NSLog(@"Error getting download list: %@", error);
+        return;
+    }
+
+    DubsarModelsDownloadList* downloadList = (DubsarModelsDownloadList*)model;
+    for (DubsarModelsDownload* download in downloadList.downloads) {
+        int zipped = ((NSNumber*)download.properties[@"zipped"]).intValue;
+        int unzipped = ((NSNumber*)download.properties[@"unzipped"]).intValue;
+
+        DMLOG(@"download: %@. zipped: %d, unzipped: %d", download.name, zipped, unzipped);
+    }
+}
+
+- (void)networkLoadFinished:(DubsarModelsModel *)model
+{
+    [[UIApplication sharedApplication] stopUsingNetwork];
+}
+
+- (void)networkLoadStarted:(DubsarModelsModel *)model
+{
+    [[UIApplication sharedApplication] startUsingNetwork];
 }
 
 #pragma mark - Internal convenience methods

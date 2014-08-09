@@ -62,6 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
 
         checkOfflineSetting()
+        databaseManager.checkForUpdate()
     }
 
     func applicationDidEnterBackground(theApplication: UIApplication!) {

@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+@import DubsarModels;
 @import Foundation;
 
 #define DUBSAR_PRODUCTION_ROOT_URL @"https://s.dubsar-dictionary.com"
@@ -45,7 +46,7 @@
 /**
  * This will move into DubsarModels.
  */
-@interface DatabaseManager : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+@interface DatabaseManager : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate, DubsarModelsLoadDelegate>
 
 #pragma mark - Readonly properties
 
@@ -105,6 +106,8 @@
 
 - (void)deleteDatabase;
 - (void)cancelDownload;
+
+- (void)checkForUpdate;
 
 // for Swift
 - (void)reportError:(NSString*)errorMessage;

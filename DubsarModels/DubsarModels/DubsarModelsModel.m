@@ -86,6 +86,12 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         if (database.dbptr) {
             // DMLOG(@"Loading from the DB");
             [self loadResults:database];
+
+            complete = true;
+            error = errorMessage != nil;
+
+            self.loading = false;
+            [self callDelegateSelectorOnMainThread:@selector(loadComplete:withError:) withError:errorMessage];
         }
         else {
             // load synchronously in this thread
@@ -94,13 +100,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
             while (!self.complete &&
                    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.2]]);
         }
-
-        complete = true;
-        error = errorMessage != nil;
-
-        self.loading = false;
-        [self callDelegateSelectorOnMainThread:@selector(loadComplete:withError:) withError:errorMessage];
-     }
+    }
 }
 
 +(NSString*)incrementString:(NSString*)string
@@ -183,6 +183,11 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
     [self setComplete:true];
 
     [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
+
+    error = errorMessage != nil;
+
+    self.loading = false;
+    [self callDelegateSelectorOnMainThread:@selector(loadComplete:withError:) withError:errorMessage];
 
     DMLOG(@"load processing finished");
 }
