@@ -311,7 +311,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         let zippedMB = Int(Double(zippedSize)/Double(1024)/Double(1024) + 0.5)
         let unzippedMB = Int(Double(unzippedSize)/Double(1024)/Double(1024) + 0.5)
 
-        // Alert user. Again.
+        // Alert user.
         let message = "An updated database is available. It's a \(zippedMB) MB download and \(unzippedMB) MB on the device. Download and install?"
         let alert = UIAlertView(title: "New download available", message: message, delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Download")
         alert.show()
@@ -321,22 +321,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     func checkOfflineSetting() {
         databaseManager.rootURL = AppConfiguration.rootURL
 
-        let offlineSetting = AppConfiguration.offlineSetting
-        let filePresent = databaseManager.downloadInProgress || databaseManager.fileExists
-        if !AppConfiguration.offlineHasChanged {
-            if offlineSetting == filePresent {
-                return
-            }
-        }
+        // consistency check. the user changed the setting in the Settings app or the Settings view
 
-        // the user changed the setting in the Settings app or the Settings view
-
+        // in case we're preparing an alert
         var message: String
         var okTitle: String
         var cancelTitle: String
 
+        let offlineSetting = AppConfiguration.offlineSetting
         if databaseManager.downloadInProgress {
             if (offlineSetting) {
+                DMLOG("Download in progress")
                 return // happy. DEBT: Do we need to check for update? If a DL is in progress, we probably just checked.
             }
             else {
@@ -347,11 +342,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
         else if offlineSetting == databaseManager.fileExists {
             if offlineSetting {
+                DMLOG("\(databaseManager.fileURL.path) exists. checking for updates")
                 databaseManager.checkForUpdate()
             }
             return
         }
         else if offlineSetting {
+            DMLOG("No database. Offline setting is on. Getting download list.")
             databaseManager.checkForUpdate()
             return
         }
