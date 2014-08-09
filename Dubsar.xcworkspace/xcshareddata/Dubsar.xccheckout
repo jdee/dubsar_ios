@@ -10,29 +10,29 @@
 	<string>Dubsar</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>67747D63-9C6D-4756-A074-47A341B0E6AB</key>
+		<key>20A58201920EDA9AB6C30F3DD8A3D3F29E7BB64E</key>
 		<string>ssh://github.com/jdee/dubsar_ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Dubsar.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>67747D63-9C6D-4756-A074-47A341B0E6AB</key>
+		<key>20A58201920EDA9AB6C30F3DD8A3D3F29E7BB64E</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/jdee/dubsar_ios.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>67747D63-9C6D-4756-A074-47A341B0E6AB</string>
+	<string>20A58201920EDA9AB6C30F3DD8A3D3F29E7BB64E</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>67747D63-9C6D-4756-A074-47A341B0E6AB</string>
+			<string>20A58201920EDA9AB6C30F3DD8A3D3F29E7BB64E</string>
 			<key>IDESourceControlWCCName</key>
 			<string>dubsar_ios</string>
 		</dict>

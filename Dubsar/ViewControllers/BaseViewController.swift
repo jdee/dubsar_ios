@@ -69,6 +69,7 @@ class BaseViewController: UIViewController {
     }
 
     func adjustLayout() {
+        DMLOG("In BaseViewController.adjustLayout()")
         view.invalidateIntrinsicContentSize()
 
         view.backgroundColor = AppConfiguration.backgroundColor
@@ -110,6 +111,7 @@ class BaseViewController: UIViewController {
     func pushViewControllerWithIdentifier(vcIdentifier: String!, router: Router? = nil) {
         let vc = instantiateViewControllerWithIdentifier(vcIdentifier, router: router)
         navigationController.pushViewController(vc, animated: true)
+        DMLOG("push \(vcIdentifier) view controller")
     }
 
     func pushViewControllerWithIdentifier(vcIdentifier: String!, model: DubsarModelsModel!, routerAction: RouterAction, indexPath: NSIndexPath? = nil) {
@@ -137,7 +139,7 @@ class BaseViewController: UIViewController {
                     router.dependency = sense
                 }
                 else {
-                    // shouldn't actually happen
+                    // shouldn't happen
                     router = Router(viewController: vc, model: model)
                 }
             }
@@ -150,11 +152,14 @@ class BaseViewController: UIViewController {
 
             vc.router = router
             navigationController.pushViewController(vc, animated: true)
+            DMLOG("push \(vcIdentifier) view controller")
         }
     }
 
     func setupToolbar() {
+        DMLOG("In BaseViewController.setupToolbar()")
         if !AppDelegate.instance.databaseManager.downloadInProgress {
+            DMLOG("No download in progress")
             // meh
             let rightBarButtonItems: [UIBarButtonItem]? = navigationItem.rightBarButtonItems as? [UIBarButtonItem]
             if let items = rightBarButtonItems {
@@ -163,6 +168,9 @@ class BaseViewController: UIViewController {
                     let itemAsDownloadButton = item as? DownloadBarButtonItem
                     if !itemAsDownloadButton {
                         newItems += item
+                    }
+                    else {
+                        DMLOG("Removing download bar button item")
                     }
                 }
                 navigationItem.rightBarButtonItems = newItems
@@ -173,14 +181,30 @@ class BaseViewController: UIViewController {
 
         let rightBarButtonItem: UIBarButtonItem? = navigationItem.rightBarButtonItem
 
+        let myDownloadButton = DownloadBarButtonItem(target: self, action: "viewDownload:")
         if rightBarButtonItem && !(navigationItem.rightBarButtonItem as? DownloadBarButtonItem) {
             var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
-            items += downloadButton
+            items += myDownloadButton
 
             navigationItem.rightBarButtonItems = items
+            DMLOG("Added a download bar button item")
         }
         else if !rightBarButtonItem {
-            navigationItem.rightBarButtonItem = downloadButton
+            navigationItem.rightBarButtonItem = myDownloadButton
+            DMLOG("Right bar button item is a download bar button item")
+        }
+
+        if navigationItem.rightBarButtonItem {
+            let targetName = navigationItem.rightBarButtonItem.target === self ? "self" :
+                (navigationItem.rightBarButtonItem.target as? UIBarButtonItem) ? "non-nil" : "nil"
+            DMLOG("Action for right bar button item is \(navigationItem.rightBarButtonItem.action.description)")
+            DMLOG("Target for right bar button item is \(targetName)")
+
+            let responds = navigationItem.rightBarButtonItem.target.respondsToSelector(navigationItem.rightBarButtonItem.action) ? "responds" : "doesn't respond"
+            DMLOG("Target \(responds) to selector")
+
+            assert(navigationItem.rightBarButtonItem.target === self)
+            assert(navigationItem.rightBarButtonItem.target.respondsToSelector(navigationItem.rightBarButtonItem.action))
         }
     }
 
@@ -190,12 +214,7 @@ class BaseViewController: UIViewController {
         navigationItem.rightBarButtonItem = homeButton // short cut, since no view puts anything there before calling this
     }
 
-    private var downloadButton: UIBarButtonItem {
-    get {
-        return DownloadBarButtonItem(target: self, action: "viewDownload:")
-    }
-    }
-
+    @IBAction
     func viewDownload(sender: UIBarButtonItem!) {
         // Go home first?
         DMLOG("Time to view the download")

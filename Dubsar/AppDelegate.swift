@@ -225,7 +225,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
 
         let top = navigationController.topViewController as BaseViewController
-        let viewController : BaseViewController! = top.instantiateViewControllerWithIdentifier("Word", router: nil)
+        let viewController : BaseViewController! = top.instantiateViewControllerWithIdentifier(WordViewController.identifier, router: nil)
         if title {
             viewController.title = title
         }
@@ -234,6 +234,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         navigationController.dismissViewControllerAnimated(true, completion: nil)
         navigationController.pushViewController(viewController, animated: true)
 
+        DMLOG("push \(WordViewController.identifier) view controller")
         return true
     }
 

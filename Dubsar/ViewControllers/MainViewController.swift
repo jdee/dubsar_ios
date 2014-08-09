@@ -67,6 +67,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         if let viewController = segue.destinationViewController as? WordViewController {
             viewController.router = Router(viewController: viewController, model: wotd!.word)
             viewController.title = "Word of the Day"
+            DMLOG("Prepared segue for WOTD VC")
+        }
+        else {
+            DMLOG("WOTD segue prep failed")
         }
     }
 

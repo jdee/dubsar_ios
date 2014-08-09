@@ -37,7 +37,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     var loaded: Bool = false
 
     override func viewDidLoad() {
-        super.viewDidLoad() // just calls load()
+        super.viewDidLoad()
 
         loaded = true
         senseTableView.backgroundColor = UIColor.clearColor()
@@ -277,8 +277,12 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         let string : String? = title
         if string {
             // not yet set in an ordinary word view. need a better way to distinguish this.
+            DMLOG("Setting up WOTD toolbar")
+            super.setupToolbar()
             return
         }
+
+        DMLOG("Setting up toolbar for word view")
 
         navigationItem.rightBarButtonItems = []
 
