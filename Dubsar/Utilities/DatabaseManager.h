@@ -22,8 +22,6 @@
 
 #define DUBSAR_PRODUCTION_ROOT_URL @"https://s.dubsar-dictionary.com"
 #define DUBSAR_DEVELOPMENT_ROOT_URL @"http://192.168.2.101:3000"
-#define DUBSAR_FILE_NAME @"dubsar-wn3.1-1.sqlite3"
-#define DUBSAR_ZIP_NAME @"dubsar-wn3.1-1.zip"
 
 @class DatabaseManager;
 
@@ -40,6 +38,8 @@
 - (void) downloadComplete:(DatabaseManager*)databaseManager;
 @optional
 - (void) unzipStarted:(DatabaseManager*)databaseManager;
+@optional
+- (void) newDownloadAvailable:(DatabaseManager*)databaseManager name:(NSString*)downloadName zipped:(NSUInteger)zippedSize unzipped:(NSUInteger)unzippedSize;
 
 @end
 
@@ -53,6 +53,7 @@
 /**
  * The unzipped DB file downloaded and installed by the DatabaseManager resides in the application support directory.
  */
+@property (nonatomic, copy, readonly) NSString* fileName;
 @property (nonatomic, readonly) NSURL* fileURL;
 @property (nonatomic, readonly) BOOL fileExists;
 @property (atomic, readonly) NSInteger downloadSize;
@@ -108,6 +109,7 @@
 - (void)cancelDownload;
 
 - (void)checkForUpdate;
+- (void)cleanOldDatabases;
 
 // for Swift
 - (void)reportError:(NSString*)errorMessage;

@@ -42,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     private var bgTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    private var updatePending = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
@@ -62,7 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
 
         checkOfflineSetting()
-        databaseManager.checkForUpdate()
     }
 
     func applicationDidEnterBackground(theApplication: UIApplication!) {
@@ -276,7 +276,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             databaseManager.cancelDownload()
             AppConfiguration.offlineSetting = false
         }
-        else if (AppConfiguration.offlineSetting) {
+        else if (updatePending || AppConfiguration.offlineSetting) {
             databaseManager.download()
         }
         else {
@@ -285,6 +285,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         let viewController = navigationController.topViewController as BaseViewController
         viewController.adjustLayout()
+
+        updatePending = false
     }
 
     func databaseManager(databaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
@@ -296,6 +298,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     func downloadComplete(databaseManager: DatabaseManager!) {
         let viewController = navigationController.topViewController as BaseViewController
         viewController.adjustLayout()
+    }
+
+    func newDownloadAvailable(theDatabaseManager: DatabaseManager!, name downloadName: String!, zipped zippedSize: UInt, unzipped unzippedSize: UInt) {
+        if AppConfiguration.autoUpdateSetting {
+            theDatabaseManager.download()
+            let viewController = navigationController.topViewController as BaseViewController
+            viewController.adjustLayout()
+            return
+        }
+
+        let zippedMB = Int(Double(zippedSize)/Double(1024)/Double(1024) + 0.5)
+        let unzippedMB = Int(Double(unzippedSize)/Double(1024)/Double(1024) + 0.5)
+
+        // Alert user. Again.
+        let message = "An updated database is available. It's a \(zippedMB) MB download and \(unzippedMB) MB on the device. Download and install?"
+        let alert = UIAlertView(title: "New download available", message: message, delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Download")
+        alert.show()
+        updatePending = true
     }
 
     func checkOfflineSetting() {
@@ -317,7 +337,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         if databaseManager.downloadInProgress {
             if (offlineSetting) {
-                return // happy
+                return // happy. DEBT: Do we need to check for update? If a DL is in progress, we probably just checked.
             }
             else {
                 message = "Stop the download in progress?"
@@ -326,12 +346,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             }
         }
         else if offlineSetting == databaseManager.fileExists {
-            return; // happy
+            if offlineSetting {
+                databaseManager.checkForUpdate()
+            }
+            return
         }
         else if offlineSetting {
-            message = "Download and install the database? It's a 33 MB download and 92 MB on the device. You can remain online without it."
-            okTitle = "Download"
-            cancelTitle = "Cancel"
+            databaseManager.checkForUpdate()
+            return
         }
         else {
             message = "Delete the database? You can download it again if you change your mind."

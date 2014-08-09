@@ -47,6 +47,7 @@
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger totalSize;
 @property (nonatomic) NSURL* zipURL;
+@property (nonatomic, copy) NSString* zipName;
 
 @property (nonatomic) DubsarModelsDownloadList* downloadList;
 @end
@@ -68,6 +69,9 @@
         _downloadInProgress = NO;
 
         _start = _totalSize = 0;
+
+        _fileName = @"UNKNOWN";
+        _zipName = @"UNKNOWN";
 
         // are these ivars actually related to the synthesized atomic props?
         memset(&_downloadStart, 0, sizeof(_downloadStart));
@@ -121,7 +125,7 @@
         DMLOG(@"%@ exists and is not a directory", url.path);
     }
 
-    return [url URLByAppendingPathComponent:DUBSAR_FILE_NAME];
+    return [url URLByAppendingPathComponent:_fileName];
 }
 
 - (NSURL *)zipURL
@@ -151,7 +155,7 @@
         DMLOG(@"%@ exists and is not a directory", url.path);
     }
 
-    return [url URLByAppendingPathComponent:DUBSAR_ZIP_NAME];
+    return [url URLByAppendingPathComponent:_zipName];
 }
 
 #pragma mark - Public interface
@@ -181,6 +185,10 @@
 
 - (void)download
 {
+    if (self.downloadInProgress) {
+        return;
+    }
+
     self.errorMessage = nil;
 
     struct stat sb;
@@ -233,7 +241,7 @@
     self.unzipStart = now;
     self.downloadStart = now;
 
-    NSURL* url = [self.rootURL URLByAppendingPathComponent:DUBSAR_ZIP_NAME];
+    NSURL* url = [self.rootURL URLByAppendingPathComponent:_zipName];
     DMLOG(@"Downloading %@", url);
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
 
@@ -279,6 +287,8 @@
     if ([[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:NULL]) {
         DMLOG(@"Deleted %@", self.zipURL.path);
     }
+
+    [self cleanOldDatabases];
 }
 
 - (void)reportError:(NSString *)errorMessage
@@ -320,6 +330,58 @@
 {
     _downloadList.complete = false;
     [_downloadList load];
+}
+
+- (void)cleanOldDatabases
+{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSArray* urls = [fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+    NSURL* url = urls[0];
+    url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
+
+    NSError* error;
+    NSArray* files = [fileManager contentsOfDirectoryAtPath:url.path error:&error];
+    if (!files) {
+        DMLOG(@"Reading %@: %@", url.path, error.localizedDescription);
+        return;
+    }
+
+    DMLOG(@"Cleaning old DBS. Current is %@", self.fileName);
+
+    for (NSString* file in files) {
+        if (![file isEqualToString:self.fileName] && [file hasPrefix:@"dubsar-wn3.1-"]) {
+            NSURL* fileURL = [url URLByAppendingPathComponent:file];
+            DMLOG(@"Removing %@", fileURL);
+            if (![fileManager removeItemAtURL:fileURL error:&error]) {
+                DMLOG(@"Error removing %@: %@", fileURL.path, error.localizedDescription);
+            }
+        }
+        else {
+            DMLOG(@"Keeping %@", file);
+        }
+    }
+
+    urls = [fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask];
+    url = [urls[0] URLByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
+
+    files = [fileManager contentsOfDirectoryAtPath:url.path error:&error];
+    if (!files) {
+        DMLOG(@"Reading %@: %@", url.path, error.localizedDescription);
+        return;
+    }
+
+    for (NSString* file in files) {
+        if (![file isEqualToString:self.zipName] && [file hasPrefix:@"dubsar-wn3.1-"]) {
+            NSURL* fileURL = [url URLByAppendingPathComponent:file];
+            DMLOG(@"Removing %@", fileURL);
+            if (![fileManager removeItemAtURL:fileURL error:&error]) {
+                DMLOG(@"Error removing %@: %@", fileURL.path, error.localizedDescription);
+            }
+        }
+        else {
+            DMLOG(@"Keeping %@", file); // to resume the download later
+        }
+    }
 }
 
 #pragma mark - NSURLConnectionDelegate and NSURLConnectionDataDelegate
@@ -377,7 +439,7 @@
     ssize_t nr = fwrite(data.bytes, 1, data.length, fp);
 
     if (nr == data.length) {
-        // DMLOG(@"Wrote %d bytes to %@", data.length, DUBSAR_FILE_NAME);
+        // DMLOG(@"Wrote %d bytes to %@", data.length, _fileName);
     }
     else {
         int error = errno;
@@ -409,7 +471,7 @@
         return;
     }
     else if (_etag && httpResp.statusCode == 304) {
-        DMLOG(@"304 Not Modified: verified copy of %@ in Caches (ETag: \"%@\")", DUBSAR_ZIP_NAME, _etag);
+        DMLOG(@"304 Not Modified: verified copy of %@ in Caches (ETag: \"%@\")", _zipName, _etag);
 
         // see [self download].
         // We used If-None-Match: _etag.
@@ -443,7 +505,7 @@
 
     _etag = newETag;
     if (_etag) {
-        DMLOG(@"ETag for %@ is %@", [self.rootURL URLByAppendingPathComponent:DUBSAR_ZIP_NAME], _etag);
+        DMLOG(@"ETag for %@ is %@", [self.rootURL URLByAppendingPathComponent:_zipName], _etag);
     }
     _totalSize = self.downloadSize;
 
@@ -463,25 +525,48 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    DMLOG(@"Finished downloading %@", DUBSAR_ZIP_NAME);
+    DMLOG(@"Finished downloading %@", _zipName);
     [self updateElapsedDownloadTime];
     [self startUnzip];
 }
 
 #pragma mark - DubsarModelsLoadDelegate
+
+// These are called when with == _downloadList
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
 {
     if (error) {
-        NSLog(@"Error getting download list: %@", error);
+        DMLOG(@"Error getting download list: %@", error);
         return;
     }
 
     DubsarModelsDownloadList* downloadList = (DubsarModelsDownloadList*)model;
-    for (DubsarModelsDownload* download in downloadList.downloads) {
-        int zipped = ((NSNumber*)download.properties[@"zipped"]).intValue;
-        int unzipped = ((NSNumber*)download.properties[@"unzipped"]).intValue;
+    DubsarModelsDownload* download = downloadList.downloads.firstObject;
+    int zipped = ((NSNumber*)download.properties[@"zipped"]).intValue;
+    int unzipped = ((NSNumber*)download.properties[@"unzipped"]).intValue;
 
-        DMLOG(@"download: %@. zipped: %d, unzipped: %d", download.name, zipped, unzipped);
+    DMLOG(@"download: %@. zipped: %d, unzipped: %d", download.name, zipped, unzipped);
+
+    _zipName = [download.name stringByAppendingString:@".zip"];
+    _fileName = [download.name stringByAppendingString:@".sqlite3"];
+
+    if (self.fileExists) {
+        DMLOG(@"Already have %@", self.fileURL.path);
+        [self cleanOldDatabases];
+        return;
+    }
+
+    DMLOG(@"%@ is a new download", download.name);
+
+    if (self.delegate && [self.delegate respondsToSelector:@selector(newDownloadAvailable:name:zipped:unzipped:)]) {
+        if ([NSThread currentThread] == [NSThread mainThread]) {
+            [self.delegate newDownloadAvailable:self name:download.name zipped:zipped unzipped:unzipped];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate newDownloadAvailable:self name:download.name zipped:zipped unzipped:unzipped];
+            });
+        }
     }
 }
 
@@ -587,6 +672,7 @@
 - (void)reopenAndNotify
 {
     [DubsarModelsDatabase instance].databaseURL = self.fileURL; // reopen the DB that was just downloaded
+    [self cleanOldDatabases];
     if ([self.delegate respondsToSelector:@selector(downloadComplete:)]) {
         [self.delegate downloadComplete:self];
     }
@@ -597,7 +683,7 @@
     struct stat sb;
     int rc = stat(self.zipURL.path.UTF8String, &sb);
     if (rc == 0) {
-        DMLOG(@"Downloaded file %@ is %lld bytes", DUBSAR_ZIP_NAME, sb.st_size);
+        DMLOG(@"Downloaded file %@ is %lld bytes", _zipName, sb.st_size);
     }
     else {
         int error = errno;
@@ -614,21 +700,21 @@
     }
     // DMLOG(@"Opened zip file");
 
-    rc = unzLocateFile(uf, DUBSAR_FILE_NAME.UTF8String, 1);
+    rc = unzLocateFile(uf, _fileName.UTF8String, 1);
     if (rc != UNZ_OK) {
-        [self notifyDelegateOfError: @"failed to locate %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME];
+        [self notifyDelegateOfError: @"failed to locate %@ in zip %@", _fileName, _zipName];
         unzClose(uf);
         return;
     }
-    // DMLOG(@"Located %@ in zip file", DUBSAR_FILE_NAME);
+    // DMLOG(@"Located %@ in zip file", _fileName);
 
     rc = unzOpenCurrentFile(uf);
     if (rc != UNZ_OK) {
-        [self notifyDelegateOfError: @"Failed to open %@ in zip %@", DUBSAR_FILE_NAME, DUBSAR_ZIP_NAME];
+        [self notifyDelegateOfError: @"Failed to open %@ in zip %@", _fileName, _zipName];
         unzClose(uf);
         return;
     }
-    // DMLOG(@"Opened %@ in zip file", DUBSAR_FILE_NAME);
+    // DMLOG(@"Opened %@ in zip file", _fileName);
 
     unz_file_info fileInfo;
     rc = unzGetCurrentFileInfo(uf, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
@@ -650,7 +736,7 @@
         unzClose(uf);
         return;
     }
-    // DMLOG(@"Opened %@ for write", DUBSAR_FILE_NAME);
+    // DMLOG(@"Opened %@ for write", _fileName);
 
     [self excludeFromBackup:self.fileURL];
 
@@ -684,7 +770,7 @@
             int error = errno;
             char errbuf[256];
             strerror_r(error, errbuf, 255);
-            [self notifyDelegateOfError: @"Failed to write %d bytes to %@. Wrote %zd instead. Error %d (%s)", nr, DUBSAR_FILE_NAME, nw, error, errbuf];
+            [self notifyDelegateOfError: @"Failed to write %d bytes to %@. Wrote %zd instead. Error %d (%s)", nr, _fileName, nw, error, errbuf];
             fclose(outfile);
             unzClose(uf);
             return;
@@ -719,7 +805,7 @@
         [self finishDownload];
         return;
     }
-    DMLOG(@"Unzipped file %@ is %lld bytes", DUBSAR_FILE_NAME, sb.st_size);
+    DMLOG(@"Unzipped file %@ is %lld bytes", _fileName, sb.st_size);
 
     NSError* error;
 
