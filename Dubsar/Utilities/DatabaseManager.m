@@ -666,7 +666,7 @@
         }
     }
 
-    [self performSelector:@selector(unzip) withObject:nil];
+    [self performSelectorInBackground:@selector(unzip) withObject:nil];
 }
 
 - (void)finishDownload
