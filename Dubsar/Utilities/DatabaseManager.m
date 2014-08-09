@@ -358,7 +358,7 @@
     DMLOG(@"Cleaning old DBS. Current is %@", self.fileName);
 
     for (NSString* file in files) {
-        if (![file hasPrefix:@"dubsar-wn3.1-1"]) continue;
+        if (![file hasPrefix:@"dubsar-wn"]) continue;
 
         if (![file isEqualToString:self.fileName] ) {
             NSURL* fileURL = [url URLByAppendingPathComponent:file];
@@ -382,7 +382,9 @@
     }
 
     for (NSString* file in files) {
-        if (![file isEqualToString:self.zipName] && [file hasPrefix:@"dubsar-wn3.1-"]) {
+        if (![file hasPrefix:@"dubsar-wn"]) continue;
+
+        if (![file isEqualToString:self.zipName]) {
             NSURL* fileURL = [url URLByAppendingPathComponent:file];
             DMLOG(@"Removing %@", fileURL);
             if (![fileManager removeItemAtURL:fileURL error:&error]) {
