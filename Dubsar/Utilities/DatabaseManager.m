@@ -30,7 +30,7 @@
 #import "UIApplication+NetworkRefCount.h"
 
 #define DUBSAR_CURRENT_DOWNLOAD_KEY @"DubsarCurrentDownload"
-#define DUBSAR_REQUIRED_DB_VERSION @"dubsar-wn3.1-1"
+#define DUBSAR_REQUIRED_DB_VERSION @"dubsar-wn3.1-2"
 #define DUBSAR_DOWNLOAD_PREFIX @"dubsar-wn"
 #define DUBSAR_UNZIP_INTERVAL_SECONDS 0.200
 #define DUBSAR_MAX_PER_CYCLE 0.5
@@ -568,6 +568,8 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+    if (!fp) return; // still called after a 404
+
     self.downloadedSoFar += data.length;
     [self updateDownloadStats];
 
