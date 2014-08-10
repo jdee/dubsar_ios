@@ -35,6 +35,7 @@
 		7B7382FB1984700900880CF2 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7382FA1984700900880CF2 /* FAQViewController.swift */; };
 		7B7D3E93197DB3DC00619DEA /* KeyboardHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3E92197DB3DC00619DEA /* KeyboardHelper.m */; };
 		7B7F9EC31997D960006F4BC0 /* NSString+Varargs.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7F9EC21997D960006F4BC0 /* NSString+Varargs.m */; };
+		7B7F9EC519982292006F4BC0 /* SynsetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7F9EC419982292006F4BC0 /* SynsetTableViewCell.swift */; };
 		7B82C93E19760A0E0077D1A0 /* SynsetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */; };
 		7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C94019760D5F0077D1A0 /* SynsetHeaderView.swift */; };
 		7B82C94319760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C94219760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift */; };
@@ -169,6 +170,7 @@
 		7B7D3E92197DB3DC00619DEA /* KeyboardHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardHelper.m; sourceTree = "<group>"; };
 		7B7F9EC11997D960006F4BC0 /* NSString+Varargs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Varargs.h"; path = "DubsarModels/DubsarModels/NSString+Varargs.h"; sourceTree = SOURCE_ROOT; };
 		7B7F9EC21997D960006F4BC0 /* NSString+Varargs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Varargs.m"; path = "DubsarModels/DubsarModels/NSString+Varargs.m"; sourceTree = SOURCE_ROOT; };
+		7B7F9EC419982292006F4BC0 /* SynsetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynsetTableViewCell.swift; sourceTree = "<group>"; };
 		7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynsetViewController.swift; sourceTree = "<group>"; };
 		7B82C94019760D5F0077D1A0 /* SynsetHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynsetHeaderView.swift; sourceTree = "<group>"; };
 		7B82C94219760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsSynset+ViewSizing.swift"; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */,
 				7B6CC037197E1C3800151799 /* OpenWordTableViewCell.swift */,
 				7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */,
+				7B7F9EC419982292006F4BC0 /* SynsetTableViewCell.swift */,
 				7B06EC731988AC6F00C44892 /* SettingLabelTableViewCell.swift */,
 				7B06EC751988AD6E00C44892 /* SettingNavigationTableViewCell.swift */,
 				7B06EC771988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift */,
@@ -644,6 +647,7 @@
 				7B66C01C198D4D5900257DDB /* CGHelper.m in Sources */,
 				7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */,
 				7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */,
+				7B7F9EC519982292006F4BC0 /* SynsetTableViewCell.swift in Sources */,
 				7B06EC72198879C500C44892 /* ThemeViewController.swift in Sources */,
 				7B62D75019773272006A797C /* NavButtonImage.m in Sources */,
 			);

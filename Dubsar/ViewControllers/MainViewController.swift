@@ -38,6 +38,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     var wotd: DubsarModelsDailyWord?
 
+    private var searchScope = DubsarModelsSearchScope.Words
+
     // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,9 +53,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         view.addSubview(autocompleterView)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShowing:", name: UIKeyboardDidShowNotification, object: nil)
+        // NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden:", name: UIKeyboardDidHideNotification, object: nil)
 
         // deprecated, but somehow not showing up in the storyboard
         searchBar.autocapitalizationType = .None
+        searchBar.scopeButtonTitles = [ "Words", "Synsets" ]
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -208,8 +212,15 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     // MARK: UISearchBarDelegate
+    func searchBar(searchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
+            searchScope = scope
+        }
+    }
+
     func searchBarShouldBeginEditing(searchBar: UISearchBar!) -> Bool {
         searchBar.showsCancelButton = true
+        searchBar.showsScopeBar = true
         searchBarEditing = true
         return true
     }
@@ -223,7 +234,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar!) {
-        let search = DubsarModelsSearch(term: searchBar.text, matchCase: false)
+        let search = DubsarModelsSearch(term: searchBar.text, matchCase: false, scope: searchScope)
         resetSearch()
 
         pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
@@ -237,7 +248,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             return
         }
 
-        if !rotated {
+        if !rotated && searchScope == .Words { // .Synsets to come
             triggerAutocompletion()
         }
         // else wait for keyboardShown: to be called to recompute the keyboard height
@@ -324,6 +335,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         // rerun the autocompletion request with the new max
         searchBar(searchBar, textDidChange: searchBar.text)
 
+        searchBar.tintColor = AppConfiguration.foregroundColor
+
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
         // DMLOG("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))
@@ -370,13 +383,16 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         searchBar.resignFirstResponder()
         searchBar.text = ""
         searchBar.showsCancelButton = false
+        searchBar.showsScopeBar = false
 
         autocompleterView.hidden = true
         searchBarEditing = false
+
+        // adjustLayout()
     }
 
     func autocompleterView(_: AutocompleterView!, selectedResult result: String!) {
-        let search = DubsarModelsSearch(term: result, matchCase: false)
+        let search = DubsarModelsSearch(term: result, matchCase: false, scope: searchScope)
         resetSearch()
         pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
     }
@@ -391,6 +407,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             triggerAutocompletion()
             rotated = false
         }
+    }
+
+    func keyboardHidden(notification: NSNotification!) {
+        adjustLayout()
     }
 
     private func computeAlphabetFrame(orientation: UIInterfaceOrientation) -> CGRect {
@@ -416,6 +436,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             alphabetView = AlphabetView(frame: alphabetFrame)
             alphabetView.viewController = self
             view.addSubview(alphabetView)
+            view.sendSubviewToBack(alphabetView)
         }
 
         alphabetFrame = computeAlphabetFrame(orientation)
@@ -427,7 +448,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     func alphabetView(_:AlphabetView!, selectedButton button: GlobButton!) {
-        let search = DubsarModelsSearch(wildcard: button.globExpression, page: 1, title: button.titleForState(.Normal))
+        let search = DubsarModelsSearch(wildcard: button.globExpression, page: 1, title: button.titleForState(.Normal), scope: searchScope)
         pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
     }
 }

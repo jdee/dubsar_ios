@@ -21,9 +21,36 @@ import DubsarModels
 
 extension DubsarModelsSynset {
 
+    func synonymSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont?) -> CGSize {
+        let text = synonymsAsString as NSString
+        return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+    }
+
     func glossSizeWithConstrainedSize(constrainedSize: CGSize, font: UIFont?) -> CGSize {
         let text = gloss as NSString
         return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
+    func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat = 0) -> CGSize {
+        var constraint = constrainedSize
+        constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth
+
+        let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
+        let caption1Font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleCaption1)
+        let subheadlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline)
+
+        let glossSize = glossSizeWithConstrainedSize(constraint, font: bodyFont)
+
+        var size = constrainedSize
+
+        size.height = SenseTableViewCell.labelLineHeight + 3*SenseTableViewCell.margin + glossSize.height + 2 * SenseTableViewCell.borderWidth
+
+        if senses.count > 0 {
+            let synonymSize = synonymSizeWithConstrainedSize(constraint, font: caption1Font)
+            size.height += synonymSize.height + SenseTableViewCell.margin
+        }
+
+        return size
+    }
+    
 }

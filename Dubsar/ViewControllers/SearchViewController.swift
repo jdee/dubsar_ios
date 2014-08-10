@@ -109,32 +109,55 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
 
         let row = indexPath.indexAtPosition(1)
-        let word = search!.results[row] as DubsarModelsWord
         let selectedRow = selectedIndexPath.indexAtPosition(1)
 
-        var cell: WordTableViewCell?
-        if selectedRow == row {
-            var openCell = tableView.dequeueReusableCellWithIdentifier(OpenWordTableViewCell.openIdentifier) as? OpenWordTableViewCell
-            if !openCell {
-                openCell = OpenWordTableViewCell(word: word, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
-            }
-            openCell!.cellBackgroundColor = AppConfiguration.highlightColor
-            cell = openCell
-        }
-        else {
-            cell = tableView.dequeueReusableCellWithIdentifier(WordTableViewCell.identifier) as? WordTableViewCell
-            if !cell {
-                cell = WordTableViewCell(word: word, preview: true)
-            }
-            cell!.selectionStyle = .Blue // but gray for some reason
-            cell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
-        }
+        var cell: UITableViewCell?
 
-        cell!.accessoryType = .DetailDisclosureButton
-        cell!.frame = tableView.bounds
-        cell!.isPreview = true
-        cell!.word = word
-        cell!.rebuild()
+        switch (search!.scope) {
+        case .Words:
+            let word = search!.results[row] as DubsarModelsWord
+            var wordCell: WordTableViewCell?
+
+            if selectedRow == row {
+                var openCell = tableView.dequeueReusableCellWithIdentifier(OpenWordTableViewCell.openIdentifier) as? OpenWordTableViewCell
+                if !openCell {
+                    openCell = OpenWordTableViewCell(word: word, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
+                }
+                openCell!.cellBackgroundColor = AppConfiguration.highlightColor
+                wordCell = openCell
+                cell = openCell
+            }
+            else {
+                wordCell = tableView.dequeueReusableCellWithIdentifier(WordTableViewCell.identifier) as? WordTableViewCell
+                if !wordCell {
+                    wordCell = WordTableViewCell(word: word, preview: true)
+                }
+                wordCell!.selectionStyle = .Blue // but gray for some reason
+                wordCell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
+                cell = wordCell
+            }
+
+            wordCell!.accessoryType = .DetailDisclosureButton
+            wordCell!.frame = tableView.bounds
+            wordCell!.isPreview = true
+            wordCell!.word = word
+            wordCell!.rebuild()
+            
+        case .Synsets:
+            let synset = search!.results[row] as DubsarModelsSynset
+
+            var synsetCell = tableView.dequeueReusableCellWithIdentifier(SynsetTableViewCell.identifier) as? SynsetTableViewCell
+            if !synsetCell {
+                synsetCell = SynsetTableViewCell(synset: synset, frame: tableView.bounds, identifier: SynsetTableViewCell.identifier)
+            }
+            else {
+                synsetCell!.synset = synset
+                synsetCell!.frame = tableView.bounds
+            }
+
+            synsetCell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
+            cell = synsetCell
+        }
 
         DMTRACE("Height of cell at row %\(row): \(cell!.bounds.size.height)")
 
@@ -177,10 +200,17 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
 
         let row = indexPath.indexAtPosition(1)
-        let word = search!.results[row] as DubsarModelsWord
         let selectedRow = selectedIndexPath.indexAtPosition(1)
 
-        let height = word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row), preview: true).height
+        var height: CGFloat
+        switch search!.scope {
+        case .Words:
+            let word = search!.results[row] as DubsarModelsWord
+            height = word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row), preview: true).height
+        default:
+            let synset = search!.results[row] as DubsarModelsSynset
+            height = synset.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: false, maxHeightOfAdditions: 0).height
+        }
 
         DMTRACE("Height of row \(row): \(height)")
         return height
@@ -188,7 +218,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
     func synchSelectedRow() {
         let row = selectedIndexPath.indexAtPosition(1)
-        if row < 0 || !search {
+        if row < 0 || !search || search!.scope == .Synsets {
             // DMLOG("Can't synch row %d", row)
             return
         }

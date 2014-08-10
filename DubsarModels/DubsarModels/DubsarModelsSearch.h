@@ -19,6 +19,11 @@
 
 #import "DubsarModels/DubsarModelsModel.h"
 
+typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
+    DubsarModelsSearchScopeWords,
+    DubsarModelsSearchScopeSynsets
+};
+
 @interface DubsarModelsSearch : DubsarModelsModel {
     NSString* term;
     NSMutableArray* _results;
@@ -33,6 +38,8 @@
 @property (nonatomic) NSUInteger totalPages;
 @property (nonatomic) NSUInteger seqNum;
 
+@property (nonatomic) DubsarModelsSearchScope scope;
+
 /*
  * Indicates whether the search result contains an exact match.
  * Some searches (anything involving wildcards or when currentPage > 1) 
@@ -43,12 +50,12 @@
  */
 @property bool exact;
 
-+ (instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
-- (instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
-+ (instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page;
-- (instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
-+ (instancetype)searchWithWildcard:(NSString*)globExpression page:(int)page title:(NSString*)theTitle;
-- (instancetype)initWithWildcard:(NSString*)globExpression page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum NS_DESIGNATED_INITIALIZER;
++ (instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase scope:(DubsarModelsSearchScope)scope;
+- (instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum scope:(DubsarModelsSearchScope)scope NS_DESIGNATED_INITIALIZER;
++ (instancetype)searchWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page scope:(DubsarModelsSearchScope)scope;
+- (instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum scope:(DubsarModelsSearchScope)scope NS_DESIGNATED_INITIALIZER;
++ (instancetype)searchWithWildcard:(NSString*)globExpression page:(int)page title:(NSString*)theTitle scope:(DubsarModelsSearchScope)scope;
+- (instancetype)initWithWildcard:(NSString*)globExpression page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum scope:(DubsarModelsSearchScope)scope NS_DESIGNATED_INITIALIZER;
 
 - (DubsarModelsSearch*)newSearchForPage:(int)page;
 

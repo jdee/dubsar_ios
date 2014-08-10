@@ -43,22 +43,22 @@ static int _seqNum = 0;
 @synthesize title;
 @synthesize exact;
 
-+(instancetype)searchWithTerm:(id)theTerm matchCase:(BOOL)mustMatchCase
++(instancetype)searchWithTerm:(id)theTerm matchCase:(BOOL)mustMatchCase scope:(DubsarModelsSearchScope)scope
 {
-    return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase seqNum:_seqNum++];
+    return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase seqNum:_seqNum++ scope:scope];
 }
 
-+(instancetype)searchWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page
++(instancetype)searchWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page scope:(DubsarModelsSearchScope)scope
 {
-    return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase page:page seqNum:_seqNum++];
+    return [[self alloc]initWithTerm:theTerm matchCase:mustMatchCase page:page seqNum:_seqNum++ scope:scope];
 }
 
-+(instancetype)searchWithWildcard:(NSString *)globExpression page:(int)page title:(NSString *)theTitle
++(instancetype)searchWithWildcard:(NSString *)globExpression page:(int)page title:(NSString *)theTitle scope:(DubsarModelsSearchScope)scope
 {
-    return [[self alloc]initWithWildcard:globExpression page:page title:theTitle seqNum:_seqNum++];
+    return [[self alloc]initWithWildcard:globExpression page:page title:theTitle seqNum:_seqNum++ scope:scope];
 }
 
--(instancetype)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum
+-(instancetype)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum scope:(DubsarModelsSearchScope)scope
 {
     DMLOG(@"constructing search for \"%@\"", theTerm);
 
@@ -73,6 +73,7 @@ static int _seqNum = 0;
         totalPages = 0;
         seqNum = theSeqNum;
         exact = false;
+        _scope = scope;
 
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
@@ -81,7 +82,7 @@ static int _seqNum = 0;
     return self;
 }
 
--(instancetype)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum
+-(instancetype)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum scope:(DubsarModelsSearchScope)scope
 {
     DMLOG(@"constructing search for \"%@\"", theTerm);
 
@@ -95,7 +96,8 @@ static int _seqNum = 0;
         seqNum = theSeqNum;
         currentPage = page;
         exact = false;
-        
+        _scope = scope;
+
         // totalPages is set by the server in the response
         totalPages = 0;
 
@@ -107,7 +109,7 @@ static int _seqNum = 0;
     return self;
 }
 
--(instancetype)initWithWildcard:(NSString *)globExpression page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum
+-(instancetype)initWithWildcard:(NSString *)globExpression page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum scope:(DubsarModelsSearchScope)scope
 {
     DMLOG(@"constructing search for \"%@\"", globExpression);
 
@@ -121,7 +123,8 @@ static int _seqNum = 0;
         seqNum = theSeqNum;
         currentPage = page;
         exact = false;
-        
+        _scope = scope;
+
         // totalPages is set by the server in the response
         totalPages = 0;
 
@@ -140,8 +143,10 @@ static int _seqNum = 0;
     if (isWildCard) {
         [self loadWildcardResults:database];
     }
-    else {
+    else if (_scope == DubsarModelsSearchScopeWords) {
         [self loadFulltextResults:database];
+    }else if (_scope == DubsarModelsSearchScopeSynsets) {
+        [self loadSynsetResults:database];
     }
 }
 
@@ -523,6 +528,93 @@ static int _seqNum = 0;
     DMTRACE(@"completed database search (delegate is %@)", (self.delegate == nil ? @"nil" : @"not nil"));
 }
 
+- (void)loadSynsetResults:(DubsarModelsDatabaseWrapper *)database
+{
+    const char* sql = "SELECT sy.id, sy.definition, sy.lexname, sy.part_of_speech, se.id, w.id, w.name FROM synsets sy "
+        "JOIN synsets_fts syfts ON sy.id = syfts.id JOIN senses se ON se.synset_id = sy.id JOIN words w ON w.id = se.word_id "
+        "WHERE syfts.definition MATCH ?";
+    sqlite3_stmt* statement;
+    int rc = sqlite3_prepare_v2(database.dbptr, sql, -1, &statement, NULL);
+    if (rc != SQLITE_OK) {
+        DMERROR(@"Error %d preparing \"%s\"", rc, sql);
+        return;
+    }
+
+    rc = sqlite3_bind_text(statement, 1, term.UTF8String, -1, SQLITE_STATIC);
+    if (rc != SQLITE_OK) {
+        DMERROR(@"Error binding %@ in statement \"%s\": %d", term, sql, rc);
+        return;
+    }
+
+    NSMutableArray* synsets = [NSMutableArray array];
+    NSMutableArray* senses;
+
+    DubsarModelsSynset* synset;
+
+    while ((rc=sqlite3_step(statement)) == SQLITE_ROW) {
+        int synsetId = sqlite3_column_int(statement, 0);
+        const char* _definition = (const char*)sqlite3_column_text(statement, 1);
+        const char* lexname = (const char*)sqlite3_column_text(statement, 2);
+        const char* part_of_speech = (const char*)sqlite3_column_text(statement, 3);
+        int senseId = sqlite3_column_int(statement, 4);
+        int wordId = sqlite3_column_int(statement, 5);
+        const char* name = (const char*)sqlite3_column_text(statement, 6);
+
+        if (!synset || synset._id != synsetId) {
+            synset.senses = senses;
+
+            NSString* definition = @(_definition);
+            NSArray* components = [definition componentsSeparatedByString:@"; \""];
+            NSString* gloss = components[0];
+
+            NSMutableArray* samples = [NSMutableArray array];
+            if (components.count > 1) {
+                NSRange range;
+                range.location = 1;
+                range.length = components.count - 1;
+                NSArray* sampleArray = [components subarrayWithRange:range];
+
+                for (int j=0; j<sampleArray.count; ++j) {
+                    NSString* sample = sampleArray[j];
+                    sample = [sample stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+                    if (sample.length > 0 && [sample characterAtIndex:sample.length-1] == '"') {
+                        sample = [sample substringToIndex:sample.length-1];
+                    }
+                    [samples addObject:sample];
+                }
+            }
+
+            synset = [DubsarModelsSynset synsetWithId:synsetId gloss:gloss partOfSpeech:[DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:part_of_speech]];
+            synset.lexname = @(lexname);
+            
+            synset.samples = samples;
+
+            [synsets addObject:synset];
+
+            senses = [NSMutableArray array];
+        }
+        assert(synset);
+
+        DubsarModelsSense* sense = [DubsarModelsSense senseWithId:senseId name:@(name) partOfSpeech:synset.partOfSpeech];
+
+        DubsarModelsWord* word = [DubsarModelsWord wordWithId:wordId name:@(name) partOfSpeech:synset.partOfSpeech];
+
+        sense.word = word;
+
+        [senses addObject:sense];
+    }
+
+    if (rc != SQLITE_DONE) {
+        DMERROR(@"%d returned from sqlite3_step() with %s", rc, sql);
+    }
+
+    synset.senses = senses;
+
+    results = synsets;
+
+    sqlite3_finalize(statement);
+}
+
 - (void)parseData
 {        
     NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
@@ -560,10 +652,10 @@ static int _seqNum = 0;
     DubsarModelsSearch* search;
     
     if (isWildCard) {
-        search = [DubsarModelsSearch searchWithWildcard:term page:page title:title];
+        search = [DubsarModelsSearch searchWithWildcard:term page:page title:title scope:_scope];
     }
     else {
-        search = [DubsarModelsSearch searchWithTerm:term matchCase:matchCase page:page];
+        search = [DubsarModelsSearch searchWithTerm:term matchCase:matchCase page:page scope:_scope];
     }
     
     return search;
