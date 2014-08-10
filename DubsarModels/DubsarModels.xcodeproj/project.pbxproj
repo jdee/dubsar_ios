@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B7F9EBF1997D906006F4BC0 /* NSString+Varargs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B7F9EBD1997D906006F4BC0 /* NSString+Varargs.h */; };
+		7B7F9EC01997D906006F4BC0 /* NSString+Varargs.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7F9EBE1997D906006F4BC0 /* NSString+Varargs.m */; };
 		7B98C86F1995B363009CFA76 /* DubsarModelsDownloadList.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B98C86D1995B363009CFA76 /* DubsarModelsDownloadList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B98C8701995B363009CFA76 /* DubsarModelsDownloadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B98C86E1995B363009CFA76 /* DubsarModelsDownloadList.m */; };
 		7BAC22E819735C2C00D2AEA4 /* DubsarModels.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BAC22E719735C2C00D2AEA4 /* DubsarModels.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -55,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B7F9EBD1997D906006F4BC0 /* NSString+Varargs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Varargs.h"; sourceTree = "<group>"; };
+		7B7F9EBE1997D906006F4BC0 /* NSString+Varargs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Varargs.m"; sourceTree = "<group>"; };
 		7B98C86D1995B363009CFA76 /* DubsarModelsDownloadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarModelsDownloadList.h; sourceTree = "<group>"; };
 		7B98C86E1995B363009CFA76 /* DubsarModelsDownloadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarModelsDownloadList.m; sourceTree = "<group>"; };
 		7BAC22E219735C2C00D2AEA4 /* DubsarModels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DubsarModels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,6 +172,8 @@
 				7BAC231B19735CB400D2AEA4 /* DubsarModelsSynset.m */,
 				7BAC231C19735CB400D2AEA4 /* DubsarModelsWord.h */,
 				7BAC231D19735CB400D2AEA4 /* DubsarModelsWord.m */,
+				7B7F9EBD1997D906006F4BC0 /* NSString+Varargs.h */,
+				7B7F9EBE1997D906006F4BC0 /* NSString+Varargs.m */,
 				7BAC22E519735C2C00D2AEA4 /* Supporting Files */,
 			);
 			path = DubsarModels;
@@ -222,6 +228,7 @@
 				7BAC233C19735CB400D2AEA4 /* DubsarModelsWord.h in Headers */,
 				7BAC232919735CB400D2AEA4 /* DubsarModelsLoadDelegate.h in Headers */,
 				7BAC234019735CC700D2AEA4 /* DubsarModelsDatabaseWrapper.h in Headers */,
+				7B7F9EBF1997D906006F4BC0 /* NSString+Varargs.h in Headers */,
 				7BAC22E819735C2C00D2AEA4 /* DubsarModels.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,6 +337,7 @@
 				7BAC233919735CB400D2AEA4 /* DubsarModelsSense.m in Sources */,
 				7BAC232D19735CB400D2AEA4 /* DubsarModelsPartOfSpeechDictionary.m in Sources */,
 				7BAC232119735CB400D2AEA4 /* DubsarModelsAutocompleter.m in Sources */,
+				7B7F9EC01997D906006F4BC0 /* NSString+Varargs.m in Sources */,
 				7BAC233D19735CB400D2AEA4 /* DubsarModelsWord.m in Sources */,
 				7BAC233519735CB400D2AEA4 /* DubsarModelsSearch.m in Sources */,
 				7BCAA9DD1992A46A00B23F4F /* DubsarModelsLogger.m in Sources */,

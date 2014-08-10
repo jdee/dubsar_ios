@@ -145,13 +145,14 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
         [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
     }
-    
+
     DMDEBUG(@"received response");
-    [data setLength:0];
+    data = [NSMutableData data];
 }
 
 - (void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)theData
 {
+    DMTRACE(@"Received %lu bytes", (unsigned long)theData.length);
     [data appendData:theData];
 }
 
@@ -171,8 +172,18 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    // BUG: Why does jsonData show up as (null) in the iPod log?
-    NSString* jsonData = @((const char*)[data bytes]);
+    assert(data);
+    assert(data.bytes);
+
+    char* cbytes = malloc(data.length+1);
+    memcpy(cbytes, data.bytes, data.length);
+    cbytes[data.length] = '\0';
+
+    DMTRACE(@"Raw response (%lu): \"%s\"", (unsigned long)data.length, cbytes);
+
+    NSString* jsonData = @(cbytes);
+    free(cbytes);
+    assert(jsonData);
     DMDEBUG(@"JSON response from URL %@:", url);
     DMDEBUG(@"%@", jsonData);
 
