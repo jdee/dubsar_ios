@@ -222,8 +222,11 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
     {
         // NSLog(@"Caught exception: %@", e);
     }
+    @finally
+    {
+        if (buffer) free(buffer);
+    }
 
-    if (buffer) free(buffer);
     return value;
 }
 
