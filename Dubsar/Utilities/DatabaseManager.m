@@ -54,10 +54,14 @@
 @property (nonatomic, copy) NSString* zipName;
 
 @property (nonatomic) DubsarModelsDownloadList* downloadList;
+
 @end
 
 @implementation DatabaseManager {
-    FILE* fp;
+    FILE* fp, *outfile;
+    unzFile* uf;
+    NSInteger lastUpdateSize;
+    NSUInteger sequenceNumber;
 }
 
 @dynamic fileExists, fileURL, zipURL;
@@ -69,10 +73,15 @@
     self = [super init];
     if (self) {
         fp = NULL;
+        uf = NULL;
+        outfile = NULL;
+
         _downloadedSoFar = _downloadSize = _unzippedSize = _unzippedSoFar = 0;
         _downloadInProgress = NO;
 
         _start = _totalSize = 0;
+
+        sequenceNumber = 0;
 
         _requiredDBVersion = DUBSAR_REQUIRED_DB_VERSION;
 
@@ -367,6 +376,7 @@
 
     while (self.downloadInProgress &&
            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate: [NSDate dateWithTimeIntervalSinceNow:0.2]]) ;
+    DMDEBUG(@"Finished dispatching download");
 }
 
 - (void)downloadInBackground
@@ -410,6 +420,15 @@
     self.errorMessage = [NSString stringWithFormat:format args:args];
 
     va_end(args);
+
+    if (outfile) {
+        fclose(outfile);
+        outfile = NULL;
+    }
+    if (uf) {
+        unzClose(uf);
+        uf = NULL;
+    }
 
     self.downloadInProgress = NO;
 
@@ -779,14 +798,37 @@
         }
     }
 
-    // Instead of just kicking off a bg thread, it would be nice to make this an async task on the current thread, which is often a bg
-    // thread anyway.
-
-    [[NSRunLoop currentRunLoop] performSelector:@selector(unzip) target:self argument:nil order:0 modes:@[NSDefaultRunLoopMode]];
+    [self unzip];
 }
 
 - (void)finishDownload
 {
+    if (outfile) {
+        fclose(outfile);
+        outfile = NULL;
+    }
+    if (uf) {
+        unzClose(uf);
+        uf = NULL;
+    }
+
+    struct stat sb;
+    int rc = stat(self.fileURL.path.UTF8String, &sb);
+    if (rc != 0) {
+        int error = errno;
+        char errbuf[256];
+        strerror_r(error, errbuf, 255);
+        [self notifyDelegateOfError: @"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path];
+        return;
+    }
+    DMDEBUG(@"Unzipped file %@ is %lld bytes", _fileName, sb.st_size);
+
+    NSError* error;
+
+    if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
+        DMERROR(@"Error removing %@: %@", self.zipURL.path, error.localizedDescription);
+    }
+
     self.downloadInProgress = NO;
     if ([NSThread currentThread] != [NSThread mainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -822,7 +864,7 @@
         return;
     }
     
-    unzFile* uf = unzOpen(self.zipURL.path.UTF8String);
+    uf = unzOpen(self.zipURL.path.UTF8String);
     if (!uf) {
         [self notifyDelegateOfError: @"unzOpen(%@) failed", self.zipURL.path];
         return;
@@ -833,6 +875,7 @@
     if (rc != UNZ_OK) {
         [self notifyDelegateOfError: @"failed to locate %@ in zip %@", _fileName, _zipName];
         unzClose(uf);
+        uf = NULL;
         return;
     }
     // DMLOG(@"Located %@ in zip file", _fileName);
@@ -841,6 +884,7 @@
     if (rc != UNZ_OK) {
         [self notifyDelegateOfError: @"Failed to open %@ in zip %@", _fileName, _zipName];
         unzClose(uf);
+        uf = NULL;
         return;
     }
     // DMLOG(@"Opened %@ in zip file", _fileName);
@@ -850,104 +894,103 @@
     if (rc != UNZ_OK) {
         [self notifyDelegateOfError: @"Failed to get current file info from zip"];
         unzClose(uf);
+        uf = NULL;
         return;
     }
 
     self.unzippedSize = fileInfo.uncompressed_size;
     DMDEBUG(@"Unzipped file will be %lu bytes", (long)_unzippedSize);
 
-    FILE* outfile = fopen(self.fileURL.path.UTF8String, "w");
+    outfile = fopen(self.fileURL.path.UTF8String, "w");
     if (!outfile) {
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
         [self notifyDelegateOfError: @"Error %d (%s) opening %@ for write", error, errbuf, self.fileURL.path];
         unzClose(uf);
+        uf = NULL;
         return;
     }
     // DMLOG(@"Opened %@ for write", _fileName);
 
     [self excludeFromBackup:self.fileURL];
 
+    [self unzipRead];
+}
+
+/*
+ * This method reads up to 8 MB from the zip file, reports its progress, then requeues itself on the
+ * [NSRunLoop currentRunLoop]. This means that downloadSynchronous blocks until the unzip is finished.
+ */
+- (void)unzipRead
+{
+    DMTRACE(@"Reading zip file");
+
+    // read up to 8 MB while we're in here, 32 kB at a time
+    // on an iPhone 5, this takes about 200 ms
     unsigned char buffer[32768];
-    int nr;
+    int numberRead = 0;
+    while (self.unzippedSoFar - lastUpdateSize < 8 * 1024 * 1024) {
+        int nr = unzReadCurrentFile(uf, buffer, sizeof(buffer) * sizeof(unsigned char));
 
-    struct timeval now;
-    gettimeofday(&now, NULL);
-    self.lastUnzipRead = self.unzipStart = now;
+        if (nr <= 0) {
+            if (nr < 0) {
+                // read error
+                [self notifyDelegateOfError: @"unzReadCurrentFile returned %d", nr];
+                return;
+            }
 
-    NSInteger lastUpdateSize = 0;
+            /*
+             * Success. unzReadCurrentFile returned 0.
+             */
+            [self finishDownload];
+            return;
+        }
 
-    while ((nr=unzReadCurrentFile(uf, buffer, sizeof(buffer) * sizeof(unsigned char))) > 0) {
-
+        numberRead += nr;
         self.unzippedSoFar += nr;
 
-        gettimeofday(&now, NULL);
-        double delta = (double)(now.tv_sec - self.lastUnzipRead.tv_sec) + (double)(now.tv_usec - self.lastUnzipRead.tv_usec) * 1.0e-6;
-
-        if (delta > 0.0) {
-            self.instantaneousUnzipRate = ((double)nr)/ delta;
-        }
-
-        if (self.instantaneousUnzipRate > 0.0) {
-            self.estimatedUnzipTimeRemaining = ((double)(self.unzippedSize - self.unzippedSoFar)) / self.instantaneousUnzipRate;
-        }
-        self.lastUnzipRead = now;
-
+        // write the unzipped data to storage
         ssize_t nw = fwrite(buffer, 1, nr, outfile);
         if (nw != nr) {
             int error = errno;
             char errbuf[256];
             strerror_r(error, errbuf, 255);
             [self notifyDelegateOfError: @"Failed to write %d bytes to %@. Wrote %zd instead. Error %d (%s)", nr, _fileName, nw, error, errbuf];
-            fclose(outfile);
-            unzClose(uf);
             return;
         }
+        
+    }
 
-        if (self.unzippedSoFar - lastUpdateSize < 8 * 1024 * 1024) {
-            continue;
-        }
+    lastUpdateSize = self.unzippedSoFar;
+    struct timeval now;
+    gettimeofday(&now, NULL);
 
-        lastUpdateSize = self.unzippedSoFar;
-        if ([self.delegate respondsToSelector:@selector(progressUpdated:)]) {
-            if ([NSThread mainThread] != [NSThread currentThread]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate progressUpdated:self];
-                });
-            }
-            else {
+    double delta = (double)(now.tv_sec - self.lastUnzipRead.tv_sec) + (double)(now.tv_usec - self.lastUnzipRead.tv_usec) * 1.0e-6;
+
+    if (delta > 0.0) {
+        self.instantaneousUnzipRate = ((double)numberRead)/ delta;
+    }
+
+    if (self.instantaneousUnzipRate > 0.0) {
+        self.estimatedUnzipTimeRemaining = ((double)(self.unzippedSize - self.unzippedSoFar)) / self.instantaneousUnzipRate;
+    }
+    self.lastUnzipRead = now;
+
+    if ([self.delegate respondsToSelector:@selector(progressUpdated:)]) {
+        if ([NSThread mainThread] != [NSThread currentThread]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate progressUpdated:self];
-            }
+            });
+        }
+        else {
+            [self.delegate progressUpdated:self];
         }
     }
 
-    fclose(outfile);
-    unzClose(uf);
+    [[NSRunLoop currentRunLoop] performSelector:@selector(unzipRead) target:self argument:nil order:++sequenceNumber modes:@[NSDefaultRunLoopMode]];
 
-    if (nr < 0) {
-        [self notifyDelegateOfError: @"unzReadCurrentFile returned %d", nr];
-        return;
-    }
-
-    rc = stat(self.fileURL.path.UTF8String, &sb);
-    if (rc != 0) {
-        int error = errno;
-        char errbuf[256];
-        strerror_r(error, errbuf, 255);
-        [self notifyDelegateOfError: @"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path];
-        [self finishDownload];
-        return;
-    }
-    DMDEBUG(@"Unzipped file %@ is %lld bytes", _fileName, sb.st_size);
-
-    NSError* error;
-
-    if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
-        DMERROR(@"Error removing %@: %@", self.zipURL.path, error.localizedDescription);
-    }
-
-    [self finishDownload];
+    DMTRACE(@"Unzipped %ld so far. Next read queued", (long)self.unzippedSoFar);
 }
 
 - (void)excludeFromBackup:(NSURL*)url {
