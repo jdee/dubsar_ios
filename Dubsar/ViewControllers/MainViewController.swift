@@ -53,7 +53,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         view.addSubview(autocompleterView)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShowing:", name: UIKeyboardDidShowNotification, object: nil)
-        // NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden:", name: UIKeyboardDidHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden:", name: UIKeyboardDidHideNotification, object: nil)
 
         // deprecated, but somehow not showing up in the storyboard
         searchBar.autocapitalizationType = .None
@@ -335,7 +335,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         // rerun the autocompletion request with the new max
         searchBar(searchBar, textDidChange: searchBar.text)
 
-        searchBar.tintColor = AppConfiguration.foregroundColor
+        searchBar.tintColor = UIColor.blackColor() // AppConfiguration.foregroundColor
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 

@@ -66,7 +66,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             return
         }
 
-        var title = "search results for \"\(search!.title ? search!.title : search!.term)\""
+        let scopeName = DubsarModelsSearchScope.Words == search!.scope ? "word" : "synset"
+        var title = "\(scopeName) results for \"\(search!.title ? search!.title : search!.term)\""
         if search!.totalPages > 1 {
             title = "\(title) p. \(search!.currentPage)/\(search!.totalPages)"
         }
