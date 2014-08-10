@@ -133,6 +133,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                 // (in the foreground. in the background. that is, in the foreground in the background.)
                 my.databaseManager.downloadSynchronous()
 
+                assert(!my.databaseManager.downloadInProgress)
+
                 // generate a local notification
                 var localNotif = UILocalNotification()
                 if (my.databaseManager.errorMessage) {

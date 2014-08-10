@@ -32,6 +32,8 @@
 #define DUBSAR_CURRENT_DOWNLOAD_KEY @"DubsarCurrentDownload"
 #define DUBSAR_REQUIRED_DB_VERSION @"dubsar-wn3.1-1"
 #define DUBSAR_DOWNLOAD_PREFIX @"dubsar-wn"
+#define DUBSAR_UNZIP_INTERVAL_SECONDS 0.200
+#define DUBSAR_MAX_PER_CYCLE 0.5
 
 @interface DatabaseManager()
 #pragma mark - Internal properties
@@ -62,6 +64,7 @@
     unzFile* uf;
     NSInteger lastUpdateSize;
     NSUInteger sequenceNumber;
+    NSTimer* unzipTimer;
 }
 
 @dynamic fileExists, fileURL, zipURL;
@@ -376,6 +379,7 @@
 
     while (self.downloadInProgress &&
            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate: [NSDate dateWithTimeIntervalSinceNow:0.2]]) ;
+    assert(!self.downloadInProgress);
     DMDEBUG(@"Finished dispatching download");
 }
 
@@ -570,13 +574,13 @@
     ssize_t nr = fwrite(data.bytes, 1, data.length, fp);
 
     if (nr == data.length) {
-        DMTRACE(@"Wrote %d bytes to %@", data.length, _fileName);
+        DMTRACE(@"Wrote %d bytes to %@", data.length, _zipName);
     }
     else {
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
-        DMERROR(@"Failed to write %lu bytes. Wrote %zd. Error %d (%s)", (unsigned long)data.length, nr, error, errbuf);
+        DMERROR(@"Failed to write %lu bytes to %@. Wrote %zd. Error %d (%s)", (unsigned long)data.length, self.zipURL.path, nr, error, errbuf);
         return;
     }
 }
@@ -803,6 +807,9 @@
 
 - (void)finishDownload
 {
+    [unzipTimer invalidate];
+    unzipTimer = nil;
+
     if (outfile) {
         fclose(outfile);
         outfile = NULL;
@@ -915,22 +922,25 @@
 
     [self excludeFromBackup:self.fileURL];
 
-    [self unzipRead];
+    unzipTimer = [NSTimer timerWithTimeInterval:DUBSAR_UNZIP_INTERVAL_SECONDS target:self selector:@selector(unzipRead) userInfo:nil repeats:YES];
+
+    [[NSRunLoop currentRunLoop] addTimer:unzipTimer forMode:NSDefaultRunLoopMode];
 }
 
-/*
- * This method reads up to 8 MB from the zip file, reports its progress, then requeues itself on the
- * [NSRunLoop currentRunLoop]. This means that downloadSynchronous blocks until the unzip is finished.
- */
 - (void)unzipRead
 {
     DMTRACE(@"Reading zip file");
 
-    // read up to 8 MB while we're in here, 32 kB at a time
-    // on an iPhone 5, this takes about 200 ms
     unsigned char buffer[32768];
     int numberRead = 0;
-    while (self.unzippedSoFar - lastUpdateSize < 8 * 1024 * 1024) {
+    struct timeval start, now;
+    gettimeofday(&start, NULL);
+
+    double delta = 0.0;
+
+    // DUBSAR_MAX_PER_CYCLE has to be greater than 0 and less than 1. This usually executes on the main thread, which it has to share with other
+    // tasks. This is the proportion of the run loop's time that is devoted to the unzip task.
+    while (delta < DUBSAR_UNZIP_INTERVAL_SECONDS * DUBSAR_MAX_PER_CYCLE) {
         int nr = unzReadCurrentFile(uf, buffer, sizeof(buffer) * sizeof(unsigned char));
 
         if (nr <= 0) {
@@ -959,14 +969,14 @@
             [self notifyDelegateOfError: @"Failed to write %d bytes to %@. Wrote %zd instead. Error %d (%s)", nr, _fileName, nw, error, errbuf];
             return;
         }
-        
+
+        gettimeofday(&now, NULL);
+        delta = (double)(now.tv_sec - start.tv_sec) + (double)(now.tv_usec - start.tv_usec) * 1.0e-6;
     }
 
     lastUpdateSize = self.unzippedSoFar;
-    struct timeval now;
-    gettimeofday(&now, NULL);
 
-    double delta = (double)(now.tv_sec - self.lastUnzipRead.tv_sec) + (double)(now.tv_usec - self.lastUnzipRead.tv_usec) * 1.0e-6;
+    delta = (double)(now.tv_sec - self.lastUnzipRead.tv_sec) + (double)(now.tv_usec - self.lastUnzipRead.tv_usec) * 1.0e-6;
 
     if (delta > 0.0) {
         self.instantaneousUnzipRate = ((double)numberRead)/ delta;
@@ -987,8 +997,6 @@
             [self.delegate progressUpdated:self];
         }
     }
-
-    [[NSRunLoop currentRunLoop] performSelector:@selector(unzipRead) target:self argument:nil order:++sequenceNumber modes:@[NSDefaultRunLoopMode]];
 
     DMTRACE(@"Unzipped %ld so far. Next read queued", (long)self.unzippedSoFar);
 }
