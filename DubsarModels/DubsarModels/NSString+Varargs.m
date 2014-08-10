@@ -31,6 +31,8 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
 
 + (NSString *)stringWithFormat:(NSString *)format args:(va_list)args
 {
+    char* buffer = NULL;
+    NSString* value;
     @try {
         long l;
         long long ll;
@@ -43,7 +45,7 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
         NSString* string;
 
         buflen = 512;
-        char *buffer = malloc(buflen);
+        buffer = malloc(buflen);
         memset(buffer, 0, buflen);
 
         const char* fmt = format.UTF8String;
@@ -214,15 +216,15 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
         }
         while (start - fmt < strlen(fmt));
         
-        NSString* value = [NSString stringWithUTF8String:buffer];
-        free(buffer);
-        return value;
+        value = @(buffer);
     }
     @catch(NSException* e)
     {
         // NSLog(@"Caught exception: %@", e);
-        return nil;
     }
+
+    if (buffer) free(buffer);
+    return value;
 }
 
 @end
