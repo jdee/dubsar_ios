@@ -237,7 +237,7 @@ void DMLOG(NSString* format, ...)
 {
     if (level <= DubsarModelsLogLevelNone || level > self.logLevel) return;
 
-    const char* cLevels[] = { "NONE ", "ERROR", "WARN ", "INFO ", "DEBUG", "TRACE" };
+    static const char* cLevels[] = { "NONE ", "ERROR", "WARN ", "INFO ", "DEBUG", "TRACE" };
     const char* cLevel = cLevels[level];
 
     NSString* s = [NSString stringWithFormat:format args:args];

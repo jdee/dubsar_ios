@@ -85,7 +85,7 @@
             if (currentNumericVersion >= requiredNumericVersion) {
                 _fileName = [download stringByAppendingString:@".sqlite3"];
                 _zipName = [download stringByAppendingString:@".zip"];
-                DMINFO(@"Application requires %@. Acceptable version %@ installed.", _requiredDBVersion, download);
+                DMINFO(@"Application requires %@. Compatible version %@ installed.", _requiredDBVersion, download);
             }
             else {
                 DMWARN(@"Application requires %@. Removing %@.", _requiredDBVersion, download);
