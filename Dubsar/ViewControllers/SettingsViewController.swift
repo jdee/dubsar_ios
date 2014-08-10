@@ -316,7 +316,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         else if databaseManager.downloadSize > 0 {
             let averageRate = Double(databaseManager.downloadSize) / databaseManager.elapsedDownloadTime
             downloadProgressView.progress = 1.0
-            downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize)) ÷ \(formatRate(averageRate)) = \(formatTime(databaseManager.elapsedDownloadTime))"
+            downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize)) ÷ \(formatTime(databaseManager.elapsedDownloadTime)) = \(formatRate(averageRate))"
         }
 
         if databaseManager.errorMessage {
