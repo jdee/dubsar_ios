@@ -779,7 +779,10 @@
         }
     }
 
-    [self performSelectorInBackground:@selector(unzip) withObject:nil];
+    // Instead of just kicking off a bg thread, it would be nice to make this an async task on the current thread, which is often a bg
+    // thread anyway.
+
+    [[NSRunLoop currentRunLoop] performSelector:@selector(unzip) target:self argument:nil order:0 modes:@[NSDefaultRunLoopMode]];
 }
 
 - (void)finishDownload
@@ -908,9 +911,14 @@
 
         lastUpdateSize = self.unzippedSoFar;
         if ([self.delegate respondsToSelector:@selector(progressUpdated:)]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            if ([NSThread mainThread] != [NSThread currentThread]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate progressUpdated:self];
+                });
+            }
+            else {
                 [self.delegate progressUpdated:self];
-            });
+            }
         }
     }
 
