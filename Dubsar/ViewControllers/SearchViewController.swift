@@ -114,9 +114,9 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         var cell: UITableViewCell?
 
-        switch (search!.scope) {
-        case .Words:
-            let word = search!.results[row] as DubsarModelsWord
+        let result = search!.results[row] as DubsarModelsModel
+
+        if let word = result as? DubsarModelsWord {
             var wordCell: WordTableViewCell?
 
             if selectedRow == row {
@@ -143,10 +143,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             wordCell!.isPreview = true
             wordCell!.word = word
             wordCell!.rebuild()
-            
-        case .Synsets:
-            let synset = search!.results[row] as DubsarModelsSynset
-
+        }
+        else if let synset = result as? DubsarModelsSynset {
             var synsetCell = tableView.dequeueReusableCellWithIdentifier(SynsetTableViewCell.identifier) as? SynsetTableViewCell
             if !synsetCell {
                 synsetCell = SynsetTableViewCell(synset: synset, frame: tableView.bounds, identifier: SynsetTableViewCell.identifier)
@@ -191,13 +189,12 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         let row = indexPath.indexAtPosition(1)
 
-        switch search!.scope {
-        case .Words:
-            let word = search!.results[row] as DubsarModelsWord
-            pushViewControllerWithIdentifier(WordViewController.identifier, model: word, routerAction: .UpdateView)
+        let result = search!.results[row] as DubsarModelsModel
 
-        case .Synsets:
-            let synset = search!.results[row] as DubsarModelsSynset
+        if let word = result as? DubsarModelsWord {
+            pushViewControllerWithIdentifier(WordViewController.identifier, model: word, routerAction: .UpdateView)
+        }
+        else if let synset = result as? DubsarModelsSynset {
             pushViewControllerWithIdentifier(SynsetViewController.identifier, model: synset, routerAction: .UpdateView)
         }
     }
@@ -210,13 +207,13 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         let row = indexPath.indexAtPosition(1)
         let selectedRow = selectedIndexPath.indexAtPosition(1)
 
-        var height: CGFloat
-        switch search!.scope {
-        case .Words:
-            let word = search!.results[row] as DubsarModelsWord
+        let result = search!.results[row] as DubsarModelsModel
+
+        var height: CGFloat = 0.0
+        if let word = result as? DubsarModelsWord {
             height = word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row), preview: true).height
-        default:
-            let synset = search!.results[row] as DubsarModelsSynset
+        }
+        else if let synset = result as? DubsarModelsSynset {
             height = synset.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: false, maxHeightOfAdditions: 0).height
         }
 
