@@ -24,7 +24,7 @@ class SettingNavigationTableViewCell: UITableViewCell {
     class var identifier: String {
         get {
             return "setting-navigation"
-        }
+    }
     }
 
     private var spinner: UIActivityIndicatorView
@@ -36,23 +36,43 @@ class SettingNavigationTableViewCell: UITableViewCell {
 
         spinner.hidesWhenStopped = true
         spinner.frame = CGRectMake(2, 2, 40, 40)
+        spinner.autoresizingMask = .FlexibleRightMargin
         contentView.addSubview(spinner)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
+        #if DEBUG
+            let sAnimated = animated ? "true" : "false"
+            DMTRACE("animated = \(sAnimated)")
+        #endif
+
+        var newColor: UIColor
         if (selected) {
             spinner.startAnimating()
             textLabel.hidden = true
             accessoryType = .None
-            contentView.backgroundColor = AppConfiguration.highlightColor
+            newColor = AppConfiguration.highlightColor
         }
         else {
             spinner.stopAnimating()
             textLabel.hidden = false
             accessoryType = .DisclosureIndicator
-            contentView.backgroundColor = UIColor.clearColor()
+            newColor = UIColor.clearColor()
+        }
+
+        if (animated) {
+            UIView.animateWithDuration(0.4, delay: 0.0, options: .CurveLinear, animations: {
+                [weak self] in
+
+                if let my = self {
+                    my.contentView.backgroundColor = newColor
+                }
+                }, completion: nil)
+        }
+        else {
+            contentView.backgroundColor = newColor
         }
     }
 

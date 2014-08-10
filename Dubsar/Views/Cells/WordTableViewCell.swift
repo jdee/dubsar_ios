@@ -102,7 +102,7 @@ class WordTableViewCell: UITableViewCell {
         view?.removeFromSuperview()
 
         view = UIView(frame: bounds)
-        view!.backgroundColor = cellBackgroundColor
+        view!.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
 
         contentView.frame = bounds
         contentView.addSubview(view)

@@ -207,8 +207,10 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         // DMLOG("Reloading rows %d & %d", row, current.indexAtPosition(1))
 
-        tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
-        tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
+        dispatch_async(dispatch_get_main_queue()) {
+            tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
+            tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
+        }
     }
 
     func tableView(tableView: UITableView!, shouldHighlightRowAtIndexPath indexPath: NSIndexPath!) -> Bool {

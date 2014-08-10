@@ -113,7 +113,7 @@ class SenseTableViewCell: UITableViewCell {
 
         backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
         // backgroundLabel.clipsToBounds = true
-        backgroundLabel.backgroundColor = cellBackgroundColor
+        backgroundLabel.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
         backgroundLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         view!.addSubview(backgroundLabel)
 
@@ -155,9 +155,7 @@ class SenseTableViewCell: UITableViewCell {
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        if let v = view {
-            v.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
-        }
+        backgroundLabel.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
     }
 
 }

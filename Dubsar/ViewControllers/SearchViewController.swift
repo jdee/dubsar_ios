@@ -154,8 +154,10 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         synchSelectedRow()
 
         // DMLOG("Selected row %d", selectedIndexPath.indexAtPosition(1))
-        tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
-        tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
+        dispatch_async(dispatch_get_main_queue()) {
+            tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
+            tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
+        }
     }
 
     func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
