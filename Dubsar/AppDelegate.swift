@@ -45,6 +45,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     private var updatePending = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
+        #if DEBUG
+            // also the default, but this is where to change it. (disabled, not to mention compiled out, in release builds)
+            DubsarModelsLogger.instance().logLevel = .Debug
+        #endif
+
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
         databaseManager.initialize()
         databaseManager.delegate = self
