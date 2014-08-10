@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
     }
 
-    private var bgTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    private var bgTask = UIBackgroundTaskInvalid
     private var updatePending = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {

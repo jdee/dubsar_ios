@@ -224,7 +224,10 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
     }
     @finally
     {
-        if (buffer) free(buffer);
+        if (buffer) {
+            free(buffer);
+            // NSLog(@"Freed buffer");
+        }
     }
 
     return value;
