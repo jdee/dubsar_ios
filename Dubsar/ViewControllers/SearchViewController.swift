@@ -189,9 +189,16 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
 
         let row = indexPath.indexAtPosition(1)
-        let word = search!.results[row] as DubsarModelsWord
 
-        pushViewControllerWithIdentifier(WordViewController.identifier, model: word, routerAction: .UpdateView)
+        switch search!.scope {
+        case .Words:
+            let word = search!.results[row] as DubsarModelsWord
+            pushViewControllerWithIdentifier(WordViewController.identifier, model: word, routerAction: .UpdateView)
+
+        case .Synsets:
+            let synset = search!.results[row] as DubsarModelsSynset
+            pushViewControllerWithIdentifier(SynsetViewController.identifier, model: synset, routerAction: .UpdateView)
+        }
     }
 
     func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {

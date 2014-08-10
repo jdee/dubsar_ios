@@ -248,7 +248,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             return
         }
 
-        if !rotated && searchScope == .Words { // .Synsets to come
+        if !rotated /* && searchScope == .Words */ { // not sure how we'll autocomplete synsets. for now, always autocomplete words
             triggerAutocompletion()
         }
         // else wait for keyboardShown: to be called to recompute the keyboard height
