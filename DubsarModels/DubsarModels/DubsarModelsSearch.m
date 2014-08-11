@@ -667,19 +667,51 @@ static int _seqNum = 0;
     int j;
     for (j=0; j<list.count; ++j) {
         NSArray* entry = list[j];
-        
-        NSNumber* numericId = entry[0];
-        NSString* name = entry[1];
-        NSString* posString = entry[2];
-        NSNumber* numericFc = entry[3];
-        
-        DubsarModelsWord* word = [DubsarModelsWord wordWithId:numericId.intValue name:name posString:posString];
-        word.freqCnt = numericFc.intValue;
-        
-        NSString* otherForms = [entry objectAtIndex:4];
-        word.inflections = [otherForms componentsSeparatedByString:@","].mutableCopy;
-        
-        [results insertObject:word atIndex:j];
+
+        if (_scope == DubsarModelsSearchScopeWords) {
+            NSNumber* numericId = entry[0];
+            NSString* name = entry[1];
+            NSString* posString = entry[2];
+            NSNumber* numericFc = entry[3];
+
+            DubsarModelsWord* word = [DubsarModelsWord wordWithId:numericId.intValue name:name posString:posString];
+            word.freqCnt = numericFc.intValue;
+
+            NSString* otherForms = [entry objectAtIndex:4];
+            word.inflections = [otherForms componentsSeparatedByString:@","].mutableCopy;
+
+            [results insertObject:word atIndex:j];
+        }
+        else {
+            NSNumber* numericId = entry[0];
+            NSString* definition = entry[1];
+            NSString* lexname = entry[2];
+            NSString* part_of_speech = entry[3];
+
+            NSArray* components = [definition componentsSeparatedByString:@"; \""];
+            NSRange theRest;
+            theRest.location = 1;
+            theRest.length = components.count - 1;
+
+            DubsarModelsSynset* synset = [DubsarModelsSynset synsetWithId:numericId.integerValue gloss:components[0] partOfSpeech:[DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:part_of_speech.UTF8String]];
+            synset.lexname = lexname;
+            synset.samples = [components subarrayWithRange:theRest].mutableCopy;
+
+            NSMutableArray* senses = [NSMutableArray array];
+            for (NSArray* senseEntry in (NSArray*)entry[4]) {
+                NSNumber* numericSenseId = senseEntry[0];
+                NSNumber* numericWordId = senseEntry[1];
+                NSString* name = senseEntry[2];
+
+                DubsarModelsSense* sense = [DubsarModelsSense senseWithId:numericSenseId.integerValue name:name partOfSpeech:synset.partOfSpeech];
+                sense.word = [DubsarModelsWord wordWithId:numericWordId.integerValue name:name partOfSpeech:synset.partOfSpeech];
+
+                [senses addObject:sense];
+            }
+
+            synset.senses = senses;
+            [results insertObject:synset atIndex:j];
+        }
     }
     
     /* This looks odd when browsing long lists. */

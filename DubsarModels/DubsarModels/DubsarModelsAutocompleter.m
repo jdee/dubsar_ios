@@ -79,6 +79,14 @@
     }
 }
 
+- (void)load
+{
+    if (!self.database.dbptr) {
+        self._url = [self._url stringByAppendingFormat:@"&max=%lu", (unsigned long)max];
+    }
+    [super load];
+}
+
 - (void)cancel
 {
     self.aborted = YES;
