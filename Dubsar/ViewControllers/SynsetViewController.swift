@@ -49,9 +49,11 @@ class SynsetViewController: BaseViewController {
         case .UpdateView:
             theSynset = router.model as? DubsarModelsSynset
             assert(theSynset)
-            sense = theSynset!.senses.firstObject as? DubsarModelsSense
-            assert(sense)
-            synchSelectedWord()
+            if theSynset!.senses.count == 1 {
+                sense = theSynset!.senses.firstObject as? DubsarModelsSense
+                assert(sense)
+                synchSelectedWord()
+            }
 
         case .UpdateViewWithDependency:
             theSynset = router.model as? DubsarModelsSynset
