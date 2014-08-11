@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         #if DEBUG
-            // also the default, but this is where to change it. (disabled, not to mention compiled out, in release builds)
+            // .Debug is also the default, but this is where to change it. (disabled, not to mention compiled out, in release builds)
             DubsarModelsLogger.instance().logLevel = .Debug
         #endif
 

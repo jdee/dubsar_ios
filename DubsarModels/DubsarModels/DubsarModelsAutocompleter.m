@@ -83,7 +83,9 @@
 {
     self.aborted = YES;
     [self.connection cancel];
-    [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
+    if (!self.database.dbptr) {
+        [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
+    }
 }
 
 - (void)loadResults:(DubsarModelsDatabaseWrapper*)database
@@ -116,6 +118,7 @@
             if (exactMatch) {
                 // DMLOG(@"found exact match %@", exactMatch);
                 self.results = [NSMutableArray arrayWithObject:exactMatch];
+                [self updateDelegate];
 
                 if ((rc=sqlite3_bind_text(database.autocompleterStmt, 1, [_term stringByAppendingString:@"*"].UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
                     self.errorMessage = [NSString stringWithFormat:@"error %d binding parameter", rc];
@@ -141,6 +144,7 @@
                     NSString* match = @(_name);
 
                     [_results addObject:match];
+                    [self updateDelegate];
                 }
 
                 if (rc != SQLITE_DONE) {
@@ -168,6 +172,7 @@
                     // DMLOG(@"autocompleter matched %@", match);
                     
                     [_results addObject:match];
+                    [self updateDelegate];
                 }
                 
                 if (rc != SQLITE_DONE) {
@@ -190,6 +195,7 @@
                 if (aborted) return;
                 char const* _suggestion = (char const*)sqlite3_column_text(database.synsetAutocompleterStmt, 0);
                 [_results addObject:@(_suggestion)];
+                [self updateDelegate];
             }
 
             if (rc != SQLITE_DONE) {
@@ -211,6 +217,24 @@
     _results = r;
 
     DMTRACE(@"autocompleter for term \"%@\" (URL \"%@\") finished with %lu results:", response[0], [self _url], (unsigned long)_results.count);
+}
+
+- (void)updateDelegate
+{
+    if (![self.delegate respondsToSelector:@selector(newResultFound:model:)]) {
+        return;
+    }
+
+    DMTRACE(@"Updating delegate with %lu results", (unsigned long)_results.count);
+
+    if ([NSThread currentThread] == [NSThread mainThread]) {
+        [self.delegate newResultFound:nil model:self];
+        return;
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate newResultFound:nil model:self];
+    });
 }
 
 @end

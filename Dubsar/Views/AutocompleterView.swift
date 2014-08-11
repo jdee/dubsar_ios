@@ -50,25 +50,33 @@ class AutocompleterView: UIView {
 
         backgroundColor = AppConfiguration.alternateBackgroundColor
 
-        if autocompleter {
-            assert(autocompleter.complete)
+        let optionalAC: DubsarModelsAutocompleter? = autocompleter
+        var optionalResults: NSArray?
+        if optionalAC {
+            optionalResults = autocompleter.results
 
-            // DMLOG("Laying out AutocompleterView with %d results", autocompleter.results.count)
             let margin = AutocompleterView.margin
             var y : CGFloat = margin
-            let results = autocompleter.results as [AnyObject]
-            for result in results as [NSString] {
-                let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
-                let textSize = result.sizeWithAttributes([NSFontAttributeName: font])
-                let button = UIButton(frame: CGRectMake(margin, y, bounds.size.width - 2*margin, textSize.height + 2*margin))
-                button.setTitle(result, forState: .Normal)
-                button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
-                button.titleLabel.font = font
-                button.addTarget(self, action: "resultSelected:", forControlEvents: .TouchUpInside)
-                addSubview(button)
-                buttons += button
 
-                y += textSize.height + 3*margin
+            if optionalResults {
+                DMTRACE("Laying out AutocompleterView with \(autocompleter.results.count) results")
+                let results = autocompleter.results as [AnyObject]
+                for result in results as [NSString] {
+                    let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+                    let textSize = result.sizeWithAttributes([NSFontAttributeName: font])
+                    let button = UIButton(frame: CGRectMake(margin, y, bounds.size.width - 2*margin, textSize.height + 2*margin))
+                    button.setTitle(result, forState: .Normal)
+                    button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+                    button.titleLabel.font = font
+                    button.addTarget(self, action: "resultSelected:", forControlEvents: .TouchUpInside)
+                    addSubview(button)
+                    buttons += button
+
+                    y += textSize.height + 3*margin
+                }
+            }
+            else {
+                DMDEBUG("Autocompleter has nil results")
             }
 
             frame.size.height = y
