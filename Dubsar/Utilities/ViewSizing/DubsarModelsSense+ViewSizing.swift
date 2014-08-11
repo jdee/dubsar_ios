@@ -33,7 +33,7 @@ extension DubsarModelsSense {
 
     func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat = 0) -> CGSize {
         var constraint = constrainedSize
-        constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth
+        constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth + SenseTableViewCell.accessoryWidth
 
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
         let caption1Font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleCaption1)
