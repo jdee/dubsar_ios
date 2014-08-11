@@ -188,25 +188,8 @@
             self.results = [NSMutableArray array];
             while ((rc=sqlite3_step(database.synsetAutocompleterStmt)) == SQLITE_ROW) {
                 if (aborted) return;
-                char const* _definition = (char const*)sqlite3_column_text(database.synsetAutocompleterStmt, 0);
-                NSString* definition = @(_definition);
-
-                // This definition should contain one or more case-insensitive occurrences of _term.
-                // We'll return the first component that matches, which will be enough to retrieve this synset
-                // and will give a shorter string to display in the autocompleter.
-                // Separating components by these characters has the effect of stripping them out of the
-                // results, so they won't be submitted to SQL for a match.
-
-                NSCharacterSet* charSet = [NSCharacterSet characterSetWithCharactersInString:@";\".,:'`"];
-                NSArray* components = [definition componentsSeparatedByCharactersInSet:charSet];
-
-                for (NSString* component in components) {
-                    NSString* result = [component stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                    if ([result rangeOfString:_term options:NSCaseInsensitiveSearch].location != NSNotFound) {
-                        [_results addObject:result];
-                        break;
-                    }
-                }
+                char const* _suggestion = (char const*)sqlite3_column_text(database.synsetAutocompleterStmt, 0);
+                [_results addObject:@(_suggestion)];
             }
 
             if (rc != SQLITE_DONE) {

@@ -116,9 +116,9 @@
             return;
         }
 
-        sql = @"SELECT DISTINCT definition "
-        "FROM synsets_fts "
-        "WHERE definition MATCH ? "
+        sql = @"SELECT DISTINCT suggestion "
+        "FROM synset_suggestions "
+        "WHERE suggestion MATCH ? "
         "ORDER BY id ASC "
         "LIMIT ?";
 

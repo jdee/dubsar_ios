@@ -30,7 +30,7 @@
 #import "UIApplication+NetworkRefCount.h"
 
 #define DUBSAR_CURRENT_DOWNLOAD_KEY @"DubsarCurrentDownload"
-#define DUBSAR_REQUIRED_DB_VERSION @"dubsar-wn3.1-2"
+#define DUBSAR_REQUIRED_DB_VERSION @"dubsar-wn3.1-3"
 #define DUBSAR_DOWNLOAD_PREFIX @"dubsar-wn"
 #define DUBSAR_UNZIP_INTERVAL_SECONDS 0.200
 #define DUBSAR_MAX_PER_CYCLE 0.5
@@ -97,7 +97,12 @@
             if (currentNumericVersion >= requiredNumericVersion) {
                 _fileName = [download stringByAppendingString:@".sqlite3"];
                 _zipName = [download stringByAppendingString:@".zip"];
-                DMINFO(@"Application requires %@. Compatible version %@ installed.", _requiredDBVersion, download);
+                if (self.fileExists) {
+                    DMINFO(@"Application requires %@. Compatible version %@ installed.", _requiredDBVersion, download);
+                }
+                else {
+                    DMINFO(@"No database installed.");
+                }
             }
             else {
                 DMWARN(@"Application requires %@. Removing %@.", _requiredDBVersion, download);
