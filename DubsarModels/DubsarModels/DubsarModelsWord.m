@@ -165,7 +165,7 @@
                             @"FROM senses s "
                             @"INNER JOIN words w ON w.id = s.word_id "
                             @"WHERE s.synset_id = %d AND w.name != ? "
-                            @"ORDER BY w.name ASC ", synsetId];
+                            @"ORDER BY s.synset_index ASC ", synsetId];
         
         sqlite3_stmt* synStatement;
         DMTRACE(@"preparing statement \"%@\"", synSql);

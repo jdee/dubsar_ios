@@ -101,7 +101,10 @@ class SynsetViewController: BaseViewController {
 
         self.sense = sense
         scroller!.sense = sense // maybe this can be done inside the scroller
-        synchSelectedWord()
+
+        if sense {
+            synchSelectedWord()
+        }
     }
 
     func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, navigatedToSense sense: DubsarModelsSense!) {

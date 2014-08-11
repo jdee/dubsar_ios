@@ -530,9 +530,7 @@ static int _seqNum = 0;
 
 - (void)loadSynsetResults:(DubsarModelsDatabaseWrapper *)database
 {
-    const char* sql = "SELECT sy.id, sy.definition, sy.lexname, sy.part_of_speech, se.id, w.id, w.name FROM synsets sy "
-        "JOIN synsets_fts syfts ON sy.id = syfts.id JOIN senses se ON se.synset_id = sy.id JOIN words w ON w.id = se.word_id "
-        "WHERE syfts.definition MATCH ? ORDER BY sy.id ASC";
+    const char* sql = "SELECT COUNT(*) FROM synsets_fts WHERE definition MATCH ?";
     sqlite3_stmt* statement;
     int rc = sqlite3_prepare_v2(database.dbptr, sql, -1, &statement, NULL);
     if (rc != SQLITE_OK) {
@@ -540,9 +538,47 @@ static int _seqNum = 0;
         return;
     }
 
+    if ((rc=sqlite3_bind_text(statement, 1, term.UTF8String, -1, SQLITE_STATIC)) != SQLITE_OK) {
+        DMERROR(@"Error %d binding term %@ to \"%s\"", rc, term, sql);
+        return;
+    }
+
+    if ((rc=sqlite3_step(statement)) != SQLITE_ROW) {
+        DMERROR(@"Error %d from sqlite3_step with \"%s\"", rc, sql);
+        sqlite3_finalize(statement);
+        return;
+    }
+
+    int rowCount = sqlite3_column_int(statement, 0);
+    sqlite3_finalize(statement);
+
+    totalPages = (rowCount + NUM_PER_PAGE - 1) / NUM_PER_PAGE;
+    DMTRACE(@"%d synset rows match \"%@\"; %lu total pages", rowCount, term, (unsigned long)totalPages);
+
+    sql = "SELECT sy.id, sy.definition, sy.lexname, sy.part_of_speech, se.id, w.id, w.name FROM synsets sy "
+        "JOIN synsets_fts syfts ON sy.id = syfts.id JOIN senses se ON se.synset_id = sy.id JOIN words w ON w.id = se.word_id "
+        "WHERE syfts.definition MATCH ? ORDER BY sy.id ASC, se.synset_index ASC LIMIT ? OFFSET ?";
+    rc = sqlite3_prepare_v2(database.dbptr, sql, -1, &statement, NULL);
+    if (rc != SQLITE_OK) {
+        DMERROR(@"Error %d preparing \"%s\"", rc, sql);
+        return;
+    }
+
     rc = sqlite3_bind_text(statement, 1, term.UTF8String, -1, SQLITE_STATIC);
     if (rc != SQLITE_OK) {
-        DMERROR(@"Error binding %@ in statement \"%s\": %d", term, sql, rc);
+        self.errorMessage = [NSString stringWithFormat:@"Error binding %@ in statement \"%s\": %d", term, sql, rc];
+        sqlite3_finalize(statement);
+        return;
+    }
+
+    if ((rc=sqlite3_bind_int(statement, 2, NUM_PER_PAGE)) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"Error binding %@ in statement \"%s\": %d", term, sql, rc];
+        sqlite3_finalize(statement);
+        return;
+    }
+    if ((rc=sqlite3_bind_int(statement, 3, NUM_PER_PAGE * (currentPage-1))) != SQLITE_OK) {
+        self.errorMessage = [NSString stringWithFormat:@"Error binding %@ in statement \"%s\": %d", term, sql, rc];
+        sqlite3_finalize(statement);
         return;
     }
 

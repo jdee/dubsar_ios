@@ -474,7 +474,7 @@
            @"FROM senses se "
            @"INNER JOIN words w ON w.id = se.word_id "
            @"WHERE se.synset_id = %lu AND w.name != ? "
-           @"ORDER BY w.name ASC ", (unsigned long)synset._id];
+           @"ORDER BY se.synset_index ASC ", (unsigned long)synset._id];
     
     if ((rc=sqlite3_prepare(database.dbptr, sql.UTF8String, -1, &statement, NULL)) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"error %d preparing statement", rc];

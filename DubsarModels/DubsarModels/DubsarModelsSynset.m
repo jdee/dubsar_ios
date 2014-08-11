@@ -231,7 +231,8 @@
                      @"FROM senses se "
                      @"INNER JOIN synsets sy ON sy.id = se.synset_id "
                      @"INNER JOIN words w ON se.word_id = w.id "
-                     @"WHERE sy.id = %lu ", (unsigned long)_id];
+                     @"WHERE sy.id = %lu "
+                     @"ORDER BY se.synset_index ASC", (unsigned long)_id];
     
     int rc;
     sqlite3_stmt* statement;
