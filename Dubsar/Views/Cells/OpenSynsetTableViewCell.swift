@@ -119,6 +119,8 @@ class OpenSynsetTableViewCell: SynsetTableViewCell {
         if truncated {
             addGradientToBottomOfView(view)
         }
+
+        DMDEBUG("Actual height of open synset cell \(bounds.size.height)")
     }
 
     private func addGradientToBottomOfView(aView: UIView!) {

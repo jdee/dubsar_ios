@@ -101,7 +101,6 @@ class SenseTableViewCell: UITableViewCell {
 
         bounds.size.height = sense.sizeOfCellWithConstrainedSize(constrainedSize, open:false).height
 
-        backgroundView?.removeFromSuperview()
         view?.removeFromSuperview()
 
         view = UIView(frame: bounds)

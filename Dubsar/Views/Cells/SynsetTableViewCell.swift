@@ -95,13 +95,12 @@ class SynsetTableViewCell: UITableViewCell {
         let caption1Font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleCaption1)
         let subheadlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline)
 
-        let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin-SenseTableViewCell.accessoryWidth, frame.size.height)
+        let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin-SynsetTableViewCell.accessoryWidth, frame.size.height)
         let glossSize = synset.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
         let synonymSize = synset.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
 
         bounds.size.height = synset.sizeOfCellWithConstrainedSize(constrainedSize, open:false).height
 
-        backgroundView?.removeFromSuperview()
         view?.removeFromSuperview()
 
         view = UIView(frame: bounds)
@@ -123,14 +122,14 @@ class SynsetTableViewCell: UITableViewCell {
             lexnameText = "\(lexnameText) freq. cnt.: \(synset.freqCnt)"
         }
 
-        let lexnameLabel = UILabel(frame: CGRectMake(margin, margin, constrainedSize.width, SenseTableViewCell.labelLineHeight))
+        let lexnameLabel = UILabel(frame: CGRectMake(margin, margin, constrainedSize.width, SynsetTableViewCell.labelLineHeight))
         lexnameLabel.text = lexnameText
         lexnameLabel.font = subheadlineFont
         lexnameLabel.numberOfLines = 1
         lexnameLabel.textColor = AppConfiguration.foregroundColor
         backgroundLabel.addSubview(lexnameLabel)
 
-        let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SenseTableViewCell.labelLineHeight, constrainedSize.width, glossSize.height))
+        let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SynsetTableViewCell.labelLineHeight, constrainedSize.width, glossSize.height))
         textLabel.font = bodyFont
         textLabel.text = synset.gloss
         textLabel.lineBreakMode = .ByWordWrapping
@@ -139,7 +138,7 @@ class SynsetTableViewCell: UITableViewCell {
         backgroundLabel.addSubview(textLabel)
 
         if synset.senses.count > 0 {
-            let synonymLabel = UILabel(frame: CGRectMake(margin, 3*margin + SenseTableViewCell.labelLineHeight + glossSize.height, constrainedSize.width, synonymSize.height))
+            let synonymLabel = UILabel(frame: CGRectMake(margin, 3*margin + SynsetTableViewCell.labelLineHeight + glossSize.height, constrainedSize.width, synonymSize.height))
             synonymLabel.text = synset.synonymsAsString
             synonymLabel.font = caption1Font
             synonymLabel.lineBreakMode = .ByWordWrapping
@@ -147,6 +146,9 @@ class SynsetTableViewCell: UITableViewCell {
             synonymLabel.textColor = AppConfiguration.foregroundColor
             backgroundLabel.addSubview(synonymLabel)
         }
+
+        frame.size.height = 4 * SynsetTableViewCell.margin + 2 * SynsetTableViewCell.borderWidth + SynsetTableViewCell.labelLineHeight + glossSize.height + synonymSize.height
+        DMDEBUG("Actual height of synset header \(bounds.size.height) = 4 * \(SynsetTableViewCell.margin) + 2 * \(SynsetTableViewCell.borderWidth) + \(SynsetTableViewCell.labelLineHeight) + \(glossSize.height) + \(synonymSize.height)")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

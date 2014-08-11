@@ -33,22 +33,24 @@ extension DubsarModelsSynset {
 
     func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat = 0) -> CGSize {
         var constraint = constrainedSize
-        constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth
+        constraint.width -= 2 * SynsetTableViewCell.margin + 2 * SynsetTableViewCell.borderWidth + SynsetTableViewCell.accessoryWidth
 
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
         let caption1Font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleCaption1)
-        let subheadlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline)
 
         let glossSize = glossSizeWithConstrainedSize(constraint, font: bodyFont)
 
         var size = constrainedSize
 
-        size.height = SenseTableViewCell.labelLineHeight + 3*SenseTableViewCell.margin + glossSize.height + 2 * SenseTableViewCell.borderWidth
+        size.height = SynsetTableViewCell.labelLineHeight + 3 * SynsetTableViewCell.margin + glossSize.height + 2 * SynsetTableViewCell.borderWidth
 
+        var synonymSize = CGSizeZero
         if senses.count > 0 {
-            let synonymSize = synonymSizeWithConstrainedSize(constraint, font: caption1Font)
-            size.height += synonymSize.height + SenseTableViewCell.margin
+            synonymSize = synonymSizeWithConstrainedSize(constraint, font: caption1Font)
+            size.height += synonymSize.height + SynsetTableViewCell.margin
         }
+
+        DMDEBUG("Computed height of synset header \(size.height) = 4 * \(SynsetTableViewCell.margin) + 2 * \(SynsetTableViewCell.borderWidth) + \(SynsetTableViewCell.labelLineHeight) + \(glossSize.height) + \(synonymSize.height)")
 
         if open {
             if !complete {
@@ -57,7 +59,7 @@ extension DubsarModelsSynset {
             }
 
             // Yikes
-            let sampleView = SynsetSampleView(synset: self, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height), preview: true)
+            let sampleView = SynsetSampleView(synset: self, frame: CGRectMake(0, 0, constrainedSize.width+2*SynsetTableViewCell.borderWidth+2*SynsetTableViewCell.margin, constrainedSize.height), preview: true)
             sampleView.layoutSubviews()
             // DMLOG("Computed sample view height is %f; cell height will be %f", sampleView.bounds.size.height, size.height)
 
@@ -71,7 +73,7 @@ extension DubsarModelsSynset {
                 return size
             }
 
-            let pointerView = SynsetPointerView(synset: self, frame: CGRectMake(0, 0, constrainedSize.width+2*SenseTableViewCell.borderWidth+2*SenseTableViewCell.margin, constrainedSize.height), preview: true)
+            let pointerView = SynsetPointerView(synset: self, frame: CGRectMake(0, 0, constrainedSize.width+2*SynsetTableViewCell.borderWidth+2*SynsetTableViewCell.margin, constrainedSize.height), preview: true)
             pointerView.scrollViewTop = 0
             pointerView.scrollViewBottom = constrainedSize.height
             pointerView.layoutSubviews()
@@ -83,6 +85,8 @@ extension DubsarModelsSynset {
             }
             size.height += additions
         }
+
+        DMDEBUG("Computed height of synset cell: \(size.height)")
 
         return size
     }

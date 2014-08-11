@@ -136,7 +136,7 @@
         return false;
     }
     else {
-        DMINFO(@"Found wotd in user defaults, id %ld", (long)wotdId);
+        DMDEBUG(@"Found wotd in user defaults, id %ld", (long)wotdId);
     }
 
     NSString* name = [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordNameKey];
@@ -155,7 +155,7 @@
         [self.delegate loadComplete:self withError:nil];
     }
     else {
-        DMINFO(@"Loading WOTD");
+        DMDEBUG(@"Loading WOTD");
         [word load]; // need to parse the name and pos out of the push notification. for now, get it from the server.
     }
 
@@ -174,7 +174,7 @@
 
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
 {
-    DMINFO(@"Loaded WOTD");
+    DMDEBUG(@"Loaded WOTD");
     [self.delegate loadComplete:self withError:error];
 }
 

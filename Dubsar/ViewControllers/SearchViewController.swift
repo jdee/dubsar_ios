@@ -173,7 +173,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             cell = synsetCell
         }
 
-        DMTRACE("Height of cell at row %\(row): \(cell!.bounds.size.height)")
+        DMDEBUG("Height of cell at row \(row): \(cell!.bounds.size.height)")
 
         return cell
     }
@@ -232,7 +232,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             height = synset.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
         }
 
-        DMTRACE("Height of row \(row): \(height)")
+        DMDEBUG("Height of row \(row): \(height)")
         return height
     }
 
