@@ -25,6 +25,7 @@ struct AppConfiguration {
     static let themeKey = "DubsarTheme"
     static let offlineKey = "DubsarOffline"
     static let autoUpdateKey = "DubsarAutoUpdate"
+    static let autoCorrectKey = "DubsarAutoCorrect"
     // MARK: Dev key(s)
     static let productionKey = "DubsarProduction"
 
@@ -110,6 +111,15 @@ struct AppConfiguration {
         }
         set {
             NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: autoUpdateKey)
+    }
+    }
+
+    static var autoCorrectSetting: Bool {
+        get {
+        return NSUserDefaults.standardUserDefaults().boolForKey(autoCorrectKey)
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: autoCorrectKey)
     }
     }
 

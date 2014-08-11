@@ -48,7 +48,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)), "setting_type" : "label" ],
             [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "setting_type" : "navValue" ],
             [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue", "setting_action" : "offlineSwitchChanged:" ],
-            [ "title" : "Auto-update", "value" : AppConfiguration.autoUpdateKey, "setting_type" : "switch_value", "setting_action" : "autoUpdateChanged:" ] ]
+            [ "title" : "Autoupdate", "value" : AppConfiguration.autoUpdateKey, "setting_type" : "switch_value", "setting_action" : "autoUpdateChanged:" ],
+            [ "title" : "Autocorrection", "value" : AppConfiguration.autoCorrectKey, "setting_type" : "switch_value", "setting_action" : "autoCorrectChanged:" ]]
         ]
 
     let devSections: [[[String: AnyObject]]] = [
@@ -140,6 +141,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                 let optionSwitch = switchCell!.valueSwitch
                 optionSwitch.on = value == AppConfiguration.offlineKey ? AppConfiguration.offlineSetting :
                     value == AppConfiguration.autoUpdateKey ? AppConfiguration.autoUpdateSetting :
+                    value == AppConfiguration.autoCorrectKey ? AppConfiguration.autoCorrectSetting :
                     AppConfiguration.productionSetting
 
                 optionSwitch.tintColor = AppConfiguration.alternateBackgroundColor
@@ -231,6 +233,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     func autoUpdateChanged(sender: UISwitch!) {
         AppConfiguration.autoUpdateSetting = sender.on
+    }
+
+    func autoCorrectChanged(sender: UISwitch!) {
+        AppConfiguration.autoCorrectSetting = sender.on
     }
 
     func offlineSwitchChanged(sender: UISwitch!) {

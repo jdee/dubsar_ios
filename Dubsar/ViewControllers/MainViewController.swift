@@ -339,6 +339,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         searchBar(searchBar, textDidChange: searchBar.text)
 
         searchBar.tintColor = AppConfiguration.searchBarTintColor
+        searchBar.autocorrectionType = AppConfiguration.autoCorrectSetting ? .Default : .No
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 

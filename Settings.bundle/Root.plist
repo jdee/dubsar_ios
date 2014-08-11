@@ -50,9 +50,19 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Auto-update</string>
+			<string>Autoupdate</string>
 			<key>Key</key>
 			<string>DubsarAutoUpdate</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Autocorrection</string>
+			<key>Key</key>
+			<string>DubsarAutoCorrect</string>
 			<key>DefaultValue</key>
 			<false/>
 		</dict>
