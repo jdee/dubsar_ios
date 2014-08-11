@@ -212,10 +212,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     // MARK: UISearchBarDelegate
-    func searchBar(searchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
+    func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
         if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
             searchScope = scope
-            triggerAutocompletion()
+            if !(theSearchBar.text as String).isEmpty {
+                triggerAutocompletion()
+            }
         }
     }
 
