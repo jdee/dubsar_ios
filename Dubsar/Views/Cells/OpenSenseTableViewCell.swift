@@ -124,7 +124,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
     }
 
     private func addGradientToBottomOfView(aView: UIView!) {
-        let topColor = backgroundColor;
+        let topColor = AppConfiguration.highlightColor
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0

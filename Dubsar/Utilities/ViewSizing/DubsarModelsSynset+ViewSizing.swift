@@ -50,7 +50,7 @@ extension DubsarModelsSynset {
             size.height += synonymSize.height + SynsetTableViewCell.margin
         }
 
-        DMDEBUG("Computed height of synset header \(size.height) = 4 * \(SynsetTableViewCell.margin) + 2 * \(SynsetTableViewCell.borderWidth) + \(SynsetTableViewCell.labelLineHeight) + \(glossSize.height) + \(synonymSize.height)")
+        DMTRACE("Computed height of synset header \(size.height) = 4 * \(SynsetTableViewCell.margin) + 2 * \(SynsetTableViewCell.borderWidth) + \(SynsetTableViewCell.labelLineHeight) + \(glossSize.height) + \(synonymSize.height). maxHeightOfAdditions = \(maxHeightOfAdditions)")
 
         if open {
             if !complete {
@@ -59,11 +59,10 @@ extension DubsarModelsSynset {
             }
 
             // Yikes
-            let sampleView = SynsetSampleView(synset: self, frame: CGRectMake(0, 0, constrainedSize.width+2*SynsetTableViewCell.borderWidth+2*SynsetTableViewCell.margin, constrainedSize.height), preview: true)
+            let sampleView = SynsetSampleView(synset: self, frame: CGRectMake(0, 0, constraint.width, constraint.height), preview: true)
             sampleView.layoutSubviews()
-            // DMLOG("Computed sample view height is %f; cell height will be %f", sampleView.bounds.size.height, size.height)
-
             var additions = sampleView.bounds.size.height
+            DMTRACE("Computed sample view size is \(sampleView.bounds.size.width) x \(sampleView.bounds.size.height); cell height will be \(size.height + additions)")
             if maxHeightOfAdditions > 0 && additions >= maxHeightOfAdditions {
                 size.height += maxHeightOfAdditions
                 return size
@@ -73,12 +72,14 @@ extension DubsarModelsSynset {
                 return size
             }
 
-            let pointerView = SynsetPointerView(synset: self, frame: CGRectMake(0, 0, constrainedSize.width+2*SynsetTableViewCell.borderWidth+2*SynsetTableViewCell.margin, constrainedSize.height), preview: true)
+            DMTRACE("Laying out pointer view with height \(constrainedSize.height)")
+            let pointerView = SynsetPointerView(synset: self, frame: CGRectMake(0, 0, constraint.width, constraint.height), preview: true)
             pointerView.scrollViewTop = 0
             pointerView.scrollViewBottom = constrainedSize.height
             pointerView.layoutSubviews()
 
             additions += pointerView.bounds.size.height
+            DMTRACE("Pointer view size: \(pointerView.bounds.size.width) x \(pointerView.bounds.size.height)")
             if maxHeightOfAdditions > 0 && additions >= maxHeightOfAdditions {
                 size.height += maxHeightOfAdditions
                 return size
@@ -86,7 +87,7 @@ extension DubsarModelsSynset {
             size.height += additions
         }
 
-        DMDEBUG("Computed height of synset cell: \(size.height)")
+        DMTRACE("Computed height of synset cell: \(size.height)")
 
         return size
     }

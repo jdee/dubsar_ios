@@ -148,7 +148,7 @@ class SynsetTableViewCell: UITableViewCell {
         }
 
         frame.size.height = 4 * SynsetTableViewCell.margin + 2 * SynsetTableViewCell.borderWidth + SynsetTableViewCell.labelLineHeight + glossSize.height + synonymSize.height
-        DMDEBUG("Actual height of synset header \(bounds.size.height) = 4 * \(SynsetTableViewCell.margin) + 2 * \(SynsetTableViewCell.borderWidth) + \(SynsetTableViewCell.labelLineHeight) + \(glossSize.height) + \(synonymSize.height)")
+        DMTRACE("Actual height of synset header \(bounds.size.height) = 4 * \(SynsetTableViewCell.margin) + 2 * \(SynsetTableViewCell.borderWidth) + \(SynsetTableViewCell.labelLineHeight) + \(glossSize.height) + \(synonymSize.height)")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
