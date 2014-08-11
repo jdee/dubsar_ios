@@ -215,6 +215,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     func searchBar(searchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
         if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
             searchScope = scope
+            triggerAutocompletion()
         }
     }
 
