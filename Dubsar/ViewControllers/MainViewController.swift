@@ -61,9 +61,9 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         resetSearch()
         rotated = false
+        super.viewWillAppear(animated)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
@@ -391,7 +391,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         autocompleterView.hidden = true
         searchBarEditing = false
 
-        // adjustLayout()
+        // DEBT: Why was this commented out?
+        adjustLayout()
     }
 
     func autocompleterView(_: AutocompleterView!, selectedResult result: String!) {
@@ -419,9 +420,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     private func computeAlphabetFrame(orientation: UIInterfaceOrientation) -> CGRect {
         var alphabetFrame = CGRectZero
         let dimension: CGFloat = 50 // DEBT <-
+        let searchBarHeight: CGFloat = 44
+
+        // always place the alphabet view so that the top is under the scope buttons, at the bottom of the search bar proper.
 
         if UIInterfaceOrientationIsPortrait(orientation) {
-            alphabetFrame = CGRectMake(view.bounds.size.width - dimension, searchBar.bounds.size.height, dimension, view.bounds.size.height - searchBar.bounds.size.height)
+            alphabetFrame = CGRectMake(view.bounds.size.width - dimension, searchBarHeight, dimension, view.bounds.size.height - searchBarHeight)
             // DMLOG("portrait: frame (%f, %f) %f x %f", Double(alphabetFrame.origin.x), Double(alphabetFrame.origin.y), Double(alphabetFrame.size.width), Double(alphabetFrame.size.height))
         }
         else {

@@ -40,6 +40,10 @@ class AutocompleterView: UIView {
     init(frame: CGRect) {
         super.init(frame: frame)
         autoresizingMask = .FlexibleHeight | .FlexibleWidth | .FlexibleBottomMargin
+
+        self.layer.shadowOffset = CGSizeMake(0, 3)
+        self.layer.shadowOpacity = 1.0
+        self.clipsToBounds = false
     }
 
     override func layoutSubviews() {
