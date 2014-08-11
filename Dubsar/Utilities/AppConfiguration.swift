@@ -39,6 +39,7 @@ struct AppConfiguration {
     static let highlightedForegroundKey = "highlightedForeground"
     static let navBarKey = "navBar"
     static let activityKey = "activity"
+    static let searchBarTintKey = "searchBarTint"
 
     // MARK: Dictionaries defining the available themes.
     static let themes = [
@@ -49,6 +50,7 @@ struct AppConfiguration {
             alternateHighlightKey : UIColor(red: 0.855, green: 0.647, blue: 0.125, alpha: 1.0),
             foregroundKey : UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0),
             highlightedForegroundKey : UIColor(red: 0.580, green: 0.0, blue: 0.827, alpha: 1.0),
+            searchBarTintKey: UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0),
             navBarKey: "light", activityKey : "gray" ],
         [ nameKey : "Tigris", fontKey : "Avenir Next",
             backgroundKey : UIColor(red: 0.941, green: 1.000, blue: 0.941, alpha: 1.0),
@@ -57,6 +59,7 @@ struct AppConfiguration {
             alternateHighlightKey : UIColor(red: 0.518, green: 0.439, blue: 1.0, alpha: 1.0),
             foregroundKey : UIColor.darkTextColor(),
             highlightedForegroundKey : UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0),
+            searchBarTintKey: UIColor.darkTextColor(),
             navBarKey: "light", activityKey : "gray" ],
         [ nameKey : "Augury", fontKey : "Menlo",
             backgroundKey : UIColor(red: 0.192, green: 0.310, blue: 0.310, alpha: 1.0),
@@ -65,6 +68,7 @@ struct AppConfiguration {
             alternateHighlightKey : UIColor(red: 0.690, green: 0.188, blue: 0.376, alpha: 1.0),
             foregroundKey : UIColor(red: 0.878, green: 1.0, blue: 1.0, alpha: 1.0),
             highlightedForegroundKey : UIColor(red: 0.0, green: 0.980, blue: 0.604, alpha: 1.0),
+            searchBarTintKey: UIColor(red: 0.420, green: 0.557, blue: 0.137, alpha: 1.0),
             navBarKey: "dark", activityKey : "white" ]
     ]
 
@@ -215,6 +219,12 @@ struct AppConfiguration {
     static var highlightedForegroundColor: UIColor {
         get {
             return getThemeProperty(highlightedForegroundKey)
+        }
+    }
+
+    static var searchBarTintColor: UIColor {
+        get {
+            return getThemeProperty(searchBarTintKey)
         }
     }
 

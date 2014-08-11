@@ -532,7 +532,7 @@ static int _seqNum = 0;
 {
     const char* sql = "SELECT sy.id, sy.definition, sy.lexname, sy.part_of_speech, se.id, w.id, w.name FROM synsets sy "
         "JOIN synsets_fts syfts ON sy.id = syfts.id JOIN senses se ON se.synset_id = sy.id JOIN words w ON w.id = se.word_id "
-        "WHERE syfts.definition MATCH ?";
+        "WHERE syfts.definition MATCH ? ORDER BY sy.id ASC";
     sqlite3_stmt* statement;
     int rc = sqlite3_prepare_v2(database.dbptr, sql, -1, &statement, NULL);
     if (rc != SQLITE_OK) {
