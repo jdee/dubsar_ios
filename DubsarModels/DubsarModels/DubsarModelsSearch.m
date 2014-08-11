@@ -76,6 +76,7 @@ static int _seqNum = 0;
         _scope = scope;
 
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        __url = [__url stringByAppendingFormat:@"&scope=%s", (scope == DubsarModelsSearchScopeWords ? "words" : "synsets")];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
         [self set_url:__url];
     }
@@ -102,6 +103,7 @@ static int _seqNum = 0;
         totalPages = 0;
 
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        __url = [__url stringByAppendingFormat:@"&scope=%s", (scope == DubsarModelsSearchScopeWords ? "words" : "synsets")];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
         if (page > 1) __url = [__url stringByAppendingFormat:@"&page=%d", page];
         [self set_url:__url];
@@ -129,6 +131,7 @@ static int _seqNum = 0;
         totalPages = 0;
 
         NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        __url = [__url stringByAppendingFormat:@"&scope=%s", (scope == DubsarModelsSearchScopeWords ? "words" : "synsets")];
         __url = [__url stringByAppendingString:@"&match=glob"];
         if (page > 1) __url = [__url stringByAppendingFormat:@"&page=%d", page];
         [self set_url:__url];

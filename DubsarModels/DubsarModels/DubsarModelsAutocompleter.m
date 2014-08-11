@@ -57,7 +57,7 @@
         max = 10;
         aborted = NO;
         
-        NSString* __url = [NSString stringWithFormat:@"/os?term=%@", [_term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        NSString* __url = [NSString stringWithFormat:@"/os?term=%@&scope=%s", [_term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], (scope == DubsarModelsSearchScopeWords ? "words" : "synsets")];
         if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
         [self set_url:__url];
     }
@@ -211,8 +211,8 @@
     
     NSMutableArray* r = [NSMutableArray array];
     NSArray* list = response[1];
-    for (int j=0; j<list.count && j < max; ++j) {
-        [r addObject:list[j]];
+    for (id object in list) {
+        [r addObject:object];
     }
     _results = r;
 
