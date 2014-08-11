@@ -28,6 +28,7 @@
 @property (nonatomic) sqlite3_stmt* autocompleterStmt;
 @property (nonatomic) sqlite3_stmt* autocompleterStmtWithoutExact;
 @property (nonatomic) sqlite3_stmt* exactAutocompleterStmt;
+@property (nonatomic) sqlite3_stmt* synsetAutocompleterStmt;
 
 - (void)openDBName:(NSURL*)dbURL;
 

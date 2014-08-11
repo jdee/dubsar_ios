@@ -29,11 +29,12 @@
 @property (nonatomic, copy) NSString* term;
 @property (nonatomic, strong) NSMutableArray* results;
 @property (nonatomic) NSUInteger max;
+@property (nonatomic) DubsarModelsSearchScope scope;
 @property (atomic) bool aborted;
 
-+ (instancetype)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase;
++ (instancetype)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase scope:(DubsarModelsSearchScope)scope;
 
-- (instancetype)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase scope:(DubsarModelsSearchScope)scope NS_DESIGNATED_INITIALIZER;
 
 - (void)cancel;
 

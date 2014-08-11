@@ -28,7 +28,7 @@
     if (self) {
         _databaseReady = NO;
         _dbptr = NULL;
-        _exactAutocompleterStmt = _autocompleterStmt = _autocompleterStmtWithoutExact = NULL;
+        _exactAutocompleterStmt = _autocompleterStmt = _autocompleterStmtWithoutExact = _synsetAutocompleterStmt = NULL;
     }
     return self;
 }
@@ -116,8 +116,19 @@
             return;
         }
 
+        sql = @"SELECT DISTINCT definition "
+        "FROM synsets_fts "
+        "WHERE definition MATCH ? "
+        "ORDER BY id ASC "
+        "LIMIT ?";
+
+        DMDEBUG(@"preparing statement \"%@\"", sql);
+        if ((rc=sqlite3_prepare_v2(_dbptr, sql.UTF8String, -1, &_synsetAutocompleterStmt, NULL)) != SQLITE_OK) {
+            DMERROR(@"error preparing synset match statement, error %d", rc);
+            return;
+        }
+
         self.databaseReady = YES;
-        
     }
 }
 
@@ -128,9 +139,10 @@
     sqlite3_finalize(_autocompleterStmt);
     sqlite3_finalize(_exactAutocompleterStmt);
     sqlite3_finalize(_autocompleterStmtWithoutExact);
+    sqlite3_finalize(_synsetAutocompleterStmt);
     sqlite3_close(_dbptr);
 
-    _autocompleterStmt = _exactAutocompleterStmt = _autocompleterStmtWithoutExact = NULL;
+    _autocompleterStmt = _exactAutocompleterStmt = _autocompleterStmtWithoutExact = _synsetAutocompleterStmt = NULL;
     _dbptr = NULL;
 }
 

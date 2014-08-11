@@ -19,6 +19,13 @@
 
 @import Foundation;
 
+// Used by both autocompleter and search. for now, this is a convenient place to
+// put this.
+typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
+    DubsarModelsSearchScopeWords,
+    DubsarModelsSearchScopeSynsets
+};
+
 @class DubsarModelsDatabaseWrapper;
 @class JSONDecoder;
 @protocol DubsarModelsLoadDelegate;

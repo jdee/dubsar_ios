@@ -370,7 +370,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         // DMLOG("avail. ht: %f, lineHeight: %f, max: %d", available, lineHeight, max)
 
         // DMLOG("Autocompletion text: %@", searchText)
-        autocompleter = DubsarModelsAutocompleter(term: searchBar.text, matchCase: false)
+        autocompleter = DubsarModelsAutocompleter(term: searchBar.text, matchCase: false, scope: searchScope)
         autocompleter!.max = max
         lastSequence = autocompleter!.seqNum
 

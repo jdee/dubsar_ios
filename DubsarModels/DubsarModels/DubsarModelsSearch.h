@@ -19,11 +19,6 @@
 
 #import "DubsarModels/DubsarModelsModel.h"
 
-typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
-    DubsarModelsSearchScopeWords,
-    DubsarModelsSearchScopeSynsets
-};
-
 @interface DubsarModelsSearch : DubsarModelsModel {
     NSString* term;
     NSMutableArray* _results;
