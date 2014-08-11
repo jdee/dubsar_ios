@@ -145,13 +145,28 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             wordCell!.rebuild()
         }
         else if let synset = result as? DubsarModelsSynset {
-            var synsetCell = tableView.dequeueReusableCellWithIdentifier(SynsetTableViewCell.identifier) as? SynsetTableViewCell
-            if !synsetCell {
-                synsetCell = SynsetTableViewCell(synset: synset, frame: tableView.bounds, identifier: SynsetTableViewCell.identifier)
+            var synsetCell: SynsetTableViewCell?
+
+            if selectedRow == row {
+                var openCell = tableView.dequeueReusableCellWithIdentifier(OpenSynsetTableViewCell.identifier) as? OpenSynsetTableViewCell
+                if !openCell {
+                    openCell = OpenSynsetTableViewCell(synset: synset, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
+                }
+                else {
+                    openCell!.synset = synset
+                    openCell!.frame = tableView.bounds
+                }
+                synsetCell = openCell
             }
             else {
-                synsetCell!.synset = synset
-                synsetCell!.frame = tableView.bounds
+                synsetCell = tableView.dequeueReusableCellWithIdentifier(SynsetTableViewCell.identifier) as? SynsetTableViewCell
+                if !synsetCell {
+                    synsetCell = SynsetTableViewCell(synset: synset, frame: tableView.bounds, identifier: SynsetTableViewCell.identifier)
+                }
+                else {
+                    synsetCell!.synset = synset
+                    synsetCell!.frame = tableView.bounds
+                }
             }
 
             synsetCell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
@@ -214,7 +229,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             height = word.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row), preview: true).height
         }
         else if let synset = result as? DubsarModelsSynset {
-            height = synset.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: false, maxHeightOfAdditions: 0).height
+            height = synset.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
         }
 
         DMTRACE("Height of row \(row): \(height)")
@@ -223,37 +238,22 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
     func synchSelectedRow() {
         let row = selectedIndexPath.indexAtPosition(1)
-        if row < 0 || !search || search!.scope == .Synsets {
+        if row < 0 || !search {
             // DMLOG("Can't synch row %d", row)
             return
         }
 
-        let word = search!.results[row] as DubsarModelsWord
-        if word.complete {
-            // DMLOG("Word %@ already complete", word.nameAndPos)
+        let result = search!.results[row] as DubsarModelsModel
+        if result.complete {
             return
         }
 
-        self.router = Router(viewController: self, model: word)
+        self.router = Router(viewController: self, model: result)
+
         self.router!.routerAction = .UpdateRowAtIndexPath
         self.router!.indexPath = selectedIndexPath
         self.router!.load()
         DMTRACE("Synching selected row")
-    }
-
-    func selectRowForWord(word: DubsarModelsWord!) {
-        let results = search!.results as [AnyObject]
-        var index = results.count
-        for (j, w) in enumerate(results as [DubsarModelsWord]) {
-            if w._id == word._id {
-                index = j
-                break
-            }
-        }
-        assert(index < results.count)
-
-        // DMLOG("Index of selected row is %d", index)
-        selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
     }
 
     override func routeResponse(router: Router!) {
@@ -279,15 +279,15 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
                 return
             }
 
-            let word = router.model as? DubsarModelsWord
             let row = selectedIndexPath.indexAtPosition(1)
-            if word {
+
+            if let word = router.model as? DubsarModelsWord {
                 let resultWord = search!.results[row] as? DubsarModelsWord
-                assert(word && resultWord && word === resultWord)
+                assert(resultWord && word === resultWord)
 
                 assert(search && search!.complete && search!.results.count > 0)
 
-                let firstSense = word!.senses.firstObject as DubsarModelsSense
+                let firstSense = word.senses.firstObject as DubsarModelsSense
                 if !firstSense.complete {
                     self.router = Router(viewController: self, model: firstSense)
                     self.router!.routerAction = .UpdateRowAtIndexPath
