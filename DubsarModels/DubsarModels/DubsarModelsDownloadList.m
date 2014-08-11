@@ -40,19 +40,16 @@
 
 - (void)parseData
 {
-    NSDictionary* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
-
-    NSEnumerator* keyEnumerator = response.keyEnumerator;
-    NSString* key;
+    NSArray* response = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:NULL];
 
     NSMutableArray* dls = [NSMutableArray array];
 
-    while ((key=keyEnumerator.nextObject)) {
-        NSDictionary* properties = response[key];
-
+    for (NSDictionary* dl in response) {
         DubsarModelsDownload* download = [[DubsarModelsDownload alloc] init];
-        download.name = key;
-        download.properties = properties;
+        download.name = dl[@"name"];
+        NSMutableDictionary* props = [dl mutableCopy];
+        [props removeObjectForKey:@"name"];
+        download.properties = props;
 
         [dls addObject:download];
     }
