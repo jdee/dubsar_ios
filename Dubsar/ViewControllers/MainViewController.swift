@@ -455,6 +455,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         adjustLayout()
 
         if openingBookmarks {
+            openingBookmarks = false
             bookmarkListView.hidden = false
             bookmarkListView.frame.origin.y = searchBar.bounds.size.height + searchBar.frame.origin.y
             bookmarkListView.setNeedsLayout()
