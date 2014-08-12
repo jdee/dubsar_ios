@@ -26,15 +26,17 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _borderLayer = [CALayer layer];
-        _borderLayer.opaque = NO;
-        _borderLayer.backgroundColor = [UIColor clearColor].CGColor;
-        _borderLayer.position = CGPointMake(0.5 * self.bounds.size.width, 0.5 * self.bounds.size.height);
-        _borderLayer.bounds = CGRectMake(0, 0, 0.75 * self.bounds.size.width, 0.75 * self.bounds.size.height);
+        if ([UIScreen mainScreen].scale > 1.0) {
+            _borderLayer = [CALayer layer];
+            _borderLayer.opaque = NO;
+            _borderLayer.backgroundColor = [UIColor clearColor].CGColor;
+            _borderLayer.position = CGPointMake(0.5 * self.bounds.size.width, 0.5 * self.bounds.size.height);
+            _borderLayer.bounds = CGRectMake(0, 0, 0.75 * self.bounds.size.width, 0.75 * self.bounds.size.height);
 
-        _borderLayer.cornerRadius = 0.1 * sqrt(self.bounds.size.width * self.bounds.size.height);
-        _borderLayer.borderColor = self.currentTitleColor.CGColor;
-        _borderLayer.borderWidth = 1.0;
+            _borderLayer.cornerRadius = 0.1 * sqrt(self.bounds.size.width * self.bounds.size.height);
+            _borderLayer.borderColor = self.currentTitleColor.CGColor;
+            _borderLayer.borderWidth = 1.0;
+        }
 
         [self.layer addSublayer:_borderLayer];
     }

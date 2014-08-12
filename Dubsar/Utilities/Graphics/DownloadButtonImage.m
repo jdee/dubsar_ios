@@ -33,6 +33,8 @@ static NSMutableDictionary* imageDictionary;
     // use CG to draw in this context and return a UIImage for use with a UIButton.
     // a/k/a FREEDOM FROM THE @!$@# GIMP!
 
+    BOOL highResolution = [UIScreen mainScreen].scale > 1.0;
+
     CGContextSetAllowsAntialiasing(context, true);
 
     // transparent background
@@ -45,7 +47,7 @@ static NSMutableDictionary* imageDictionary;
     CGContextSetStrokeColorWithColor(context, color.CGColor);
 
     // Vertical line down the center. Nice and sharp with no antialiasing.
-    CGContextSetShouldAntialias(context, false);
+    CGContextSetShouldAntialias(context, !highResolution);
     CGContextSetLineWidth(context, lineWidth);
 
     CGContextMoveToPoint(context, 0.5 * size.width, 0.25 * size.height);
@@ -69,7 +71,9 @@ static NSMutableDictionary* imageDictionary;
     CGContextAddLineToPoint(context, 0.75 * size.width, 0.75 * size.height);
     CGContextStrokePath(context);
 
-    /*
+    if (highResolution) return;
+
+    //*
     // Rounded-rectangle border
     const CGFloat cornerRadius = 0.1 * sqrt(size.width * size.height); // points
     const CGFloat ratio = 0.9; // width of border / size.width
