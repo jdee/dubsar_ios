@@ -40,7 +40,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     var wotd: DubsarModelsDailyWord?
 
     private var searchScope = DubsarModelsSearchScope.Words
-    private var openingBookmarks = false
 
     // MARK: View lifecycle
     override func viewDidLoad() {
@@ -57,6 +56,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         bookmarkListView = BookmarkListView(frame: CGRectMake(0, searchBar.bounds.size.height+searchBar.frame.origin.y, view.bounds.size.width, view.bounds.size.height))
         bookmarkListView.hidden = true
         bookmarkListView.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        bookmarkListView.frame.origin.y = 44 // DEBT: <-
         view.addSubview(bookmarkListView)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShowing:", name: UIKeyboardDidShowNotification, object: nil)
@@ -242,22 +242,14 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         return true
     }
 
-    func searchBarDidEndEditing(searchBar: UISearchBar!) {
-        resetSearch()
-    }
-
     func searchBarBookmarkButtonClicked(searchBar: UISearchBar!) {
         DMTRACE("Bookmark button tapped")
         if searchBarEditing {
             resetSearch()
-
-            openingBookmarks = true
-            return
         }
 
         bookmarkListView.hidden = !bookmarkListView.hidden
         if !bookmarkListView.hidden {
-            bookmarkListView.frame.origin.y = searchBar.bounds.size.height + searchBar.frame.origin.y
             bookmarkListView.setNeedsLayout()
         }
     }
@@ -278,11 +270,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         if !searchBarEditing || searchText.isEmpty {
             autocompleterView.hidden = true
-            bookmarkListView.hidden = true
             return
         }
 
-        if !rotated /* && searchScope == .Words */ { // not sure how we'll autocomplete synsets. for now, always autocomplete words
+        if !rotated {
             triggerAutocompletion()
         }
         // else wait for keyboardShown: to be called to recompute the keyboard height
@@ -453,13 +444,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     func keyboardHidden(notification: NSNotification!) {
         adjustLayout()
-
-        if openingBookmarks {
-            openingBookmarks = false
-            bookmarkListView.hidden = false
-            bookmarkListView.frame.origin.y = searchBar.bounds.size.height + searchBar.frame.origin.y
-            bookmarkListView.setNeedsLayout()
-        }
     }
 
     private func computeAlphabetFrame(orientation: UIInterfaceOrientation) -> CGRect {
