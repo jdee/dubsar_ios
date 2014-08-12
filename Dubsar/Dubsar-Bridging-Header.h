@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "Bookmark.h"
 #import "CGHelper.h"
 #import "DatabaseManager.h"
 #import "DownloadBarButton.h"

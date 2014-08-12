@@ -21,6 +21,15 @@ import UIKit
 
 class FavoriteBarButtonItem: UIBarButtonItem {
 
+    var selected: Bool {
+    get {
+        return favoriteButton.selected
+    }
+    set {
+        favoriteButton.selected = newValue
+    }
+    }
+
     private var favoriteButton: FavoriteButton!
 
     init() {
@@ -49,6 +58,7 @@ class FavoriteBarButtonItem: UIBarButtonItem {
     }
 
     func toggleSelected() {
-        favoriteButton.selected = !favoriteButton.selected
+        selected = !selected
     }
+
 }

@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     let dubsar = "dubsar"
 
     let databaseManager = DatabaseManager()
+    let bookmarkManager = BookmarkManager()
 
     class var instance : AppDelegate {
         get {

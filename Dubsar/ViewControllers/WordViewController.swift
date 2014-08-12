@@ -38,6 +38,12 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
     private var favoriteButton: FavoriteBarButtonItem!
 
+    private var url: NSURL {
+    get {
+        return NSURL(string: "dubsar:///words/\(theWord!._id)")
+    }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -261,9 +267,10 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func favoriteTapped(sender: FavoriteBarButtonItem!) {
-        favoriteButton.toggleSelected()
+        let bookmark = Bookmark(url:url)
+        bookmark.model = theWord
 
-        let url = "dubsar:///words/\(theWord!._id)" // store this somewhere. remember that this word is now a favorite (or not)
+        favoriteButton.selected = AppDelegate.instance.bookmarkManager.toggleBookmark(bookmark)
     }
 
     override func adjustLayout() {
@@ -300,6 +307,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
         favoriteButton = FavoriteBarButtonItem(target:self, action:"favoriteTapped:")
+        favoriteButton.selected = theWord && AppDelegate.instance.bookmarkManager.isUrlBookmarked(url)
         items.append(favoriteButton)
         navigationItem.rightBarButtonItems = items
 
