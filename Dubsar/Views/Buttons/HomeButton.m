@@ -35,10 +35,6 @@
     CGContextMoveToPoint(context, 0.2*width, 0.5*height);
     CGContextAddLineToPoint(context, 0.5*width, 0.2*height);
     CGContextAddLineToPoint(context, 0.8*width, 0.5*height);
-    CGContextStrokePath(context);
-
-    CGContextSetShouldAntialias(context, false);
-    CGContextMoveToPoint(context, 0.8*width, 0.5*height);
     CGContextAddLineToPoint(context, 0.7*width, 0.5*height);
     CGContextAddLineToPoint(context, 0.7*width, 0.8*height);
     CGContextAddLineToPoint(context, 0.57*width, 0.8*height);
@@ -48,6 +44,7 @@
     CGContextAddLineToPoint(context, 0.3*width, 0.8*height);
     CGContextAddLineToPoint(context, 0.3*width, 0.5*height);
     CGContextAddLineToPoint(context, 0.2*width, 0.5*height);
+    CGContextAddLineToPoint(context, 0.5*width, 0.2*height);
     CGContextStrokePath(context);
 }
 
