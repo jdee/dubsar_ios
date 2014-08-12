@@ -58,6 +58,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         // deprecated, but somehow not showing up in the storyboard
         searchBar.autocapitalizationType = .None
         searchBar.scopeButtonTitles = [ "Words", "Synsets" ]
+        searchBar.layer.shadowOffset = CGSizeMake(0, 3)
+        searchBar.clipsToBounds = false
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -224,6 +226,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     func searchBarShouldBeginEditing(searchBar: UISearchBar!) -> Bool {
         searchBar.showsCancelButton = true
         searchBar.showsScopeBar = true
+        searchBar.layer.shadowOpacity = 1
         searchBarEditing = true
         return true
     }
@@ -388,6 +391,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         searchBar.text = ""
         searchBar.showsCancelButton = false
         searchBar.showsScopeBar = false
+        searchBar.layer.shadowOpacity = 0
 
         autocompleterView.hidden = true
         searchBarEditing = false
