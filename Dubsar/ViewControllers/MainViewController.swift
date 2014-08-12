@@ -238,6 +238,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         searchBar.showsScopeBar = true
         searchBar.layer.shadowOpacity = 1
         searchBarEditing = true
+        bookmarkListView.hidden = true
         return true
     }
 
@@ -373,6 +374,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         searchBar.autocorrectionType = AppConfiguration.autoCorrectSetting ? .Default : .No
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
+
+        bookmarkListView.setNeedsLayout()
 
         // DMLOG("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))
 
