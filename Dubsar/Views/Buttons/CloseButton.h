@@ -17,13 +17,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "BaseBarButton.h"
+#import <UIKit/UIKit.h>
 
-@interface GearButton : BaseBarButton
-
-@property (nonatomic) NSUInteger numTeeth;
-@property (nonatomic) CGFloat lineWidth;
-@property (nonatomic) CGFloat rotation;
-@property (nonatomic) CGFloat innerToothRatio, outerToothRatio, innerRingRatio;
+@interface CloseButton : UIButton
 
 @end

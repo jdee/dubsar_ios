@@ -52,6 +52,7 @@
 		7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */; };
 		7BA85A5619848DA100222A6D /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA85A5519848DA100222A6D /* AppConfiguration.swift */; };
 		7BA90E0A197786D400D5C180 /* PushWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA90E09197786D400D5C180 /* PushWrapper.m */; };
+		7BAC1E2E199A801C00D48521 /* CloseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC1E2D199A801C00D48521 /* CloseButton.m */; };
 		7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */; };
 		7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC226019732D6C00D2AEA4 /* MainViewController.swift */; };
 		7BAC226619732D6C00D2AEA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226519732D6C00D2AEA4 /* Images.xcassets */; };
@@ -202,6 +203,8 @@
 		7BA85A5519848DA100222A6D /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		7BA90E08197786D400D5C180 /* PushWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushWrapper.h; sourceTree = "<group>"; };
 		7BA90E09197786D400D5C180 /* PushWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushWrapper.m; sourceTree = "<group>"; };
+		7BAC1E2C199A801C00D48521 /* CloseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloseButton.h; sourceTree = "<group>"; };
+		7BAC1E2D199A801C00D48521 /* CloseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloseButton.m; sourceTree = "<group>"; };
 		7BAC225919732D6C00D2AEA4 /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BAC225D19732D6C00D2AEA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -495,6 +498,8 @@
 			children = (
 				7B14AE141999B65E00BCD41A /* BaseBarButton.h */,
 				7B14AE151999B65E00BCD41A /* BaseBarButton.m */,
+				7BAC1E2C199A801C00D48521 /* CloseButton.h */,
+				7BAC1E2D199A801C00D48521 /* CloseButton.m */,
 				7BCAA9D519929E2F00B23F4F /* DownloadBarButtonItem.swift */,
 				7BCAA9F019933F4300B23F4F /* DownloadBarButton.h */,
 				7BCAA9F119933F4300B23F4F /* DownloadBarButton.m */,
@@ -649,6 +654,7 @@
 				7B06EC761988AD6E00C44892 /* SettingNavigationTableViewCell.swift in Sources */,
 				7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */,
 				7BCAA9D719929E2F00B23F4F /* DownloadBarButtonItem.swift in Sources */,
+				7BAC1E2E199A801C00D48521 /* CloseButton.m in Sources */,
 				7BA85A5619848DA100222A6D /* AppConfiguration.swift in Sources */,
 				7B14AE261999BE8E00BCD41A /* BookmarkHelper.m in Sources */,
 				7B7D3E93197DB3DC00619DEA /* KeyboardHelper.m in Sources */,

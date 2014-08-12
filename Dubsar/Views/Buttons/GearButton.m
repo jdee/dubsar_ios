@@ -30,6 +30,7 @@
         _innerRingRatio = 0.18;
         _innerToothRatio = 0.25;
         _outerToothRatio = 0.3;
+        _lineWidth = 1.0;
     }
     return self;
 }
@@ -40,11 +41,13 @@
 
     [self drawGearPath:context];
 
-    CGContextSetLineWidth(context, 1.0);
+    CGContextSetLineWidth(context, _lineWidth);
     CGContextSetLineJoin(context, kCGLineJoinMiter);
     CGContextSetStrokeColorWithColor(context, self.currentTitleColor.CGColor);
     CGContextSetShouldAntialias(context, true);
     CGContextStrokePath(context);
+
+    if (_innerRingRatio <= 0.0) return;
 
     const CGFloat width = self.bounds.size.width;
     const CGFloat height = self.bounds.size.height;
