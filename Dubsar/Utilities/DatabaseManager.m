@@ -685,7 +685,12 @@
     }
 
     DubsarModelsDownloadList* downloadList = (DubsarModelsDownloadList*)model;
-    DubsarModelsDownload* download = downloadList.downloads.firstObject;
+    DubsarModelsDownload* download = [self findCorrectDownload:downloadList];
+    if (!download) {
+        DMERROR(@"Couldn't find an acceptable download.");
+        return;
+    }
+
     int zipped = ((NSNumber*)download.properties[@"zipped"]).intValue;
     int unzipped = ((NSNumber*)download.properties[@"unzipped"]).intValue;
 
@@ -729,6 +734,56 @@
 }
 
 #pragma mark - Internal convenience methods
+
+- (DubsarModelsDownload*)findCorrectDownload:(DubsarModelsDownloadList*)list
+{
+    DubsarModelsDownload* download = list.downloads.firstObject;
+    if (![self acceptableDownload:download]) {
+        DMDEBUG(@"First download %@ not acceptable. Looking for others.", download.name);
+        int latest = 0;
+        download = nil;
+        for (DubsarModelsDownload* dl in list.downloads) {
+            if (![self acceptableDownload:dl]) continue;
+
+            int version = [self versionFromDownloadName:dl.name];
+            if (version > latest) {
+                latest = version;
+                download = dl;
+            }
+        }
+    }
+
+    return download;
+}
+
+- (BOOL)acceptableDownload:(DubsarModelsDownload*)download
+{
+    int required = [self versionFromDownloadName:_requiredDBVersion];
+    int current = [self versionFromDownloadName:download.name];
+
+    if (current < required) {
+        DMDEBUG(@"Download %@ does not meet this app's requirement of %@", download.name, _requiredDBVersion);
+        return NO;
+    }
+
+    NSString* minVersion = download.properties[@"min_ios_version"];
+    NSString* maxVersion = download.properties[@"max_ios_version"];
+
+    NSString* appVersion = [NSBundle mainBundle].infoDictionary[(__bridge NSString*)kCFBundleVersionKey];
+    assert(appVersion);
+
+    if (minVersion && [self version:appVersion isLessThanVersion:minVersion]) {
+        DMDEBUG(@"App version %@ below download min version %@", appVersion, minVersion);
+        return NO;
+    }
+
+    if (maxVersion && [self version:maxVersion isLessThanVersion:appVersion]) {
+        DMDEBUG(@"App version %@ above download max version %@", appVersion, maxVersion);
+        return NO;
+    }
+
+    return YES;
+}
 
 - (void)restoreOldFileOnFailure
 {
@@ -1013,6 +1068,23 @@
     if (![url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error]) {
         DMERROR(@"Failed to set %@ attribute for file: %@", NSURLIsExcludedFromBackupKey, error.localizedDescription);
     }
+}
+
+- (BOOL)version:(NSString*)versionA isLessThanVersion:(NSString*)versionB
+{
+    NSArray* componentsA = [versionA componentsSeparatedByString:@"."];
+    NSArray* componentsB = [versionB componentsSeparatedByString:@"."];
+
+    int j;
+    for (j=0; j<componentsA.count && j<componentsB.count; ++j) {
+        int componentA = ((NSString*)componentsA[j]).intValue;
+        int componentB = ((NSString*)componentsB[j]).intValue;
+
+        if (componentA < componentB) return YES;
+        if (componentA > componentB) return NO;
+    }
+
+    return componentsA.count < componentsB.count;
 }
 
 - (int)versionFromDownloadName:(NSString*)download

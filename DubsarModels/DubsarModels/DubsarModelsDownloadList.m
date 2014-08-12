@@ -45,6 +45,9 @@
     NSMutableArray* dls = [NSMutableArray array];
 
     for (NSDictionary* dl in response) {
+#ifndef DEBUG
+        if (dl[@"dev"]) continue;
+#endif // DEBUG
         DubsarModelsDownload* download = [[DubsarModelsDownload alloc] init];
         download.name = dl[@"name"];
         NSMutableDictionary* props = [dl mutableCopy];
