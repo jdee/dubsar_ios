@@ -231,8 +231,7 @@ class BaseViewController: UIViewController {
 
     func addHomeButton() {
         let homeButton = HomeBarButtonItem(target: self, action: "home")
-        let rightBarButtonItem: UIBarButtonItem? = navigationItem.rightBarButtonItem
-        navigationItem.rightBarButtonItem = homeButton // short cut, since no view puts anything there before calling this
+        navigationItem.rightBarButtonItem = homeButton
     }
 
     @IBAction
