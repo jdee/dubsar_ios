@@ -291,19 +291,6 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     override func setupToolbar() {
-        let string : String? = title
-        if string {
-            // not yet set in an ordinary word view. need a better way to distinguish this.
-            DMTRACE("Setting up WOTD toolbar")
-            if theWord {
-                favoriteButton = FavoriteBarButtonItem(target:self, action:"favoriteTapped:")
-                favoriteButton.selected = theWord && AppDelegate.instance.bookmarkManager.isUrlBookmarked(url)
-                navigationItem.rightBarButtonItem = favoriteButton
-            }
-            super.setupToolbar()
-            return
-        }
-
         DMTRACE("Setting up toolbar for word view")
 
         navigationItem.rightBarButtonItems = []

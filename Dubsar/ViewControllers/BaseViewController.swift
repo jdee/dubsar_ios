@@ -230,6 +230,10 @@ class BaseViewController: UIViewController {
     }
 
     func addHomeButton() {
+        if navigationController.viewControllers.count == 2 {
+            return
+        }
+
         let homeButton = HomeBarButtonItem(target: self, action: "home")
         navigationItem.rightBarButtonItem = homeButton
     }
