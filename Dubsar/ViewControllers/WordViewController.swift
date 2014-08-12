@@ -258,6 +258,9 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         self.router!.load()
     }
 
+    func favoriteTapped(sender: FavoriteBarButtonItem!) {
+    }
+
     override func adjustLayout() {
         if !loaded || !view {
             return
@@ -289,6 +292,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         navigationItem.rightBarButtonItems = []
 
         addHomeButton()
+
+        var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
+        items.append(FavoriteBarButtonItem(target:self, action:"favoriteTapped:"))
+        navigationItem.rightBarButtonItems = items
+
         super.setupToolbar()
     }
 
