@@ -352,7 +352,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func setupToolbar() {
-        let settingsButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "showSettingsView")
+        let settingsButton = SettingBarButtonItem(target: self, action: "showSettingsView")
         navigationItem.leftBarButtonItem = settingsButton
 
         super.setupToolbar()

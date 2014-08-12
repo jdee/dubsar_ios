@@ -17,17 +17,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "CGHelper.h"
-#import "DatabaseManager.h"
-#import "DownloadBarButton.h"
-#import "DownloadButtonImage.h"
-#import "Dubsar.h"
-#import "DubsarServer.h"
-#import "FavoriteButton.h"
-#import "GearButton.h"
-#import "HomeButton.h"
-#import "KeyboardHelper.h"
-#import "NavButtonImage.h"
-#import "PushWrapper.h"
-#import "IOSKnobControl.h"
-#import "UIApplication+NetworkRefCount.h"
+#import "BaseBarButton.h"
+
+@interface GearButton : BaseBarButton
+
+@property (nonatomic) NSUInteger numTeeth;
+@property (nonatomic) CGFloat rotation;
+@property (nonatomic) CGFloat innerToothRatio, outerToothRatio, innerRingRatio;
+
+@end
