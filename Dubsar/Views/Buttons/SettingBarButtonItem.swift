@@ -40,8 +40,10 @@ class SettingBarButtonItem: UIBarButtonItem {
         button.outerToothRatio = 0.375
         button.innerToothRatio = 0.3
 
+        /*
         button.layer.borderWidth = 1
         button.layer.borderColor = AppConfiguration.foregroundColor.CGColor
+        // */
 
         super.init(customView: button)
         self.target = target
