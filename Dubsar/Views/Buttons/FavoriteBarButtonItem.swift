@@ -34,7 +34,7 @@ class FavoriteBarButtonItem: UIBarButtonItem {
         favoriteButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         favoriteButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         favoriteButton.backgroundColor = UIColor.clearColor()
-        favoriteButton.fillColor = AppConfiguration.highlightColor
+        favoriteButton.fillColor = AppConfiguration.alternateHighlightColor
         favoriteButton.target = target
         favoriteButton.action = action
 

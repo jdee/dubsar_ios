@@ -53,7 +53,8 @@ extension DubsarModelsWord {
 
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
 
-        if inflections.count > 0 {
+        let optionalInflections: [AnyObject]? = inflections
+        if optionalInflections && inflections.count > 0 {
             let inflectionSize = inflectionSizeWithConstrainedSize(constraint, font: bodyFont)
             size.height += inflectionSize.height + WordTableViewCell.margin
         }

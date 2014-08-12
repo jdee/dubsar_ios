@@ -649,12 +649,13 @@
                     char const* _marker = (char const*)sqlite3_column_text(lexicalQuery, 3);
                     char const* _lexname = (char const*)sqlite3_column_text(lexicalQuery, 4);
                     int _synsetId = sqlite3_column_int(lexicalQuery, 5);
+                    if (!_marker) _marker = "";
                     DMTRACE(@"name: %s, part_of_speech: %s, definition: %s, marker: %s, lexname: %s, synset ID: %d", _name, _part_of_speech, _definition, _marker, _lexname, _synsetId);
                     
                     DubsarModelsPartOfSpeech _partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFrom_part_of_speech:_part_of_speech];
                     NSString* definition = @(_definition);
                     pointer.targetGloss = [definition componentsSeparatedByString:@"; \""][0];
-                    if (_marker) {
+                    if (_marker && *_marker) {
                         pointer.targetText = [NSString stringWithFormat:@"<%s> (%s) %s, %@.", _lexname, _marker, _name, [DubsarModelsPartOfSpeechDictionary posFromPartOfSpeech:_partOfSpeech]];
                     }
                     else {

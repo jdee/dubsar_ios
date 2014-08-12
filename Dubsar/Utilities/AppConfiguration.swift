@@ -46,9 +46,9 @@ struct AppConfiguration {
     static let themes = [
         [ nameKey : "Scribe", fontKey : "Georgia",
             backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
-            alternateBackgroundKey : UIColor(red: 1.0, green: 0.843, blue: 0.0, alpha: 1.0),
+            alternateBackgroundKey : UIColor(red: 0.855, green: 0.647, blue: 0.125, alpha: 1.0),
             highlightKey : UIColor(red: 0.529, green: 0.808, blue: 0.980, alpha: 1.0),
-            alternateHighlightKey : UIColor(red: 0.855, green: 0.647, blue: 0.125, alpha: 1.0),
+            alternateHighlightKey : UIColor(red: 1.0, green: 0.843, blue: 0.0, alpha: 1.0),
             foregroundKey : UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0),
             highlightedForegroundKey : UIColor(red: 0.580, green: 0.0, blue: 0.827, alpha: 1.0),
             searchBarTintKey: UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0),

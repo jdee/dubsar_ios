@@ -42,7 +42,6 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         title = "Search"
         updateTitle()
         pageControl.hidden = !search || search!.totalPages <= 1
-        view.backgroundColor = AppConfiguration.alternateBackgroundColor
         resultTableView.backgroundColor = UIColor.clearColor()
     }
 
@@ -324,6 +323,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         pageControl.currentPageIndicatorTintColor = AppConfiguration.foregroundColor
 
         resultTableView.reloadData()
+        view.backgroundColor = AppConfiguration.alternateBackgroundColor
         super.adjustLayout()
     }
 }

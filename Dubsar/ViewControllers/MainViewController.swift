@@ -59,6 +59,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         searchBar.autocapitalizationType = .None
         searchBar.scopeButtonTitles = [ "Words", "Synsets" ]
         searchBar.layer.shadowOffset = CGSizeMake(0, 3)
+        searchBar.showsBookmarkButton = true
         searchBar.clipsToBounds = false
     }
 
@@ -215,6 +216,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     // MARK: UISearchBarDelegate
+    func searchBarBookmarkButtonClicked(searchBar: UISearchBar!) {
+        DMDEBUG("Bookmark button tapped")
+        resetSearch()
+    }
+
     func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
         if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
             searchScope = scope
