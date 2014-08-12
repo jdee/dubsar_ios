@@ -388,6 +388,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         progressUpdated(databaseManager)
     }
 
+    override func viewDownload(sender: UIBarButtonItem!) {
+        // super.viewDownload(sender) // just takes us to this view. suppress.
+    }
+
     // These things should move to the DownloadBlahCell
     private func formatSize(sizeBytes: Int) -> String {
         let kB: Double = 1024

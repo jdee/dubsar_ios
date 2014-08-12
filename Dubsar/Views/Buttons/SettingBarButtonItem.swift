@@ -26,7 +26,9 @@ class SettingBarButtonItem: UIBarButtonItem {
     }
 
     init(target: AnyObject!, action: Selector!) {
-        let button = GearButton(frame: CGRectMake(0, 0, 44, 44))
+        let dimension: CGFloat = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? 32 : 44
+
+        let button = GearButton(frame: CGRectMake(0, 0, dimension, dimension))
         button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         button.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         button.backgroundColor = UIColor.clearColor()

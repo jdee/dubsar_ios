@@ -86,6 +86,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         */
 
         // DMLOG("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))
+        setupToolbar()
     }
 
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
@@ -352,13 +353,14 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func setupToolbar() {
-        let settingsButton = SettingBarButtonItem(target: self, action: "showSettingsView")
-        navigationItem.leftBarButtonItem = settingsButton
+        let settingButton = AppDelegate.instance.databaseManager.downloadInProgress ? DownloadBarButtonItem(target:self, action:"viewDownload:") : SettingBarButtonItem(target: self, action: "showSettingView")
+        settingButton.width = 32
+        navigationItem.leftBarButtonItem = settingButton
 
-        super.setupToolbar()
+        // super.setupToolbar()
     }
 
-    func showSettingsView() {
+    func showSettingView() {
         pushViewControllerWithIdentifier(SettingsViewController.identifier, router: nil)
     }
 

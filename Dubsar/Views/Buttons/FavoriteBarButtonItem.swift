@@ -28,7 +28,9 @@ class FavoriteBarButtonItem: UIBarButtonItem {
     }
 
     init(target: AnyObject!, action: Selector!) {
-        favoriteButton = FavoriteButton(frame: CGRectMake(0, 0, 44, 44))
+        let dimension: CGFloat = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? 32 : 44
+
+        favoriteButton = FavoriteButton(frame: CGRectMake(0, 0, dimension, dimension))
         favoriteButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         favoriteButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         favoriteButton.backgroundColor = UIColor.clearColor()

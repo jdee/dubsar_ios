@@ -50,6 +50,12 @@
     [self setNeedsDisplay];
 }
 
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self setNeedsDisplay];
+}
+
 - (void)buttonPressed:(UIButton*)sender
 {
 #pragma clang diagnostic push
