@@ -35,8 +35,6 @@ static NSMutableDictionary* imageDictionary;
 
     BOOL highResolution = [UIScreen mainScreen].scale > 1.0;
 
-    CGContextSetAllowsAntialiasing(context, true);
-
     // transparent background
     CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
     CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
@@ -45,18 +43,14 @@ static NSMutableDictionary* imageDictionary;
 
     CGFloat lineWidth = 1.0;
     CGContextSetStrokeColorWithColor(context, color.CGColor);
-
-    // Vertical line down the center. Nice and sharp with no antialiasing.
-    CGContextSetShouldAntialias(context, !highResolution);
-    CGContextSetLineWidth(context, lineWidth);
-
-    CGContextMoveToPoint(context, 0.5 * size.width, 0.25 * size.height);
-    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height - lineWidth);
-    CGContextStrokePath(context);
-
-    // For the arrowhead, turn on antialiasing and thicken the line a little.
     CGContextSetShouldAntialias(context, true);
+    CGContextSetLineWidth(context, lineWidth);
     CGContextSetLineJoin(context, kCGLineJoinMiter);
+
+    // Vertical line down the center
+    CGContextMoveToPoint(context, 0.5 * size.width, 0.25 * size.height);
+    CGContextAddLineToPoint(context, 0.5 * size.width, 0.65 * size.height - 0.707 * lineWidth);
+    CGContextStrokePath(context);
 
     // Arrow head
     CGContextMoveToPoint(context, 0.35 * size.width, 0.50 * size.height);
@@ -65,13 +59,17 @@ static NSMutableDictionary* imageDictionary;
     CGContextStrokePath(context);
 
     // horizontal line across the bottom. back to a sharp line.
-    CGContextSetShouldAntialias(context, false);
-
     CGContextMoveToPoint(context, 0.25 * size.width, 0.75 * size.height);
     CGContextAddLineToPoint(context, 0.75 * size.width, 0.75 * size.height);
     CGContextStrokePath(context);
 
-    if (highResolution) return;
+    if (highResolution) {
+        /*
+         * On a high-resolution screen, the border of a CALayer looks nicer than this. That's
+         * reversed on a low-resolution screen.
+         */
+        return;
+    }
 
     //*
     // Rounded-rectangle border
@@ -81,8 +79,7 @@ static NSMutableDictionary* imageDictionary;
     lineWidth = 1.0;
     CGContextSetLineWidth(context, lineWidth);
 
-    // First the four sides. Straight lines are crisper without antialiasing.
-    CGContextSetShouldAntialias(context, false);
+    // First the four sides.
 
     CGContextMoveToPoint(context, ratio * size.width, ratio * size.height - cornerRadius);
     CGContextAddLineToPoint(context, ratio * size.width, (1 - ratio) * size.height + cornerRadius);
@@ -100,8 +97,7 @@ static NSMutableDictionary* imageDictionary;
     CGContextAddLineToPoint(context, ratio * size.width - cornerRadius, ratio * size.height);
     CGContextStrokePath(context);
 
-    // The the four round corners with antialiasing.
-    CGContextSetShouldAntialias(context, true);
+    // The the four round corners.
 
     CGContextMoveToPoint(context, ratio * size.width, (1 - ratio) * size.height + cornerRadius);
     CGContextAddArcToPoint(context, ratio * size.width, (1 - ratio) * size.height, ratio * size.width - cornerRadius, (1 - ratio) * size.height, cornerRadius);
