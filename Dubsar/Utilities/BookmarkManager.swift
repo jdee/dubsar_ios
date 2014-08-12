@@ -23,6 +23,12 @@ class BookmarkManager: NSObject {
 
     var bookmarks = [Bookmark]()
 
+    init()
+    {
+        super.init()
+        loadBookmarks()
+    }
+
     func toggleBookmark(bookmark: Bookmark!) -> Bool {
         // do we have this bookmark?
 
@@ -39,6 +45,7 @@ class BookmarkManager: NSObject {
         }
 
         if isFavorite {
+            bookmark.manager = self
             if !bookmark.model.complete {
                 bookmark.model.load()
             }
@@ -47,6 +54,8 @@ class BookmarkManager: NSObject {
         }
 
         bookmarks = newBookmarks
+
+        saveBookmarks()
 
         return isFavorite
     }
@@ -65,4 +74,44 @@ class BookmarkManager: NSObject {
         DMDEBUG("Word for URL \(bookmark.url) is \(word.nameAndPos)")
     }
 
+    let userDefaultKey = "DubsarBookmarks"
+    func saveBookmarks() {
+        /*
+         * Serialize as a space-delimited list of URL strings. Spaces are not legal in URLS, and anyway
+         * Dubsar doesn't use them.
+         */
+        var string = ""
+
+        for bookmark in bookmarks {
+            if !string.isEmpty {
+                string = "\(string) "
+            }
+            string = "\(string)\(bookmark.url)"
+        }
+
+        NSUserDefaults.standardUserDefaults().setValue(string, forKey: userDefaultKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+
+    func loadBookmarks() {
+        bookmarks = []
+
+        NSUserDefaults.standardUserDefaults().synchronize()
+        let string = NSUserDefaults.standardUserDefaults().valueForKey(userDefaultKey) as? NSString
+
+        if !string {
+            return
+        }
+
+        let components = string!.componentsSeparatedByString(" ") as [AnyObject]
+        for component in components as [String] {
+            let url = NSURL(string: component)
+            let bookmark = Bookmark(url: url)
+            bookmark.manager = self
+            bookmark.model.load()
+
+            bookmarks.append(bookmark)
+        }
+
+    }
 }
