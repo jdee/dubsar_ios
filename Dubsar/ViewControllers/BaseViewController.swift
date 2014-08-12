@@ -175,6 +175,9 @@ class BaseViewController: UIViewController {
     func setupToolbar() {
         DMTRACE("In BaseViewController.setupToolbar()")
 
+        // Does nothing if the back button goes home
+        addHomeButton()
+
         if !AppDelegate.instance.databaseManager.downloadInProgress {
             DMTRACE("No download in progress")
             // meh
@@ -230,7 +233,7 @@ class BaseViewController: UIViewController {
     }
 
     func addHomeButton() {
-        if navigationController.viewControllers.count == 2 {
+        if navigationController.viewControllers.count < 3 {
             return
         }
 

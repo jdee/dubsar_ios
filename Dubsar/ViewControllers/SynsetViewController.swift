@@ -129,7 +129,6 @@ class SynsetViewController: BaseViewController {
     override func setupToolbar() {
         navigationItem.rightBarButtonItems = []
 
-        addHomeButton()
         super.setupToolbar()
     }
 

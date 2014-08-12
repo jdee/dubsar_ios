@@ -111,12 +111,4 @@ class ThemeViewController: BaseViewController {
         }
         return selected
     }
-
-    override func setupToolbar() {
-        navigationItem.rightBarButtonItems = []
-
-        addHomeButton()
-        super.setupToolbar()
-    }
-
 }

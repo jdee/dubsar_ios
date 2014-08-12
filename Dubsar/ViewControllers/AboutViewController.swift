@@ -118,11 +118,4 @@ class AboutViewController: BaseViewController {
         paragraphLabels += newLabel
         view.addSubview(newLabel)
     }
-
-    override func setupToolbar() {
-        navigationItem.rightBarButtonItems = []
-
-        addHomeButton()
-        super.setupToolbar()
-    }
 }
