@@ -124,7 +124,7 @@ class OpenSynsetTableViewCell: SynsetTableViewCell {
     }
 
     private func addGradientToBottomOfView(aView: UIView!) {
-        let topColor = AppConfiguration.highlightColor
+        let topColor = UIColor.clearColor()
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0
@@ -133,12 +133,12 @@ class OpenSynsetTableViewCell: SynsetTableViewCell {
         topColor.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
 
         // let bottomColor = UIColor(hue: hue, saturation: saturation, brightness: brightness > 0.5 ? 0.3 * brightness : 2.0 * brightness, alpha: alpha)
-        let bottomColor = UIColor(hue: hue, saturation: saturation, brightness: 0.3 * brightness, alpha: alpha)
+        let bottomColor = UIColor.blackColor()
 
-        let gradientHeight: CGFloat = 20
+        let gradientHeight: CGFloat = 8
         let gradientView = GradientView(frame: CGRectMake(0, aView.bounds.size.height - gradientHeight, aView.bounds.width, gradientHeight), firstColor: topColor, secondColor: bottomColor, startPoint: CGPointMake(0, 0), endPoint: CGPointMake(0, gradientHeight))
         gradientView.opaque = false
-        gradientView.alpha = 0.4
+        gradientView.alpha = 0.333
         gradientView.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
         
         DMTRACE("Added gradient at \(gradientView.frame.origin.y)")
