@@ -54,6 +54,8 @@
 		7BAC1E2E199A801C00D48521 /* CloseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC1E2D199A801C00D48521 /* CloseButton.m */; };
 		7BAC1E31199A89A000D48521 /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC1E30199A89A000D48521 /* Bookmark.m */; };
 		7BAC1E33199A8E2F00D48521 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC1E32199A8E2F00D48521 /* BookmarkManager.swift */; };
+		7BAC1E35199A9EFE00D48521 /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC1E34199A9EFE00D48521 /* BookmarkView.swift */; };
+		7BAC1E37199AA0D000D48521 /* BookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC1E36199AA0D000D48521 /* BookmarkListView.swift */; };
 		7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */; };
 		7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC226019732D6C00D2AEA4 /* MainViewController.swift */; };
 		7BAC226619732D6C00D2AEA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226519732D6C00D2AEA4 /* Images.xcassets */; };
@@ -207,6 +209,8 @@
 		7BAC1E2F199A89A000D48521 /* Bookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bookmark.h; sourceTree = "<group>"; };
 		7BAC1E30199A89A000D48521 /* Bookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bookmark.m; sourceTree = "<group>"; };
 		7BAC1E32199A8E2F00D48521 /* BookmarkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
+		7BAC1E34199A9EFE00D48521 /* BookmarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
+		7BAC1E36199AA0D000D48521 /* BookmarkListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkListView.swift; sourceTree = "<group>"; };
 		7BAC225919732D6C00D2AEA4 /* Dubsar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dubsar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BAC225D19732D6C00D2AEA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -431,6 +435,8 @@
 				7BCAA9D419929DF000B23F4F /* Buttons */,
 				7BCA161D197D6E260016C104 /* AlphabetView.swift */,
 				7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */,
+				7BAC1E34199A9EFE00D48521 /* BookmarkView.swift */,
+				7BAC1E36199AA0D000D48521 /* BookmarkListView.swift */,
 				7B66C01D198D585B00257DDB /* GradientView.swift */,
 				7B497C8C1978546000563A4B /* ScrollingSynsetView.swift */,
 				7B82C94019760D5F0077D1A0 /* SynsetHeaderView.swift */,
@@ -674,12 +680,14 @@
 				7B82C93E19760A0E0077D1A0 /* SynsetViewController.swift in Sources */,
 				7BA90E0A197786D400D5C180 /* PushWrapper.m in Sources */,
 				7B497C8D1978546000563A4B /* ScrollingSynsetView.swift in Sources */,
+				7BAC1E37199AA0D000D48521 /* BookmarkListView.swift in Sources */,
 				7B7F9EC719983AE7006F4BC0 /* OpenSynsetTableViewCell.swift in Sources */,
 				7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */,
 				7B62D752197782F2006A797C /* SynsetSampleView.swift in Sources */,
 				7B66C01E198D585B00257DDB /* GradientView.swift in Sources */,
 				7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */,
 				7BCAA9D819929E2F00B23F4F /* NavButton.swift in Sources */,
+				7BAC1E35199A9EFE00D48521 /* BookmarkView.swift in Sources */,
 				7BCAA9F219933F4300B23F4F /* DownloadBarButton.m in Sources */,
 				7B06EC6C19886FCE00C44892 /* SettingsViewController.swift in Sources */,
 				7BBBD6D71989B54D0030FDA9 /* DatabaseManager.m in Sources */,

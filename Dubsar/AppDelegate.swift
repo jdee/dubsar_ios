@@ -54,6 +54,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
         databaseManager.initialize()
         databaseManager.delegate = self
+
+        bookmarkManager.loadBookmarks()
         return true
     }
 

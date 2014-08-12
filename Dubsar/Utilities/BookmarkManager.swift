@@ -23,12 +23,6 @@ class BookmarkManager: NSObject {
 
     var bookmarks = [Bookmark]()
 
-    init()
-    {
-        super.init()
-        loadBookmarks()
-    }
-
     func toggleBookmark(bookmark: Bookmark!) -> Bool {
         // do we have this bookmark?
 
@@ -72,6 +66,9 @@ class BookmarkManager: NSObject {
     func bookmarkLoaded(bookmark: Bookmark!) {
         let word = bookmark.model as DubsarModelsWord
         DMDEBUG("Word for URL \(bookmark.url) is \(word.nameAndPos)")
+
+        let viewController = AppDelegate.instance.navigationController.topViewController as BaseViewController
+        viewController.adjustLayout()
     }
 
     let userDefaultKey = "DubsarBookmarks"

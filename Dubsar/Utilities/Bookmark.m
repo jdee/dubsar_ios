@@ -30,6 +30,7 @@
         _url = url;
         [self getModelforURL];
         assert(_model);
+        _model.delegate = self;
     }
     return self;
 }

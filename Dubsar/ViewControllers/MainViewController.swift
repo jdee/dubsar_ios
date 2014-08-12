@@ -30,6 +30,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     var alphabetView : AlphabetView!
     var autocompleterView : AutocompleterView!
+    var bookmarkListView: BookmarkListView!
     var autocompleter : DubsarModelsAutocompleter?
     var lastSequence : Int = -1
     var searchBarEditing : Bool = false
@@ -39,6 +40,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     var wotd: DubsarModelsDailyWord?
 
     private var searchScope = DubsarModelsSearchScope.Words
+    private var openingBookmarks = false
 
     // MARK: View lifecycle
     override func viewDidLoad() {
@@ -51,6 +53,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         autocompleterView.hidden = true
         autocompleterView.viewController = self
         view.addSubview(autocompleterView)
+
+        bookmarkListView = BookmarkListView(frame: CGRectMake(0, searchBar.bounds.size.height+searchBar.frame.origin.y, view.bounds.size.width, view.bounds.size.height))
+        bookmarkListView.hidden = true
+        bookmarkListView.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        view.addSubview(bookmarkListView)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShowing:", name: UIKeyboardDidShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden:", name: UIKeyboardDidHideNotification, object: nil)
@@ -216,11 +223,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     // MARK: UISearchBarDelegate
-    func searchBarBookmarkButtonClicked(searchBar: UISearchBar!) {
-        DMDEBUG("Bookmark button tapped")
-        resetSearch()
-    }
-
     func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
         if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
             searchScope = scope
@@ -242,6 +244,22 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         resetSearch()
     }
 
+    func searchBarBookmarkButtonClicked(searchBar: UISearchBar!) {
+        DMTRACE("Bookmark button tapped")
+        if searchBarEditing {
+            resetSearch()
+
+            openingBookmarks = true
+            return
+        }
+
+        bookmarkListView.hidden = !bookmarkListView.hidden
+        if !bookmarkListView.hidden {
+            bookmarkListView.frame.origin.y = searchBar.bounds.size.height + searchBar.frame.origin.y
+            bookmarkListView.setNeedsLayout()
+        }
+    }
+
     func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
         resetSearch()
     }
@@ -258,6 +276,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         if !searchBarEditing || searchText.isEmpty {
             autocompleterView.hidden = true
+            bookmarkListView.hidden = true
             return
         }
 
@@ -403,9 +422,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         searchBar.layer.shadowOpacity = 0
 
         autocompleterView.hidden = true
+        bookmarkListView.hidden = true
+
         searchBarEditing = false
 
-        // DEBT: Why was this commented out?
         adjustLayout()
     }
 
@@ -429,6 +449,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     func keyboardHidden(notification: NSNotification!) {
         adjustLayout()
+
+        if openingBookmarks {
+            bookmarkListView.hidden = false
+            bookmarkListView.frame.origin.y = searchBar.bounds.size.height + searchBar.frame.origin.y
+            bookmarkListView.setNeedsLayout()
+        }
     }
 
     private func computeAlphabetFrame(orientation: UIInterfaceOrientation) -> CGRect {
