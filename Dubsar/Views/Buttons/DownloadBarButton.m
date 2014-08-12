@@ -37,8 +37,6 @@
         _borderLayer.borderWidth = 1.0;
 
         [self.layer addSublayer:_borderLayer];
-
-        [self addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
@@ -47,36 +45,6 @@
 {
     [DownloadButtonImage buildImageWithSize:self.bounds.size color:self.currentTitleColor background:self.backgroundColor context:UIGraphicsGetCurrentContext()];
     _borderLayer.borderColor = self.currentTitleColor.CGColor;
-}
-
-- (void)setHighlighted:(BOOL)highlighted
-{
-    [super setHighlighted:highlighted];
-    [self setNeedsDisplay];
-}
-
-- (void)setEnabled:(BOOL)enabled
-{
-    [super setEnabled:enabled];
-    [self setNeedsDisplay];
-}
-
-- (void)setSelected:(BOOL)selected
-{
-    [super setSelected:selected];
-    [self setNeedsDisplay];
-}
-
-- (void)buttonPressed:(UIButton*)sender
-{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    if ([_target respondsToSelector:_action]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_target performSelector:_action withObject:_barButtonItem];
-        });
-    }
-#pragma clang diagnostic pop
 }
 
 @end

@@ -17,10 +17,11 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "BaseBarButton.h"
+@import UIKit;
 
-@interface DownloadBarButton : BaseBarButton
-
-@property (nonatomic) CALayer *borderLayer;
+@interface BaseBarButton : UIButton
+@property (nonatomic, weak) id barButtonItem;
+@property (nonatomic, weak) id target;
+@property (nonatomic) SEL action;
 
 @end
