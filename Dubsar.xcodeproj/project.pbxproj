@@ -16,6 +16,8 @@
 		7B1152011974340900869E15 /* DubsarServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1152001974340900869E15 /* DubsarServer.m */; };
 		7B115203197435C100869E15 /* client_secret.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B115202197435C100869E15 /* client_secret.txt */; };
 		7B14AE161999B65E00BCD41A /* BaseBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE151999B65E00BCD41A /* BaseBarButton.m */; };
+		7B14AE191999B76D00BCD41A /* HomeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE181999B76D00BCD41A /* HomeButton.m */; };
+		7B14AE1B1999B8C600BCD41A /* HomeBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE1A1999B8C600BCD41A /* HomeBarButtonItem.swift */; };
 		7B1B4E79197450F5008F38BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
 		7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B4E7A19747EB6008F38BF /* WordViewController.swift */; };
 		7B1FDE2E19894E81004519D4 /* SettingSwitchValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */; };
@@ -149,6 +151,9 @@
 		7B115202197435C100869E15 /* client_secret.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = client_secret.txt; sourceTree = "<group>"; };
 		7B14AE141999B65E00BCD41A /* BaseBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseBarButton.h; sourceTree = "<group>"; };
 		7B14AE151999B65E00BCD41A /* BaseBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseBarButton.m; sourceTree = "<group>"; };
+		7B14AE171999B76D00BCD41A /* HomeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeButton.h; sourceTree = "<group>"; };
+		7B14AE181999B76D00BCD41A /* HomeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeButton.m; sourceTree = "<group>"; };
+		7B14AE1A1999B8C600BCD41A /* HomeBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeBarButtonItem.swift; sourceTree = "<group>"; };
 		7B1B4E7A19747EB6008F38BF /* WordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordViewController.swift; sourceTree = "<group>"; };
 		7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingSwitchValueTableViewCell.swift; sourceTree = "<group>"; };
 		7B2F4640198AEAC500F57D21 /* DownloadButtonImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadButtonImage.h; sourceTree = "<group>"; };
@@ -478,6 +483,9 @@
 				7BCAA9D519929E2F00B23F4F /* DownloadBarButtonItem.swift */,
 				7BCAA9F019933F4300B23F4F /* DownloadBarButton.h */,
 				7BCAA9F119933F4300B23F4F /* DownloadBarButton.m */,
+				7B14AE1A1999B8C600BCD41A /* HomeBarButtonItem.swift */,
+				7B14AE171999B76D00BCD41A /* HomeButton.h */,
+				7B14AE181999B76D00BCD41A /* HomeButton.m */,
 				7BCAA9D619929E2F00B23F4F /* NavButton.swift */,
 			);
 			path = Buttons;
@@ -607,6 +615,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B14AE191999B76D00BCD41A /* HomeButton.m in Sources */,
 				7B82C94319760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift in Sources */,
 				7B06EC701988798600C44892 /* IOSKnobControl.m in Sources */,
 				7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */,
@@ -624,6 +633,7 @@
 				7B1FDE2E19894E81004519D4 /* SettingSwitchValueTableViewCell.swift in Sources */,
 				7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */,
 				7B7382FB1984700900880CF2 /* FAQViewController.swift in Sources */,
+				7B14AE1B1999B8C600BCD41A /* HomeBarButtonItem.swift in Sources */,
 				7B6CC038197E1C3800151799 /* OpenWordTableViewCell.swift in Sources */,
 				7B7382F5198418EA00880CF2 /* AboutViewController.swift in Sources */,
 				7BBF83821975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift in Sources */,
