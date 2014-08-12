@@ -23,6 +23,12 @@ class BookmarkView: UIView {
 
     weak var listView: BookmarkListView?
 
+    class var padding: CGFloat {
+        get {
+            return 4
+    }
+    }
+
     var bookmark: Bookmark
 
     let button: UIButton
@@ -30,7 +36,6 @@ class BookmarkView: UIView {
     init(frame: CGRect, bookmark: Bookmark!) {
         self.bookmark = bookmark
         button = UIButton(frame: frame)
-        // button.titleLabel.textAlignment = .Left
         button.autoresizingMask = .FlexibleHeight | .FlexibleWidth
 
         super.init(frame: frame)
@@ -64,7 +69,8 @@ class BookmarkView: UIView {
 
         button.setTitle(text, forState: .Normal)
 
-        frame.size.height = textSize.height
+        frame.size.height = textSize.height + 2 * BookmarkView.padding
+        button.frame = bounds
     }
 
     @IBAction

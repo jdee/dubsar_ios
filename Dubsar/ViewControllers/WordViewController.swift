@@ -295,6 +295,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         if string {
             // not yet set in an ordinary word view. need a better way to distinguish this.
             DMTRACE("Setting up WOTD toolbar")
+            if theWord {
+                favoriteButton = FavoriteBarButtonItem(target:self, action:"favoriteTapped:")
+                favoriteButton.selected = theWord && AppDelegate.instance.bookmarkManager.isUrlBookmarked(url)
+                navigationItem.rightBarButtonItem = favoriteButton
+            }
             super.setupToolbar()
             return
         }
@@ -305,11 +310,13 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         addHomeButton()
 
-        var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
-        favoriteButton = FavoriteBarButtonItem(target:self, action:"favoriteTapped:")
-        favoriteButton.selected = theWord && AppDelegate.instance.bookmarkManager.isUrlBookmarked(url)
-        items.append(favoriteButton)
-        navigationItem.rightBarButtonItems = items
+        if theWord {
+            var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
+            favoriteButton = FavoriteBarButtonItem(target:self, action:"favoriteTapped:")
+            favoriteButton.selected = theWord && AppDelegate.instance.bookmarkManager.isUrlBookmarked(url)
+            items.append(favoriteButton)
+            navigationItem.rightBarButtonItems = items
+        }
 
         super.setupToolbar()
     }

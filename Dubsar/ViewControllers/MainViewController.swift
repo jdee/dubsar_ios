@@ -73,6 +73,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     override func viewWillAppear(animated: Bool) {
         resetSearch()
         rotated = false
+        AppDelegate.instance.bookmarkManager.loadBookmarks()
         super.viewWillAppear(animated)
     }
 

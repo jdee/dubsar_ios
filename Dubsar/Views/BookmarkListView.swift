@@ -58,7 +58,7 @@ class BookmarkListView: UIView {
             bookmarkViews.append(bookmarkView)
 
             y += bookmarkView.bounds.size.height + margin
-            DMDEBUG("y is now \(y)")
+            DMTRACE("y is now \(y)")
         }
 
         frame.size.height = y
