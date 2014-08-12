@@ -348,7 +348,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         // rerun the autocompletion request with the new max
         searchBar(searchBar, textDidChange: searchBar.text)
 
-        searchBar.tintColor = AppConfiguration.searchBarTintColor
+        searchBar.barStyle = AppConfiguration.barStyle
+        searchBar.tintColor = AppConfiguration.foregroundColor
         searchBar.autocorrectionType = AppConfiguration.autoCorrectSetting ? .Default : .No
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)

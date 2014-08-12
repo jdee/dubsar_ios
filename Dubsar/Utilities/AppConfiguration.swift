@@ -38,7 +38,7 @@ struct AppConfiguration {
     static let alternateHighlightKey = "alternateHighlight"
     static let foregroundKey = "foreground"
     static let highlightedForegroundKey = "highlightedForeground"
-    static let navBarKey = "navBar"
+    static let barKey = "bar"
     static let activityKey = "activity"
     static let searchBarTintKey = "searchBarTint"
 
@@ -52,7 +52,7 @@ struct AppConfiguration {
             foregroundKey : UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0),
             highlightedForegroundKey : UIColor(red: 0.580, green: 0.0, blue: 0.827, alpha: 1.0),
             searchBarTintKey: UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0),
-            navBarKey: "light", activityKey : "gray" ],
+            barKey: "light", activityKey : "gray" ],
         [ nameKey : "Tigris", fontKey : "Avenir Next",
             backgroundKey : UIColor(red: 0.941, green: 1.000, blue: 0.941, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.686, green: 0.933, blue: 0.933, alpha: 1.0),
@@ -61,7 +61,7 @@ struct AppConfiguration {
             foregroundKey : UIColor.darkTextColor(),
             highlightedForegroundKey : UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0),
             searchBarTintKey: UIColor.darkTextColor(),
-            navBarKey: "light", activityKey : "gray" ],
+            barKey: "light", activityKey : "gray" ],
         [ nameKey : "Augury", fontKey : "Menlo",
             backgroundKey : UIColor(red: 0.192, green: 0.310, blue: 0.310, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.412, green: 0.412, blue: 0.412, alpha: 1.0),
@@ -70,7 +70,7 @@ struct AppConfiguration {
             foregroundKey : UIColor(red: 0.878, green: 1.0, blue: 1.0, alpha: 1.0),
             highlightedForegroundKey : UIColor(red: 0.0, green: 0.980, blue: 0.604, alpha: 1.0),
             searchBarTintKey: UIColor(red: 0.420, green: 0.557, blue: 0.137, alpha: 1.0),
-            navBarKey: "dark", activityKey : "white" ]
+            barKey: "dark", activityKey : "white" ]
     ]
 
     // MARK: Wrappers around  NSUserDefaults
@@ -138,9 +138,9 @@ struct AppConfiguration {
         }
     }
 
-    static var navBarStyle: UIBarStyle {
+    static var barStyle: UIBarStyle {
         get {
-            let style: NSString = getThemeProperty(navBarKey)
+            let style: NSString = getThemeProperty(barKey)
             if style == "dark" {
                 return .Black
             }

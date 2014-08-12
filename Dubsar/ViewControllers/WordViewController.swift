@@ -261,7 +261,9 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func favoriteTapped(sender: FavoriteBarButtonItem!) {
-        favoriteButton.toggleButton()
+        favoriteButton.toggleSelected()
+
+        let url = "dubsar:///words/\(theWord!._id)" // store this somewhere. remember that this word is now a favorite (or not)
     }
 
     override func adjustLayout() {

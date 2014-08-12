@@ -48,7 +48,7 @@ class FavoriteBarButtonItem: UIBarButtonItem {
         favoriteButton.barButtonItem = self
     }
 
-    func toggleButton() {
+    func toggleSelected() {
         favoriteButton.selected = !favoriteButton.selected
     }
 }

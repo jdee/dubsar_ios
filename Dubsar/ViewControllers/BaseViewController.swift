@@ -75,9 +75,13 @@ class BaseViewController: UIViewController {
         view.backgroundColor = AppConfiguration.backgroundColor
 
         if navigationController {
-            navigationController.navigationBar.barStyle = AppConfiguration.navBarStyle
+            navigationController.navigationBar.barStyle = AppConfiguration.barStyle
             navigationController.navigationBar.barTintColor = AppConfiguration.backgroundColor
             navigationController.navigationBar.tintColor = AppConfiguration.foregroundColor
+            // Styling for the title
+            let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+            let color = AppConfiguration.foregroundColor
+            navigationController.navigationBar.titleTextAttributes = [ NSFontAttributeName: font, NSForegroundColorAttributeName: color ]
         }
 
         AppDelegate.instance.voidCache()
@@ -170,6 +174,7 @@ class BaseViewController: UIViewController {
 
     func setupToolbar() {
         DMTRACE("In BaseViewController.setupToolbar()")
+
         if !AppDelegate.instance.databaseManager.downloadInProgress {
             DMTRACE("No download in progress")
             // meh
