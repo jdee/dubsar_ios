@@ -34,7 +34,9 @@ class SettingBarButtonItem: UIBarButtonItem {
         button.action = action
         button.numTeeth = 10
         // button.rotation = CGFloat(M_PI/8)
-        button.innerRingRatio = 0.15
+        button.innerRingRatio = 0.18
+        button.outerToothRatio = 0.375
+        button.innerToothRatio = 0.3
 
         super.init(customView: button)
         self.target = target
