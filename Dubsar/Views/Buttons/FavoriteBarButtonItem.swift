@@ -21,22 +21,31 @@ import UIKit
 
 class FavoriteBarButtonItem: UIBarButtonItem {
 
+    private var favoriteButton: FavoriteButton!
+
     init() {
         super.init()
     }
 
     init(target: AnyObject!, action: Selector!) {
-        let button = FavoriteButton(frame: CGRectMake(0, 0, 44, 44))
-        button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
-        button.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
-        button.backgroundColor = UIColor.clearColor()
+        favoriteButton = FavoriteButton(frame: CGRectMake(0, 0, 44, 44))
+        favoriteButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        favoriteButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
+        favoriteButton.backgroundColor = UIColor.clearColor()
+        favoriteButton.target = target
+        favoriteButton.action = action
 
-        super.init(customView: button)
+        super.init(customView: favoriteButton)
         self.target = target
         self.action = action
 
-        button.target = target
-        button.action = action
-        button.barButtonItem = self
+        // how does this get set to nil?
+        favoriteButton = customView as FavoriteButton
+
+        favoriteButton.barButtonItem = self
+    }
+
+    func toggleButton() {
+        favoriteButton.selected = !favoriteButton.selected
     }
 }

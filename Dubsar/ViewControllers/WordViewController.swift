@@ -36,6 +36,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
     var loaded: Bool = false
 
+    private var favoriteButton: FavoriteBarButtonItem!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -259,6 +261,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func favoriteTapped(sender: FavoriteBarButtonItem!) {
+        favoriteButton.toggleButton()
     }
 
     override func adjustLayout() {
@@ -294,7 +297,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         addHomeButton()
 
         var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
-        items.append(FavoriteBarButtonItem(target:self, action:"favoriteTapped:"))
+        favoriteButton = FavoriteBarButtonItem(target:self, action:"favoriteTapped:")
+        items.append(favoriteButton)
         navigationItem.rightBarButtonItems = items
 
         super.setupToolbar()

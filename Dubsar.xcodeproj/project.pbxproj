@@ -20,6 +20,7 @@
 		7B14AE1B1999B8C600BCD41A /* HomeBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE1A1999B8C600BCD41A /* HomeBarButtonItem.swift */; };
 		7B14AE1E1999B9D500BCD41A /* FavoriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE1D1999B9D500BCD41A /* FavoriteButton.m */; };
 		7B14AE201999BCE700BCD41A /* FavoriteBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE1F1999BCE700BCD41A /* FavoriteBarButtonItem.swift */; };
+		7B14AE261999BE8E00BCD41A /* BookmarkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE251999BE8E00BCD41A /* BookmarkHelper.m */; };
 		7B1B4E79197450F5008F38BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
 		7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B4E7A19747EB6008F38BF /* WordViewController.swift */; };
 		7B1FDE2E19894E81004519D4 /* SettingSwitchValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */; };
@@ -159,6 +160,8 @@
 		7B14AE1C1999B9D500BCD41A /* FavoriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteButton.h; sourceTree = "<group>"; };
 		7B14AE1D1999B9D500BCD41A /* FavoriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteButton.m; sourceTree = "<group>"; };
 		7B14AE1F1999BCE700BCD41A /* FavoriteBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteBarButtonItem.swift; sourceTree = "<group>"; };
+		7B14AE241999BE8E00BCD41A /* BookmarkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarkHelper.h; sourceTree = "<group>"; };
+		7B14AE251999BE8E00BCD41A /* BookmarkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarkHelper.m; sourceTree = "<group>"; };
 		7B1B4E7A19747EB6008F38BF /* WordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordViewController.swift; sourceTree = "<group>"; };
 		7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingSwitchValueTableViewCell.swift; sourceTree = "<group>"; };
 		7B2F4640198AEAC500F57D21 /* DownloadButtonImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadButtonImage.h; sourceTree = "<group>"; };
@@ -448,6 +451,8 @@
 			isa = PBXGroup;
 			children = (
 				7BA85A5519848DA100222A6D /* AppConfiguration.swift */,
+				7B14AE241999BE8E00BCD41A /* BookmarkHelper.h */,
+				7B14AE251999BE8E00BCD41A /* BookmarkHelper.m */,
 				7BCAA9E41992EAEA00B23F4F /* DMLOG.swift */,
 				7BBBD6D51989B54D0030FDA9 /* DatabaseManager.h */,
 				7BBBD6D61989B54D0030FDA9 /* DatabaseManager.m */,
@@ -637,6 +642,7 @@
 				7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */,
 				7BCAA9D719929E2F00B23F4F /* DownloadBarButtonItem.swift in Sources */,
 				7BA85A5619848DA100222A6D /* AppConfiguration.swift in Sources */,
+				7B14AE261999BE8E00BCD41A /* BookmarkHelper.m in Sources */,
 				7B7D3E93197DB3DC00619DEA /* KeyboardHelper.m in Sources */,
 				7BBF83701974D58400969765 /* SearchViewController.swift in Sources */,
 				7B14AE1E1999B9D500BCD41A /* FavoriteButton.m in Sources */,
