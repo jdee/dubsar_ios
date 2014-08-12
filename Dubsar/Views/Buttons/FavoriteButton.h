@@ -21,4 +21,6 @@
 
 @interface FavoriteButton : BaseBarButton
 
+@property (nonatomic) UIColor* fillColor; // for selected state
+
 @end

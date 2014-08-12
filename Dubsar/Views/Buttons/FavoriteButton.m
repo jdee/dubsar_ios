@@ -45,11 +45,11 @@
 
 - (void)drawFilled:(CGContextRef)context
 {
-    [self drawEmpty:context];
-
     [self drawStarPath:context];
-    CGContextSetFillColorWithColor(context, self.currentTitleColor.CGColor);
+    CGContextSetFillColorWithColor(context, _fillColor.CGColor);
     CGContextFillPath(context);
+
+    [self drawEmpty:context];
 }
 
 - (void)drawStarPath:(CGContextRef)context
