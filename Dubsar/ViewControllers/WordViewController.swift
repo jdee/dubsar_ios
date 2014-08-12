@@ -168,6 +168,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         cell!.frame = frame
         cell!.sense = sense // calls rebuild()
 
+        DMTRACE("Height of cell at row \(row) with row \(selectedRow) selected: \(cell!.bounds.size.height)")
+
         return cell
     }
 
@@ -185,11 +187,10 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         let sense = theWord!.senses[row-1] as DubsarModelsSense
 
-        let constrainedSize = CGSizeMake(tableView.bounds.size.width-2*SenseTableViewCell.borderWidth-2*SenseTableViewCell.margin-SenseTableViewCell.accessoryWidth, tableView.bounds.size.height)
         var selectedRow :Int = selectedIndexPath.indexAtPosition(1)
-        let height = sense.sizeOfCellWithConstrainedSize(constrainedSize, open: row == selectedRow, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
+        let height = sense.sizeOfCellWithConstrainedSize(tableView.bounds.size, open: row == selectedRow, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
 
-        // DMLOG("Height of row %d with row %d selected: %f", row, selectedRow, Double(height))
+        DMTRACE("Height of row \(row) with row \(selectedRow) selected: \(height)")
         return height
     }
 

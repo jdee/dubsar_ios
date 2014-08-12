@@ -227,7 +227,7 @@ class SynsetHeaderView: UIView {
     }
 
     private func build() {
-        // DMLOG("Constructing SynsetHeaderView with %d synonyms (synset ID %d: %@:)", synset.senses.count, synset._id, synset.synonymsAsString, synset.gloss)
+        DMTRACE("Constructing SynsetHeaderView with \(synset.senses.count) synonyms (synset ID \(synset._id): \(synset.gloss)). \(synset.synonymsAsString)")
 
         autoresizingMask = .FlexibleHeight | .FlexibleWidth
 

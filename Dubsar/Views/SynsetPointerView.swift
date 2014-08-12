@@ -139,7 +139,7 @@ class SynsetPointerView: UIView {
 
             // now estimate
             frame.size.height = completedUpToY * CGFloat(totalRows) / CGFloat(completedUpToRow)
-            // DMLOG("completed up to y: %f, row: %d, total rows %d, est. total height: %f", Double(completedUpToY), completedUpToRow, totalRows, Double(frame.size.height))
+            DMTRACE("completed up to y: \(completedUpToY), row: \(completedUpToRow), total rows \(totalRows), est. total height: \(frame.size.height)")
         }
 
         hasReset = false
@@ -157,7 +157,7 @@ class SynsetPointerView: UIView {
 
     private func pointerForRowAtIndexPath(indexPath: NSIndexPath!) -> DubsarModelsPointer {
         // could use a base class or a protocol here
-        // DMLOG("Calling pointerForRowAtIndexPath:")
+        DMTRACE("Calling pointerForRowAtIndexPath:")
         if let s = sense {
             assert(indexPath)
             return s.pointerForRowAtIndexPath(indexPath)
@@ -203,7 +203,7 @@ class SynsetPointerView: UIView {
                 if y >= scrollViewBottom {
                     break
                 }
-                // DMLOG("Title for section %d is %@", sectionNumber, title)
+                DMTRACE("Title for section \(sectionNumber) is \(title)")
             }
 
             let fudge : CGFloat = 8
@@ -220,7 +220,7 @@ class SynsetPointerView: UIView {
 
                 let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
                 let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
-                // DMLOG("Pointer text size is %f x %f", Double(textSize.width), Double(textSize.height))
+                DMTRACE("Pointer text size is \(textSize.width) x \(textSize.height)")
                 let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height), withoutButton: isPreview)
                 pointerView.label.text = text
                 if !isPreview && pointer.targetType == "Sense" {
@@ -236,7 +236,7 @@ class SynsetPointerView: UIView {
 
                 ++completedUpToRow
 
-                // DMLOG("Pointer text for section %d, row %d is %@", sectionNumber, row, title)
+                DMTRACE("Pointer text for section \(sectionNumber), row \(row) is \(text)")
                 if y >= scrollViewBottom {
                     finished = true
                     ++row

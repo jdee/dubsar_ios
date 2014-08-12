@@ -50,7 +50,7 @@ extension DubsarModelsSense {
             size.height += synonymSize.height + SenseTableViewCell.margin
         }
 
-        // DMLOG("Cell header height: %f", size.height)
+        DMTRACE("Cell header height: \(size.height)")
 
         if open {
             if !complete {
@@ -62,7 +62,7 @@ extension DubsarModelsSense {
             let sampleView = SynsetSampleView(synset: synset, frame: CGRectMake(0, 0, constraint.width, constraint.height), preview: true)
             sampleView.sense = self
             sampleView.layoutSubviews()
-            // DMLOG("Computed sample view height is %f; cell height will be %f", sampleView.bounds.size.height, size.height)
+            DMTRACE("Computed sample view height is \(sampleView.bounds.size.height); cell height will be \(size.height+sampleView.bounds.size.height)")
 
             var additions = sampleView.bounds.size.height
             if maxHeightOfAdditions > 0 && additions >= maxHeightOfAdditions {

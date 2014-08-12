@@ -78,9 +78,9 @@ class ScrollingSynsetView: UIScrollView {
     override func layoutSubviews() {
         backgroundColor = AppConfiguration.backgroundColor
 
-        // DMLOG("contentOffset: (%f, %f)", contentOffset.x, contentOffset.y)
+        DMTRACE("contentOffset: (\(contentOffset.x), \(contentOffset.y))")
         if synset.complete {
-            // DMLOG("Entered ScrollingSynsetView.layoutSubviews()")
+            DMTRACE("Entered ScrollingSynsetView.layoutSubviews()")
 
             let firstSense = synset.senses.firstObject as DubsarModelsSense
             let hasPointers = (sense && sense!.complete && sense!.numberOfSections > 0) || (!sense && firstSense.complete && firstSense.numberOfSections > 0) || synset.numberOfSections > 0
@@ -112,7 +112,7 @@ class ScrollingSynsetView: UIScrollView {
                 contentSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height)
             }
 
-            // DMLOG("Set scrolling content size to %f x %f. header ht: %f, sample ht: %f, pointer ht: %f", totalSize.width, totalSize.height, headerView.bounds.size.height, sampleView.bounds.size.height, pointerView.bounds.size.height)
+            DMTRACE("Set scrolling content size to \(contentSize.width) x \(contentSize.height). header ht: \(headerView.bounds.size.height), sample ht: \(sampleView.bounds.size.height), pointer ht: \(pointerView.bounds.size.height)")
 
         }
 

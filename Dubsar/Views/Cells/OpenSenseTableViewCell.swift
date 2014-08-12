@@ -66,18 +66,18 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         var available = insertHeightLimit
         if available > 0 {
-            // DMLOG("available = %f", Double(available))
+            DMTRACE("available = \(available)")
             if sampleView.bounds.size.height > available {
-                // DMLOG("sampleView size of %f truncated", Double(sampleView.bounds.size.height))
+                DMTRACE("sampleView size of \(sampleView.bounds.size.height) truncated")
                 sampleView.frame.size.height = available
             }
             available -= sampleView.bounds.size.height
-            // DMLOG("available reduced to %f", Double(available))
+            DMTRACE("available reduced to \(available)")
             if available <= 0 {
                 // used up all our space. don't insert the pointer view
                 frame.size.height += sampleView.bounds.size.height
                 view!.frame.size.height = bounds.size.height
-                // DMLOG("No pointer view. sample view height is %f. frame height is now %f", Double(sampleView.bounds.size.height), Double(bounds.size.height))
+                DMTRACE("No pointer view. sample view height is \(sampleView.bounds.size.height). frame height is now \(bounds.size.height)")
                 addGradientToBottomOfView(view)
                 return
             }
@@ -92,7 +92,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         y = bounds.size.height
 
-        // DMLOG("sample view height is %f. frame height is now %f (remaining insertHeightLimit: %f)", Double(sampleView.bounds.size.height), Double(frame.size.height), Double(available))
+        DMTRACE("sample view height is \(sampleView.bounds.size.height). frame height is now \(frame.size.height) (remaining insertHeightLimit: \(available))")
 
         let pointerView = SynsetPointerView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height), preview: true)
         pointerView.sense = sense
@@ -105,9 +105,9 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         var truncated = false
 
         if available > 0 {
-            // DMLOG("available = %f", Double(available))
+            DMTRACE("available = \(available)")
             if pointerView.bounds.size.height > available {
-                // DMLOG("pointerView size of %f truncated", pointerView.bounds.size.height)
+                DMTRACE("pointerView size of \(pointerView.bounds.size.height) truncated")
                 pointerView.frame.size.height = available
                 truncated = true
             }
@@ -116,7 +116,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         frame.size.height += pointerView.bounds.size.height
         view!.frame.size.height = bounds.size.height
 
-        // DMLOG("pointer view height is %f. frame height is now %f", Double(pointerView.bounds.size.height), Double(frame.size.height))
+        DMTRACE("pointer view height is \(pointerView.bounds.size.height). frame height is now \(frame.size.height)")
 
         if truncated {
             addGradientToBottomOfView(view)
@@ -141,7 +141,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         gradientView.alpha = 0.333
         gradientView.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
 
-        // DMLOG("Added gradient at %f", Double(gradientView.frame.origin.y))
+        DMTRACE("Added gradient at \(gradientView.frame.origin.y)")
         aView.addSubview(gradientView)
     }
 }
