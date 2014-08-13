@@ -31,6 +31,8 @@
 
 #define DUBSAR_CURRENT_DOWNLOAD_KEY @"DubsarCurrentDownload"
 #define DUBSAR_CURRENT_DOWNLOAD_MTIME_KEY @"DubsarCurrentDownloadMtime"
+#define DUBSAR_CURRENT_DOWNLOAD_ETAG_KEY @"DubsarCurrentDownloadEtag"
+#define DUBSAR_CURRENT_DOWNLOAD_SIZE_KEY @"DubsarCurrentDownloadSize"
 #define DUBSAR_REQUIRED_DB_VERSION @"dubsar-wn3.1-3"
 #define DUBSAR_DOWNLOAD_PREFIX @"dubsar-wn"
 #define DUBSAR_UNZIP_INTERVAL_SECONDS 0.200
@@ -88,56 +90,6 @@
         sequenceNumber = 0;
 
         _requiredDBVersion = DUBSAR_REQUIRED_DB_VERSION;
-
-        int requiredNumericVersion = [self versionFromDownloadName:_requiredDBVersion];
-
-        NSString* download = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
-        NSString* mtime = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_CURRENT_DOWNLOAD_MTIME_KEY];
-        if (download) {
-            int currentNumericVersion = [self versionFromDownloadName:download];
-
-            if (currentNumericVersion >= requiredNumericVersion) {
-                _fileName = [download stringByAppendingString:@".sqlite3"];
-                _zipName = [download stringByAppendingString:@".zip"];
-                if (self.fileExists) {
-                    DMINFO(@"Application requires %@. Compatible version %@ installed.", _requiredDBVersion, download);
-
-                    if (mtime) {
-                        _currentDownload = [[DubsarModelsDownload alloc]init];
-                        _currentDownload.name = download;
-                        _currentDownload.properties = [NSDictionary dictionaryWithObject:mtime forKey:@"mtime"];
-                    }
-                }
-                else {
-                    DMINFO(@"No database installed.");
-                }
-            }
-            else {
-                DMWARN(@"Application requires %@. Removing %@.", _requiredDBVersion, download);
-                // It'll check for updates as soon as the app foregrounds.
-                [self cleanOldDatabases];
-                [[NSUserDefaults standardUserDefaults] removeObjectForKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
-            }
-        }
-        else {
-            /*
-             * In case the user default ever vanished for any reason, but the required DB was actually
-             * there. DEBT: If the user default vanished, there could be a compatible later version installed,
-             * and this check would delete it. Instead of checking if _fileName exists, it should iterate
-             * through everything in the app support directory that matches the pattern to see what version(s)
-             * might be there.
-             */
-            _fileName = [_requiredDBVersion stringByAppendingString:@".sqlite3"];
-            if (self.fileExists) {
-                DMINFO(@"Required database %@ already installed", self.requiredDBVersion);
-                [[NSUserDefaults standardUserDefaults] setValue:_requiredDBVersion forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
-            }
-            else {
-                DMWARN(@"Application requires %@. Removing any older databases.", _requiredDBVersion);
-                _fileName = nil;
-            }
-            [self cleanOldDatabases]; // cleans everything but _fileName, or everything if _fileName is nil
-        }
 
         memset(&_downloadStart, 0, sizeof(_downloadStart));
         memset(&_lastDownloadStatsUpdate, 0, sizeof(_lastDownloadStatsUpdate));
@@ -281,6 +233,61 @@
 #pragma mark - Public interface
 - (void)initialize
 {
+    int requiredNumericVersion = [self versionFromDownloadName:_requiredDBVersion];
+
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    _etag = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_CURRENT_DOWNLOAD_ETAG_KEY];
+    _totalSize = [[NSUserDefaults standardUserDefaults] integerForKey:DUBSAR_CURRENT_DOWNLOAD_SIZE_KEY];
+
+    NSString* download = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
+    NSString* mtime = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_CURRENT_DOWNLOAD_MTIME_KEY];
+    if (download) {
+        int currentNumericVersion = [self versionFromDownloadName:download];
+
+        if (currentNumericVersion >= requiredNumericVersion) {
+            _fileName = [download stringByAppendingString:@".sqlite3"];
+            _zipName = [download stringByAppendingString:@".zip"];
+            if (self.fileExists) {
+                DMINFO(@"Application requires %@. Compatible version %@ installed.", _requiredDBVersion, download);
+
+                if (mtime) {
+                    _currentDownload = [[DubsarModelsDownload alloc]init];
+                    _currentDownload.name = download;
+                    _currentDownload.properties = [NSDictionary dictionaryWithObject:mtime forKey:@"mtime"];
+                }
+            }
+            else {
+                DMINFO(@"No database installed.");
+            }
+        }
+        else {
+            DMWARN(@"Application requires %@. Removing %@.", _requiredDBVersion, download);
+            // It'll check for updates as soon as the app foregrounds.
+            [self cleanOldDatabases];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
+        }
+    }
+    else {
+        /*
+         * In case the user default ever vanished for any reason, but the required DB was actually
+         * there. DEBT: If the user default vanished, there could be a compatible later version installed,
+         * and this check would delete it. Instead of checking if _fileName exists, it should iterate
+         * through everything in the app support directory that matches the pattern to see what version(s)
+         * might be there.
+         */
+        _fileName = [_requiredDBVersion stringByAppendingString:@".sqlite3"];
+        if (self.fileExists) {
+            DMINFO(@"Required database %@ already installed", self.requiredDBVersion);
+            [[NSUserDefaults standardUserDefaults] setValue:_requiredDBVersion forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
+        }
+        else {
+            DMWARN(@"Application requires %@. Removing any older databases.", _requiredDBVersion);
+            _fileName = nil;
+        }
+        [self cleanOldDatabases]; // cleans everything but _fileName, or everything if _fileName is nil
+    }
+
     if (self.fileExists) {
         [DubsarModelsDatabase instance].databaseURL = self.fileURL;
     }
@@ -375,10 +382,13 @@
 
     if (_etag && _start > 0 && _start == _totalSize) {
         [request addValue:_etag forHTTPHeaderField:@"If-None-Match"];
+        DMDEBUG(@"Added If-None-Match:%@", _etag);
     }
     else if (_etag && _start > 0 && _start < _totalSize) {
         [request addValue:_etag forHTTPHeaderField:@"If-Range"];
-        [request addValue:[NSString stringWithFormat:@"bytes=%ld-%ld", (long)_start, (long)_totalSize-1] forHTTPHeaderField:@"Range"];
+        DMDEBUG(@"Added If-Range:%@", _etag);
+        [request addValue:[NSString stringWithFormat:@"bytes=%ld-", (long)_start] forHTTPHeaderField:@"Range"];
+        DMDEBUG(@"Added Range:bytes=%ld-", (long)_start);
     }
 
     self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
@@ -661,6 +671,10 @@
     }
     _totalSize = self.downloadSize;
 
+    [[NSUserDefaults standardUserDefaults] setValue:_etag forKey:DUBSAR_CURRENT_DOWNLOAD_ETAG_KEY];
+    [[NSUserDefaults standardUserDefaults] setInteger:_totalSize forKey:DUBSAR_CURRENT_DOWNLOAD_SIZE_KEY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     // This may be a long-running background job on something other than the main thread. But the app may be in the foreground with the
     // SynsetViewController as a delegate.
     if ([self.delegate respondsToSelector:@selector(downloadStarted:)]) {
@@ -711,6 +725,7 @@
     _fileName = [_currentDownload.name stringByAppendingString:@".sqlite3"];
 
     [[NSUserDefaults standardUserDefaults] setValue:_currentDownload.name forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
+    [[NSUserDefaults standardUserDefaults] setValue:_currentDownload.properties[@"mtime"] forKey:DUBSAR_CURRENT_DOWNLOAD_MTIME_KEY];
 
     if (self.fileExists) {
         DMINFO(@"Already have %@", self.fileURL.path);
@@ -800,6 +815,10 @@
 
     _fileName = _oldFileName;
     _currentDownload = _oldDownload;
+
+    [[NSUserDefaults standardUserDefaults] setValue:_currentDownload.name forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
+    [[NSUserDefaults standardUserDefaults] setValue:_currentDownload.properties[@"mtime"] forKey:DUBSAR_CURRENT_DOWNLOAD_MTIME_KEY];
+
     _oldFileName = nil;
     _oldDownload = nil;
 }
