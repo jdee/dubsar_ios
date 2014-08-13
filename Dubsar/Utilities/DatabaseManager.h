@@ -53,13 +53,15 @@
 /**
  * The unzipped DB file downloaded and installed by the DatabaseManager resides in the application support directory.
  */
-@property (nonatomic, copy, readonly) NSString* fileName;
+@property (atomic, copy, readonly) NSString* fileName;
 @property (nonatomic, readonly) NSURL* fileURL;
 @property (nonatomic, readonly) BOOL fileExists;
 @property (nonatomic, copy, readonly) NSString* oldFileName;
 @property (nonatomic, readonly) NSURL* oldFileURL;
 @property (nonatomic, readonly) BOOL oldFileExists;
 @property (nonatomic, copy, readonly) NSString* requiredDBVersion;
+@property (atomic, readonly) DubsarModelsDownload* currentDownload;
+@property (atomic, readonly) DubsarModelsDownload* oldDownload;
 @property (atomic, readonly) NSInteger downloadSize;
 @property (atomic, readonly) NSInteger downloadedSoFar;
 @property (atomic, readonly) NSInteger unzippedSize;

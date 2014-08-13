@@ -30,6 +30,7 @@
 #import "UIApplication+NetworkRefCount.h"
 
 #define DUBSAR_CURRENT_DOWNLOAD_KEY @"DubsarCurrentDownload"
+#define DUBSAR_CURRENT_DOWNLOAD_MTIME_KEY @"DubsarCurrentDownloadMtime"
 #define DUBSAR_REQUIRED_DB_VERSION @"dubsar-wn3.1-3"
 #define DUBSAR_DOWNLOAD_PREFIX @"dubsar-wn"
 #define DUBSAR_UNZIP_INTERVAL_SECONDS 0.200
@@ -91,6 +92,7 @@
         int requiredNumericVersion = [self versionFromDownloadName:_requiredDBVersion];
 
         NSString* download = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
+        NSString* mtime = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_CURRENT_DOWNLOAD_MTIME_KEY];
         if (download) {
             int currentNumericVersion = [self versionFromDownloadName:download];
 
@@ -99,6 +101,12 @@
                 _zipName = [download stringByAppendingString:@".zip"];
                 if (self.fileExists) {
                     DMINFO(@"Application requires %@. Compatible version %@ installed.", _requiredDBVersion, download);
+
+                    if (mtime) {
+                        _currentDownload = [[DubsarModelsDownload alloc]init];
+                        _currentDownload.name = download;
+                        _currentDownload.properties = [NSDictionary dictionaryWithObject:mtime forKey:@"mtime"];
+                    }
                 }
                 else {
                     DMINFO(@"No database installed.");
@@ -685,23 +693,24 @@
     }
 
     DubsarModelsDownloadList* downloadList = (DubsarModelsDownloadList*)model;
-    DubsarModelsDownload* download = [self findCorrectDownload:downloadList];
-    if (!download) {
+    _currentDownload = [self findCorrectDownload:downloadList];
+    if (!_currentDownload) {
         DMERROR(@"Couldn't find an acceptable download.");
         return;
     }
 
-    int zipped = ((NSNumber*)download.properties[@"zipped"]).intValue;
-    int unzipped = ((NSNumber*)download.properties[@"unzipped"]).intValue;
+    int zipped = ((NSNumber*)_currentDownload.properties[@"zipped"]).intValue;
+    int unzipped = ((NSNumber*)_currentDownload.properties[@"unzipped"]).intValue;
 
-    DMINFO(@"download: %@. zipped: %d, unzipped: %d", download.name, zipped, unzipped);
+    DMINFO(@"download: %@. zipped: %d, unzipped: %d", _currentDownload.name, zipped, unzipped);
 
     _oldFileName = _fileName;
+    _oldDownload = _currentDownload;
 
-    _zipName = [download.name stringByAppendingString:@".zip"];
-    _fileName = [download.name stringByAppendingString:@".sqlite3"];
+    _zipName = [_currentDownload.name stringByAppendingString:@".zip"];
+    _fileName = [_currentDownload.name stringByAppendingString:@".sqlite3"];
 
-    [[NSUserDefaults standardUserDefaults] setValue:download.name forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
+    [[NSUserDefaults standardUserDefaults] setValue:_currentDownload.name forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
 
     if (self.fileExists) {
         DMINFO(@"Already have %@", self.fileURL.path);
@@ -709,15 +718,15 @@
         return;
     }
 
-    DMINFO(@"%@ is a new download", download.name);
+    DMINFO(@"%@ is a new download", _currentDownload.name);
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(newDownloadAvailable:name:zipped:unzipped:)]) {
         if ([NSThread currentThread] == [NSThread mainThread]) {
-            [self.delegate newDownloadAvailable:self name:download.name zipped:zipped unzipped:unzipped];
+            [self.delegate newDownloadAvailable:self name:_currentDownload.name zipped:zipped unzipped:unzipped];
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate newDownloadAvailable:self name:download.name zipped:zipped unzipped:unzipped];
+                [self.delegate newDownloadAvailable:self name:_currentDownload.name zipped:zipped unzipped:unzipped];
             });
         }
     }
@@ -790,7 +799,9 @@
     if (!self.oldFileExists) return;
 
     _fileName = _oldFileName;
+    _currentDownload = _oldDownload;
     _oldFileName = nil;
+    _oldDownload = nil;
 }
 
 - (void)updateElapsedDownloadTime

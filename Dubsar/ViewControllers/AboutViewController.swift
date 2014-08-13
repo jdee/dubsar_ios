@@ -31,8 +31,8 @@ class AboutViewController: BaseViewController {
     @IBOutlet var bannerLabel : UILabel!
     @IBOutlet var versionLabel : UILabel!
     @IBOutlet var modelsVersionLabel : UILabel!
+    @IBOutlet var databaseVersionLabel : UILabel!
     @IBOutlet var copyrightLabel : UILabel!
-    @IBOutlet var doneButton : UIButton!
 
     private var paragraphLabels = [UILabel]()
 
@@ -53,16 +53,44 @@ class AboutViewController: BaseViewController {
         adjustLayout()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        let current: DubsarModelsDownload? = AppDelegate.instance.databaseManager.currentDownload
+        var dbVersionString: String
+
+        if !AppConfiguration.offlineSetting {
+            dbVersionString = "(offline use disabled)"
+        }
+
+        if let download = current {
+            let range = NSRange(location: 0, length: 19)
+            let mtime = download.properties["mtime"] as NSString
+            var timestamp = mtime.substringWithRange(range) as NSString
+            timestamp = timestamp.stringByReplacingOccurrencesOfString("T", withString: " ", options: nil, range: NSRange(location: 0, length: 19)) as NSString
+
+            dbVersionString = "\(download.name)\n\(timestamp) UTC"
+        }
+        else {
+            dbVersionString = "(no current download)"
+        }
+
+        databaseVersionLabel.text = "Installed database version:\n\(dbVersionString)"
+        databaseVersionLabel.invalidateIntrinsicContentSize()
+        
+        super.viewWillAppear(animated)
+    }
+
     override func adjustLayout() {
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         bannerLabel.font = font
         versionLabel.font = font
         modelsVersionLabel.font = font
+        databaseVersionLabel.font = font
         copyrightLabel.font = font
 
         bannerLabel.textColor = AppConfiguration.foregroundColor
         versionLabel.textColor = AppConfiguration.foregroundColor
         modelsVersionLabel.textColor = AppConfiguration.foregroundColor
+        databaseVersionLabel.textColor = AppConfiguration.foregroundColor
         copyrightLabel.textColor = AppConfiguration.foregroundColor
 
         var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
