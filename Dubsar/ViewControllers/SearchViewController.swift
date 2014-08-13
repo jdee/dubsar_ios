@@ -142,6 +142,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             wordCell!.isPreview = true
             wordCell!.word = word
             wordCell!.rebuild()
+            DMTRACE("Cell width: \(cell!.bounds.size.width). contentView width: \(cell!.contentView.bounds.size.width). view width: \(wordCell!.view!.bounds.size.width).")
         }
         else if let synset = result as? DubsarModelsSynset {
             var synsetCell: SynsetTableViewCell?

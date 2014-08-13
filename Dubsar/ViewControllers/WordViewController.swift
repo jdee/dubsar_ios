@@ -169,6 +169,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         cell!.sense = sense // calls rebuild()
 
         DMTRACE("Height of cell at row \(row) with row \(selectedRow) selected: \(cell!.bounds.size.height)")
+        DMTRACE("Cell width: \(cell!.bounds.size.width). contentView width: \(cell!.contentView.bounds.size.width). view width: \((cell! as SenseTableViewCell).view!.bounds.size.width). bg label width: \((cell! as SenseTableViewCell).backgroundLabel.bounds.size.width)")
 
         return cell
     }

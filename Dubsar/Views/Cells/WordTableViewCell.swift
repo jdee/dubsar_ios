@@ -103,6 +103,14 @@ class WordTableViewCell: UITableViewCell {
 
         view = UIView(frame: bounds)
         view!.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
+        // view!.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+
+        layer.borderColor = UIColor.redColor().CGColor
+        // layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.greenColor().CGColor
+        // contentView.layer.borderWidth = 1
+        view!.layer.borderColor = UIColor.blueColor().CGColor
+        // view!.layer.borderWidth = 1
 
         contentView.frame = bounds
         contentView.addSubview(view)
@@ -113,6 +121,9 @@ class WordTableViewCell: UITableViewCell {
         nameAndPosLabel.font = headlineFont
         nameAndPosLabel.text = nameAndPos
         nameAndPosLabel.textColor = AppConfiguration.foregroundColor
+        // nameAndPosLabel.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        nameAndPosLabel.layer.borderColor = UIColor.orangeColor().CGColor
+        // nameAndPosLabel.layer.borderWidth = 1
         view!.addSubview(nameAndPosLabel)
 
         if word!.inflections.count > 0 {
@@ -122,6 +133,9 @@ class WordTableViewCell: UITableViewCell {
             inflectionLabel.font = italicFont
             inflectionLabel.text = inflectionText
             inflectionLabel.textColor = AppConfiguration.foregroundColor
+            inflectionLabel.layer.borderColor = UIColor.yellowColor().CGColor
+            // inflectionLabel.layer.borderWidth = 1
+            // inflectionLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
             view!.addSubview(inflectionLabel)
         }
 
@@ -137,6 +151,9 @@ class WordTableViewCell: UITableViewCell {
             freqCntLabel.font = bodyFont
             freqCntLabel.text = freqCntText
             freqCntLabel.textColor = AppConfiguration.foregroundColor
+            freqCntLabel.layer.borderColor = UIColor.purpleColor().CGColor
+            // freqCntLabel.layer.borderWidth = 1
+            // freqCntLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
             view!.addSubview(freqCntLabel)
         }
     }
