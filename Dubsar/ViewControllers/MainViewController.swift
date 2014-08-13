@@ -223,6 +223,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         }
     }
 
+    override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
+        super.touchesBegan(touches, withEvent: event)
+
+        bookmarkListView.hidden = true
+    }
+
     // MARK: UISearchBarDelegate
     func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
         if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
