@@ -53,10 +53,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         autocompleterView.viewController = self
         view.addSubview(autocompleterView)
 
-        bookmarkListView = BookmarkListView(frame: CGRectMake(0, searchBar.bounds.size.height+searchBar.frame.origin.y, view.bounds.size.width, view.bounds.size.height))
+        // The search bar is always closed (no scope buttons visible) when the bookmark view is showing. but if we try to place it while the buttons
+        // are still showing, it ends up in the wrong place. This hack is the most straightforward way of dealing with it. Maybe a constraint would do the job.
+        bookmarkListView = BookmarkListView(frame: CGRectMake(0, 44, view.bounds.size.width, view.bounds.size.height-44))
         bookmarkListView.hidden = true
         bookmarkListView.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
-        bookmarkListView.frame.origin.y = 44 // DEBT: <-
         view.addSubview(bookmarkListView)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShowing:", name: UIKeyboardDidShowNotification, object: nil)
@@ -96,6 +97,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         // DMLOG("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))
         setupToolbar()
+
+        if !bookmarkListView.hidden {
+            bookmarkListView.frame = CGRectMake(0, 44, view.bounds.size.width, view.bounds.size.height - 44)
+            bookmarkListView.setNeedsLayout()
+        }
     }
 
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
@@ -372,6 +378,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
+        bookmarkListView.frame = CGRectMake(0, 44, view.bounds.size.width, view.bounds.size.height - 44)
         bookmarkListView.setNeedsLayout()
 
         // DMLOG("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))

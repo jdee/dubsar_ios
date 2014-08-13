@@ -63,6 +63,7 @@ class ThemeViewController: BaseViewController {
         adjustLayout()
 
         knobHolder.addSubview(knobControl)
+        DMTRACE("Finished setting up knob control")
     }
 
     override func viewWillDisappear(animated: Bool) {

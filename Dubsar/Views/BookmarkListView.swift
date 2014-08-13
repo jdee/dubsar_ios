@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import UIKit
 
-class BookmarkListView: UIView {
+class BookmarkListView: UIScrollView {
 
     class var margin : CGFloat {
         get {
@@ -27,11 +27,15 @@ class BookmarkListView: UIView {
     }
     }
 
+    let backgroundView: UIView
     let label: UILabel
     var bookmarkViews = [BookmarkView]()
 
     init(frame: CGRect) {
         let margin = BookmarkListView.margin
+
+        backgroundView = UIView(frame: CGRectMake(0, 0, frame.size.width, frame.size.height))
+
         label = UILabel(frame: CGRectMake(margin, margin, frame.size.width - 2 * margin, frame.size.height))
         label.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         label.numberOfLines = 1
@@ -41,9 +45,14 @@ class BookmarkListView: UIView {
 
         layer.shadowOffset = CGSizeMake(0, 3)
         layer.shadowOpacity = 1
-        clipsToBounds = false
+        clipsToBounds = true
 
-        addSubview(label)
+        bounces = false
+        showsHorizontalScrollIndicator = false
+        showsVerticalScrollIndicator = true
+
+        addSubview(backgroundView)
+        backgroundView.addSubview(label)
     }
 
     override func layoutSubviews() {
@@ -52,7 +61,7 @@ class BookmarkListView: UIView {
         }
         bookmarkViews = []
 
-        backgroundColor = AppConfiguration.alternateBackgroundColor
+        backgroundView.backgroundColor = AppConfiguration.alternateBackgroundColor
 
         let bookmarks = AppDelegate.instance.bookmarkManager.bookmarks
 
@@ -68,9 +77,11 @@ class BookmarkListView: UIView {
         let margin = BookmarkListView.margin
 
         label.font = font
-        label.frame = CGRectMake(margin, margin, frame.size.width - 2 * margin, textSize.height)
+        label.frame = CGRectMake(margin, margin, bounds.size.width - 2 * margin, textSize.height)
         label.backgroundColor = AppConfiguration.highlightColor
         label.textColor = AppConfiguration.foregroundColor
+
+        DMDEBUG("Favorites label: text size \(textSize.width) x \(textSize.height) (\(font.pointSize) pt)")
 
         var y = margin + label.frame.origin.y + label.bounds.size.height
 
@@ -79,14 +90,23 @@ class BookmarkListView: UIView {
         for bookmark in bookmarks {
             let bookmarkView = BookmarkView(frame: CGRectMake(margin, y, self.bounds.size.width - 2 * margin, self.bounds.size.height), bookmark: bookmark)
             bookmarkView.listView = self
-            addSubview(bookmarkView)
+            backgroundView.addSubview(bookmarkView)
             bookmarkViews.append(bookmarkView)
 
             y += bookmarkView.bounds.size.height + margin
             DMTRACE("y is now \(y)")
         }
 
-        frame.size.height = y
+        backgroundView.frame = CGRectMake(0, 0, bounds.size.width, y)
+
+        // add room for the shadow, since we have to set clipsToBounds to true
+        y += layer.shadowOffset.height + layer.shadowRadius
+
+        contentSize = CGSizeMake(frame.size.width, y)
+
+        if frame.size.height > y {
+            frame.size.height = y
+        }
 
         super.layoutSubviews()
     }
