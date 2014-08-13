@@ -20,6 +20,17 @@
 #import "DubsarModelsDownloadList.h"
 
 @implementation DubsarModelsDownload
+@dynamic zippedSize, unzippedSize;
+
+- (NSUInteger)zippedSize
+{
+    return ((NSNumber*)_properties[@"zipped"]).integerValue;
+}
+
+- (NSUInteger)unzippedSize
+{
+    return ((NSNumber*)_properties[@"unzipped"]).integerValue;
+}
 @end
 
 @implementation DubsarModelsDownloadList

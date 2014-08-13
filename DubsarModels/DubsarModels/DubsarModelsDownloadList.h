@@ -22,6 +22,10 @@
 @interface DubsarModelsDownload : NSObject
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic) NSDictionary* properties;
+
+@property (nonatomic) NSUInteger zippedSize;
+@property (nonatomic) NSUInteger unzippedSize;
+
 @end
 
 @interface DubsarModelsDownloadList : DubsarModelsModel

@@ -653,6 +653,9 @@
     }
 
     self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
+    if (self.downloadSize != _currentDownload.zippedSize) {
+        DMWARN(@"Advertised download size: %lu. Content-Length: %ld", (unsigned long)_currentDownload.zippedSize, (long)self.downloadSize);
+    }
 
     NSString* newETag = (NSString*)httpResp.allHeaderFields[@"ETag"];
     if (_etag && ![_etag isEqualToString:newETag]) {
@@ -713,10 +716,10 @@
         return;
     }
 
-    int zipped = ((NSNumber*)_currentDownload.properties[@"zipped"]).intValue;
-    int unzipped = ((NSNumber*)_currentDownload.properties[@"unzipped"]).intValue;
+    NSUInteger zipped = _currentDownload.zippedSize;
+    NSUInteger unzipped = _currentDownload.unzippedSize;
 
-    DMINFO(@"download: %@. zipped: %d, unzipped: %d", _currentDownload.name, zipped, unzipped);
+    DMINFO(@"download: %@. zipped: %lu, unzipped: %lu", _currentDownload.name, (unsigned long)zipped, (unsigned long)unzipped);
 
     _oldFileName = _fileName;
     _oldDownload = _currentDownload;
@@ -921,6 +924,12 @@
         return;
     }
     DMDEBUG(@"Unzipped file %@ is %lld bytes", _fileName, sb.st_size);
+    if (self.unzippedSize != sb.st_size) {
+        DMWARN(@"Unzip file header: %ld. File size is %lld", self.unzippedSize, sb.st_size);
+    }
+    if (_currentDownload.unzippedSize != sb.st_size) {
+        DMWARN(@"Advertised database size: %lu. File size is %lld", _currentDownload.unzippedSize, sb.st_size);
+    }
 
     NSError* error;
 
@@ -962,6 +971,13 @@
         [self notifyDelegateOfError: @"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path];
         return;
     }
+
+    if (sb.st_size != self.downloadSize) {
+        DMWARN(@"Content-Length = %ld. File size is %lld.", (long)self.downloadSize, sb.st_size);
+    }
+    if (sb.st_size != _currentDownload.zippedSize) {
+        DMWARN(@"Advertised download size %lu. File size is %lld.", (unsigned long)_currentDownload.zippedSize, sb.st_size);
+    }
     
     uf = unzOpen(self.zipURL.path.UTF8String);
     if (!uf) {
@@ -998,7 +1014,10 @@
     }
 
     self.unzippedSize = fileInfo.uncompressed_size;
-    DMDEBUG(@"Unzipped file will be %lu bytes", (long)_unzippedSize);
+    DMDEBUG(@"Unzipped file will be %ld bytes", (long)_unzippedSize);
+    if (_currentDownload.unzippedSize != self.unzippedSize) {
+        DMWARN(@"Advertised database size %lu. Unzip file header: %ld", (unsigned long)_currentDownload.unzippedSize, (long)_unzippedSize);
+    }
 
     outfile = fopen(self.fileURL.path.UTF8String, "w");
     if (!outfile) {
