@@ -27,14 +27,23 @@ class BookmarkListView: UIView {
     }
     }
 
+    let label: UILabel
     var bookmarkViews = [BookmarkView]()
 
     init(frame: CGRect) {
+        let margin = BookmarkListView.margin
+        label = UILabel(frame: CGRectMake(margin, margin, frame.size.width - 2 * margin, frame.size.height))
+        label.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        label.numberOfLines = 1
+        label.textAlignment = .Center
+
         super.init(frame: frame)
 
         layer.shadowOffset = CGSizeMake(0, 3)
         layer.shadowOpacity = 1
         clipsToBounds = false
+
+        addSubview(label)
     }
 
     override func layoutSubviews() {
@@ -46,9 +55,25 @@ class BookmarkListView: UIView {
         backgroundColor = AppConfiguration.alternateBackgroundColor
 
         let bookmarks = AppDelegate.instance.bookmarkManager.bookmarks
+
+        if bookmarks.isEmpty {
+            label.text = "No favorites"
+        }
+        else {
+            label.text = "Favorites"
+        }
+
+        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let textSize = (label.text as NSString).sizeWithAttributes([NSFontAttributeName: font])
         let margin = BookmarkListView.margin
 
-        var y = margin
+        label.font = font
+        label.frame = CGRectMake(margin, margin, frame.size.width - 2 * margin, textSize.height)
+        label.backgroundColor = AppConfiguration.highlightColor
+        label.textColor = AppConfiguration.foregroundColor
+
+        var y = margin + label.frame.origin.y + label.bounds.size.height
+
         DMTRACE("Laying out bookmark list view with \(bookmarks.count) bookmarks, starting at \(y) (frame.origin.y = \(frame.origin.y))")
 
         for bookmark in bookmarks {
