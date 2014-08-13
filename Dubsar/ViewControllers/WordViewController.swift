@@ -304,16 +304,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             favoriteButton.selected = theWord && AppDelegate.instance.bookmarkManager.isUrlBookmarked(url)
 
             // need to break up super.setToolbar, so that I can make the buttons in the right order.
-            if items.count == 2 {
-                navigationItem.rightBarButtonItems  = [ items[0], favoriteButton, items[1] ]
-            }
-            else if items.count == 1 {
-                if items[0] as? HomeBarButtonItem {
-                    navigationItem.rightBarButtonItems = [ items[0], favoriteButton ]
-                }
-                else {
-                    navigationItem.rightBarButtonItems = [ favoriteButton, items[0] ]
-                }
+            if items.count == 1 {
+                navigationItem.rightBarButtonItems = [ favoriteButton, items[0] ]
             }
             else {
                 navigationItem.rightBarButtonItem = favoriteButton

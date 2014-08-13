@@ -238,7 +238,8 @@ class BaseViewController: UIViewController {
         }
 
         let homeButton = HomeBarButtonItem(target: self, action: "home")
-        navigationItem.rightBarButtonItem = homeButton
+        navigationItem.leftItemsSupplementBackButton = true
+        navigationItem.leftBarButtonItem = homeButton
     }
 
     @IBAction
