@@ -438,6 +438,7 @@ static CGRect adjustFrame(CGRect frame) {
     _fontName = @"Helvetica";
     _shadow = NO;
     _zoomTopTitle = YES;
+    _zoomPointSize = 0.0;
 
     rotating = NO;
     lastNumberDialed = _numberDialed = -1;
@@ -1593,30 +1594,40 @@ static CGRect adjustFrame(CGRect frame) {
 - (void)updateMarkings
 {
     CGFloat fontSize = self.fontSizeForTitles;
+    NSLog(@"Computed font size is %f", fontSize);
+
     UIFont* font = [self fontWithSize:fontSize];
     assert(font);
 
     /*
-     * Zoom the title at the top to the headline size if fontSize is smaller than the current headline font size
-     * (makes use of Dynamic Type, so requires iOS 7+). DEBT: Zoom to 17 pts or something on iOS 6?
+     * Zoom the title at the top if fontSize is smaller than the specified size.
      */
     UIFont* headlineFont = font;
     CGFloat headlinePointSize = font.pointSize;
-    if (_zoomTopTitle && [UIFontDescriptor respondsToSelector:@selector(preferredFontDescriptorWithTextStyle:)]) {
-        // iOS 7+
-        UIFontDescriptor* headlineFontDesc = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
-        if (headlineFontDesc.pointSize > fontSize) {
-            headlinePointSize = headlineFontDesc.pointSize;
-            headlineFont = [self fontWithSize:headlinePointSize];
-            assert(headlineFont);
+    NSLog(@"pointSize of selected font: %f", headlinePointSize);
+    if (_zoomTopTitle) {
+        headlinePointSize = _zoomPointSize;
+        if (headlinePointSize == 0.0) {
+            if ([UIFontDescriptor respondsToSelector:@selector(preferredFontDescriptorWithTextStyle:)]) {
+                // iOS 7+
+                UIFontDescriptor* headlineFontDesc = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
+                NSLog(@"System headline font size %f", headlineFontDesc.pointSize);
+                headlinePointSize = MAX(headlineFontDesc.pointSize, fontSize);
+            }
+            else {
+                // iOS 5 & 6
+                headlinePointSize = 17.0;
+                NSLog(@"Using default point size of 17");
+            }
         }
-    }
-    else if (_zoomTopTitle) {
-        // iOS 5 & 6
-        headlinePointSize = 17.0;
+
         if (headlinePointSize > fontSize) {
             headlineFont = [self fontWithSize:headlinePointSize];
+            NSLog(@"Top title will be zoomed to %f pt", headlinePointSize);
             assert(headlineFont);
+        }
+        else {
+            NSLog(@"Headline size %f no larger than computed size %f", headlinePointSize, fontSize);
         }
     }
 
@@ -1649,7 +1660,6 @@ static CGRect adjustFrame(CGRect frame) {
 
         // NSLog(@"Using title font %@, %f", titleFont.fontName, titleFont.pointSize);
 
-        // These computations need work.
         CGSize textSize;
 
         if (attribTitle) {
@@ -1740,7 +1750,7 @@ static CGRect adjustFrame(CGRect frame) {
             break;
 #ifdef DEBUG
         default:
-            NSLog(@"Unexpected mode: %ld", (long)_mode);
+            NSLog(@"Unexpected mode: %d", (int)_mode);
             abort();
 #endif // DEBUG
     }
