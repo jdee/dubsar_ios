@@ -58,6 +58,9 @@ extension DubsarModelsSense {
                 return size
             }
 
+            // these views have to fit between the borders and the accessory, but they have their own margins
+            constraint.width += 2 * SenseTableViewCell.margin
+
             // Yikes
             let sampleView = SynsetSampleView(synset: synset, frame: CGRectMake(0, 0, constraint.width, constraint.height), preview: true)
             sampleView.sense = self

@@ -37,8 +37,6 @@ class OpenSenseTableViewCell: SenseTableViewCell {
     override func rebuild() {
         super.rebuild()
 
-        backgroundColor = backgroundLabel.backgroundColor
-
         var y = bounds.size.height
 
         DMTRACE("Height of sense header \(y)")
@@ -57,7 +55,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         let accessoryWidth = SenseTableViewCell.accessoryWidth
 
-        let sampleView = SynsetSampleView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height), preview: true)
+        let sampleView = SynsetSampleView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
         sampleView.sense = sense
         backgroundLabel.addSubview(sampleView)
         sampleView.layoutSubviews()
@@ -94,7 +92,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         DMTRACE("sample view height is \(sampleView.bounds.size.height). frame height is now \(frame.size.height) (remaining insertHeightLimit: \(available))")
 
-        let pointerView = SynsetPointerView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height), preview: true)
+        let pointerView = SynsetPointerView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
         pointerView.sense = sense
         pointerView.scrollViewTop = 0
         pointerView.scrollViewBottom = available

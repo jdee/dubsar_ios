@@ -220,7 +220,7 @@ class SynsetPointerView: UIView {
 
                 let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
                 let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
-                DMTRACE("Pointer text size is \(textSize.width) x \(textSize.height)")
+                DMTRACE("Pointer text size is \(textSize.width) x \(textSize.height)/\(constrainedSize.height) (font: \(bodyFont.pointSize) pt.)")
                 let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height), withoutButton: isPreview)
                 pointerView.label.text = text
                 if !isPreview && pointer.targetType == "Sense" {

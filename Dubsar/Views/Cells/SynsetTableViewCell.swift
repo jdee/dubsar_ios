@@ -99,7 +99,7 @@ class SynsetTableViewCell: UITableViewCell {
         let glossSize = synset.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
         let synonymSize = synset.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
 
-        bounds.size.height = synset.sizeOfCellWithConstrainedSize(constrainedSize, open:false).height
+        bounds.size.height = synset.sizeOfCellWithConstrainedSize(frame.size, open:false).height
 
         view?.removeFromSuperview()
 

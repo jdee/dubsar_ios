@@ -37,8 +37,6 @@ class OpenSynsetTableViewCell: SynsetTableViewCell {
     override func rebuild() {
         super.rebuild()
 
-        backgroundColor = backgroundLabel.backgroundColor
-
         var y = bounds.size.height
 
         DMTRACE("Height of synset header \(y)")
@@ -57,7 +55,7 @@ class OpenSynsetTableViewCell: SynsetTableViewCell {
 
         let accessoryWidth = SynsetTableViewCell.accessoryWidth
 
-        let sampleView = SynsetSampleView(synset: synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height), preview: true)
+        let sampleView = SynsetSampleView(synset: synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
         backgroundLabel.addSubview(sampleView)
         sampleView.layoutSubviews()
 
@@ -93,7 +91,7 @@ class OpenSynsetTableViewCell: SynsetTableViewCell {
 
         DMTRACE("sample view is \(sampleView.bounds.size.width) x \(sampleView.bounds.size.height). frame height is now \(frame.size.height) (remaining insertHeightLimit: \(available))")
 
-        let pointerView = SynsetPointerView(synset: synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, bounds.size.height), preview: true)
+        let pointerView = SynsetPointerView(synset: synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
         pointerView.scrollViewTop = 0
         pointerView.scrollViewBottom = available
         pointerView.backgroundColor = UIColor.clearColor()
