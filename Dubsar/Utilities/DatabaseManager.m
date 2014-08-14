@@ -258,6 +258,12 @@
     // [self deleteDatabase]; // cleans up the zip too
 }
 
+- (void)rejectDownload
+{
+    DMINFO(@"Download %@ rejected", _currentDownload.name);
+    [self restoreOldFileOnFailure];
+}
+
 - (void)download
 {
     if (self.downloadInProgress) {
@@ -671,7 +677,6 @@
         _start = 0;
         fp = freopen(self.zipURL.path.UTF8String, "w", fp); // truncate rather than append
     }
-    assert(_totalSize == 0 || self.downloadSize == _totalSize - _start);
 
     self.downloadedSoFar += _start;
     self.downloadSize += _start;
@@ -946,6 +951,8 @@
     }
 
     updateRequired = NO;
+    _oldFileName = nil;
+    _oldDownload = nil;
 
     self.downloadInProgress = NO;
     if ([NSThread currentThread] != [NSThread mainThread]) {

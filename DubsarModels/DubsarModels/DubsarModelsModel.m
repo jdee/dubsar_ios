@@ -143,7 +143,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         self.errorMessage = @"The Dubsar server did not return the data properly.";
         error = true;
 
-        [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
+        // [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
     }
 
     DMDEBUG(@"received response");
@@ -152,6 +152,8 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
 - (void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)theData
 {
+    if (self.errorMessage) return;
+
     DMTRACE(@"Received %lu bytes", (unsigned long)theData.length);
     [data appendData:theData];
 }
@@ -172,23 +174,25 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    assert(data);
-    assert(data.bytes);
+    if (!self.errorMessage) {
+        assert(data);
+        assert(data.bytes);
 
-    char* cbytes = malloc(data.length+1);
-    memcpy(cbytes, data.bytes, data.length);
-    cbytes[data.length] = '\0';
+        char* cbytes = malloc(data.length+1);
+        memcpy(cbytes, data.bytes, data.length);
+        cbytes[data.length] = '\0';
 
-    DMTRACE(@"Raw response (%lu): \"%s\"", (unsigned long)data.length, cbytes);
+        DMTRACE(@"Raw response (%lu): \"%s\"", (unsigned long)data.length, cbytes);
 
-    NSString* jsonData = @(cbytes);
-    free(cbytes);
-    assert(jsonData);
-    DMDEBUG(@"JSON response from URL %@:", url);
-    DMDEBUG(@"%@", jsonData);
-
-    @autoreleasepool {
-        [self parseData];
+        NSString* jsonData = @(cbytes);
+        free(cbytes);
+        assert(jsonData);
+        DMDEBUG(@"JSON response from URL %@:", url);
+        DMDEBUG(@"%@", jsonData);
+        
+        @autoreleasepool {
+            [self parseData];
+        }
     }
 
     [self setComplete:true];

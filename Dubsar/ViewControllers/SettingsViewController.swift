@@ -428,6 +428,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let hour = 60 * minute
 
         if (intervalSeconds >= hour) {
+            // DEBT: fatal error: floating point value can not be converted to Int because it is less than Int.min
+            // happens a lot here
             let hours: Int = Int(intervalSeconds / hour) // floor
             let secondsRemainder: Int = Int(intervalSeconds % hour)
             let minutes: Int = secondsRemainder / Int(minute)

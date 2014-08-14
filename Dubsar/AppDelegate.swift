@@ -267,19 +267,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     func alertView(alertView: UIAlertView, clickedButtonAtIndex index: Int) {
         if index == 0 {
             /*
-             * If the question was stop or continue the download, getting here means continue.
-             * In either case, we don't change the preference setting.
+             * Rejected.
              *
-             * The only other time we get here is if the user changes a setting, in the Settings view or the
-             * Settings app, and then cancels. We then revert the setting, assuming they've changed their mind,
-             * or the original change was an accident.
+             * The question may have been:
+             * 1. Open a push notification?
+             * 2. Delete the DB and go online?
+             * 3. Stop a download in progress?
+             * 4. Confirm download of a required update (only on launch of a new version for the first time)?
+             * 5. Confirm download of an optional update when an acceptable DB is already installed?
+             * 6. Confirm download of the current DB because you just turned the switch on?
+             *
+             * Cancel in these cases means:
+             * 1. Do nothing
+             * 2. Leave the DB alone and change the switch
+             * 3. Do nothing
+             * 4. Change the switch (no DB is present)
+             * 5. Reject the new download. This just resets the DB manager's state so that it recognizes the installed DB again. No change to the Offline setting. Nothing deleted.
+             * 6. Change the switch (no DB is present)
              */
-            if !alertURL && !databaseManager.downloadInProgress {
+            if !alertURL && !databaseManager.downloadInProgress && (!updatePending || !databaseManager.oldFileExists) {
                 AppConfiguration.offlineSetting = !AppConfiguration.offlineSetting
-                let viewController = navigationController.topViewController as BaseViewController
-                viewController.adjustLayout()
+            }
+            else if updatePending && databaseManager.oldFileExists {
+                databaseManager.rejectDownload()
             }
 
+            let viewController = navigationController.topViewController as BaseViewController
+            viewController.adjustLayout()
+
+            updatePending = false
             return
         }
 

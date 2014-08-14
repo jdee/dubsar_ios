@@ -119,7 +119,7 @@
         sql = @"SELECT DISTINCT suggestion "
         "FROM synset_suggestions "
         "WHERE suggestion MATCH ? "
-        "ORDER BY id ASC "
+        "ORDER BY synset_id ASC "
         "LIMIT ?";
 
         DMDEBUG(@"preparing statement \"%@\"", sql);

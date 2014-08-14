@@ -115,6 +115,7 @@
 
 - (void)deleteDatabase;
 - (void)cancelDownload;
+- (void)rejectDownload;
 
 - (void)checkForUpdate;
 - (void)cleanOldDatabases;
