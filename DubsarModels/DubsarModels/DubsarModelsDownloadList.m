@@ -22,6 +22,13 @@
 @implementation DubsarModelsDownload
 @dynamic zippedSize, unzippedSize;
 
++ (int)versionFromDownloadName:(NSString *)name
+{
+    DubsarModelsDownload* dl = [[self alloc] init];
+    dl.name = name;
+    return dl.version;
+}
+
 - (NSUInteger)zippedSize
 {
     return ((NSNumber*)_properties[@"zipped"]).integerValue;
@@ -30,6 +37,16 @@
 - (NSUInteger)unzippedSize
 {
     return ((NSNumber*)_properties[@"unzipped"]).integerValue;
+}
+
+- (int)version
+{
+    if (![_name hasPrefix:DUBSAR_DOWNLOAD_PREFIX]) {
+        return 0;
+    }
+
+    // /^dubsar-wn3.1-([0-9]+)$/
+    return ((NSString*)[_name componentsSeparatedByString:@"-"].lastObject).intValue;
 }
 @end
 

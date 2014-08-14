@@ -19,12 +19,17 @@
 
 #import "DubsarModelsModel.h"
 
+#define DUBSAR_DOWNLOAD_PREFIX @"dubsar-wn"
+
 @interface DubsarModelsDownload : NSObject
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic) NSDictionary* properties;
 
-@property (nonatomic) NSUInteger zippedSize;
-@property (nonatomic) NSUInteger unzippedSize;
+@property (nonatomic, readonly) NSUInteger zippedSize;
+@property (nonatomic, readonly) NSUInteger unzippedSize;
+@property (nonatomic, readonly) int version;
+
++ (int)versionFromDownloadName:(NSString*)name;
 
 @end
 

@@ -52,8 +52,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         #endif
 
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
-        databaseManager.initialize()
-        databaseManager.delegate = self
+
+        setupDBManager()
 
         bookmarkManager.loadBookmarks()
         return true
@@ -317,7 +317,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         viewController.adjustLayout()
     }
 
-    func newDownloadAvailable(theDatabaseManager: DatabaseManager!, name downloadName: String!, zipped zippedSize: UInt, unzipped unzippedSize: UInt) {
+    func newDownloadAvailable(theDatabaseManager: DatabaseManager!, name downloadName: String!, zipped zippedSize: UInt, unzipped unzippedSize: UInt, required: Bool) {
         if !AppConfiguration.offlineSetting {
             // this can change in the interim. the checkForUpdate() request doesn't take long, so the user just set the offline switch to off.
             return
@@ -333,8 +333,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         let zippedMB = Int(Double(zippedSize)/Double(1024)/Double(1024) + 0.5)
         let unzippedMB = Int(Double(unzippedSize)/Double(1024)/Double(1024) + 0.5)
 
+        let sizeAndPrompt = "a \(zippedMB) MB download and \(unzippedMB) MB on the device. Download and install?"
+
         // Alert user.
-        let message = "An updated database is available. It's a \(zippedMB) MB download and \(unzippedMB) MB on the device. Download and install?"
+        var message: String
+        if (required) {
+            /*
+             * This means that databaseManager.checkCurrentDownloadVersion() deleted the DB that was installed when the app launched because the version number
+             * was too low. That method is only called if the Offline setting is true. So the choice is update or switch to online.
+             */
+            message = "This version of the app requires a database update. It's \(sizeAndPrompt) You can always use the app online without it."
+        }
+        else if (theDatabaseManager.oldFileExists) {
+            /*
+             * This is not a required update. There is a DB installed. The choice is update or keep the old one. (Or go to the Settings and switch to online.)
+             */
+            message = "A database update is available. It's \(sizeAndPrompt) You can keep using the app offline without it."
+        }
+        else {
+            /*
+             * This is not a required update. There is no DB installed. The user probably just flipped the Offline switch to request a fresh download and install.
+             */
+            message = "The current database is \(sizeAndPrompt) You can always use the app online without it."
+        }
+
         let alert = UIAlertView(title: "New download available", message: message, delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Download")
         alert.show()
         updatePending = true
@@ -382,6 +404,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         let alert = UIAlertView(title: "Offline setting changed", message: message, delegate: self, cancelButtonTitle: cancelTitle, otherButtonTitles: okTitle)
         alert.show()
+    }
+
+    func setupDBManager() {
+        if AppConfiguration.offlineSetting {
+            databaseManager.checkCurrentDownloadVersion()
+        }
+        else {
+            databaseManager.cleanOldDatabases()
+        }
+
+        databaseManager.open()
+        databaseManager.delegate = self
     }
 
     func setupPushNotificationsForApplication(theApplication:UIApplication, withLaunchOptions launchOptions: NSDictionary?) {

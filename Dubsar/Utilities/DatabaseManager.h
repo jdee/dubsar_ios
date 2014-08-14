@@ -39,7 +39,7 @@
 @optional
 - (void) unzipStarted:(DatabaseManager*)databaseManager;
 @optional
-- (void) newDownloadAvailable:(DatabaseManager*)databaseManager name:(NSString*)downloadName zipped:(NSUInteger)zippedSize unzipped:(NSUInteger)unzippedSize;
+- (void) newDownloadAvailable:(DatabaseManager*)databaseManager name:(NSString*)downloadName zipped:(NSUInteger)zippedSize unzipped:(NSUInteger)unzippedSize required:(BOOL)required;
 
 @end
 
@@ -80,7 +80,7 @@
 @property (atomic) NSURL* rootURL;
 
 #pragma mark - Public methods
-- (void)initialize;
+- (void)open;
 
 /*
  * These three methods can be called from any thread, and the download can occur on any thread, including in the
@@ -116,6 +116,7 @@
 
 - (void)checkForUpdate;
 - (void)cleanOldDatabases;
+- (void)checkCurrentDownloadVersion;
 
 // for Swift
 - (void)reportError:(NSString*)errorMessage;
