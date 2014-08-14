@@ -39,7 +39,9 @@
 @optional
 - (void) unzipStarted:(DatabaseManager*)databaseManager;
 @optional
-- (void) newDownloadAvailable:(DatabaseManager*)databaseManager name:(NSString*)downloadName zipped:(NSUInteger)zippedSize unzipped:(NSUInteger)unzippedSize required:(BOOL)required;
+- (void) newDownloadAvailable:(DatabaseManager*)databaseManager download:(DubsarModelsDownload*)download required:(BOOL)required;
+@optional
+- (void) noDownloadAvailable:(DatabaseManager*)databaseManager;
 
 @end
 

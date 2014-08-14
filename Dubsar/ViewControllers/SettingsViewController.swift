@@ -367,8 +367,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         setupToolbar()
     }
 
-    func newDownloadAvailable(databaseManager: DatabaseManager!, name downloadName: String!, zipped zippedSize: UInt, unzipped unzippedSize: UInt, required: Bool) {
-        AppDelegate.instance.newDownloadAvailable(databaseManager, name: downloadName, zipped: zippedSize, unzipped: unzippedSize, required:required)
+    func newDownloadAvailable(databaseManager: DatabaseManager!, download: DubsarModelsDownload!, required: Bool) {
+        AppDelegate.instance.newDownloadAvailable(databaseManager, download:download, required:required)
     }
 
     func downloadComplete(databaseManager: DatabaseManager!) {

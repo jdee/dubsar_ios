@@ -713,14 +713,14 @@
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
 {
     if (error) {
-        DMERROR(@"Error getting download list: %@", error);
+        [self notifyDelegateOfError:@"%@", error];
         return;
     }
 
     DubsarModelsDownloadList* downloadList = (DubsarModelsDownloadList*)model;
     _currentDownload = [self findCorrectDownload:downloadList];
     if (!_currentDownload) {
-        DMERROR(@"Couldn't find an acceptable download.");
+        [self notifyDelegateOfError:@"No acceptable download available."];
         return;
     }
 
@@ -746,13 +746,13 @@
 
     DMINFO(@"%@ is a new download", _currentDownload.name);
 
-    if (self.delegate && [self.delegate respondsToSelector:@selector(newDownloadAvailable:name:zipped:unzipped:required:)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(newDownloadAvailable:download:required:)]) {
         if ([NSThread currentThread] == [NSThread mainThread]) {
-            [self.delegate newDownloadAvailable:self name:_currentDownload.name zipped:zipped unzipped:unzipped required:updateRequired];
+            [self.delegate newDownloadAvailable:self download:_currentDownload required:updateRequired];
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate newDownloadAvailable:self name:_currentDownload.name zipped:zipped unzipped:unzipped required:updateRequired];
+                [self.delegate newDownloadAvailable:self download:_currentDownload required:updateRequired];
             });
         }
     }

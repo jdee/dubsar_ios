@@ -317,7 +317,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         viewController.adjustLayout()
     }
 
-    func newDownloadAvailable(theDatabaseManager: DatabaseManager!, name downloadName: String!, zipped zippedSize: UInt, unzipped unzippedSize: UInt, required: Bool) {
+    func newDownloadAvailable(theDatabaseManager: DatabaseManager!, download: DubsarModelsDownload!, required: Bool) {
         if !AppConfiguration.offlineSetting {
             // this can change in the interim. the checkForUpdate() request doesn't take long, so the user just set the offline switch to off.
             return
@@ -330,8 +330,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             return
         }
 
-        let zippedMB = Int(Double(zippedSize)/Double(1024)/Double(1024) + 0.5)
-        let unzippedMB = Int(Double(unzippedSize)/Double(1024)/Double(1024) + 0.5)
+        let zippedMB = Int(Double(download.zippedSize)/Double(1024)/Double(1024) + 0.5)
+        let unzippedMB = Int(Double(download.unzippedSize)/Double(1024)/Double(1024) + 0.5)
 
         let sizeAndPrompt = "a \(zippedMB) MB download and \(unzippedMB) MB on the device. Download and install?"
 
