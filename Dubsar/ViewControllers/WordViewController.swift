@@ -270,7 +270,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
     func favoriteTapped(sender: FavoriteBarButtonItem!) {
         let bookmark = Bookmark(url:url)
-        bookmark.model = theWord
+        bookmark.label = theWord!.nameAndPos
 
         favoriteButton.selected = AppDelegate.instance.bookmarkManager.toggleBookmark(bookmark)
     }

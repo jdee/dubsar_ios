@@ -56,14 +56,7 @@ class BookmarkView: UIView {
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         button.titleLabel.font = font
 
-        var text: String
-        if !bookmark.model.complete {
-            text = String(format: "%@", bookmark.url)
-        }
-        else {
-            let word = bookmark.model as DubsarModelsWord
-            text = word.nameAndPos
-        }
+        let text = bookmark.label
 
         let textSize = (text as NSString).sizeWithAttributes([NSFontAttributeName: font])
 

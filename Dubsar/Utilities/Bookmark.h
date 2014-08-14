@@ -17,16 +17,14 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-@import DubsarModels;
 @import Foundation;
 
 @class BookmarkManager;
 
-@interface Bookmark : NSObject<DubsarModelsLoadDelegate>
+@interface Bookmark : NSObject
 
 @property (nonatomic) NSURL* url;
-@property (nonatomic) DubsarModelsModel* model;
-@property (nonatomic, weak) BookmarkManager* manager;
+@property (nonatomic) NSString* label;
 
 - (instancetype)initWithUrl:(NSURL*)url NS_DESIGNATED_INITIALIZER;
 

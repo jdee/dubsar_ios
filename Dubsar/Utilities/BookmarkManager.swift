@@ -31,7 +31,7 @@ class BookmarkManager: NSObject {
         for b in bookmarks {
             if b == bookmark { // not identity. should call isEqual:
                 isFavorite = false
-                DMDEBUG("Deleting bookmark \(b.url)")
+                DMDEBUG("Deleting bookmark \(b.url): \(b.label)")
             }
             else {
                 newBookmarks.append(b)
@@ -39,12 +39,8 @@ class BookmarkManager: NSObject {
         }
 
         if isFavorite {
-            bookmark.manager = self
-            if !bookmark.model.complete {
-                bookmark.model.load()
-            }
             newBookmarks.append(bookmark)
-            DMDEBUG("Added new bookmark \(bookmark.url)")
+            DMDEBUG("Added new bookmark \(bookmark.url): \(bookmark.label)")
         }
 
         bookmarks = newBookmarks
@@ -63,52 +59,80 @@ class BookmarkManager: NSObject {
         return false
     }
 
-    func bookmarkLoaded(bookmark: Bookmark!) {
-        let word = bookmark.model as DubsarModelsWord
-        DMTRACE("Word for URL \(bookmark.url) is \(word.nameAndPos)")
-
-        let viewController = AppDelegate.instance.navigationController.topViewController as BaseViewController
-        viewController.adjustLayout()
-    }
-
-    let userDefaultKey = "DubsarBookmarks"
+    let bookmarksKey = "DubsarBookmarks"
+    let labelsKey = "DubsarLabels"
     func saveBookmarks() {
         /*
          * Serialize as a space-delimited list of URL strings. Spaces are not legal in URLS, and anyway
          * Dubsar doesn't use them.
          */
-        var string = ""
+        var urlString = ""
+        var labelString = ""
 
         for bookmark in bookmarks {
-            if !string.isEmpty {
-                string = "\(string) "
+            if !urlString.isEmpty {
+                urlString = "\(urlString) "
             }
-            string = "\(string)\(bookmark.url)"
+            if !labelString.isEmpty {
+                labelString = "\(labelString)\u{1f}" // good old US character
+            }
+            urlString = "\(urlString)\(bookmark.url)"
+            labelString = "\(labelString)\(bookmark.label)"
         }
 
-        NSUserDefaults.standardUserDefaults().setValue(string, forKey: userDefaultKey)
+        DMTRACE("URL string: \"\(urlString)\"")
+        DMTRACE("label string: \"\(labelString)\"")
+
+        NSUserDefaults.standardUserDefaults().setValue(urlString, forKey: bookmarksKey)
+        NSUserDefaults.standardUserDefaults().setValue(labelString, forKey: labelsKey)
+
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 
     func loadBookmarks() {
         bookmarks = []
 
+        var urls: [AnyObject]
+        var labels: [AnyObject]
+
         NSUserDefaults.standardUserDefaults().synchronize()
-        let string = NSUserDefaults.standardUserDefaults().valueForKey(userDefaultKey) as? NSString
+        var string = NSUserDefaults.standardUserDefaults().valueForKey(bookmarksKey) as? NSString
 
         if !string {
             return
         }
 
-        let components = string!.componentsSeparatedByString(" ") as [AnyObject]
-        for component in components as [String] {
-            let url = NSURL(string: component)
-            let bookmark = Bookmark(url: url)
-            bookmark.manager = self
-            bookmark.model.load()
+        DMTRACE("URL string on load (\(string!.length)): \"\(string!)\"")
+        urls = string!.componentsSeparatedByString(" ")
+
+        string = NSUserDefaults.standardUserDefaults().valueForKey(labelsKey) as? NSString
+
+        if !string {
+            return
+        }
+
+        DMTRACE("Label string on load (\(string!.length)): \"\(string!)\"")
+
+        labels = string!.componentsSeparatedByString("\u{1f}")
+
+        for (index, url) in enumerate(urls as [String]) {
+            if index >= labels.count {
+                DMDEBUG("No more labels. Returning with \(bookmarks.count) bookmarks")
+                return
+            }
+
+            let label = labels[index] as NSString
+            if (label as String).isEmpty || url.isEmpty {
+                continue
+            }
+
+            let bookmark = Bookmark(url: NSURL(string: url))
+            bookmark.label = label
+
+            DMTRACE("Found bookmark \(bookmark.url): \"\(bookmark.label)\" (\((bookmark.label as NSString).length))")
 
             bookmarks.append(bookmark)
         }
-
+        DMTRACE("Found \(bookmarks.count) bookmarks")
     }
 }

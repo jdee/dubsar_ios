@@ -17,8 +17,6 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "Dubsar-Swift.h"
-#import "UIApplication+NetworkRefCount.h"
 #import "Bookmark.h"
 
 @implementation Bookmark
@@ -28,9 +26,6 @@
     self = [super init];
     if (self) {
         _url = url;
-        [self getModelforURL];
-        assert(_model);
-        _model.delegate = self;
     }
     return self;
 }
@@ -48,37 +43,6 @@
 - (void)setUrl:(NSURL *)url
 {
     _url = url;
-    [self getModelforURL];
-}
-
-- (void)getModelforURL
-{
-    NSString* path = _url.path;
-    NSArray* components = [path componentsSeparatedByString:@"/"];
-
-    assert(((NSString*)components[0]).length == 0); // starts with /
-
-    if (![components[1] isEqualToString:@"words"]) {
-        return;
-    }
-
-    int wordId = ((NSString*)components[2]).intValue;
-    _model = [DubsarModelsWord wordWithId:wordId name:nil partOfSpeech:DubsarModelsPartOfSpeechUnknown];
-}
-
-- (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
-{
-    [_manager bookmarkLoaded:self];
-}
-
-- (void)networkLoadFinished:(DubsarModelsModel *)model
-{
-    [[UIApplication sharedApplication] stopUsingNetwork];
-}
-
-- (void)networkLoadStarted:(DubsarModelsModel *)model
-{
-    [[UIApplication sharedApplication] startUsingNetwork];
 }
 
 @end
