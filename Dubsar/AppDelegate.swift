@@ -77,8 +77,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         voidCache()
         NSUserDefaults.standardUserDefaults().synchronize()
 
-        // if a bg task is already running, let it go. or if no download in progress, nothing to do.
-        if bgTask != UIBackgroundTaskInvalid || !databaseManager.downloadInProgress {
+        // if a bg task is already running, let it go.
+        // If a DL is in progress, we stop it and restart it in the BG.
+        // If autoupdate is on, check for updates whenever we enter the BG, which will trigger a background DL when there's a new update.
+        if bgTask != UIBackgroundTaskInvalid || (!databaseManager.downloadInProgress && !AppConfiguration.autoUpdateSetting) {
             return
         }
 
@@ -98,6 +100,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             [weak self] in
 
             if let my = self {
+                // DEBT: Be sure to cancel any outstanding request for the download list, though that should return or fail
+                // long before the BG task expires.
+
                 // just cancel the download if the task expires
                 my.databaseManager.cancelDownload()
 
@@ -132,9 +137,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             [weak self] in
 
             if let my = self {
-                // initiate the background download
-                // (in the foreground. in the background. that is, in the foreground in the background.)
-                my.databaseManager.downloadSynchronous()
+                if AppConfiguration.autoUpdateSetting {
+                    /*
+                     * Check for update. block until the response arrives. if there's a new DL, continue blocking
+                     * until the download and unzip are finished.
+                     */
+                    my.databaseManager.updateSynchronous()
+                }
+                else {
+                    // Resume the download that was just now in progress.
+                    // initiate the background download
+                    // (in the foreground. in the background. that is, in the foreground in the background.)
+                    my.databaseManager.downloadSynchronous()
+                }
 
                 assert(!my.databaseManager.downloadInProgress)
 
@@ -343,6 +358,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             theDatabaseManager.download()
             let viewController = navigationController.topViewController as BaseViewController
             viewController.adjustLayout()
+            return
+        }
+
+        // the user might have disabled autoupdate while the bg update check was in progress. just go away in that case.
+        if UIApplication.sharedApplication().applicationState != .Active {
+            // reset the DB mgr's state so that it will continue to happily use the currently installed DB.
+            theDatabaseManager.rejectDownload()
             return
         }
 

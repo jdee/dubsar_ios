@@ -69,6 +69,7 @@
 @property (atomic, readonly) NSInteger unzippedSize;
 @property (atomic, readonly) NSInteger unzippedSoFar;
 @property (atomic, readonly) BOOL downloadInProgress;
+@property (atomic, readonly) BOOL updateCheckInProgress;
 @property (atomic, readonly) double instantaneousDownloadRate; // bytes per second
 @property (atomic, readonly) NSTimeInterval estimatedDownloadTimeRemaining; // seconds
 @property (atomic, readonly) NSTimeInterval elapsedDownloadTime; // seconds
@@ -85,9 +86,9 @@
 - (void)open;
 
 /*
- * These three methods can be called from any thread, and the download can occur on any thread, including in the
+ * The download can occur on any thread, including in the
  * background on the main thread (by calling the first method on the main thread). In all cases, callbacks to the
- * delegate occur on the main thread.
+ * delegate occur on the main thread. The second method should not be used on the main thread.
  */
 
 /**
@@ -115,9 +116,26 @@
 
 - (void)deleteDatabase;
 - (void)cancelDownload;
+
+/**
+ * Indicates that the user rejected a new download and wishes to keep the installed one.
+ */
 - (void)rejectDownload;
 
+/**
+ * Like download, this method sends a request using an NSURLConnection and returns the response on the same thread. If called on the main thread,
+ * whose run loop is automatically dispatched, the responses will just arrive on the main thread. If used on a background thread, dispatch the
+ * current run loop manually.
+ */
 - (void)checkForUpdate;
+
+/**
+ * This method calls checkForUpdate and then dispatches the current run loop until a response is used. If a new download is available, the
+ * download will begin, and this method will continue to dispatch the current run loop until the download finishes or the background job
+ * expires.
+ */
+- (void)updateSynchronous;
+
 - (void)cleanOldDatabases;
 - (void)checkCurrentDownloadVersion;
 

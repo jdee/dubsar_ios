@@ -54,6 +54,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         preview = false;
         _database = [DubsarModelsDatabase instance].database;
         _loading = false;
+        _callsDelegateOnMainThread = YES;
     }
     return self;
 }
@@ -211,7 +212,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 {
     if (![delegate respondsToSelector:action]) return;
 
-    if ([NSThread currentThread] == [NSThread mainThread]) {
+    if (!_callsDelegateOnMainThread || [NSThread currentThread] == [NSThread mainThread]) {
         [self callDelegateSelector:action withError:loadError];
     }
     else {

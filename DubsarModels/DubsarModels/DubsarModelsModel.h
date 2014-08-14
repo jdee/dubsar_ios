@@ -52,6 +52,7 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
 @property (nonatomic, weak) id<DubsarModelsLoadDelegate> delegate;
 @property (nonatomic, weak) DubsarModelsDatabaseWrapper* database;
 @property (atomic) BOOL loading;
+@property (nonatomic) BOOL callsDelegateOnMainThread;
 
 @property bool preview;
 

@@ -41,7 +41,7 @@
 #pragma mark - Internal properties
 // Many of these atomic props are readonly in the public interface
 @property (atomic) NSInteger downloadSize, downloadedSoFar, unzippedSize, unzippedSoFar, downloadedAtLastStatsUpdate, unzippedAtLastStatsUpdate;
-@property (atomic) BOOL downloadInProgress;
+@property (atomic) BOOL downloadInProgress, updateCheckInProgress;
 @property (atomic) struct timeval downloadStart, lastDownloadStatsUpdate;
 @property (atomic) NSTimeInterval estimatedDownloadTimeRemaining;
 @property (atomic) double instantaneousDownloadRate;
@@ -67,7 +67,7 @@
     NSInteger lastUpdateSize;
     NSUInteger sequenceNumber;
     NSTimer* unzipTimer;
-    BOOL updateRequired;
+    BOOL updateRequired, singleThread;
 }
 
 @dynamic fileExists, fileURL, zipURL;
@@ -83,13 +83,13 @@
         outfile = NULL;
 
         _downloadedSoFar = _downloadSize = _unzippedSize = _unzippedSoFar = 0;
-        _downloadInProgress = NO;
+        _downloadInProgress = _updateCheckInProgress = NO;
 
         _start = _totalSize = 0;
 
         sequenceNumber = 0;
 
-        updateRequired = NO;
+        updateRequired = singleThread = NO;
         _requiredDBVersion = DUBSAR_REQUIRED_DB_VERSION;
 
         memset(&_downloadStart, 0, sizeof(_downloadStart));
@@ -99,6 +99,7 @@
 
         _downloadList = [[DubsarModelsDownloadList alloc] init];
         _downloadList.delegate = self;
+        _downloadList.callsDelegateOnMainThread = NO;
     }
     return self;
 }
@@ -363,6 +364,29 @@
     [self performSelectorInBackground:@selector(downloadSynchronous) withObject:nil];
 }
 
+- (void)updateSynchronous
+{
+    singleThread = YES;
+    [self checkForUpdate];
+
+    // dispatch the request made by the model base class under _downloadList via NSURLConnection until
+    // the response is finished
+    while (self.updateCheckInProgress &&
+           [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.2]]) ;
+    assert(!self.updateCheckInProgress);
+    DMDEBUG(@"Update check complete");
+
+    /*
+     * Since singleThread is YES, download was called under runMode:beforeDate: above, and downloadInProgress will already be
+     * YES if a new download is available, and we should block until that finishes. If no new download was available,
+     * downloadInProgress will be NO, and we'll exit right away.
+     */
+    while (self.downloadInProgress &&
+           [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.2]]) ;
+    assert(!self.downloadInProgress);
+    DMDEBUG(@"Finished dispatching download");
+}
+
 - (void)deleteDatabase
 {
     [[DubsarModelsDatabase instance] closeDB];
@@ -433,6 +457,7 @@
 - (void)checkForUpdate
 {
     _downloadList.complete = false;
+    self.updateCheckInProgress = YES;
     [_downloadList load];
 }
 
@@ -719,6 +744,7 @@
 {
     if (error) {
         [self notifyDelegateOfError:@"%@", error];
+        self.updateCheckInProgress = NO;
         return;
     }
 
@@ -726,6 +752,7 @@
     _currentDownload = [self findCorrectDownload:downloadList];
     if (!_currentDownload) {
         [self notifyDelegateOfError:@"No acceptable download available."];
+        self.updateCheckInProgress = NO;
         return;
     }
 
@@ -746,13 +773,14 @@
     if (self.fileExists) {
         DMINFO(@"Already have %@", self.fileURL.path);
         [self cleanOldDatabases];
+        self.updateCheckInProgress = NO;
         return;
     }
 
     DMINFO(@"%@ is a new download", _currentDownload.name);
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(newDownloadAvailable:download:required:)]) {
-        if ([NSThread currentThread] == [NSThread mainThread]) {
+        if (singleThread || [NSThread currentThread] == [NSThread mainThread]) {
             [self.delegate newDownloadAvailable:self download:_currentDownload required:updateRequired];
         }
         else {
@@ -761,6 +789,8 @@
             });
         }
     }
+
+    self.updateCheckInProgress = NO;
 }
 
 - (void)networkLoadFinished:(DubsarModelsModel *)model
