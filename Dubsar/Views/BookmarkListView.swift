@@ -81,7 +81,7 @@ class BookmarkListView: UIScrollView {
         label.backgroundColor = AppConfiguration.highlightColor
         label.textColor = AppConfiguration.foregroundColor
 
-        DMDEBUG("Favorites label: text size \(textSize.width) x \(textSize.height) (\(font.pointSize) pt)")
+        DMTRACE("Bookmarks label: text size \(textSize.width) x \(textSize.height) (\(font.pointSize) pt)")
 
         var y = margin + label.frame.origin.y + label.bounds.size.height
 
