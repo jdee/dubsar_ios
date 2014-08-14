@@ -66,10 +66,10 @@ class BookmarkListView: UIScrollView {
         let bookmarks = AppDelegate.instance.bookmarkManager.bookmarks
 
         if bookmarks.isEmpty {
-            label.text = "No favorites"
+            label.text = "No bookmarks"
         }
         else {
-            label.text = "Favorites"
+            label.text = "Bookmarks"
         }
 
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
