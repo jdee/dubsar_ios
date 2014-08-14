@@ -60,8 +60,7 @@ class AboutViewController: BaseViewController {
         if !AppConfiguration.offlineSetting {
             dbVersionString = "(offline use disabled)"
         }
-
-        if let download = current {
+        else if let download = current {
             let range = NSRange(location: 0, length: 19)
             let mtime = download.properties["mtime"] as NSString
             var timestamp = mtime.substringWithRange(range) as NSString
