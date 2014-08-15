@@ -44,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
     private var bgTask = UIBackgroundTaskInvalid
     private var updatePending = false
+    private var lastUpdateCheck: time_t = 0
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         #if DEBUG
@@ -374,6 +375,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         // Alert user.
         var message: String
+        var cancelTitle = "Cancel"
+        var downloadTitle = "Download"
         if (required) {
             /*
              * This means that databaseManager.checkCurrentDownloadVersion() deleted the DB that was installed when the app launched because the version number
@@ -385,7 +388,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             /*
              * This is not a required update. There is a DB installed. The choice is update or keep the old one. (Or go to the Settings and switch to online.)
              */
-            message = "A database update is available. It's \(sizeAndPrompt) You can keep using the app offline without it."
+            message = "A database update is ready. It's \(sizeAndPrompt) You can keep using the app offline without it."
+            cancelTitle = "Remind me"
         }
         else {
             /*
@@ -394,7 +398,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             message = "The current database is \(sizeAndPrompt) You can always use the app online without it."
         }
 
-        let alert = UIAlertView(title: "New download available", message: message, delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Download")
+        let alert = UIAlertView(title: "New download available", message: message, delegate: self, cancelButtonTitle: cancelTitle, otherButtonTitles: downloadTitle)
         alert.show()
         updatePending = true
     }
@@ -426,13 +430,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
              * When autoupdate is enabled, the app checks on entering the BG. If there's a valid DB present, don't check now
              * in case of autoupdate. If it's disabled, check now (on entering the FG).
              */
-            if offlineSetting && !AppConfiguration.autoUpdateSetting {
+            var now: time_t = 0
+            time(&now)
+
+            /*
+             * Limit the frequency of update checks when autoupdate is off. If autoupdate is on, any update will simply be installed, and if it fails,
+             * the app will automatically retry until it succeeds or the user intervenes. If autoupdate is off, we check for updates when the app
+             * launches and then whenever the app foregrounds, but not more than once per hour. This is in case the user declines to install the new
+             * update right away but keeps using an installed DB. The offline setting will remain on, and we'll get here every time the app enters
+             * the foreground. This limits how often we remind the user.
+             */
+            if offlineSetting && !AppConfiguration.autoUpdateSetting && now - lastUpdateCheck >= 3600 {
                 DMDEBUG("\(databaseManager.fileURL.path) exists. checking for updates")
                 databaseManager.checkForUpdate()
+                time(&lastUpdateCheck)
             }
             return
         }
-        else if offlineSetting {
+        else if offlineSetting { // When the response comes back, if autoupdate is on, the download will just start. If autoupdate is off, the user will be prompted with an alert.
             DMTRACE("No database. Offline setting is on. Getting download list.")
             databaseManager.checkForUpdate()
             return
