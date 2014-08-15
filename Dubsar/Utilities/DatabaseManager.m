@@ -291,9 +291,11 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 - (void)download
 {
+    /* But then there are retries
     if (self.downloadInProgress) {
         return;
     }
+    // */
 
     if (!_fileName || !_zipName) {
         DMWARN(@"Nothing to download. Checking for available downloads.");
@@ -352,8 +354,6 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     memset(&now, 0, sizeof(now));
     self.unzipStart = now;
     self.downloadStart = now;
-
-    nextRetry = 8.0; // initialize retry interval
 
     NSURL* url = [self.rootURL URLByAppendingPathComponent:_zipName];
     DMINFO(@"Downloading %@", url);
@@ -642,6 +642,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
                 // In this event, use a capped exponential backoff, taking more and more time before retrying each time. The backoff is reset whenever
                 // we lose and regain connectivity or complete the download.
                 NSTimer* timer = [NSTimer timerWithTimeInterval:retry target:self selector:@selector(download) userInfo:nil repeats:NO];
+                assert(timer);
                 [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 
                 return;
@@ -733,7 +734,16 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
     if (self.downloadSize != _currentDownload.zippedSize) {
-        DMWARN(@"Advertised download size: %lu. Content-Length: %ld", (unsigned long)_currentDownload.zippedSize, (long)self.downloadSize);
+        [self notifyDelegateOfError:@"Failed to validate download"];
+        [[UIApplication sharedApplication] stopUsingNetwork];
+        self.downloadInProgress = NO;
+        if (fp) {
+            fclose(fp);
+            fp = NULL;
+        }
+
+        [self restoreOldFileOnFailure];
+        return;
     }
 
     NSString* newETag = (NSString*)httpResp.allHeaderFields[@"ETag"];
@@ -1093,10 +1103,16 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     }
     DMDEBUG(@"Unzipped file %@ is %lld bytes", _fileName, sb.st_size);
     if (self.unzippedSize != sb.st_size) {
-        DMWARN(@"Unzip file header: %ld. File size is %lld", self.unzippedSize, sb.st_size);
+        DMERROR(@"Unzip file header: %ld. File size is %lld", self.unzippedSize, sb.st_size);
+        [self notifyDelegateOfError:@"Failed to validate download"];
+        [self restoreOldFileOnFailure];
+        return;
     }
     if (_currentDownload.unzippedSize != sb.st_size) {
-        DMWARN(@"Advertised database size: %lu. File size is %lld", _currentDownload.unzippedSize, sb.st_size);
+        DMERROR(@"Advertised database size: %lu. File size is %lld", _currentDownload.unzippedSize, sb.st_size);
+        [self notifyDelegateOfError:@"Failed to validate download"];
+        [self restoreOldFileOnFailure];
+        return;
     }
 
     NSError* error;
@@ -1188,7 +1204,11 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     self.unzippedSize = fileInfo.uncompressed_size;
     DMDEBUG(@"Unzipped file will be %ld bytes", (long)_unzippedSize);
     if (_currentDownload.unzippedSize != self.unzippedSize) {
-        DMWARN(@"Advertised database size %lu. Unzip file header: %ld", (unsigned long)_currentDownload.unzippedSize, (long)_unzippedSize);
+        [self notifyDelegateOfError:@"Failed to validate download"];
+        [self restoreOldFileOnFailure];
+        unzClose(uf);
+        uf = NULL;
+        return;
     }
 
     outfile = fopen(self.fileURL.path.UTF8String, "w");
