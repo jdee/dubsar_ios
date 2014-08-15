@@ -100,9 +100,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             [weak self] in
 
             if let my = self {
-                // DEBT: Be sure to cancel any outstanding request for the download list, though that should return or fail
-                // long before the BG task expires.
-
                 // just cancel the download if the task expires
                 my.databaseManager.cancelDownload()
 
@@ -423,7 +420,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             }
         }
         else if offlineSetting == databaseManager.fileExists {
-            if offlineSetting {
+            /*
+             * When autoupdate is enabled, the app checks on entering the BG. If there's a valid DB present, don't check now
+             * in case of autoupdate. If it's disabled, check now (on entering the FG).
+             */
+            if offlineSetting && !AppConfiguration.autoUpdateSetting {
                 DMDEBUG("\(databaseManager.fileURL.path) exists. checking for updates")
                 databaseManager.checkForUpdate()
             }

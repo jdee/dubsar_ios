@@ -269,6 +269,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     assert(self.connection);
     [self.connection cancel];
+    [_downloadList cancel];
 
     [self stopMonitoringDownloadHost];
 
