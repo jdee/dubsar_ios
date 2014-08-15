@@ -59,6 +59,9 @@ class DownloadProgressTableViewCell: UITableViewCell {
         cancelButton.setTitle("Cancel", forState: .Normal)
         retryButton.setTitle("Retry", forState: .Normal)
 
+        downloadProgress.autoresizingMask = .FlexibleWidth
+        unzipProgress.autoresizingMask = .FlexibleWidth
+
         contentView.addSubview(gradientView)
         contentView.addSubview(downloadLabel)
         contentView.addSubview(downloadProgress)
