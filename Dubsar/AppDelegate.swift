@@ -149,23 +149,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                     // initiate the background download
                     // (in the foreground. in the background. that is, in the foreground in the background.)
                     my.databaseManager.downloadSynchronous()
+
+                    assert(!my.databaseManager.downloadInProgress)
+
+                    // generate a local notification
+                    var localNotif = UILocalNotification()
+                    if (my.databaseManager.errorMessage) {
+                        // failure
+                        localNotif.alertBody = "Download failed: \(my.databaseManager.errorMessage)"
+                    }
+                    else {
+                        // success
+                        localNotif.alertBody = "Database updated"
+                    }
+
+                    theApplication.presentLocalNotificationNow(localNotif)
                 }
 
-                assert(!my.databaseManager.downloadInProgress)
-
-                // generate a local notification
-                var localNotif = UILocalNotification()
-                if (my.databaseManager.errorMessage) {
-                    // failure
-                    localNotif.alertBody = "Download failed: \(my.databaseManager.errorMessage)"
-                }
-                else {
-                    // success
-                    localNotif.alertBody = "Database updated"
-                }
-
-                theApplication.presentLocalNotificationNow(localNotif)
-                
                 theApplication.endBackgroundTask(my.bgTask)
                 my.bgTask = UIBackgroundTaskInvalid
             }

@@ -58,8 +58,18 @@
 @property (nonatomic, copy) NSString* zipName;
 
 @property (nonatomic) DubsarModelsDownloadList* downloadList;
+@property (nonatomic, readonly) NSTimeInterval retryInterval;
+
+- (void)connectivityChanged:(SCNetworkReachabilityFlags)flags;
 
 @end
+
+static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void *info)
+{
+    DatabaseManager* databaseManager = (__bridge DatabaseManager*)info;
+
+    [databaseManager connectivityChanged:flags];
+}
 
 @implementation DatabaseManager {
     FILE* fp, *outfile;
@@ -68,6 +78,9 @@
     NSUInteger sequenceNumber;
     NSTimer* unzipTimer;
     BOOL updateRequired, singleThread;
+    NSURL* _rootURL;
+    SCNetworkReachabilityRef downloadHost;
+    NSTimeInterval nextRetry;
 }
 
 @dynamic fileExists, fileURL, zipURL;
@@ -87,7 +100,11 @@
 
         _start = _totalSize = 0;
 
+        downloadHost = NULL;
+
         sequenceNumber = 0;
+
+        nextRetry = 8.0;
 
         updateRequired = singleThread = NO;
         _requiredDBVersion = DUBSAR_REQUIRED_DB_VERSION;
@@ -108,6 +125,10 @@
 {
     if (fp) {
         fclose(fp);
+    }
+
+    if (downloadHost) {
+        CFRelease(downloadHost);
     }
 }
 
@@ -249,6 +270,8 @@
     assert(self.connection);
     [self.connection cancel];
 
+    [self stopMonitoringDownloadHost];
+
     self.downloadInProgress = NO;
     self.errorMessage = @"Canceled";
     [[UIApplication sharedApplication] stopUsingNetwork];
@@ -329,6 +352,8 @@
     self.unzipStart = now;
     self.downloadStart = now;
 
+    nextRetry = 8.0; // initialize retry interval
+
     NSURL* url = [self.rootURL URLByAppendingPathComponent:_zipName];
     DMINFO(@"Downloading %@", url);
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
@@ -366,6 +391,25 @@
 
 - (void)updateSynchronous
 {
+    /*
+     * This is a background update check with autoupdate on, not anything initiated at the user's request. Avoid using cellular.
+     */
+    if (!downloadHost) {
+        downloadHost = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, self.rootURL.host.UTF8String);
+    }
+
+    SCNetworkReachabilityFlags flags;
+    if (SCNetworkReachabilityGetFlags(downloadHost, &flags)) {
+        if (!(flags & kSCNetworkReachabilityFlagsReachable)) {
+            DMDEBUG(@"Download host %@ not reachable, not checking for updates");
+            return;
+        }
+        else if (!(flags & kSCNetworkReachabilityFlagsIsWWAN)) {
+            DMDEBUG(@"Not checking for updates over cellular connection");
+            return;
+        }
+    }
+
     singleThread = YES;
     [self checkForUpdate];
 
@@ -593,13 +637,17 @@
     DMERROR(@"Error %@: %ld (%@)", error.domain, (long)error.code, error.localizedDescription);
 
     if ([error.domain isEqualToString:NSURLErrorDomain] &&
-        (error.code == NSURLErrorTimedOut || error.code == NSURLErrorNetworkConnectionLost)) {
+        (error.code == NSURLErrorTimedOut || error.code == NSURLErrorNetworkConnectionLost)) { // DEBT: What about other errors? Need to call monitorDownloadHost
 
-        SCNetworkReachabilityRef hostRef = SCNetworkReachabilityCreateWithName(NULL, self.rootURL.host.UTF8String);
+        if (!downloadHost) {
+            downloadHost = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, self.rootURL.host.UTF8String);
+        }
+
         SCNetworkReachabilityFlags reachabilityFlags;
-        if (SCNetworkReachabilityGetFlags(hostRef, &reachabilityFlags)) {
+        if (SCNetworkReachabilityGetFlags(downloadHost, &reachabilityFlags)) {
             if (reachabilityFlags & kSCNetworkReachabilityFlagsReachable) {
-                CFRelease(hostRef);
+                NSTimeInterval retry = self.retryInterval;
+
                 /*
                  * Insistent download: If, like me, you have poor Internet, your downloads may regularly time out due to said shit toobs.
                  * Also, being a phone, your device may change networks. If the download fails here, it's usually an indication
@@ -609,17 +657,29 @@
                  * If executing in downloadSynchronous in a background thread, as long as downloadInProgress is never allowed to become
                  * false, that run loop will continue until the download stops (success or failure).
                  */
-                DMINFO(@"Download failed: %@ (error %ld). Host %@ reachable. Restarting download.", error.localizedDescription, (long)error.code, self.rootURL.host);
-                [self download];
+                DMINFO(@"Download failed: %@ (error %ld). Host %@ reachable. Restarting download in %f s.", error.localizedDescription, (long)error.code, self.rootURL.host, retry);
+
+                // In this event, use a capped exponential backoff, taking more and more time before retrying each time. The backoff is reset whenever
+                // we lose and regain connectivity or complete the download.
+                NSTimer* timer = [NSTimer timerWithTimeInterval:retry target:self selector:@selector(download) userInfo:nil repeats:NO];
+                [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+
                 return;
             }
 
-            // if not reachable, just fall through and report the failure.
+            // if not reachable:
+
+            // arrange to be called back on this thread when the host becomes available.
+            [self monitorDownloadHost];
+
+            // DEBT: AND?? Not giving up on the DL. If in the BG, we don't need to do anything, but we might consider setting an errorMessage.
+            // If in the FG, should we notify the delegate? So far we've only notified of fatal errors. If we haven't given up, we may need
+            // to change some things to generate errors.
+            return;
         }
         else {
             DMWARN(@"Could not determine network reachability for %@", self.rootURL.host);
         }
-        CFRelease(hostRef);
     }
 
     [self restoreOldFileOnFailure];
@@ -804,6 +864,86 @@
 }
 
 #pragma mark - Internal convenience methods
+
+- (NSTimeInterval)retryInterval
+{
+    NSTimeInterval interval = nextRetry;
+
+    nextRetry *= 2.0;
+    if (nextRetry > 120.0) nextRetry = 120.0;
+
+    return interval;
+}
+
+- (void)monitorDownloadHost
+{
+    if (!_rootURL) return;
+
+    /*
+     * There are potentially two hosts to monitor: The host that serves the download list, and the host that
+     * serves the zip file. In production, the first is dubsar-dictionary.com, the second s.dubsar-dictionary.com.
+     * However, these are the same host. The second is just a cookie-free domain for static assets. In real life,
+     * this is always a single host, so we're fine here. In testing, I often download from a local machine to
+     * avoid using network bandwidth. I might need to allow both hosts to be monitored here. Not sure if this
+     * checks routes to the hosts or just general network availability.
+     */
+
+    if (!downloadHost) {
+        downloadHost = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, self.rootURL.host.UTF8String);
+        if (!downloadHost) {
+            DMERROR(@"Could not create reachability ref for %@", self.rootURL.host);
+            return;
+        }
+    }
+
+    SCNetworkReachabilityContext ctx;
+    memset(&ctx, 0, sizeof(ctx));
+    ctx.info = (__bridge void *)(self);
+    SCNetworkReachabilitySetCallback(downloadHost, reachabilityChanged, &ctx);
+
+    if (!SCNetworkReachabilityScheduleWithRunLoop(downloadHost, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode)) {
+        DMERROR(@"Could not schedule reachability callback with current run loop");
+        CFRelease(downloadHost);
+        downloadHost = NULL;
+        return;
+    }
+
+    DMDEBUG(@"Set up reachability callback for %@", self.rootURL.host);
+}
+
+- (void)stopMonitoringDownloadHost
+{
+    if (!downloadHost) return;
+
+    SCNetworkReachabilityUnscheduleFromRunLoop(downloadHost, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+}
+
+- (void)connectivityChanged:(SCNetworkReachabilityFlags)flags
+{
+    DMDEBUG(@"Connectivity to %@ changed: %ld", _rootURL.host, (long)flags);
+
+    assert(flags != 0);
+
+    if (flags & kSCNetworkReachabilityFlagsReachable) {
+        DMDEBUG(@"Host is reachable.");
+    }
+    if (flags & kSCNetworkReachabilityFlagsIsWWAN) {
+        DMDEBUG(@"Host is reachable by mobile network.");
+    }
+
+    if (!(flags & kSCNetworkReachabilityFlagsReachable)) {
+        return;
+    }
+
+    if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive && (flags & kSCNetworkReachabilityFlagsIsWWAN)) {
+        DMDEBUG(@"Not downloading in the background over WWAN");
+        return;
+    }
+
+    nextRetry = 8.0;
+    [self stopMonitoringDownloadHost];
+    [self download];
+}
 
 - (DubsarModelsDownload*)findCorrectDownload:(DubsarModelsDownloadList*)list
 {
