@@ -618,50 +618,49 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     DMERROR(@"Error %@: %ld (%@)", error.domain, (long)error.code, error.localizedDescription);
 
-    if ([error.domain isEqualToString:NSURLErrorDomain] &&
-        (error.code == NSURLErrorTimedOut || error.code == NSURLErrorNetworkConnectionLost)) { // DEBT: What about other errors? Need to call monitorDownloadHost
+    if (!downloadHost) {
+        downloadHost = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, self.rootURL.host.UTF8String);
+    }
 
-        if (!downloadHost) {
-            downloadHost = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, self.rootURL.host.UTF8String);
-        }
+    /*
+     * For now, do this for all errors.
+     */
+    SCNetworkReachabilityFlags reachabilityFlags;
+    if (SCNetworkReachabilityGetFlags(downloadHost, &reachabilityFlags)) {
+        if (reachabilityFlags & kSCNetworkReachabilityFlagsReachable) {
+            NSTimeInterval retry = self.retryInterval;
 
-        SCNetworkReachabilityFlags reachabilityFlags;
-        if (SCNetworkReachabilityGetFlags(downloadHost, &reachabilityFlags)) {
-            if (reachabilityFlags & kSCNetworkReachabilityFlagsReachable) {
-                NSTimeInterval retry = self.retryInterval;
+            /*
+             * Insistent download: If, like me, you have poor Internet, your downloads may regularly time out due to said shit toobs.
+             * Also, being a phone, your device may change networks. If the download fails here, it's usually an indication
+             * of one of these conditions: a lost connection or timed out HTTP request. Calling download here just effectively resumes in
+             * this thread. It will use an If-Range header to avoid downloading the first part of the file again. It creates a new
+             * NSURLConnection executing on the current thread. If this is the main thread, control will return to the main run loop.
+             * If executing in downloadSynchronous in a background thread, as long as downloadInProgress is never allowed to become
+             * false, that run loop will continue until the download stops (success or failure).
+             */
+            DMINFO(@"Download failed: %@ (error %ld). Host %@ reachable. Restarting download in %f s.", error.localizedDescription, (long)error.code, self.rootURL.host, retry);
 
-                /*
-                 * Insistent download: If, like me, you have poor Internet, your downloads may regularly time out due to said shit toobs.
-                 * Also, being a phone, your device may change networks. If the download fails here, it's usually an indication
-                 * of one of these conditions: a lost connection or timed out HTTP request. Calling download here just effectively resumes in
-                 * this thread. It will use an If-Range header to avoid downloading the first part of the file again. It creates a new
-                 * NSURLConnection executing on the current thread. If this is the main thread, control will return to the main run loop.
-                 * If executing in downloadSynchronous in a background thread, as long as downloadInProgress is never allowed to become
-                 * false, that run loop will continue until the download stops (success or failure).
-                 */
-                DMINFO(@"Download failed: %@ (error %ld). Host %@ reachable. Restarting download in %f s.", error.localizedDescription, (long)error.code, self.rootURL.host, retry);
+            // In this event, use a capped exponential backoff, taking more and more time before retrying each time. The backoff is reset whenever
+            // we lose and regain connectivity or complete the download.
+            NSTimer* timer = [NSTimer timerWithTimeInterval:retry target:self selector:@selector(download) userInfo:nil repeats:NO];
+            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 
-                // In this event, use a capped exponential backoff, taking more and more time before retrying each time. The backoff is reset whenever
-                // we lose and regain connectivity or complete the download.
-                NSTimer* timer = [NSTimer timerWithTimeInterval:retry target:self selector:@selector(download) userInfo:nil repeats:NO];
-                [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-
-                return;
-            }
-
-            // if not reachable:
-
-            // arrange to be called back on this thread when the host becomes available.
-            [self monitorDownloadHost];
-
-            // DEBT: AND?? Not giving up on the DL. If in the BG, we don't need to do anything, but we might consider setting an errorMessage.
-            // If in the FG, should we notify the delegate? So far we've only notified of fatal errors. If we haven't given up, we may need
-            // to change some things to generate errors.
             return;
         }
-        else {
-            DMWARN(@"Could not determine network reachability for %@", self.rootURL.host);
-        }
+
+        // if not reachable:
+
+        // arrange to be called back on this thread when the host becomes available.
+        [self monitorDownloadHost];
+
+        // DEBT: AND?? Not giving up on the DL. If in the BG, we don't need to do anything, but we might consider setting an errorMessage.
+        // If in the FG, should we notify the delegate? So far we've only notified of fatal errors. If we haven't given up, we may need
+        // to change some things to generate errors.
+        return;
+    }
+    else {
+        DMWARN(@"Could not determine network reachability for %@", self.rootURL.host);
     }
 
     [self restoreOldFileOnFailure];

@@ -133,6 +133,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             [weak self] in
 
+            DMDEBUG("Beginning background task with \(UIApplication.sharedApplication().backgroundTimeRemaining) s time limit")
+
             if let my = self {
                 if AppConfiguration.autoUpdateSetting {
                     /*

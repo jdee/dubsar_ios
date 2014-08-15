@@ -85,7 +85,7 @@
      * Could also use kCFBundleVersionKey and strip the .x from the end
      */
     NSString* version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    DMLOG(@"App version is %@", version);
+    DMTRACE(@"App version is %@", version);
 
     /*
      * 1d. Determine production flag from preprocessor macro
@@ -128,7 +128,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    DMLOG(@"HTTPS connection failed: %@", error.localizedDescription);
+    DMTRACE(@"HTTPS connection failed: %@", error.localizedDescription);
     [[UIApplication sharedApplication] stopUsingNetwork];
 }
 
@@ -136,7 +136,7 @@
 {
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
 
-    DMLOG(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
+    DMTRACE(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
 
     [[UIApplication sharedApplication] stopUsingNetwork];
 }
