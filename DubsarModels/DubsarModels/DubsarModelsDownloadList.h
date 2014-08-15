@@ -21,6 +21,12 @@
 
 #define DUBSAR_DOWNLOAD_PREFIX @"dubsar-wn"
 
+/*
+ * DEBT: It's pretty clear that this needs to become a full-fledged model on its own. It will have to override
+ * most of the NSURLConnection handling, but it can take advantage of a lot of the machinery that's in this
+ * framework, like the reachability stuff, which will work perfectly well even if the zip is downloaded from
+ * a completely different network interface from the REST service.
+ */
 @interface DubsarModelsDownload : NSObject
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic) NSDictionary* properties;

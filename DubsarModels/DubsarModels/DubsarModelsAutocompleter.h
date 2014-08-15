@@ -36,6 +36,5 @@
 
 - (instancetype)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase scope:(DubsarModelsSearchScope)scope NS_DESIGNATED_INITIALIZER;
 
-- (void)cancel;
 
 @end

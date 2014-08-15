@@ -391,25 +391,6 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 - (void)updateSynchronous
 {
-    /*
-     * This is a background update check with autoupdate on, not anything initiated at the user's request. Avoid using cellular.
-     */
-    if (!downloadHost) {
-        downloadHost = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, self.rootURL.host.UTF8String);
-    }
-
-    SCNetworkReachabilityFlags flags;
-    if (SCNetworkReachabilityGetFlags(downloadHost, &flags)) {
-        if (!(flags & kSCNetworkReachabilityFlagsReachable)) {
-            DMDEBUG(@"Download host %@ not reachable, not checking for updates");
-            return;
-        }
-        else if (!(flags & kSCNetworkReachabilityFlagsIsWWAN)) {
-            DMDEBUG(@"Not checking for updates over cellular connection");
-            return;
-        }
-    }
-
     singleThread = YES;
     [self checkForUpdate];
 
@@ -798,6 +779,11 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 }
 
 #pragma mark - DubsarModelsLoadDelegate
+
+- (void)retryWithModel:(DubsarModelsModel *)model error:(NSString *)error
+{
+    DMDEBUG(@"Failed to load download list: %@. Retrying.", error);
+}
 
 // These are called when with == _downloadList
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error

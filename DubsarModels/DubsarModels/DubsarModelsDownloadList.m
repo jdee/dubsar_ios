@@ -57,6 +57,7 @@
     self = [super init];
     if (self) {
         _url = @"/downloads";
+        self.retriesWhenAvailable = YES;
     }
     return self;
 }

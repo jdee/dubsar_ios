@@ -90,10 +90,7 @@
 - (void)cancel
 {
     self.aborted = YES;
-    [self.connection cancel];
-    if (!self.database.dbptr) {
-        [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
-    }
+    [super cancel];
 }
 
 - (void)loadResults:(DubsarModelsDatabaseWrapper*)database

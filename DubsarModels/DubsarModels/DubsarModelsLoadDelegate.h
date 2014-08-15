@@ -27,9 +27,12 @@
 - (void)networkLoadStarted:(DubsarModelsModel*)model;
 @optional
 - (void)networkLoadFinished:(DubsarModelsModel*)model;
-@optional;
+@optional
 // the AC calls this row by row instead of waiting for the load to finish
 - (void)newResultFound:(NSArray*)results model:(DubsarModelsModel*)model;
+
+@optional
+- (void)retryWithModel:(DubsarModelsModel*)model error:(NSString*)error;
 
 - (void)loadComplete:(DubsarModelsModel*)model withError:(NSString*)error;
 @end

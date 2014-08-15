@@ -17,6 +17,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import <SystemConfiguration/SystemConfiguration.h>
 #import "DubsarModelsDatabase.h"
 #import "DubsarModelsDatabaseWrapper.h"
 #import "DubsarModels.h"
@@ -27,9 +28,23 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
 @interface DubsarModelsModel()
 @property (nonatomic) NSURLConnection* connection;
+@property (nonatomic, readonly) SCNetworkReachabilityRef reachabilityRef;
+@property (nonatomic, readonly) SCNetworkReachabilityFlags currentReachability;
+@property (nonatomic, readonly) NSTimeInterval retryInterval;
+
+- (void)connectivityChanged:(SCNetworkReachabilityFlags)flags;
 @end
 
-@implementation DubsarModelsModel
+static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info)
+{
+    DubsarModelsModel* model = (__bridge DubsarModelsModel*)info;
+    [model connectivityChanged:flags];
+}
+
+@implementation DubsarModelsModel {
+    SCNetworkReachabilityRef _reachabilityRef;
+    NSTimeInterval nextRetry;
+}
 
 @synthesize data;
 @synthesize _url;
@@ -40,6 +55,8 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 @synthesize url;
 @synthesize preview;
 @synthesize connection;
+
+@dynamic reachabilityRef;
 
 -(instancetype)init
 {
@@ -55,8 +72,18 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
         _database = [DubsarModelsDatabase instance].database;
         _loading = false;
         _callsDelegateOnMainThread = YES;
+        _retriesWhenAvailable = NO;
+        _reachabilityRef = NULL;
+        nextRetry = 8.0;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    if (_reachabilityRef) {
+        CFRelease(_reachabilityRef);
+    }
 }
 
 - (void)load
@@ -73,6 +100,17 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
     [self databaseThread:_database];
 }
 
+- (void)cancel
+{
+    complete = true;
+    if (!self.database.dbptr) {
+        [self.connection cancel];
+        [self stopMonitoringHost];
+        [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
+    }
+    // else // do something like what happens in the AC, with an aborted flag?
+}
+
 - (void)databaseThread:(id)wrapper
 {
     @autoreleasepool {
@@ -86,7 +124,9 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 
         if (database.dbptr) {
             // DMLOG(@"Loading from the DB");
-            [self loadResults:database];
+            @autoreleasepool {
+                [self loadResults:database];
+            }
 
             complete = true;
             error = errorMessage != nil;
@@ -122,6 +162,7 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
     connection = [NSURLConnection connectionWithRequest:request delegate:self];
 
     error = true;
+    nextRetry = 8.0;
 
     DMDEBUG(@"requesting %@", url);
 
@@ -164,13 +205,30 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
     NSString* errMsg = [theError localizedDescription];
     DMERROR(@"error requesting %@: %@", url, errMsg);
     
-    [self setComplete:true];
     [self setError:true];
     [self setErrorMessage:errMsg];
 
     [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
 
-    DMDEBUG(@"load processing finished");
+    if (_retriesWhenAvailable) {
+        // check current reachability
+        SCNetworkReachabilityFlags flags = self.currentReachability;
+        if (flags & kSCNetworkReachabilityFlagsReachable) {
+            /*
+             * Can still reach the host. Retry with a capped exponential backoff.
+             */
+            NSTimer* timer = [NSTimer timerWithTimeInterval:self.retryInterval target:self selector:@selector(loadFromServer) userInfo:nil repeats:NO];
+            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+        }
+        else {
+            [self monitorHost];
+        }
+        [self callDelegateSelectorOnMainThread:@selector(retryWithModel:error:) withError:errMsg];
+    }
+    else {
+        complete = true;
+        DMDEBUG(@"load processing finished");
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -226,13 +284,75 @@ const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    if (action == @selector(loadComplete:withError:)) {
+    if (action == @selector(loadComplete:withError:) || action == @selector(retryWithModel:error:)) {
         [delegate performSelector:action withObject:self withObject:loadError];
     }
     else {
         [delegate performSelector:action withObject:self];
     }
 #pragma clan diagnostic pop
+}
+
+- (NSTimeInterval)retryInterval
+{
+    NSTimeInterval interval = nextRetry;
+
+    nextRetry *= 2.0;
+    if (nextRetry > 120.0) nextRetry = 120.0;
+
+    return interval;
+}
+
+#pragma mark - Reachability shit
+
+- (SCNetworkReachabilityFlags)currentReachability
+{
+    SCNetworkReachabilityFlags flags;
+    if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) {
+        DMERROR(@"Unabled to determine reachability for %@", DubsarBaseUrl);
+        return flags;
+    }
+    return 0;
+}
+
+- (SCNetworkReachabilityRef)reachabilityRef
+{
+    if (!_reachabilityRef) {
+        const char* host = [NSURL URLWithString:self.url].host.UTF8String;
+        _reachabilityRef = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, host);
+        assert(_reachabilityRef);
+
+        SCNetworkReachabilityContext ctx;
+        memset(&ctx, 0, sizeof(ctx));
+        ctx.info = (__bridge void*)self;
+        SCNetworkReachabilitySetCallback(_reachabilityRef, reachabilityChanged, &ctx);
+    }
+
+    return _reachabilityRef;
+}
+
+- (void)monitorHost
+{
+    SCNetworkReachabilityScheduleWithRunLoop(self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+}
+
+/*
+ * Needs to be called from the thread that called monitorHost.
+ */
+- (void)stopMonitoringHost
+{
+    SCNetworkReachabilityUnscheduleFromRunLoop(self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+}
+
+- (void)connectivityChanged:(SCNetworkReachabilityFlags)flags
+{
+    /*
+     * Called on the same thread that called monitorHost.
+     */
+    if ((flags & kSCNetworkReachabilityFlagsReachable) && _retriesWhenAvailable) {
+        [self loadFromServer];
+        [self stopMonitoringHost];
+    }
 }
 
 @end

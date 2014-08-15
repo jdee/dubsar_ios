@@ -27,7 +27,6 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
 };
 
 @class DubsarModelsDatabaseWrapper;
-@class JSONDecoder;
 @protocol DubsarModelsLoadDelegate;
 
 @protocol DubsarModelsModel
@@ -38,7 +37,6 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
 @end
 
 @interface DubsarModelsModel : NSObject <DubsarModelsModel> {
-    JSONDecoder* decoder;
     NSMutableData* data;
     NSString* _url;
 }
@@ -53,6 +51,7 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
 @property (nonatomic, weak) DubsarModelsDatabaseWrapper* database;
 @property (atomic) BOOL loading;
 @property (nonatomic) BOOL callsDelegateOnMainThread;
+@property (nonatomic) BOOL retriesWhenAvailable;
 
 @property bool preview;
 
@@ -61,6 +60,7 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
 - (void)load;
 - (void)databaseThread:(id)database;
 - (void)loadFromServer;
+- (void)cancel;
 
 // load in current thread; use with care.
 - (void)loadSynchronous;
