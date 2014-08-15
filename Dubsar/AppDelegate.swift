@@ -112,11 +112,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                      * bg after that, that download will go into the bg again as a background task.
                      * DEBT: Is it possible to run background tasks when the app is in the foreground?
                      * Is there any sense to making the download a background task every time and just
-                     * letting them continue if the app enters the background?
+                     * letting them continue if the app enters the background? The nice thing about
+                     * using downloadInBackground() is no time limit.
                      */
                     my.databaseManager.downloadInBackground()
                 }
-                else {
+                else if !AppConfiguration.autoUpdateSetting {
                     var localNotif = UILocalNotification()
                     localNotif.alertBody = "Background download expired"
 
@@ -143,8 +144,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                      * until the download and unzip are finished.
                      */
                     my.databaseManager.updateSynchronous()
+
+                    /*
+                     * Autoupdate is on. Notify the user if the DB was actually updated. Otherwise, don't bother.
+                     */
+                    if my.databaseManager.databaseUpdated {
+                        var localNotif = UILocalNotification()
+                        localNotif.alertBody = "Database updated"
+                        theApplication.presentLocalNotificationNow(localNotif)
+                    }
                 }
                 else {
+                    /*
+                     * Autoupdate is off here. That probably means that the user was prompted to install the DB, and after a failure
+                     * they'll be prompted again later. So we put up local notifications in the BG.
+                     */
+
                     // Resume the download that was just now in progress.
                     // initiate the background download
                     // (in the foreground. in the background. that is, in the foreground in the background.)
@@ -154,7 +169,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
                     // generate a local notification
                     var localNotif = UILocalNotification()
-                    if (my.databaseManager.errorMessage) {
+                    if my.databaseManager.errorMessage {
                         // failure
                         localNotif.alertBody = "Download failed: \(my.databaseManager.errorMessage)"
                     }

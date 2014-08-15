@@ -49,6 +49,7 @@
 @property (atomic) NSTimeInterval estimatedUnzipTimeRemaining, elapsedDownloadTime;
 @property (atomic) double instantaneousUnzipRate;
 @property (atomic, copy) NSString* errorMessage;
+@property (atomic) BOOL databaseUpdated;
 
 @property (atomic, weak) NSURLConnection* connection;
 @property (nonatomic, copy) NSString* etag;
@@ -106,7 +107,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
         nextRetry = 8.0;
 
-        updateRequired = singleThread = NO;
+        updateRequired = singleThread = _databaseUpdated = NO;
         _requiredDBVersion = DUBSAR_REQUIRED_DB_VERSION;
 
         memset(&_downloadStart, 0, sizeof(_downloadStart));
@@ -297,6 +298,8 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     }
     // */
 
+    self.databaseUpdated = NO;
+
     if (!_fileName || !_zipName) {
         DMWARN(@"Nothing to download. Checking for available downloads.");
         [self checkForUpdate];
@@ -484,6 +487,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 {
     _downloadList.complete = false;
     self.updateCheckInProgress = YES;
+    self.databaseUpdated = NO;
     [_downloadList load];
 }
 
@@ -1156,6 +1160,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 - (void)reopenAndNotify
 {
     [DubsarModelsDatabase instance].databaseURL = self.fileURL; // reopen the DB that was just downloaded
+    self.databaseUpdated = YES;
     [self cleanOldDatabases];
     if ([self.delegate respondsToSelector:@selector(downloadComplete:)]) {
         [self.delegate downloadComplete:self];

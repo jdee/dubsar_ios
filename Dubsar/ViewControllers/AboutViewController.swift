@@ -95,7 +95,12 @@ class AboutViewController: BaseViewController {
             updateButton.enabled = true
             if checking {
                 checking = false
-                updateButton.setTitle("Up to date", forState: .Normal)
+                if databaseManager.databaseUpdated {
+                    updateButton.setTitle("Database updated", forState: .Normal)
+                }
+                else {
+                    updateButton.setTitle("Up to date", forState: .Normal)
+                }
             }
             else {
                 updateButton.setTitle("Check for update", forState: .Normal)

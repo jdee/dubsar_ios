@@ -76,6 +76,7 @@
 @property (atomic, readonly) double instantaneousUnzipRate; // bytes per second
 @property (atomic, readonly) NSTimeInterval estimatedUnzipTimeRemaining; // seconds
 @property (atomic, readonly, copy) NSString* errorMessage;
+@property (atomic, readonly) BOOL databaseUpdated;
 
 #pragma mark - Configurable properties
 
