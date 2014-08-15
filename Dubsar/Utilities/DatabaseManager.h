@@ -41,7 +41,7 @@
 @optional
 - (void) newDownloadAvailable:(DatabaseManager*)databaseManager download:(DubsarModelsDownload*)download required:(BOOL)required;
 @optional
-- (void) noDownloadAvailable:(DatabaseManager*)databaseManager;
+- (void) noUpdateAvailable:(DatabaseManager*)databaseManager;
 
 @end
 

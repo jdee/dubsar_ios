@@ -348,6 +348,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         viewController.adjustLayout()
     }
 
+    func noUpdateAvailable(databaseManager: DatabaseManager!) {
+        let viewController = navigationController.topViewController as BaseViewController
+        viewController.adjustLayout()
+    }
+
     func newDownloadAvailable(theDatabaseManager: DatabaseManager!, download: DubsarModelsDownload!, required: Bool) {
         if !AppConfiguration.offlineSetting {
             // this can change in the interim. the checkForUpdate() request doesn't take long, so the user just set the offline switch to off.
@@ -403,6 +408,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         updatePending = true
     }
 
+    func checkForUpdate() {
+        databaseManager.checkForUpdate()
+        time(&lastUpdateCheck);
+    }
+
     func checkOfflineSetting() {
         databaseManager.rootURL = AppConfiguration.rootURL
 
@@ -442,14 +452,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
              */
             if offlineSetting && !AppConfiguration.autoUpdateSetting && now - lastUpdateCheck >= 3600 {
                 DMDEBUG("\(databaseManager.fileURL.path) exists. checking for updates")
-                databaseManager.checkForUpdate()
-                time(&lastUpdateCheck)
+                checkForUpdate()
             }
             return
         }
         else if offlineSetting { // When the response comes back, if autoupdate is on, the download will just start. If autoupdate is off, the user will be prompted with an alert.
             DMTRACE("No database. Offline setting is on. Getting download list.")
-            databaseManager.checkForUpdate()
+            checkForUpdate()
             return
         }
         else {

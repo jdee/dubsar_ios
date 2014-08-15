@@ -800,6 +800,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     if (error) {
         [self notifyDelegateOfError:@"%@", error];
         self.updateCheckInProgress = NO;
+        [self noUpdateAvailable];
         return;
     }
 
@@ -808,6 +809,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     if (!_currentDownload) {
         [self notifyDelegateOfError:@"No acceptable download available."];
         self.updateCheckInProgress = NO;
+        [self noUpdateAvailable];
         return;
     }
 
@@ -829,6 +831,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         DMINFO(@"Already have %@", self.fileURL.path);
         [self cleanOldDatabases];
         self.updateCheckInProgress = NO;
+        [self noUpdateAvailable];
         return;
     }
 
@@ -859,6 +862,20 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 }
 
 #pragma mark - Internal convenience methods
+
+- (void)noUpdateAvailable
+{
+    if ([_delegate respondsToSelector:@selector(noUpdateAvailable:)]) {
+        if ([NSThread mainThread] == [NSThread currentThread]) {
+            [_delegate noUpdateAvailable:self];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_delegate noUpdateAvailable:self];
+            });
+        }
+    }
+}
 
 - (NSTimeInterval)retryInterval
 {

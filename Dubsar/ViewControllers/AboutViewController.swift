@@ -33,8 +33,11 @@ class AboutViewController: BaseViewController {
     @IBOutlet var modelsVersionLabel : UILabel!
     @IBOutlet var databaseVersionLabel : UILabel!
     @IBOutlet var copyrightLabel : UILabel!
+    @IBOutlet var updateButton: UIButton!
 
     private var paragraphLabels = [UILabel]()
+
+    private var checking = false
 
     private let paragraphs = [
         "iOS Knob Control v. \(IKC_VERSION_STRING) © 2014 by the author",
@@ -79,18 +82,42 @@ class AboutViewController: BaseViewController {
     }
 
     override func adjustLayout() {
+        let databaseManager = AppDelegate.instance.databaseManager
+        if databaseManager.updateCheckInProgress {
+            updateButton.enabled = false
+            updateButton.setTitle("Checking for update", forState: .Normal)
+        }
+        else if databaseManager.downloadInProgress {
+            updateButton.enabled = false
+            updateButton.setTitle("Download in progress", forState: .Normal)
+        }
+        else {
+            updateButton.enabled = true
+            if checking {
+                checking = false
+                updateButton.setTitle("Up to date", forState: .Normal)
+            }
+            else {
+                updateButton.setTitle("Check for update", forState: .Normal)
+            }
+        }
+
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         bannerLabel.font = font
         versionLabel.font = font
         modelsVersionLabel.font = font
         databaseVersionLabel.font = font
         copyrightLabel.font = font
+        updateButton.titleLabel.font = font
 
         bannerLabel.textColor = AppConfiguration.foregroundColor
         versionLabel.textColor = AppConfiguration.foregroundColor
         modelsVersionLabel.textColor = AppConfiguration.foregroundColor
         databaseVersionLabel.textColor = AppConfiguration.foregroundColor
         copyrightLabel.textColor = AppConfiguration.foregroundColor
+        updateButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        updateButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
+        updateButton.backgroundColor = AppConfiguration.highlightColor
 
         var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         var bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
@@ -99,9 +126,11 @@ class AboutViewController: BaseViewController {
         super.adjustLayout()
     }
 
-    // should be able to do this in the storyboard...
-    @IBAction func done(sender: UIButton!) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func checkForUpdate(sender: UIButton!) {
+        sender.enabled = false
+        checking = true
+        AppDelegate.instance.checkForUpdate()
+        adjustLayout()
     }
 
     private func layoutParagraphs(font: UIFont!) {
