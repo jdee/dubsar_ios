@@ -58,6 +58,22 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 @dynamic reachabilityRef;
 
++ (BOOL)canRetryError:(NSError *)error
+{
+    if (error.domain != NSURLErrorDomain) return NO;
+
+    /*
+     * Most network errors can be retried, given that we change networks and so on.
+     */
+    switch (error.code) {
+        case NSURLErrorBadURL:
+        case NSURLErrorUnsupportedURL:
+            return NO;
+        default:
+            return YES;
+    }
+}
+
 -(instancetype)init
 {
     self = [super init];
@@ -210,7 +226,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
 
-    if (_retriesWhenAvailable) {
+    if (_retriesWhenAvailable && [self.class canRetryError:theError]) {
         // check current reachability
         SCNetworkReachabilityFlags flags = self.currentReachability;
         if (flags & kSCNetworkReachabilityFlagsReachable) {
