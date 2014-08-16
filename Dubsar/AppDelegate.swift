@@ -78,10 +78,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         voidCache()
         NSUserDefaults.standardUserDefaults().synchronize()
 
+        var now: time_t = 0
+        time(&now)
+
         // if a bg task is already running, let it go.
         // If a DL is in progress, we stop it and restart it in the BG.
         // If autoupdate is on, check for updates whenever we enter the BG, which will trigger a background DL when there's a new update.
-        if bgTask != UIBackgroundTaskInvalid || (!databaseManager.downloadInProgress && !AppConfiguration.autoUpdateSetting) {
+        // Limit background update checks to once per hour.
+        if bgTask != UIBackgroundTaskInvalid || (!databaseManager.downloadInProgress && (!AppConfiguration.autoUpdateSetting || now - lastUpdateCheck < 3600)) {
             return
         }
 
@@ -139,6 +143,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
             if let my = self {
                 if AppConfiguration.autoUpdateSetting {
+                    my.lastUpdateCheck = now
+
                     /*
                      * Check for update. block until the response arrives. if there's a new DL, continue blocking
                      * until the download and unzip are finished.
