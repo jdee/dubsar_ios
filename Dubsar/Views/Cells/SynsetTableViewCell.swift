@@ -54,17 +54,8 @@ class SynsetTableViewCell: UITableViewCell {
     }
     }
 
-    var synset : DubsarModelsSynset! {
-    didSet {
-        rebuild()
-    }
-    }
-
-    var cellBackgroundColor : UIColor! = AppConfiguration.backgroundColor {
-    didSet {
-        rebuild()
-    }
-    }
+    var synset : DubsarModelsSynset!
+    var cellBackgroundColor : UIColor! = AppConfiguration.backgroundColor
 
     /*
     * The main thing this class does is build this view, which is added as a subview of
@@ -83,8 +74,6 @@ class SynsetTableViewCell: UITableViewCell {
 
         accessoryType = .DetailDisclosureButton
         clipsToBounds = true
-
-        rebuild()
     }
 
     func rebuild() {

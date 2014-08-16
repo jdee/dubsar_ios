@@ -41,18 +41,8 @@ class WordTableViewCell: UITableViewCell {
         }
     }
 
-    var word : DubsarModelsWord? {
-    didSet {
-        rebuild()
-    }
-    }
-
-    var cellBackgroundColor : UIColor! = AppConfiguration.backgroundColor {
-    didSet {
-        rebuild()
-    }
-    }
-
+    var word : DubsarModelsWord?
+    var cellBackgroundColor : UIColor! = AppConfiguration.backgroundColor
     var view : UIView?
     var isPreview : Bool
 
@@ -62,8 +52,6 @@ class WordTableViewCell: UITableViewCell {
         super.init(style: .Subtitle, reuseIdentifier: reuseIdentifier)
 
         selectionStyle = .None
-
-        rebuild()
     }
 
     func rebuild() {

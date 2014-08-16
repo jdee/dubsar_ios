@@ -35,7 +35,6 @@ class OpenWordTableViewCell: WordTableViewCell {
         clipsToBounds = true
         self.frame = frame
         selectionStyle = .None
-        rebuild() // after frame set
     }
 
     override func rebuild() {
@@ -62,6 +61,7 @@ class OpenWordTableViewCell: WordTableViewCell {
         let sense = word!.senses.firstObject as DubsarModelsSense
         let openSenseCell = OpenSenseTableViewCell(sense: sense, frame: CGRectMake(0, y, bounds.size.width, bounds.size.height-y), maxHeightOfAdditions: insertHeightLimit)
         openSenseCell.cellBackgroundColor = cellBackgroundColor
+        openSenseCell.rebuild()
 
         let openSenseView: UIView! = openSenseCell.view
         openSenseView.frame.origin.x = 0

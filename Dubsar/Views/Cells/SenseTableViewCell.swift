@@ -54,18 +54,9 @@ class SenseTableViewCell: UITableViewCell {
         }
     }
 
-    var sense : DubsarModelsSense! {
-    didSet {
-        rebuild()
-    }
-    }
-
-    var cellBackgroundColor : UIColor! = AppConfiguration.backgroundColor {
-    didSet {
-        rebuild()
-    }
-    }
-
+    var sense : DubsarModelsSense!
+    var cellBackgroundColor : UIColor! = AppConfiguration.backgroundColor
+    
     /*
      * The main thing this class does is build this view, which is added as a subview of
      * contentView. Each time rebuild() is called, this view is removed from the superview
@@ -83,8 +74,6 @@ class SenseTableViewCell: UITableViewCell {
 
         accessoryType = .DetailDisclosureButton
         clipsToBounds = true
-
-        rebuild()
     }
 
     func rebuild() {

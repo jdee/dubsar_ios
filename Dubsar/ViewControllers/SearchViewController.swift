@@ -170,6 +170,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             }
 
             synsetCell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
+            synsetCell!.rebuild()
             cell = synsetCell
         }
 
