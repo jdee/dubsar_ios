@@ -40,7 +40,7 @@
         height = size.width;
     }
 
-    // DMLOG(@"Keyboard height is %f", height);
+    DMTRACE(@"Keyboard height is %f", height);
 
     return height;
 }

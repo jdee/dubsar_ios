@@ -163,11 +163,11 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
 
-    // DMLOG(@"App support directory: %@", url.path);
+    DMTRACE(@"App support directory: %@", url.path);
 
     BOOL isDir;
     BOOL exists = [fileManager fileExistsAtPath:url.path isDirectory:&isDir];
-    // DMLOG(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
+    DMTRACE(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
 
     if (!exists) {
         NSError* error;
@@ -208,11 +208,11 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
 
-    // DMLOG(@"App support directory: %@", url.path);
+    DMTRACE(@"App support directory: %@", url.path);
 
     BOOL isDir;
     BOOL exists = [fileManager fileExistsAtPath:url.path isDirectory:&isDir];
-    // DMLOG(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
+    DMTRACE(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
 
     if (!exists) {
         NSError* error;
@@ -242,11 +242,11 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     url = [url URLByAppendingPathComponent:[[NSBundle mainBundle] bundleIdentifier]];
 
-    // DMLOG(@"Caches directory: %@", url.path);
+    DMTRACE(@"Caches directory: %@", url.path);
 
     BOOL isDir;
     BOOL exists = [fileManager fileExistsAtPath:url.path isDirectory:&isDir];
-    // DMLOG(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
+    DMTRACE(@"directory %@ and is%@ a directory", (exists ? @"exists" : @"doesn't exist"), (isDir ? @"" : @" not"));
 
     if (!exists) {
         NSError* error;
@@ -363,7 +363,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     self.downloadedAtLastStatsUpdate = 0;
     self.elapsedDownloadTime = 0;
 
-    // DMLOG(@"Download start: %ld.%06d. Last download read: %ld.%06d", self.downloadStart.tv_sec, self.downloadStart.tv_usec, self.lastDownloadStatsUpdate.tv_sec, self.lastDownloadStatsUpdate.tv_usec);
+    DMTRACE(@"Download start: %ld.%06d. Last download read: %ld.%06d", self.downloadStart.tv_sec, self.downloadStart.tv_usec, self.lastDownloadStatsUpdate.tv_sec, self.lastDownloadStatsUpdate.tv_usec);
 
     struct timeval now;
     memset(&now, 0, sizeof(now));
@@ -1206,7 +1206,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         [self notifyDelegateOfError: @"unzOpen(%@) failed", self.zipURL.path];
         return;
     }
-    // DMLOG(@"Opened zip file");
+    DMTRACE(@"Opened zip file");
 
     rc = unzLocateFile(uf, _fileName.UTF8String, 1);
     if (rc != UNZ_OK) {
@@ -1215,7 +1215,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         uf = NULL;
         return;
     }
-    // DMLOG(@"Located %@ in zip file", _fileName);
+    DMTRACE(@"Located %@ in zip file", _fileName);
 
     rc = unzOpenCurrentFile(uf);
     if (rc != UNZ_OK) {
@@ -1224,7 +1224,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         uf = NULL;
         return;
     }
-    // DMLOG(@"Opened %@ in zip file", _fileName);
+    DMTRACE(@"Opened %@ in zip file", _fileName);
 
     unz_file_info fileInfo;
     rc = unzGetCurrentFileInfo(uf, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
@@ -1255,7 +1255,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         uf = NULL;
         return;
     }
-    // DMLOG(@"Opened %@ for write", _fileName);
+    DMTRACE(@"Opened %@ for write", _fileName);
 
     [self excludeFromBackup:self.fileURL];
 
