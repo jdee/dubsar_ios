@@ -154,10 +154,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             // Now when the rotation occurs and the animation below begins, the alphabet view will have its original size and orientation,
             // but be lined up with the lower righthand corner of the view after the rotation, at the beginning of the animation.
 
-            /*
-            DMLOG("new view size: %f x %f. alphabet view size: %f x %f. alphabet view origin: %f, %f", Double(newViewWidth), Double(newViewHeight),
-                Double(alphabetView.bounds.size.width), Double(alphabetView.bounds.size.height), Double(alphabetView.frame.origin.x), Double(alphabetView.frame.origin.y))
-            // */
+            DMTRACE("new view size: \(newViewWidth) x \(newViewHeight). alphabet view size: \(alphabetView.bounds.size.width) x \(alphabetView.bounds.size.height). alphabet view origin: \(alphabetView.frame.origin.x), \(alphabetView.frame.origin.y)")
 
             //*
             /* Now rotate around that lower righthand corner in each case, rather than the center of the view. Actually, rotation

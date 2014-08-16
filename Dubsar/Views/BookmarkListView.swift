@@ -35,9 +35,10 @@ class BookmarkListView: UIScrollView {
         let margin = BookmarkListView.margin
 
         backgroundView = UIView(frame: CGRectMake(0, 0, frame.size.width, frame.size.height))
+        backgroundView.autoresizingMask = .FlexibleWidth
 
         label = UILabel(frame: CGRectMake(margin, margin, frame.size.width - 2 * margin, frame.size.height))
-        label.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        label.autoresizingMask = .FlexibleWidth
         label.numberOfLines = 1
         label.textAlignment = .Center
 
@@ -81,7 +82,7 @@ class BookmarkListView: UIScrollView {
         label.backgroundColor = AppConfiguration.highlightColor
         label.textColor = AppConfiguration.foregroundColor
 
-        DMTRACE("Bookmarks label: text size \(textSize.width) x \(textSize.height) (\(font.pointSize) pt)")
+        DMTRACE("Bookmarks label size \(label.bounds.size.width) x \(label.bounds.size.height) (\(font.pointSize) pt). origin: (\(label.frame.origin.x), \(label.frame.origin.y))")
 
         var y = margin + label.frame.origin.y + label.bounds.size.height
 

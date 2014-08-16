@@ -43,6 +43,7 @@ class BookmarkView: UIView {
 
         opaque = false
         backgroundColor = UIColor.clearColor()
+        autoresizingMask = .FlexibleWidth
 
         button.addTarget(self, action: "selected:", forControlEvents: .TouchUpInside)
 

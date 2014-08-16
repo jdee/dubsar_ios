@@ -144,15 +144,15 @@ class AlphabetView: UIView {
     private func getFont() -> UIFont! {
         let fontDescriptor = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         let headlineFontSize = fontDescriptor.pointSize
-        // DMLOG("Headline font size is %f", Float(headlineFontSize))
+        DMTRACE("Headline font size is \(headlineFontSize)")
 
         // whatever fits the form factor, but never larger than the current headline font
         // fortunately, there are only three relevant device sizes, in points:
         // 320 x 480, 320 x 568, 768 x 1024.
         // 14 is the smallest available headline size, and it fits all screens in any orientation
-        // 23 is the largest ordinary headline size.
-        // TODO: Support extra-large accessibility fonts.
-        let sizes: [CGFloat] = [ 48, 36, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14 ]
+        // 23 is the largest headline size. (note that the headline size never exceeds 23 pt with extra-large
+        // accessibility fonts. only the body font becomes enormous.)
+        let sizes: [CGFloat] = [ 23, 22, 21, 20, 19, 18, 17, 16, 15, 14 ]
 
         var fontToUse: UIFont!
         for fontSize in sizes {
