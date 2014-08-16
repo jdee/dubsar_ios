@@ -156,6 +156,9 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
             DMTRACE("new view size: \(newViewWidth) x \(newViewHeight). alphabet view size: \(alphabetView.bounds.size.width) x \(alphabetView.bounds.size.height). alphabet view origin: \(alphabetView.frame.origin.x), \(alphabetView.frame.origin.y)")
 
+            // font can change on rotation, but:
+            let typicalSize = ("WX" as NSString).sizeWithAttributes([NSFontAttributeName: alphabetView.font])
+
             //*
             /* Now rotate around that lower righthand corner in each case, rather than the center of the view. Actually, rotation
              * occurs around a stationary point just inside the lower righthand corner at the center of a square
@@ -164,18 +167,15 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
              *
              * In each case, aspect is the ratio of the long side (of the alphabet view) in the new orientation to the long side
              * in the current orientation. The inset variable is half the short side of the alphabet view.
-             * The distance from the center of the view to the stationary point is half the long side of the view minus the
+             * The distance from the center of the view to the stationary point (offset) is half the long side of the view minus the
              * inset variable.
              * In each case, the transformations occur like this:
              *
-             * 5. The scale operation in the 4th step left the center where it was after the rotation and transverse translation, half
-             *    the original long dimension (before the scale) away from the bottom right. But now that the scale has changed the size
-             *    of the alphabet view, it no longer lines up with the bottom right. Finally translate it so that it lines up properly.
-             * 4. Scale the view in the long dimension (after rotation, so y when rotating to portrait and x when landscape).
-             * 3. Translate the stationary point back to the lower righthand corner, where it originally was.
-             * 2. Rotate around the the stationary point.
-             * 1. Translate the stationary point so that it is at the rotation center, originally the center of the view. If rotating
+             * 4. Translate the stationary point back to the lower righthand corner, where it originally was.
+             * 3. Rotate around the stationary point.
+             * 2. Translate the stationary point so that it is at the rotation center, originally the center of the view. If rotating
              *    to portrait, translate left. If rotating to landscape, translate up.
+             * 1. Scale the view in the long dimension.
              */
             let π = CGFloat(M_PI)
             var transform = CGAffineTransformIdentity
@@ -183,27 +183,29 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             if UIInterfaceOrientationIsPortrait(toInterfaceOrientation) {
                 // rotating from the bottom of the view to the right side
                 let newAlphabetHeight = newViewHeight - searchBar.bounds.size.height
-                let aspect = newAlphabetHeight / alphabetView.bounds.size.width
-                inset = 0.5 * alphabetView.bounds.size.height
+                let aspect = newAlphabetHeight / alphabetView.bounds.size.width // < 1
+                let transverseAspect = typicalSize.width / alphabetView.bounds.size.height // > 1
+                inset = 0.5 * typicalSize.width
+                let transverseOffset: CGFloat = 0.5*(typicalSize.width - alphabetView.bounds.size.height)
                 let offset = 0.5 * alphabetView.bounds.size.width - inset
 
-                transform = CGAffineTransformTranslate(transform, 0, 0.5 * (alphabetView.bounds.size.width - newAlphabetHeight))
-                transform = CGAffineTransformScale(transform, 1.0, aspect)
-                transform = CGAffineTransformTranslate(transform, offset, 0.0)
+                transform = CGAffineTransformTranslate(transform, offset, 0)
                 transform = CGAffineTransformRotate(transform, 0.5 * π)
-                transform = CGAffineTransformTranslate(transform, -offset, 0.0)
+                transform = CGAffineTransformTranslate(transform, -0.5 * newAlphabetHeight + inset - transverseOffset, 0.0)
+                transform = CGAffineTransformScale(transform, aspect, transverseAspect)
             }
             else {
                 // rotating from the right side of the view to the bottom
-                let aspect = newViewWidth / alphabetView.bounds.size.height
-                inset = 0.5 * alphabetView.bounds.size.width
+                let aspect = newViewWidth / alphabetView.bounds.size.height // > 1
+                let transverseAspect = typicalSize.height / alphabetView.bounds.size.width // < 1
+                inset = 0.5 * typicalSize.height
+                let transverseOffset: CGFloat = 0.5*(alphabetView.bounds.size.width - typicalSize.height)
                 let offset = 0.5 * alphabetView.bounds.size.height - inset
 
-                transform = CGAffineTransformTranslate(transform, -0.5 * (newViewWidth - alphabetView.bounds.size.height), 0)
-                transform = CGAffineTransformScale(transform, aspect, 1.0)
-                transform = CGAffineTransformTranslate(transform, 0.0, offset)
+                transform = CGAffineTransformTranslate(transform, 0, offset)
                 transform = CGAffineTransformRotate(transform, -0.5 * π)
-                transform = CGAffineTransformTranslate(transform, 0.0, -offset)
+                transform = CGAffineTransformTranslate(transform, 0.0, -0.5 * newViewWidth + inset + transverseOffset)
+                transform = CGAffineTransformScale(transform, transverseAspect, aspect)
             }
             // */
 
@@ -223,6 +225,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
                     }
                 })
             // */
+
+            // alphabetView.transform = transform
         }
     }
 
@@ -355,7 +359,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     override func adjustLayout() {
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        // DMLOG("Using font %@", font.fontName)
+        DMTRACE("Using font \(font.fontName)")
         wotdLabel.font = font
         wotdButton.titleLabel.font = font
         wordNetLabel.font = font
@@ -378,7 +382,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         bookmarkListView.frame = CGRectMake(0, 44, view.bounds.size.width, view.bounds.size.height - 44)
         bookmarkListView.setNeedsLayout()
 
-        // DMLOG("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))
+        DMTRACE("Actual view size: \(view.bounds.size.width) x \(view.bounds.size.height)")
 
         super.adjustLayout()
     }
