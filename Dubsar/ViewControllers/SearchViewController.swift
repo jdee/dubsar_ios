@@ -74,7 +74,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func maxHeightOfAdditionsForRow(row: Int) -> CGFloat {
-        return row == search!.results.count - 1 ? resultTableView.bounds.size.height : 150
+        return row == search!.results.count - 1 ? 0 : 150 // 0: unlimited
     }
 
     func tableView(tableView: UITableView!, shouldHighlightRowAtIndexPath indexPath: NSIndexPath!) -> Bool {

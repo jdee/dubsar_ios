@@ -248,7 +248,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func maxHeightOfAdditionsForRow(row: Int) -> CGFloat {
-        return row == theWord!.senses.count ? senseTableView.bounds.size.height : 150
+        return row == theWord!.senses.count ? 0 : 150 // 0: unlimited
     }
 
     func synchSelectedRow() {

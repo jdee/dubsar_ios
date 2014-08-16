@@ -130,7 +130,7 @@ class SynsetPointerView: UIView {
             /*
              * The safest thing to do (to begin with) is start at the top of this view (y = 0) and work our way down.
              */
-            if completedUpToY >= scrollViewBottom || nextSection == Int(numberOfSections) {
+            if (scrollViewBottom > 0.0 && completedUpToY >= scrollViewBottom) || nextSection == Int(numberOfSections) {
                 // nothing to do.
                 return
             }
@@ -200,7 +200,7 @@ class SynsetPointerView: UIView {
                 nextRow = 0
                 ++completedUpToRow
 
-                if y >= scrollViewBottom {
+                if scrollViewBottom > 0.0 && y >= scrollViewBottom {
                     break
                 }
                 DMTRACE("Title for section \(sectionNumber) is \(title)")
@@ -237,7 +237,7 @@ class SynsetPointerView: UIView {
                 ++completedUpToRow
 
                 DMTRACE("Pointer text for section \(sectionNumber), row \(row) is \(text)")
-                if y >= scrollViewBottom {
+                if scrollViewBottom > 0.0 && y >= scrollViewBottom {
                     finished = true
                     ++row
                     break

@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         #if DEBUG
             // .Debug is also the default, but this is where to change it. (disabled, not to mention compiled out, in release builds)
-            DubsarModelsLogger.instance().logLevel = .Debug
+            DubsarModelsLogger.instance().logLevel = .Trace
         #endif
 
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
