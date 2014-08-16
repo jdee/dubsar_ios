@@ -138,7 +138,19 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 {
     if (!self.fileURL) return NO;
 
-    return [[NSFileManager defaultManager] fileExistsAtPath:self.fileURL.path];
+    struct stat sb;
+    int rc = stat(self.fileURL.path.UTF8String, &sb);
+    if (rc != 0) {
+        int error = errno;
+        if (error != ENOENT) {
+            char errbuf[256];
+            strerror_r(error, errbuf, 255);
+            DMERROR(@"stat(%@): error %d (%s)", self.fileURL.path, error, errbuf);
+        }
+        return NO;
+    }
+
+    return !_currentDownload || _currentDownload.unzippedSize == sb.st_size;
 }
 
 - (NSURL*)fileURL
