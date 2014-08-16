@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
 @property (nonatomic) bool error;
 @property (nonatomic, copy) NSString* errorMessage;
 @property (nonatomic, weak) id<DubsarModelsLoadDelegate> delegate;
-@property (nonatomic, weak) DubsarModelsDatabaseWrapper* database;
+@property (nonatomic, readonly) DubsarModelsDatabaseWrapper* database;
 @property (atomic) BOOL loading;
 @property (nonatomic) BOOL callsDelegateOnMainThread;
 @property (nonatomic) BOOL retriesWhenAvailable;
@@ -59,7 +59,6 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
 +(BOOL)canRetryError:(NSError*)error;
 
 - (void)load;
-- (void)databaseThread:(id)database;
 - (void)loadFromServer;
 - (void)cancel;
 

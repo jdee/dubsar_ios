@@ -40,6 +40,7 @@
 
 - (void)openDBName:(NSURL *)srcURL
 {
+    DMTRACE(@"In openDBName:");
     @autoreleasepool {
         [self closeDB];
 

@@ -475,6 +475,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                 DMDEBUG("\(databaseManager.fileURL.path) exists. checking for updates")
                 checkForUpdate()
             }
+
             return
         }
         else if offlineSetting { // When the response comes back, if autoupdate is on, the download will just start. If autoupdate is off, the user will be prompted with an alert.

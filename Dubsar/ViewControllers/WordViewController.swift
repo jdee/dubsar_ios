@@ -76,7 +76,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             // DMLOG("Received response for sense %d (%@). Updating row %d", sense!._id, sense!.gloss, row)
 
             senseTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
-            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .Bottom)
+            senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: row == theWord!.senses.count ? .Top : .Bottom)
             return
 
         case .UpdateViewWithDependency:
@@ -89,7 +89,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         synchSelectedRow()
         adjustLayout()
-        senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: router.routerAction == RouterAction.UpdateViewWithDependency ? .Bottom : .None)
+        senseTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: router.routerAction == RouterAction.UpdateViewWithDependency ? selectedIndexPath.indexAtPosition(1) == theWord!.senses.count ? .Top : .Bottom : .None)
         senseTableView.backgroundColor = theWord!.senses.count % 2 == 1 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
     }
 
@@ -218,8 +218,12 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         // DMLOG("Reloading rows %d & %d", row, current.indexAtPosition(1))
 
         dispatch_async(dispatch_get_main_queue()) {
-            tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
-            tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
+            [weak self] in
+
+            if let my = self {
+                tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
+                tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: my.theWord!.senses.count == indexPath.indexAtPosition(1) ? .Top : .Bottom)
+            }
         }
     }
 

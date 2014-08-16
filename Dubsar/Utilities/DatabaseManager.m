@@ -150,7 +150,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         return NO;
     }
 
-    return !_currentDownload || _currentDownload.unzippedSize == sb.st_size;
+    return !_currentDownload || _currentDownload.unzippedSize == 0 || _currentDownload.unzippedSize == sb.st_size;
 }
 
 - (NSURL*)fileURL
@@ -269,8 +269,12 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 #pragma mark - Public interface
 - (void)open
 {
+    DMTRACE(@"Initializing DB mgr");
+    DMTRACE(@"Looking for %@", self.fileURL.path);
     if (self.fileExists) {
+        DMTRACE(@"Found %@, opening", self.fileURL.path);
         [DubsarModelsDatabase instance].databaseURL = self.fileURL;
+        assert([DubsarModelsDatabase instance].database);
     }
 }
 

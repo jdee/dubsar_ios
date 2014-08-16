@@ -102,6 +102,8 @@ class SynsetSampleView: UIView {
         label.text = sample
         label.textColor = AppConfiguration.foregroundColor
         label.backgroundColor = background
+        label.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        label.textAlignment = .Left
 
         labels += label
         addSubview(label)

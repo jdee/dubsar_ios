@@ -56,7 +56,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 @synthesize preview;
 @synthesize connection;
 
-@dynamic reachabilityRef;
+@dynamic reachabilityRef, database;
 
 + (BOOL)canRetryError:(NSError *)error
 {
@@ -85,7 +85,6 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         error = false;
         errorMessage = nil;
         preview = false;
-        _database = [DubsarModelsDatabase instance].database;
         _loading = false;
         _callsDelegateOnMainThread = YES;
         _retriesWhenAvailable = NO;
@@ -113,7 +112,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 - (void)loadSynchronous
 {
-    [self databaseThread:_database];
+    [self databaseThread];
 }
 
 - (void)cancel
@@ -127,19 +126,21 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     // else // do something like what happens in the AC, with an aborted flag?
 }
 
-- (void)databaseThread:(id)wrapper
+- (DubsarModelsDatabaseWrapper *)database
+{
+    return [DubsarModelsDatabase instance].database;
+}
+
+- (void)databaseThread
 {
     @autoreleasepool {
-        DubsarModelsDatabaseWrapper* database = (DubsarModelsDatabaseWrapper*)wrapper;
-        if (!database) {
-            database = _database;
-        }
+        DubsarModelsDatabaseWrapper* database = [DubsarModelsDatabase instance].database;
 
         complete = error = false;
         errorMessage = nil;
 
         if (database.dbptr) {
-            // DMLOG(@"Loading from the DB");
+            DMTRACE(@"Loading from the DB");
             @autoreleasepool {
                 [self loadResults:database];
             }
@@ -152,7 +153,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         }
         else {
             // load synchronously in this thread
-            // DMLOG(@"Loading from the server");
+            DMTRACE(@"Loading from the server");
             [self loadFromServer];
             while (!self.complete &&
                    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.2]]);

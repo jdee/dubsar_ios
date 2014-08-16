@@ -192,8 +192,12 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         // DMLOG("Selected row %d", selectedIndexPath.indexAtPosition(1))
         dispatch_async(dispatch_get_main_queue()) {
-            tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
-            tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Bottom)
+            [weak self] in
+
+            if let my = self {
+                tableView.reloadRowsAtIndexPaths([current, indexPath], withRowAnimation: .Automatic)
+                tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: my.search!.results.count - 1 == indexPath.indexAtPosition(1) ? .Top : .Bottom)
+            }
         }
     }
 
@@ -269,7 +273,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             if search!.results.count > 0 {
                 selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
                 synchSelectedRow()
-                // DMLOG("Sent request to synch row for word");
+                DMTRACE("Sent request to synch row for word");
             }
 
             resultTableView.reloadData()
@@ -293,15 +297,15 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
                     self.router!.routerAction = .UpdateRowAtIndexPath
                     self.router!.indexPath = selectedIndexPath
                     self.router!.load()
-                    // DMLOG("Sent request to synch first sense in open word cell")
+                    DMTRACE("Sent request to synch first sense in open word cell")
                 }
             }
             else {
-                // DMLOG("Got response for first sense in open word cell")
+                DMTRACE("Got response for first sense in open word cell")
             }
 
             resultTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)
-            resultTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: router.routerAction != RouterAction.UpdateView ? .Bottom : .None)
+            resultTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: router.routerAction != RouterAction.UpdateView ? search!.results.count - 1 == row ? .Top : .Bottom : .None)
             return
 
         default:

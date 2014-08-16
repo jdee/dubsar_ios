@@ -46,6 +46,7 @@
     _databaseURL = databaseURL;
     [_database closeDB];
     [_database openDBName:_databaseURL];
+    assert(!databaseURL || _database.dbptr);
 }
 
 - (void)closeDB
