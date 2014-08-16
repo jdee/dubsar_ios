@@ -19,6 +19,7 @@
 
 #import "DubsarModels/DubsarModelsLoadDelegate.h"
 #import "DubsarModels/DubsarModelsModel.h"
+#import "DubsarModels/DubsarModelsPartOfSpeechDictionary.h"
 
 @class DubsarModelsWord;
 
@@ -28,7 +29,7 @@
 @property time_t expiration;
 
 + (instancetype)dailyWord;
-+ (void)updateWotdId:(NSInteger)wotdId expiration:(time_t)expiration;
++ (void)updateWotdId:(NSInteger)wotdId expiration:(time_t)expiration name:(NSString*)name partOfSpeech:(DubsarModelsPartOfSpeech)partOfSpeech;
 + (void)updateWotdWithNotificationPayload:(NSDictionary*)dubsarPayload;
 + (void)resetWotd;
 

@@ -210,31 +210,37 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Dubsar for iOS" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="RLI-y3-ORx">
-                                <rect key="frame" x="20" y="70" width="560" height="21"/>
+                                <rect key="frame" x="20" y="20" width="560" height="21"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Version Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="ELp-lO-24Z">
-                                <rect key="frame" x="20" y="99" width="560" height="21"/>
+                                <rect key="frame" x="20" y="49" width="560" height="21"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="DubsarModels Version Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="YMh-RE-23b">
-                                <rect key="frame" x="20" y="128" width="560" height="21"/>
+                                <rect key="frame" x="20" y="78" width="560" height="21"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Installed database version label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="skS-s5-aqt">
-                                <rect key="frame" x="20" y="157" width="560" height="63"/>
+                                <rect key="frame" x="20" y="107" width="560" height="63"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Copyright © 2014 Jimmy Dee" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="zpV-zr-QPf">
+                                <rect key="frame" x="20" y="216" width="560" height="20"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ML-eq-8E2">
-                                <rect key="frame" x="20" y="228" width="560" height="30"/>
+                                <rect key="frame" x="20" y="178" width="560" height="30"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <state key="normal" title="Check for update">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -243,12 +249,6 @@
                                     <action selector="checkForUpdate:" destination="GAx-Bg-REs" eventType="touchUpInside" id="DVE-jb-koD"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Copyright © 2014 Jimmy Dee" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="zpV-zr-QPf">
-                                <rect key="frame" x="20" y="266" width="560" height="20"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -260,7 +260,7 @@
                             <constraint firstAttribute="trailing" secondItem="ELp-lO-24Z" secondAttribute="trailing" constant="20" id="CNR-0V-We5"/>
                             <constraint firstItem="1ML-eq-8E2" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="Cjm-6f-hCz"/>
                             <constraint firstItem="skS-s5-aqt" firstAttribute="top" secondItem="YMh-RE-23b" secondAttribute="bottom" constant="8" id="N9L-5M-dVW"/>
-                            <constraint firstItem="RLI-y3-ORx" firstAttribute="top" secondItem="vwo-pm-G47" secondAttribute="top" constant="70" id="beU-L3-bBS"/>
+                            <constraint firstItem="RLI-y3-ORx" firstAttribute="top" secondItem="vwo-pm-G47" secondAttribute="top" constant="20" id="beU-L3-bBS"/>
                             <constraint firstItem="1ML-eq-8E2" firstAttribute="top" secondItem="skS-s5-aqt" secondAttribute="bottom" constant="8" id="bhm-uc-NqQ"/>
                             <constraint firstItem="YMh-RE-23b" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="eyI-G8-Bz9"/>
                             <constraint firstItem="zpV-zr-QPf" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="gI9-hs-Chw"/>

@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         #if DEBUG
             // .Debug is also the default, but this is where to change it. (disabled, not to mention compiled out, in release builds)
-            DubsarModelsLogger.instance().logLevel = .Trace
+            DubsarModelsLogger.instance().logLevel = .Debug
         #endif
 
         setupPushNotificationsForApplication(application, withLaunchOptions:launchOptions)
@@ -220,7 +220,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         // Custom (Dubsar) payload handling
         let dubsarPayload = notification!.objectForKey(dubsar) as? NSDictionary
-        DubsarModelsDailyWord.updateWotdWithNotificationPayload(dubsarPayload)
+        DubsarModelsDailyWord.updateWotdWithNotificationPayload(notification)
 
         let url = dubsarPayload?.objectForKey("url") as? NSString
         if url {

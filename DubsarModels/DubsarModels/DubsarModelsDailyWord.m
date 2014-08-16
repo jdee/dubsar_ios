@@ -38,14 +38,15 @@
     return [[self alloc] init];
 }
 
-+ (void)updateWotdWithNotificationPayload:(NSDictionary *)dubsarPayload
++ (void)updateWotdWithNotificationPayload:(NSDictionary *)notification
 {
+    NSDictionary* dubsarPayload = notification[@"dubsar"];
     if (!dubsarPayload) return;
 
-    NSString* type = [dubsarPayload valueForKey:@"type"];
+    NSString* type = dubsarPayload[@"type"];
     if (![type isEqualToString:@"wotd"]) return;
 
-    NSURL* url = [NSURL URLWithString:[dubsarPayload valueForKey:@"url"]];
+    NSURL* url = [NSURL URLWithString:dubsarPayload[@"url"]];
     assert([url.path hasPrefix:@"/wotd/"]);
     NSInteger wotdId = url.path.lastPathComponent.intValue;
 
@@ -53,13 +54,33 @@
     // DEBT: This is no longer an NSString to be converted, so we lose the + sign at the
     // beginning that's used to indicate relative expiration times. Change to a nonnumeric
     // introducer, like R60 instead of +60. Only interesting during testing though.
-    NSNumber* sexpiration = [dubsarPayload valueForKey:@"expiration"];
+    NSNumber* sexpiration = dubsarPayload[@"expiration"];
     texpiration = sexpiration.intValue;
 
-    [self updateWotdId:wotdId expiration:texpiration];
+    NSDictionary* aps = notification[@"aps"];
+    NSString* alert = aps[@"alert"];
+
+    NSString* nameAndPos = [alert substringFromIndex:@"Word of the day: ".length];
+
+    NSArray* components;
+    if ([nameAndPos rangeOfString:@","].location == NSNotFound) {
+        // name (pos.)
+        components = [nameAndPos componentsSeparatedByString:@" ("];
+    }
+    else {
+        // name, pos.
+        components = [nameAndPos componentsSeparatedByString:@", "];
+    }
+
+    NSString* name = components[0];
+    NSString* posComponent = components[1];
+    NSString* pos = [posComponent substringToIndex:[posComponent rangeOfString:@"."].location];
+    DubsarModelsPartOfSpeech partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:pos];
+
+    [self updateWotdId:wotdId expiration:texpiration name:name partOfSpeech:partOfSpeech];
 }
 
-+ (void)updateWotdId:(NSInteger)wotdId expiration:(time_t)expiration
++ (void)updateWotdId:(NSInteger)wotdId expiration:(time_t)expiration name:(NSString*)name partOfSpeech:(DubsarModelsPartOfSpeech)partOfSpeech
 {
     if (expiration < time(NULL)) {
         /*
@@ -71,7 +92,7 @@
     }
 
     DubsarModelsDailyWord* wotd = [DubsarModelsDailyWord dailyWord];
-    wotd.word = [DubsarModelsWord wordWithId:wotdId name:nil partOfSpeech:DubsarModelsPartOfSpeechUnknown];
+    wotd.word = [DubsarModelsWord wordWithId:wotdId name:name partOfSpeech:partOfSpeech];
     wotd.expiration = expiration;
     [wotd saveToUserDefaults];   
 }
