@@ -72,6 +72,7 @@ extension DubsarModelsSynset {
             }
 
             if numberOfSections == 0 {
+                size.height += additions
                 return size
             }
 

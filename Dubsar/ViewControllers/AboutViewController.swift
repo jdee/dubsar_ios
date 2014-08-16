@@ -66,8 +66,8 @@ class AboutViewController: BaseViewController {
         else if let download = current {
             let range = NSRange(location: 0, length: 19)
             let mtime = download.properties["mtime"] as NSString
-            var timestamp = mtime.substringWithRange(range) as NSString
-            timestamp = timestamp.stringByReplacingOccurrencesOfString("T", withString: " ", options: nil, range: NSRange(location: 0, length: 19)) as NSString
+            var timestamp: NSString = mtime.substringWithRange(range)
+            timestamp = timestamp.stringByReplacingOccurrencesOfString("T", withString: " ", options: nil, range: range)
 
             dbVersionString = "\(download.name)\n\(timestamp) UTC"
         }
