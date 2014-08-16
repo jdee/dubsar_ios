@@ -83,7 +83,11 @@ class AboutViewController: BaseViewController {
 
     override func adjustLayout() {
         let databaseManager = AppDelegate.instance.databaseManager
-        if databaseManager.updateCheckInProgress {
+        if !AppConfiguration.offlineSetting {
+            updateButton.enabled = false
+            updateButton.setTitle("(offline use disabled)", forState: .Normal)
+        }
+        else if databaseManager.updateCheckInProgress {
             updateButton.enabled = false
             updateButton.setTitle("Checking for update", forState: .Normal)
         }
