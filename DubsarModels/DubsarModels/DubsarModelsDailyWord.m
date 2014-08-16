@@ -172,7 +172,10 @@
 
     expiration = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordExpirationKey];
 
-    assert(name);
+    if (!name) {
+        return false;
+    }
+
     [self.delegate loadComplete:self withError:nil];
 
     return true;
