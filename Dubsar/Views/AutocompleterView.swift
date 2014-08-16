@@ -65,6 +65,23 @@ class AutocompleterView: UIView {
             if optionalResults {
                 DMTRACE("Laying out AutocompleterView with \(autocompleter.results.count) results")
                 let results = autocompleter.results as [AnyObject]
+
+                if results.count == 0 {
+                    let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+                    let text = "No suggestions"
+                    let textSize = text.sizeWithAttributes([NSFontAttributeName: font])
+                    let button = UIButton(frame: CGRectMake(margin, y, bounds.size.width - 2*margin, textSize.height + 2*margin))
+                    button.setTitle(text, forState: .Normal)
+                    button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+                    button.backgroundColor = AppConfiguration.highlightColor
+                    button.titleLabel.font = font
+                    button.enabled = false
+                    addSubview(button)
+                    buttons.append(button)
+
+                    y += textSize.height + 3*margin
+                }
+
                 for result in results as [NSString] {
                     let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
                     let textSize = result.sizeWithAttributes([NSFontAttributeName: font])
