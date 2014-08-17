@@ -63,17 +63,20 @@ class OpenWordTableViewCell: WordTableViewCell {
         openSenseCell.cellBackgroundColor = cellBackgroundColor
         openSenseCell.rebuild()
 
-        let openSenseView: UIView! = openSenseCell.view
+        let openSenseView: UIView! = openSenseCell.removeView()
         openSenseView.frame.origin.x = 0
         openSenseView.frame.origin.y = y
         openSenseView.frame.size.height = openSenseCell.bounds.size.height
-        openSenseView.clipsToBounds = true
         openSenseView.backgroundColor = cellBackgroundColor
-        openSenseView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        openSenseView.removeFromSuperview() // remove this nicely built view from the dummy cell's contentView
 
         let lastSubview = (view!.subviews as NSArray).lastObject as UIView
+        // view!.removeConstraint(NSLayoutConstraint(item: lastSubview, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1.0, constant: -WordTableViewCell.margin))
+
         view!.addSubview(openSenseView)
+
+        DMTRACE("Open sense view height \(openSenseView.bounds.size.height)")
+        frame.size.height += openSenseView.bounds.size.height
+        DMTRACE("Overall frame height \(frame.size.height)")
 
         var constraint: NSLayoutConstraint
         constraint = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: openSenseView, attribute: .Leading, multiplier: 1.0, constant: 0.0)
@@ -82,11 +85,7 @@ class OpenWordTableViewCell: WordTableViewCell {
         view!.addConstraint(constraint)
         constraint = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: openSenseView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
         view!.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: lastSubview, attribute: .Bottom, relatedBy: .Equal, toItem: openSenseView, attribute: .Top, multiplier: 1.0, constant: -8.0)
+        constraint = NSLayoutConstraint(item: lastSubview, attribute: .Bottom, relatedBy: .Equal, toItem: openSenseView, attribute: .Top, multiplier: 1.0, constant: 0.0)
         view!.addConstraint(constraint)
-
-        DMTRACE("Open sense view height \(openSenseView.bounds.size.height)")
-        frame.size.height += openSenseView.bounds.size.height
-        DMTRACE("Overall frame height \(frame.size.height)")
     }
 }

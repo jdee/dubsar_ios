@@ -98,6 +98,7 @@ class SynsetTableViewCell: UITableViewCell {
 
         contentView.addSubview(view)
         contentView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        contentView.removeConstraints(contentView.constraints())
 
         var constraint: NSLayoutConstraint
         //* Usually an autoresizing mask works, but this fixes a problem that the autoresizingMask doesn't.

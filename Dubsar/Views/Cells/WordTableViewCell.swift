@@ -51,6 +51,8 @@ class WordTableViewCell: UITableViewCell {
         isPreview = preview
         super.init(style: .Subtitle, reuseIdentifier: reuseIdentifier)
 
+        // setTranslatesAutoresizingMaskIntoConstraints(false)
+
         selectionStyle = .None
     }
 
@@ -91,7 +93,7 @@ class WordTableViewCell: UITableViewCell {
 
         view = UIView(frame: bounds)
         view!.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
-        view!.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        view!.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         layer.borderColor = UIColor.redColor().CGColor
         // layer.borderWidth = 1
@@ -102,8 +104,8 @@ class WordTableViewCell: UITableViewCell {
 
         contentView.frame = bounds
         contentView.addSubview(view)
-        contentView.autoresizingMask = .FlexibleWidth
         contentView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        contentView.removeConstraints(contentView.constraints())
 
         var constraint: NSLayoutConstraint
         //* Usually an autoresizing mask works, but this fixes a problem that the autoresizingMask doesn't.
@@ -115,6 +117,15 @@ class WordTableViewCell: UITableViewCell {
         addConstraint(constraint)
         constraint = NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
+
+        constraint = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        contentView.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        contentView.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        contentView.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: contentView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        contentView.addConstraint(constraint)
         // */
 
         let nameAndPosLabel = UILabel(frame:CGRectMake(margin, margin, constrainedSize.width, nameAndPosSize.height))
@@ -123,22 +134,37 @@ class WordTableViewCell: UITableViewCell {
         nameAndPosLabel.font = headlineFont
         nameAndPosLabel.text = nameAndPos
         nameAndPosLabel.textColor = AppConfiguration.foregroundColor
-        nameAndPosLabel.autoresizingMask = .FlexibleWidth
+        nameAndPosLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         nameAndPosLabel.layer.borderColor = UIColor.orangeColor().CGColor
         // nameAndPosLabel.layer.borderWidth = 1
         view!.addSubview(nameAndPosLabel)
 
+        constraint = NSLayoutConstraint(item: nameAndPosLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - (isPreview ? accessorySize : 0))
+        view!.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: nameAndPosLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: margin)
+        view!.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: nameAndPosLabel, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: margin)
+        view!.addConstraint(constraint)
+
+        var inflectionLabel: UILabel?
         if word!.inflections.count > 0 {
-            let inflectionLabel = UILabel(frame:CGRectMake(margin, 2*margin+nameAndPosSize.height, constrainedSize.width, inflectionSize.height))
-            inflectionLabel.lineBreakMode = .ByWordWrapping
-            inflectionLabel.numberOfLines = 0
-            inflectionLabel.font = italicFont
-            inflectionLabel.text = inflectionText
-            inflectionLabel.textColor = AppConfiguration.foregroundColor
-            inflectionLabel.layer.borderColor = UIColor.yellowColor().CGColor
+            inflectionLabel = UILabel(frame:CGRectMake(margin, 2*margin+nameAndPosSize.height, constrainedSize.width, inflectionSize.height))
+            inflectionLabel!.lineBreakMode = .ByWordWrapping
+            inflectionLabel!.numberOfLines = 0
+            inflectionLabel!.font = italicFont
+            inflectionLabel!.text = inflectionText
+            inflectionLabel!.textColor = AppConfiguration.foregroundColor
+            inflectionLabel!.layer.borderColor = UIColor.yellowColor().CGColor
             // inflectionLabel.layer.borderWidth = 1
-            inflectionLabel.autoresizingMask = .FlexibleWidth
+            inflectionLabel!.setTranslatesAutoresizingMaskIntoConstraints(false)
             view!.addSubview(inflectionLabel)
+
+            constraint = NSLayoutConstraint(item: inflectionLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - (isPreview ? accessorySize : 0))
+            view!.addConstraint(constraint)
+            constraint = NSLayoutConstraint(item: inflectionLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: margin)
+            view!.addConstraint(constraint)
+            constraint = NSLayoutConstraint(item: inflectionLabel, attribute: .Top, relatedBy: .Equal, toItem: nameAndPosLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+            view!.addConstraint(constraint)
         }
 
         if word!.freqCnt > 0 {
@@ -155,9 +181,29 @@ class WordTableViewCell: UITableViewCell {
             freqCntLabel.textColor = AppConfiguration.foregroundColor
             freqCntLabel.layer.borderColor = UIColor.purpleColor().CGColor
             // freqCntLabel.layer.borderWidth = 1
-            freqCntLabel.autoresizingMask = .FlexibleWidth
+            freqCntLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
             view!.addSubview(freqCntLabel)
+
+            constraint = NSLayoutConstraint(item: freqCntLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - (isPreview ? accessorySize : 0))
+            view!.addConstraint(constraint)
+            constraint = NSLayoutConstraint(item: freqCntLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: margin)
+            view!.addConstraint(constraint)
+            constraint = NSLayoutConstraint(item: freqCntLabel, attribute: .Top, relatedBy: .Equal, toItem: inflectionLabel ? inflectionLabel : nameAndPosLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+            view!.addConstraint(constraint)
         }
+        /*
+            constraint = NSLayoutConstraint(item: freqCntLabel, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1.0, constant: -margin)
+            view!.addConstraint(constraint)
+        }
+        else if inflectionLabel {
+            constraint = NSLayoutConstraint(item: inflectionLabel, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1.0, constant: -margin)
+            view!.addConstraint(constraint)
+        }
+        else {
+            constraint = NSLayoutConstraint(item: nameAndPosLabel, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1.0, constant: -margin)
+            view!.addConstraint(constraint)
+        }
+        // */
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

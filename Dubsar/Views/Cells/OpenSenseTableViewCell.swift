@@ -121,6 +121,25 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         }
     }
 
+    func removeView() -> UIView! {
+        var constraint = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        contentView.removeConstraint(constraint)
+        constraint = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        contentView.removeConstraint(constraint)
+        constraint = NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        contentView.removeConstraint(constraint)
+        constraint = NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        contentView.removeConstraint(constraint)
+
+        contentView.removeConstraints(contentView.constraints())
+
+        view!.removeFromSuperview()
+        view!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view!.removeConstraints(view!.constraints())
+        view!.clipsToBounds = true
+        return view
+    }
+
     private func addGradientToBottomOfView(aView: UIView!) {
         let topColor = UIColor.clearColor()
         var hue: CGFloat = 0
