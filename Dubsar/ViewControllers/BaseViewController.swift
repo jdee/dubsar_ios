@@ -233,7 +233,23 @@ class BaseViewController: UIViewController {
     }
 
     func addHomeButton() {
+        // this gets old
+        let optionalNavController: UINavigationController? = navigationController
+        if !optionalNavController {
+            return
+        }
+
+        let optionalViewControllers: [AnyObject]? = navigationController.viewControllers
+        if !optionalViewControllers {
+            return
+        }
+
         if navigationController.viewControllers.count < 3 {
+            return
+        }
+
+        let optionalNavigationItem: UINavigationItem? = navigationItem
+        if !optionalNavigationItem {
             return
         }
 
