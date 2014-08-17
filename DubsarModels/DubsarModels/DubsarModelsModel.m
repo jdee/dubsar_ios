@@ -238,7 +238,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
             [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
         }
         else {
-            [self monitorHost];
+            [self startMonitoringHost];
         }
         [self callDelegateSelectorOnMainThread:@selector(retryWithModel:error:) withError:errMsg];
     }
@@ -348,7 +348,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     return _reachabilityRef;
 }
 
-- (void)monitorHost
+- (void)startMonitoringHost
 {
     SCNetworkReachabilityScheduleWithRunLoop(self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 }

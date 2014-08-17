@@ -43,6 +43,12 @@ class Router: NSObject, DubsarModelsLoadDelegate {
         model.delegate = self
     }
 
+    deinit {
+        if model.loading {
+            model.cancel()
+        }
+    }
+
     func load() {
         assert(model.delegate === self)
         // DMLOG("Model loading")
