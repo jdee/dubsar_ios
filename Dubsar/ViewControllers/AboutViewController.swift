@@ -52,32 +52,38 @@ class AboutViewController: BaseViewController {
         bannerLabel = UILabel(frame: CGRectZero)
         bannerLabel.text = "Dubsar for iOS"
         bannerLabel.textAlignment = .Center
+        bannerLabel.autoresizingMask = .FlexibleWidth
         scroller.addSubview(bannerLabel)
 
         versionLabel = UILabel(frame: CGRectZero)
         versionLabel.text = "Version \(NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)))"
         versionLabel.textAlignment = .Center
+        versionLabel.autoresizingMask = .FlexibleWidth
         scroller.addSubview(versionLabel)
 
         let dubsarModelsVersionString = String(format: "%.2f", 0.01 * floor(DubsarModelsVersionNumber * 100))
         modelsVersionLabel = UILabel(frame: CGRectZero)
         modelsVersionLabel.text = "DubsarModels Version \(dubsarModelsVersionString)"
         modelsVersionLabel.textAlignment = .Center
+        modelsVersionLabel.autoresizingMask = .FlexibleWidth
         scroller.addSubview(modelsVersionLabel)
 
         databaseVersionLabel = UILabel(frame: CGRectZero)
         databaseVersionLabel.textAlignment = .Center
         databaseVersionLabel.numberOfLines = 0
         databaseVersionLabel.lineBreakMode = .ByWordWrapping
+        databaseVersionLabel.autoresizingMask = .FlexibleWidth
         scroller.addSubview(databaseVersionLabel)
 
         copyrightLabel = UILabel(frame: CGRectZero)
         copyrightLabel.text = "Copyright © 2014 Jimmy Dee"
         copyrightLabel.textAlignment = .Center
+        copyrightLabel.autoresizingMask = .FlexibleWidth
         scroller.addSubview(copyrightLabel)
 
         updateButton = UIButton(frame: CGRectZero)
         updateButton.addTarget(self, action: "checkForUpdate:", forControlEvents: .TouchUpInside)
+        updateButton.autoresizingMask = .FlexibleWidth
         scroller.addSubview(updateButton)
     }
 
