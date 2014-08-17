@@ -132,6 +132,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             cell!.frame = tableView.bounds
             cell!.isPreview = false
             cell!.word = theWord
+            cell!.rebuild()
 
             // DMLOG("Height of word cell at row 0: %f", Double(cell!.bounds.size.height))
             return cell
@@ -166,7 +167,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
 
         cell!.frame = frame
-        cell!.sense = sense // calls rebuild()
+        cell!.sense = sense
+        cell!.rebuild()
 
         DMTRACE("Height of cell at row \(row) with row \(selectedRow) selected: \(cell!.bounds.size.height)")
         DMTRACE("Cell width: \(cell!.bounds.size.width). contentView width: \(cell!.contentView.bounds.size.width). view width: \((cell! as SenseTableViewCell).view!.bounds.size.width). bg label width: \((cell! as SenseTableViewCell).backgroundLabel.bounds.size.width)")
