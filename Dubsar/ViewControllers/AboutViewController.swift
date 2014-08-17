@@ -78,6 +78,8 @@ class AboutViewController: BaseViewController {
         copyrightLabel = UILabel(frame: CGRectZero)
         copyrightLabel.text = "Copyright © 2014 Jimmy Dee"
         copyrightLabel.textAlignment = .Center
+        copyrightLabel.numberOfLines = 0
+        copyrightLabel.lineBreakMode = .ByWordWrapping
         copyrightLabel.autoresizingMask = .FlexibleWidth
         scroller.addSubview(copyrightLabel)
 
@@ -179,7 +181,7 @@ class AboutViewController: BaseViewController {
 
         y += textSize.height + vmargin
 
-        textSize = (copyrightLabel.text as NSString).sizeWithAttributes(attrs)
+        textSize = (copyrightLabel.text as NSString).sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         copyrightLabel.font = font
         copyrightLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
@@ -191,15 +193,6 @@ class AboutViewController: BaseViewController {
         updateButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         updateButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
         updateButton.backgroundColor = AppConfiguration.highlightColor
-
-        /*
-        bannerLabel.invalidateIntrinsicContentSize()
-        versionLabel.invalidateIntrinsicContentSize()
-        modelsVersionLabel.invalidateIntrinsicContentSize()
-        databaseVersionLabel.invalidateIntrinsicContentSize()
-        copyrightLabel.invalidateIntrinsicContentSize()
-        updateButton.invalidateIntrinsicContentSize()
-        // */
 
         var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         var bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
