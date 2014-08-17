@@ -352,6 +352,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         resultTableView.reloadData()
         view.backgroundColor = AppConfiguration.alternateBackgroundColor
+        resultTableView.backgroundColor = AppConfiguration.alternateBackgroundColor
         super.adjustLayout()
     }
 }

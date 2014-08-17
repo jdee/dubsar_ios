@@ -94,10 +94,22 @@ class SynsetTableViewCell: UITableViewCell {
 
         view = UIView(frame: bounds)
         view!.backgroundColor = AppConfiguration.foregroundColor // for a border
-
-        view!.autoresizingMask = nil
+        view!.autoresizingMask = .FlexibleWidth
 
         contentView.addSubview(view)
+        contentView.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        var constraint: NSLayoutConstraint
+        //* Usually an autoresizing mask works, but this fixes a problem that the autoresizingMask doesn't.
+        constraint = NSLayoutConstraint(item: contentView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: contentView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        // */
 
         backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
         // backgroundLabel.clipsToBounds = true
