@@ -81,4 +81,36 @@ extension DubsarModelsWord {
         return size
     }
 
+    func estimatedHeightOfCell(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat = 0, preview: Bool) -> CGFloat {
+        var constraint = constrainedSize
+        constraint.width -= 2 * WordTableViewCell.margin
+        if preview {
+            constraint.width -= WordTableViewCell.accessoryWidth
+        }
+
+        let margin = WordTableViewCell.margin
+        let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
+        let lineHeight = ("Qp" as NSString).sizeWithAttributes([NSFontAttributeName: bodyFont]).height + margin
+
+        let width = ("0123456789" as NSString).sizeWithAttributes([NSFontAttributeName: bodyFont]).width
+        let numPerLine: CGFloat = 10 * (constraint.width - 2 * margin)/width
+
+        // estimate the number of lines
+        let headerLines: CGFloat = 3
+
+        if !open {
+            return headerLines * lineHeight
+        }
+
+        if !complete {
+            return headerLines * lineHeight + 44
+        }
+
+        assert(senses)
+        let sense = senses.firstObject as? DubsarModelsSense
+        assert(sense)
+        let openSenseCellHeight = sense!.estimatedHeightOfCell(constrainedSize, open: true, maxHeightOfAdditions: maxHeightOfAdditions)
+        return headerLines * lineHeight + openSenseCellHeight
+    }
+
 }

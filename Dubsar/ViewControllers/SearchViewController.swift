@@ -241,6 +241,28 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         return height
     }
 
+    func tableView(tableView: UITableView!, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+        if !search || !search!.complete || search!.results.count == 0 {
+            return 44
+        }
+
+        let row = indexPath.indexAtPosition(1)
+        let selectedRow = selectedIndexPath.indexAtPosition(1)
+
+        let result = search!.results[row] as DubsarModelsModel
+
+        var height: CGFloat = 0.0
+        if let word = result as? DubsarModelsWord {
+            height = word.estimatedHeightOfCell(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row), preview: true)
+        }
+        else if let synset = result as? DubsarModelsSynset {
+            height = synset.estimatedHeightOfCell(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
+        }
+
+        DMTRACE("Estimated height of row \(row): \(height)")
+        return height
+    }
+
     func synchSelectedRow() {
         let row = selectedIndexPath.indexAtPosition(1)
         if row < 0 || !search {

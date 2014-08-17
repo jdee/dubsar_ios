@@ -195,6 +195,27 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         return height
     }
 
+    func tableView(tableView: UITableView!, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+        if !theWord || !theWord!.complete {
+            return 44
+        }
+
+        let row = indexPath.indexAtPosition(1)
+        if row == 0 {
+            let height = theWord!.estimatedHeightOfCell(tableView.bounds.size, open: false, maxHeightOfAdditions: 0, preview: false)
+            DMTRACE("Estimated height of row 0 (word header): \(height)")
+            return height
+        }
+
+        let sense = theWord!.senses[row-1] as DubsarModelsSense
+
+        var selectedRow :Int = selectedIndexPath.indexAtPosition(1)
+        let height = sense.estimatedHeightOfCell(tableView.bounds.size, open: row == selectedRow, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
+
+        DMTRACE("estimated Height of row \(row) with row \(selectedRow) selected: \(height)")
+        return height
+    }
+
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         // DMLOG("Selected row is %d", selectedIndexPath.indexAtPosition(1))
         let row = indexPath.indexAtPosition(1)

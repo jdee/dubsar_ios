@@ -97,5 +97,44 @@ extension DubsarModelsSynset {
 
         return size
     }
-    
+
+    func estimatedHeightOfCell(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat = 0) -> CGFloat {
+        var constraint = constrainedSize
+        constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth + SenseTableViewCell.accessoryWidth
+
+        let margin = SenseTableViewCell.margin
+        let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
+        let lineHeight = ("Qp" as NSString).sizeWithAttributes([NSFontAttributeName: bodyFont]).height + margin
+
+        let width = ("0123456789" as NSString).sizeWithAttributes([NSFontAttributeName: bodyFont]).width
+        let numPerLine: CGFloat = 10 * (constraint.width - 2 * margin)/width
+
+        // estimate the number of lines
+        let numGlossLines = CGFloat((gloss as NSString).length) / numPerLine
+
+        let numHeaderLines = numGlossLines + 2 // 1 for the lexname, 1 for synonyms
+
+        if !open {
+            return numHeaderLines * lineHeight
+        }
+
+        if !complete {
+            return numHeaderLines * lineHeight + 44
+        }
+
+        let numSampleLines = CGFloat(samples.count)
+        let sampleHeight = lineHeight * numSampleLines
+
+        if maxHeightOfAdditions > 0 && sampleHeight >= maxHeightOfAdditions {
+            return numHeaderLines * lineHeight + maxHeightOfAdditions
+        }
+
+        let numberOfSections = self.numberOfSections
+        if maxHeightOfAdditions > 0 {
+            return numHeaderLines * lineHeight + maxHeightOfAdditions
+        }
+        
+        return 300 // punt for now
+    }
+
 }
