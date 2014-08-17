@@ -100,7 +100,7 @@ extension DubsarModelsSynset {
 
     func estimatedHeightOfCell(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat = 0) -> CGFloat {
         var constraint = constrainedSize
-        constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth + SenseTableViewCell.accessoryWidth
+        constraint.width -= 2 * SenseTableViewCell.margin + SenseTableViewCell.accessoryWidth
 
         let margin = SenseTableViewCell.margin
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)

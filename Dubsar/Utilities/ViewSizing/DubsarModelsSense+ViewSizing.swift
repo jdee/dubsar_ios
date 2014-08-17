@@ -33,7 +33,7 @@ extension DubsarModelsSense {
 
     func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat = 0) -> CGSize {
         var constraint = constrainedSize
-        constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth + SenseTableViewCell.accessoryWidth
+        constraint.width -= 2 * SenseTableViewCell.margin + SenseTableViewCell.accessoryWidth
 
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
         let caption1Font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleCaption1)
@@ -43,7 +43,7 @@ extension DubsarModelsSense {
 
         var size = constrainedSize
 
-        size.height = SenseTableViewCell.labelLineHeight + 3*SenseTableViewCell.margin + glossSize.height + 2 * SenseTableViewCell.borderWidth
+        size.height = SenseTableViewCell.labelLineHeight + 3*SenseTableViewCell.margin + glossSize.height
 
         if synonyms.count > 0 {
             let synonymSize = synonymSizeWithConstrainedSize(constraint, font: caption1Font)
@@ -99,7 +99,7 @@ extension DubsarModelsSense {
 
     func estimatedHeightOfCell(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat = 0) -> CGFloat {
         var constraint = constrainedSize
-        constraint.width -= 2 * SenseTableViewCell.margin + 2 * SenseTableViewCell.borderWidth + SenseTableViewCell.accessoryWidth
+        constraint.width -= 2 * SenseTableViewCell.margin + SenseTableViewCell.accessoryWidth
 
         let margin = SenseTableViewCell.margin
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)

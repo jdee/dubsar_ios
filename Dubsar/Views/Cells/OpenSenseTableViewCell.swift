@@ -43,7 +43,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         if !sense.complete {
             let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
-            backgroundLabel.addSubview(spinner)
+            view!.addSubview(spinner)
             spinner.startAnimating()
             spinner.frame = CGRectMake(2.0, y + 2.0, 40.0, 40.0)
 
@@ -57,7 +57,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         let sampleView = SynsetSampleView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
         sampleView.sense = sense
-        backgroundLabel.addSubview(sampleView)
+        view!.addSubview(sampleView)
         sampleView.layoutSubviews()
 
         sampleView.backgroundColor = UIColor.clearColor()
@@ -97,7 +97,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         pointerView.scrollViewTop = 0
         pointerView.scrollViewBottom = available
         pointerView.backgroundColor = UIColor.clearColor()
-        backgroundLabel.addSubview(pointerView)
+        view!.addSubview(pointerView)
         pointerView.layoutSubviews()
 
         var truncated = false
@@ -135,7 +135,6 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         view!.removeFromSuperview()
         view!.setTranslatesAutoresizingMaskIntoConstraints(false)
-        view!.removeConstraints(view!.constraints())
         view!.clipsToBounds = true
         return view
     }

@@ -29,12 +29,6 @@ class SenseTableViewCell: UITableViewCell {
         }
     }
 
-    class var borderWidth : CGFloat {
-        get {
-            return 0
-        }
-    }
-
     class var margin : CGFloat {
         get {
             return 6
@@ -64,7 +58,6 @@ class SenseTableViewCell: UITableViewCell {
      * make this a property.
      */
     var view : UIView?
-    var backgroundLabel : UIView!
 
     init(sense: DubsarModelsSense!, frame: CGRect, identifier: String = SenseTableViewCell.identifier) {
         self.sense = sense
@@ -78,7 +71,6 @@ class SenseTableViewCell: UITableViewCell {
     }
 
     func rebuild() {
-        let borderWidth = SenseTableViewCell.borderWidth
         let margin = SenseTableViewCell.margin
 
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -86,7 +78,7 @@ class SenseTableViewCell: UITableViewCell {
         let subheadlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline)
 
         let accessoryWidth = SenseTableViewCell.accessoryWidth
-        let constrainedSize = CGSizeMake(frame.size.width - 2 * borderWidth - 2 * margin - accessoryWidth, frame.size.height)
+        let constrainedSize = CGSizeMake(frame.size.width - 2 * margin - accessoryWidth, frame.size.height)
         let glossSize = sense.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
         let synonymSize = sense.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
 
@@ -98,14 +90,15 @@ class SenseTableViewCell: UITableViewCell {
 
         view = UIView(frame: bounds)
         view!.layer.borderColor = UIColor.blackColor().CGColor
-        view!.layer.borderWidth = 1
+        view!.layer.borderWidth = 0
         view!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view!.backgroundColor = cellBackgroundColor
 
         contentView.addSubview(view)
         contentView.setTranslatesAutoresizingMaskIntoConstraints(false)
         contentView.removeConstraints(contentView.constraints())
         contentView.layer.borderColor = UIColor.whiteColor().CGColor
-        contentView.layer.borderWidth = 1
+        contentView.layer.borderWidth = 0
 
         var constraint: NSLayoutConstraint
         //* Usually an autoresizing mask works, but this fixes a problem that the autoresizingMask doesn't.
@@ -128,22 +121,6 @@ class SenseTableViewCell: UITableViewCell {
         contentView.addConstraint(constraint)
         // */
 
-        backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
-        // backgroundLabel.clipsToBounds = true
-        backgroundLabel.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
-        backgroundLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        backgroundLabel.layer.borderWidth = 1
-        backgroundLabel.layer.borderColor = UIColor.yellowColor().CGColor
-        view!.addSubview(backgroundLabel)
-        constraint = NSLayoutConstraint(item: backgroundLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: borderWidth)
-        view!.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: backgroundLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: borderWidth)
-        view!.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: backgroundLabel, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: borderWidth)
-        view!.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: backgroundLabel, attribute: .Bottom, multiplier: 1.0, constant: borderWidth)
-        view!.addConstraint(constraint)
-
         var lexnameText = "<\(sense.lexname)>"
         if !sense.marker.isEmpty {
             lexnameText = "\(lexnameText) (\(sense.marker))"
@@ -158,17 +135,18 @@ class SenseTableViewCell: UITableViewCell {
         lexnameLabel.font = subheadlineFont
         lexnameLabel.numberOfLines = 1
         lexnameLabel.textColor = AppConfiguration.foregroundColor
+        lexnameLabel.textAlignment = .Left
         lexnameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        lexnameLabel.layer.borderWidth = 1
+        lexnameLabel.layer.borderWidth = 0
         lexnameLabel.layer.borderColor = UIColor.greenColor().CGColor
-        backgroundLabel.addSubview(lexnameLabel)
+        view!.addSubview(lexnameLabel)
 
-        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Trailing, relatedBy: .Equal, toItem: backgroundLabel, attribute: .Trailing, multiplier: 1.0, constant: -margin - accessoryWidth)
-        backgroundLabel.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Leading, relatedBy: .Equal, toItem: backgroundLabel, attribute: .Leading, multiplier: 1.0, constant: margin)
-        backgroundLabel.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Top, relatedBy: .Equal, toItem: backgroundLabel, attribute: .Top, multiplier: 1.0, constant: margin)
-        backgroundLabel.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - accessoryWidth)
+        view!.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: margin)
+        view!.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: margin)
+        view!.addConstraint(constraint)
         constraint = NSLayoutConstraint(item:lexnameLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: NSLayoutAttribute.Height, multiplier: 0.0, constant: SenseTableViewCell.labelLineHeight)
         lexnameLabel.addConstraint(constraint)
 
@@ -178,17 +156,21 @@ class SenseTableViewCell: UITableViewCell {
         textLabel.lineBreakMode = .ByWordWrapping
         textLabel.numberOfLines = 0
         textLabel.textColor = AppConfiguration.foregroundColor
+        textLabel.textAlignment = .Left
         textLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         textLabel.layer.borderColor = UIColor.blueColor().CGColor
-        textLabel.layer.borderWidth = 1
-        backgroundLabel.addSubview(textLabel)
+        textLabel.layer.borderWidth = 0
+        textLabel.contentMode = .Redraw
+        view!.addSubview(textLabel)
 
-        constraint = NSLayoutConstraint(item: textLabel, attribute: .Trailing, relatedBy: .Equal, toItem: backgroundLabel, attribute: .Trailing, multiplier: 1.0, constant: -margin - accessoryWidth)
-        backgroundLabel.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: textLabel, attribute: .Leading, relatedBy: .Equal, toItem: backgroundLabel, attribute: .Leading, multiplier: 1.0, constant: margin)
-        backgroundLabel.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: textLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: margin)
+        view!.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: textLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - accessoryWidth)
+        view!.addConstraint(constraint)
         constraint = NSLayoutConstraint(item: textLabel, attribute: .Top, relatedBy: .Equal, toItem: lexnameLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
-        backgroundLabel.addConstraint(constraint)
+        view!.addConstraint(constraint)
+
+        DMTRACE("Gloss frame for \(sense.gloss) is (\(textLabel.frame.origin.x), \(textLabel.frame.origin.y)) \(textLabel.frame.size.width) x \(textLabel.frame.size.height).")
 
         if sense.synonyms.count > 0 {
             let synonymLabel = UILabel(frame: CGRectMake(margin, 3*margin + SenseTableViewCell.labelLineHeight + glossSize.height, constrainedSize.width, synonymSize.height))
@@ -197,30 +179,33 @@ class SenseTableViewCell: UITableViewCell {
             synonymLabel.lineBreakMode = .ByWordWrapping
             synonymLabel.numberOfLines = 0
             synonymLabel.textColor = AppConfiguration.foregroundColor
+            synonymLabel.textAlignment = .Left
             synonymLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-            synonymLabel.layer.borderWidth = 1
+            synonymLabel.layer.borderWidth = 0
             synonymLabel.layer.borderColor = UIColor.orangeColor().CGColor
-            backgroundLabel.addSubview(synonymLabel)
+            view!.addSubview(synonymLabel)
 
-            constraint = NSLayoutConstraint(item: synonymLabel, attribute: .Trailing, relatedBy: .Equal, toItem: backgroundLabel, attribute: .Trailing, multiplier: 1.0, constant: -margin - accessoryWidth)
-            backgroundLabel.addConstraint(constraint)
-            constraint = NSLayoutConstraint(item: synonymLabel, attribute: .Leading, relatedBy: .Equal, toItem: backgroundLabel, attribute: .Leading, multiplier: 1.0, constant: margin)
-            backgroundLabel.addConstraint(constraint)
+            constraint = NSLayoutConstraint(item: synonymLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - accessoryWidth)
+            view!.addConstraint(constraint)
+            constraint = NSLayoutConstraint(item: synonymLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: margin)
+            view!.addConstraint(constraint)
             constraint = NSLayoutConstraint(item: synonymLabel, attribute: .Top, relatedBy: .Equal, toItem: textLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
-            backgroundLabel.addConstraint(constraint)
-            constraint = NSLayoutConstraint(item: backgroundLabel, attribute: .Bottom, relatedBy: .Equal, toItem: synonymLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
-            backgroundLabel.addConstraint(constraint)
+            view!.addConstraint(constraint)
+            /*
+            constraint = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: synonymLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+            view!.addConstraint(constraint)
         }
         else {
-            constraint = NSLayoutConstraint(item: backgroundLabel, attribute: .Bottom, relatedBy: .Equal, toItem: textLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
-            backgroundLabel.addConstraint(constraint)
+            constraint = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: textLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+            view!.addConstraint(constraint)
+            // */
         }
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        backgroundLabel.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
+        view!.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
     }
 
 }
