@@ -114,6 +114,9 @@ class AboutViewController: BaseViewController {
     }
 
     override func adjustLayout() {
+        DMTRACE("In About::adjustLayout(), view bounds \(view.bounds.size.width) x \(view.bounds.size.height)")
+        scroller.frame = view.bounds
+
         let databaseManager = AppDelegate.instance.databaseManager
         if !AppConfiguration.offlineSetting {
             updateButton.enabled = false
@@ -143,13 +146,13 @@ class AboutViewController: BaseViewController {
             }
         }
 
+        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let attrs = [NSFontAttributeName: font]
         let hmargin : CGFloat = 20
         let vmargin : CGFloat = 8
         var constrainedSize = view.bounds.size
         var y = vmargin
         constrainedSize.width -= 2 * hmargin
-        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        let attrs = [NSFontAttributeName: font]
 
         var textSize = (bannerLabel.text as NSString).sizeWithAttributes(attrs)
         bannerLabel.font = font
