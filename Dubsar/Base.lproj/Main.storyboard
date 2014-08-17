@@ -209,78 +209,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Dubsar for iOS" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="RLI-y3-ORx">
-                                <rect key="frame" x="20" y="20" width="560" height="21"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Version Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="ELp-lO-24Z">
-                                <rect key="frame" x="20" y="49" width="560" height="21"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="DubsarModels Version Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="YMh-RE-23b">
-                                <rect key="frame" x="20" y="78" width="560" height="21"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Installed database version label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="skS-s5-aqt">
-                                <rect key="frame" x="20" y="107" width="560" height="63"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Copyright © 2014 Jimmy Dee" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="zpV-zr-QPf">
-                                <rect key="frame" x="20" y="216" width="560" height="20"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ML-eq-8E2">
-                                <rect key="frame" x="20" y="178" width="560" height="30"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <state key="normal" title="Check for update">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="checkForUpdate:" destination="GAx-Bg-REs" eventType="touchUpInside" id="DVE-jb-koD"/>
-                                </connections>
-                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lg4-zS-JQ2">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ELp-lO-24Z" firstAttribute="top" secondItem="RLI-y3-ORx" secondAttribute="bottom" constant="8" id="0W1-6q-K9Y"/>
-                            <constraint firstAttribute="trailing" secondItem="RLI-y3-ORx" secondAttribute="trailing" constant="20" id="1ac-BW-irA"/>
-                            <constraint firstAttribute="trailing" secondItem="YMh-RE-23b" secondAttribute="trailing" constant="20" id="7Jr-cw-Tqw"/>
-                            <constraint firstItem="RLI-y3-ORx" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="7yK-ab-4FM"/>
-                            <constraint firstAttribute="trailing" secondItem="skS-s5-aqt" secondAttribute="trailing" constant="20" id="Aet-61-rmF"/>
-                            <constraint firstAttribute="trailing" secondItem="ELp-lO-24Z" secondAttribute="trailing" constant="20" id="CNR-0V-We5"/>
-                            <constraint firstItem="1ML-eq-8E2" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="Cjm-6f-hCz"/>
-                            <constraint firstItem="skS-s5-aqt" firstAttribute="top" secondItem="YMh-RE-23b" secondAttribute="bottom" constant="8" id="N9L-5M-dVW"/>
-                            <constraint firstItem="RLI-y3-ORx" firstAttribute="top" secondItem="vwo-pm-G47" secondAttribute="top" constant="20" id="beU-L3-bBS"/>
-                            <constraint firstItem="1ML-eq-8E2" firstAttribute="top" secondItem="skS-s5-aqt" secondAttribute="bottom" constant="8" id="bhm-uc-NqQ"/>
-                            <constraint firstItem="YMh-RE-23b" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="eyI-G8-Bz9"/>
-                            <constraint firstItem="zpV-zr-QPf" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="gI9-hs-Chw"/>
-                            <constraint firstItem="YMh-RE-23b" firstAttribute="top" secondItem="ELp-lO-24Z" secondAttribute="bottom" constant="8" id="gJF-Pf-Veu"/>
-                            <constraint firstAttribute="trailing" secondItem="zpV-zr-QPf" secondAttribute="trailing" constant="20" id="gOP-IL-ary"/>
-                            <constraint firstItem="zpV-zr-QPf" firstAttribute="top" secondItem="1ML-eq-8E2" secondAttribute="bottom" constant="8" id="hPU-pT-n7A"/>
-                            <constraint firstAttribute="trailing" secondItem="1ML-eq-8E2" secondAttribute="trailing" constant="20" id="lc1-Eh-5P0"/>
-                            <constraint firstItem="ELp-lO-24Z" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="mJY-fv-d0o"/>
-                            <constraint firstItem="skS-s5-aqt" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" constant="20" id="vet-Pk-GXL"/>
+                            <constraint firstItem="Lg4-zS-JQ2" firstAttribute="top" secondItem="vwo-pm-G47" secondAttribute="top" id="8TS-yg-FAq"/>
+                            <constraint firstAttribute="trailing" secondItem="Lg4-zS-JQ2" secondAttribute="trailing" id="LIL-sf-G8X"/>
+                            <constraint firstItem="Lg4-zS-JQ2" firstAttribute="leading" secondItem="vwo-pm-G47" secondAttribute="leading" id="N9l-0r-MOH"/>
+                            <constraint firstAttribute="bottom" secondItem="Lg4-zS-JQ2" secondAttribute="bottom" id="a8n-WO-aqh"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="bannerLabel" destination="RLI-y3-ORx" id="b2c-k4-aaf"/>
-                        <outlet property="copyrightLabel" destination="zpV-zr-QPf" id="WBc-Dj-Mjg"/>
-                        <outlet property="databaseVersionLabel" destination="skS-s5-aqt" id="arM-rr-ffE"/>
-                        <outlet property="modelsVersionLabel" destination="YMh-RE-23b" id="QF2-Y5-cy3"/>
-                        <outlet property="updateButton" destination="1ML-eq-8E2" id="ZnY-Jj-Rgu"/>
-                        <outlet property="versionLabel" destination="ELp-lO-24Z" id="F7N-1n-X0F"/>
+                        <outlet property="scroller" destination="Lg4-zS-JQ2" id="gLW-Yn-05M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5fT-Lu-AWn" userLabel="First Responder" sceneMemberID="firstResponder"/>

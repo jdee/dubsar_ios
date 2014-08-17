@@ -28,12 +28,13 @@ class AboutViewController: BaseViewController {
         }
     }
 
-    @IBOutlet var bannerLabel : UILabel!
-    @IBOutlet var versionLabel : UILabel!
-    @IBOutlet var modelsVersionLabel : UILabel!
-    @IBOutlet var databaseVersionLabel : UILabel!
-    @IBOutlet var copyrightLabel : UILabel!
-    @IBOutlet var updateButton: UIButton!
+    @IBOutlet var scroller: UIScrollView!
+    var bannerLabel : UILabel!
+    var versionLabel : UILabel!
+    var modelsVersionLabel : UILabel!
+    var databaseVersionLabel : UILabel!
+    var copyrightLabel : UILabel!
+    var updateButton: UIButton!
 
     private var paragraphLabels = [UILabel]()
 
@@ -48,12 +49,36 @@ class AboutViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        bannerLabel = UILabel(frame: CGRectZero)
+        bannerLabel.text = "Dubsar for iOS"
+        bannerLabel.textAlignment = .Center
+        scroller.addSubview(bannerLabel)
+
+        versionLabel = UILabel(frame: CGRectZero)
         versionLabel.text = "Version \(NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)))"
+        versionLabel.textAlignment = .Center
+        scroller.addSubview(versionLabel)
 
         let dubsarModelsVersionString = String(format: "%.2f", 0.01 * floor(DubsarModelsVersionNumber * 100))
+        modelsVersionLabel = UILabel(frame: CGRectZero)
         modelsVersionLabel.text = "DubsarModels Version \(dubsarModelsVersionString)"
+        modelsVersionLabel.textAlignment = .Center
+        scroller.addSubview(modelsVersionLabel)
 
-        adjustLayout()
+        databaseVersionLabel = UILabel(frame: CGRectZero)
+        databaseVersionLabel.textAlignment = .Center
+        databaseVersionLabel.numberOfLines = 0
+        databaseVersionLabel.lineBreakMode = .ByWordWrapping
+        scroller.addSubview(databaseVersionLabel)
+
+        copyrightLabel = UILabel(frame: CGRectZero)
+        copyrightLabel.text = "Copyright © 2014 Jimmy Dee"
+        copyrightLabel.textAlignment = .Center
+        scroller.addSubview(copyrightLabel)
+
+        updateButton = UIButton(frame: CGRectZero)
+        updateButton.addTarget(self, action: "checkForUpdate:", forControlEvents: .TouchUpInside)
+        scroller.addSubview(updateButton)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -76,8 +101,7 @@ class AboutViewController: BaseViewController {
         }
 
         databaseVersionLabel.text = "Installed database version:\n\(dbVersionString)"
-        databaseVersionLabel.invalidateIntrinsicContentSize()
-        
+
         super.viewWillAppear(animated)
     }
 
@@ -111,13 +135,47 @@ class AboutViewController: BaseViewController {
             }
         }
 
+        let hmargin : CGFloat = 20
+        let vmargin : CGFloat = 8
+        var constrainedSize = view.bounds.size
+        var y = vmargin
+        constrainedSize.width -= 2 * hmargin
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        let attrs = [NSFontAttributeName: font]
+
+        var textSize = (bannerLabel.text as NSString).sizeWithAttributes(attrs)
         bannerLabel.font = font
+        bannerLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
+        y += textSize.height + vmargin
+
+        textSize = (versionLabel.text as NSString).sizeWithAttributes(attrs)
         versionLabel.font = font
+        versionLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
+        y += textSize.height + vmargin
+
+        textSize = (modelsVersionLabel.text as NSString).sizeWithAttributes(attrs)
         modelsVersionLabel.font = font
+        modelsVersionLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
+        y += textSize.height + vmargin
+
+        textSize = (databaseVersionLabel.text as NSString).sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         databaseVersionLabel.font = font
-        copyrightLabel.font = font
+        databaseVersionLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
+        y += textSize.height + vmargin
+
+        textSize = (updateButton.titleForState(.Normal) as NSString).sizeWithAttributes(attrs)
         updateButton.titleLabel.font = font
+        updateButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
+        y += textSize.height + vmargin
+
+        textSize = (copyrightLabel.text as NSString).sizeWithAttributes(attrs)
+        copyrightLabel.font = font
+        copyrightLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
         bannerLabel.textColor = AppConfiguration.foregroundColor
         versionLabel.textColor = AppConfiguration.foregroundColor
@@ -128,10 +186,25 @@ class AboutViewController: BaseViewController {
         updateButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
         updateButton.backgroundColor = AppConfiguration.highlightColor
 
+        /*
+        bannerLabel.invalidateIntrinsicContentSize()
+        versionLabel.invalidateIntrinsicContentSize()
+        modelsVersionLabel.invalidateIntrinsicContentSize()
+        databaseVersionLabel.invalidateIntrinsicContentSize()
+        copyrightLabel.invalidateIntrinsicContentSize()
+        updateButton.invalidateIntrinsicContentSize()
+        // */
+
         var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         var bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
 
         layoutParagraphs(UIFont(descriptor: bodyFontDesc, size: headlineFontDesc.pointSize))
+
+        let lastLabel = paragraphLabels[paragraphLabels.count - 1]
+
+        y = lastLabel.frame.origin.y + lastLabel.bounds.size.height + vmargin
+
+        scroller.contentSize = CGSizeMake(view.bounds.size.width, y)
         super.adjustLayout()
     }
 
@@ -181,6 +254,6 @@ class AboutViewController: BaseViewController {
         newLabel.autoresizingMask = .FlexibleWidth | .FlexibleHeight
 
         paragraphLabels += newLabel
-        view.addSubview(newLabel)
+        scroller.addSubview(newLabel)
     }
 }
