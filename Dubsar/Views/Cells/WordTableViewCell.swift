@@ -91,7 +91,7 @@ class WordTableViewCell: UITableViewCell {
 
         view = UIView(frame: bounds)
         view!.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
-        // view!.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        view!.autoresizingMask = .FlexibleWidth | .FlexibleHeight
 
         layer.borderColor = UIColor.redColor().CGColor
         // layer.borderWidth = 1
@@ -102,6 +102,20 @@ class WordTableViewCell: UITableViewCell {
 
         contentView.frame = bounds
         contentView.addSubview(view)
+        contentView.autoresizingMask = .FlexibleWidth
+        contentView.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        var constraint: NSLayoutConstraint
+        //* Usually an autoresizing mask works, but this fixes a problem that the autoresizingMask doesn't.
+        constraint = NSLayoutConstraint(item: contentView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: contentView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        // */
 
         let nameAndPosLabel = UILabel(frame:CGRectMake(margin, margin, constrainedSize.width, nameAndPosSize.height))
         nameAndPosLabel.lineBreakMode = .ByWordWrapping
@@ -109,7 +123,7 @@ class WordTableViewCell: UITableViewCell {
         nameAndPosLabel.font = headlineFont
         nameAndPosLabel.text = nameAndPos
         nameAndPosLabel.textColor = AppConfiguration.foregroundColor
-        // nameAndPosLabel.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        nameAndPosLabel.autoresizingMask = .FlexibleWidth
         nameAndPosLabel.layer.borderColor = UIColor.orangeColor().CGColor
         // nameAndPosLabel.layer.borderWidth = 1
         view!.addSubview(nameAndPosLabel)
@@ -123,7 +137,7 @@ class WordTableViewCell: UITableViewCell {
             inflectionLabel.textColor = AppConfiguration.foregroundColor
             inflectionLabel.layer.borderColor = UIColor.yellowColor().CGColor
             // inflectionLabel.layer.borderWidth = 1
-            // inflectionLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+            inflectionLabel.autoresizingMask = .FlexibleWidth
             view!.addSubview(inflectionLabel)
         }
 
@@ -141,7 +155,7 @@ class WordTableViewCell: UITableViewCell {
             freqCntLabel.textColor = AppConfiguration.foregroundColor
             freqCntLabel.layer.borderColor = UIColor.purpleColor().CGColor
             // freqCntLabel.layer.borderWidth = 1
-            // freqCntLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+            freqCntLabel.autoresizingMask = .FlexibleWidth
             view!.addSubview(freqCntLabel)
         }
     }
