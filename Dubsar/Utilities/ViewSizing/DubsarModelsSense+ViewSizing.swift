@@ -63,6 +63,7 @@ extension DubsarModelsSense {
 
             // Yikes
             let sampleView = SynsetSampleView(synset: synset, frame: CGRectMake(0, 0, constraint.width, constraint.height), preview: true)
+            sampleView.layoutMode = true
             sampleView.sense = self
             sampleView.layoutSubviews()
             DMTRACE("Computed sample view height is \(sampleView.bounds.size.height); cell height will be \(size.height+sampleView.bounds.size.height)")
@@ -79,6 +80,7 @@ extension DubsarModelsSense {
             }
 
             let pointerView = SynsetPointerView(synset: synset, frame: CGRectMake(0, 0, constraint.width, constraint.height), preview: true)
+            pointerView.layoutMode = true
             pointerView.sense = self
             pointerView.scrollViewTop = 0
             pointerView.scrollViewBottom = constrainedSize.height

@@ -53,6 +53,7 @@ class ThemeViewController: BaseViewController {
         knobControl.titles = titles
         knobControl.shadow = true
         knobControl.clipsToBounds = false
+        knobControl.enabled = true
 
         knobControl.positionIndex = AppConfiguration.themeSetting
 

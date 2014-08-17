@@ -73,10 +73,9 @@ extension DubsarModelsWord {
             assert(senses)
             let sense = senses.firstObject as? DubsarModelsSense
             assert(sense)
-            let openSenseCell = OpenSenseTableViewCell(sense: sense, frame: CGRectMake(0, 0, constrainedSize.width, constrainedSize.height), maxHeightOfAdditions: maxHeightOfAdditions)
-            openSenseCell.rebuild()
-            // DMLOG("height without open sense cell: %f; with open sense cell: %f", Double(size.height), Double(size.height + openSenseCell.bounds.size.height))
-            size.height += openSenseCell.bounds.size.height
+            let openSenseCellSize = sense!.sizeOfCellWithConstrainedSize(constrainedSize, open: true, maxHeightOfAdditions: maxHeightOfAdditions)
+            DMTRACE("height without open sense cell: \(size.height); with open sense cell: \(size.height + openSenseCellSize.height)")
+            size.height += openSenseCellSize.height
         }
 
         return size

@@ -32,6 +32,8 @@ class SynsetSampleView: UIView {
     var sense : DubsarModelsSense?
     let isPreview : Bool
 
+    var layoutMode = false
+
     var labels : [UILabel] = []
 
     init(synset: DubsarModelsSynset!, frame: CGRect, preview: Bool) {
@@ -95,18 +97,20 @@ class SynsetSampleView: UIView {
         let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
         let textSize = sample.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
 
-        let label = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
-        label.font = font
-        label.lineBreakMode = .ByWordWrapping
-        label.numberOfLines = 0
-        label.text = sample
-        label.textColor = AppConfiguration.foregroundColor
-        label.backgroundColor = background
-        label.autoresizingMask = .FlexibleWidth | .FlexibleHeight
-        label.textAlignment = .Left
+        if !layoutMode {
+            let label = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
+            label.font = font
+            label.lineBreakMode = .ByWordWrapping
+            label.numberOfLines = 0
+            label.text = sample
+            label.textColor = AppConfiguration.foregroundColor
+            label.backgroundColor = background
+            label.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+            label.textAlignment = .Left
 
-        labels += label
-        addSubview(label)
+            labels += label
+            addSubview(label)
+        }
 
         return y + margin + textSize.height
     }

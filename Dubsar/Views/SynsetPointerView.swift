@@ -98,6 +98,8 @@ class SynsetPointerView: UIView {
 
     weak var viewController : SynsetViewController?
 
+    var layoutMode = false
+
     private var hasReset : Bool = true
     private var numberOfSections : UInt = 0
     private var sections : [AnyObject] = []
@@ -186,15 +188,17 @@ class SynsetPointerView: UIView {
             if nextRow == -1 {
                 let title = section.header as NSString
                 let titleSize = title.sizeOfTextWithConstrainedSize(constrainedSize, font: titleFont)
-                let titleLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, titleSize.height))
-                titleLabel.font = titleFont
-                titleLabel.text = title
-                titleLabel.lineBreakMode = .ByWordWrapping
-                titleLabel.numberOfLines = 0
-                titleLabel.textAlignment = .Center
-                titleLabel.textColor = AppConfiguration.foregroundColor
-                addSubview(titleLabel)
-                labels += titleLabel
+                if !layoutMode {
+                    let titleLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, titleSize.height))
+                    titleLabel.font = titleFont
+                    titleLabel.text = title
+                    titleLabel.lineBreakMode = .ByWordWrapping
+                    titleLabel.numberOfLines = 0
+                    titleLabel.textAlignment = .Center
+                    titleLabel.textColor = AppConfiguration.foregroundColor
+                    addSubview(titleLabel)
+                    labels += titleLabel
+                }
 
                 y += titleSize.height + margin
                 nextRow = 0
@@ -221,16 +225,19 @@ class SynsetPointerView: UIView {
                 let text = "\(pointer.targetText): \(pointer.targetGloss)" as NSString
                 let textSize = text.sizeOfTextWithConstrainedSize(pointerConstrainedSize, font: bodyFont)
                 DMTRACE("Pointer text size is \(textSize.width) x \(textSize.height)/\(constrainedSize.height) (font: \(bodyFont.pointSize) pt.)")
-                let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height), withoutButton: isPreview)
-                pointerView.label.text = text
-                if !isPreview && pointer.targetType == "Sense" {
-                    pointerView.backgroundColor = AppConfiguration.highlightColor
-                }
-                pointerView.viewController = viewController
 
-                addSubview(pointerView)
-                labels += pointerView
-                pointerView.button.refreshImages() // do this after addSubview(). Otherwise, we have no graphics context and can't generate an image.
+                if !layoutMode {
+                    let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height), withoutButton: isPreview)
+                    pointerView.label.text = text
+                    if !isPreview && pointer.targetType == "Sense" {
+                        pointerView.backgroundColor = AppConfiguration.highlightColor
+                    }
+                    pointerView.viewController = viewController
+
+                    addSubview(pointerView)
+                    labels += pointerView
+                    pointerView.button.refreshImages() // do this after addSubview(). Otherwise, we have no graphics context and can't generate an image.
+                }
 
                 y += textSize.height + margin
 
