@@ -206,7 +206,7 @@ class SynsetHeaderView: UIView {
             extraTextLabel.textColor = AppConfiguration.foregroundColor
             extraTextLabel.invalidateIntrinsicContentSize()
 
-            if sense || synset.senses.count == 1{
+            if sense || synset.senses.count == 1 {
                 extraTextLabel.backgroundColor = AppConfiguration.highlightColor
             }
             else {
@@ -273,17 +273,12 @@ class SynsetHeaderView: UIView {
         addConstraint(constraint)
         constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
         addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -margin)
+        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Trailing, relatedBy: .Equal, toItem: extraTextLabel, attribute: .Leading, multiplier: 1.0, constant: -margin)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: extraTextLabel, attribute: .Top, relatedBy: .Equal, toItem: lexnameLabel, attribute: .Top, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
 
-        constraint = NSLayoutConstraint(item: extraTextLabel, attribute: .Top, relatedBy: .Equal, toItem: lexnameLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
-        addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: extraTextLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
-        addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: extraTextLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -margin)
-        addConstraint(constraint)
-
-        constraint = NSLayoutConstraint(item: synonymView, attribute: .Top, relatedBy: .Equal, toItem: extraTextLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+        constraint = NSLayoutConstraint(item: synonymView, attribute: .Top, relatedBy: .Equal, toItem: lexnameLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
         addConstraint(constraint)
         constraint = NSLayoutConstraint(item: synonymView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
         addConstraint(constraint)
@@ -333,9 +328,9 @@ class SynsetHeaderView: UIView {
             }
         }
 
-        synonymView.frame = CGRectMake(0, extraTextLabel.frame.origin.y+extraTextLabel.bounds.size.height, bounds.size.width, y + height + margin)
+        synonymView.frame = CGRectMake(0, extraTextLabel.frame.origin.y+extraTextLabel.bounds.size.height, bounds.size.width, y + height + 2 * margin)
 
-        return y + height + margin
+        return synonymView.bounds.size.height
     }
 
     /*
