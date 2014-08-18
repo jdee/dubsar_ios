@@ -66,6 +66,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         // deprecated, but somehow not showing up in the storyboard
         searchBar.autocapitalizationType = .None
         searchBar.scopeButtonTitles = [ "Words", "Synsets" ]
+        searchBar.selectedScopeButtonIndex = 0
         searchBar.layer.shadowOffset = CGSizeMake(0, 3)
         searchBar.showsBookmarkButton = true
         searchBar.clipsToBounds = false
@@ -498,7 +499,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     func alphabetView(_:AlphabetView!, selectedButton button: GlobButton!) {
-        let search = DubsarModelsSearch(wildcard: button.globExpression, page: 1, title: button.titleForState(.Normal), scope: searchScope)
+        let search = DubsarModelsSearch(wildcard: button.globExpression, page: 1, title: button.titleForState(.Normal), scope: .Words)
         pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
     }
 }
