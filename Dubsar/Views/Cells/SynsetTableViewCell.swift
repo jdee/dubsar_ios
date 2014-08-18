@@ -20,143 +20,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class SynsetTableViewCell: UITableViewCell {
+class SynsetTableViewCell: SenseTableViewCell {
 
     // essentially public class constants
-    class var identifier : String {
+    class var synsetIdentifier : String {
         get {
             return "synset"
     }
     }
 
-    class var borderWidth : CGFloat {
-        get {
-            return 0
-    }
-    }
-
-    class var margin : CGFloat {
-        get {
-            return 6
-    }
-    }
-
-    // just some extra margin on the right to avoid getting clobbered by the accessory
-    class var accessoryWidth : CGFloat {
-        get {
-            return 60
-    }
-    }
-
-    class var labelLineHeight : CGFloat {
-        get {
-            return 21
-    }
-    }
-
-    var synset : DubsarModelsSynset!
-    var cellBackgroundColor : UIColor! = AppConfiguration.backgroundColor
-
-    /*
-    * The main thing this class does is build this view, which is added as a subview of
-    * contentView. Each time rebuild() is called, this view is removed from the superview
-    * if non-nil and reconstructed. Removing it from the superview is the only reason to
-    * make this a property.
-    */
-    var view : UIView?
-    var backgroundLabel : UIView!
-
-    init(synset: DubsarModelsSynset!, frame: CGRect, identifier: String = SynsetTableViewCell.identifier) {
+    init(synset: DubsarModelsSynset!, frame: CGRect, identifier: String = SynsetTableViewCell.synsetIdentifier) {
+        super.init(sense: nil, frame: frame, identifier: identifier)
         self.synset = synset
-        super.init(style: .Default, reuseIdentifier: identifier)
-
-        self.frame = frame
-
-        accessoryType = .DetailDisclosureButton
-        clipsToBounds = true
     }
 
-    func rebuild() {
-        let borderWidth = SynsetTableViewCell.borderWidth
-        let margin = SynsetTableViewCell.margin
-
-        let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
-        let caption1Font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleCaption1)
-        let subheadlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline)
-
-        let constrainedSize = CGSizeMake(frame.size.width-2*borderWidth-2*margin-SynsetTableViewCell.accessoryWidth, frame.size.height)
-        let glossSize = synset.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
-        let synonymSize = synset.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
-
-        bounds.size.height = synset.sizeOfCellWithConstrainedSize(frame.size, open:false).height
-
-        view?.removeFromSuperview()
-
-        view = UIView(frame: bounds)
-        view!.backgroundColor = AppConfiguration.foregroundColor // for a border
-        view!.autoresizingMask = .FlexibleWidth
-
-        contentView.addSubview(view)
-        contentView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        contentView.removeConstraints(contentView.constraints())
-
-        var constraint: NSLayoutConstraint
-        //* Usually an autoresizing mask works, but this fixes a problem that the autoresizingMask doesn't.
-        constraint = NSLayoutConstraint(item: contentView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
-        addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: contentView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
-        addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
-        addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
-        addConstraint(constraint)
-        // */
-
-        backgroundLabel = UIView(frame: CGRectMake(borderWidth, borderWidth, bounds.size.width-2*borderWidth, bounds.size.height-2*borderWidth))
-        // backgroundLabel.clipsToBounds = true
-        backgroundLabel.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
-        backgroundLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        view!.addSubview(backgroundLabel)
-
-        var lexnameText = "<\(synset.lexname)>"
-
-        if synset.freqCnt > 0 {
-            lexnameText = "\(lexnameText) freq. cnt.: \(synset.freqCnt)"
-        }
-
-        let lexnameLabel = UILabel(frame: CGRectMake(margin, margin, constrainedSize.width, SynsetTableViewCell.labelLineHeight))
-        lexnameLabel.text = lexnameText
-        lexnameLabel.font = subheadlineFont
-        lexnameLabel.numberOfLines = 1
-        lexnameLabel.textColor = AppConfiguration.foregroundColor
-        backgroundLabel.addSubview(lexnameLabel)
-
-        let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SynsetTableViewCell.labelLineHeight, constrainedSize.width, glossSize.height))
-        textLabel.font = bodyFont
-        textLabel.text = synset.gloss
-        textLabel.lineBreakMode = .ByWordWrapping
-        textLabel.numberOfLines = 0
-        textLabel.textColor = AppConfiguration.foregroundColor
-        backgroundLabel.addSubview(textLabel)
-
-        if synset.senses.count > 0 {
-            let synonymLabel = UILabel(frame: CGRectMake(margin, 3*margin + SynsetTableViewCell.labelLineHeight + glossSize.height, constrainedSize.width, synonymSize.height))
-            synonymLabel.text = synset.synonymsAsString
-            synonymLabel.font = caption1Font
-            synonymLabel.lineBreakMode = .ByWordWrapping
-            synonymLabel.numberOfLines = 0
-            synonymLabel.textColor = AppConfiguration.foregroundColor
-            backgroundLabel.addSubview(synonymLabel)
-        }
-
-        frame.size.height = 4 * SynsetTableViewCell.margin + 2 * SynsetTableViewCell.borderWidth + SynsetTableViewCell.labelLineHeight + glossSize.height + synonymSize.height
-        DMTRACE("Actual height of synset header \(bounds.size.height) = 4 * \(SynsetTableViewCell.margin) + 2 * \(SynsetTableViewCell.borderWidth) + \(SynsetTableViewCell.labelLineHeight) + \(glossSize.height) + \(synonymSize.height)")
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        backgroundLabel.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
-    }
-    
 }

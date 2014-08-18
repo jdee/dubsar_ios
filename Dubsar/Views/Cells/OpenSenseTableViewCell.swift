@@ -29,9 +29,9 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         }
     }
 
-    init(sense: DubsarModelsSense!, frame: CGRect, maxHeightOfAdditions: CGFloat) {
+    init(sense: DubsarModelsSense!, frame: CGRect, maxHeightOfAdditions: CGFloat, identifier: String = OpenSenseTableViewCell.openIdentifier) {
         insertHeightLimit = maxHeightOfAdditions
-        super.init(sense: sense, frame: frame, identifier: OpenSenseTableViewCell.openIdentifier)
+        super.init(sense: sense, frame: frame, identifier: identifier)
     }
 
     override func rebuild() {
@@ -41,7 +41,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         DMTRACE("Height of sense header \(y)")
 
-        if !sense.complete {
+        if (synset && !synset!.complete) || (!synset && !sense.complete) {
             let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
             view!.addSubview(spinner)
             spinner.startAnimating()
@@ -57,7 +57,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         let accessoryWidth = SenseTableViewCell.accessoryWidth
 
-        let sampleView = SynsetSampleView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
+        let sampleView = SynsetSampleView(synset: synset ? synset : sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
         sampleView.sense = sense
         sampleView.setTranslatesAutoresizingMaskIntoConstraints(false)
         view!.addSubview(sampleView)
@@ -96,7 +96,8 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         frame.size.height += sampleView.bounds.size.height
         view!.frame.size.height = bounds.size.height
 
-        if sense.numberOfSections == 0 {
+        let numberOfSections = synset ? synset!.numberOfSections : sense.numberOfSections
+        if numberOfSections == 0 {
             return
         }
 
@@ -104,7 +105,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
 
         DMTRACE("sample view height is \(sampleView.bounds.size.height). frame height is now \(frame.size.height) (remaining insertHeightLimit: \(available))")
 
-        let pointerView = SynsetPointerView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
+        let pointerView = SynsetPointerView(synset: synset ? synset : sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
         pointerView.sense = sense
         pointerView.scrollViewTop = 0
         pointerView.scrollViewBottom = available

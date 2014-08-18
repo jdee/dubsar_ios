@@ -49,6 +49,7 @@ class SenseTableViewCell: UITableViewCell {
     }
 
     var sense : DubsarModelsSense!
+    var synset : DubsarModelsSynset?
     var cellBackgroundColor : UIColor! = AppConfiguration.backgroundColor
     
     /*
@@ -79,11 +80,11 @@ class SenseTableViewCell: UITableViewCell {
 
         let accessoryWidth = SenseTableViewCell.accessoryWidth
         let constrainedSize = CGSizeMake(frame.size.width - 2 * margin - accessoryWidth, frame.size.height)
-        let glossSize = sense.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
-        let synonymSize = sense.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
+        let glossSize = synset ? synset!.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont) : sense.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+        let synonymSize = synset ? synset!.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font) : sense.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
 
         DMTRACE("Initial sense cell bounds height: \(bounds.size.height)")
-        bounds.size.height = sense.sizeOfCellWithConstrainedSize(frame.size, open:false).height
+        bounds.size.height = synset ? synset!.sizeOfCellWithConstrainedSize(frame.size, open:false).height : sense.sizeOfCellWithConstrainedSize(frame.size, open:false).height
         DMTRACE("Recomputed to \(bounds.size.height)")
 
         view?.removeFromSuperview()
@@ -121,12 +122,12 @@ class SenseTableViewCell: UITableViewCell {
         contentView.addConstraint(constraint)
         // */
 
-        var lexnameText = "<\(sense.lexname)>"
-        if !sense.marker.isEmpty {
+        var lexnameText = synset ? "<\(synset!.lexname)>" : "<\(sense.lexname)>"
+        if !synset && !sense.marker.isEmpty {
             lexnameText = "\(lexnameText) (\(sense.marker))"
         }
 
-        if sense.freqCnt > 0 {
+        if !synset && sense.freqCnt > 0 {
             lexnameText = "\(lexnameText) freq. cnt.: \(sense.freqCnt)"
         }
 
@@ -150,9 +151,11 @@ class SenseTableViewCell: UITableViewCell {
         constraint = NSLayoutConstraint(item:lexnameLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: NSLayoutAttribute.Height, multiplier: 0.0, constant: SenseTableViewCell.labelLineHeight)
         lexnameLabel.addConstraint(constraint)
 
+        let gloss = synset ? synset!.gloss : sense.gloss
+
         let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SenseTableViewCell.labelLineHeight, constrainedSize.width, glossSize.height))
         textLabel.font = bodyFont
-        textLabel.text = sense.gloss
+        textLabel.text = gloss
         textLabel.lineBreakMode = .ByWordWrapping
         textLabel.numberOfLines = 0
         textLabel.textColor = AppConfiguration.foregroundColor
@@ -170,11 +173,12 @@ class SenseTableViewCell: UITableViewCell {
         constraint = NSLayoutConstraint(item: textLabel, attribute: .Top, relatedBy: .Equal, toItem: lexnameLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
         view!.addConstraint(constraint)
 
-        DMTRACE("Gloss frame for \(sense.gloss) is (\(textLabel.frame.origin.x), \(textLabel.frame.origin.y)) \(textLabel.frame.size.width) x \(textLabel.frame.size.height).")
+        DMTRACE("Gloss frame for \(gloss) is (\(textLabel.frame.origin.x), \(textLabel.frame.origin.y)) \(textLabel.frame.size.width) x \(textLabel.frame.size.height).")
 
-        if sense.synonyms.count > 0 {
+        let synonyms = synset ? synset!.synonymsAsString : sense.synonymsAsString
+        if !synonyms.isEmpty {
             let synonymLabel = UILabel(frame: CGRectMake(margin, 3*margin + SenseTableViewCell.labelLineHeight + glossSize.height, constrainedSize.width, synonymSize.height))
-            synonymLabel.text = sense.synonymsAsString
+            synonymLabel.text = synonyms
             synonymLabel.font = caption1Font
             synonymLabel.lineBreakMode = .ByWordWrapping
             synonymLabel.numberOfLines = 0

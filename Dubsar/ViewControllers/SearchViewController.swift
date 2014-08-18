@@ -41,8 +41,6 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         title = "Search"
         updateTitle()
-        pageControl.hidden = !search || search!.totalPages <= 1
-        resultTableView.backgroundColor = UIColor.clearColor()
     }
 
     @IBAction
@@ -148,7 +146,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             var synsetCell: SynsetTableViewCell?
 
             if selectedRow == row {
-                var openCell = tableView.dequeueReusableCellWithIdentifier(OpenSynsetTableViewCell.identifier) as? OpenSynsetTableViewCell
+                var openCell = tableView.dequeueReusableCellWithIdentifier(OpenSynsetTableViewCell.openSynsetIdentifier) as? OpenSynsetTableViewCell
                 if !openCell {
                     openCell = OpenSynsetTableViewCell(synset: synset, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
                 }
@@ -156,22 +154,23 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
                     openCell!.synset = synset
                     openCell!.frame = tableView.bounds
                 }
-                synsetCell = openCell
+                openCell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
+                openCell!.rebuild()
+                cell = openCell
             }
             else {
-                synsetCell = tableView.dequeueReusableCellWithIdentifier(SynsetTableViewCell.identifier) as? SynsetTableViewCell
+                synsetCell = tableView.dequeueReusableCellWithIdentifier(SynsetTableViewCell.synsetIdentifier) as? SynsetTableViewCell
                 if !synsetCell {
-                    synsetCell = SynsetTableViewCell(synset: synset, frame: tableView.bounds, identifier: SynsetTableViewCell.identifier)
+                    synsetCell = SynsetTableViewCell(synset: synset, frame: tableView.bounds)
                 }
                 else {
                     synsetCell!.synset = synset
                     synsetCell!.frame = tableView.bounds
                 }
+                synsetCell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
+                synsetCell!.rebuild()
+                cell = synsetCell
             }
-
-            synsetCell!.cellBackgroundColor = row % 2 == 1 ? AppConfiguration.alternateBackgroundColor : AppConfiguration.backgroundColor
-            synsetCell!.rebuild()
-            cell = synsetCell
         }
 
         DMTRACE("Height of cell at row \(row): \(cell!.bounds.size.height)")
@@ -349,10 +348,13 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         pageControl.pageIndicatorTintColor = AppConfiguration.alternateHighlightColor
         pageControl.currentPageIndicatorTintColor = AppConfiguration.foregroundColor
+        pageControl.hidden = !search || search!.totalPages <= 1
 
         resultTableView.reloadData()
         view.backgroundColor = AppConfiguration.alternateBackgroundColor
         resultTableView.backgroundColor = AppConfiguration.alternateBackgroundColor
+
+        resultTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
         super.adjustLayout()
     }
 }

@@ -31,9 +31,13 @@ extension DubsarModelsSynset {
         return text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
     }
 
+    /*
+     * This is probably the strongest argument yet for a common implementation in either DubsarModelsModel or a new common base
+     * class for DubsarModelsSense and DubsarModelsSynset (maybe even a protocol).
+     */
     func sizeOfCellWithConstrainedSize(constrainedSize: CGSize, open: Bool, maxHeightOfAdditions: CGFloat = 0) -> CGSize {
         var constraint = constrainedSize
-        constraint.width -= 2 * SynsetTableViewCell.margin + 2 * SynsetTableViewCell.borderWidth + SynsetTableViewCell.accessoryWidth
+        constraint.width -= 2 * SynsetTableViewCell.margin + SynsetTableViewCell.accessoryWidth
 
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
         let caption1Font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleCaption1)
@@ -42,7 +46,7 @@ extension DubsarModelsSynset {
 
         var size = constrainedSize
 
-        size.height = SynsetTableViewCell.labelLineHeight + 3 * SynsetTableViewCell.margin + glossSize.height + 2 * SynsetTableViewCell.borderWidth
+        size.height = SynsetTableViewCell.labelLineHeight + 3 * SynsetTableViewCell.margin + glossSize.height
 
         var synonymSize = CGSizeZero
         if senses.count > 0 {
@@ -50,7 +54,7 @@ extension DubsarModelsSynset {
             size.height += synonymSize.height + SynsetTableViewCell.margin
         }
 
-        DMTRACE("Computed height of synset header \(size.height) = 4 * \(SynsetTableViewCell.margin) + 2 * \(SynsetTableViewCell.borderWidth) + \(SynsetTableViewCell.labelLineHeight) + \(glossSize.height) + \(synonymSize.height). maxHeightOfAdditions = \(maxHeightOfAdditions)")
+        DMTRACE("Computed height of synset header \(size.height) = 4 * \(SynsetTableViewCell.margin) + \(SynsetTableViewCell.labelLineHeight) + \(glossSize.height) + \(synonymSize.height). maxHeightOfAdditions = \(maxHeightOfAdditions)")
 
         if open {
             if !complete {
