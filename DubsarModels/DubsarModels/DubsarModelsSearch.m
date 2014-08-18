@@ -579,7 +579,7 @@ static int _seqNum = 0;
         sqlite3_finalize(statement);
         return;
     }
-    if ((rc=sqlite3_bind_int(statement, 3, NUM_PER_PAGE * (currentPage-1))) != SQLITE_OK) {
+    if ((rc=sqlite3_bind_int(statement, 3, NUM_PER_PAGE * (int)(currentPage-1))) != SQLITE_OK) {
         self.errorMessage = [NSString stringWithFormat:@"Error binding %@ in statement \"%s\": %d", term, sql, rc];
         sqlite3_finalize(statement);
         return;
