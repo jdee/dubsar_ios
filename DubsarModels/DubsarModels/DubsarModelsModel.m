@@ -325,6 +325,11 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 - (SCNetworkReachabilityFlags)currentReachability
 {
     SCNetworkReachabilityFlags flags;
+    SCNetworkReachabilityRef reachabilityRef = self.reachabilityRef;
+    if (!reachabilityRef) {
+        return 0;
+    }
+
     if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) {
         DMERROR(@"Unabled to determine reachability for %@", DubsarBaseUrl);
         return flags;
@@ -334,7 +339,11 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 - (SCNetworkReachabilityRef)reachabilityRef
 {
-    if (!_reachabilityRef) {
+    /*
+     * If this is loading from the DB, the URL may be nil. There's a check in [self cancel],
+     * but there can be races where the DB has been closed since this was created.
+     */
+    if (!_reachabilityRef && self.url) {
         const char* host = [NSURL URLWithString:self.url].host.UTF8String;
         _reachabilityRef = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, host);
         assert(_reachabilityRef);
@@ -350,7 +359,10 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 - (void)startMonitoringHost
 {
-    SCNetworkReachabilityScheduleWithRunLoop(self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    SCNetworkReachabilityRef reachabilityRef = self.reachabilityRef;
+    if (reachabilityRef) {
+        SCNetworkReachabilityScheduleWithRunLoop(reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    }
 }
 
 /*
@@ -358,7 +370,10 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
  */
 - (void)stopMonitoringHost
 {
-    SCNetworkReachabilityUnscheduleFromRunLoop(self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    SCNetworkReachabilityRef reachabilityRef = self.reachabilityRef;
+    if (reachabilityRef) {
+        SCNetworkReachabilityUnscheduleFromRunLoop(reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    }
 }
 
 - (void)connectivityChanged:(SCNetworkReachabilityFlags)flags
