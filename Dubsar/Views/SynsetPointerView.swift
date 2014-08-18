@@ -206,6 +206,7 @@ class SynsetPointerView: UIView {
     }
 
     private func tileViewport() {
+        DMTRACE("Tiling down to y = \(scrollViewBottom)")
         // convenient constants
         let margin = SynsetPointerView.margin
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -311,11 +312,12 @@ class SynsetPointerView: UIView {
 
                 }
 
+                DMTRACE("Pointer text for section \(sectionNumber), row \(row) is \(text). y = \(y). height = \(textSize.height). bottom = \(y + textSize.height). scrollViewBottom = \(scrollViewBottom)")
+
                 y += textSize.height + margin
 
                 ++completedUpToRow
 
-                DMTRACE("Pointer text for section \(sectionNumber), row \(row) is \(text)")
                 if scrollViewBottom > 0.0 && y >= scrollViewBottom {
                     finished = true
                     ++row
@@ -331,7 +333,7 @@ class SynsetPointerView: UIView {
             nextRow = -1
         }
         nextSection = sectionNumber
-        completedUpToY = y
+        completedUpToY = y - margin
 
         //*
         let lastLabel = (labels as NSArray).lastObject as? UIView

@@ -46,6 +46,7 @@ class ScrollingSynsetView: UIScrollView {
     let pointerView : SynsetPointerView
 
     private var hasReset : Bool = true
+    private var hasPointers = false
 
     var viewController : SynsetViewController! {
     didSet {
@@ -123,11 +124,11 @@ class ScrollingSynsetView: UIScrollView {
         if synset.complete {
             DMTRACE("Entered ScrollingSynsetView.layoutSubviews(). size: \(bounds.size.width) x \(bounds.size.height)")
 
-            let firstSense = synset.senses.firstObject as DubsarModelsSense
-            let hasPointers = (sense && sense!.complete && sense!.numberOfSections > 0) || (!sense && firstSense.complete && firstSense.numberOfSections > 0) || synset.numberOfSections > 0
-
             if hasReset {
                 hasReset = false
+
+                let firstSense = synset.senses.firstObject as DubsarModelsSense
+                hasPointers = (sense && sense!.complete && sense!.numberOfSections > 0) || (!sense && firstSense.complete && firstSense.numberOfSections > 0) || synset.numberOfSections > 0
 
                 // these automatically adjust their heights in layoutSubviews()
                 headerView.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height)
@@ -144,7 +145,9 @@ class ScrollingSynsetView: UIScrollView {
 
             if hasPointers {
                 // vertical screen bounds in the pointerView's coordinate system
-                pointerView.scrollViewTop = contentOffset.y - pointerView.frame.origin.y
+                let originY = sampleView.frame.origin.y + sampleView.bounds.size.height
+                DMTRACE("originY: \(originY), bounds.size.height: \(bounds.size.height)")
+                pointerView.scrollViewTop = contentOffset.y - originY
                 pointerView.scrollViewBottom = pointerView.scrollViewTop + bounds.size.height
                 pointerView.layoutSubviews()
 
