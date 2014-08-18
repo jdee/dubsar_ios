@@ -62,6 +62,12 @@ class ScrollingSynsetView: UIScrollView {
         pointerView = SynsetPointerView(synset: synset, frame: CGRectZero, preview: false)
         super.init(frame: frame)
 
+        /*
+        headerView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        sampleView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        pointerView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        // */
+
         headerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         sampleView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         pointerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
@@ -73,6 +79,33 @@ class ScrollingSynsetView: UIScrollView {
         addSubview(headerView)
         addSubview(sampleView)
         addSubview(pointerView)
+
+        /*
+        var constraint: NSLayoutConstraint
+        constraint = NSLayoutConstraint(item: headerView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: headerView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: headerView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+
+        constraint = NSLayoutConstraint(item: sampleView, attribute: .Top, relatedBy: .Equal, toItem: headerView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: sampleView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: sampleView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+
+        constraint = NSLayoutConstraint(item: pointerView, attribute: .Top, relatedBy: .Equal, toItem: sampleView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: pointerView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: pointerView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+
+        constraint = NSLayoutConstraint(item: pointerView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        // */
     }
 
     override func layoutSubviews() {

@@ -73,13 +73,13 @@ class SynonymButtonPair {
         selectionButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
 
         selectionButton.addTarget(self, action: "synonymSelected:", forControlEvents: .TouchUpInside)
-        view.addSubview(selectionButton)
+        view.synonymView.addSubview(selectionButton)
 
         // configure navigation button.
 
         navigationButton.addTarget(self, action: "synonymNavigated:", forControlEvents: .TouchUpInside)
         navigationButton.frame = CGRectMake(0, 0, height, height)
-        view.addSubview(navigationButton)
+        view.synonymView.addSubview(navigationButton)
     }
 
     // Apparently in Swift you can't make programmatic action assignments without these annotations.
@@ -120,6 +120,7 @@ class SynsetHeaderView: UIView {
     let glossLabel : UILabel
     let lexnameLabel : UILabel
     let extraTextLabel : UILabel
+    let synonymView: UIView
 
     var synonymButtons : [SynonymButtonPair] = []
 
@@ -136,6 +137,7 @@ class SynsetHeaderView: UIView {
         glossLabel = UILabel()
         lexnameLabel = UILabel()
         extraTextLabel = UILabel()
+        synonymView = UIView()
 
         super.init(frame: frame)
 
@@ -157,6 +159,8 @@ class SynsetHeaderView: UIView {
             glossLabel.frame = CGRectMake(margin, margin, constrainedSize.width, glossSize.height)
             glossLabel.text = synset.gloss
             glossLabel.font = headlineFont
+            glossLabel.numberOfLines = 0
+            glossLabel.lineBreakMode = .ByWordWrapping
             glossLabel.textColor = AppConfiguration.foregroundColor
             glossLabel.invalidateIntrinsicContentSize()
 
@@ -170,6 +174,7 @@ class SynsetHeaderView: UIView {
             lexnameLabel.font = headlineFont
             lexnameLabel.textColor = AppConfiguration.foregroundColor
             lexnameLabel.invalidateIntrinsicContentSize()
+            lexnameLabel.autoresizingMask = .FlexibleWidth | .FlexibleHeight | .FlexibleTopMargin | .FlexibleBottomMargin
 
             var extraText = "" as NSString
             if sense && !sense!.marker.isEmpty {
@@ -189,28 +194,23 @@ class SynsetHeaderView: UIView {
                 extraText = "\(extraText) freq. cnt. \(synset.freqCnt)"
             }
 
-            if extraText.length > 0 {
-                let extraTextSize = extraText.sizeWithAttributes([NSFontAttributeName: headlineFont])
-                extraTextLabel.frame = CGRectMake(2 * margin + lexnameSize.width, 2 * margin + glossSize.height, extraTextSize.width, extraTextSize.height)
-                extraTextLabel.text = extraText
-                extraTextLabel.font = headlineFont
-                extraTextLabel.textAlignment = .Center
-                extraTextLabel.textColor = AppConfiguration.foregroundColor
-                extraTextLabel.invalidateIntrinsicContentSize()
-                addSubview(extraTextLabel)
+            let extraTextSize = extraText.sizeWithAttributes([NSFontAttributeName: headlineFont])
+            extraTextLabel.frame = CGRectMake(2 * margin + lexnameSize.width, 2 * margin + glossSize.height, extraTextSize.width, extraTextSize.height)
+            extraTextLabel.text = extraText
+            extraTextLabel.font = headlineFont
+            extraTextLabel.textAlignment = .Center
+            extraTextLabel.textColor = AppConfiguration.foregroundColor
+            extraTextLabel.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin | .FlexibleBottomMargin
+            extraTextLabel.invalidateIntrinsicContentSize()
 
-                if sense || synset.senses.count == 1{
-                    extraTextLabel.backgroundColor = AppConfiguration.highlightColor
-                }
-                else {
-                    extraTextLabel.backgroundColor = UIColor.clearColor()
-                }
+            if sense || synset.senses.count == 1{
+                extraTextLabel.backgroundColor = AppConfiguration.highlightColor
             }
             else {
-                extraTextLabel.removeFromSuperview()
+                extraTextLabel.backgroundColor = UIColor.clearColor()
             }
 
-            frame.size.height = setupSynonymButtons()
+            frame.size.height = extraTextLabel.frame.origin.y + extraTextLabel.bounds.size.height + setupSynonymButtons()
             // DMLOG("header view height: %f", bounds.size.height)
         }
 
@@ -229,21 +229,57 @@ class SynsetHeaderView: UIView {
     private func build() {
         DMTRACE("Constructing SynsetHeaderView with \(synset.senses.count) synonyms (synset ID \(synset._id): \(synset.gloss)). \(synset.synonymsAsString)")
 
-        autoresizingMask = .FlexibleHeight | .FlexibleWidth
-
         glossLabel.lineBreakMode = .ByWordWrapping
         glossLabel.numberOfLines = 0
-        glossLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        glossLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         addSubview(glossLabel)
 
         lexnameLabel.lineBreakMode = .ByWordWrapping
         lexnameLabel.numberOfLines = 0
-        lexnameLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        lexnameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         addSubview(lexnameLabel)
 
         extraTextLabel.lineBreakMode = .ByWordWrapping
         extraTextLabel.numberOfLines = 0
-        extraTextLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        extraTextLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        addSubview(extraTextLabel)
+
+        synonymView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        addSubview(synonymView)
+
+        let margin = SynsetHeaderView.margin
+        var constraint: NSLayoutConstraint
+
+        constraint = NSLayoutConstraint(item: glossLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: margin)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: glossLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: glossLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -margin)
+        addConstraint(constraint)
+
+        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Top, relatedBy: .Equal, toItem: glossLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: lexnameLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -margin)
+        addConstraint(constraint)
+
+        constraint = NSLayoutConstraint(item: extraTextLabel, attribute: .Top, relatedBy: .Equal, toItem: lexnameLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: extraTextLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: extraTextLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -margin)
+        addConstraint(constraint)
+
+        constraint = NSLayoutConstraint(item: synonymView, attribute: .Top, relatedBy: .Equal, toItem: extraTextLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: synonymView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: synonymView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -margin)
+        addConstraint(constraint)
+
+        constraint = NSLayoutConstraint(item: synonymView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -margin)
+        addConstraint(constraint)
     }
 
     private func setupSynonymButtons() -> CGFloat {
@@ -256,7 +292,7 @@ class SynsetHeaderView: UIView {
 
         let margin = SynsetHeaderView.margin
         let constrainedWidth = bounds.size.width - 2 * margin
-        var x : CGFloat = margin, y : CGFloat = lexnameLabel.frame.size.height + lexnameLabel.frame.origin.y + margin
+        var x : CGFloat = margin, y : CGFloat = margin
         var height : CGFloat = 0
 
         for object: AnyObject in synset.senses as NSArray {
@@ -284,6 +320,8 @@ class SynsetHeaderView: UIView {
                 x += buttonPair.width
             }
         }
+
+        synonymView.frame = CGRectMake(0, extraTextLabel.frame.origin.y+extraTextLabel.bounds.size.height, bounds.size.width, y + height + margin)
 
         return y + height + margin
     }

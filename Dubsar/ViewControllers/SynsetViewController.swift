@@ -71,6 +71,16 @@ class SynsetViewController: BaseViewController {
             // DMLOG("Constructing new scroller for synset ID %d", theSynset!._id)
             scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)
             view.addSubview(scroller)
+            scroller!.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+            var constraint = NSLayoutConstraint(item: scroller, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 0.0)
+            view.addConstraint(constraint)
+            constraint = NSLayoutConstraint(item: scroller, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+            view.addConstraint(constraint)
+            constraint = NSLayoutConstraint(item: scroller, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+            view.addConstraint(constraint)
+            constraint = NSLayoutConstraint(item: scroller, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+            view.addConstraint(constraint)
         }
         scroller!.viewController = self
         scroller!.sense = sense // resets the scroller
