@@ -45,7 +45,7 @@ class ScrollingSynsetView: UIScrollView {
     let sampleView : SynsetSampleView
     let pointerView : SynsetPointerView
 
-    private var hasReset : Bool = false
+    private var hasReset : Bool = true
 
     var viewController : SynsetViewController! {
     didSet {
@@ -62,15 +62,17 @@ class ScrollingSynsetView: UIScrollView {
         pointerView = SynsetPointerView(synset: synset, frame: CGRectZero, preview: false)
         super.init(frame: frame)
 
-        /*
+        //*
         headerView.setTranslatesAutoresizingMaskIntoConstraints(false)
         sampleView.setTranslatesAutoresizingMaskIntoConstraints(false)
         pointerView.setTranslatesAutoresizingMaskIntoConstraints(false)
         // */
 
+        /*
         headerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         sampleView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         pointerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        // */
 
         bounces = false
         showsHorizontalScrollIndicator = false
@@ -80,13 +82,15 @@ class ScrollingSynsetView: UIScrollView {
         addSubview(sampleView)
         addSubview(pointerView)
 
-        /*
+        //*
         var constraint: NSLayoutConstraint
         constraint = NSLayoutConstraint(item: headerView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
         constraint = NSLayoutConstraint(item: headerView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
         constraint = NSLayoutConstraint(item: headerView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: headerView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
 
         constraint = NSLayoutConstraint(item: sampleView, attribute: .Top, relatedBy: .Equal, toItem: headerView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
@@ -95,12 +99,16 @@ class ScrollingSynsetView: UIScrollView {
         addConstraint(constraint)
         constraint = NSLayoutConstraint(item: sampleView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: sampleView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
 
         constraint = NSLayoutConstraint(item: pointerView, attribute: .Top, relatedBy: .Equal, toItem: sampleView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
         constraint = NSLayoutConstraint(item: pointerView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
         constraint = NSLayoutConstraint(item: pointerView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: pointerView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
 
         constraint = NSLayoutConstraint(item: pointerView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
@@ -113,7 +121,7 @@ class ScrollingSynsetView: UIScrollView {
 
         DMTRACE("contentOffset: (\(contentOffset.x), \(contentOffset.y))")
         if synset.complete {
-            DMTRACE("Entered ScrollingSynsetView.layoutSubviews()")
+            DMTRACE("Entered ScrollingSynsetView.layoutSubviews(). size: \(bounds.size.width) x \(bounds.size.height)")
 
             let firstSense = synset.senses.firstObject as DubsarModelsSense
             let hasPointers = (sense && sense!.complete && sense!.numberOfSections > 0) || (!sense && firstSense.complete && firstSense.numberOfSections > 0) || synset.numberOfSections > 0
@@ -123,6 +131,7 @@ class ScrollingSynsetView: UIScrollView {
 
                 // these automatically adjust their heights in layoutSubviews()
                 headerView.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height)
+                DMTRACE("Header view size: \(bounds.size.width) x \(bounds.size.height)")
                 headerView.layoutSubviews()
 
                 sampleView.frame = CGRectMake(0, headerView.bounds.size.height, bounds.size.width, bounds.size.height)
@@ -139,17 +148,24 @@ class ScrollingSynsetView: UIScrollView {
                 pointerView.scrollViewBottom = pointerView.scrollViewTop + bounds.size.height
                 pointerView.layoutSubviews()
 
+                /*
                 contentSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height + pointerView.bounds.size.height)
             }
             else {
                 contentSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height)
+                // */
             }
 
-            DMTRACE("Set scrolling content size to \(contentSize.width) x \(contentSize.height). header ht: \(headerView.bounds.size.height), sample ht: \(sampleView.bounds.size.height), pointer ht: \(pointerView.bounds.size.height)")
+            DMTRACE("header size: \(headerView.bounds.size.width) x \(headerView.bounds.size.height), sample size: \(sampleView.bounds.size.width) x \(sampleView.bounds.size.height), pointer size: \(pointerView.bounds.size.width) x \(pointerView.bounds.size.height)")
 
+            invalidateIntrinsicContentSize()
         }
 
         super.layoutSubviews()
+    }
+
+    override func intrinsicContentSize() -> CGSize {
+        return CGSizeMake(sampleView.intrinsicContentSize().width, headerView.intrinsicContentSize().height + sampleView.intrinsicContentSize().height + pointerView.intrinsicContentSize().height)
     }
 
     func reset() {

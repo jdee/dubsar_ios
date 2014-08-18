@@ -68,7 +68,7 @@ class SynsetViewController: BaseViewController {
         }
 
         if !scroller {
-            // DMLOG("Constructing new scroller for synset ID %d", theSynset!._id)
+            DMTRACE("Constructing new scroller for synset ID \(theSynset!._id), size: \(view.bounds.size.width) x \(view.bounds.size.height)")
             scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)
             view.addSubview(scroller)
             scroller!.setTranslatesAutoresizingMaskIntoConstraints(false)

@@ -145,11 +145,16 @@ class SynsetHeaderView: UIView {
     }
 
     override func layoutSubviews() {
-        // DMLOG("Entered SynsetHeaderView.layoutSubviews()")
+        DMTRACE("Entered SynsetHeaderView.layoutSubviews(). Size: \(bounds.size.width) x \(bounds.size.height)")
+        assert(bounds.size.width == superview.bounds.size.width)
+        // assert(bounds.size.width == UIScreen.mainScreen().bounds.size.width)
+
         if synset.complete {
             let margin = SynsetHeaderView.margin
             var constrainedSize = bounds.size
             constrainedSize.width -= 2 * margin
+
+            DMTRACE("Constrained width: \(constrainedSize.width)")
 
             let headlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
 
@@ -174,7 +179,6 @@ class SynsetHeaderView: UIView {
             lexnameLabel.font = headlineFont
             lexnameLabel.textColor = AppConfiguration.foregroundColor
             lexnameLabel.invalidateIntrinsicContentSize()
-            lexnameLabel.autoresizingMask = .FlexibleWidth | .FlexibleHeight | .FlexibleTopMargin | .FlexibleBottomMargin
 
             var extraText = "" as NSString
             if sense && !sense!.marker.isEmpty {
@@ -200,7 +204,6 @@ class SynsetHeaderView: UIView {
             extraTextLabel.font = headlineFont
             extraTextLabel.textAlignment = .Center
             extraTextLabel.textColor = AppConfiguration.foregroundColor
-            extraTextLabel.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin | .FlexibleBottomMargin
             extraTextLabel.invalidateIntrinsicContentSize()
 
             if sense || synset.senses.count == 1{
@@ -211,10 +214,19 @@ class SynsetHeaderView: UIView {
             }
 
             frame.size.height = extraTextLabel.frame.origin.y + extraTextLabel.bounds.size.height + setupSynonymButtons()
-            // DMLOG("header view height: %f", bounds.size.height)
+            DMTRACE("header view size: \(bounds.size.width) x \(bounds.size.height)")
+            invalidateIntrinsicContentSize()
         }
 
         super.layoutSubviews()
+    }
+
+    override func setNeedsLayout() {
+        super.setNeedsLayout()
+    }
+
+    override func intrinsicContentSize() -> CGSize {
+        return bounds.size
     }
 
     func buttonPair(buttonPair: SynonymButtonPair!, selectedSense sense: DubsarModelsSense!) {

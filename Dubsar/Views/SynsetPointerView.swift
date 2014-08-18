@@ -81,6 +81,10 @@ class PointerView : UIView {
         addConstraint(constraint)
     }
 
+    override func intrinsicContentSize() -> CGSize {
+        return bounds.size
+    }
+
     @IBAction
     func navigate(sender: UIButton!) {
         var target : DubsarModelsModel
@@ -167,6 +171,7 @@ class SynsetPointerView: UIView {
             // now estimate
             frame.size.height = completedUpToY * CGFloat(totalRows) / CGFloat(completedUpToRow)
             DMTRACE("completed up to y: \(completedUpToY), row: \(completedUpToRow), total rows \(totalRows), est. total height: \(frame.size.height)")
+            invalidateIntrinsicContentSize()
         }
 
         hasReset = false
@@ -180,6 +185,10 @@ class SynsetPointerView: UIView {
 
     func reset() {
         hasReset = true
+    }
+
+    override func intrinsicContentSize() -> CGSize {
+        return bounds.size
     }
 
     private func pointerForRowAtIndexPath(indexPath: NSIndexPath!) -> DubsarModelsPointer {

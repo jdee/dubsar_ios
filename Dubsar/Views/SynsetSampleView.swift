@@ -101,8 +101,13 @@ class SynsetSampleView: UIView {
 
         frame.size.height = y
         DMTRACE("sample view height: \(bounds.size.height)")
+        invalidateIntrinsicContentSize()
 
         super.layoutSubviews()
+    }
+
+    override func intrinsicContentSize() -> CGSize {
+        return bounds.size
     }
 
     private func addSample(sample: NSString!, atY y: CGFloat, background: UIColor!, font: UIFont!) -> CGFloat {
