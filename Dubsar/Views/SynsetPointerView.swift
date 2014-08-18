@@ -45,10 +45,21 @@ class PointerView : UIView {
         label.font = bodyFont
         label.textColor = AppConfiguration.foregroundColor
         label.frame = CGRectMake(0, 0, withoutButton ? bounds.size.width : bounds.size.width-buttonSize, bounds.size.height)
+        label.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         addSubview(label)
 
+        var constraint: NSLayoutConstraint
+        constraint = NSLayoutConstraint(item: label, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: label, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: label, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+
         if withoutButton {
+            constraint = NSLayoutConstraint(item: label, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+            addConstraint(constraint)
             return
         }
 
@@ -56,6 +67,18 @@ class PointerView : UIView {
         button.frame = CGRectMake(label.bounds.size.width, 0, buttonSize, buttonSize)
 
         button.addTarget(self, action: "navigate:", forControlEvents: .TouchUpInside)
+        button.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        constraint = NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: label, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 0.0, constant: buttonSize)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 0.0, constant: buttonSize)
+        addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: label, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -buttonSize)
+        addConstraint(constraint)
     }
 
     @IBAction
@@ -92,6 +115,7 @@ class SynsetPointerView: UIView {
     let isPreview : Bool
 
     var labels : [UIView] = []
+    var myConstraints = [NSLayoutConstraint]()
 
     var scrollViewTop : CGFloat = 0
     var scrollViewBottom : CGFloat = 0
@@ -134,6 +158,7 @@ class SynsetPointerView: UIView {
              */
             if (scrollViewBottom > 0.0 && completedUpToY >= scrollViewBottom) || nextSection == Int(numberOfSections) {
                 // nothing to do.
+                super.layoutSubviews()
                 return
             }
 
@@ -196,8 +221,30 @@ class SynsetPointerView: UIView {
                     titleLabel.numberOfLines = 0
                     titleLabel.textAlignment = .Center
                     titleLabel.textColor = AppConfiguration.foregroundColor
+                    titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
                     addSubview(titleLabel)
+
+                    let previousLabel: UIView? = labels.isEmpty ? nil : ((labels as NSArray).lastObject as UIView)
+
                     labels += titleLabel
+
+                    var constraint = NSLayoutConstraint(item: titleLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
+                    addConstraint(constraint)
+                    myConstraints.append(constraint)
+
+                    constraint = NSLayoutConstraint(item: titleLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -margin)
+                    addConstraint(constraint)
+                    myConstraints.append(constraint)
+
+                    if previousLabel {
+                        constraint = NSLayoutConstraint(item: titleLabel, attribute: .Top, relatedBy: .Equal, toItem: previousLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+                    }
+                    else {
+                        constraint = NSLayoutConstraint(item: titleLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: margin)
+                    }
+                    addConstraint(constraint)
+                    myConstraints.append(constraint)
+
                 }
 
                 y += titleSize.height + margin
@@ -233,10 +280,26 @@ class SynsetPointerView: UIView {
                         pointerView.backgroundColor = AppConfiguration.highlightColor
                     }
                     pointerView.viewController = viewController
+                    pointerView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
                     addSubview(pointerView)
+
+                    let previousLabel: UIView = (labels as NSArray).lastObject as UIView
                     labels += pointerView
                     pointerView.button.refreshImages() // do this after addSubview(). Otherwise, we have no graphics context and can't generate an image.
+
+                    var constraint = NSLayoutConstraint(item: pointerView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
+                    addConstraint(constraint)
+                    myConstraints.append(constraint)
+
+                    constraint = NSLayoutConstraint(item: pointerView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -margin)
+                    addConstraint(constraint)
+                    myConstraints.append(constraint)
+
+                    constraint = NSLayoutConstraint(item: pointerView, attribute: .Top, relatedBy: .Equal, toItem: previousLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+                    addConstraint(constraint)
+                    myConstraints.append(constraint)
+
                 }
 
                 y += textSize.height + margin
@@ -260,6 +323,15 @@ class SynsetPointerView: UIView {
         }
         nextSection = sectionNumber
         completedUpToY = y
+
+        //*
+        let lastLabel = (labels as NSArray).lastObject as? UIView
+        if lastLabel {
+            var constraint = NSLayoutConstraint(item: lastLabel, attribute: .Bottom, relatedBy: .LessThanOrEqual, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -margin)
+            addConstraint(constraint)
+            myConstraints.append(constraint)
+        }
+        // */
     }
 
     private func performReset() {
@@ -267,6 +339,11 @@ class SynsetPointerView: UIView {
             view.removeFromSuperview()
         }
         labels = []
+
+        for constraint in myConstraints {
+            removeConstraint(constraint)
+        }
+        myConstraints = []
 
         // in both cases, numberOfSections does an SQL query and builds the sections array
         if sense {

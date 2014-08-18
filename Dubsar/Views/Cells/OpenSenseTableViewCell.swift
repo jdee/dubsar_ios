@@ -53,14 +53,26 @@ class OpenSenseTableViewCell: SenseTableViewCell {
             return
         }
 
+        let lastSubview = (view!.subviews as NSArray).lastObject as UIView
+
         let accessoryWidth = SenseTableViewCell.accessoryWidth
 
         let sampleView = SynsetSampleView(synset: sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
         sampleView.sense = sense
+        sampleView.setTranslatesAutoresizingMaskIntoConstraints(false)
         view!.addSubview(sampleView)
         sampleView.layoutSubviews()
 
         sampleView.backgroundColor = UIColor.clearColor()
+        sampleView.layer.borderColor = UIColor.greenColor().CGColor
+        sampleView.layer.borderWidth = 0
+
+        var constraint = NSLayoutConstraint(item: sampleView, attribute: .Top, relatedBy: .Equal, toItem: lastSubview, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        view!.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: sampleView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        view!.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: sampleView, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -accessoryWidth)
+        view!.addConstraint(constraint)
 
         var available = insertHeightLimit
         if available > 0 {
@@ -97,8 +109,18 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         pointerView.scrollViewTop = 0
         pointerView.scrollViewBottom = available
         pointerView.backgroundColor = UIColor.clearColor()
+        pointerView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        pointerView.layer.borderColor = UIColor.yellowColor().CGColor
+        pointerView.layer.borderWidth = 0
         view!.addSubview(pointerView)
         pointerView.layoutSubviews()
+
+        constraint = NSLayoutConstraint(item: pointerView, attribute: .Top, relatedBy: .Equal, toItem: sampleView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        view!.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: pointerView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        view!.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: pointerView, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -accessoryWidth)
+        view!.addConstraint(constraint)
 
         var truncated = false
 
@@ -114,7 +136,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         frame.size.height += pointerView.bounds.size.height
         view!.frame.size.height = bounds.size.height
 
-        DMTRACE("pointer view height is \(pointerView.bounds.size.height). frame height is now \(frame.size.height)")
+        DMTRACE("pointer view frame is (\(pointerView.frame.origin.x), \(pointerView.frame.origin.y)) \(pointerView.bounds.size.width) x \(pointerView.bounds.size.height). frame height is now \(frame.size.height)")
 
         if truncated {
             addGradientToBottomOfView(view)

@@ -35,6 +35,7 @@ class SynsetSampleView: UIView {
     var layoutMode = false
 
     var labels : [UILabel] = []
+    var myConstraints = [NSLayoutConstraint]()
 
     init(synset: DubsarModelsSynset!, frame: CGRect, preview: Bool) {
         self.synset = synset
@@ -48,6 +49,11 @@ class SynsetSampleView: UIView {
             label.removeFromSuperview()
         }
         labels = []
+
+        for constraint in myConstraints {
+            removeConstraint(constraint)
+        }
+        myConstraints = []
 
         var samples = [AnyObject]()
         if synset.complete {
@@ -86,6 +92,13 @@ class SynsetSampleView: UIView {
             }
         }
 
+        if !labels.isEmpty {
+            var lastLabel = labels[labels.count - 1]
+            var constraint = NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal, toItem: lastLabel, attribute: .Bottom, multiplier: 1.0, constant: SynsetSampleView.margin)
+            addConstraint(constraint)
+            myConstraints.append(constraint)
+        }
+
         frame.size.height = y
         DMTRACE("sample view height: \(bounds.size.height)")
 
@@ -97,6 +110,11 @@ class SynsetSampleView: UIView {
         let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin, bounds.size.height)
         let textSize = sample.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
 
+        var previousLabel: UILabel?
+        if labels.count > 0 {
+            previousLabel = labels[labels.count - 1]
+        }
+
         if !layoutMode {
             let label = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
             label.font = font
@@ -105,11 +123,28 @@ class SynsetSampleView: UIView {
             label.text = sample
             label.textColor = AppConfiguration.foregroundColor
             label.backgroundColor = background
-            label.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+            label.setTranslatesAutoresizingMaskIntoConstraints(false)
             label.textAlignment = .Left
 
             labels += label
             addSubview(label)
+
+            var constraint = NSLayoutConstraint(item: label, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
+            addConstraint(constraint)
+            myConstraints.append(constraint)
+
+            constraint = NSLayoutConstraint(item: label, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -margin)
+            addConstraint(constraint)
+            myConstraints.append(constraint)
+
+            if previousLabel {
+                constraint = NSLayoutConstraint(item: label, attribute: .Top, relatedBy: .Equal, toItem: previousLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+            }
+            else {
+                constraint = NSLayoutConstraint(item: label, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: margin)
+            }
+            addConstraint(constraint)
+            myConstraints.append(constraint)
         }
 
         return y + margin + textSize.height
