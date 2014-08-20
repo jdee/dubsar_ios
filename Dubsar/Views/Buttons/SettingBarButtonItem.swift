@@ -21,8 +21,12 @@ import UIKit
 
 class SettingBarButtonItem: UIBarButtonItem {
 
-    init() {
+    override init() {
         super.init()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
     init(target: AnyObject!, action: Selector!) {

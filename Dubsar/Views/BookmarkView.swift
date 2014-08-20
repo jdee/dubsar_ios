@@ -50,6 +50,12 @@ class BookmarkView: UIView {
         rebuild()
     }
 
+    required init(coder aDecoder: NSCoder) {
+        bookmark = Bookmark()
+        button = UIButton()
+        super.init(coder: aDecoder)
+    }
+
     func rebuild() {
         button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         button.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)

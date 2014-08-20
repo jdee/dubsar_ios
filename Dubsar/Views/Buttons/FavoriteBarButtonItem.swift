@@ -32,7 +32,7 @@ class FavoriteBarButtonItem: UIBarButtonItem {
 
     private var favoriteButton: FavoriteButton!
 
-    init() {
+    override init() {
         super.init()
     }
 
@@ -55,6 +55,10 @@ class FavoriteBarButtonItem: UIBarButtonItem {
         favoriteButton = customView as FavoriteButton
 
         favoriteButton.barButtonItem = self
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
     func toggleSelected() {

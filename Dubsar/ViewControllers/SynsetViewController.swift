@@ -48,29 +48,29 @@ class SynsetViewController: BaseViewController {
         switch router.routerAction {
         case .UpdateView:
             theSynset = router.model as? DubsarModelsSynset
-            assert(theSynset)
+            assert(theSynset != nil)
             if theSynset!.senses.count == 1 {
                 sense = theSynset!.senses.firstObject as? DubsarModelsSense
-                assert(sense)
+                assert(sense != nil)
                 synchSelectedWord()
             }
 
         case .UpdateViewWithDependency:
             theSynset = router.model as? DubsarModelsSynset
-            assert(theSynset)
+            assert(theSynset != nil)
 
             sense = router.dependency
-            assert(sense)
+            assert(sense != nil)
             synchSelectedWord()
 
         default:
             break
         }
 
-        if !scroller {
+        if scroller == nil {
             DMTRACE("Constructing new scroller for synset ID \(theSynset!._id), size: \(view.bounds.size.width) x \(view.bounds.size.height)")
             scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)
-            view.addSubview(scroller)
+            view.addSubview(scroller!)
             scroller!.setTranslatesAutoresizingMaskIntoConstraints(false)
 
             var constraint = NSLayoutConstraint(item: scroller, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 0.0)
@@ -114,7 +114,7 @@ class SynsetViewController: BaseViewController {
         self.sense = sense
         scroller!.sense = sense // maybe this can be done inside the scroller
 
-        if sense {
+        if sense != nil {
             synchSelectedWord()
         }
     }
@@ -127,7 +127,7 @@ class SynsetViewController: BaseViewController {
 
     // called from SynsetPointerView
     func navigateToPointer(model : DubsarModelsModel!) {
-        if model as? DubsarModelsSense {
+        if (model as? DubsarModelsSense) != nil {
             pushViewControllerWithIdentifier(SynsetViewController.identifier, model: model, routerAction: .UpdateViewWithDependency)
         }
         else {
@@ -143,7 +143,7 @@ class SynsetViewController: BaseViewController {
     }
 
     private func synchSelectedWord() {
-        assert(sense)
+        assert(sense != nil)
         if sense!.complete {
             return
         }

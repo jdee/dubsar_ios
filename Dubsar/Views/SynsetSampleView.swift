@@ -43,6 +43,12 @@ class SynsetSampleView: UIView {
         super.init(frame: frame)
     }
 
+    required init(coder aDecoder: NSCoder) {
+        synset = DubsarModelsSynset()
+        isPreview = true
+        super.init(coder: aDecoder)
+    }
+
     override func layoutSubviews() {
         DMTRACE("Entered SynsetSampleView.layoutSubviews()")
         for label in labels {
@@ -59,7 +65,7 @@ class SynsetSampleView: UIView {
         if synset.complete {
             samples = synset.samples
         }
-        else if sense && sense!.complete {
+        else if sense != nil && sense!.complete {
             samples = sense!.samples
         }
 
@@ -83,8 +89,8 @@ class SynsetSampleView: UIView {
         /*
         * Always include lexical info when displaying synsets with only one word.
         */
-        let verbFrames : NSArray? = sense ? sense!.verbFrames : synset.senses.count == 1 ? (synset.senses.firstObject as DubsarModelsSense).verbFrames : nil
-        if verbFrames && verbFrames!.count > 0 {
+        let verbFrames : NSArray? = sense != nil ? sense!.verbFrames : synset.senses.count == 1 ? (synset.senses.firstObject as DubsarModelsSense).verbFrames : nil
+        if verbFrames != nil && verbFrames!.count > 0 {
             let frames = verbFrames as [AnyObject]
             for verbFrame in frames as [NSString] {
                 y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : AppConfiguration.highlightColor, font: font)
@@ -131,7 +137,7 @@ class SynsetSampleView: UIView {
             label.setTranslatesAutoresizingMaskIntoConstraints(false)
             label.textAlignment = .Left
 
-            labels += label
+            labels.append(label)
             addSubview(label)
 
             var constraint = NSLayoutConstraint(item: label, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
@@ -142,7 +148,7 @@ class SynsetSampleView: UIView {
             addConstraint(constraint)
             myConstraints.append(constraint)
 
-            if previousLabel {
+            if previousLabel != nil {
                 constraint = NSLayoutConstraint(item: label, attribute: .Top, relatedBy: .Equal, toItem: previousLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
             }
             else {

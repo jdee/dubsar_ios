@@ -27,6 +27,14 @@ class PointerView : UIView {
     let withoutButton : Bool
     weak var viewController : SynsetViewController?
 
+    required init(coder aDecoder: NSCoder) {
+        pointer = DubsarModelsPointer()
+        button = NavButton()
+        label = UILabel()
+        withoutButton = true
+        super.init(coder: aDecoder)
+    }
+
     init(pointer: DubsarModelsPointer!, frame: CGRect, withoutButton: Bool) {
         self.pointer = pointer
         button = NavButton()
@@ -144,8 +152,14 @@ class SynsetPointerView: UIView {
         clipsToBounds = true
     }
 
+    required init(coder aDecoder: NSCoder) {
+        synset = DubsarModelsSynset()
+        isPreview = true
+        super.init(coder: aDecoder)
+    }
+
     override func layoutSubviews() {
-        if synset.complete || (sense && sense!.complete) {
+        if synset.complete || (sense != nil && sense!.complete) {
             if hasReset {
                 performReset()
             }
@@ -179,7 +193,7 @@ class SynsetPointerView: UIView {
     }
 
     func navigateToModel(model: DubsarModelsModel?) {
-        assert(model)
+        assert(model != nil)
         viewController?.navigateToPointer(model)
     }
 
@@ -195,7 +209,7 @@ class SynsetPointerView: UIView {
         // could use a base class or a protocol here
         DMTRACE("Calling pointerForRowAtIndexPath:")
         if let s = sense {
-            assert(indexPath)
+            assert(indexPath != nil)
             return s.pointerForRowAtIndexPath(indexPath)
         }
         else if synset.senses.count == 1 {
@@ -236,7 +250,7 @@ class SynsetPointerView: UIView {
 
                     let previousLabel: UIView? = labels.isEmpty ? nil : ((labels as NSArray).lastObject as UIView)
 
-                    labels += titleLabel
+                    labels.append(titleLabel)
 
                     var constraint = NSLayoutConstraint(item: titleLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
                     addConstraint(constraint)
@@ -246,7 +260,7 @@ class SynsetPointerView: UIView {
                     addConstraint(constraint)
                     myConstraints.append(constraint)
 
-                    if previousLabel {
+                    if previousLabel != nil {
                         constraint = NSLayoutConstraint(item: titleLabel, attribute: .Top, relatedBy: .Equal, toItem: previousLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
                     }
                     else {
@@ -295,7 +309,7 @@ class SynsetPointerView: UIView {
                     addSubview(pointerView)
 
                     let previousLabel: UIView = (labels as NSArray).lastObject as UIView
-                    labels += pointerView
+                    labels.append(pointerView)
                     pointerView.button.refreshImages() // do this after addSubview(). Otherwise, we have no graphics context and can't generate an image.
 
                     var constraint = NSLayoutConstraint(item: pointerView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: margin)
@@ -337,7 +351,7 @@ class SynsetPointerView: UIView {
 
         //*
         let lastLabel = (labels as NSArray).lastObject as? UIView
-        if lastLabel {
+        if lastLabel != nil {
             var constraint = NSLayoutConstraint(item: lastLabel, attribute: .Bottom, relatedBy: .LessThanOrEqual, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -margin)
             addConstraint(constraint)
             myConstraints.append(constraint)
@@ -357,7 +371,7 @@ class SynsetPointerView: UIView {
         myConstraints = []
 
         // in both cases, numberOfSections does an SQL query and builds the sections array
-        if sense {
+        if sense != nil {
             numberOfSections = sense!.numberOfSections
             sections = sense!.sections
         }

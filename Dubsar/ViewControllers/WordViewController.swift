@@ -63,7 +63,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             selectedIndexPath = NSIndexPath(forRow:1, inSection:0)
 
         case .UpdateRowAtIndexPath: // we get here as a result of calling synchSelectedRow()
-            assert(theWord)
+            assert(theWord != nil)
 
             assert(router.indexPath == selectedIndexPath)
 
@@ -71,7 +71,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             let row = selectedIndexPath.indexAtPosition(1)
             let wordSense = theWord!.senses[row-1] as? DubsarModelsSense
 
-            assert(sense && wordSense && sense === wordSense)
+            assert(sense != nil && wordSense != nil && sense === wordSense)
 
             // DMLOG("Received response for sense %d (%@). Updating row %d", sense!._id, sense!.gloss, row)
 
@@ -109,13 +109,13 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return theWord && theWord!.complete ? theWord!.senses.count + 1 : 1
+        return theWord != nil && theWord!.complete ? theWord!.senses.count + 1 : 1
     }
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        if !theWord || !theWord!.complete {
+        if theWord == nil || !theWord!.complete {
             var cell = tableView.dequeueReusableCellWithIdentifier(LoadingTableViewCell.identifier) as? LoadingTableViewCell
-            if !cell {
+            if cell == nil {
                 cell = LoadingTableViewCell()
             }
             return cell
@@ -126,7 +126,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             // Word cell as the header
             let identifier = "word-without-accessory"
             var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? WordTableViewCell
-            if !cell {
+            if cell == nil {
                 cell = WordTableViewCell(word: theWord, preview: false, reuseIdentifier: identifier)
             }
             cell!.frame = tableView.bounds
@@ -147,7 +147,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         if selectedRow == row {
             let identifier = OpenSenseTableViewCell.openIdentifier
             var openCell = tableView.dequeueReusableCellWithIdentifier(identifier) as? OpenSenseTableViewCell
-            if !openCell {
+            if openCell == nil {
                 openCell = OpenSenseTableViewCell(sense: sense, frame: frame, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
             }
             else {
@@ -159,7 +159,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
         else {
             cell = tableView.dequeueReusableCellWithIdentifier(SenseTableViewCell.identifier) as? SenseTableViewCell
-            if !cell {
+            if cell == nil {
                 cell = SenseTableViewCell(sense: sense, frame: frame)
             }
             DMTRACE("Cell for row \(row) is closed")
@@ -177,7 +177,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        if !theWord || !theWord!.complete {
+        if theWord == nil || !theWord!.complete {
             return 44
         }
 
@@ -198,7 +198,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView!, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        if !theWord || !theWord!.complete {
+        if theWord == nil || !theWord!.complete {
             return 44
         }
 
@@ -256,7 +256,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
-        if !theWord || !theWord!.complete {
+        if theWord == nil || !theWord!.complete {
             return
         }
 
@@ -269,8 +269,8 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         assert(row <= theWord!.senses.count)
 
         let sense = theWord!.senses[row-1] as? DubsarModelsSense
-        assert(sense)
-        assert(sense!.synset)
+        assert(sense != nil)
+        assert(sense!.synset != nil)
         pushViewControllerWithIdentifier(SynsetViewController.identifier, model: sense, routerAction: .UpdateViewWithDependency)
     }
 
@@ -280,7 +280,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
     func synchSelectedRow() {
         let row = selectedIndexPath.indexAtPosition(1)
-        if row < 1 || !theWord {
+        if row < 1 || theWord == nil {
             return
         }
 
@@ -303,7 +303,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     override func adjustLayout() {
-        if !loaded || !view {
+        if !loaded || view == nil {
             return
         }
 
@@ -326,10 +326,10 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
 
         super.setupToolbar()
 
-        if theWord {
+        if theWord != nil {
             var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
             favoriteButton = FavoriteBarButtonItem(target:self, action:"favoriteTapped:")
-            favoriteButton.selected = theWord && AppDelegate.instance.bookmarkManager.isUrlBookmarked(url)
+            favoriteButton.selected = theWord != nil && AppDelegate.instance.bookmarkManager.isUrlBookmarked(url)
 
             // need to break up super.setToolbar, so that I can make the buttons in the right order.
             if items.count == 1 {

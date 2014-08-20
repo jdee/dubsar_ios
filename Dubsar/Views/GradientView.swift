@@ -34,6 +34,14 @@ class GradientView: UIView {
         super.init(frame: frame)
     }
 
+    required init(coder aDecoder: NSCoder) {
+        firstColor = UIColor.clearColor()
+        secondColor = UIColor.clearColor()
+        startPoint = CGPointZero
+        endPoint = CGPointZero
+        super.init(coder: aDecoder)
+    }
+
     override func drawRect(rect: CGRect)
     {
         CGHelper.paintGradientFirstColor(firstColor, secondColor: secondColor, bounds: rect, startPoint: startPoint, endPoint: endPoint)

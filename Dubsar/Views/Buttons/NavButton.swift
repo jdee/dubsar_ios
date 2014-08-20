@@ -26,13 +26,17 @@ class NavButton: UIButton {
     }
     }
 
-    init() {
+    override init() {
         super.init(frame: CGRectZero)
     }
 
-    init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         refreshImages()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
     func refreshImages() {

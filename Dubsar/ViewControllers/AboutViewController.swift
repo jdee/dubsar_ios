@@ -56,7 +56,7 @@ class AboutViewController: BaseViewController {
         scroller.addSubview(bannerLabel)
 
         versionLabel = UILabel(frame: CGRectZero)
-        versionLabel.text = "Version \(NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)))"
+        versionLabel.text = "Version \(NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey))!)"
         versionLabel.textAlignment = .Center
         versionLabel.autoresizingMask = .FlexibleWidth
         scroller.addSubview(versionLabel)
@@ -255,7 +255,7 @@ class AboutViewController: BaseViewController {
         newLabel.textColor = AppConfiguration.foregroundColor
         newLabel.autoresizingMask = .FlexibleWidth | .FlexibleHeight
 
-        paragraphLabels += newLabel
+        paragraphLabels.append(newLabel)
         scroller.addSubview(newLabel)
     }
 }

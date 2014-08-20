@@ -29,7 +29,7 @@ class SettingSwitchValueTableViewCell: UITableViewCell {
         }
     }
 
-    init() {
+    override init() {
         valueSwitch = UISwitch()
         super.init(style: .Default, reuseIdentifier: SettingSwitchValueTableViewCell.identifier)
         selectionStyle = .None
@@ -37,6 +37,11 @@ class SettingSwitchValueTableViewCell: UITableViewCell {
         contentView.addSubview(valueSwitch)
 
         rebuild()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        valueSwitch = UISwitch()
+        super.init(coder: aDecoder)
     }
 
     func rebuild() {

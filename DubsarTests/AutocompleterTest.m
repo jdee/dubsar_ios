@@ -27,7 +27,7 @@
 {
     NSString* stringData = @"[ \"li\", [ \"like\", \"link\", \"lion\" ] ]";
     
-    DubsarModelsAutocompleter* autocompleter = [DubsarModelsAutocompleter autocompleterWithTerm:@"li" matchCase:NO];
+    DubsarModelsAutocompleter* autocompleter = [DubsarModelsAutocompleter autocompleterWithTerm:@"li" matchCase:NO scope:DubsarModelsSearchScopeWords];
     autocompleter.data = [self.class dataWithString:stringData];
     [autocompleter parseData];
     

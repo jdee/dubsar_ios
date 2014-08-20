@@ -169,7 +169,7 @@ struct AppConfiguration {
 
         // DMLOG("font setting is %@", name!)
 
-        if !name {
+        if name == nil {
             name = "Arial"
         }
 

@@ -27,10 +27,14 @@ class SettingLabelTableViewCell: UITableViewCell {
         }
     }
 
-    init() {
+    override init() {
         super.init(style: .Value1, reuseIdentifier: SettingLabelTableViewCell.identifier)
         selectionStyle = .None
         accessoryType = .None
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
 }

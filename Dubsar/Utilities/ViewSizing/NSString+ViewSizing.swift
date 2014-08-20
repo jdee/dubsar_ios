@@ -22,7 +22,7 @@ import UIKit
 extension NSString {
 
     func sizeOfTextWithConstrainedSize(constrainedSize: CGSize, font: UIFont?) -> CGSize {
-        if !font {
+        if nil == font {
             return CGSizeZero
         }
 

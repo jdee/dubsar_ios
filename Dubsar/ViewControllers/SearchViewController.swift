@@ -58,13 +58,13 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func updateTitle() {
-        if !search || !search!.complete {
+        if search == nil || !search!.complete {
             searchLabel.text = "searching..."
             return
         }
 
         let scopeName = DubsarModelsSearchScope.Words == search!.scope ? "word" : "synset"
-        var title = "\(scopeName) results for \"\(search!.title ? search!.title : search!.term)\""
+        var title = "\(scopeName) results for \"\(search!.title != nil ? search!.title : search!.term)\""
         if search!.totalPages > 1 {
             title = "\(title) p. \(search!.currentPage)/\(search!.totalPages)"
         }
@@ -80,13 +80,13 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section:Int) -> Int {
-        return search && search!.complete && search!.results.count > 0 ? search!.results.count : 1
+        return search != nil && search!.complete && search!.results.count > 0 ? search!.results.count : 1
     }
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath:NSIndexPath!) -> UITableViewCell! {
-        if !search || !search!.complete {
+        if search == nil || !search!.complete {
             var cell = tableView.dequeueReusableCellWithIdentifier(LoadingTableViewCell.identifier) as? LoadingTableViewCell
-            if !cell {
+            if cell == nil {
                 cell = LoadingTableViewCell()
             }
             cell!.spinner.activityIndicatorViewStyle = AppConfiguration.activityIndicatorViewStyle
@@ -97,7 +97,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         if search!.results.count == 0 {
             let identifier = "no-results"
             var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? UITableViewCell
-            if !cell {
+            if cell == nil {
                 cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
                 cell!.selectionStyle = .None
                 cell!.textLabel.text = "search found no matches"
@@ -118,7 +118,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
             if selectedRow == row {
                 var openCell = tableView.dequeueReusableCellWithIdentifier(OpenWordTableViewCell.openIdentifier) as? OpenWordTableViewCell
-                if !openCell {
+                if openCell == nil {
                     openCell = OpenWordTableViewCell(word: word, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
                 }
                 openCell!.cellBackgroundColor = AppConfiguration.highlightColor
@@ -127,7 +127,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             }
             else {
                 wordCell = tableView.dequeueReusableCellWithIdentifier(WordTableViewCell.identifier) as? WordTableViewCell
-                if !wordCell {
+                if wordCell == nil {
                     wordCell = WordTableViewCell(word: word, preview: true)
                 }
                 wordCell!.selectionStyle = .Blue // but gray for some reason
@@ -147,7 +147,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
             if selectedRow == row {
                 var openCell = tableView.dequeueReusableCellWithIdentifier(OpenSynsetTableViewCell.openSynsetIdentifier) as? OpenSynsetTableViewCell
-                if !openCell {
+                if openCell == nil {
                     openCell = OpenSynsetTableViewCell(synset: synset, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
                 }
                 else {
@@ -160,7 +160,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             }
             else {
                 synsetCell = tableView.dequeueReusableCellWithIdentifier(SynsetTableViewCell.synsetIdentifier) as? SynsetTableViewCell
-                if !synsetCell {
+                if synsetCell == nil {
                     synsetCell = SynsetTableViewCell(synset: synset, frame: tableView.bounds)
                 }
                 else {
@@ -202,7 +202,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
-        if !search || !search!.complete || search!.results.count == 0 {
+        if search == nil || !search!.complete || search!.results.count == 0 {
             return
         }
 
@@ -219,7 +219,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        if !search || !search!.complete || search!.results.count == 0 {
+        if search == nil || !search!.complete || search!.results.count == 0 {
             return 44
         }
 
@@ -241,7 +241,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView!, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        if !search || !search!.complete || search!.results.count == 0 {
+        if search == nil || !search!.complete || search!.results.count == 0 {
             return 44
         }
 
@@ -264,7 +264,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
     func synchSelectedRow() {
         let row = selectedIndexPath.indexAtPosition(1)
-        if row < 0 || !search {
+        if row < 0 || search == nil {
             // DMLOG("Can't synch row %d", row)
             return
         }
@@ -309,9 +309,9 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
             if let word = router.model as? DubsarModelsWord {
                 let resultWord = search!.results[row] as? DubsarModelsWord
-                assert(resultWord && word === resultWord)
+                assert(resultWord != nil && word === resultWord)
 
-                assert(search && search!.complete && search!.results.count > 0)
+                assert(search != nil && search!.complete && search!.results.count > 0)
 
                 let firstSense = word.senses.firstObject as DubsarModelsSense
                 if !firstSense.complete {
@@ -348,7 +348,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         pageControl.pageIndicatorTintColor = AppConfiguration.alternateHighlightColor
         pageControl.currentPageIndicatorTintColor = AppConfiguration.foregroundColor
-        pageControl.hidden = !search || search!.totalPages <= 1
+        pageControl.hidden = search == nil || search!.totalPages <= 1
 
         resultTableView.reloadData()
         view.backgroundColor = AppConfiguration.alternateBackgroundColor

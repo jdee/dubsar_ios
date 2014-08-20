@@ -37,13 +37,17 @@ class AutocompleterView: UIView {
 
     weak var viewController : MainViewController?
 
-    init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         autoresizingMask = .FlexibleHeight | .FlexibleWidth | .FlexibleBottomMargin
 
         self.layer.shadowOffset = CGSizeMake(0, 3)
         self.layer.shadowOpacity = 1.0
         self.clipsToBounds = false
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
     override func layoutSubviews() {
@@ -56,13 +60,13 @@ class AutocompleterView: UIView {
 
         let optionalAC: DubsarModelsAutocompleter? = autocompleter
         var optionalResults: NSArray?
-        if optionalAC {
+        if optionalAC != nil {
             optionalResults = autocompleter.results
 
             let margin = AutocompleterView.margin
             var y : CGFloat = margin
 
-            if optionalResults {
+            if optionalResults != nil {
                 DMTRACE("Laying out AutocompleterView with \(autocompleter.results.count) results")
                 let results = autocompleter.results as [AnyObject]
 
@@ -91,7 +95,7 @@ class AutocompleterView: UIView {
                     button.titleLabel.font = font
                     button.addTarget(self, action: "resultSelected:", forControlEvents: .TouchUpInside)
                     addSubview(button)
-                    buttons += button
+                    buttons.append(button)
 
                     y += textSize.height + 3*margin
                 }

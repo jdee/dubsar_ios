@@ -29,7 +29,7 @@ class LoadingTableViewCell: UITableViewCell {
         }
     }
 
-    init() {
+    override init() {
         spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
         super.init(style: .Default, reuseIdentifier: LoadingTableViewCell.identifier)
 
@@ -41,4 +41,8 @@ class LoadingTableViewCell: UITableViewCell {
         spinner.startAnimating()
     }
 
+    required init(coder aDecoder: NSCoder) {
+        spinner = UIActivityIndicatorView()
+        super.init(coder: aDecoder)
+    }
 }

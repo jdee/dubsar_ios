@@ -71,6 +71,10 @@ class SenseTableViewCell: UITableViewCell {
         clipsToBounds = true
     }
 
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
     func rebuild() {
         let margin = SenseTableViewCell.margin
 
@@ -80,11 +84,11 @@ class SenseTableViewCell: UITableViewCell {
 
         let accessoryWidth = SenseTableViewCell.accessoryWidth
         let constrainedSize = CGSizeMake(frame.size.width - 2 * margin - accessoryWidth, frame.size.height)
-        let glossSize = synset ? synset!.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont) : sense.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
-        let synonymSize = synset ? synset!.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font) : sense.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
+        let glossSize = synset != nil ? synset!.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont) : sense.glossSizeWithConstrainedSize(constrainedSize, font: bodyFont)
+        let synonymSize = synset != nil ? synset!.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font) : sense.synonymSizeWithConstrainedSize(constrainedSize, font: caption1Font)
 
         DMTRACE("Initial sense cell bounds height: \(bounds.size.height)")
-        bounds.size.height = synset ? synset!.sizeOfCellWithConstrainedSize(frame.size, open:false).height : sense.sizeOfCellWithConstrainedSize(frame.size, open:false).height
+        bounds.size.height = synset != nil ? synset!.sizeOfCellWithConstrainedSize(frame.size, open:false).height : sense.sizeOfCellWithConstrainedSize(frame.size, open:false).height
         DMTRACE("Recomputed to \(bounds.size.height)")
 
         view?.removeFromSuperview()
@@ -95,7 +99,7 @@ class SenseTableViewCell: UITableViewCell {
         view!.setTranslatesAutoresizingMaskIntoConstraints(false)
         view!.backgroundColor = cellBackgroundColor
 
-        contentView.addSubview(view)
+        contentView.addSubview(view!)
         contentView.setTranslatesAutoresizingMaskIntoConstraints(false)
         contentView.removeConstraints(contentView.constraints())
         contentView.layer.borderColor = UIColor.whiteColor().CGColor
@@ -122,12 +126,12 @@ class SenseTableViewCell: UITableViewCell {
         contentView.addConstraint(constraint)
         // */
 
-        var lexnameText = synset ? "<\(synset!.lexname)>" : "<\(sense.lexname)>"
-        if !synset && !sense.marker.isEmpty {
+        var lexnameText = synset != nil ? "<\(synset!.lexname)>" : "<\(sense.lexname)>"
+        if synset == nil && !sense.marker.isEmpty {
             lexnameText = "\(lexnameText) (\(sense.marker))"
         }
 
-        if !synset && sense.freqCnt > 0 {
+        if synset == nil && sense.freqCnt > 0 {
             lexnameText = "\(lexnameText) freq. cnt.: \(sense.freqCnt)"
         }
 
@@ -151,7 +155,7 @@ class SenseTableViewCell: UITableViewCell {
         constraint = NSLayoutConstraint(item:lexnameLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: NSLayoutAttribute.Height, multiplier: 0.0, constant: SenseTableViewCell.labelLineHeight)
         lexnameLabel.addConstraint(constraint)
 
-        let gloss = synset ? synset!.gloss : sense.gloss
+        let gloss = synset != nil ? synset!.gloss : sense.gloss
 
         let textLabel = UILabel(frame: CGRectMake(margin, 2*margin + SenseTableViewCell.labelLineHeight, constrainedSize.width, glossSize.height))
         textLabel.font = bodyFont
@@ -175,7 +179,7 @@ class SenseTableViewCell: UITableViewCell {
 
         DMTRACE("Gloss frame for \(gloss) is (\(textLabel.frame.origin.x), \(textLabel.frame.origin.y)) \(textLabel.frame.size.width) x \(textLabel.frame.size.height).")
 
-        let synonyms = synset ? synset!.synonymsAsString : sense.synonymsAsString
+        let synonyms = synset != nil ? synset!.synonymsAsString : sense.synonymsAsString
         if !synonyms.isEmpty {
             let synonymLabel = UILabel(frame: CGRectMake(margin, 3*margin + SenseTableViewCell.labelLineHeight + glossSize.height, constrainedSize.width, synonymSize.height))
             synonymLabel.text = synonyms

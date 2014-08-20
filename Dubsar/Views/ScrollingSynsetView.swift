@@ -25,7 +25,7 @@ class ScrollingSynsetView: UIScrollView {
     let synset : DubsarModelsSynset
     var sense : DubsarModelsSense? {
     didSet {
-        if !sense && synset.senses.count == 1 {
+        if sense == nil && synset.senses.count == 1 {
             let firstSense = synset.senses.firstObject as DubsarModelsSense
             headerView.sense = firstSense
             sampleView.sense = firstSense
@@ -117,6 +117,14 @@ class ScrollingSynsetView: UIScrollView {
         // */
     }
 
+    required init(coder aDecoder: NSCoder) {
+        synset = DubsarModelsSynset()
+        headerView = SynsetHeaderView(synset: synset, frame: CGRectZero)
+        sampleView = SynsetSampleView(synset: synset, frame: CGRectZero, preview: true)
+        pointerView = SynsetPointerView(synset: synset, frame: CGRectZero)
+        super.init(coder: aDecoder)
+    }
+
     override func layoutSubviews() {
         backgroundColor = AppConfiguration.backgroundColor
 
@@ -128,7 +136,7 @@ class ScrollingSynsetView: UIScrollView {
                 hasReset = false
 
                 let firstSense = synset.senses.firstObject as DubsarModelsSense
-                hasPointers = (sense && sense!.complete && sense!.numberOfSections > 0) || (!sense && firstSense.complete && firstSense.numberOfSections > 0) || synset.numberOfSections > 0
+                hasPointers = (sense != nil && sense!.complete && sense!.numberOfSections > 0) || (sense == nil && firstSense.complete && firstSense.numberOfSections > 0) || synset.numberOfSections > 0
 
                 // these automatically adjust their heights in layoutSubviews()
                 headerView.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height)

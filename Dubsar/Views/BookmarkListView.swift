@@ -31,7 +31,7 @@ class BookmarkListView: UIScrollView {
     let label: UILabel
     var bookmarkViews = [BookmarkView]()
 
-    init(frame: CGRect) {
+    override init(frame: CGRect) {
         let margin = BookmarkListView.margin
 
         backgroundView = UIView(frame: CGRectMake(0, 0, frame.size.width, frame.size.height))
@@ -54,6 +54,12 @@ class BookmarkListView: UIScrollView {
 
         addSubview(backgroundView)
         backgroundView.addSubview(label)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        backgroundView = UIView()
+        label = UILabel()
+        super.init(coder: aDecoder)
     }
 
     override func layoutSubviews() {

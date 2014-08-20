@@ -28,7 +28,7 @@
 {
     NSString* stringData = @"[\"food\",[[26063,\"food\",\"n\",29,\"foods\"]],1]";
 
-    DubsarModelsSearch* search = [DubsarModelsSearch searchWithTerm:@"food" matchCase:NO];
+    DubsarModelsSearch* search = [DubsarModelsSearch searchWithTerm:@"food" matchCase:NO scope:DubsarModelsSearchScopeWords];
     search.data = [self.class dataWithString:stringData];
     [search parseData];
 
@@ -49,7 +49,7 @@
 
 -(void)testExactInflectionMatch
 {
-    DubsarModelsSearch* search = [DubsarModelsSearch searchWithTerm:@"recommended" matchCase:NO];
+    DubsarModelsSearch* search = [DubsarModelsSearch searchWithTerm:@"recommended" matchCase:NO scope:DubsarModelsSearchScopeWords];
     [search loadResults:self.database];
     
     DMLOG(@"search for recommended returned %lu results", (unsigned long)search.results.count);

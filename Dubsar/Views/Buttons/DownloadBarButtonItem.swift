@@ -21,7 +21,7 @@ import UIKit
 
 class DownloadBarButtonItem: UIBarButtonItem {
 
-    init() {
+    override init() {
         super.init()
     }
 
@@ -40,5 +40,9 @@ class DownloadBarButtonItem: UIBarButtonItem {
         button.target = target
         button.action = action
         button.barButtonItem = self
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }

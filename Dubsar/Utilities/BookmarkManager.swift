@@ -98,7 +98,7 @@ class BookmarkManager: NSObject {
         NSUserDefaults.standardUserDefaults().synchronize()
         var string = NSUserDefaults.standardUserDefaults().valueForKey(bookmarksKey) as? NSString
 
-        if !string {
+        if string == nil {
             return
         }
 
@@ -107,7 +107,7 @@ class BookmarkManager: NSObject {
 
         string = NSUserDefaults.standardUserDefaults().valueForKey(labelsKey) as? NSString
 
-        if !string {
+        if string == nil {
             return
         }
 

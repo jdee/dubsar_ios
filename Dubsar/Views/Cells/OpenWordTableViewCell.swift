@@ -37,6 +37,11 @@ class OpenWordTableViewCell: WordTableViewCell {
         selectionStyle = .None
     }
 
+    required init(coder aDecoder: NSCoder) {
+        insertHeightLimit = 0
+        super.init(coder: aDecoder)
+    }
+
     override func rebuild() {
         super.rebuild()
 
@@ -45,7 +50,7 @@ class OpenWordTableViewCell: WordTableViewCell {
 
         DMTRACE("Word header height \(y) for open word cell")
 
-        assert(word)
+        assert(word != nil)
 
         if !word!.complete {
             let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
@@ -56,7 +61,7 @@ class OpenWordTableViewCell: WordTableViewCell {
             return
         }
 
-        assert(word!.senses)
+        assert(word!.senses != nil)
 
         let sense = word!.senses.firstObject as DubsarModelsSense
         let openSenseCell = OpenSenseTableViewCell(sense: sense, frame: CGRectMake(0, y, bounds.size.width, bounds.size.height-y), maxHeightOfAdditions: insertHeightLimit)

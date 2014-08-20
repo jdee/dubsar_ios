@@ -54,7 +54,7 @@ extension DubsarModelsWord {
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
 
         let optionalInflections: [AnyObject]? = inflections
-        if optionalInflections && inflections.count > 0 {
+        if optionalInflections != nil && inflections.count > 0 {
             let inflectionSize = inflectionSizeWithConstrainedSize(constraint, font: bodyFont)
             size.height += inflectionSize.height + WordTableViewCell.margin
         }
@@ -70,9 +70,9 @@ extension DubsarModelsWord {
                 return size
             }
 
-            assert(senses)
+            assert(senses != nil)
             let sense = senses.firstObject as? DubsarModelsSense
-            assert(sense)
+            assert(sense != nil)
             let openSenseCellSize = sense!.sizeOfCellWithConstrainedSize(constrainedSize, open: true, maxHeightOfAdditions: maxHeightOfAdditions)
             DMTRACE("height without open sense cell: \(size.height); with open sense cell: \(size.height + openSenseCellSize.height)")
             size.height += openSenseCellSize.height
@@ -106,9 +106,9 @@ extension DubsarModelsWord {
             return headerLines * lineHeight + 44
         }
 
-        assert(senses)
+        assert(senses != nil)
         let sense = senses.firstObject as? DubsarModelsSense
-        assert(sense)
+        assert(sense != nil)
         let openSenseCellHeight = sense!.estimatedHeightOfCell(constrainedSize, open: true, maxHeightOfAdditions: maxHeightOfAdditions)
         return headerLines * lineHeight + openSenseCellHeight
     }

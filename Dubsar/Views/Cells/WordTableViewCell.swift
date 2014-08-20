@@ -56,8 +56,13 @@ class WordTableViewCell: UITableViewCell {
         selectionStyle = .None
     }
 
+    required init(coder aDecoder: NSCoder) {
+        isPreview = true
+        super.init(coder: aDecoder)
+    }
+
     func rebuild() {
-        if !word {
+        if word == nil {
             return
         }
 
@@ -103,7 +108,7 @@ class WordTableViewCell: UITableViewCell {
         // view!.layer.borderWidth = 1
 
         contentView.frame = bounds
-        contentView.addSubview(view)
+        contentView.addSubview(view!)
         contentView.setTranslatesAutoresizingMaskIntoConstraints(false)
         contentView.removeConstraints(contentView.constraints())
 
@@ -157,7 +162,7 @@ class WordTableViewCell: UITableViewCell {
             inflectionLabel!.layer.borderColor = UIColor.yellowColor().CGColor
             // inflectionLabel.layer.borderWidth = 1
             inflectionLabel!.setTranslatesAutoresizingMaskIntoConstraints(false)
-            view!.addSubview(inflectionLabel)
+            view!.addSubview(inflectionLabel!)
 
             constraint = NSLayoutConstraint(item: inflectionLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - (isPreview ? accessorySize : 0))
             view!.addConstraint(constraint)
@@ -188,7 +193,7 @@ class WordTableViewCell: UITableViewCell {
             view!.addConstraint(constraint)
             constraint = NSLayoutConstraint(item: freqCntLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: margin)
             view!.addConstraint(constraint)
-            constraint = NSLayoutConstraint(item: freqCntLabel, attribute: .Top, relatedBy: .Equal, toItem: inflectionLabel ? inflectionLabel : nameAndPosLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+            constraint = NSLayoutConstraint(item: freqCntLabel, attribute: .Top, relatedBy: .Equal, toItem: inflectionLabel != nil ? inflectionLabel : nameAndPosLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
             view!.addConstraint(constraint)
         }
         /*

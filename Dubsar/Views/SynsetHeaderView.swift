@@ -90,7 +90,7 @@ class SynonymButtonPair {
                 return
             }
 
-            if !v.sense || v.sense!._id != sense._id {
+            if v.sense == nil || v.sense!._id != sense._id {
                 v.sense = sense
             }
             else {
@@ -144,9 +144,18 @@ class SynsetHeaderView: UIView {
         build()
     }
 
+    required init(coder aDecoder: NSCoder) {
+        synset = DubsarModelsSynset()
+        glossLabel = UILabel()
+        lexnameLabel = UILabel()
+        extraTextLabel = UILabel()
+        synonymView = UIView()
+        super.init(coder: aDecoder)
+    }
+
     override func layoutSubviews() {
         DMTRACE("Entered SynsetHeaderView.layoutSubviews(). Size: \(bounds.size.width) x \(bounds.size.height)")
-        assert(bounds.size.width == superview.bounds.size.width)
+        assert(bounds.size.width == superview!.bounds.size.width)
         // assert(bounds.size.width == UIScreen.mainScreen().bounds.size.width)
 
         if synset.complete {
@@ -181,7 +190,7 @@ class SynsetHeaderView: UIView {
             lexnameLabel.invalidateIntrinsicContentSize()
 
             var extraText = "" as NSString
-            if sense && !sense!.marker.isEmpty {
+            if sense != nil && !sense!.marker.isEmpty {
                 extraText = "\(extraText) (\(sense!.marker))"
             }
             else if synset.senses.count == 1 {
@@ -191,10 +200,10 @@ class SynsetHeaderView: UIView {
                 }
             }
 
-            if sense && sense!.freqCnt > 0 {
+            if sense != nil && sense!.freqCnt > 0 {
                 extraText = "\(extraText) freq. cnt. \(sense!.freqCnt)"
             }
-            else if !sense && synset.freqCnt > 0 {
+            else if sense == nil && synset.freqCnt > 0 {
                 extraText = "\(extraText) freq. cnt. \(synset.freqCnt)"
             }
 
@@ -206,7 +215,7 @@ class SynsetHeaderView: UIView {
             extraTextLabel.textColor = AppConfiguration.foregroundColor
             extraTextLabel.invalidateIntrinsicContentSize()
 
-            if sense || synset.senses.count == 1 {
+            if sense != nil || synset.senses.count == 1 {
                 extraTextLabel.backgroundColor = AppConfiguration.highlightColor
             }
             else {
@@ -305,11 +314,11 @@ class SynsetHeaderView: UIView {
         for object: AnyObject in synset.senses as NSArray {
             if let synonym = object as? DubsarModelsSense {
                 let buttonPair = SynonymButtonPair(sense: synonym, view: self)
-                if (sense && sense!._id == synonym._id) || synset.senses.count == 1 { // set it to disabled when synset.senses.count == 1?
+                if (sense != nil && sense!._id == synonym._id) || synset.senses.count == 1 { // set it to disabled when synset.senses.count == 1?
                     buttonPair.selectionButton.selected = true
                     buttonPair.selectionButton.backgroundColor = AppConfiguration.highlightColor
                 }
-                synonymButtons += buttonPair
+                synonymButtons.append(buttonPair)
 
                 assert(height <= 0 || height == buttonPair.navigationButton.frame.size.height) // assume they're all the same height with the same font
                 height = buttonPair.height // the two buttons are the same height

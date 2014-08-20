@@ -175,7 +175,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
                     // generate a local notification
                     var localNotif = UILocalNotification()
-                    if my.databaseManager.errorMessage {
+                    if my.databaseManager.errorMessage != nil {
                         // failure
                         localNotif.alertBody = "Download failed: \(my.databaseManager.errorMessage)"
                     }
@@ -214,7 +214,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func application(application: UIApplication, didReceiveRemoteNotification notification: NSDictionary?) {
-        if !notification {
+        if notification == nil {
             return
         }
 
@@ -223,8 +223,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         DubsarModelsDailyWord.updateWotdWithNotificationPayload(notification)
 
         let url = dubsarPayload?.objectForKey("url") as? NSString
-        if url {
-            alertURL = NSURL(string:url)
+        if url != nil {
+            alertURL = NSURL(string:url!)
         }
         else {
             alertURL = nil
@@ -258,13 +258,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         let path = url.path
         var word : DubsarModelsWord!
         var title : String?
-        if path.hasPrefix("/wotd/") {
+        if path!.hasPrefix("/wotd/") {
             let last = url.lastPathComponent as NSString
             let wotdId = UInt(last.intValue)
             word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
             title = "Word of the Day"
         }
-        else if path.hasPrefix("/words/") {
+        else if path!.hasPrefix("/words/") {
             let last = url.lastPathComponent as NSString
             let wotdId = UInt(last.intValue)
             word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
@@ -278,7 +278,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
             if let my = self {
                 let viewController : BaseViewController! = top.instantiateViewControllerWithIdentifier(WordViewController.identifier, router: nil)
-                if title {
+                if title != nil {
                     viewController.title = title
                 }
                 viewController.router = Router(viewController: viewController, model: word)
@@ -321,7 +321,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
              * 5. Reject the new download. This just resets the DB manager's state so that it recognizes the installed DB again. No change to the Offline setting. Nothing deleted.
              * 6. Change the switch (no DB is present)
              */
-            if !alertURL && !databaseManager.downloadInProgress && (!updatePending || !databaseManager.oldFileExists) {
+            if alertURL == nil && !databaseManager.downloadInProgress && (!updatePending || !databaseManager.oldFileExists) {
                 AppConfiguration.offlineSetting = !AppConfiguration.offlineSetting
             }
             else if updatePending && databaseManager.oldFileExists {
@@ -335,7 +335,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             return
         }
 
-        if alertURL {
+        if alertURL != nil {
             openURL(alertURL)
             alertURL = nil
             return
@@ -516,13 +516,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func showAlert(message: String?) {
-        assert(message)
+        assert(message != nil)
         // https://devforums.apple.com/message/973043#973043
         let alert = UIAlertView()
         alert.title = "Dubsar Alert"
         alert.message = message
         alert.addButtonWithTitle("OK")
-        if alertURL {
+        if alertURL != nil {
             alert.addButtonWithTitle("More")
         }
         alert.cancelButtonIndex = 0
@@ -531,7 +531,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func openURL(url: NSURL?) {
-        if !url {
+        if url == nil {
             return
         }
 

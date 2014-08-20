@@ -29,7 +29,7 @@ class SettingNavigationTableViewCell: UITableViewCell {
 
     private var spinner: UIActivityIndicatorView
 
-    init(style cellType: UITableViewCellStyle = .Default, reuseIdentifier ident: String = SettingNavigationTableViewCell.identifier) {
+    override init(style cellType: UITableViewCellStyle = .Default, reuseIdentifier ident: String = SettingNavigationTableViewCell.identifier) {
         spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
         super.init(style: cellType, reuseIdentifier: ident)
         accessoryType = .DisclosureIndicator
@@ -38,6 +38,11 @@ class SettingNavigationTableViewCell: UITableViewCell {
         spinner.frame = CGRectMake(2, 2, 40, 40)
         spinner.autoresizingMask = .FlexibleRightMargin
         contentView.addSubview(spinner)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        spinner = UIActivityIndicatorView()
+        super.init(coder: aDecoder)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

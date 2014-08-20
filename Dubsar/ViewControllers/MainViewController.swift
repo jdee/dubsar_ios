@@ -107,12 +107,12 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         super.willRotateToInterfaceOrientation(toInterfaceOrientation, duration: duration)
-        if alphabetView {
+        if alphabetView != nil {
             alphabetView.hidden = true
         }
         rotated = true
 
-        if alphabetView {
+        if alphabetView != nil {
             // DEBT: Move this stuff into the AlphabetView
             alphabetView.hidden = false
 
@@ -328,7 +328,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func load() {
-        if router && router!.model.loading {
+        if router != nil && router!.model.loading {
             return
         }
 
@@ -483,7 +483,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     func adjustAlphabetView(orientation: UIInterfaceOrientation) {
         // DMLOG("adjusting alphabet view")
         var alphabetFrame = CGRectZero
-        if !alphabetView {
+        if alphabetView == nil {
             alphabetView = AlphabetView(frame: alphabetFrame)
             alphabetView.viewController = self
             view.addSubview(alphabetView)

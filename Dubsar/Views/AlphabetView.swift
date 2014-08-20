@@ -67,8 +67,12 @@ class AlphabetView: UIView {
     var buttons: [GlobButton] = []
     weak var viewController: MainViewController?
 
-    init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
     override func layoutSubviews() {
@@ -116,7 +120,7 @@ class AlphabetView: UIView {
             button.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
             button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
 
-            buttons += button
+            buttons.append(button)
             addSubview(button)
         }
 

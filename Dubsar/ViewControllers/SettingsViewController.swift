@@ -17,9 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-operator infix ||= {}
+infix operator ||= {}
 
-@infix @assignment func ||=(inout left: Bool, right: Bool) -> Bool {
+func ||=(inout left: Bool, right: Bool) -> Bool {
     left = left || right
     return left
 }
@@ -41,24 +41,24 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     private var unzipping = false
     private var downloadViewShowing = false
 
-    let defaultSections: [[[String: AnyObject]]] = [
+    let defaultSections: [[[String: String]]] = [
         [ [ "title" : "About", "view" : "About", "setting_type" : "nav" ],
             [ "title" : "FAQ", "view" : "FAQ", "setting_type" : "nav" ] ],
 
-        [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)), "setting_type" : "label" ],
+        [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)) as String, "setting_type" : "label" ],
             [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "setting_type" : "navValue" ],
             [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue", "setting_action" : "offlineSwitchChanged:" ],
             [ "title" : "Autoupdate", "value" : AppConfiguration.autoUpdateKey, "setting_type" : "switch_value", "setting_action" : "autoUpdateChanged:" ],
             [ "title" : "Autocorrection", "value" : AppConfiguration.autoCorrectKey, "setting_type" : "switch_value", "setting_action" : "autoCorrectChanged:" ]]
         ]
 
-    let devSections: [[[String: AnyObject]]] = [
+    let devSections: [[[String: String]]] = [
 
         // dev settings (not in settings bundle)
         [ [ "title" : "Production", "value" : AppConfiguration.productionKey, "setting_type" : "switchValue", "setting_action" : "productionSwitchChanged:" ] ]
     ]
 
-    var sections: [[[String: AnyObject]]] {
+    var sections: [[[String: String]]] {
     get {
         #if DEBUG
             return defaultSections + devSections
@@ -99,7 +99,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
 
-        let settings = sections[section] as [[String: AnyObject]]
+        let settings = sections[section] as [[String: String]]
         let setting = settings[row] as [String: String]
         let view = setting["view"]
         let value = setting["value"]
@@ -109,7 +109,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         var cell: UITableViewCell?
         if type == "navValue" {
             cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationValueTableViewCell.identifier) as? UITableViewCell
-            if !cell {
+            if cell == nil {
                 cell = SettingNavigationValueTableViewCell()
             }
 
@@ -119,13 +119,13 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         }
         else if type == "nav" {
             cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationTableViewCell.identifier) as? UITableViewCell
-            if !cell {
+            if cell == nil {
                 cell = SettingNavigationTableViewCell(style: .Default, reuseIdentifier: SettingNavigationTableViewCell.identifier)
             }
         }
         else if type == "label" {
             cell = tableView.dequeueReusableCellWithIdentifier(SettingLabelTableViewCell.identifier) as? UITableViewCell
-            if !cell {
+            if cell == nil {
                 cell = SettingLabelTableViewCell()
             }
             cell!.detailTextLabel.text = value
@@ -134,7 +134,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             downloadViewShowing ||= AppDelegate.instance.databaseManager.errorMessage != nil
             if !downloadViewShowing || AppConfiguration.offlineKey != value {
                 var switchCell = tableView.dequeueReusableCellWithIdentifier(SettingSwitchValueTableViewCell.identifier) as? SettingSwitchValueTableViewCell
-                if !switchCell {
+                if switchCell == nil {
                     switchCell = SettingSwitchValueTableViewCell()
                 }
 
@@ -154,7 +154,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             }
             else {
                 downloadCell = tableView.dequeueReusableCellWithIdentifier(DownloadProgressTableViewCell.identifier) as? DownloadProgressTableViewCell
-                if !downloadCell {
+                if downloadCell == nil {
                     downloadCell = DownloadProgressTableViewCell()
                 }
 
@@ -191,7 +191,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
 
-        let settings = sections[section] as [[String: AnyObject]]
+        let settings = sections[section] as [[String: String]]
         let setting = settings[row] as [String: String]
         let type = setting["setting_type"]
 
@@ -214,14 +214,14 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        let settings = sections[section] as [[String: AnyObject]]
+        let settings = sections[section] as [[String: String]]
         return settings.count
     }
 
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
-        let settings = sections[section] as [[String: AnyObject]]
+        let settings = sections[section] as [[String: String]]
         let setting = settings[row] as [String: String]
         let type = setting["setting_type"]
         let view = setting["view"]
@@ -257,7 +257,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
     @IBAction func closeDownloadProgress(sender: UIButton!) {
         let databaseManager = AppDelegate.instance.databaseManager
-        if databaseManager.errorMessage {
+        if databaseManager.errorMessage != nil {
             /*
              * The download progress view will continue showing indefinitely once the database manager encounters an error or is canceled.
              * A Retry button will be available. Once it is manually closed, we do two things:
@@ -297,7 +297,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     func updateProgressViews(downloadProgressView: UIProgressView, unzipProgressView: UIProgressView, downloadLabel: UILabel, unzipLabel: UILabel) {
         let databaseManager = AppDelegate.instance.databaseManager
 
-        if databaseManager.errorMessage {
+        if databaseManager.errorMessage != nil {
             if unzipping {
                 unzipLabel.text = "Unzip: \(databaseManager.errorMessage)"
             }
@@ -325,7 +325,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             downloadLabel.text = "Download: \(formatSize(databaseManager.downloadSize)) ÷ \(formatTime(databaseManager.elapsedDownloadTime)) = \(formatRate(averageRate))"
         }
 
-        if databaseManager.errorMessage {
+        if databaseManager.errorMessage != nil {
             return
         }
 
@@ -348,7 +348,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
     }
 
     func progressUpdated(databaseManager: DatabaseManager!) {
-        if !downloadCell {
+        if downloadCell == nil {
             return
         }
 

@@ -53,13 +53,13 @@ class BaseViewController: UIViewController {
     }
 
     func routeResponse(router: Router!) {
-        if router.model.errorMessage {
+        if router.model.errorMessage != nil {
             DMERROR("Error from request: \(router.model.errorMessage)")
         }
     }
 
     func load() {
-        if router && router!.model.complete {
+        if router != nil && router!.model.complete {
             // DMLOG("reloading view from complete model")
             routeResponse(router)
         }
@@ -74,7 +74,7 @@ class BaseViewController: UIViewController {
 
         view.backgroundColor = AppConfiguration.backgroundColor
 
-        if navigationController {
+        if navigationController != nil {
             navigationController.navigationBar.barStyle = AppConfiguration.barStyle
             navigationController.navigationBar.barTintColor = AppConfiguration.backgroundColor
             navigationController.navigationBar.tintColor = AppConfiguration.foregroundColor
@@ -139,14 +139,14 @@ class BaseViewController: UIViewController {
                         if vcIdentifier == WordViewController.identifier {
                             let sense = model as DubsarModelsSense
                             let word: DubsarModelsWord? = sense.word
-                            assert(word)
+                            assert(word != nil)
                             router = Router(viewController: vc, model: word)
                             router.dependency = sense
                         }
                         else if vcIdentifier == SynsetViewController.identifier {
                             let sense = model as DubsarModelsSense
                             let synset: DubsarModelsSynset? = sense.synset
-                            assert(synset)
+                            assert(synset != nil)
                             DMTRACE("Displaying synset view for synset \(synset!._id), sense \(sense._id)")
 
                             router = Router(viewController: vc, model: synset)
@@ -186,8 +186,8 @@ class BaseViewController: UIViewController {
                 var newItems = [UIBarButtonItem]()
                 for item in items {
                     let itemAsDownloadButton = item as? DownloadBarButtonItem
-                    if !itemAsDownloadButton {
-                        newItems += item
+                    if itemAsDownloadButton == nil {
+                        newItems.append(item)
                     }
                     else {
                         DMTRACE("Removing download bar button item")
@@ -202,23 +202,23 @@ class BaseViewController: UIViewController {
         let rightBarButtonItem: UIBarButtonItem? = navigationItem.rightBarButtonItem
 
         let myDownloadButton = DownloadBarButtonItem(target: self, action: "viewDownload:")
-        if rightBarButtonItem && !(navigationItem.rightBarButtonItem as? DownloadBarButtonItem) {
+        if rightBarButtonItem != nil && (navigationItem.rightBarButtonItem as? DownloadBarButtonItem) == nil {
             var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
-            items += myDownloadButton
+            items.append(myDownloadButton)
 
             navigationItem.rightBarButtonItems = items
             DMTRACE("Added a download bar button item")
         }
-        else if !rightBarButtonItem {
+        else if rightBarButtonItem == nil {
             navigationItem.rightBarButtonItem = myDownloadButton
             DMTRACE("Right bar button item is a download bar button item")
         }
 
         #if DEBUG
-            if navigationItem.rightBarButtonItem {
+            if navigationItem.rightBarButtonItem != nil {
                 // this could be the home button
                 let targetName = navigationItem.rightBarButtonItem.target === self ? "self" :
-                    (navigationItem.rightBarButtonItem.target as? UIBarButtonItem) ? "non-nil" : "nil"
+                    (navigationItem.rightBarButtonItem.target as? UIBarButtonItem) != nil ? "non-nil" : "nil"
                 DMTRACE("Action for right bar button item is \(navigationItem.rightBarButtonItem.action.description)")
                 DMTRACE("Target for right bar button item is \(targetName)")
 
@@ -235,12 +235,12 @@ class BaseViewController: UIViewController {
     func addHomeButton() {
         // this gets old
         let optionalNavController: UINavigationController? = navigationController
-        if !optionalNavController {
+        if optionalNavController == nil {
             return
         }
 
         let optionalViewControllers: [AnyObject]? = navigationController.viewControllers
-        if !optionalViewControllers {
+        if optionalViewControllers == nil {
             return
         }
 
@@ -249,7 +249,7 @@ class BaseViewController: UIViewController {
         }
 
         let optionalNavigationItem: UINavigationItem? = navigationItem
-        if !optionalNavigationItem {
+        if optionalNavigationItem == nil {
             return
         }
 

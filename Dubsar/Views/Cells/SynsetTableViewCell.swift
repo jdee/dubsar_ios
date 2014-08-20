@@ -34,4 +34,8 @@ class SynsetTableViewCell: SenseTableViewCell {
         self.synset = synset
     }
 
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
 }

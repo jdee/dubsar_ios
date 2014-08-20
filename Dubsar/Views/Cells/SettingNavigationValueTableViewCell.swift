@@ -32,6 +32,10 @@ class SettingNavigationValueTableViewCell: SettingNavigationTableViewCell {
         accessoryType = .DisclosureIndicator
     }
 
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

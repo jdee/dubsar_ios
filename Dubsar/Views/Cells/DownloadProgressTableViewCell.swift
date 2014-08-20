@@ -35,7 +35,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
     var retryButton: UIButton
     var gradientView: GradientView
 
-    init() {
+    override init() {
         downloadLabel = UILabel(frame: CGRectZero)
         downloadProgress = UIProgressView(progressViewStyle: .Bar)
         unzipLabel = UILabel(frame: CGRectZero)
@@ -69,6 +69,17 @@ class DownloadProgressTableViewCell: UITableViewCell {
         contentView.addSubview(unzipProgress)
         contentView.addSubview(cancelButton)
         contentView.addSubview(retryButton)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        downloadLabel = UILabel()
+        downloadProgress = UIProgressView()
+        unzipLabel = UILabel()
+        unzipProgress = UIProgressView()
+        cancelButton = UIButton()
+        retryButton = UIButton()
+        gradientView = GradientView(frame: CGRectZero, firstColor: nil, secondColor: nil, startPoint: CGPointZero, endPoint: CGPointZero)
+        super.init(coder: aDecoder)
     }
 
     func rebuild() {
