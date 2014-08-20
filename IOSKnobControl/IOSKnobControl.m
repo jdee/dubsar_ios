@@ -123,6 +123,7 @@ static CGRect adjustFrame(CGRect frame) {
 @property (nonatomic, copy) id string;
 @property (nonatomic) CGFloat horizMargin, vertMargin;
 @property (nonatomic) BOOL adjustsFontSizeForAttributed;
+@property (nonatomic, readonly) BOOL ignoringForegroundColor;
 
 @property (nonatomic, readonly) CFAttributedStringRef attributedString;
 
@@ -147,6 +148,7 @@ static CGRect adjustFrame(CGRect frame) {
         CFRetain(_foregroundColor);
         _horizMargin = _vertMargin = 0.0;
         _adjustsFontSizeForAttributed = NO;
+        _ignoringForegroundColor = NO;
 
         self.opaque = NO;
         self.backgroundColor = [UIColor clearColor].CGColor;
@@ -165,11 +167,18 @@ static CGRect adjustFrame(CGRect frame) {
 {
     if (!foregroundColor) return;
 
+    // _ignoringForegroundColor is set if the input is an attributed string with a specified
+    // foreground color attribute. in that case, we don't need to redraw when this method
+    // is called.
+    // DEBT: Also set _ignoring when there's no title color change from the previous state
+    // to the current one?
+    if (!_ignoringForegroundColor && !CGColorEqualToColor(foregroundColor, _foregroundColor)) {
+        [self setNeedsDisplay];
+    }
+
     if (_foregroundColor) CFRelease(_foregroundColor);
     _foregroundColor = foregroundColor;
     CFRetain(_foregroundColor);
-
-    [self setNeedsDisplay];
 }
 
 - (void)display
@@ -231,6 +240,7 @@ static CGRect adjustFrame(CGRect frame) {
     CTFontRef font;
 
     CFAttributedStringRef attributed;
+    _ignoringForegroundColor = NO;
 
     /*
      * _string can be an attributed string or a plain string. in the end, we need an attributed string.
@@ -298,11 +308,27 @@ static CGRect adjustFrame(CGRect frame) {
          */
         CGColorRef fg = (CGColorRef)CFAttributedStringGetAttribute(attributed, 0, kCTForegroundColorAttributeName, NULL);
         if (fg) {
-            _foregroundColor = (CGColorRef)CFBridgingRetain([UIColor colorWithCGColor: fg]);
+            _ignoringForegroundColor = YES;
+            self.foregroundColor = fg;
         }
         else {
-            // no foreground color specified, so give it one (like a plain string)
-            CFAttributedStringSetAttribute(mutableAttributed, wholeString, kCTForegroundColorAttributeName, _foregroundColor);
+            /*
+             * kCTForegroundColorAttributeName == "CTForegroundColor"
+             * NSForegroundColorAttributeName == "NSColor"
+             *
+             * Apparently in iOS 7, these attributes were bridged/mapped/whatever. That is, the view controller could construct an
+             * NSAttributedString using NSForegroundColorAttributeName, and in here, a check for kCTForegroundColorAttributeName
+             * would produce the same value. But that's no longer the case in iOS 8. So we accept both here.
+             */
+            fg = (CGColorRef)CFAttributedStringGetAttribute(attributed, 0, (__bridge CFStringRef)NSForegroundColorAttributeName, NULL);
+            if (fg) {
+                _ignoringForegroundColor = YES;
+                self.foregroundColor = fg;
+            }
+            else {
+                // no foreground color specified, so give it one (like a plain string)
+                CFAttributedStringSetAttribute(mutableAttributed, wholeString, kCTForegroundColorAttributeName, _foregroundColor);
+            }
         }
 
         _fontSize = fontSize / [UIScreen mainScreen].scale;
@@ -439,6 +465,7 @@ static CGRect adjustFrame(CGRect frame) {
     _shadow = NO;
     _zoomTopTitle = YES;
     _zoomPointSize = 0.0;
+    _drawsAsynchronously = NO;
 
     rotating = NO;
     lastNumberDialed = _numberDialed = -1;
@@ -835,6 +862,12 @@ static CGRect adjustFrame(CGRect frame) {
     [self setNeedsLayout];
 }
 
+- (void)setDrawsAsynchronously:(BOOL)drawsAsynchronously
+{
+    _drawsAsynchronously = drawsAsynchronously;
+    [self setNeedsLayout];
+}
+
 - (void)tintColorDidChange
 {
     [self setNeedsLayout];
@@ -1065,19 +1098,17 @@ static CGRect adjustFrame(CGRect frame) {
     float minDuration = fabsf(actual-current)/IKC_FAST_ANGULAR_VELOCITY;
     duration = MAX(minDuration, fabsf(duration));
 
-    // Gratefully borrowed from http://www.raywenderlich.com/56885/custom-control-for-ios-tutorial-a-reusable-knob
     [CATransaction new];
     [CATransaction setDisableActions:YES];
-    imageLayer.transform = CATransform3DMakeRotation(actual, 0, 0, 1);
-
-    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
-    animation.values = @[@(current), @(actual)];
-    animation.keyTimes = @[@(0.0), @(1.0)];
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    animation.fromValue = @(current);
+    animation.toValue = @(actual);
     animation.duration = duration;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
 
     [imageLayer addAnimation:animation forKey:nil];
-        
+
+    imageLayer.transform = CATransform3DMakeRotation(actual, 0, 0, 1);
     [CATransaction commit];
 
     _position = position;
@@ -1145,7 +1176,9 @@ static CGRect adjustFrame(CGRect frame) {
     currentTouch = touch;
 
     /*
-    NSLog(@"knob turned. state = %s, touchStart = %f, positionStart = %f, touch = %f, position = %f (min=%f, max=%f), _position = %f",
+    CGPoint locationInView = [sender locationInView:self];
+    NSLog(@"knob turned. touch at (%f, %f), state = %s, touchStart = %f, positionStart = %f, touch = %f, position = %f (min=%f, max=%f), _position = %f",
+          locationInView.x, locationInView.y,
           (sender.state == UIGestureRecognizerStateBegan ? "began" :
            sender.state == UIGestureRecognizerStateChanged ? "changed" :
            sender.state == UIGestureRecognizerStateEnded ? "ended" :
@@ -1402,6 +1435,7 @@ static CGRect adjustFrame(CGRect frame) {
             imageLayer = [CALayer layer];
             imageLayer.backgroundColor = [UIColor clearColor].CGColor;
             imageLayer.opaque = NO;
+            imageLayer.drawsAsynchronously = _drawsAsynchronously;
 
             float actual = self.clockwise ? self.position : -self.position;
             imageLayer.transform = CATransform3DMakeRotation(actual, 0, 0, 1);
@@ -1472,8 +1506,17 @@ static CGRect adjustFrame(CGRect frame) {
                 break;
         }
 
-        [self updateControlState];
     }
+
+    // do this directly in setDrawsAsynchronously?
+    imageLayer.drawsAsynchronously = _drawsAsynchronously;
+    shapeLayer.drawsAsynchronously = _drawsAsynchronously;
+    pipLayer.drawsAsynchronously = _drawsAsynchronously;
+    for (IKCTextLayer* layer in markings) {
+        layer.drawsAsynchronously = _drawsAsynchronously;
+    }
+
+    [self updateControlState];
 }
 
 /*
@@ -1719,6 +1762,7 @@ static CGRect adjustFrame(CGRect frame) {
     int j;
     for (j=0; j<_positions; ++j) {
         IKCTextLayer* layer = [IKCTextLayer layer];
+        layer.drawsAsynchronously = _drawsAsynchronously;
         [markings addObject:layer];
         [shapeLayer addSublayer:layer];
     }
@@ -1763,6 +1807,7 @@ static CGRect adjustFrame(CGRect frame) {
     shapeLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
     shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
     shapeLayer.opaque = NO;
+    shapeLayer.drawsAsynchronously = _drawsAsynchronously;
 
     for (CATextLayer* layer in markings) {
         [layer removeFromSuperlayer];
@@ -1775,6 +1820,7 @@ static CGRect adjustFrame(CGRect frame) {
     pipLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
     pipLayer.opaque = NO;
     pipLayer.backgroundColor = [UIColor clearColor].CGColor;
+    pipLayer.drawsAsynchronously = _drawsAsynchronously;
 
     [shapeLayer addSublayer:pipLayer];
 
@@ -1786,6 +1832,7 @@ static CGRect adjustFrame(CGRect frame) {
     shapeLayer = [CAShapeLayer layer];
     shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
     shapeLayer.opaque = NO;
+    shapeLayer.drawsAsynchronously = _drawsAsynchronously;
 
     pipLayer = nil;
     [self addMarkings];
@@ -1799,6 +1846,7 @@ static CGRect adjustFrame(CGRect frame) {
     shapeLayer = [CAShapeLayer layer];
     shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
     shapeLayer.opaque = NO;
+    shapeLayer.drawsAsynchronously = _drawsAsynchronously;
 
     [self createDialNumbers];
 
@@ -1818,7 +1866,9 @@ static CGRect adjustFrame(CGRect frame) {
 
     int j;
     for (j=0; j<10; ++j) {
-        [dialMarkings addObject: [IKCTextLayer layer]];
+        IKCTextLayer* layer = [IKCTextLayer layer];
+        layer.drawsAsynchronously = _drawsAsynchronously;
+        [dialMarkings addObject: layer];
     }
 
     [self updateDialNumbers];
