@@ -33,17 +33,13 @@
 // this should probably be IKC_MIN_FINGER_HOLE_RADIUS. the actual radius should be a property initialized to this value, and this min. value should be enforced.
 // but I'm reluctant to introduce a new property just for rotary dial mode, and I'm not sure whether it's really necessary. it would only be useful for very
 // large dials (on an iPad).
-#define IKC_FINGER_HOLE_RADIUS 22.0
+#define IKC_DEFAULT_FINGER_HOLE_RADIUS 22.0
 #define IKC_TITLE_MARGIN_RATIO 0.2
 
 // Must match IKC_VERSION and IKC_BUILD from IOSKnobControl.h.
 #define IKC_TARGET_VERSION 0x010300
 #define IKC_TARGET_BUILD 1
 
-/*
- * DEBT: Should also do a runtime check in the constructors in case the control is ever built
- * into a library.
- */
 #if IKC_TARGET_VERSION != IKC_VERSION || IKC_TARGET_BUILD != IKC_BUILD
 #error IOSKnobControl.h version and build do not match IOSKnobControl.m.
 #endif // target version/build check
@@ -66,8 +62,9 @@ static int numberDialed(float position) {
     return number % 10;
 }
 
-static CGRect adjustFrame(CGRect frame) {
-    const float IKC_MINIMUM_DIMENSION = ceil(9.72 * IKC_FINGER_HOLE_RADIUS);
+// DEBT: Doesn't account for variable _fingerHoleMargin
+static CGRect adjustFrame(CGRect frame, CGFloat fingerHoleRadius) {
+    const float IKC_MINIMUM_DIMENSION = ceil(9.72 * fingerHoleRadius);
     if (frame.size.width < IKC_MINIMUM_DIMENSION) frame.size.width = IKC_MINIMUM_DIMENSION;
     if (frame.size.height < IKC_MINIMUM_DIMENSION) frame.size.height = IKC_MINIMUM_DIMENSION;
 
@@ -124,6 +121,8 @@ static CGRect adjustFrame(CGRect frame) {
 @property (nonatomic) CGFloat horizMargin, vertMargin;
 @property (nonatomic) BOOL adjustsFontSizeForAttributed;
 @property (nonatomic, readonly) BOOL ignoringForegroundColor;
+@property (nonatomic, readonly) BOOL ignoringFontName;
+@property (nonatomic, readonly) BOOL ignoringFontSize;
 
 @property (nonatomic, readonly) CFAttributedStringRef attributedString;
 
@@ -149,6 +148,7 @@ static CGRect adjustFrame(CGRect frame) {
         _horizMargin = _vertMargin = 0.0;
         _adjustsFontSizeForAttributed = NO;
         _ignoringForegroundColor = NO;
+        _ignoringFontName = _ignoringFontSize = NO;
 
         self.opaque = NO;
         self.backgroundColor = [UIColor clearColor].CGColor;
@@ -161,6 +161,66 @@ static CGRect adjustFrame(CGRect frame) {
 - (void)dealloc
 {
     if (_foregroundColor) CFRelease(_foregroundColor);
+}
+
+- (void)setHorizMargin:(CGFloat)horizMargin
+{
+    if (_horizMargin != horizMargin) [self setNeedsDisplay];
+    _horizMargin = horizMargin;
+}
+
+- (void)setVertMargin:(CGFloat)vertMargin
+{
+    if (_vertMargin != vertMargin) [self setNeedsDisplay];
+    _vertMargin = vertMargin;
+}
+
+- (void)setString:(id)string
+{
+    BOOL currentIsAttributed = [_string isKindOfClass:NSAttributedString.class];
+    BOOL newIsAttributed = [string isKindOfClass:NSAttributedString.class];
+
+    if (currentIsAttributed != newIsAttributed) {
+        [self setNeedsDisplay];
+    }
+    else if (currentIsAttributed) {
+        NSAttributedString* currentValue = _string;
+        NSAttributedString* newValue = string;
+
+        if (![currentValue isEqualToAttributedString:newValue]) {
+            [self setNeedsDisplay];
+        }
+    }
+    else {
+        NSString* currentValue = _string;
+        NSString* newValue = string;
+
+        if (![currentValue isEqualToString:newValue]) {
+            [self setNeedsDisplay];
+        }
+    }
+
+    _string = string;
+}
+
+- (void)setFontName:(NSString *)fontName
+{
+    if (!_ignoringFontName && ![_fontName isEqualToString:fontName]) [self setNeedsDisplay];
+    _fontName = fontName;
+}
+
+- (void)setFontSize:(CGFloat)fontSize
+{
+    if (!_ignoringFontSize && _fontSize != fontSize) [self setNeedsDisplay];
+    _fontSize = fontSize;
+}
+
+- (void)setAdjustsFontSizeForAttributed:(BOOL)adjustsFontSizeForAttributed
+{
+    if ([_string isKindOfClass:NSAttributedString.class] && _adjustsFontSizeForAttributed != adjustsFontSizeForAttributed) {
+        [self setNeedsDisplay];
+    }
+    _adjustsFontSizeForAttributed = adjustsFontSizeForAttributed;
 }
 
 - (void)setForegroundColor:(CGColorRef)foregroundColor
@@ -240,7 +300,7 @@ static CGRect adjustFrame(CGRect frame) {
     CTFontRef font;
 
     CFAttributedStringRef attributed;
-    _ignoringForegroundColor = NO;
+    _ignoringForegroundColor = _ignoringFontName = _ignoringFontSize = NO;
 
     /*
      * _string can be an attributed string or a plain string. in the end, we need an attributed string.
@@ -262,7 +322,9 @@ static CGRect adjustFrame(CGRect frame) {
          * Massage the font attribute for a number of reasons:
          * 1. No font was specified for the input (like a plain string)
          */
+        BOOL createdNewFont = NO;
         if (!font) {
+            createdNewFont = YES;
             font = CTFontCreateWithName((CFStringRef)_fontName, fontSize, NULL);
             CFAttributedStringSetAttribute(mutableAttributed, wholeString, kCTFontAttributeName, font);
             CFRelease(font);
@@ -281,6 +343,8 @@ static CGRect adjustFrame(CGRect frame) {
             CFAttributedStringSetAttribute(mutableAttributed, wholeString, kCTFontAttributeName, newFont);
             CFRelease(newFont);
             // NSLog(@"point size for new font: %f", fontSize);
+            _ignoringFontName = !createdNewFont;
+            _ignoringFontSize = NO;
         }
         // 3. This is a high-res image, so we render at double the size.
         else if (!_adjustsFontSizeForAttributed && [UIScreen mainScreen].scale > 1.0) {
@@ -293,6 +357,8 @@ static CGRect adjustFrame(CGRect frame) {
             CFAttributedStringSetAttribute(mutableAttributed, wholeString, kCTFontAttributeName, newFont);
             CFRelease(newFont);
             // NSLog(@"point size for new font: %f", fontSize);
+            _ignoringFontName = !createdNewFont;
+            _ignoringFontSize = !createdNewFont;
         }
         else {
             /*
@@ -300,6 +366,8 @@ static CGRect adjustFrame(CGRect frame) {
              */
             font = CFAttributedStringGetAttribute(attributed, 0, kCTFontAttributeName, NULL);
             _fontName = CFBridgingRelease(CTFontCopyPostScriptName(font));
+            _ignoringFontName = !createdNewFont;
+            _ignoringFontSize = !createdNewFont;
         }
 
         /*
@@ -366,29 +434,6 @@ static CGRect adjustFrame(CGRect frame) {
 
 @end
 
-#pragma mark - IKCAnimationDelegate
-/*
- * Used in dialNumber:. There doesn't seem to be an appropriate delegate protocol for CAAnimation. 
- * The animationDidStop:finished: message is
- * simply sent to the delegate object when the animation completes. This method could be in the knob control itself,
- * but the CAAnimation object retains its delegate. It seems likely that the removedOnCompletion flag should make
- * that retention harmless: the imageLayer will eventually release the animation, which in turn will release the
- * control. But this mechanism, using a weak reference to the knob control, avoids that assumption and keeps this
- * method out of the main class, which is a better design.
- */
-@interface IKCAnimationDelegate : NSObject
-@property (nonatomic, weak) IOSKnobControl* knobControl;
-- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag;
-@end
-
-@implementation IKCAnimationDelegate
-- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
-{
-    if (flag == NO) return;
-    _knobControl.enabled = YES;
-}
-@end
-
 #pragma mark - IOSKnobControl implementation
 
 @interface IOSKnobControl()
@@ -396,12 +441,15 @@ static CGRect adjustFrame(CGRect frame) {
  * Returns the nearest allowed position
  */
 @property (readonly) float nearestPosition;
+@property (readonly) BOOL currentFillColorIsOpaque;
+@property (readonly) UIBezierPath* rotaryDialPath;
+@property (readonly) CGRect roundedBounds;
 @end
 
 @implementation IOSKnobControl {
     float touchStart, positionStart, currentTouch;
     UIGestureRecognizer* gestureRecognizer;
-    CALayer* imageLayer, *backgroundLayer, *foregroundLayer, *middleLayer;
+    CALayer* imageLayer, *backgroundLayer, *foregroundLayer, *middleLayer, *shadowLayer;
     CAShapeLayer* shapeLayer, *pipLayer, *stopLayer;
     NSMutableArray* markings, *dialMarkings;
     UIImage* images[4];
@@ -462,10 +510,18 @@ static CGRect adjustFrame(CGRect frame) {
     _gesture = IKCGestureOneFingerRotation;
     _normalized = YES;
     _fontName = @"Helvetica";
-    _shadow = NO;
+    _shadowRadius = 3.0;
+    _shadowColor = [UIColor blackColor];
+    _shadowOpacity = 0.0;
+    _shadowOffset = CGSizeMake(0.0, 3.0);
+    _knobRadius = 0.5 * self.bounds.size.width;
     _zoomTopTitle = YES;
     _zoomPointSize = 0.0;
     _drawsAsynchronously = NO;
+    _fingerHoleRadius = IKC_DEFAULT_FINGER_HOLE_RADIUS;
+
+    // Default margin is the same as the space between adjacent holes
+    _fingerHoleMargin = (_knobRadius - 4.86*_fingerHoleRadius)/2.93;
 
     rotating = NO;
     lastNumberDialed = _numberDialed = -1;
@@ -602,7 +658,7 @@ static CGRect adjustFrame(CGRect frame) {
 {
     if (_mode == IKCModeRotaryDial)
     {
-        frame = adjustFrame(frame);
+        frame = adjustFrame(frame, _fingerHoleRadius);
     }
     [super setFrame:frame];
     [self setNeedsLayout];
@@ -682,7 +738,7 @@ static CGRect adjustFrame(CGRect frame) {
         _circular = NO;
         _max = IKC_EPSILON;
         _min = -11.0*M_PI/6.0;
-        self.frame = adjustFrame(self.frame);
+        self.frame = adjustFrame(self.frame, _fingerHoleRadius);
         lastNumberDialed = 0;
     }
 }
@@ -850,12 +906,6 @@ static CGRect adjustFrame(CGRect frame) {
     [self setNeedsLayout];
 }
 
-- (void)setShadow:(BOOL)shadow
-{
-    _shadow = shadow;
-    [self setNeedsLayout];
-}
-
 - (void)setZoomTopTitle:(BOOL)zoomTopTitle
 {
     _zoomTopTitle = zoomTopTitle;
@@ -865,6 +915,61 @@ static CGRect adjustFrame(CGRect frame) {
 - (void)setDrawsAsynchronously:(BOOL)drawsAsynchronously
 {
     _drawsAsynchronously = drawsAsynchronously;
+    [self setNeedsLayout];
+}
+
+- (void)setShadowColor:(UIColor *)shadowColor
+{
+    _shadowColor = shadowColor;
+    [self setNeedsLayout];
+}
+
+- (void)setShadowOffset:(CGSize)shadowOffset
+{
+    _shadowOffset = shadowOffset;
+    [self setNeedsLayout];
+}
+
+- (void)setShadowOpacity:(CGFloat)shadowOpacity
+{
+    _shadowOpacity = shadowOpacity;
+    [self setNeedsLayout];
+}
+
+- (void)setShadowRadius:(CGFloat)shadowRadius
+{
+    _shadowRadius = shadowRadius;
+    [self setNeedsLayout];
+}
+
+- (void)setMiddleLayerShadowPath:(UIBezierPath *)middleLayerShadowPath
+{
+    _middleLayerShadowPath = middleLayerShadowPath;
+    [self setNeedsLayout];
+}
+
+- (void)setForegroundLayerShadowPath:(UIBezierPath *)foregroundLayerShadowPath
+{
+    _foregroundLayerShadowPath = foregroundLayerShadowPath;
+    [self setNeedsLayout];
+}
+
+- (void)setKnobRadius:(CGFloat)knobRadius
+{
+    _knobRadius = knobRadius;
+    [self setNeedsLayout];
+}
+
+- (void)setFingerHoleRadius:(CGFloat)fingerHoleRadius
+{
+    _fingerHoleRadius = fingerHoleRadius;
+    self.frame = adjustFrame(self.frame, _fingerHoleRadius);
+    [self setNeedsLayout];
+}
+
+- (void)setFingerHoleMargin:(CGFloat)fingerHoleMargin
+{
+    _fingerHoleMargin = fingerHoleMargin;
     [self setNeedsLayout];
 }
 
@@ -904,24 +1009,33 @@ static CGRect adjustFrame(CGRect frame) {
     while (adjusted < 0) adjusted += 2.0*M_PI;
     double totalRotation = 2.0*farPosition - adjusted;
 
-    IKCAnimationDelegate* delegate = [[IKCAnimationDelegate alloc] init];
-    delegate.knobControl = self;
-
     self.enabled = NO;
-
-    [CATransaction new];
-    [CATransaction setDisableActions:YES];
-    imageLayer.transform = CATransform3DMakeRotation(0.0, 0, 0, 1);
-    _position = 0.0;
+    assert(shadowLayer.shadowPath || IKCModeRotaryDial != _mode);
+    assert(!_middleLayerShadowPath || IKCModeRotaryDial != _mode);
+    assert(middleLayer.shadowOpacity == 0.0 || IKCModeRotaryDial != _mode);
 
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
     animation.values = @[@(adjusted), @(farPosition), @(0.0)];
     animation.keyTimes = @[@(0.0), @((farPosition-adjusted)/totalRotation), @(1.0)];
     animation.duration = _timeScale / IKC_ROTARY_DIAL_ANGULAR_VELOCITY_AT_UNIT_TIME_SCALE * totalRotation;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    animation.delegate = delegate;
+
+    _position = 0.0;
+
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    [CATransaction setCompletionBlock:^{
+        self.enabled = YES;
+    }];
+
+    imageLayer.transform = CATransform3DMakeRotation(0.0, 0, 0, 1);
 
     [imageLayer addAnimation:animation forKey:nil];
+
+    if (shadowLayer.shadowPath && _shadowOpacity > 0.0) {
+        shadowLayer.transform = imageLayer.transform;
+        [shadowLayer addAnimation:animation forKey:nil];
+    }
 
     [CATransaction commit];
 }
@@ -1007,6 +1121,40 @@ static CGRect adjustFrame(CGRect frame) {
     }
 
     return ((_max-_min)/_positions)*(positionIndex+0.5) + _min;
+}
+
+- (UIBezierPath *)rotaryDialPath
+{
+    UIBezierPath* path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.5) radius:_knobRadius startAngle:0.0 endAngle:2.0*M_PI clockwise:NO];
+
+    float const centerRadius = _knobRadius - _fingerHoleMargin - _fingerHoleRadius;
+
+    int j;
+    for (j=0; j<10; ++j)
+    {
+        double centerAngle = M_PI_4 + j*M_PI/6.0;
+        double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
+        double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
+        [path addArcWithCenter:CGPointMake(centerX, centerY) radius:_fingerHoleRadius startAngle:M_PI_2-centerAngle endAngle:1.5*M_PI-centerAngle clockwise:YES];
+    }
+    for (--j; j>=0; --j)
+    {
+        double centerAngle = M_PI_4 + j*M_PI/6.0;
+        double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
+        double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
+        [path addArcWithCenter:CGPointMake(centerX, centerY) radius:_fingerHoleRadius startAngle:1.5*M_PI-centerAngle endAngle:M_PI_2-centerAngle clockwise:YES];
+    }
+
+    return path;
+}
+
+- (CGRect)roundedBounds
+{
+    CGRect bounds = self.bounds;
+    // round to the nearest integer point values
+    bounds.size.width = floor(self.bounds.size.width + 0.5);
+    bounds.size.height = floor(self.bounds.size.height + 0.5);
+    return bounds;
 }
 
 #pragma mark - Private Methods: Animation
@@ -1098,17 +1246,21 @@ static CGRect adjustFrame(CGRect frame) {
     float minDuration = fabsf(actual-current)/IKC_FAST_ANGULAR_VELOCITY;
     duration = MAX(minDuration, fabsf(duration));
 
-    [CATransaction new];
-    [CATransaction setDisableActions:YES];
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     animation.fromValue = @(current);
     animation.toValue = @(actual);
     animation.duration = duration;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
 
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
     [imageLayer addAnimation:animation forKey:nil];
-
     imageLayer.transform = CATransform3DMakeRotation(actual, 0, 0, 1);
+
+    if (shadowLayer.shadowPath && _shadowOpacity > 0.0) {
+        [shadowLayer addAnimation:animation forKey:nil];
+        shadowLayer.transform = imageLayer.transform;
+    }
     [CATransaction commit];
 
     _position = position;
@@ -1325,6 +1477,13 @@ static CGRect adjustFrame(CGRect frame) {
 
 #pragma mark - Private Methods: Image Management
 
+- (BOOL)currentFillColorIsOpaque
+{
+    CGFloat red, green, blue, alpha;
+    [self.currentFillColor getRed:&red green:&green blue:&blue alpha:&alpha];
+    return alpha == 1.0;
+}
+
 - (UIFont*)fontWithSize:(CGFloat)fontSize
 {
     /*
@@ -1373,8 +1532,11 @@ static CGRect adjustFrame(CGRect frame) {
  */
 - (void)updateImage
 {
-    self.layer.bounds = self.bounds;
-    self.layer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
+    assert(self.bounds.origin.x == 0);
+    assert(self.bounds.origin.y == 0);
+
+    self.layer.bounds = self.roundedBounds;
+    self.layer.position = CGPointMake(self.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
     /*
      * There is always a background layer. It may just have no contents and no
      * sublayers.
@@ -1386,8 +1548,8 @@ static CGRect adjustFrame(CGRect frame) {
         backgroundLayer.opaque = NO;
         [self.layer addSublayer:backgroundLayer];
     }
-    backgroundLayer.bounds = self.bounds;
-    backgroundLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
+    backgroundLayer.bounds = self.roundedBounds;
+    backgroundLayer.position = CGPointMake(self.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
 
     if (_backgroundImage)
     {
@@ -1419,10 +1581,23 @@ static CGRect adjustFrame(CGRect frame) {
         middleLayer.opaque = NO;
         [self.layer addSublayer:middleLayer];
     }
-    middleLayer.bounds = self.bounds;
-    middleLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
-    middleLayer.shadowOpacity = _shadow ? 1.0 : 0.0;
-    middleLayer.shadowOffset = CGSizeMake(0, 3); // DEBT: Make all the shadow params configurable
+    middleLayer.bounds = self.roundedBounds;
+    middleLayer.position = CGPointMake(self.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
+
+    /*
+     * There's always a shadowLayer. It may just be empty and unused.
+     */
+    if (!shadowLayer)
+    {
+        shadowLayer = [CALayer layer];
+        shadowLayer.opaque = NO;
+        shadowLayer.backgroundColor = [UIColor clearColor].CGColor;
+        [middleLayer addSublayer:shadowLayer];
+    }
+    shadowLayer.bounds = self.roundedBounds;
+    shadowLayer.position = CGPointMake(self.bounds.size.width * 0.5 + _shadowOffset.width, self.bounds.size.height * 0.5 + _shadowOffset.height);
+    shadowLayer.drawsAsynchronously = _drawsAsynchronously;
+    [self setDefaultMiddleLayerShadowPath];
 
     UIImage* image = self.currentImage;
     if (image) {
@@ -1452,19 +1627,22 @@ static CGRect adjustFrame(CGRect frame) {
         }
         [middleLayer addSublayer:imageLayer];
     }
-    imageLayer.bounds = self.bounds;
-    imageLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
+    imageLayer.bounds = self.roundedBounds;
+    imageLayer.position = CGPointMake(self.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
 
     if (_foregroundImage || _mode == IKCModeRotaryDial)
     {
         [foregroundLayer removeFromSuperlayer];
         foregroundLayer = [CALayer layer];
-        foregroundLayer.bounds = self.bounds;
-        foregroundLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
+        foregroundLayer.bounds = self.roundedBounds;
+        foregroundLayer.position = CGPointMake(self.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
         foregroundLayer.backgroundColor = [UIColor clearColor].CGColor;
         foregroundLayer.opaque = NO;
-        foregroundLayer.shadowOpacity = _shadow ? 1.0 : 0.0;
-        foregroundLayer.shadowOffset = CGSizeMake(0, 3);
+        foregroundLayer.shadowOpacity = _shadowOpacity;
+        foregroundLayer.shadowOffset = _shadowOffset;
+        foregroundLayer.shadowRadius = _shadowRadius;
+        foregroundLayer.shadowColor = _shadowColor.CGColor;
+        foregroundLayer.shadowPath = _foregroundLayerShadowPath.CGPath;
         [self.layer addSublayer:foregroundLayer];
 
         if (_foregroundImage)
@@ -1489,6 +1667,8 @@ static CGRect adjustFrame(CGRect frame) {
     }
 
     [self updateShapeLayer];
+
+    [self setupShadowLayer];
 }
 
 - (void)updateShapeLayer
@@ -1519,6 +1699,23 @@ static CGRect adjustFrame(CGRect frame) {
     [self updateControlState];
 }
 
+- (void)setDefaultMiddleLayerShadowPath
+{
+    if (_mode == IKCModeRotaryDial && !_middleLayerShadowPath) {
+        shadowLayer.shadowPath = self.rotaryDialPath.CGPath;
+    }
+    else if (_middleLayerShadowPath) {
+        shadowLayer.shadowPath = _middleLayerShadowPath.CGPath;
+    }
+    else if (_knobRadius > 0.0) {
+        // this will be the default shadow path for any external image that doesn't override the behavior, with _knobRadius == 0.5 * self.bounds.size.width
+        shadowLayer.shadowPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(0.5*self.bounds.size.width, 0.5*self.bounds.size.height) radius:_knobRadius startAngle:0.0 endAngle:2.0*M_PI clockwise:NO].CGPath;
+    }
+    else {
+        shadowLayer.shadowPath = NULL;
+    }
+}
+
 /*
  * There are several things that require a full layout: Changing the appearance of the control (image vs. none, different font size, etc.),
  * changing the frame (resizing). And many other things, like changing the background image, redraw the control entirely because it's
@@ -1530,7 +1727,9 @@ static CGRect adjustFrame(CGRect frame) {
 - (void)updateControlState
 {
     if (self.currentImage) {
-        imageLayer.contents = (id)self.currentImage.CGImage;
+        if (imageLayer.contents != (id)self.currentImage.CGImage) {
+            imageLayer.contents = (id)self.currentImage.CGImage;
+        }
     }
     else {
         shapeLayer.fillColor = self.currentFillColor.CGColor;
@@ -1545,44 +1744,23 @@ static CGRect adjustFrame(CGRect frame) {
 
 - (void)updateKnobWithMarkings
 {
-    shapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.5) radius:self.bounds.size.width*0.45 startAngle:0.0 endAngle:2.0*M_PI clockwise:NO].CGPath;
-    shapeLayer.bounds = self.bounds;
+    shapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.5) radius:_knobRadius startAngle:0.0 endAngle:2.0*M_PI clockwise:NO].CGPath;
+    shapeLayer.bounds = self.roundedBounds;
     shapeLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
+
+    if (!shadowLayer.shadowPath) {
+        shadowLayer.shadowPath = shapeLayer.path;
+    }
 
     [self updateMarkings];
 }
 
 - (void)updateRotaryDial
 {
-    float const dialRadius = 0.5 * self.bounds.size.width;
-    UIBezierPath* path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.5) radius:dialRadius startAngle:0.0 endAngle:2.0*M_PI clockwise:NO];
-
-    // this follows because the holes are positioned so that the margin between adjacent holes
-    // is the same as the margin between each hole and the rim of the dial. see the discussion
-    // in handleTap:. the radius of a finger hole is constant, 22 pts, for a 44 pt diameter,
-    // the minimum size for a tap target. the minimum value of dialRadius is 107. the control
-    // must be at least 214x214.
-    float const margin = (dialRadius - 4.86*IKC_FINGER_HOLE_RADIUS)/2.93;
-    float const centerRadius = dialRadius - margin - IKC_FINGER_HOLE_RADIUS;
-
-    int j;
-    for (j=0; j<10; ++j)
-    {
-        double centerAngle = M_PI_4 + j*M_PI/6.0;
-        double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
-        double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
-        [path addArcWithCenter:CGPointMake(centerX, centerY) radius:IKC_FINGER_HOLE_RADIUS startAngle:M_PI_2-centerAngle endAngle:1.5*M_PI-centerAngle clockwise:YES];
-    }
-    for (--j; j>=0; --j)
-    {
-        double centerAngle = M_PI_4 + j*M_PI/6.0;
-        double centerX = self.bounds.size.width*0.5 + centerRadius * cos(centerAngle);
-        double centerY = self.bounds.size.height*0.5 - centerRadius * sin(centerAngle);
-        [path addArcWithCenter:CGPointMake(centerX, centerY) radius:IKC_FINGER_HOLE_RADIUS startAngle:1.5*M_PI-centerAngle endAngle:M_PI_2-centerAngle clockwise:YES];
-    }
+    UIBezierPath* path = self.rotaryDialPath;
 
     shapeLayer.path = path.CGPath;
-    shapeLayer.bounds = self.bounds;
+    shapeLayer.bounds = self.roundedBounds;
     shapeLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
 }
 
@@ -1595,8 +1773,8 @@ static CGRect adjustFrame(CGRect frame) {
     // in handleTap:. the radius of a finger hole is constant, 22 pts, for a 44 pt diameter,
     // the minimum size for a tap target. the minimum value of dialRadius is 107. the control
     // must be at least 214x214.
-    float const margin = (dialRadius - 4.86*IKC_FINGER_HOLE_RADIUS)/2.93;
-    float const centerRadius = dialRadius - margin - IKC_FINGER_HOLE_RADIUS;
+    float const margin = (dialRadius - 4.86*_fingerHoleRadius)/2.93;
+    float const centerRadius = dialRadius - margin - _fingerHoleRadius;
 
     CGFloat fontSize = 17.0;
     if ([UIFontDescriptor respondsToSelector:@selector(preferredFontDescriptorWithTextStyle:)]) {
@@ -1663,8 +1841,6 @@ static CGRect adjustFrame(CGRect frame) {
         if (headlinePointSize > fontSize) {
             headlineFont = [self fontWithSize:headlinePointSize];
             assert(headlineFont);
-        }
-        else {
         }
     }
 
@@ -1735,7 +1911,7 @@ static CGRect adjustFrame(CGRect frame) {
         float actual = _clockwise ? -position : position;
 
         // distance from the center to place the upper left corner
-        float radius = 0.45*self.bounds.size.width - 0.5*textSize.height;
+        float radius = _knobRadius - 0.5*textSize.height;
 
         // place and rotate
         layer.position = CGPointMake(self.bounds.origin.x + 0.5*self.bounds.size.width+radius*sin(actual), self.bounds.origin.y + 0.5*self.bounds.size.height-radius*cos(actual));
@@ -1802,12 +1978,17 @@ static CGRect adjustFrame(CGRect frame) {
 - (CAShapeLayer*)createKnobWithPip
 {
     shapeLayer = [CAShapeLayer layer];
-    shapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.5) radius:self.bounds.size.width*0.45 startAngle:0.0 endAngle:2.0*M_PI clockwise:NO].CGPath;
-    shapeLayer.bounds = self.bounds;
+    shapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.5) radius:_knobRadius startAngle:0.0 endAngle:2.0*M_PI clockwise:NO].CGPath;
+    shapeLayer.bounds = self.roundedBounds;
     shapeLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
     shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
     shapeLayer.opaque = NO;
     shapeLayer.drawsAsynchronously = _drawsAsynchronously;
+
+    if (!shadowLayer.shadowPath) {
+        // DEBT: What if fill color is clear? It can be overridden with circularBlah or middleLayerShadowBlah
+        shadowLayer.shadowPath = shapeLayer.path;
+    }
 
     for (CATextLayer* layer in markings) {
         [layer removeFromSuperlayer];
@@ -1815,8 +1996,8 @@ static CGRect adjustFrame(CGRect frame) {
     markings = nil;
 
     pipLayer = [CAShapeLayer layer];
-    pipLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.1) radius:self.bounds.size.width*0.03 startAngle:0.0 endAngle:2.0*M_PI clockwise:NO].CGPath;
-    pipLayer.bounds = self.bounds;
+    pipLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width*0.5, self.bounds.size.height*0.08) radius:self.bounds.size.width*0.03 startAngle:0.0 endAngle:2.0*M_PI clockwise:NO].CGPath;
+    pipLayer.bounds = self.roundedBounds;
     pipLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
     pipLayer.opaque = NO;
     pipLayer.backgroundColor = [UIColor clearColor].CGColor;
@@ -1906,11 +2087,70 @@ static CGRect adjustFrame(CGRect frame) {
     stopLayer = [CAShapeLayer layer];
     stopLayer.path = path.CGPath;
     stopLayer.position = CGPointMake(self.bounds.origin.x + self.bounds.size.width * 0.5, self.bounds.origin.y + self.bounds.size.height * 0.5);
-    stopLayer.bounds = self.bounds;
+    stopLayer.bounds = self.roundedBounds;
     stopLayer.backgroundColor = [UIColor clearColor].CGColor;
     stopLayer.opaque = NO;
 
+    if (foregroundLayer.shadowPath == NULL) {
+        foregroundLayer.shadowPath = stopLayer.path;
+    }
+
     return stopLayer;
+}
+
+/*
+ * This is an optimization for the benefit of things like the rotary dialer, which lack total rotational symmetry (due to the presence of finger
+ * holes in the dialer, for example). There are two main layers involved: The middle layer is stationary and entirely transparent. It's just a placeholder
+ * for the imageLayer, which is either a plain CALayer with the contents of a custom image, or a CAShapeLayer for a generated knob (the dial in the
+ * case of the rotary dialer, with transparent finger holes). Since the image may be repeatedly changed, it's easier to recreate the imageLayer
+ * whenever necessary and not have to worry about making the new layer lie between the background and foreground layers. The stationary middleLayer is
+ * a place to put the imageLayer. It's also convenient for
+ * shadows, but inefficient. If the imageLayer's shadowOpacity is set to a positive number, it correctly generates a shadow, but then the shadow rotates
+ * with the imageLayer. Setting the middleLayer's shadowOpacity nonzero instead instantly produces correct shadows for all modes, including when
+ * using custom images. But whenever the knob image rotates, the animation changes the contents of the middle layer in ways it can't predict, so if
+ * left to its own devices, it will recompute the shadow path from its alpha content frame by frame, which can pin the GPU on lesser hardware.
+ *
+ * Supplying a shadowPath to the middleLayer fixes the performance issue in the simplest cases, when there is total rotational symmetry, such as
+ * with the generated continuous and discrete knobs. But if you use a shadowPath in this way with the rotary dialer, the shadow will be stationary and not
+ * rotate with the dial. There's no mechanism available to supply a shadowPath per frame or to say that the shadowPath should be animated.
+ *
+ * In some cases, like the rotary dialer, we make use of another sublayer of the middleLayer, the shadowLayer, which lies
+ * directly behind the imageLayer. Whenever a shadow path is present (when using a generated knob, when knobRadius > 0 or when
+ * middleLayerShadowPath is non-nil), the shadow path is assigned to the shadowLayer instead of the middleLayer, along with all the other shadow
+ * properties with the exception of shadowOffset (shadowColor, shadowRadius, shadowOpacity). The shadowOffset property of the shadowLayer is CGSizeZero,
+ * but its frame is offset from that of the imageLayer by the control's shadowOffset property, and its animations are synchronized with those of the
+ * imageLayer. The shadowLayer has no contents of its own. It just generates a shadow that rotates with the knob at a constant offset from the knob,
+ * independent of rotation. Use of the shadowPath in the shadowLayer greatly improves performance.
+ *
+ * The shadowLayer requires a shadowPath for this to work, since it has no contents. The control can always supply the shadowPath for any knobs it
+ * generates. When using a custom image, if the user has not set knobRadius or middleLayerShadowPath, there is no shadowPath available,
+ * so the shadow has to be generated inefficiently by the middleLayer. In this case, the shadowOpacity, shadowColor, shadowRadius and shadowOffset are
+ * all assigned to the middleLayer, and the shadowLayer is unused.
+ *
+ * DEBT: Is there some way to generate a shadowLayer for a custom image? Or best of all, is there some way to determine the shadowPath that the
+ * CALayer would use and cache it, by determining the outline of the opaque portion of a UIImage?
+ */
+- (void)setupShadowLayer
+{
+    // should always have a shadow path with rotary dial
+    assert(shadowLayer.shadowPath || _mode != IKCModeRotaryDial);
+
+    // Set by [self setDefaultMiddleLayerShadowPath]
+    if (shadowLayer.shadowPath != NULL) {
+        shadowLayer.shadowOffset = CGSizeZero;
+        shadowLayer.shadowOpacity = _shadowOpacity;
+        shadowLayer.shadowColor = _shadowColor.CGColor;
+        shadowLayer.shadowRadius = _shadowRadius;
+        // shadowLayer.position set in updateImage, with bounds
+        middleLayer.shadowOpacity = 0.0;
+    }
+    else {
+        middleLayer.shadowOffset = _shadowOffset;
+        middleLayer.shadowColor = _shadowColor.CGColor;
+        middleLayer.shadowRadius = _shadowRadius;
+        middleLayer.shadowOpacity = _shadowOpacity;
+        shadowLayer.shadowOpacity = 0.0;
+    }
 }
 
 - (CGFloat)titleCircumferenceWithFont:(UIFont*)font

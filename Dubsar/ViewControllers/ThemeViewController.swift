@@ -34,7 +34,7 @@ class ThemeViewController: BaseViewController {
 
     let titles = [ "Scribe", "Tigris", "Augury" ]
 
-    // these are all the iOS 7 fonts that fit the Bold and Italic pattern used in AppConfiguration, with their PS equivs. Should be a dictionary.
+    // these are all the iOS 7 fonts that fit the Bold and Italic pattern used in AppConfiguration, with their PS equivs. DEBT: Add a psFontKey or something to AppConfiguration.
     let fonts = [ "Arial", "Avenir Next", "Baskerville", "Cochin", "Courier New", "Didot", "Euphemia UCAS", "Georgia", "Gill Sans", "Helvetica Neue", "Menlo", "Palatino", "Times New Roman", "Trebuchet MS", "Verdana" ]
     let psNames = [ "ArialMT", "AvenirNext-Regular", "Baskerville", "Cochin", "CourierNewPSMT", "Didot", "EuphemiaUCAS", "Georgia", "GillSans", "HelveticaNeue", "Menlo-Regular", "Palatino-Roman", "TimesNewRomanPSMT", "TrebuchetMS", "Verdana" ]
 
@@ -51,9 +51,8 @@ class ThemeViewController: BaseViewController {
         knobControl.max = Float(M_PI_2)
         knobControl.circular = false
         knobControl.titles = titles
-        knobControl.shadow = true
-        knobControl.clipsToBounds = false
-        knobControl.enabled = true
+        knobControl.shadowOpacity = 1.0
+        knobControl.clipsToBounds = true
         knobControl.drawsAsynchronously = true
 
         knobControl.positionIndex = AppConfiguration.themeSetting
@@ -88,6 +87,8 @@ class ThemeViewController: BaseViewController {
 
         knobHolder.frame = CGRectMake(0, highlightLabel.frame.origin.y + highlightLabel.frame.size.height + offset, dimension, dimension)
         knobControl.frame = knobHolder.bounds
+
+        knobControl.knobRadius = 0.475 * dimension;
 
         super.adjustLayout()
     }
