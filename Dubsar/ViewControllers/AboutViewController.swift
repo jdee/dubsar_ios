@@ -34,6 +34,7 @@ class AboutViewController: BaseViewController {
     var modelsVersionLabel : UILabel!
     var databaseVersionLabel : UILabel!
     var copyrightLabel : UILabel!
+    var lastCheckLabel : UILabel!
     var updateButton: UIButton!
     var iTunesButton: UIButton!
 
@@ -75,6 +76,13 @@ class AboutViewController: BaseViewController {
         databaseVersionLabel.lineBreakMode = .ByWordWrapping
         databaseVersionLabel.autoresizingMask = .FlexibleWidth
         scroller.addSubview(databaseVersionLabel)
+
+        lastCheckLabel = UILabel(frame: CGRectZero)
+        lastCheckLabel.textAlignment = .Center
+        lastCheckLabel.numberOfLines = 0
+        lastCheckLabel.lineBreakMode = .ByWordWrapping
+        lastCheckLabel.autoresizingMask = .FlexibleWidth
+        scroller.addSubview(lastCheckLabel)
 
         copyrightLabel = UILabel(frame: CGRectZero)
         copyrightLabel.text = "Copyright © 2014 Jimmy Dee"
@@ -185,6 +193,18 @@ class AboutViewController: BaseViewController {
 
         y += textSize.height + vmargin
 
+        let lastCheck = NSDate(timeIntervalSince1970: NSTimeInterval(AppConfiguration.lastUpdateCheckTime))
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .ShortStyle
+        formatter.timeStyle = .ShortStyle
+
+        lastCheckLabel.text = "Last checked \(formatter.stringFromDate(lastCheck))"
+        textSize = (lastCheckLabel.text as NSString).sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+        lastCheckLabel.font = font
+        lastCheckLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
+        y += textSize.height + vmargin
+
         textSize = (updateButton.titleForState(.Normal) as NSString).sizeWithAttributes(attrs)
         updateButton.titleLabel.font = font
         updateButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
@@ -205,6 +225,7 @@ class AboutViewController: BaseViewController {
         versionLabel.textColor = AppConfiguration.foregroundColor
         modelsVersionLabel.textColor = AppConfiguration.foregroundColor
         databaseVersionLabel.textColor = AppConfiguration.foregroundColor
+        lastCheckLabel.textColor = AppConfiguration.foregroundColor
         copyrightLabel.textColor = AppConfiguration.foregroundColor
         updateButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         updateButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)

@@ -28,6 +28,7 @@ struct AppConfiguration {
     static let autoCorrectKey = "DubsarAutoCorrect"
     // MARK: Dev key(s)
     static let productionKey = "DubsarProduction"
+    static let lastUpdateCheckTimeKey = "DubsarLastUpdateCheckTime"
 
     // MARK: Keys into the theme dictionaries below
     static let nameKey = "name"
@@ -117,6 +118,18 @@ struct AppConfiguration {
         set {
             NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: autoCorrectKey)
     }
+    }
+
+    static var lastUpdateCheckTime: time_t {
+        get {
+            return NSUserDefaults.standardUserDefaults().integerForKey(lastUpdateCheckTimeKey)
+        }
+    }
+
+    static func updateLastUpdateCheckTime() {
+        var now: time_t = 0;
+        time(&now);
+        NSUserDefaults.standardUserDefaults().setInteger(now, forKey: lastUpdateCheckTimeKey)
     }
 
     // MARK: Derived conveniences

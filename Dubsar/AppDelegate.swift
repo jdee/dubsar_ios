@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
     private var bgTask = UIBackgroundTaskInvalid
     private var updatePending = false
-    private var lastUpdateCheck: time_t = 0
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         #if DEBUG
@@ -85,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         // If a DL is in progress, we stop it and restart it in the BG.
         // If autoupdate is on, check for updates whenever we enter the BG, which will trigger a background DL when there's a new update.
         // Limit background update checks to once per hour.
-        if bgTask != UIBackgroundTaskInvalid || (!databaseManager.downloadInProgress && (!AppConfiguration.autoUpdateSetting || now - lastUpdateCheck < 3600)) {
+        if bgTask != UIBackgroundTaskInvalid || (!databaseManager.downloadInProgress && (!AppConfiguration.autoUpdateSetting || now - AppConfiguration.lastUpdateCheckTime < 3600)) {
             return
         }
 
@@ -143,7 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
             if let my = self {
                 if AppConfiguration.autoUpdateSetting {
-                    my.lastUpdateCheck = now
+                    AppConfiguration.updateLastUpdateCheckTime()
 
                     /*
                      * Check for update. block until the response arrives. if there's a new DL, continue blocking
@@ -431,7 +430,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
     func checkForUpdate() {
         databaseManager.checkForUpdate()
-        time(&lastUpdateCheck);
+        AppConfiguration.updateLastUpdateCheckTime()
     }
 
     func checkOfflineSetting() {
@@ -471,7 +470,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
              * update right away but keeps using an installed DB. The offline setting will remain on, and we'll get here every time the app enters
              * the foreground. This limits how often we remind the user.
              */
-            if offlineSetting && !AppConfiguration.autoUpdateSetting && now - lastUpdateCheck >= 3600 {
+            if offlineSetting && !AppConfiguration.autoUpdateSetting && now - AppConfiguration.lastUpdateCheckTime >= 3600 {
                 DMDEBUG("\(databaseManager.fileURL.path) exists. checking for updates")
                 checkForUpdate()
             }
