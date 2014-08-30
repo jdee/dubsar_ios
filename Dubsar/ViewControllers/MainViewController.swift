@@ -74,9 +74,15 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     override func viewWillAppear(animated: Bool) {
         resetSearch()
+        stopAnimating()
         rotated = false
         AppDelegate.instance.bookmarkManager.loadBookmarks()
         super.viewWillAppear(animated)
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopAnimating()
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
@@ -389,15 +395,25 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func setupToolbar() {
-        let settingButton = AppDelegate.instance.databaseManager.downloadInProgress ? DownloadBarButtonItem(target:self, action:"viewDownload:") : SettingBarButtonItem(target: self, action: "showSettingView")
+        let settingButton = AppDelegate.instance.databaseManager.downloadInProgress ? DownloadBarButtonItem(target:self, action:"viewDownload:") : SettingBarButtonItem(target: self, action: "showSettingView:")
         settingButton.width = 32
         navigationItem.leftBarButtonItem = settingButton
 
         // super.setupToolbar()
     }
 
-    func showSettingView() {
+    func showSettingView(sender: SettingBarButtonItem!) {
+        let settingButton = navigationItem.leftBarButtonItem as SettingBarButtonItem
+        settingButton.startAnimating()
+
         pushViewControllerWithIdentifier(SettingsViewController.identifier, router: nil)
+    }
+
+    func stopAnimating() {
+        let settingButton = navigationItem.leftBarButtonItem as? SettingBarButtonItem
+        if let s = settingButton {
+            s.stopAnimating()
+        }
     }
 
     func triggerAutocompletion() {

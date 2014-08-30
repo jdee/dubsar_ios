@@ -112,20 +112,26 @@ class BaseViewController: UIViewController {
         return viewController
     }
 
+    /*
+     * In the following two methods, the view controller is instantiated in a background thread and then pushed on the main
+     * thread.
+     */
     func pushViewControllerWithIdentifier(vcIdentifier: String!, router: Router? = nil) {
-        dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             [weak self] in
 
             if let my = self {
                 let vc = my.instantiateViewControllerWithIdentifier(vcIdentifier, router: router)
-                my.navigationController.pushViewController(vc, animated: true)
+                dispatch_async(dispatch_get_main_queue()) {
+                    my.navigationController.pushViewController(vc, animated: true)
+                }
             }
         }
-        DMTRACE("push \(vcIdentifier) view controller")
+        DMDEBUG("push \(vcIdentifier) view controller")
     }
 
     func pushViewControllerWithIdentifier(vcIdentifier: String!, model: DubsarModelsModel!, routerAction: RouterAction, indexPath: NSIndexPath? = nil) {
-        dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             [weak self] in
 
             if let my = self {
@@ -165,7 +171,10 @@ class BaseViewController: UIViewController {
                     router.indexPath = indexPath
 
                     vc.router = router
-                    my.navigationController.pushViewController(vc, animated: true)
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        my.navigationController.pushViewController(vc, animated: true)
+                    }
                 }
             }
         }

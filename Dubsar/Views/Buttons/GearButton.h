@@ -26,4 +26,9 @@
 @property (nonatomic) CGFloat rotation;
 @property (nonatomic) CGFloat innerToothRatio, outerToothRatio, innerRingRatio;
 
+@property (nonatomic, readonly) BOOL animating;
+
+- (void)startAnimating;
+- (void)stopAnimating;
+
 @end

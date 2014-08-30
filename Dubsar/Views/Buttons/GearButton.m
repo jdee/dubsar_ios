@@ -19,7 +19,9 @@
 
 #import "GearButton.h"
 
-@implementation GearButton
+@implementation GearButton {
+    UIActivityIndicatorView* activityIndicator;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -31,13 +33,50 @@
         _innerToothRatio = 0.25;
         _outerToothRatio = 0.3;
         _lineWidth = 1.0;
+        _animating = NO;
+
+        activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        activityIndicator.frame = self.bounds;
+        activityIndicator.hidesWhenStopped = YES;
+        [self addSubview:activityIndicator];
     }
     return self;
+}
+
+- (void)startAnimating
+{
+    self.enabled = NO;
+    _animating = YES;
+
+    [self setNeedsDisplay];
+
+    [activityIndicator startAnimating];
+}
+
+- (void)stopAnimating
+{
+    self.enabled = YES;
+    _animating = NO;
+
+    [self setNeedsDisplay];
+
+    [activityIndicator stopAnimating];
+}
+
+- (void)incrementRotation:(NSTimeInterval)interval
+{
+    _rotation += M_PI_4 * interval;
+    [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
+
+    if (_animating) {
+        CGContextClearRect(context, self.bounds);
+        return;
+    }
 
     [self drawGearPath:context];
 

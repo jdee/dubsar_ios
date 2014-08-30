@@ -29,7 +29,7 @@ class SettingBarButtonItem: UIBarButtonItem {
         super.init(coder: aDecoder)
     }
 
-    init(target: AnyObject!, action: Selector!) {
+    init(target: AnyObject!, action: Selector!, animating: Bool = false) {
         let dimension: CGFloat = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? 32 : 44
 
         let button = GearButton(frame: CGRectMake(0, 0, dimension, dimension))
@@ -44,6 +44,10 @@ class SettingBarButtonItem: UIBarButtonItem {
         button.outerToothRatio = 0.375
         button.innerToothRatio = 0.3
 
+        if animating {
+            button.startAnimating()
+        }
+
         /*
         button.layer.borderWidth = 1
         button.layer.borderColor = AppConfiguration.foregroundColor.CGColor
@@ -54,6 +58,20 @@ class SettingBarButtonItem: UIBarButtonItem {
         self.action = action
 
         button.barButtonItem = self
+    }
+
+    func startAnimating() {
+        gearButton.startAnimating()
+    }
+
+    func stopAnimating() {
+        gearButton.stopAnimating()
+    }
+
+    private var gearButton: GearButton {
+        get {
+            return customView as GearButton
+        }
     }
 
 }
