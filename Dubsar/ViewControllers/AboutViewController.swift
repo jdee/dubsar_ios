@@ -35,6 +35,7 @@ class AboutViewController: BaseViewController {
     var databaseVersionLabel : UILabel!
     var copyrightLabel : UILabel!
     var updateButton: UIButton!
+    var iTunesButton: UIButton!
 
     private var paragraphLabels = [UILabel]()
 
@@ -87,6 +88,12 @@ class AboutViewController: BaseViewController {
         updateButton.addTarget(self, action: "checkForUpdate:", forControlEvents: .TouchUpInside)
         updateButton.autoresizingMask = .FlexibleWidth
         scroller.addSubview(updateButton)
+
+        iTunesButton = UIButton(frame: CGRectZero)
+        iTunesButton.setTitle("View in App Store", forState: .Normal)
+        iTunesButton.addTarget(self, action: "viewInAppStore:", forControlEvents: .TouchUpInside)
+        iTunesButton.autoresizingMask = .FlexibleWidth
+        scroller.addSubview(iTunesButton)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -188,6 +195,12 @@ class AboutViewController: BaseViewController {
         copyrightLabel.font = font
         copyrightLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
+        y += textSize.height + vmargin
+
+        textSize = (iTunesButton.currentTitle as NSString).sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+        iTunesButton.titleLabel.font = font
+        iTunesButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
         bannerLabel.textColor = AppConfiguration.foregroundColor
         versionLabel.textColor = AppConfiguration.foregroundColor
         modelsVersionLabel.textColor = AppConfiguration.foregroundColor
@@ -196,6 +209,8 @@ class AboutViewController: BaseViewController {
         updateButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         updateButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
         updateButton.backgroundColor = AppConfiguration.highlightColor
+        iTunesButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        iTunesButton.backgroundColor = AppConfiguration.highlightColor
 
         var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         var bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
@@ -217,6 +232,10 @@ class AboutViewController: BaseViewController {
         adjustLayout()
     }
 
+    @IBAction func viewInAppStore(sender: UIButton!) {
+        UIApplication.sharedApplication().openURL(NSURL(string: iTunesLink))
+    }
+
     private func layoutParagraphs(font: UIFont!) {
         for label in paragraphLabels {
             label.removeFromSuperview()
@@ -236,9 +255,9 @@ class AboutViewController: BaseViewController {
         let textSize = text.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
 
         var y : CGFloat = 0
-        var lastLabel : UILabel!
+        var lastLabel : UIView!
         if paragraphLabels.isEmpty {
-            lastLabel = copyrightLabel
+            lastLabel = iTunesButton
         }
         else {
             lastLabel = paragraphLabels[paragraphLabels.count - 1]
