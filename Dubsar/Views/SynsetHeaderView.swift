@@ -214,10 +214,16 @@ class SynsetHeaderView: UIView {
             }
 
             let extraTextSize = extraText.sizeWithAttributes([NSFontAttributeName: headlineFont])
-            extraTextLabel.frame = CGRectMake(2 * margin + lexnameSize.width, 2 * margin + glossSize.height, extraTextSize.width, extraTextSize.height)
+
+            /*
+             * In case the lexnameLabel and extraTextLabel are too wide to fit next to each other on the screen,
+             * shrink the text on the extraTextLabel. It could alternately go onto a separate line.
+             */
+            extraTextLabel.frame = CGRectMake(2 * margin + lexnameSize.width, 2 * margin + glossSize.height, min(extraTextSize.width, bounds.size.width - lexnameLabel.bounds.size.width-2*margin), extraTextSize.height)
             extraTextLabel.text = extraText
             extraTextLabel.font = headlineFont
             extraTextLabel.textAlignment = .Center
+            extraTextLabel.adjustsFontSizeToFitWidth = true
             extraTextLabel.textColor = AppConfiguration.foregroundColor
             extraTextLabel.invalidateIntrinsicContentSize()
 
