@@ -39,7 +39,6 @@ enum {
 @interface AESKey()
 
 @property (nonatomic) NSData* key;
-@property (nonatomic) NSData* inputVector;
 @property (nonatomic) NSMutableDictionary* queryParameters;
 
 @property (nonatomic, readonly) NSData* loadKey, *createKey;
@@ -61,7 +60,6 @@ enum {
 
         [self initQuery];
         [self initKey];
-        [self initInputVector];
     }
     return self;
 }
@@ -78,37 +76,6 @@ enum {
 
     assert(self.key);
 
-}
-
-- (void)initInputVector
-{
-    _inputVector = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_INPUT_VECTOR_KEY];
-
-    /*
-     * I'm not sure if this is an enormous improvement on the all-zero iv. The idea behind the iv is that
-     * it is like a salt. By varying it, you can be sure that subsequent encryptions using the same key and
-     * clear text will generate different cipher text. However, the same iv has to be available to decrypt.
-     * Hence it's stored with the cipher text. But since it's used for different fields, we either have to
-     * use the same value repeatedly, or this class requires further refactoring. What really needs to
-     * happen is that the iv needs to be kept external to this class and stored with the encrypted text.
-     * It could be prepended as the first 128 bits of the cipher text returned by the encrypt: method.
-     * Or it could be generated and stored externally (using a separate user default key for the URLS and labels)
-     * and then passed in with the cipher text in decrypt:. Then, of course, you'd have to be able to return
-     * it separately from the cipher text when calling encrypt:.
-     *
-     * For now, at least it's not all zeroes, and this is probably a minor weakness. But the first option
-     * above, prepending 16 bytes to the cipher text returned by encrypt: and removing it from cipher text
-     * passed into decrypt: is an attractive idea.
-     *
-     * (See e.g. https://stackoverflow.com/questions/4504280/encryption-with-aes-256-and-the-initialization-vector.)
-     */
-    if (!_inputVector) {
-        unsigned char iv[16];
-        SecRandomCopyBytes(kSecRandomDefault, sizeof(iv), iv);
-        _inputVector = [NSData dataWithBytes:iv length:sizeof(iv)];
-
-        [[NSUserDefaults standardUserDefaults] setValue:_inputVector forKey:DUBSAR_INPUT_VECTOR_KEY];
-    }
 }
 
 - (void)initQuery
@@ -129,19 +96,23 @@ enum {
 {
     NSData* input = [clearText dataUsingEncoding:NSUTF8StringEncoding];
 
-    size_t outputSize = DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8 + input.length;
+    uint8_t iv[16];
+    SecRandomCopyBytes(kSecRandomDefault, sizeof(iv), iv);
+
+    size_t outputSize = DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8 + input.length + sizeof(iv);
     unsigned char* output = malloc(outputSize);
 
     size_t movedSize = 0;
+    memcpy(output, iv, sizeof(iv));
 
-    CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void *)self.key, DUBSAR_KEY_LENGTH_BITS/8, self.inputVector.bytes, input.bytes, input.length, output, outputSize, &movedSize);
+    CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void *)self.key, DUBSAR_KEY_LENGTH_BITS/8, iv, input.bytes, input.length, output+sizeof(iv), outputSize-sizeof(iv), &movedSize);
     if (status != kCCSuccess) {
         DMERROR(@"CCCrypt(encrypt) returned %d", status);
         free(output);
         return nil;
     }
 
-    NSData* data = [NSData dataWithBytes:output length:movedSize];
+    NSData* data = [NSData dataWithBytes:output length:movedSize+sizeof(iv)];
 
     free(output);
     return data;
@@ -155,7 +126,7 @@ enum {
 
     DMTRACE(@"Decrypting %ld bytes into %zu-byte buffer", (long)encrypted.length, outputSize);
 
-    CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void*)self.key, DUBSAR_KEY_LENGTH_BITS/8, self.inputVector.bytes, encrypted.bytes, encrypted.length, output, outputSize, &movedSize);
+    CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void*)self.key, DUBSAR_KEY_LENGTH_BITS/8, encrypted.bytes, encrypted.bytes+16, encrypted.length-16, output, outputSize, &movedSize);
     if (status != kCCSuccess) {
         DMERROR(@"CCCrypt(decrypt) returned %d", status);
         free(output);
