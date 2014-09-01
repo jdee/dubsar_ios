@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
     let databaseManager = DatabaseManager()
     let bookmarkManager = BookmarkManager()
+    let cryptoHelper = CryptoHelper()
 
     class var instance : AppDelegate {
         get {
