@@ -92,10 +92,8 @@ enum {
     _queryParameters[(__bridge id)kSecAttrKeyType] = @(CSSM_ALGID_AES);
 }
 
-- (NSData *)encrypt:(NSString *)clearText
+- (NSData *)encrypt:(NSData *)input
 {
-    NSData* input = [clearText dataUsingEncoding:NSUTF8StringEncoding];
-
     uint8_t iv[16];
     SecRandomCopyBytes(kSecRandomDefault, sizeof(iv), iv);
 
@@ -118,7 +116,7 @@ enum {
     return data;
 }
 
-- (NSString *)decrypt:(NSData *)encrypted
+- (NSData *)decrypt:(NSData *)encrypted
 {
     size_t movedSize = 0;
     size_t outputSize = DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8 + encrypted.length;
@@ -133,9 +131,9 @@ enum {
         return nil;
     }
 
-    NSString* string = [[NSString alloc] initWithBytes:output length:movedSize encoding:NSUTF8StringEncoding];
+    NSData* result = [NSData dataWithBytes:output length:movedSize];
     free(output);
-    return string;
+    return result;
 }
 
 - (NSData*)loadKey

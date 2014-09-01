@@ -27,7 +27,7 @@
 
 - (instancetype)initWithIdentifier:(NSString*)identifier NS_DESIGNATED_INITIALIZER;
 
-- (NSData*)encrypt:(NSString*)clearText;
-- (NSString*)decrypt:(NSData*)encrypted;
+- (NSData*)encrypt:(NSData*)clearText;
+- (NSData*)decrypt:(NSData*)encrypted;
 
 @end

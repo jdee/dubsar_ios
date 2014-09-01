@@ -84,8 +84,8 @@ class BookmarkManager: NSObject {
         DMTRACE("URL string: \"\(urlString)\"")
         DMTRACE("label string: \"\(labelString)\"")
 
-        let encryptedUrls = aesKey.encrypt(urlString)
-        let encryptedLabels = aesKey.encrypt(labelString)
+        let encryptedUrls = aesKey.encrypt(urlString.dataUsingEncoding(NSUTF8StringEncoding))
+        let encryptedLabels = aesKey.encrypt(labelString.dataUsingEncoding(NSUTF8StringEncoding))
 
         NSUserDefaults.standardUserDefaults().setValue(encryptedUrls, forKey: bookmarksKey)
         NSUserDefaults.standardUserDefaults().setValue(encryptedLabels, forKey: labelsKey)
@@ -112,10 +112,12 @@ class BookmarkManager: NSObject {
             return
         }
 
-        var string = aesKey.decrypt(encrypted) as NSString
+        var data = aesKey.decrypt(encrypted)
 
-        // TODO: If decryption here fails, try to parse without decrypting, in case it's from a build
-        // before encryption.
+        // DEBT: If decryption here fails, try to parse without decrypting, in case it's from a build
+        // before encryption? Kind of a kluge.
+
+        var string = NSString(data: data, encoding: NSUTF8StringEncoding)
 
         DMTRACE("URL string on load (\(string.length)): \"\(string)\"")
         urls = string.componentsSeparatedByString(" ")
@@ -126,7 +128,8 @@ class BookmarkManager: NSObject {
             return
         }
 
-        string = aesKey.decrypt(encrypted) as NSString
+        data = aesKey.decrypt(encrypted)
+        string = NSString(data: data, encoding: NSUTF8StringEncoding)
 
         DMTRACE("Label string on load (\(string.length)): \"\(string)\"")
 
