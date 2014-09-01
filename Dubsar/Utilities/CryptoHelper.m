@@ -63,9 +63,10 @@ enum {
     self = [super init];
     if (self) {
 
-        identifier = [[NSBundle mainBundle].bundleIdentifier stringByAppendingString:@"bookmarks"];
+        identifier = [[NSBundle mainBundle].bundleIdentifier stringByAppendingString:@".bookmarks"];
 
         [self initQuery];
+
         [self initKey];
     }
     return self;
@@ -151,8 +152,24 @@ enum {
 
     OSStatus rc = SecItemCopyMatching((__bridge CFDictionaryRef)(query), &returnedKey);
     if (rc == noErr && returnedKey) {
-        NSData* returnValue = CFBridgingRelease(returnedKey);
-        DMDEBUG(@"Loaded %d-bit key from keychain", returnValue.length*8);
+        CFDataRef cfdata = (CFDataRef)returnedKey;
+        CFIndex length = CFDataGetLength(cfdata);
+
+        DMTRACE(@"Keychain data length: %d", length);
+
+        if (length == 0) {
+            CFRelease(returnedKey);
+            if ((rc=SecItemDelete((__bridge CFDictionaryRef)query)) != noErr) {
+                DMERROR(@"Error deleting empty key: %d", rc);
+            }
+            return nil;
+        }
+
+        const void* bytes = CFDataGetBytePtr(cfdata);
+        NSData* returnValue = [NSData dataWithBytes:bytes length:length];
+        CFRelease(returnedKey);
+
+        DMDEBUG(@"Loaded %d-bit AES key from keychain", returnValue.length*8);
         return returnValue;
     }
 
@@ -182,7 +199,7 @@ enum {
 
     free(buffer);
 
-    DMDEBUG(@"Wrote %ld-bit key to keychain", newKey.length*8);
+    DMDEBUG(@"Wrote %ld-bit AES key to keychain", newKey.length*8);
 
     return newKey;
 }
