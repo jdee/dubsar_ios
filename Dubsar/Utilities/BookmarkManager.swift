@@ -114,6 +114,9 @@ class BookmarkManager: NSObject {
 
         var string = aesKey.decrypt(encrypted) as NSString
 
+        // TODO: If decryption here fails, try to parse without decrypting, in case it's from a build
+        // before encryption.
+
         DMTRACE("URL string on load (\(string.length)): \"\(string)\"")
         urls = string.componentsSeparatedByString(" ")
 

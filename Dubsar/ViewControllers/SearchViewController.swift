@@ -237,6 +237,10 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             height = synset.sizeOfCellWithConstrainedSize(resultTableView.bounds.size, open: selectedRow == row, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
         }
 
+        if row == search!.results.count - 1 && search!.totalPages > 1 {
+            height += pageControl.bounds.size.height
+        }
+
         DMTRACE("Height of row \(row): \(height)")
         return height
     }
