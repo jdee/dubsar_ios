@@ -69,6 +69,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             title = "\(title) p. \(search!.currentPage)/\(search!.totalPages)"
         }
         searchLabel.text = title
+        searchLabel.adjustsFontSizeToFitWidth = true
     }
 
     func maxHeightOfAdditionsForRow(row: Int) -> CGFloat {

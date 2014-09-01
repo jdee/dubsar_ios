@@ -50,9 +50,16 @@ class SynonymButtonPair {
 
         // configure selection button
         selectionButton.titleLabel.font = font
+        selectionButton.titleLabel.adjustsFontSizeToFitWidth = true
         selectionButton.frame.size = (sense.name as NSString).sizeWithAttributes([NSFontAttributeName: font])
         selectionButton.frame.size.width += 2 * SynonymButtonPair.margin
         selectionButton.frame.size.height += 2 * SynonymButtonPair.margin
+
+        height = selectionButton.bounds.size.height
+
+        if selectionButton.bounds.size.width > view!.bounds.size.width - height {
+            selectionButton.frame.size.width = view!.bounds.size.width - height
+        }
 
         if !selectionButton.enabled {
             let spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
@@ -66,7 +73,6 @@ class SynonymButtonPair {
         }
 
         width = selectionButton.frame.size.width + selectionButton.frame.size.height // nav. button is a square of the same height; no margin between them
-        height = selectionButton.frame.size.height
 
         selectionButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         selectionButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
@@ -308,7 +314,7 @@ class SynsetHeaderView: UIView {
 
         let margin = SynsetHeaderView.margin
         let constrainedWidth = bounds.size.width - 2 * margin
-        var x : CGFloat = margin, y : CGFloat = margin
+        var x : CGFloat = 0, y = margin
         var height : CGFloat = 0
 
         for object: AnyObject in synset.senses as NSArray {
@@ -326,7 +332,7 @@ class SynsetHeaderView: UIView {
                 if buttonPair.width + x > constrainedWidth {
                     // wrap
                     y += height + margin
-                    x = margin
+                    x = 0
                 }
 
                 buttonPair.selectionButton.frame.origin.x = x
