@@ -271,6 +271,7 @@
 		7BFF6A1E19B4DEDB002FEDED /* CryptoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CryptoHelper.h; sourceTree = "<group>"; };
 		7BFF6A1F19B4DEDB002FEDED /* CryptoHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CryptoHelper.m; sourceTree = "<group>"; };
 		7BFF6A2119B4E2BD002FEDED /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		7BFF6A2319B4F289002FEDED /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,6 +311,7 @@
 		7B670D1119739B0900E83937 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7BFF6A2319B4F289002FEDED /* libcommonCrypto.dylib */,
 				7BFF6A2119B4E2BD002FEDED /* Security.framework */,
 				7B66C018198D3E5200257DDB /* SystemConfiguration.framework */,
 				7BBBD6DF1989C8AA0030FDA9 /* libz.dylib */,
@@ -892,6 +894,10 @@
 				);
 				INFOPLIST_FILE = Dubsar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dubsar/Dubsar-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -910,6 +916,10 @@
 				);
 				INFOPLIST_FILE = Dubsar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dubsar/Dubsar-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";

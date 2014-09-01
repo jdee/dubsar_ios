@@ -83,37 +83,52 @@ class BookmarkManager: NSObject {
         DMTRACE("URL string: \"\(urlString)\"")
         DMTRACE("label string: \"\(labelString)\"")
 
-        NSUserDefaults.standardUserDefaults().setValue(urlString, forKey: bookmarksKey)
-        NSUserDefaults.standardUserDefaults().setValue(labelString, forKey: labelsKey)
+        let cryptoHelper = AppDelegate.instance.cryptoHelper
+        let encryptedUrls = cryptoHelper.encrypt(urlString)
+        let encryptedLabels = cryptoHelper.encrypt(labelString)
+
+        NSUserDefaults.standardUserDefaults().setValue(encryptedUrls, forKey: bookmarksKey)
+        NSUserDefaults.standardUserDefaults().setValue(encryptedLabels, forKey: labelsKey)
 
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 
     func loadBookmarks() {
+
+        /*
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(bookmarksKey)
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(labelsKey)
+        // */
+        
         bookmarks = []
 
         var urls: [AnyObject]
         var labels: [AnyObject]
 
         NSUserDefaults.standardUserDefaults().synchronize()
-        var string = NSUserDefaults.standardUserDefaults().valueForKey(bookmarksKey) as? NSString
+        var encrypted = NSUserDefaults.standardUserDefaults().valueForKey(bookmarksKey) as? NSData
 
-        if string == nil {
+        if encrypted == nil {
             return
         }
 
-        DMTRACE("URL string on load (\(string!.length)): \"\(string!)\"")
-        urls = string!.componentsSeparatedByString(" ")
+        let cryptoHelper = AppDelegate.instance.cryptoHelper
+        var string = cryptoHelper.decrypt(encrypted) as NSString
 
-        string = NSUserDefaults.standardUserDefaults().valueForKey(labelsKey) as? NSString
+        DMTRACE("URL string on load (\(string.length)): \"\(string)\"")
+        urls = string.componentsSeparatedByString(" ")
 
-        if string == nil {
+        encrypted = NSUserDefaults.standardUserDefaults().valueForKey(labelsKey) as? NSData
+
+        if encrypted == nil {
             return
         }
 
-        DMTRACE("Label string on load (\(string!.length)): \"\(string!)\"")
+        string = cryptoHelper.decrypt(encrypted) as NSString
 
-        labels = string!.componentsSeparatedByString("\u{1f}")
+        DMTRACE("Label string on load (\(string.length)): \"\(string)\"")
+
+        labels = string.componentsSeparatedByString("\u{1f}")
 
         for (index, url) in enumerate(urls as [String]) {
             if index >= labels.count {
