@@ -19,7 +19,13 @@
 
 @import Foundation;
 
-@interface CryptoHelper : NSObject
+@interface AESKey : NSObject
+
+@property (nonatomic, readonly, copy) NSString* identifier;
+
++ (instancetype)keyWithIdentifier:(NSString*)identifier;
+
+- (instancetype)initWithIdentifier:(NSString*)identifier NS_DESIGNATED_INITIALIZER;
 
 - (NSData*)encrypt:(NSString*)clearText;
 - (NSString*)decrypt:(NSData*)encrypted;

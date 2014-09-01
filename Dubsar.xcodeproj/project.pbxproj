@@ -93,7 +93,7 @@
 		7BD8459D198DD013000C3EA5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD8459C198DD013000C3EA5 /* Router.swift */; };
 		7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */; };
 		7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */; };
-		7BFF6A2019B4DEDB002FEDED /* CryptoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BFF6A1F19B4DEDB002FEDED /* CryptoHelper.m */; };
+		7BFF6A2019B4DEDB002FEDED /* AESKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BFF6A1F19B4DEDB002FEDED /* AESKey.m */; };
 		7BFF6A2219B4E2BD002FEDED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BFF6A2119B4E2BD002FEDED /* Security.framework */; };
 /* End PBXBuildFile section */
 
@@ -268,8 +268,8 @@
 		7BD8459C198DD013000C3EA5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSenseTableViewCell.swift; sourceTree = "<group>"; };
 		7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleterView.swift; sourceTree = "<group>"; };
-		7BFF6A1E19B4DEDB002FEDED /* CryptoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CryptoHelper.h; sourceTree = "<group>"; };
-		7BFF6A1F19B4DEDB002FEDED /* CryptoHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CryptoHelper.m; sourceTree = "<group>"; };
+		7BFF6A1E19B4DEDB002FEDED /* AESKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESKey.h; sourceTree = "<group>"; };
+		7BFF6A1F19B4DEDB002FEDED /* AESKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESKey.m; sourceTree = "<group>"; };
 		7BFF6A2119B4E2BD002FEDED /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7BFF6A2319B4F289002FEDED /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -479,8 +479,8 @@
 				7BAC1E2F199A89A000D48521 /* Bookmark.h */,
 				7BAC1E30199A89A000D48521 /* Bookmark.m */,
 				7BAC1E32199A8E2F00D48521 /* BookmarkManager.swift */,
-				7BFF6A1E19B4DEDB002FEDED /* CryptoHelper.h */,
-				7BFF6A1F19B4DEDB002FEDED /* CryptoHelper.m */,
+				7BFF6A1E19B4DEDB002FEDED /* AESKey.h */,
+				7BFF6A1F19B4DEDB002FEDED /* AESKey.m */,
 				7BCAA9E41992EAEA00B23F4F /* DMLOG.swift */,
 				7BBBD6D51989B54D0030FDA9 /* DatabaseManager.h */,
 				7BBBD6D61989B54D0030FDA9 /* DatabaseManager.m */,
@@ -719,7 +719,7 @@
 				7B66C01C198D4D5900257DDB /* CGHelper.m in Sources */,
 				7BBF837F1975CDBD00969765 /* NSString+ViewSizing.swift in Sources */,
 				7BBF83721974DB8200969765 /* WordTableViewCell.swift in Sources */,
-				7BFF6A2019B4DEDB002FEDED /* CryptoHelper.m in Sources */,
+				7BFF6A2019B4DEDB002FEDED /* AESKey.m in Sources */,
 				7B7F9EC519982292006F4BC0 /* SynsetTableViewCell.swift in Sources */,
 				7B14AE161999B65E00BCD41A /* BaseBarButton.m in Sources */,
 				7B06EC72198879C500C44892 /* ThemeViewController.swift in Sources */,

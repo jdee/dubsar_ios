@@ -22,17 +22,6 @@
 
 #import <CommonCrypto/CommonCrypto.h> // not @import CommonCrypto
 
-/* DEBT:
- * Using all 0's for the input vector is supposed to be insecure, but for the moment
- * I'm following the lead of Apple's sample code. As I understand the matter (which is
- * not well), this allows a clever listener to brute force the key out, but I think it
- * may require a large number of packets. Hence using this for something like an SSL/TLS
- * connection would be bad. However, in this case, the amount of available data is very
- * small. This question needs to be answered, but for now:
- */
-static uint8_t iv[16] = { 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0 };
-
 // From Apple's CryptoExercise sample. This seems to be arbitrary, but what the hell?
 enum {
     CSSM_ALGID_NONE =					0x00000000L,
@@ -40,34 +29,39 @@ enum {
     CSSM_ALGID_AES
 };
 
-#import "CryptoHelper.h"
+#import "AESKey.h"
 
 // Would prefer 256, but this seems to be what's available.
 #define DUBSAR_KEY_LENGTH_BITS 128
 
-@interface CryptoHelper()
+#define DUBSAR_INPUT_VECTOR_KEY @"DubsarInputVector"
+
+@interface AESKey()
 
 @property (nonatomic) NSData* key;
+@property (nonatomic) NSData* inputVector;
 @property (nonatomic) NSMutableDictionary* queryParameters;
 
 @property (nonatomic, readonly) NSData* loadKey, *createKey;
 
 @end
 
-@implementation CryptoHelper {
-    NSString* identifier;
+@implementation AESKey
+
++ (instancetype)keyWithIdentifier:(NSString *)identifier
+{
+    return [[self alloc] initWithIdentifier:identifier];
 }
 
-- (instancetype)init
+- (instancetype)initWithIdentifier:(NSString *)identifier
 {
     self = [super init];
     if (self) {
-
-        identifier = [[NSBundle mainBundle].bundleIdentifier stringByAppendingString:@".bookmarks"];
+        _identifier = identifier;
 
         [self initQuery];
-
         [self initKey];
+        [self initInputVector];
     }
     return self;
 }
@@ -83,13 +77,45 @@ enum {
     }
 
     assert(self.key);
+
+}
+
+- (void)initInputVector
+{
+    _inputVector = [[NSUserDefaults standardUserDefaults] valueForKey:DUBSAR_INPUT_VECTOR_KEY];
+
+    /*
+     * I'm not sure if this is an enormous improvement on the all-zero iv. The idea behind the iv is that
+     * it is like a salt. By varying it, you can be sure that subsequent encryptions using the same key and
+     * clear text will generate different cipher text. However, the same iv has to be available to decrypt.
+     * Hence it's stored with the cipher text. But since it's used for different fields, we either have to
+     * use the same value repeatedly, or this class requires further refactoring. What really needs to
+     * happen is that the iv needs to be kept external to this class and stored with the encrypted text.
+     * It could be prepended as the first 128 bits of the cipher text returned by the encrypt: method.
+     * Or it could be generated and stored externally (using a separate user default key for the URLS and labels)
+     * and then passed in with the cipher text in decrypt:. Then, of course, you'd have to be able to return
+     * it separately from the cipher text when calling encrypt:.
+     *
+     * For now, at least it's not all zeroes, and this is probably a minor weakness. But the first option
+     * above, prepending 16 bytes to the cipher text returned by encrypt: and removing it from cipher text
+     * passed into decrypt: is an attractive idea.
+     *
+     * (See e.g. https://stackoverflow.com/questions/4504280/encryption-with-aes-256-and-the-initialization-vector.)
+     */
+    if (!_inputVector) {
+        unsigned char iv[16];
+        SecRandomCopyBytes(kSecRandomDefault, sizeof(iv), iv);
+        _inputVector = [NSData dataWithBytes:iv length:sizeof(iv)];
+
+        [[NSUserDefaults standardUserDefaults] setValue:_inputVector forKey:DUBSAR_INPUT_VECTOR_KEY];
+    }
 }
 
 - (void)initQuery
 {
     _queryParameters = [NSMutableDictionary dictionary];
     _queryParameters[(__bridge id)kSecClass] = (__bridge id)kSecClassKey;
-    _queryParameters[(__bridge id)kSecAttrApplicationTag] = identifier;
+    _queryParameters[(__bridge id)kSecAttrApplicationTag] = _identifier;
     _queryParameters[(__bridge id)kSecAttrKeySizeInBits] = @(DUBSAR_KEY_LENGTH_BITS);
     _queryParameters[(__bridge id)kSecAttrEffectiveKeySize] = @(DUBSAR_KEY_LENGTH_BITS);
     _queryParameters[(__bridge id)kSecAttrCanDecrypt] = (__bridge id)(kCFBooleanTrue);
@@ -108,7 +134,7 @@ enum {
 
     size_t movedSize = 0;
 
-    CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void *)self.key, DUBSAR_KEY_LENGTH_BITS/8, iv, input.bytes, input.length, output, outputSize, &movedSize);
+    CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void *)self.key, DUBSAR_KEY_LENGTH_BITS/8, self.inputVector.bytes, input.bytes, input.length, output, outputSize, &movedSize);
     if (status != kCCSuccess) {
         DMERROR(@"CCCrypt(encrypt) returned %d", status);
         free(output);
@@ -129,7 +155,7 @@ enum {
 
     DMTRACE(@"Decrypting %ld bytes into %zu-byte buffer", (long)encrypted.length, outputSize);
 
-    CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void*)self.key, DUBSAR_KEY_LENGTH_BITS/8, iv, encrypted.bytes, encrypted.length, output, outputSize, &movedSize);
+    CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void*)self.key, DUBSAR_KEY_LENGTH_BITS/8, self.inputVector.bytes, encrypted.bytes, encrypted.length, output, outputSize, &movedSize);
     if (status != kCCSuccess) {
         DMERROR(@"CCCrypt(decrypt) returned %d", status);
         free(output);
@@ -144,7 +170,7 @@ enum {
 - (NSData*)loadKey
 {
     NSDictionary* query = @{ (__bridge id)kSecClass: (__bridge id)kSecClassKey,
-                             (__bridge id)kSecAttrApplicationTag: identifier,
+                             (__bridge id)kSecAttrApplicationTag: _identifier,
                              (__bridge id)kSecAttrKeyType: @(CSSM_ALGID_AES),
                              (__bridge id)kSecReturnData: @(YES) };
 

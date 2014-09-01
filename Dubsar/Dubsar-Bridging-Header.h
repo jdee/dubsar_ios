@@ -17,10 +17,10 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "AESKey.h"
 #import "Bookmark.h"
 #import "CGHelper.h"
 #import "CloseButton.h"
-#import "CryptoHelper.h"
 #import "DatabaseManager.h"
 #import "DownloadBarButton.h"
 #import "DownloadButtonImage.h"

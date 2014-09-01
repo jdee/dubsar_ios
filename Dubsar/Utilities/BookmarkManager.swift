@@ -22,6 +22,7 @@ import UIKit
 class BookmarkManager: NSObject {
 
     var bookmarks = [Bookmark]()
+    let aesKey = AESKey(identifier: "\(NSBundle.mainBundle().bundleIdentifier).bookmarks")
 
     func toggleBookmark(bookmark: Bookmark!) -> Bool {
         // do we have this bookmark?
@@ -83,9 +84,8 @@ class BookmarkManager: NSObject {
         DMTRACE("URL string: \"\(urlString)\"")
         DMTRACE("label string: \"\(labelString)\"")
 
-        let cryptoHelper = AppDelegate.instance.cryptoHelper
-        let encryptedUrls = cryptoHelper.encrypt(urlString)
-        let encryptedLabels = cryptoHelper.encrypt(labelString)
+        let encryptedUrls = aesKey.encrypt(urlString)
+        let encryptedLabels = aesKey.encrypt(labelString)
 
         NSUserDefaults.standardUserDefaults().setValue(encryptedUrls, forKey: bookmarksKey)
         NSUserDefaults.standardUserDefaults().setValue(encryptedLabels, forKey: labelsKey)
@@ -112,8 +112,7 @@ class BookmarkManager: NSObject {
             return
         }
 
-        let cryptoHelper = AppDelegate.instance.cryptoHelper
-        var string = cryptoHelper.decrypt(encrypted) as NSString
+        var string = aesKey.decrypt(encrypted) as NSString
 
         DMTRACE("URL string on load (\(string.length)): \"\(string)\"")
         urls = string.componentsSeparatedByString(" ")
@@ -124,7 +123,7 @@ class BookmarkManager: NSObject {
             return
         }
 
-        string = cryptoHelper.decrypt(encrypted) as NSString
+        string = aesKey.decrypt(encrypted) as NSString
 
         DMTRACE("Label string on load (\(string.length)): \"\(string)\"")
 
