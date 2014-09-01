@@ -50,12 +50,12 @@
     CGContextSetLineWidth(context, 1.0);
     CGContextSetShouldAntialias(context, true);
 
-    CGContextMoveToPoint(context, 0.2*width, 0.2*height);
-    CGContextAddLineToPoint(context, 0.8*width, 0.8*height);
+    CGContextMoveToPoint(context, 0.35*width, 0.35*height);
+    CGContextAddLineToPoint(context, 0.65*width, 0.65*height);
     CGContextStrokePath(context);
 
-    CGContextMoveToPoint(context, 0.8*width, 0.2*height);
-    CGContextAddLineToPoint(context, 0.2*width, 0.8*height);
+    CGContextMoveToPoint(context, 0.65*width, 0.35*height);
+    CGContextAddLineToPoint(context, 0.35*width, 0.65*height);
     CGContextStrokePath(context);
 }
 

@@ -19,6 +19,7 @@
 
 #import "Bookmark.h"
 #import "CGHelper.h"
+#import "CloseButton.h"
 #import "DatabaseManager.h"
 #import "DownloadBarButton.h"
 #import "DownloadButtonImage.h"

@@ -32,20 +32,26 @@ class BookmarkView: UIView {
     var bookmark: Bookmark
 
     let button: UIButton
+    let closeButton: CloseButton
 
     init(frame: CGRect, bookmark: Bookmark!) {
         self.bookmark = bookmark
-        button = UIButton(frame: frame)
+        button = UIButton(frame: CGRectMake(0, 0, frame.size.width-frame.size.height, frame.size.height))
         button.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+
+        closeButton = CloseButton(frame: CGRectMake(frame.size.width-frame.size.height, 0, frame.size.height, frame.size.height))
+        closeButton.autoresizingMask = nil
 
         super.init(frame: frame)
         addSubview(button)
+        addSubview(closeButton)
 
         opaque = false
         backgroundColor = UIColor.clearColor()
         autoresizingMask = .FlexibleWidth
 
         button.addTarget(self, action: "selected:", forControlEvents: .TouchUpInside)
+        closeButton.addTarget(self, action: "deleted:", forControlEvents: .TouchUpInside)
 
         rebuild()
     }
@@ -53,15 +59,19 @@ class BookmarkView: UIView {
     required init(coder aDecoder: NSCoder) {
         bookmark = Bookmark()
         button = UIButton()
+        closeButton = CloseButton()
         super.init(coder: aDecoder)
     }
 
     func rebuild() {
         button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         button.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
+        closeButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        closeButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
 
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         button.titleLabel.font = font
+        closeButton.titleLabel.font = font
 
         let text = bookmark.label
 
@@ -70,11 +80,18 @@ class BookmarkView: UIView {
         button.setTitle(text, forState: .Normal)
 
         frame.size.height = textSize.height + 2 * BookmarkView.padding
-        button.frame = bounds
+        button.frame = CGRectMake(0, 0, bounds.size.width-bounds.size.height, bounds.size.height)
+        closeButton.frame = CGRectMake(bounds.size.width-bounds.size.height, 0, bounds.size.height, bounds.size.height)
     }
 
     @IBAction
     func selected(sender: UIButton!) {
         listView?.bookmarkSelected(bookmark)
+    }
+
+    @IBAction
+    func deleted(sender: CloseButton!) {
+        AppDelegate.instance.bookmarkManager.toggleBookmark(bookmark)
+        listView?.setNeedsLayout()
     }
 }
