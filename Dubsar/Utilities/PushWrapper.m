@@ -25,6 +25,7 @@
 {
     /*
      * Make sure this is a dynamic check at runtime. When I do this in Swift, the app crashes on iOS 7 looking for UIUserNotificationSettings.
+     * Though, that was back around Beta2. Not sure any more.
      */
 
     UIApplication* theApplication = [UIApplication sharedApplication];

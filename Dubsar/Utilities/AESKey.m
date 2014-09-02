@@ -34,8 +34,6 @@ enum {
 // Would prefer 256, but this seems to be what's available.
 #define DUBSAR_KEY_LENGTH_BITS 128
 
-#define DUBSAR_INPUT_VECTOR_KEY @"DubsarInputVector"
-
 @interface AESKey()
 
 @property (nonatomic) NSData* key;
