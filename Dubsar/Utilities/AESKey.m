@@ -87,8 +87,8 @@ enum {
     _queryParameters[(__bridge id)kSecAttrEffectiveKeySize] = @(DUBSAR_KEY_LENGTH_BITS);
     _queryParameters[(__bridge id)kSecAttrCanDecrypt] = (__bridge id)(kCFBooleanTrue);
     _queryParameters[(__bridge id)kSecAttrCanEncrypt] = (__bridge id)(kCFBooleanTrue);
-    _queryParameters[(__bridge id)kSecAttrCanSign] = (__bridge id)(kCFBooleanTrue);
-    _queryParameters[(__bridge id)kSecAttrCanVerify] = (__bridge id)(kCFBooleanTrue);
+    _queryParameters[(__bridge id)kSecAttrCanSign] = (__bridge id)(kCFBooleanFalse);
+    _queryParameters[(__bridge id)kSecAttrCanVerify] = (__bridge id)(kCFBooleanFalse);
     _queryParameters[(__bridge id)kSecAttrKeyType] = @(CSSM_ALGID_AES);
 }
 
@@ -183,10 +183,10 @@ enum {
         DMERROR(@"Failed to generate random key: %d", rc);
     }
 
+    [self deleteKey];
+
     NSData* newKey = [[NSData alloc] initWithBytes:&buffer[0] length:DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8];
     self.queryParameters[(__bridge id)kSecValueData] = newKey;
-
-    [self deleteKey];
 
     if ((rc=SecItemAdd((__bridge CFDictionaryRef)self.queryParameters, NULL)) != noErr) {
         DMERROR(@"SecItemAdd failed. Error %d", rc);
