@@ -85,6 +85,11 @@ class BookmarkManager: NSObject {
         DMTRACE("label string: \"\(labelString)\"")
 
         if AppConfiguration.secureBookmarksSetting {
+            /*
+             * Rekey every time we write. This is also called for consistency in loadBookmarks(). Hence, each value of this
+             * key is used for at most one read operation for added security.
+             */
+            aesKey.rekey()
             let encryptedUrls = aesKey.encrypt(urlString.dataUsingEncoding(NSUTF8StringEncoding))
             let encryptedLabels = aesKey.encrypt(labelString.dataUsingEncoding(NSUTF8StringEncoding))
 
@@ -92,6 +97,10 @@ class BookmarkManager: NSObject {
             NSUserDefaults.standardUserDefaults().setValue(encryptedLabels, forKey: labelsKey)
         }
         else {
+            /*
+             * No real harm in leaving the key, but may as well clean up.
+             */
+            aesKey.deleteKey()
             NSUserDefaults.standardUserDefaults().setValue(urlString.dataUsingEncoding(NSUTF8StringEncoding), forKey: bookmarksKey)
             NSUserDefaults.standardUserDefaults().setValue(labelString.dataUsingEncoding(NSUTF8StringEncoding), forKey: labelsKey)
         }

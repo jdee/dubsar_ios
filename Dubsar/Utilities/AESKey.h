@@ -30,4 +30,7 @@
 - (NSData*)encrypt:(NSData*)clearText;
 - (NSData*)decrypt:(NSData*)cipherText;
 
+- (BOOL)deleteKey;
+- (BOOL)rekey;
+
 @end

@@ -76,6 +76,14 @@ enum {
 
 }
 
+- (BOOL)rekey
+{
+    if (![self deleteKey]) return NO;
+
+    [self initKey];
+    return YES;
+}
+
 - (void)initQuery
 {
     _queryParameters = [NSMutableDictionary dictionary];
@@ -197,12 +205,14 @@ enum {
     return newKey;
 }
 
-- (void)deleteKey
+- (BOOL)deleteKey
 {
     OSStatus rc;
     if ((rc=SecItemDelete((__bridge CFDictionaryRef)self.queryParameters)) != noErr && rc != errSecItemNotFound) {
         DMERROR(@"SecItemDelete returned %d", rc);
+        return NO;
     }
+    return YES;
 }
 
 @end
