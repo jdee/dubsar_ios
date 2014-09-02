@@ -90,18 +90,18 @@ enum {
     _queryParameters[(__bridge id)kSecAttrKeyType] = @(CSSM_ALGID_AES);
 }
 
-- (NSData *)encrypt:(NSData *)input
+- (NSData *)encrypt:(NSData *)clearText
 {
     uint8_t iv[16];
     SecRandomCopyBytes(kSecRandomDefault, sizeof(iv), iv);
 
-    size_t outputSize = DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8 + input.length + sizeof(iv);
+    size_t outputSize = DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8 + clearText.length + sizeof(iv);
     unsigned char* output = malloc(outputSize);
 
     size_t movedSize = 0;
     memcpy(output, iv, sizeof(iv));
 
-    CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void *)self.key, DUBSAR_KEY_LENGTH_BITS/8, iv, input.bytes, input.length, output+sizeof(iv), outputSize-sizeof(iv), &movedSize);
+    CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void *)self.key, DUBSAR_KEY_LENGTH_BITS/8, iv, clearText.bytes, clearText.length, output+sizeof(iv), outputSize-sizeof(iv), &movedSize);
     if (status != kCCSuccess) {
         DMERROR(@"CCCrypt(encrypt) returned %d", status);
         free(output);
@@ -114,15 +114,15 @@ enum {
     return data;
 }
 
-- (NSData *)decrypt:(NSData *)encrypted
+- (NSData *)decrypt:(NSData *)cipherText
 {
     size_t movedSize = 0;
-    size_t outputSize = DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8 + encrypted.length;
+    size_t outputSize = DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8 + cipherText.length;
     unsigned char* output = malloc(outputSize);
 
-    DMTRACE(@"Decrypting %ld bytes into %zu-byte buffer", (long)encrypted.length, outputSize);
+    DMTRACE(@"Decrypting %ld bytes into %zu-byte buffer", (long)cipherText.length, outputSize);
 
-    CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void*)self.key, DUBSAR_KEY_LENGTH_BITS/8, encrypted.bytes, encrypted.bytes+16, encrypted.length-16, output, outputSize, &movedSize);
+    CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void*)self.key, DUBSAR_KEY_LENGTH_BITS/8, cipherText.bytes, cipherText.bytes+16, cipherText.length-16, output, outputSize, &movedSize);
     if (status != kCCSuccess) {
         DMERROR(@"CCCrypt(decrypt) returned %d", status);
         free(output);
