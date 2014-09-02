@@ -38,7 +38,7 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
         long long ll;
         unsigned u;
         int i;
-        unsigned long len, buflen, datalen;
+        unsigned long len, buflen, datalen, fieldlen;
         double f;
         const char* s;
         id object;
@@ -170,9 +170,16 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
                 case 's':
                     s = va_arg(args, const char*);
 
-                    while (datalen + strlen(s) >= buflen) {
+                    if (*(s-1) == '*' && *(s-2) == '.') {
+                        fieldlen = va_arg(args, int);
+                    }
+                    else {
+                        fieldlen = strlen(s);
+                    }
+
+                    while (datalen + fieldlen >= buflen) {
                         buffer = extendBuffer(buffer, &buflen);
-                        // NSLog(@"datalen = %lu, adding %lu chars", datalen, strlen(s));
+                        NSLog(@"datalen = %lu, adding %lu chars", datalen, fieldlen);
                     }
 
                     datalen += sprintf(buffer+datalen, localFormat, s);

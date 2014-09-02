@@ -49,6 +49,7 @@
 		7B82C94319760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82C94219760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift */; };
 		7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82D29D1974A12400F983F6 /* LoadingTableViewCell.swift */; };
 		7B82D2A01974A3A400F983F6 /* SenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */; };
+		7B88F76519B6748C002EB78D /* NSData+StupidDubsarTricks.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B88F76419B6748C002EB78D /* NSData+StupidDubsarTricks.m */; };
 		7BA85A5619848DA100222A6D /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA85A5519848DA100222A6D /* AppConfiguration.swift */; };
 		7BA90E0A197786D400D5C180 /* PushWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA90E09197786D400D5C180 /* PushWrapper.m */; };
 		7BAC1E2E199A801C00D48521 /* CloseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC1E2D199A801C00D48521 /* CloseButton.m */; };
@@ -203,6 +204,8 @@
 		7B82C94219760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DubsarModelsSynset+ViewSizing.swift"; sourceTree = "<group>"; };
 		7B82D29D1974A12400F983F6 /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingTableViewCell.swift; sourceTree = "<group>"; };
 		7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseTableViewCell.swift; sourceTree = "<group>"; };
+		7B88F76319B6748C002EB78D /* NSData+StupidDubsarTricks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+StupidDubsarTricks.h"; sourceTree = "<group>"; };
+		7B88F76419B6748C002EB78D /* NSData+StupidDubsarTricks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+StupidDubsarTricks.m"; sourceTree = "<group>"; };
 		7BA85A5519848DA100222A6D /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		7BA90E08197786D400D5C180 /* PushWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushWrapper.h; sourceTree = "<group>"; };
 		7BA90E09197786D400D5C180 /* PushWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushWrapper.m; sourceTree = "<group>"; };
@@ -488,6 +491,8 @@
 				7B1152001974340900869E15 /* DubsarServer.m */,
 				7B7D3E91197DB3DC00619DEA /* KeyboardHelper.h */,
 				7B7D3E92197DB3DC00619DEA /* KeyboardHelper.m */,
+				7B88F76319B6748C002EB78D /* NSData+StupidDubsarTricks.h */,
+				7B88F76419B6748C002EB78D /* NSData+StupidDubsarTricks.m */,
 				7B7F9EC11997D960006F4BC0 /* NSString+Varargs.h */,
 				7B7F9EC21997D960006F4BC0 /* NSString+Varargs.m */,
 				7BA90E08197786D400D5C180 /* PushWrapper.h */,
@@ -681,6 +686,7 @@
 				7BBF83701974D58400969765 /* SearchViewController.swift in Sources */,
 				7B14AE291999D23A00BCD41A /* GearButton.m in Sources */,
 				7B14AE1E1999B9D500BCD41A /* FavoriteButton.m in Sources */,
+				7B88F76519B6748C002EB78D /* NSData+StupidDubsarTricks.m in Sources */,
 				7B1FDE2E19894E81004519D4 /* SettingSwitchValueTableViewCell.swift in Sources */,
 				7B82D29E1974A12400F983F6 /* LoadingTableViewCell.swift in Sources */,
 				7B7382FB1984700900880CF2 /* FAQViewController.swift in Sources */,

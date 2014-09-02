@@ -17,21 +17,18 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "AESKey.h"
-#import "Bookmark.h"
-#import "CGHelper.h"
-#import "CloseButton.h"
-#import "DatabaseManager.h"
-#import "DownloadBarButton.h"
-#import "DownloadButtonImage.h"
-#import "Dubsar.h"
-#import "DubsarServer.h"
-#import "FavoriteButton.h"
-#import "GearButton.h"
-#import "HomeButton.h"
-#import "KeyboardHelper.h"
-#import "NavButtonImage.h"
 #import "NSData+StupidDubsarTricks.h"
-#import "PushWrapper.h"
-#import "IOSKnobControl.h"
-#import "UIApplication+NetworkRefCount.h"
+
+@implementation NSData(StupidDubsarTricks)
+
+@dynamic startsWithLittleD;
+
+- (BOOL)startsWithLittleD
+{
+    if (self.length <= 0) return NO;
+
+    const char* string = (const char*)self.bytes;
+    return string[0] == 'd';
+}
+
+@end

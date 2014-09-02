@@ -127,6 +127,7 @@ enum {
     size_t movedSize = 0;
     size_t outputSize = DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8 + cipherText.length;
     unsigned char* output = malloc(outputSize);
+    memset(output, 0, outputSize);
 
     DMTRACE(@"Decrypting %ld bytes into %zu-byte buffer", (long)cipherText.length, outputSize);
 
@@ -200,7 +201,7 @@ enum {
 
     free(buffer);
 
-    DMDEBUG(@"Wrote %ld-bit AES key to keychain", newKey.length*8);
+    DMTRACE(@"Wrote %ld-bit AES key to keychain", newKey.length*8);
 
     return newKey;
 }

@@ -122,25 +122,60 @@ class BookmarkManager: NSObject {
             return
         }
 
+        DMTRACE("Loaded \(raw!.length) bytes from \(bookmarksKey)")
+
         var data: NSData!
         var secureBookmarksSetting = AppConfiguration.secureBookmarksSetting
 
         /*
          * The raw value may or may not be encrypted. We try following the setting first. If that fails, try the
          * other option, in case the setting recently changed while we were in the bg.
+         *
+         * Somehow, during testing, I ended up with something that decrypted (successfully) to junk and made the NSString
+         * initializer crash about 35 lines down. I'm not quite sure what happened, so I'm adding some sanity checks.
+         * The startsWithLittleD hack is because in Swift I have no clue how to
+         * check the numeric value of the first byte of an NSData. A list of dubsar:/// URLS has to start with 'd'. Generally
+         * the next 60-70 lines of code take a cue from the secureBookmarksSetting and attempt to decrypt the raw data if
+         * appropriate, but regardless of the first attempt, if the data cannot be validated as a list of URLS, the other
+         * option will be tried. That is, first encrypted, then unencrypted; or first unencrypted, then encrypted. If a URL
+         * list can be determined, the label list is parsed after that, but in whatever way (encrypted or not) the URL list
+         * was, without going through the same trial and error.
+         *
+         * Either way, at the end, saveBookmarks is called, and the stored value is updated according to the current value of
+         * AppConfiguration.secureBookmarksSetting. If encrypted, a new key is generated, and the keychain is also updated.
          */
 
         if secureBookmarksSetting {
-            data = aesKey.decrypt(raw)
-            if data == nil {
-                // the setting might have changed. if this is successfully parsed as plain text, it will
-                // be encrypted and written back.
+            if raw!.startsWithLittleD {
+                // assume this is unencrypted. if it fails, it will try again below.
                 secureBookmarksSetting = false
                 data = raw
+                DMTRACE("Raw data starts with d. Trying to parse.")
+            }
+            else {
+                data = aesKey.decrypt(raw)
+                if data == nil {
+                    // the setting might have changed. if this is successfully parsed as plain text, it will
+                    // be encrypted and written back.
+                    secureBookmarksSetting = false
+                    data = raw
+                    DMTRACE("Decryption failed. Trying to parse raw.") // will fail because it doesn't start with 'd'
+                }
+                else {
+                    DMTRACE("Successfully decrypted \(raw!.length) bytes to \(data.length) bytes")
+                }
             }
         }
         else {
+            DMTRACE("Encryption disabled. Parsing raw data.")
             data = raw
+        }
+
+        if !data.startsWithLittleD {
+            // can't parse. fail.
+            DMWARN("Failed to validate \(bookmarksKey) as a list of dubsar:/// URLS. Discarding bookmarks.")
+            saveBookmarks()
+            return
         }
 
         var string = NSString(data: data, encoding: NSUTF8StringEncoding)
@@ -156,11 +191,14 @@ class BookmarkManager: NSObject {
                  * The setting might have changed. This might be encrypted.
                  */
                 data = aesKey.decrypt(raw)
-                string = NSString(data: data, encoding: NSUTF8StringEncoding)
-                urls = string.componentsSeparatedByString(" ")
 
-                valid = validateUrls(urls as [String])
-                secureBookmarksSetting = valid
+                if data.startsWithLittleD {
+                    string = NSString(data: data, encoding: NSUTF8StringEncoding)
+                    urls = string.componentsSeparatedByString(" ")
+
+                    valid = validateUrls(urls as [String])
+                    secureBookmarksSetting = valid
+                }
             }
 
             if !valid {
