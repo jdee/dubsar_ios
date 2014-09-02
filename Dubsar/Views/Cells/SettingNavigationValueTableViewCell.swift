@@ -28,7 +28,7 @@ class SettingNavigationValueTableViewCell: SettingNavigationTableViewCell {
     }
 
     init() {
-        super.init(style: .Value1, reuseIdentifier: SettingNavigationValueTableViewCell.valueIdentifier)
+        super.init(style: .Value1, identifier: SettingNavigationValueTableViewCell.valueIdentifier)
         accessoryType = .DisclosureIndicator
     }
 
@@ -40,10 +40,10 @@ class SettingNavigationValueTableViewCell: SettingNavigationTableViewCell {
         super.setSelected(selected, animated: animated)
 
         if (selected) {
-            detailTextLabel.hidden = true
+            detailTextLabel!.hidden = true
         }
         else {
-            detailTextLabel.hidden = false
+            detailTextLabel!.hidden = false
         }
     }
 

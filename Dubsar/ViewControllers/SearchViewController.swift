@@ -76,15 +76,15 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         return row == search!.results.count - 1 ? 0 : 150 // 0: unlimited
     }
 
-    func tableView(tableView: UITableView!, shouldHighlightRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
+    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return indexPath != selectedIndexPath
     }
 
-    func tableView(tableView: UITableView!, numberOfRowsInSection section:Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section:Int) -> Int {
         return search != nil && search!.complete && search!.results.count > 0 ? search!.results.count : 1
     }
 
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath:NSIndexPath!) -> UITableViewCell! {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
         if search == nil || !search!.complete {
             var cell = tableView.dequeueReusableCellWithIdentifier(LoadingTableViewCell.identifier) as? LoadingTableViewCell
             if cell == nil {
@@ -92,7 +92,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             }
             cell!.spinner.activityIndicatorViewStyle = AppConfiguration.activityIndicatorViewStyle
 
-            return cell
+            return cell!
         }
 
         if search!.results.count == 0 {
@@ -101,10 +101,10 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             if cell == nil {
                 cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
                 cell!.selectionStyle = .None
-                cell!.textLabel.text = "search found no matches"
-                cell!.textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
+                cell!.textLabel!.text = "search found no matches"
+                cell!.textLabel!.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
             }
-            return cell
+            return cell!
         }
 
         let row = indexPath.indexAtPosition(1)
@@ -176,10 +176,10 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         DMTRACE("Height of cell at row \(row): \(cell!.bounds.size.height)")
 
-        return cell
+        return cell!
     }
 
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath == selectedIndexPath {
             // DMLOG("row %d reselected, ignoring", indexPath.row)
             return
@@ -202,7 +202,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
     }
 
-    func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
         if search == nil || !search!.complete || search!.results.count == 0 {
             return
         }
@@ -219,7 +219,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
     }
 
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if search == nil || !search!.complete || search!.results.count == 0 {
             return 44
         }
@@ -245,7 +245,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         return height
     }
 
-    func tableView(tableView: UITableView!, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if search == nil || !search!.complete || search!.results.count == 0 {
             return 44
         }

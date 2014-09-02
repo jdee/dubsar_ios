@@ -86,8 +86,8 @@ class DownloadProgressTableViewCell: UITableViewCell {
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
         downloadLabel.font = font
         unzipLabel.font = font
-        cancelButton.titleLabel.font = font
-        retryButton.titleLabel.font = font
+        cancelButton.titleLabel!.font = font
+        retryButton.titleLabel!.font = font
 
         let foregroundColor = AppConfiguration.foregroundColor
         downloadLabel.textColor = foregroundColor
@@ -106,12 +106,12 @@ class DownloadProgressTableViewCell: UITableViewCell {
         let margin: CGFloat = 8
         let constrainedWidth = bounds.size.width - 2 * margin
 
-        let downloadTextSize = (downloadLabel.text as NSString).sizeOfTextWithConstrainedSize(CGSizeMake(constrainedWidth, bounds.size.height), font: font)
+        let downloadTextSize = (downloadLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(CGSizeMake(constrainedWidth, bounds.size.height), font: font)
         downloadLabel.frame = CGRectMake(margin, margin, constrainedWidth, downloadTextSize.height)
 
         downloadProgress.frame = CGRectMake(margin, 2 * margin + downloadTextSize.height, constrainedWidth, downloadProgress.bounds.size.height)
 
-        let unzipTextSize = (unzipLabel.text as NSString).sizeOfTextWithConstrainedSize(CGSizeMake(constrainedWidth, bounds.size.height), font: font)
+        let unzipTextSize = (unzipLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(CGSizeMake(constrainedWidth, bounds.size.height), font: font)
         unzipLabel.frame = CGRectMake(margin, 3 * margin + downloadTextSize.height + downloadProgress.bounds.size.height, constrainedWidth, unzipTextSize.height)
 
         unzipProgress.frame = CGRectMake(margin, 4 * margin + downloadTextSize.height + downloadProgress.bounds.size.height + unzipTextSize.height, constrainedWidth, unzipProgress.bounds.size.height)
@@ -140,7 +140,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
             retryButton.hidden = true
         }
 
-        textLabel.hidden = true
+        textLabel!.hidden = true
 
         frame.size.height = cancelButton.frame.origin.y + cancelButton.bounds.size.height + margin
 

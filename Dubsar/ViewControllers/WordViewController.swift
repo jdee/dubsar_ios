@@ -108,17 +108,17 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         selectedIndexPath = NSIndexPath(forRow: index+1, inSection: 0)
     }
 
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return theWord != nil && theWord!.complete ? theWord!.senses.count + 1 : 1
     }
 
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if theWord == nil || !theWord!.complete {
             var cell = tableView.dequeueReusableCellWithIdentifier(LoadingTableViewCell.identifier) as? LoadingTableViewCell
             if cell == nil {
                 cell = LoadingTableViewCell()
             }
-            return cell
+            return cell!
         }
 
         let row = indexPath.indexAtPosition(1)
@@ -135,7 +135,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             cell!.rebuild()
 
             // DMLOG("Height of word cell at row 0: %f", Double(cell!.bounds.size.height))
-            return cell
+            return cell!
         }
 
         let sense = theWord!.senses[row-1] as DubsarModelsSense
@@ -173,10 +173,10 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         DMTRACE("Height of cell at row \(row) with row \(selectedRow) selected: \(cell!.bounds.size.height)")
         DMTRACE("Cell width: \(cell!.bounds.size.width). contentView width: \(cell!.contentView.bounds.size.width). view width: \((cell! as SenseTableViewCell).view!.bounds.size.width).")
 
-        return cell
+        return cell!
     }
 
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if theWord == nil || !theWord!.complete {
             return 44
         }
@@ -197,7 +197,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         return height
     }
 
-    func tableView(tableView: UITableView!, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if theWord == nil || !theWord!.complete {
             return 44
         }
@@ -218,7 +218,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         return height
     }
 
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // DMLOG("Selected row is %d", selectedIndexPath.indexAtPosition(1))
         let row = indexPath.indexAtPosition(1)
         if row == 0 {
@@ -250,12 +250,12 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         }
     }
 
-    func tableView(tableView: UITableView!, shouldHighlightRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
+    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         let row = indexPath.indexAtPosition(1)
         return row != 0 && indexPath != selectedIndexPath
     }
 
-    func tableView(tableView: UITableView!, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
         if theWord == nil || !theWord!.complete {
             return
         }
@@ -303,7 +303,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     }
 
     override func adjustLayout() {
-        if !loaded || view == nil {
+        if !loaded {
             return
         }
 

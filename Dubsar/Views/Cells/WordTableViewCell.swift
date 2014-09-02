@@ -123,13 +123,13 @@ class WordTableViewCell: UITableViewCell {
         constraint = NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
 
-        constraint = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        constraint = NSLayoutConstraint(item: view!, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
         contentView.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        constraint = NSLayoutConstraint(item: view!, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1.0, constant: 0.0)
         contentView.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        constraint = NSLayoutConstraint(item: view!, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1.0, constant: 0.0)
         contentView.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: contentView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        constraint = NSLayoutConstraint(item: view!, attribute: .Bottom, relatedBy: .Equal, toItem: contentView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
         contentView.addConstraint(constraint)
         // */
 
@@ -164,11 +164,11 @@ class WordTableViewCell: UITableViewCell {
             inflectionLabel!.setTranslatesAutoresizingMaskIntoConstraints(false)
             view!.addSubview(inflectionLabel!)
 
-            constraint = NSLayoutConstraint(item: inflectionLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - (isPreview ? accessorySize : 0))
+            constraint = NSLayoutConstraint(item: inflectionLabel!, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - (isPreview ? accessorySize : 0))
             view!.addConstraint(constraint)
-            constraint = NSLayoutConstraint(item: inflectionLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: margin)
+            constraint = NSLayoutConstraint(item: inflectionLabel!, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: margin)
             view!.addConstraint(constraint)
-            constraint = NSLayoutConstraint(item: inflectionLabel, attribute: .Top, relatedBy: .Equal, toItem: nameAndPosLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
+            constraint = NSLayoutConstraint(item: inflectionLabel!, attribute: .Top, relatedBy: .Equal, toItem: nameAndPosLabel, attribute: .Bottom, multiplier: 1.0, constant: margin)
             view!.addConstraint(constraint)
         }
 

@@ -352,7 +352,7 @@ class SynsetPointerView: UIView {
         //*
         let lastLabel = (labels as NSArray).lastObject as? UIView
         if lastLabel != nil {
-            var constraint = NSLayoutConstraint(item: lastLabel, attribute: .Bottom, relatedBy: .LessThanOrEqual, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -margin)
+            var constraint = NSLayoutConstraint(item: lastLabel!, attribute: .Bottom, relatedBy: .LessThanOrEqual, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -margin)
             addConstraint(constraint)
             myConstraints.append(constraint)
         }

@@ -194,7 +194,7 @@ struct AppConfiguration {
         }
 
         // DMLOG("Returning descriptor for font %@, size %f", name!, fontDesc.pointSize)
-        return UIFontDescriptor(name: name, size: fontDesc.pointSize)
+        return UIFontDescriptor(name: name!, size: fontDesc.pointSize)
     }
 
     static func preferredFontForTextStyle(style: String!, italic: Bool=false) -> UIFont! {

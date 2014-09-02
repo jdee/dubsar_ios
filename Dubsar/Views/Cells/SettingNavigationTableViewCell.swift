@@ -29,7 +29,7 @@ class SettingNavigationTableViewCell: UITableViewCell {
 
     private var spinner: UIActivityIndicatorView
 
-    override init(style cellType: UITableViewCellStyle = .Default, reuseIdentifier ident: String = SettingNavigationTableViewCell.identifier) {
+    init(style cellType: UITableViewCellStyle = .Default, identifier ident: String = SettingNavigationTableViewCell.identifier) {
         spinner = UIActivityIndicatorView(activityIndicatorStyle: AppConfiguration.activityIndicatorViewStyle)
         super.init(style: cellType, reuseIdentifier: ident)
         accessoryType = .DisclosureIndicator
@@ -56,13 +56,13 @@ class SettingNavigationTableViewCell: UITableViewCell {
         var newColor: UIColor
         if (selected) {
             spinner.startAnimating()
-            textLabel.hidden = true
+            textLabel!.hidden = true
             accessoryType = .None
             newColor = AppConfiguration.highlightColor
         }
         else {
             spinner.stopAnimating()
-            textLabel.hidden = false
+            textLabel!.hidden = false
             accessoryType = .DisclosureIndicator
             newColor = UIColor.clearColor()
         }

@@ -78,7 +78,7 @@ class AutocompleterView: UIView {
                     button.setTitle(text, forState: .Normal)
                     button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
                     button.backgroundColor = AppConfiguration.highlightColor
-                    button.titleLabel.font = font
+                    button.titleLabel!.font = font
                     button.enabled = false
                     addSubview(button)
                     buttons.append(button)
@@ -92,7 +92,7 @@ class AutocompleterView: UIView {
                     let button = UIButton(frame: CGRectMake(margin, y, bounds.size.width - 2*margin, textSize.height + 2*margin))
                     button.setTitle(result, forState: .Normal)
                     button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
-                    button.titleLabel.font = font
+                    button.titleLabel!.font = font
                     button.addTarget(self, action: "resultSelected:", forControlEvents: .TouchUpInside)
                     addSubview(button)
                     buttons.append(button)

@@ -162,32 +162,32 @@ class AboutViewController: BaseViewController {
         }
 
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        let attrs = [NSFontAttributeName: font]
+        let attrs: [ NSObject: AnyObject ]! = [NSFontAttributeName: font]
         let hmargin : CGFloat = 20
         let vmargin : CGFloat = 8
         var constrainedSize = view.bounds.size
         var y = vmargin
         constrainedSize.width -= 2 * hmargin
 
-        var textSize = (bannerLabel.text as NSString).sizeWithAttributes(attrs)
+        var textSize = (bannerLabel.text as NSString?)!.sizeWithAttributes(attrs)
         bannerLabel.font = font
         bannerLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
         y += textSize.height + vmargin
 
-        textSize = (versionLabel.text as NSString).sizeWithAttributes(attrs)
+        textSize = (versionLabel.text as NSString?)!.sizeWithAttributes(attrs)
         versionLabel.font = font
         versionLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
         y += textSize.height + vmargin
 
-        textSize = (modelsVersionLabel.text as NSString).sizeWithAttributes(attrs)
+        textSize = (modelsVersionLabel.text as NSString?)!.sizeWithAttributes(attrs)
         modelsVersionLabel.font = font
         modelsVersionLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
         y += textSize.height + vmargin
 
-        textSize = (databaseVersionLabel.text as NSString).sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+        textSize = (databaseVersionLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         databaseVersionLabel.font = font
         databaseVersionLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
@@ -199,26 +199,26 @@ class AboutViewController: BaseViewController {
         formatter.timeStyle = .ShortStyle
 
         lastCheckLabel.text = "Last checked \(formatter.stringFromDate(lastCheck))"
-        textSize = (lastCheckLabel.text as NSString).sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+        textSize = (lastCheckLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         lastCheckLabel.font = font
         lastCheckLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
         y += textSize.height + vmargin
 
-        textSize = (updateButton.titleForState(.Normal) as NSString).sizeWithAttributes(attrs)
-        updateButton.titleLabel.font = font
+        textSize = (updateButton.titleForState(.Normal) as NSString?)!.sizeWithAttributes(attrs)
+        updateButton.titleLabel!.font = font
         updateButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
         y += textSize.height + vmargin
 
-        textSize = (copyrightLabel.text as NSString).sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+        textSize = (copyrightLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         copyrightLabel.font = font
         copyrightLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
         y += textSize.height + vmargin
 
-        textSize = (iTunesButton.currentTitle as NSString).sizeOfTextWithConstrainedSize(constrainedSize, font: font)
-        iTunesButton.titleLabel.font = font
+        textSize = (iTunesButton.currentTitle as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+        iTunesButton.titleLabel!.font = font
         iTunesButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
         bannerLabel.textColor = AppConfiguration.foregroundColor

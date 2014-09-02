@@ -111,9 +111,9 @@ class AlphabetView: UIView {
 
             let button = GlobButton(frame: CGRectMake(x, y, 2 * letterWidth, letterHeight))
             button.globExpression = globExpression
-            button.titleLabel.font = fontToUse
+            button.titleLabel!.font = fontToUse
 
-            button.titleLabel.textAlignment = horizontal ? .Center : .Right
+            button.titleLabel!.textAlignment = horizontal ? .Center : .Right
 
             button.setTitle(String(label), forState: .Normal)
             button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)

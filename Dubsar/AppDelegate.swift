@@ -541,7 +541,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
         else {
             // pass http/https URLS to Safari
-            application.openURL(url)
+            application.openURL(url!)
         }
     }
 

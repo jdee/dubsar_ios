@@ -70,8 +70,8 @@ class BookmarkView: UIView {
         closeButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
 
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        button.titleLabel.font = font
-        closeButton.titleLabel.font = font
+        button.titleLabel!.font = font
+        closeButton.titleLabel!.font = font
 
         let text = bookmark.label
 

@@ -84,11 +84,11 @@ class OpenWordTableViewCell: WordTableViewCell {
         DMTRACE("Overall frame height \(frame.size.height)")
 
         var constraint: NSLayoutConstraint
-        constraint = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: openSenseView, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        constraint = NSLayoutConstraint(item: view!, attribute: .Leading, relatedBy: .Equal, toItem: openSenseView, attribute: .Leading, multiplier: 1.0, constant: 0.0)
         view!.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: openSenseView, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        constraint = NSLayoutConstraint(item: view!, attribute: .Trailing, relatedBy: .Equal, toItem: openSenseView, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
         view!.addConstraint(constraint)
-        constraint = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: openSenseView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        constraint = NSLayoutConstraint(item: view!, attribute: .Bottom, relatedBy: .Equal, toItem: openSenseView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
         view!.addConstraint(constraint)
         constraint = NSLayoutConstraint(item: lastSubview, attribute: .Bottom, relatedBy: .Equal, toItem: openSenseView, attribute: .Top, multiplier: 1.0, constant: 0.0)
         view!.addConstraint(constraint)

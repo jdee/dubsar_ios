@@ -85,7 +85,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         stopAnimating()
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         super.prepareForSegue(segue, sender: sender)
         if let viewController = segue.destinationViewController as? WordViewController {
             viewController.router = Router(viewController: viewController, model: wotd!.word)
@@ -147,7 +147,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             }
 
             let newViewWidth = newScreenWidth
-            var newViewHeight: CGFloat = newScreenHeight - navigationController.navigationBar.bounds.size.height - 20 // 20 for the status bar
+            var newViewHeight: CGFloat = newScreenHeight - navigationController!.navigationBar.bounds.size.height - 20 // 20 for the status bar
 
             let fudge: CGFloat = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? 12 : 0 // the difference in the height of the nav bar between orientations
             newViewHeight += UIInterfaceOrientationIsPortrait(toInterfaceOrientation) ? -fudge : +fudge
@@ -237,7 +237,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         }
     }
 
-    override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         super.touchesBegan(touches, withEvent: event)
 
         bookmarkListView.hidden = true
@@ -368,7 +368,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         DMTRACE("Using font \(font.fontName)")
         wotdLabel.font = font
-        wotdButton.titleLabel.font = font
+        wotdButton.titleLabel!.font = font
         wordNetLabel.font = font
 
         wotdLabel.textColor = AppConfiguration.foregroundColor

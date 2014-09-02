@@ -49,8 +49,8 @@ class SynonymButtonPair {
         navigationButton.enabled = selectionButton.enabled
 
         // configure selection button
-        selectionButton.titleLabel.font = font
-        selectionButton.titleLabel.adjustsFontSizeToFitWidth = true
+        selectionButton.titleLabel!.font = font
+        selectionButton.titleLabel!.adjustsFontSizeToFitWidth = true
         selectionButton.frame.size = (sense.name as NSString).sizeWithAttributes([NSFontAttributeName: font])
         selectionButton.frame.size.width += 2 * SynonymButtonPair.margin
         selectionButton.frame.size.height += 2 * SynonymButtonPair.margin

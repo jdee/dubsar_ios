@@ -91,11 +91,11 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         super.adjustLayout()
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return sections.count
     }
 
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
 
@@ -114,13 +114,13 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             }
 
             if value == AppConfiguration.themeKey {
-                cell!.detailTextLabel.text = AppConfiguration.themeName
+                cell!.detailTextLabel!.text = AppConfiguration.themeName
             }
         }
         else if type == "nav" {
             cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationTableViewCell.identifier) as? UITableViewCell
             if cell == nil {
-                cell = SettingNavigationTableViewCell(style: .Default, reuseIdentifier: SettingNavigationTableViewCell.identifier)
+                cell = SettingNavigationTableViewCell(style: .Default, identifier: SettingNavigationTableViewCell.identifier)
             }
         }
         else if type == "label" {
@@ -128,7 +128,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             if cell == nil {
                 cell = SettingLabelTableViewCell()
             }
-            cell!.detailTextLabel.text = value
+            cell!.detailTextLabel!.text = value
         }
         else {
             downloadViewShowing ||= AppDelegate.instance.databaseManager.errorMessage != nil
@@ -175,19 +175,19 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             }
         }
 
-        cell!.textLabel.text = setting["title"]
-        cell!.textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
+        cell!.textLabel!.text = setting["title"]
+        cell!.textLabel!.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
         cell!.backgroundColor = AppConfiguration.backgroundColor
-        cell!.textLabel.textColor = AppConfiguration.foregroundColor
+        cell!.textLabel!.textColor = AppConfiguration.foregroundColor
         if type == "label" || type == "navValue" {
-            cell!.detailTextLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
-            cell!.detailTextLabel.textColor = AppConfiguration.foregroundColor
+            cell!.detailTextLabel!.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
+            cell!.detailTextLabel!.textColor = AppConfiguration.foregroundColor
         }
 
-        return cell
+        return cell!
     }
 
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
 
@@ -213,12 +213,12 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         return max(height, 44.0)
     }
 
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let settings = sections[section] as [[String: String]]
         return settings.count
     }
 
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let section = indexPath.indexAtPosition(0)
         let row = indexPath.indexAtPosition(1)
         let settings = sections[section] as [[String: String]]

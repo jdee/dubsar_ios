@@ -80,7 +80,7 @@ class BookmarkListView: UIScrollView {
         }
 
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        let textSize = (label.text as NSString).sizeWithAttributes([NSFontAttributeName: font])
+        let textSize = (label.text as NSString?)!.sizeWithAttributes([NSFontAttributeName: font])
         let margin = BookmarkListView.margin
 
         label.font = font

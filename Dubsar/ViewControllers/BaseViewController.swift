@@ -75,13 +75,13 @@ class BaseViewController: UIViewController {
         view.backgroundColor = AppConfiguration.backgroundColor
 
         if navigationController != nil {
-            navigationController.navigationBar.barStyle = AppConfiguration.barStyle
-            navigationController.navigationBar.barTintColor = AppConfiguration.backgroundColor
-            navigationController.navigationBar.tintColor = AppConfiguration.foregroundColor
+            navigationController!.navigationBar.barStyle = AppConfiguration.barStyle
+            navigationController!.navigationBar.barTintColor = AppConfiguration.backgroundColor
+            navigationController!.navigationBar.tintColor = AppConfiguration.foregroundColor
             // Styling for the title
             let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
             let color = AppConfiguration.foregroundColor
-            navigationController.navigationBar.titleTextAttributes = [ NSFontAttributeName: font, NSForegroundColorAttributeName: color ]
+            navigationController!.navigationBar.titleTextAttributes = [ NSFontAttributeName: font, NSForegroundColorAttributeName: color ]
         }
 
         AppDelegate.instance.voidCache()
@@ -123,7 +123,7 @@ class BaseViewController: UIViewController {
             if let my = self {
                 let vc = my.instantiateViewControllerWithIdentifier(vcIdentifier, router: router)
                 dispatch_async(dispatch_get_main_queue()) {
-                    my.navigationController.pushViewController(vc, animated: true)
+                    my.navigationController!.pushViewController(vc!, animated: true)
                 }
             }
         }
@@ -173,7 +173,7 @@ class BaseViewController: UIViewController {
                     vc.router = router
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        my.navigationController.pushViewController(vc, animated: true)
+                        my.navigationController!.pushViewController(vc, animated: true)
                     }
                 }
             }
@@ -226,17 +226,17 @@ class BaseViewController: UIViewController {
         #if DEBUG
             if navigationItem.rightBarButtonItem != nil {
                 // this could be the home button
-                let targetName = navigationItem.rightBarButtonItem.target === self ? "self" :
-                    (navigationItem.rightBarButtonItem.target as? UIBarButtonItem) != nil ? "non-nil" : "nil"
-                DMTRACE("Action for right bar button item is \(navigationItem.rightBarButtonItem.action.description)")
+                let targetName = navigationItem.rightBarButtonItem!.target === self ? "self" :
+                    (navigationItem.rightBarButtonItem!.target as? UIBarButtonItem) != nil ? "non-nil" : "nil"
+                DMTRACE("Action for right bar button item is \(navigationItem.rightBarButtonItem!.action.description)")
                 DMTRACE("Target for right bar button item is \(targetName)")
 
-                let responds = navigationItem.rightBarButtonItem.target.respondsToSelector(navigationItem.rightBarButtonItem.action) ? "responds" : "doesn't respond"
-                DMTRACE("Target \(responds) to selector \(navigationItem.rightBarButtonItem.action.description)")
+                let responds = navigationItem.rightBarButtonItem!.target!.respondsToSelector(navigationItem.rightBarButtonItem!.action) ? "responds" : "doesn't respond"
+                DMTRACE("Target \(responds) to selector \(navigationItem.rightBarButtonItem!.action.description)")
 
-                assert(navigationItem.rightBarButtonItem.target === self)
-                assert(navigationItem.rightBarButtonItem.target.respondsToSelector(navigationItem.rightBarButtonItem.action))
-                assert(navigationItem.rightBarButtonItem.enabled)
+                assert(navigationItem.rightBarButtonItem!.target === self)
+                assert(navigationItem.rightBarButtonItem!.target!.respondsToSelector(navigationItem.rightBarButtonItem!.action))
+                assert(navigationItem.rightBarButtonItem!.enabled)
             }
         #endif
     }
@@ -248,12 +248,12 @@ class BaseViewController: UIViewController {
             return
         }
 
-        let optionalViewControllers: [AnyObject]? = navigationController.viewControllers
+        let optionalViewControllers: [AnyObject]? = navigationController!.viewControllers
         if optionalViewControllers == nil {
             return
         }
 
-        if navigationController.viewControllers.count < 3 {
+        if navigationController!.viewControllers.count < 3 {
             return
         }
 
@@ -274,7 +274,7 @@ class BaseViewController: UIViewController {
     }
 
     func home() {
-        navigationController.popToRootViewControllerAnimated(true)
+        navigationController!.popToRootViewControllerAnimated(true)
     }
 
 }
