@@ -84,51 +84,101 @@ class BookmarkManager: NSObject {
         DMTRACE("URL string: \"\(urlString)\"")
         DMTRACE("label string: \"\(labelString)\"")
 
-        let encryptedUrls = aesKey.encrypt(urlString.dataUsingEncoding(NSUTF8StringEncoding))
-        let encryptedLabels = aesKey.encrypt(labelString.dataUsingEncoding(NSUTF8StringEncoding))
+        if AppConfiguration.secureBookmarksSetting {
+            let encryptedUrls = aesKey.encrypt(urlString.dataUsingEncoding(NSUTF8StringEncoding))
+            let encryptedLabels = aesKey.encrypt(labelString.dataUsingEncoding(NSUTF8StringEncoding))
 
-        NSUserDefaults.standardUserDefaults().setValue(encryptedUrls, forKey: bookmarksKey)
-        NSUserDefaults.standardUserDefaults().setValue(encryptedLabels, forKey: labelsKey)
-
+            NSUserDefaults.standardUserDefaults().setValue(encryptedUrls, forKey: bookmarksKey)
+            NSUserDefaults.standardUserDefaults().setValue(encryptedLabels, forKey: labelsKey)
+        }
+        else {
+            NSUserDefaults.standardUserDefaults().setValue(urlString.dataUsingEncoding(NSUTF8StringEncoding), forKey: bookmarksKey)
+            NSUserDefaults.standardUserDefaults().setValue(labelString.dataUsingEncoding(NSUTF8StringEncoding), forKey: labelsKey)
+        }
+        
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 
     func loadBookmarks() {
-
-        /*
-        NSUserDefaults.standardUserDefaults().removeObjectForKey(bookmarksKey)
-        NSUserDefaults.standardUserDefaults().removeObjectForKey(labelsKey)
-        // */
-        
         bookmarks = []
 
         var urls: [AnyObject]
         var labels: [AnyObject]
 
         NSUserDefaults.standardUserDefaults().synchronize()
-        var encrypted = NSUserDefaults.standardUserDefaults().valueForKey(bookmarksKey) as? NSData
+        var raw = NSUserDefaults.standardUserDefaults().valueForKey(bookmarksKey) as? NSData
 
-        if encrypted == nil {
+        if raw == nil {
+            saveBookmarks()
             return
         }
 
-        var data = aesKey.decrypt(encrypted)
+        var data: NSData!
+        var secureBookmarksSetting = AppConfiguration.secureBookmarksSetting
 
-        // DEBT: If decryption here fails, try to parse without decrypting, in case it's from a build
-        // before encryption? Kind of a kluge.
+        /*
+         * The raw value may or may not be encrypted. We try following the setting first. If that fails, try the
+         * other option, in case the setting recently changed while we were in the bg.
+         */
+
+        if secureBookmarksSetting {
+            data = aesKey.decrypt(raw)
+            if data == nil {
+                // the setting might have changed. if this is successfully parsed as plain text, it will
+                // be encrypted and written back.
+                secureBookmarksSetting = false
+                data = raw
+            }
+        }
+        else {
+            data = raw
+        }
 
         var string = NSString(data: data, encoding: NSUTF8StringEncoding)
 
         DMTRACE("URL string on load (\(string.length)): \"\(string)\"")
         urls = string.componentsSeparatedByString(" ")
 
-        encrypted = NSUserDefaults.standardUserDefaults().valueForKey(labelsKey) as? NSData
+        // Check to see if they're all dubsar:/// URLS.
+        if !validateUrls(urls as [String]) {
+            var valid = false
+            if !secureBookmarksSetting {
+                /*
+                 * The setting might have changed. This might be encrypted.
+                 */
+                data = aesKey.decrypt(raw)
+                string = NSString(data: data, encoding: NSUTF8StringEncoding)
+                urls = string.componentsSeparatedByString(" ")
 
-        if encrypted == nil {
+                valid = validateUrls(urls as [String])
+                secureBookmarksSetting = valid
+            }
+
+            if !valid {
+                DMWARN("Failed to validate \(bookmarksKey) as a list of dubsar:/// URLS. Discarding bookmarks.")
+                saveBookmarks()
+                return
+            }
+        }
+
+        /*
+         * Now urls is set. Do the same for labels.
+         */
+
+        raw = NSUserDefaults.standardUserDefaults().valueForKey(labelsKey) as? NSData
+
+        if raw == nil {
+            saveBookmarks()
             return
         }
 
-        data = aesKey.decrypt(encrypted)
+        // Assume that we straightened this out above and don't need all the second guessing here.
+        if secureBookmarksSetting {
+            data = aesKey.decrypt(raw)
+        }
+        else {
+            data = raw
+        }
         string = NSString(data: data, encoding: NSUTF8StringEncoding)
 
         DMTRACE("Label string on load (\(string.length)): \"\(string)\"")
@@ -138,6 +188,7 @@ class BookmarkManager: NSObject {
         for (index, url) in enumerate(urls as [String]) {
             if index >= labels.count {
                 DMDEBUG("No more labels. Returning with \(bookmarks.count) bookmarks")
+                saveBookmarks()
                 return
             }
 
@@ -154,5 +205,18 @@ class BookmarkManager: NSObject {
             bookmarks.append(bookmark)
         }
         DMTRACE("Found \(bookmarks.count) bookmarks")
+
+        saveBookmarks()
+    }
+
+    private func validateUrls(urls: [String]) -> Bool {
+        for url in urls {
+            let nsurl = NSURL(string: url)
+            if nsurl.scheme == nil || nsurl.scheme! != "dubsar" {
+                return false
+            }
+        }
+
+        return true
     }
 }

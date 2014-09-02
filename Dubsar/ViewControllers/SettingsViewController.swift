@@ -49,7 +49,8 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "setting_type" : "navValue" ],
             [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue", "setting_action" : "offlineSwitchChanged:" ],
             [ "title" : "Autoupdate", "value" : AppConfiguration.autoUpdateKey, "setting_type" : "switch_value", "setting_action" : "autoUpdateChanged:" ],
-            [ "title" : "Autocorrection", "value" : AppConfiguration.autoCorrectKey, "setting_type" : "switch_value", "setting_action" : "autoCorrectChanged:" ]]
+            [ "title" : "Autocorrection", "value" : AppConfiguration.autoCorrectKey, "setting_type" : "switch_value", "setting_action" : "autoCorrectChanged:" ],
+            [ "title" : "Secure bookmarks", "value" : AppConfiguration.secureBookmarksKey, "setting_type" : "switch_value", "setting_action" : "secureBookmarksChanged:"]],
         ]
 
     let devSections: [[[String: String]]] = [
@@ -229,6 +230,12 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         if type == "nav" || type == "navValue" {
             pushViewControllerWithIdentifier(view, router: nil)
         }
+    }
+
+    func secureBookmarksChanged(sender: UISwitch!) {
+        AppConfiguration.secureBookmarksSetting = sender.on
+        // encrypt them now that the setting has changed
+        AppDelegate.instance.bookmarkManager.saveBookmarks()
     }
 
     func autoUpdateChanged(sender: UISwitch!) {

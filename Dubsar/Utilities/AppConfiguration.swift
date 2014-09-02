@@ -26,9 +26,11 @@ struct AppConfiguration {
     static let offlineKey = "DubsarOffline"
     static let autoUpdateKey = "DubsarAutoUpdate"
     static let autoCorrectKey = "DubsarAutoCorrect"
+    static let lastUpdateCheckTimeKey = "DubsarLastUpdateCheckTime"
+    static let secureBookmarksKey = "DubsarSecureBookmarks"
+
     // MARK: Dev key(s)
     static let productionKey = "DubsarProduction"
-    static let lastUpdateCheckTimeKey = "DubsarLastUpdateCheckTime"
 
     // MARK: Keys into the theme dictionaries below
     static let nameKey = "name"
@@ -73,7 +75,7 @@ struct AppConfiguration {
     // MARK: Wrappers around  NSUserDefaults
     static var themeSetting: Int {
         get {
-            return NSUserDefaults.standardUserDefaults().integerForKey(themeKey)
+        return NSUserDefaults.standardUserDefaults().integerForKey(themeKey)
         }
         set {
             NSUserDefaults.standardUserDefaults().setInteger(newValue, forKey: themeKey)
@@ -82,7 +84,7 @@ struct AppConfiguration {
 
     static var offlineSetting: Bool {
         get {
-            return NSUserDefaults.standardUserDefaults().boolForKey(offlineKey)
+        return NSUserDefaults.standardUserDefaults().boolForKey(offlineKey)
         }
         set {
             NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: offlineKey)
@@ -108,7 +110,7 @@ struct AppConfiguration {
         }
         set {
             NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: autoUpdateKey)
-    }
+        }
     }
 
     static var autoCorrectSetting: Bool {
@@ -117,7 +119,16 @@ struct AppConfiguration {
         }
         set {
             NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: autoCorrectKey)
+        }
     }
+
+    static var secureBookmarksSetting: Bool {
+        get {
+        return NSUserDefaults.standardUserDefaults().boolForKey(secureBookmarksKey)
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: secureBookmarksKey)
+        }
     }
 
     static var lastUpdateCheckTime: time_t {
@@ -247,5 +258,5 @@ struct AppConfiguration {
         let theme = themes[index] as [String: AnyObject]
         return theme[key] as? T
     }
-
+    
 }

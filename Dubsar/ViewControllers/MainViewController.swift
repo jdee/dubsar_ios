@@ -76,7 +76,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         resetSearch()
         stopAnimating()
         rotated = false
-        AppDelegate.instance.bookmarkManager.loadBookmarks()
         super.viewWillAppear(animated)
     }
 
@@ -386,6 +385,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
+        AppDelegate.instance.bookmarkManager.loadBookmarks()
         bookmarkListView.frame = CGRectMake(0, 44, view.bounds.size.width, view.bounds.size.height - 44)
         bookmarkListView.setNeedsLayout()
 
