@@ -134,9 +134,11 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+#ifdef DEBUG
     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*)response;
 
     DMTRACE(@"response status code from %@: %ld", httpResp.URL.host, (long)httpResp.statusCode);
+#endif // DEBUG
 
     [[UIApplication sharedApplication] stopUsingNetwork];
 }

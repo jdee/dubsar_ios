@@ -833,10 +833,12 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         return;
     }
 
+#ifdef DEBUG
     NSUInteger zipped = _currentDownload.zippedSize;
     NSUInteger unzipped = _currentDownload.unzippedSize;
 
     DMINFO(@"download: %@. zipped: %lu, unzipped: %lu", _currentDownload.name, (unsigned long)zipped, (unsigned long)unzipped);
+#endif // DEBUG
 
     _oldFileName = _fileName;
     _oldDownload = _currentDownload;

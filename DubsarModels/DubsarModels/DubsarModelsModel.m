@@ -190,13 +190,15 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 {
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
     
+#ifdef DEBUG
     DMDEBUG(@"GET request for URL %@ returned HTTP status code %ld", url, (long)httpResponse.statusCode);
-    
+
     NSDictionary* headers = [httpResponse allHeaderFields];
     [headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         NSString* value = (NSString*)obj;
         DMTRACE(@"%@: \"%@\"", key, value);
     }];
+#endif // DEBUG
     
     if (httpResponse.statusCode >= 400) {
         self.errorMessage = @"The Dubsar server did not return the data properly.";

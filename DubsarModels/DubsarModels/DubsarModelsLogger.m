@@ -77,11 +77,11 @@
 
     const unsigned char* bytes = (const unsigned char*)data.bytes;
     size_t length = data.length;
-    const int numPerLine = 8;
+    const size_t numPerLine = 8;
     const int pad = 8;
 
     while (length > 0) {
-        int numToDump = MIN(numPerLine, length);
+        int numToDump = (int)MIN(numPerLine, length);
 
         char line[256];
         line[0] = '\0';
