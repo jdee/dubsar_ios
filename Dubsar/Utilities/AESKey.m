@@ -113,7 +113,7 @@ enum {
     DMTRACE(@"Clear text:");
     [DubsarModelsLogger dump:clearText level:DubsarModelsLogLevelTrace];
 
-    CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void *)self.key, kCCKeySizeAES256, output, clearText.bytes, clearText.length, output+kCCBlockSizeAES128, outputSize-kCCBlockSizeAES128, &movedSize);
+    CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, bytes, kCCKeySizeAES256, output, clearText.bytes, clearText.length, output+kCCBlockSizeAES128, outputSize-kCCBlockSizeAES128, &movedSize);
     if (status != kCCSuccess) {
         DMERROR(@"CCCrypt(encrypt) returned %d", status);
         free(output);
@@ -145,7 +145,7 @@ enum {
     DMTRACE(@"Cipher text:");
     [DubsarModelsLogger dump:cipherText level:DubsarModelsLogLevelTrace];
 
-    CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void*)self.key, kCCKeySizeAES256, cipherText.bytes, cipherText.bytes+kCCBlockSizeAES128, cipherText.length-kCCBlockSizeAES128, output, outputSize, &movedSize);
+    CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, bytes, kCCKeySizeAES256, cipherText.bytes, cipherText.bytes+kCCBlockSizeAES128, cipherText.length-kCCBlockSizeAES128, output, outputSize, &movedSize);
     if (status != kCCSuccess) {
         DMERROR(@"CCCrypt(decrypt) returned %d", status);
         free(output);
