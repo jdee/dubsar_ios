@@ -22,7 +22,7 @@ import UIKit
 class BookmarkManager: NSObject {
 
     var bookmarks = [Bookmark]()
-    let aesKey = AESKey(identifier: "\(NSBundle.mainBundle().bundleIdentifier).bookmarks")
+    lazy var aesKey = AESKey(identifier: "\(NSBundle.mainBundle().bundleIdentifier).bookmarks")
 
     func toggleBookmark(bookmark: Bookmark!) -> Bool {
         // do we have this bookmark?
@@ -93,16 +93,23 @@ class BookmarkManager: NSObject {
             let encryptedUrls = aesKey.encrypt(urlString.dataUsingEncoding(NSUTF8StringEncoding))
             let encryptedLabels = aesKey.encrypt(labelString.dataUsingEncoding(NSUTF8StringEncoding))
 
-            NSUserDefaults.standardUserDefaults().setValue(encryptedUrls, forKey: bookmarksKey)
-            NSUserDefaults.standardUserDefaults().setValue(encryptedLabels, forKey: labelsKey)
+            let base64Urls = NSString.base64StringFromData(encryptedUrls, length: encryptedUrls.length) as NSString
+            let base64Labels = NSString.base64StringFromData(encryptedLabels, length: encryptedLabels.length) as NSString
+
+            DMTRACE("Saving \(base64Urls.length) URL bytes, \(base64Labels.length) label bytes")
+            DMTRACE("Base64 URLS: \(base64Urls)")
+            DMTRACE("Base64 Labels: \(base64Labels)")
+
+            NSUserDefaults.standardUserDefaults().setValue(base64Urls, forKey: bookmarksKey)
+            NSUserDefaults.standardUserDefaults().setValue(base64Labels, forKey: labelsKey)
         }
         else {
             /*
              * No real harm in leaving the key, but may as well clean up.
              */
-            aesKey.deleteKey()
-            NSUserDefaults.standardUserDefaults().setValue(urlString.dataUsingEncoding(NSUTF8StringEncoding), forKey: bookmarksKey)
-            NSUserDefaults.standardUserDefaults().setValue(labelString.dataUsingEncoding(NSUTF8StringEncoding), forKey: labelsKey)
+            // aesKey.deleteKey()
+            NSUserDefaults.standardUserDefaults().setValue(urlString, forKey: bookmarksKey)
+            NSUserDefaults.standardUserDefaults().setValue(labelString, forKey: labelsKey)
         }
         
         NSUserDefaults.standardUserDefaults().synchronize()
@@ -115,7 +122,7 @@ class BookmarkManager: NSObject {
         var labels: [AnyObject]
 
         NSUserDefaults.standardUserDefaults().synchronize()
-        var raw = NSUserDefaults.standardUserDefaults().valueForKey(bookmarksKey) as? NSData
+        var raw = NSUserDefaults.standardUserDefaults().valueForKey(bookmarksKey) as? NSString
 
         if raw == nil {
             saveBookmarks()
@@ -124,61 +131,58 @@ class BookmarkManager: NSObject {
 
         DMTRACE("Loaded \(raw!.length) bytes from \(bookmarksKey)")
 
-        var data: NSData!
+        var string: NSString!
         var secureBookmarksSetting = AppConfiguration.secureBookmarksSetting
 
         /*
          * The raw value may or may not be encrypted. We try following the setting first. If that fails, try the
          * other option, in case the setting recently changed while we were in the bg.
          *
-         * Somehow, during testing, I ended up with something that decrypted (successfully) to junk and made the NSString
-         * initializer crash about 35 lines down. I'm not quite sure what happened, so I'm adding some sanity checks.
-         * The startsWithLittleD hack is because in Swift I have no clue how to
-         * check the numeric value of the first byte of an NSData. A list of dubsar:/// URLS has to start with 'd'. Generally
-         * the next 60-70 lines of code take a cue from the secureBookmarksSetting and attempt to decrypt the raw data if
-         * appropriate, but regardless of the first attempt, if the data cannot be validated as a list of URLS, the other
-         * option will be tried. That is, first encrypted, then unencrypted; or first unencrypted, then encrypted. If a URL
-         * list can be determined, the label list is parsed after that, but in whatever way (encrypted or not) the URL list
-         * was, without going through the same trial and error.
-         *
          * Either way, at the end, saveBookmarks is called, and the stored value is updated according to the current value of
          * AppConfiguration.secureBookmarksSetting. If encrypted, a new key is generated, and the keychain is also updated.
          */
 
         if secureBookmarksSetting {
-            if raw!.startsWithLittleD {
+            if raw!.hasPrefix("d") {
                 // assume this is unencrypted. if it fails, it will try again below.
                 secureBookmarksSetting = false
-                data = raw
+                string = raw
                 DMTRACE("Raw data starts with d. Trying to parse.")
             }
             else {
-                data = aesKey.decrypt(raw)
+                DMTRACE("Decrypting base64 URLS: \(raw!)")
+
+                let cipherText = NSData.base64DataFromString(raw)
+                var data = aesKey.decrypt(cipherText)
                 if data == nil {
                     // the setting might have changed. if this is successfully parsed as plain text, it will
                     // be encrypted and written back.
                     secureBookmarksSetting = false
-                    data = raw
+                    string = raw
                     DMTRACE("Decryption failed. Trying to parse raw.") // will fail because it doesn't start with 'd'
                 }
                 else {
                     DMTRACE("Successfully decrypted \(raw!.length) bytes to \(data.length) bytes")
+                    if data.length > 0 && !data.startsWithLittleD {
+                        DMWARN("Cannot parse \(data.length) bytes as URL list. Does not start with 'd'")
+                        saveBookmarks()
+                        return
+                    }
+
+                    string = NSString(data: data, encoding: NSUTF8StringEncoding)
                 }
             }
         }
         else {
             DMTRACE("Encryption disabled. Parsing raw data.")
-            data = raw
+            string = raw
         }
 
-        if !data.startsWithLittleD {
-            // can't parse. fail.
-            DMWARN("Failed to validate \(bookmarksKey) as a list of dubsar:/// URLS. Discarding bookmarks.")
+        if string.length == 0 {
+            DMTRACE("Bookmarks are empty.")
             saveBookmarks()
             return
         }
-
-        var string = NSString(data: data, encoding: NSUTF8StringEncoding)
 
         DMTRACE("URL string on load (\(string.length)): \"\(string)\"")
         urls = string.componentsSeparatedByString(" ")
@@ -190,9 +194,10 @@ class BookmarkManager: NSObject {
                 /*
                  * The setting might have changed. This might be encrypted.
                  */
-                data = aesKey.decrypt(raw)
+                let cipherText = NSData.base64DataFromString(raw)
+                let data = aesKey.decrypt(cipherText)
 
-                if data.startsWithLittleD {
+                if data != nil {
                     string = NSString(data: data, encoding: NSUTF8StringEncoding)
                     urls = string.componentsSeparatedByString(" ")
 
@@ -202,7 +207,7 @@ class BookmarkManager: NSObject {
             }
 
             if !valid {
-                DMWARN("Failed to validate \(bookmarksKey) as a list of dubsar:/// URLS. Discarding bookmarks.")
+                DMWARN("Failed to validate \(bookmarksKey) as a list of dubsar:/// URLS (validation failed). Discarding bookmarks.")
                 saveBookmarks()
                 return
             }
@@ -212,7 +217,7 @@ class BookmarkManager: NSObject {
          * Now urls is set. Do the same for labels.
          */
 
-        raw = NSUserDefaults.standardUserDefaults().valueForKey(labelsKey) as? NSData
+        raw = NSUserDefaults.standardUserDefaults().valueForKey(labelsKey) as? NSString
 
         if raw == nil {
             saveBookmarks()
@@ -221,12 +226,13 @@ class BookmarkManager: NSObject {
 
         // Assume that we straightened this out above and don't need all the second guessing here.
         if secureBookmarksSetting {
-            data = aesKey.decrypt(raw)
+            let cipherText = NSData.base64DataFromString(raw)
+            let data = aesKey.decrypt(cipherText)
+            string = NSString(data: data, encoding: NSUTF8StringEncoding)
         }
         else {
-            data = raw
+            string = raw
         }
-        string = NSString(data: data, encoding: NSUTF8StringEncoding)
 
         DMTRACE("Label string on load (\(string.length)): \"\(string)\"")
 

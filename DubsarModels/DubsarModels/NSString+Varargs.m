@@ -71,11 +71,10 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
             datalen += numToCopy;
             buffer[datalen] = '\0';
 
-            start = p;
+            start = p++;
             while (*p == '.' || *p == '*' || isdigit(*p)) ++ p;
 
-            int discriminator = *++p;
-            ++ p;
+            int discriminator = *p++;
 
             char localFormat[16];
             strncpy(localFormat, start, p-start);
@@ -83,6 +82,8 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
             assert(strlen(localFormat) == p-start);
 
             datalen = strlen(buffer);
+
+            // NSLog(@"localFormat: %s", localFormat);
 
             switch(discriminator) {
                 case '%':
@@ -179,7 +180,7 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
 
                     while (datalen + fieldlen >= buflen) {
                         buffer = extendBuffer(buffer, &buflen);
-                        NSLog(@"datalen = %lu, adding %lu chars", datalen, fieldlen);
+                        // NSLog(@"datalen = %lu, adding %lu chars", datalen, fieldlen);
                     }
 
                     datalen += sprintf(buffer+datalen, localFormat, s);
@@ -201,10 +202,10 @@ static char* extendBuffer(char* buffer, unsigned long* buflen) {
                 case 'f':
                 default:
                     /*
-                     if (discriminator != 'f') {
-                     NSLog(@"Treating %%%c like %%f", discriminator);
-                     }
-                     // */
+                    if (discriminator != 'f') {
+                        NSLog(@"Treating %%%c like %%f", discriminator);
+                    }
+                    // */
 
                     // -0.12345678901234567e-123
                     while (datalen + 25 >= buflen) {
