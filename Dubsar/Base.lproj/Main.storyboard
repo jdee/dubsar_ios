@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PVu-d6-7eH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PVu-d6-7eH">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
@@ -21,7 +21,7 @@
             </objects>
             <point key="canvasLocation" x="174" y="618"/>
         </scene>
-        <!--Dubsar-->
+        <!--Home-->
         <scene sceneID="BOV-Zg-WdP">
             <objects>
                 <viewController id="qk7-HA-hy1" customClass="MainViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
@@ -84,7 +84,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Dubsar" id="m3u-le-uai"/>
+                    <navigationItem key="navigationItem" title="Home" id="m3u-le-uai"/>
                     <connections>
                         <outlet property="searchBar" destination="a2p-CQ-t6I" id="Ld4-N5-e4v"/>
                         <outlet property="wordNetLabel" destination="AzF-Dj-Ocu" id="LkT-kb-HAb"/>

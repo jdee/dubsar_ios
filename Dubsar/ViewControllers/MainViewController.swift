@@ -395,6 +395,10 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func setupToolbar() {
+        let imageView = UIImageView(image: UIImage(named: "dubsar-full"))
+        imageView.contentMode = .ScaleAspectFit
+        navigationItem.titleView = imageView
+
         let settingButton = AppDelegate.instance.databaseManager.downloadInProgress ? DownloadBarButtonItem(target:self, action:"viewDownload:") : SettingBarButtonItem(target: self, action: "showSettingView:")
         settingButton.width = 32
         navigationItem.leftBarButtonItem = settingButton
