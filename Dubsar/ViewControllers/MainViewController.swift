@@ -193,11 +193,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
                 let transverseAspect = typicalSize.width / alphabetView.bounds.size.height // > 1
                 inset = 0.5 * typicalSize.width
                 let transverseOffset: CGFloat = 0.5*(typicalSize.width - alphabetView.bounds.size.height)
-                let offset = 0.5 * alphabetView.bounds.size.width - inset
+                let offset = 0.5 * newAlphabetHeight - 0.5 * aspect * alphabetView.bounds.size.height
 
-                transform = CGAffineTransformTranslate(transform, offset, 0)
+                transform = CGAffineTransformTranslate(transform, 0.5*alphabetView.bounds.size.width - inset, transverseOffset)
                 transform = CGAffineTransformRotate(transform, 0.5 * π)
-                transform = CGAffineTransformTranslate(transform, -0.5 * newAlphabetHeight + inset - transverseOffset, 0.0)
+                transform = CGAffineTransformTranslate(transform, -offset, 0.0)
                 transform = CGAffineTransformScale(transform, aspect, transverseAspect)
             }
             else {
@@ -206,11 +206,11 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
                 let transverseAspect = typicalSize.height / alphabetView.bounds.size.width // < 1
                 inset = 0.5 * typicalSize.height
                 let transverseOffset: CGFloat = 0.5*(alphabetView.bounds.size.width - typicalSize.height)
-                let offset = 0.5 * alphabetView.bounds.size.height - inset
+                let offset = 0.5 * newViewWidth - 0.5 * alphabetView.bounds.size.width * aspect
 
-                transform = CGAffineTransformTranslate(transform, 0, offset)
+                transform = CGAffineTransformTranslate(transform, -transverseOffset, 0.5*alphabetView.bounds.size.height - inset)
                 transform = CGAffineTransformRotate(transform, -0.5 * π)
-                transform = CGAffineTransformTranslate(transform, 0.0, -0.5 * newViewWidth + inset + transverseOffset)
+                transform = CGAffineTransformTranslate(transform, 0.0, -offset)
                 transform = CGAffineTransformScale(transform, transverseAspect, aspect)
             }
             // */
@@ -306,7 +306,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
         switch router.routerAction {
         case .UpdateView:
-            // DMLOG(".UpdateView")
+            DMTRACE(".UpdateView")
             if let wotd = router.model as? DubsarModelsDailyWord {
                 self.wotd = wotd
                 DMTRACE("Updating with WOTD \(wotd.word.nameAndPos)")
@@ -320,14 +320,14 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
             }
 
         case .UpdateAutocompleter:
-            // DMLOG(".UpdateAutocompleter")
+            DMTRACE(".UpdateAutocompleter")
             let ac = router.model as DubsarModelsAutocompleter
             if ac.seqNum >= lastSequence {
                 autocompleterFinished(ac, withError: nil)
             }
 
         default:
-            // DMLOG("Unexpected routerAction")
+            DMTRACE("Unexpected routerAction")
             break
         }
     }
@@ -501,7 +501,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     func adjustAlphabetView(orientation: UIInterfaceOrientation) {
-        // DMLOG("adjusting alphabet view")
+        DMTRACE("adjusting alphabet view")
         var alphabetFrame = CGRectZero
         if alphabetView == nil {
             alphabetView = AlphabetView(frame: alphabetFrame)
