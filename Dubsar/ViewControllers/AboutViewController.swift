@@ -37,6 +37,9 @@ class AboutViewController: BaseViewController {
     var lastCheckLabel : UILabel!
     var updateButton: UIButton!
     var iTunesButton: UIButton!
+    var supportLabel: UILabel!
+    var supportEmailButton: UIButton!
+    var supportURLButton: UIButton!
 
     private var paragraphLabels = [UILabel]()
 
@@ -102,6 +105,30 @@ class AboutViewController: BaseViewController {
         iTunesButton.addTarget(self, action: "viewInAppStore:", forControlEvents: .TouchUpInside)
         iTunesButton.autoresizingMask = .FlexibleWidth
         scroller.addSubview(iTunesButton)
+
+        supportLabel = UILabel(frame: CGRectZero)
+        supportLabel.text = "For support:"
+        supportLabel.textAlignment = .Center
+        supportLabel.numberOfLines = 0
+        supportLabel.lineBreakMode = .ByWordWrapping
+        supportLabel.autoresizingMask = .FlexibleWidth
+        scroller.addSubview(supportLabel)
+
+        supportEmailButton = UIButton(frame: CGRectZero)
+        supportEmailButton.setTitle("support@dubsar-dictionary.com", forState: .Normal)
+        supportEmailButton.titleLabel!.textAlignment = .Center
+        supportEmailButton.titleLabel!.adjustsFontSizeToFitWidth = true
+        supportEmailButton.autoresizingMask = .FlexibleWidth
+        supportEmailButton.addTarget(self, action: "sendSupportEmail:", forControlEvents: .TouchUpInside)
+        scroller.addSubview(supportEmailButton)
+
+        supportURLButton = UIButton(frame: CGRectZero)
+        supportURLButton.setTitle("https://m.dubsar-dictionary.com/m_support", forState: .Normal)
+        supportURLButton.titleLabel!.textAlignment = .Center
+        supportURLButton.titleLabel!.adjustsFontSizeToFitWidth = true
+        supportURLButton.autoresizingMask = .FlexibleWidth
+        supportURLButton.addTarget(self, action: "visitSupportURL:", forControlEvents: .TouchUpInside)
+        scroller.addSubview(supportURLButton)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -221,6 +248,24 @@ class AboutViewController: BaseViewController {
         iTunesButton.titleLabel!.font = font
         iTunesButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
 
+        y += textSize.height + vmargin
+        
+        textSize = (supportLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+        supportLabel.font = font
+        supportLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
+        y += textSize.height + vmargin
+
+        textSize = (supportEmailButton.currentTitle as NSString?)!.sizeWithAttributes([NSFontAttributeName: font])
+        supportEmailButton.titleLabel!.font = font
+        supportEmailButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
+        y += textSize.height + vmargin
+
+        textSize = (supportURLButton.currentTitle as NSString?)!.sizeWithAttributes([NSFontAttributeName: font])
+        supportURLButton.titleLabel!.font = font
+        supportURLButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
         bannerLabel.textColor = AppConfiguration.foregroundColor
         versionLabel.textColor = AppConfiguration.foregroundColor
         modelsVersionLabel.textColor = AppConfiguration.foregroundColor
@@ -232,6 +277,11 @@ class AboutViewController: BaseViewController {
         updateButton.backgroundColor = AppConfiguration.highlightColor
         iTunesButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         iTunesButton.backgroundColor = AppConfiguration.highlightColor
+        supportLabel.textColor = AppConfiguration.foregroundColor
+        supportEmailButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        supportEmailButton.backgroundColor = AppConfiguration.highlightColor
+        supportURLButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        supportURLButton.backgroundColor = AppConfiguration.highlightColor
 
         var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         var bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
@@ -257,6 +307,14 @@ class AboutViewController: BaseViewController {
         UIApplication.sharedApplication().openURL(NSURL(string: iTunesLink))
     }
 
+    @IBAction func sendSupportEmail(sender: UIButton!) {
+        UIApplication.sharedApplication().openURL(NSURL(string: "mailto:support@dubsar-dictionary.com"))
+    }
+
+    @IBAction func visitSupportURL(sender: UIButton!) {
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://m.dubsar-dictionary.com/m_support"))
+    }
+
     private func layoutParagraphs(font: UIFont!) {
         for label in paragraphLabels {
             label.removeFromSuperview()
@@ -278,7 +336,7 @@ class AboutViewController: BaseViewController {
         var y : CGFloat = 0
         var lastLabel : UIView!
         if paragraphLabels.isEmpty {
-            lastLabel = iTunesButton
+            lastLabel = supportURLButton
         }
         else {
             lastLabel = paragraphLabels[paragraphLabels.count - 1]
