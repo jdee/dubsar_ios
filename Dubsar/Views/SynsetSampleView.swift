@@ -133,9 +133,11 @@ class SynsetSampleView: UIView {
             label.numberOfLines = 0
             label.text = sample
             label.textColor = AppConfiguration.foregroundColor
-            label.backgroundColor = background
+            label.backgroundColor = UIColor.clearColor()
             label.setTranslatesAutoresizingMaskIntoConstraints(false)
             label.textAlignment = .Left
+            label.layer.cornerRadius = 0.5 * margin
+            label.layer.backgroundColor = background.CGColor
 
             labels.append(label)
             addSubview(label)

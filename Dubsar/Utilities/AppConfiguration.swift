@@ -46,7 +46,7 @@ struct AppConfiguration {
 
     // MARK: Dictionaries defining the available themes.
     static let themes = [
-        [ nameKey : "Scribe", fontKey : "Georgia",
+        [ nameKey : "Scribe", fontKey : "Palatino",
             backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.855, green: 0.647, blue: 0.125, alpha: 1.0),
             highlightKey : UIColor(red: 0.529, green: 0.808, blue: 0.980, alpha: 1.0),
@@ -66,9 +66,9 @@ struct AppConfiguration {
             backgroundKey : UIColor(red: 0.192, green: 0.310, blue: 0.310, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.412, green: 0.412, blue: 0.412, alpha: 1.0),
             highlightKey : UIColor(red: 0.420, green: 0.557, blue: 0.137, alpha: 1.0),
-            alternateHighlightKey : UIColor(red: 0.690, green: 0.188, blue: 0.376, alpha: 1.0),
+            alternateHighlightKey : UIColor(red: 0.741, green: 0.718, blue: 0.420, alpha: 1.0),
             foregroundKey : UIColor(red: 0.878, green: 1.0, blue: 1.0, alpha: 1.0),
-            highlightedForegroundKey : UIColor(red: 0.0, green: 0.980, blue: 0.604, alpha: 1.0),
+            highlightedForegroundKey : UIColor(red: 0.0, green: 1.000, blue: 1.000, alpha: 1.0),
             barKey: "dark", activityKey : "white" ]
     ]
 

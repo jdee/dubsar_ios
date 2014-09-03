@@ -98,12 +98,14 @@ class AboutViewController: BaseViewController {
         updateButton = UIButton(frame: CGRectZero)
         updateButton.addTarget(self, action: "checkForUpdate:", forControlEvents: .TouchUpInside)
         updateButton.autoresizingMask = .FlexibleWidth
+        updateButton.layer.cornerRadius = 4
         scroller.addSubview(updateButton)
 
         iTunesButton = UIButton(frame: CGRectZero)
         iTunesButton.setTitle("View in App Store", forState: .Normal)
         iTunesButton.addTarget(self, action: "viewInAppStore:", forControlEvents: .TouchUpInside)
         iTunesButton.autoresizingMask = .FlexibleWidth
+        iTunesButton.layer.cornerRadius = 4
         scroller.addSubview(iTunesButton)
 
         supportLabel = UILabel(frame: CGRectZero)
@@ -120,6 +122,7 @@ class AboutViewController: BaseViewController {
         supportEmailButton.titleLabel!.adjustsFontSizeToFitWidth = true
         supportEmailButton.autoresizingMask = .FlexibleWidth
         supportEmailButton.addTarget(self, action: "sendSupportEmail:", forControlEvents: .TouchUpInside)
+        supportEmailButton.layer.cornerRadius = 4
         scroller.addSubview(supportEmailButton)
 
         supportURLButton = UIButton(frame: CGRectZero)
@@ -128,6 +131,7 @@ class AboutViewController: BaseViewController {
         supportURLButton.titleLabel!.adjustsFontSizeToFitWidth = true
         supportURLButton.autoresizingMask = .FlexibleWidth
         supportURLButton.addTarget(self, action: "visitSupportURL:", forControlEvents: .TouchUpInside)
+        supportURLButton.layer.cornerRadius = 4
         scroller.addSubview(supportURLButton)
     }
 
@@ -188,6 +192,8 @@ class AboutViewController: BaseViewController {
             }
         }
 
+        let buttonFudge: CGFloat = 12
+
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let attrs: [ NSObject: AnyObject ]! = [NSFontAttributeName: font]
         let hmargin : CGFloat = 20
@@ -234,9 +240,9 @@ class AboutViewController: BaseViewController {
 
         textSize = (updateButton.titleForState(.Normal) as NSString?)!.sizeWithAttributes(attrs)
         updateButton.titleLabel!.font = font
-        updateButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+        updateButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height + buttonFudge)
 
-        y += textSize.height + vmargin
+        y += textSize.height + vmargin + buttonFudge
 
         textSize = (copyrightLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         copyrightLabel.font = font
@@ -246,9 +252,9 @@ class AboutViewController: BaseViewController {
 
         textSize = (iTunesButton.currentTitle as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         iTunesButton.titleLabel!.font = font
-        iTunesButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+        iTunesButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height + buttonFudge)
 
-        y += textSize.height + vmargin
+        y += textSize.height + vmargin + buttonFudge
         
         textSize = (supportLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         supportLabel.font = font
@@ -258,13 +264,13 @@ class AboutViewController: BaseViewController {
 
         textSize = (supportEmailButton.currentTitle as NSString?)!.sizeWithAttributes([NSFontAttributeName: font])
         supportEmailButton.titleLabel!.font = font
-        supportEmailButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+        supportEmailButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height + buttonFudge)
 
-        y += textSize.height + vmargin
+        y += textSize.height + vmargin + buttonFudge
 
         textSize = (supportURLButton.currentTitle as NSString?)!.sizeWithAttributes([NSFontAttributeName: font])
         supportURLButton.titleLabel!.font = font
-        supportURLButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+        supportURLButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height + buttonFudge)
 
         bannerLabel.textColor = AppConfiguration.foregroundColor
         versionLabel.textColor = AppConfiguration.foregroundColor
@@ -272,16 +278,45 @@ class AboutViewController: BaseViewController {
         databaseVersionLabel.textColor = AppConfiguration.foregroundColor
         lastCheckLabel.textColor = AppConfiguration.foregroundColor
         copyrightLabel.textColor = AppConfiguration.foregroundColor
+
         updateButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         updateButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
+        updateButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         updateButton.backgroundColor = AppConfiguration.highlightColor
+
         iTunesButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         iTunesButton.backgroundColor = AppConfiguration.highlightColor
+        iTunesButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
+
         supportLabel.textColor = AppConfiguration.foregroundColor
+
         supportEmailButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         supportEmailButton.backgroundColor = AppConfiguration.highlightColor
+        supportEmailButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
+        
         supportURLButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         supportURLButton.backgroundColor = AppConfiguration.highlightColor
+        supportURLButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
+
+        updateButton.layer.borderWidth = 1
+        updateButton.layer.borderColor = AppConfiguration.foregroundColor.CGColor
+        updateButton.layer.shadowOpacity = 1
+        updateButton.layer.shadowOffset = CGSizeMake(0, 3)
+
+        iTunesButton.layer.borderWidth = 1
+        iTunesButton.layer.borderColor = AppConfiguration.foregroundColor.CGColor
+        iTunesButton.layer.shadowOpacity = 1
+        iTunesButton.layer.shadowOffset = CGSizeMake(0, 3)
+
+        supportEmailButton.layer.borderWidth = 1
+        supportEmailButton.layer.borderColor = AppConfiguration.foregroundColor.CGColor
+        supportEmailButton.layer.shadowOpacity = 1
+        supportEmailButton.layer.shadowOffset = CGSizeMake(0, 3)
+
+        supportURLButton.layer.borderWidth = 1
+        supportURLButton.layer.borderColor = AppConfiguration.foregroundColor.CGColor
+        supportURLButton.layer.shadowOpacity = 1
+        supportURLButton.layer.shadowOffset = CGSizeMake(0, 3)
 
         var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         var bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)

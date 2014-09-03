@@ -54,6 +54,7 @@ class SynonymButtonPair {
         selectionButton.frame.size = (sense.name as NSString).sizeWithAttributes([NSFontAttributeName: font])
         selectionButton.frame.size.width += 2 * SynonymButtonPair.margin
         selectionButton.frame.size.height += 2 * SynonymButtonPair.margin
+        selectionButton.layer.cornerRadius = 2 * SynonymButtonPair.margin
 
         height = selectionButton.bounds.size.height
 
@@ -197,20 +198,26 @@ class SynsetHeaderView: UIView {
 
             var extraText = "" as NSString
             if sense != nil && !sense!.marker.isEmpty {
-                extraText = "\(extraText) (\(sense!.marker))"
+                extraText = "(\(sense!.marker))"
             }
             else if synset.senses.count == 1 {
                 let firstSense = synset.senses.firstObject as DubsarModelsSense
                 if !firstSense.marker.isEmpty {
-                    extraText = "\(extraText) (\(firstSense.marker))"
+                    extraText = "(\(firstSense.marker))"
                 }
             }
 
             if sense != nil && sense!.freqCnt > 0 {
-                extraText = "\(extraText) freq. cnt. \(sense!.freqCnt)"
+                if extraText.length > 0 {
+                    extraText = "\(extraText) "
+                }
+                extraText = "\(extraText)freq. cnt. \(sense!.freqCnt)"
             }
             else if sense == nil && synset.freqCnt > 0 {
-                extraText = "\(extraText) freq. cnt. \(synset.freqCnt)"
+                if extraText.length > 0 {
+                    extraText = "\(extraText) "
+                }
+                extraText = "\(extraText)freq. cnt. \(synset.freqCnt)"
             }
 
             let extraTextSize = extraText.sizeWithAttributes([NSFontAttributeName: headlineFont])
@@ -226,12 +233,14 @@ class SynsetHeaderView: UIView {
             extraTextLabel.adjustsFontSizeToFitWidth = true
             extraTextLabel.textColor = AppConfiguration.foregroundColor
             extraTextLabel.invalidateIntrinsicContentSize()
+            extraTextLabel.layer.cornerRadius = 0.5 * margin
+            extraTextLabel.backgroundColor = UIColor.clearColor()
 
             if sense != nil || synset.senses.count == 1 {
-                extraTextLabel.backgroundColor = AppConfiguration.highlightColor
+                extraTextLabel.layer.backgroundColor = AppConfiguration.highlightColor.CGColor
             }
             else {
-                extraTextLabel.backgroundColor = UIColor.clearColor()
+                extraTextLabel.layer.backgroundColor = UIColor.clearColor().CGColor
             }
 
             frame.size.height = extraTextLabel.frame.origin.y + extraTextLabel.bounds.size.height + setupSynonymButtons()

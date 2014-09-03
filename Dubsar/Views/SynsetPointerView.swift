@@ -302,6 +302,7 @@ class SynsetPointerView: UIView {
                     pointerView.label.text = text
                     if !isPreview && pointer.targetType == "Sense" {
                         pointerView.backgroundColor = AppConfiguration.highlightColor
+                        pointerView.layer.cornerRadius = 0.5 * margin
                     }
                     pointerView.viewController = viewController
                     pointerView.setTranslatesAutoresizingMaskIntoConstraints(false)
