@@ -31,6 +31,11 @@
     return _instance;
 }
 
++ (void)dump:(NSData *)data level:(DubsarModelsLogLevel)level
+{
+    [[self instance] dump:data level:level];
+}
+
 + (void)logLevel:(DubsarModelsLogLevel)level message:(NSString *)message
 {
     [[self instance] logLevel:level message:message];
@@ -62,6 +67,43 @@
 #endif // DEBUG
     }
     return self;
+}
+
+- (void)dump:(NSData *)data level:(DubsarModelsLogLevel)level
+{
+    if (level > self.logLevel) return;
+
+    [self logLevel:level message:[NSString stringWithFormat:@"%lu bytes", (unsigned long)data.length]];
+
+    const unsigned char* bytes = (const unsigned char*)data.bytes;
+    size_t length = data.length;
+    const int numPerLine = 8;
+    const int pad = 8;
+
+    while (length > 0) {
+        int numToDump = MIN(numPerLine, length);
+
+        char line[256];
+        line[0] = '\0';
+
+        for (int j=0; j<numToDump; ++j) {
+            unsigned char c = bytes[j];
+            sprintf(line+strlen(line), "%02x ", c);
+        }
+
+        int numToAdd = pad + 3*(numPerLine - numToDump);
+        sprintf(line+strlen(line), "%*s", numToAdd, " ");
+
+        for (int j=0; j<numToDump; ++j) {
+            unsigned char c = bytes[j];
+            sprintf(line+strlen(line), "%c", isprint(c) ? c : '.');
+        }
+
+        [self logLevel:level message:@(line)];
+
+        length -= numToDump;
+        bytes += numToDump;
+    }
 }
 
 - (void)logLevel:(DubsarModelsLogLevel)level message:(NSString *)message

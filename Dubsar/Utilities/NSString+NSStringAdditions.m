@@ -9,11 +9,11 @@ static char base64EncodingTable[64] = {
 
 @implementation NSString (NSStringAdditions)
 
-+ (NSString *) base64StringFromData: (NSData *)data length: (NSInteger)length {
++ (NSString *) base64StringFromData: (NSData *)data {
     unsigned long ixtext, lentext;
     long ctremaining;
     unsigned char input[3], output[4];
-    short i, charsonline = 0, ctcopy;
+    short i, ctcopy;
     const unsigned char *raw;
     NSMutableString *result;
 
@@ -56,10 +56,6 @@ static char base64EncodingTable[64] = {
             [result appendString: @"="];
 
         ixtext += 3;
-        charsonline += 4;
-
-        if ((length > 0) && (charsonline >= length))
-            charsonline = 0;
     }
     return result;
 }

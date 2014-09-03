@@ -4,6 +4,6 @@
 
 @interface NSString (NSStringAdditions)
 
-+ (NSString *) base64StringFromData:(NSData *)data length:(NSInteger)length;
++ (NSString *) base64StringFromData:(NSData *)data;
 
 @end

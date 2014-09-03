@@ -31,9 +31,6 @@ enum {
 
 #import "AESKey.h"
 
-// Would prefer 256, but this seems to be what's available.
-#define DUBSAR_KEY_LENGTH_BITS 128
-
 @interface AESKey()
 
 @property (nonatomic) NSData* key;
@@ -89,8 +86,8 @@ enum {
     _queryParameters = [NSMutableDictionary dictionary];
     _queryParameters[(__bridge id)kSecClass] = (__bridge id)kSecClassKey;
     _queryParameters[(__bridge id)kSecAttrApplicationTag] = _identifier;
-    _queryParameters[(__bridge id)kSecAttrKeySizeInBits] = @(DUBSAR_KEY_LENGTH_BITS);
-    _queryParameters[(__bridge id)kSecAttrEffectiveKeySize] = @(DUBSAR_KEY_LENGTH_BITS);
+    _queryParameters[(__bridge id)kSecAttrKeySizeInBits] = @(kCCKeySizeAES128 * 8);
+    _queryParameters[(__bridge id)kSecAttrEffectiveKeySize] = @(kCCKeySizeAES128 * 8);
     _queryParameters[(__bridge id)kSecAttrCanDecrypt] = (__bridge id)(kCFBooleanTrue);
     _queryParameters[(__bridge id)kSecAttrCanEncrypt] = (__bridge id)(kCFBooleanTrue);
     _queryParameters[(__bridge id)kSecAttrCanSign] = (__bridge id)(kCFBooleanFalse);
@@ -100,23 +97,31 @@ enum {
 
 - (NSData *)encrypt:(NSData *)clearText
 {
-    uint8_t iv[16];
-    SecRandomCopyBytes(kSecRandomDefault, sizeof(iv), iv);
-
-    size_t outputSize = DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8 + clearText.length + sizeof(iv);
+    size_t outputSize = 2 * kCCBlockSizeAES128 + clearText.length; // another kCCBlockSizeAES128 for the iv
     unsigned char* output = malloc(outputSize);
 
     size_t movedSize = 0;
-    memcpy(output, iv, sizeof(iv));
+    SecRandomCopyBytes(kSecRandomDefault, kCCBlockSizeAES128, output);
 
-    CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void *)self.key, DUBSAR_KEY_LENGTH_BITS/8, iv, clearText.bytes, clearText.length, output+sizeof(iv), outputSize-sizeof(iv), &movedSize);
+    const unsigned char* bytes = (const unsigned char*)self.key.bytes;
+    DMTRACE(@"Encrypting %ld bytes into %zu-byte buffer", (long)clearText.length, outputSize);
+    DMTRACE(@"Using key:");
+    DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]);
+    DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
+    DMTRACE(@"Cipher text:");
+    [DubsarModelsLogger dump:clearText level:DubsarModelsLogLevelTrace];
+
+    CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void *)self.key, kCCKeySizeAES128, output, clearText.bytes, clearText.length, output+kCCBlockSizeAES128, outputSize-kCCBlockSizeAES128, &movedSize);
     if (status != kCCSuccess) {
         DMERROR(@"CCCrypt(encrypt) returned %d", status);
         free(output);
         return nil;
     }
 
-    NSData* data = [NSData dataWithBytes:output length:movedSize+sizeof(iv)];
+    NSData* data = [NSData dataWithBytes:output length:movedSize+kCCBlockSizeAES128];
+
+    DMTRACE(@"Encrypted:");
+    [DubsarModelsLogger dump:data level:DubsarModelsLogLevelTrace];
 
     free(output);
     return data;
@@ -125,13 +130,18 @@ enum {
 - (NSData *)decrypt:(NSData *)cipherText
 {
     size_t movedSize = 0;
-    size_t outputSize = DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8 + cipherText.length;
+    size_t outputSize = kCCBlockSizeAES128 + cipherText.length;
     unsigned char* output = malloc(outputSize);
-    memset(output, 0, outputSize);
 
+    const unsigned char* bytes = (const unsigned char*)self.key.bytes;
     DMTRACE(@"Decrypting %ld bytes into %zu-byte buffer", (long)cipherText.length, outputSize);
+    DMTRACE(@"Using key:");
+    DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]);
+    DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
+    DMTRACE(@"Cipher text:");
+    [DubsarModelsLogger dump:cipherText level:DubsarModelsLogLevelTrace];
 
-    CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void*)self.key, DUBSAR_KEY_LENGTH_BITS/8, cipherText.bytes, cipherText.bytes+16, cipherText.length-16, output, outputSize, &movedSize);
+    CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, (__bridge const void*)self.key, kCCKeySizeAES128, cipherText.bytes, cipherText.bytes+kCCBlockSizeAES128, cipherText.length-kCCBlockSizeAES128, output, outputSize, &movedSize);
     if (status != kCCSuccess) {
         DMERROR(@"CCCrypt(decrypt) returned %d", status);
         free(output);
@@ -139,6 +149,10 @@ enum {
     }
 
     NSData* result = [NSData dataWithBytes:output length:movedSize];
+
+    DMTRACE(@"Decrypted:");
+    [DubsarModelsLogger dump:result level:DubsarModelsLogLevelTrace];
+
     free(output);
     return result;
 }
@@ -158,6 +172,8 @@ enum {
         CFIndex length = CFDataGetLength(cfdata);
 
         DMTRACE(@"Keychain data length: %d", length);
+
+        assert(length == kCCKeySizeAES128);
 
         if (length == 0) {
             CFRelease(returnedKey);
@@ -194,15 +210,15 @@ enum {
 
 - (NSData*)createKey
 {
-    unsigned char* buffer = malloc(DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8); // 8 bits per byte
+    unsigned char* buffer = malloc(kCCBlockSizeAES128); // 8 bits per byte
     OSStatus rc;
-    if ((rc=SecRandomCopyBytes(kSecRandomDefault, DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8, buffer)) != noErr) {
+    if ((rc=SecRandomCopyBytes(kSecRandomDefault, kCCBlockSizeAES128, buffer)) != noErr) {
         DMERROR(@"Failed to generate random key: %d", rc);
     }
 
     [self deleteKey];
 
-    NSData* newKey = [[NSData alloc] initWithBytes:&buffer[0] length:DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8];
+    NSData* newKey = [[NSData alloc] initWithBytes:&buffer[0] length:kCCBlockSizeAES128];
     self.queryParameters[(__bridge id)kSecValueData] = newKey;
 
     if ((rc=SecItemAdd((__bridge CFDictionaryRef)self.queryParameters, NULL)) != noErr) {
@@ -210,7 +226,7 @@ enum {
     }
 
     int sum = 0;
-    for (int j=0; j<DUBSAR_KEY_LENGTH_BITS/sizeof(unsigned char)/8; ++j) {
+    for (int j=0; j<kCCBlockSizeAES128; ++j) {
         sum += buffer[j];
     }
 
@@ -227,6 +243,8 @@ enum {
 
 - (BOOL)deleteKey
 {
+    self.key = nil;
+
     OSStatus rc;
     if ((rc=SecItemDelete((__bridge CFDictionaryRef)self.queryParameters)) != noErr && rc != errSecItemNotFound) {
         DMERROR(@"SecItemDelete returned %d", rc);

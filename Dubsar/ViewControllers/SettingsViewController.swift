@@ -143,6 +143,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
                 optionSwitch.on = value == AppConfiguration.offlineKey ? AppConfiguration.offlineSetting :
                     value == AppConfiguration.autoUpdateKey ? AppConfiguration.autoUpdateSetting :
                     value == AppConfiguration.autoCorrectKey ? AppConfiguration.autoCorrectSetting :
+                    value == AppConfiguration.secureBookmarksKey ? AppConfiguration.secureBookmarksSetting :
                     AppConfiguration.productionSetting
 
                 optionSwitch.tintColor = AppConfiguration.alternateBackgroundColor

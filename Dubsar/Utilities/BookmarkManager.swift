@@ -87,14 +87,14 @@ class BookmarkManager: NSObject {
         if AppConfiguration.secureBookmarksSetting {
             /*
              * Rekey every time we write. This is also called for consistency in loadBookmarks(). Hence, each value of this
-             * key is used for at most one read operation for added security.
+             * key is used for at most one pair of read operations for added security.
              */
             aesKey.rekey()
             let encryptedUrls = aesKey.encrypt(urlString.dataUsingEncoding(NSUTF8StringEncoding))
             let encryptedLabels = aesKey.encrypt(labelString.dataUsingEncoding(NSUTF8StringEncoding))
 
-            let base64Urls = NSString.base64StringFromData(encryptedUrls, length: encryptedUrls.length) as NSString
-            let base64Labels = NSString.base64StringFromData(encryptedLabels, length: encryptedLabels.length) as NSString
+            let base64Urls = NSString.base64StringFromData(encryptedUrls) as NSString
+            let base64Labels = NSString.base64StringFromData(encryptedLabels) as NSString
 
             DMTRACE("Saving \(base64Urls.length) URL bytes, \(base64Labels.length) label bytes")
             DMTRACE("Base64 URLS: \(base64Urls)")
@@ -104,10 +104,7 @@ class BookmarkManager: NSObject {
             NSUserDefaults.standardUserDefaults().setValue(base64Labels, forKey: labelsKey)
         }
         else {
-            /*
-             * No real harm in leaving the key, but may as well clean up.
-             */
-            // aesKey.deleteKey()
+            aesKey.deleteKey()
             NSUserDefaults.standardUserDefaults().setValue(urlString, forKey: bookmarksKey)
             NSUserDefaults.standardUserDefaults().setValue(labelString, forKey: labelsKey)
         }
