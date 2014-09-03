@@ -422,7 +422,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
 
     func triggerAutocompletion() {
         // compute available space
-        let available = view.bounds.size.height - keyboardHeight - searchBar.bounds.size.height
+        let available = view.bounds.size.height - keyboardHeight - 44
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let margin = AutocompleterView.margin
         let lineHeight = ("Qp" as NSString).sizeWithAttributes([NSFontAttributeName: font]).height + 3*margin
