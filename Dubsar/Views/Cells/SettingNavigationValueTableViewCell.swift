@@ -27,8 +27,8 @@ class SettingNavigationValueTableViewCell: SettingNavigationTableViewCell {
         }
     }
 
-    init() {
-        super.init(style: .Value1, identifier: SettingNavigationValueTableViewCell.valueIdentifier)
+    init(identifier: String) {
+        super.init(style: .Value1, identifier: identifier)
         accessoryType = .DisclosureIndicator
     }
 

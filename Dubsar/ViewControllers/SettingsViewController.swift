@@ -109,9 +109,9 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
         var cell: UITableViewCell?
         if type == "navValue" {
-            cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationValueTableViewCell.identifier) as? UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(value!) as? UITableViewCell
             if cell == nil {
-                cell = SettingNavigationValueTableViewCell()
+                cell = SettingNavigationValueTableViewCell(identifier: value!)
             }
 
             if value == AppConfiguration.themeKey {
