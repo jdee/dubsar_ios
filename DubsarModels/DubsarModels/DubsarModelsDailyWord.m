@@ -157,7 +157,7 @@
         return false;
     }
     else {
-        DMDEBUG(@"Found wotd in user defaults, id %ld", (long)wotdId);
+        DMTRACE(@"Found wotd in user defaults, id %ld", (long)wotdId);
     }
 
     NSString* name = [[NSUserDefaults standardUserDefaults] valueForKey:DubsarDailyWordNameKey];

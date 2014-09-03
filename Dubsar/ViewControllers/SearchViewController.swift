@@ -25,6 +25,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     @IBOutlet var searchLabel : UILabel!
     @IBOutlet var resultTableView : UITableView!
     @IBOutlet var pageControl : UIPageControl!
+    @IBOutlet var scopeControl : UISegmentedControl!
 
     class var identifier : String {
         get {
@@ -39,6 +40,14 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         // DMLOG("In SearchViewController.viewWillAppear() before super: search is %@nil, %@complete; model is %@nil, %@complete", (search ? "" : "not "), (search.complete ? "" : "not "), (model ? "" : "not "), (model?.complete ? "" : "not "))
         super.viewWillAppear(animated)
 
+        if let s = search {
+            scopeControl.selectedSegmentIndex = s.scope == .Words ? 0 : 1
+            scopeControl.enabled = s.complete
+        }
+        else {
+            scopeControl.enabled = false
+        }
+
         title = "Search"
         updateTitle()
     }
@@ -50,6 +59,27 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         self.router = Router(viewController: self, model: search)
         self.router!.routerAction = .UpdateView
         self.router!.load()
+        scopeControl.enabled = false
+
+        selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+
+        updateTitle()
+        resultTableView.reloadData()
+    }
+
+    @IBAction
+    func scopeChanged(sender: UISegmentedControl!) {
+        let scope = sender.selectedSegmentIndex == 0 ? DubsarModelsSearchScope.Words : DubsarModelsSearchScope.Synsets
+
+        search!.scope = scope
+        search!.currentPage = 1
+        search!.complete = false
+
+        self.router = Router(viewController: self, model: search)
+        self.router!.routerAction = .UpdateView
+        self.router!.load()
+
+        scopeControl.enabled = false
 
         selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
@@ -63,8 +93,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             return
         }
 
-        let scopeName = DubsarModelsSearchScope.Words == search!.scope ? "word" : "synset"
-        var title = "\(scopeName) results for \"\(search!.title != nil ? search!.title : search!.term)\""
+        var title = "results for \"\(search!.title != nil ? search!.title : search!.term)\""
         if search!.totalPages > 1 {
             title = "\(title) p. \(search!.currentPage)/\(search!.totalPages)"
         }
@@ -339,6 +368,9 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             break
         }
 
+        scopeControl.selectedSegmentIndex = search!.scope == .Words ? 0 : 1
+        scopeControl.enabled = search!.complete
+
         pageControl.hidden = search!.totalPages <= 1
         pageControl.currentPage = search!.currentPage - 1
         pageControl.numberOfPages = Int(search!.totalPages)
@@ -360,6 +392,9 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         resultTableView.backgroundColor = AppConfiguration.alternateBackgroundColor
 
         resultTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
+
+        scopeControl.tintColor = AppConfiguration.foregroundColor
+
         super.adjustLayout()
     }
 }
