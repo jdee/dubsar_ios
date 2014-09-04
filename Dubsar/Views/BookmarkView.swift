@@ -40,7 +40,7 @@ class BookmarkView: UIView {
         button.autoresizingMask = .FlexibleHeight | .FlexibleWidth
 
         closeButton = CloseButton(frame: CGRectMake(frame.size.width-frame.size.height, 0, frame.size.height, frame.size.height))
-        closeButton.autoresizingMask = nil
+        closeButton.autoresizingMask = .FlexibleLeftMargin
 
         super.init(frame: frame)
         addSubview(button)

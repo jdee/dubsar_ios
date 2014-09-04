@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import UIKit
 
-class BookmarkListView: UIScrollView {
+class BookmarkListView: UIView {
 
     class var margin : CGFloat {
         get {
@@ -29,16 +29,20 @@ class BookmarkListView: UIScrollView {
 
     override var frame: CGRect {
         didSet {
-            layer.shadowPath = UIBezierPath(rect: bounds).CGPath
+            // layer.shadowPath = UIBezierPath(rect: bounds).CGPath
         }
     }
 
+    let scroller: UIScrollView
     let backgroundView: UIView
     let label: UILabel
     var bookmarkViews = [BookmarkView]()
 
     override init(frame: CGRect) {
         let margin = BookmarkListView.margin
+
+        scroller = UIScrollView(frame: CGRectMake(0, 0, frame.size.width, frame.size.height))
+        scroller.autoresizingMask = .FlexibleHeight | .FlexibleWidth
 
         backgroundView = UIView(frame: CGRectMake(0, 0, frame.size.width, frame.size.height))
         backgroundView.autoresizingMask = .FlexibleWidth
@@ -53,18 +57,20 @@ class BookmarkListView: UIScrollView {
         layer.shadowOffset = CGSizeMake(0, 3)
         layer.shadowOpacity = 0.7
         layer.shadowRadius = 3
-        layer.shadowPath = UIBezierPath(rect: bounds).CGPath
+        // layer.shadowPath = UIBezierPath(rect: bounds).CGPath
         clipsToBounds = false
 
-        bounces = false
-        showsHorizontalScrollIndicator = false
-        showsVerticalScrollIndicator = true
+        scroller.bounces = false
+        scroller.showsHorizontalScrollIndicator = false
+        scroller.showsVerticalScrollIndicator = true
+        addSubview(scroller)
 
-        addSubview(backgroundView)
+        scroller.addSubview(backgroundView)
         backgroundView.addSubview(label)
     }
 
     required init(coder aDecoder: NSCoder) {
+        scroller = UIScrollView()
         backgroundView = UIView()
         label = UILabel()
         super.init(coder: aDecoder)
@@ -117,7 +123,7 @@ class BookmarkListView: UIScrollView {
         // add room for the shadow, since we have to set clipsToBounds to true
         y += layer.shadowOffset.height + layer.shadowRadius
 
-        contentSize = CGSizeMake(frame.size.width, y)
+        scroller.contentSize = CGSizeMake(frame.size.width, y)
 
         if frame.size.height > y {
             frame.size.height = y
