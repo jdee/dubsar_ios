@@ -298,25 +298,31 @@ class AboutViewController: BaseViewController {
         supportURLButton.backgroundColor = AppConfiguration.highlightColor
         supportURLButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
 
+        // The shadows don't resize as well if we provide shadow paths.
+
         updateButton.layer.borderWidth = 1
         updateButton.layer.borderColor = AppConfiguration.foregroundColor.CGColor
         updateButton.layer.shadowOpacity = 1
         updateButton.layer.shadowOffset = CGSizeMake(0, 3)
+        // updateButton.layer.shadowPath = UIBezierPath(roundedRect: updateButton.bounds, cornerRadius: updateButton.layer.cornerRadius).CGPath
 
         iTunesButton.layer.borderWidth = 1
         iTunesButton.layer.borderColor = AppConfiguration.foregroundColor.CGColor
         iTunesButton.layer.shadowOpacity = 1
         iTunesButton.layer.shadowOffset = CGSizeMake(0, 3)
+        // iTunesButton.layer.shadowPath = UIBezierPath(roundedRect: iTunesButton.bounds, cornerRadius: iTunesButton.layer.cornerRadius).CGPath
 
         supportEmailButton.layer.borderWidth = 1
         supportEmailButton.layer.borderColor = AppConfiguration.foregroundColor.CGColor
         supportEmailButton.layer.shadowOpacity = 1
         supportEmailButton.layer.shadowOffset = CGSizeMake(0, 3)
+        // supportEmailButton.layer.shadowPath = UIBezierPath(roundedRect: supportEmailButton.bounds, cornerRadius: supportEmailButton.layer.cornerRadius).CGPath
 
         supportURLButton.layer.borderWidth = 1
         supportURLButton.layer.borderColor = AppConfiguration.foregroundColor.CGColor
         supportURLButton.layer.shadowOpacity = 1
         supportURLButton.layer.shadowOffset = CGSizeMake(0, 3)
+        // supportURLButton.layer.shadowPath = UIBezierPath(roundedRect: supportURLButton.bounds, cornerRadius: supportURLButton.layer.cornerRadius).CGPath
 
         var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
         var bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)

@@ -33,6 +33,12 @@ class AutocompleterView: UIView {
         }
     }
 
+    override var frame: CGRect {
+        didSet {
+            layer.shadowPath = UIBezierPath(rect: bounds).CGPath
+        }
+    }
+
     var buttons : [UIButton] = []
 
     weak var viewController : MainViewController?
@@ -41,9 +47,10 @@ class AutocompleterView: UIView {
         super.init(frame: frame)
         autoresizingMask = .FlexibleHeight | .FlexibleWidth | .FlexibleBottomMargin
 
-        self.layer.shadowOffset = CGSizeMake(0, 3)
-        self.layer.shadowOpacity = 1.0
-        self.clipsToBounds = false
+        layer.shadowOffset = CGSizeMake(0, 3)
+        layer.shadowOpacity = 1.0
+        layer.shadowPath = UIBezierPath(rect: bounds).CGPath
+        clipsToBounds = false
     }
 
     required init(coder aDecoder: NSCoder) {

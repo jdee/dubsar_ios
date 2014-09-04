@@ -256,6 +256,8 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         searchBar.showsCancelButton = true
         searchBar.showsScopeBar = true
         searchBar.layer.shadowOpacity = 1
+        // searchBar.layer.shadowPath = UIBezierPath(rect: searchBar.bounds).CGPath
+
         searchBarEditing = true
         bookmarkListView.hidden = true
         return true
@@ -382,6 +384,7 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         searchBar.barStyle = AppConfiguration.barStyle
         searchBar.tintColor = AppConfiguration.foregroundColor
         searchBar.autocorrectionType = AppConfiguration.autoCorrectSetting ? .Default : .No
+        // searchBar.layer.shadowPath = UIBezierPath(rect: searchBar.bounds).CGPath
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 

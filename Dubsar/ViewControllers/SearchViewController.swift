@@ -42,7 +42,12 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         if let s = search {
             scopeControl.selectedSegmentIndex = s.scope == .Words ? 0 : 1
-            scopeControl.hidden = s.isWildCard
+            if s.isWildCard {
+                removeScopeControl()
+            }
+            else {
+                scopeControl.hidden = false
+            }
         }
         else {
             scopeControl.hidden = true
@@ -50,6 +55,10 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         title = "Search"
         updateTitle()
+    }
+
+    func removeScopeControl() {
+        // DEBT: Make this work
     }
 
     @IBAction
@@ -369,6 +378,9 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         scopeControl.selectedSegmentIndex = search!.scope == .Words ? 0 : 1
         scopeControl.hidden = search!.isWildCard
+        if search!.isWildCard {
+            removeScopeControl()
+        }
 
         pageControl.hidden = search!.totalPages <= 1
         pageControl.currentPage = search!.currentPage - 1

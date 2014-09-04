@@ -52,7 +52,7 @@ class ThemeViewController: BaseViewController {
         knobControl.circular = false
         knobControl.titles = titles
         knobControl.shadowOpacity = 1.0
-        knobControl.clipsToBounds = true
+        knobControl.clipsToBounds = false
         knobControl.drawsAsynchronously = true
 
         knobControl.positionIndex = AppConfiguration.themeSetting

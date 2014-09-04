@@ -27,6 +27,12 @@ class BookmarkListView: UIScrollView {
     }
     }
 
+    override var frame: CGRect {
+        didSet {
+            layer.shadowPath = UIBezierPath(rect: bounds).CGPath
+        }
+    }
+
     let backgroundView: UIView
     let label: UILabel
     var bookmarkViews = [BookmarkView]()
@@ -45,8 +51,10 @@ class BookmarkListView: UIScrollView {
         super.init(frame: frame)
 
         layer.shadowOffset = CGSizeMake(0, 3)
-        layer.shadowOpacity = 1
-        clipsToBounds = true
+        layer.shadowOpacity = 0.7
+        layer.shadowRadius = 3
+        layer.shadowPath = UIBezierPath(rect: bounds).CGPath
+        clipsToBounds = false
 
         bounces = false
         showsHorizontalScrollIndicator = false
