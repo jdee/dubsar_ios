@@ -208,6 +208,12 @@ class AboutViewController: BaseViewController {
 
         y += textSize.height + vmargin
 
+        textSize = (copyrightLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+        copyrightLabel.font = font
+        copyrightLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
+
+        y += textSize.height + vmargin
+
         textSize = (versionLabel.text as NSString?)!.sizeWithAttributes(attrs)
         versionLabel.font = font
         versionLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
@@ -243,12 +249,6 @@ class AboutViewController: BaseViewController {
         updateButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height + buttonFudge)
 
         y += textSize.height + vmargin + buttonFudge
-
-        textSize = (copyrightLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
-        copyrightLabel.font = font
-        copyrightLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
-
-        y += textSize.height + vmargin
 
         textSize = (iTunesButton.currentTitle as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         iTunesButton.titleLabel!.font = font
