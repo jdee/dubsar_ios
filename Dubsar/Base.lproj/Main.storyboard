@@ -123,7 +123,7 @@
                                     <action selector="pageChanged:" destination="FHr-Mo-Hqo" eventType="valueChanged" id="Bbr-be-J2L"/>
                                 </connections>
                             </pageControl>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="71P-ts-6S8">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="71P-ts-6S8">
                                 <rect key="frame" x="16" y="8" width="568" height="29"/>
                                 <segments>
                                     <segment title="word"/>

@@ -42,10 +42,10 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         if let s = search {
             scopeControl.selectedSegmentIndex = s.scope == .Words ? 0 : 1
-            scopeControl.enabled = s.complete
+            scopeControl.hidden = s.isWildCard
         }
         else {
-            scopeControl.enabled = false
+            scopeControl.hidden = true
         }
 
         title = "Search"
@@ -59,7 +59,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         self.router = Router(viewController: self, model: search)
         self.router!.routerAction = .UpdateView
         self.router!.load()
-        scopeControl.enabled = false
+        scopeControl.hidden = true
 
         selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
@@ -78,8 +78,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         self.router = Router(viewController: self, model: search)
         self.router!.routerAction = .UpdateView
         self.router!.load()
-
-        scopeControl.enabled = false
+        scopeControl.hidden = true
 
         selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
@@ -369,7 +368,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
 
         scopeControl.selectedSegmentIndex = search!.scope == .Words ? 0 : 1
-        scopeControl.enabled = search!.complete
+        scopeControl.hidden = search!.isWildCard
 
         pageControl.hidden = search!.totalPages <= 1
         pageControl.currentPage = search!.currentPage - 1
