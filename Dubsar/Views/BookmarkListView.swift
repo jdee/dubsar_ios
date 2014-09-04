@@ -29,7 +29,7 @@ class BookmarkListView: UIView {
 
     override var frame: CGRect {
         didSet {
-            // layer.shadowPath = UIBezierPath(rect: bounds).CGPath
+            layer.shadowPath = UIBezierPath(rect: bounds).CGPath
         }
     }
 
@@ -57,7 +57,7 @@ class BookmarkListView: UIView {
         layer.shadowOffset = CGSizeMake(0, 3)
         layer.shadowOpacity = 0.7
         layer.shadowRadius = 3
-        // layer.shadowPath = UIBezierPath(rect: bounds).CGPath
+        layer.shadowPath = UIBezierPath(rect: bounds).CGPath
         clipsToBounds = false
 
         scroller.bounces = false
