@@ -76,8 +76,7 @@ class WordTableViewCell: UITableViewCell {
         let accessorySize = WordTableViewCell.accessoryWidth
         let headlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
-        let italicFontDescriptor = bodyFont.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitItalic)
-        let italicFont = UIFont(descriptor: italicFontDescriptor, size:0.0)
+        let italicFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: true)
 
         let margin = WordTableViewCell.margin
         let constrainedSize = CGSizeMake(bounds.size.width - 2 * margin - (isPreview ? accessorySize : 0), bounds.size.height)
