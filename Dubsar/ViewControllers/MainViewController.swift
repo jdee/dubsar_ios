@@ -338,6 +338,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
     override func resetSearch() {
         super.resetSearch()
 
+        searchBar.text = ""
         searchBar.showsScopeBar = false
         searchBar.layer.shadowOpacity = 0
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PVu-d6-7eH">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
     </dependencies>
     <scenes>
@@ -32,7 +33,7 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="prominent" placeholder="search term(s)" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2p-CQ-t6I">
+                            <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="prominent" placeholder="search term(s)" showsBookmarkButton="YES" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2p-CQ-t6I">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="88"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                                 <scopeButtonTitles>
@@ -108,7 +109,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="75o-h8-6cW">
-                                <rect key="frame" x="0.0" y="74" width="600" height="462"/>
+                                <rect key="frame" x="0.0" y="88" width="600" height="448"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="FHr-Mo-Hqo" id="XAO-h2-mXZ"/>
@@ -122,39 +123,31 @@
                                     <action selector="pageChanged:" destination="FHr-Mo-Hqo" eventType="valueChanged" id="Bbr-be-J2L"/>
                                 </connections>
                             </pageControl>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="71P-ts-6S8">
-                                <rect key="frame" x="16" y="8" width="568" height="29"/>
-                                <segments>
-                                    <segment title="word"/>
-                                    <segment title="synset"/>
-                                </segments>
-                                <connections>
-                                    <action selector="scopeChanged:" destination="FHr-Mo-Hqo" eventType="valueChanged" id="LoT-hr-dE3"/>
-                                </connections>
-                            </segmentedControl>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="search term" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y1J-Kl-7yT">
-                                <rect key="frame" x="10" y="45" width="574" height="21"/>
+                            <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="prominent" placeholder="search term(s)" showsBookmarkButton="YES" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Lx-id-KFr">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="88"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="0aU-bm-FPL"/>
+                                    <constraint firstAttribute="height" constant="88" id="o1e-2n-ME8"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <textInputTraits key="textInputTraits" spellCheckingType="no" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
+                                <scopeButtonTitles>
+                                    <string>Words</string>
+                                    <string>Synsets</string>
+                                </scopeButtonTitles>
+                                <connections>
+                                    <outlet property="delegate" destination="FHr-Mo-Hqo" id="Qf8-7d-nSw"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="71P-ts-6S8" firstAttribute="top" secondItem="imY-dh-bna" secondAttribute="top" constant="8" id="4NF-Js-CLx"/>
-                            <constraint firstAttribute="trailing" secondItem="71P-ts-6S8" secondAttribute="trailing" constant="16" id="If2-pU-VMQ"/>
+                            <constraint firstItem="75o-h8-6cW" firstAttribute="top" secondItem="6Lx-id-KFr" secondAttribute="bottom" id="C0B-Jb-PMP"/>
+                            <constraint firstItem="6Lx-id-KFr" firstAttribute="top" secondItem="imY-dh-bna" secondAttribute="top" id="I4B-GQ-9rA"/>
                             <constraint firstItem="uvz-Jj-0Uq" firstAttribute="leading" secondItem="imY-dh-bna" secondAttribute="leading" id="OW4-0Q-Lky"/>
-                            <constraint firstItem="71P-ts-6S8" firstAttribute="leading" secondItem="imY-dh-bna" secondAttribute="leading" constant="16" id="U4b-xn-pEu"/>
                             <constraint firstAttribute="trailing" secondItem="uvz-Jj-0Uq" secondAttribute="trailing" id="Ygi-t9-Vgw"/>
-                            <constraint firstItem="y1J-Kl-7yT" firstAttribute="leading" secondItem="imY-dh-bna" secondAttribute="leading" constant="10" id="c4l-df-p3W"/>
-                            <constraint firstItem="75o-h8-6cW" firstAttribute="top" secondItem="y1J-Kl-7yT" secondAttribute="bottom" constant="8" id="ddn-rl-X0j"/>
+                            <constraint firstItem="6Lx-id-KFr" firstAttribute="leading" secondItem="imY-dh-bna" secondAttribute="leading" id="Zsj-II-Gsj"/>
                             <constraint firstAttribute="trailing" secondItem="75o-h8-6cW" secondAttribute="trailing" id="fOM-30-jD8"/>
-                            <constraint firstItem="y1J-Kl-7yT" firstAttribute="top" secondItem="71P-ts-6S8" secondAttribute="bottom" constant="9" id="jAY-nz-IEb"/>
                             <constraint firstItem="75o-h8-6cW" firstAttribute="leading" secondItem="imY-dh-bna" secondAttribute="leading" id="jHk-da-0rx"/>
-                            <constraint firstAttribute="trailing" secondItem="y1J-Kl-7yT" secondAttribute="trailing" constant="16" id="m1V-fM-nJe"/>
+                            <constraint firstAttribute="trailing" secondItem="6Lx-id-KFr" secondAttribute="trailing" id="s5Y-0E-iab"/>
                             <constraint firstAttribute="bottom" secondItem="75o-h8-6cW" secondAttribute="bottom" id="vBI-cz-d1q"/>
                             <constraint firstAttribute="bottom" secondItem="uvz-Jj-0Uq" secondAttribute="bottom" constant="-10" id="xX6-V5-5FJ"/>
                         </constraints>
@@ -164,8 +157,8 @@
                     <connections>
                         <outlet property="pageControl" destination="uvz-Jj-0Uq" id="POh-wq-ZEk"/>
                         <outlet property="resultTableView" destination="75o-h8-6cW" id="UVL-vN-s6O"/>
-                        <outlet property="scopeControl" destination="71P-ts-6S8" id="Yk5-EG-Pt1"/>
-                        <outlet property="searchLabel" destination="y1J-Kl-7yT" id="bUT-tF-IVV"/>
+                        <outlet property="searchBar" destination="6Lx-id-KFr" id="d1O-7N-GcV"/>
+                        <outlet property="view" destination="imY-dh-bna" id="pO7-eB-ybJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WjW-fg-KZd" userLabel="First Responder" sceneMemberID="firstResponder"/>

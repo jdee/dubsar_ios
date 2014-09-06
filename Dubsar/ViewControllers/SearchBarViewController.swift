@@ -30,8 +30,7 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
     var searchBarEditing : Bool = false
     var keyboardHeight : CGFloat = 0
     var rotated : Bool = false
-
-    private var searchScope = DubsarModelsSearchScope.Words
+    var searchScope = DubsarModelsSearchScope.Words
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,7 +125,7 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
         let search = DubsarModelsSearch(term: searchBar.text, matchCase: false, scope: searchScope)
         resetSearch()
 
-        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
+        newSearch(search)
     }
 
     func searchBar(searchBar: UISearchBar!, textDidChange searchText: String!) {
@@ -211,7 +210,6 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
 
     func resetSearch() {
         searchBar.resignFirstResponder()
-        searchBar.text = ""
         searchBar.showsCancelButton = false
 
         autocompleterView.hidden = true

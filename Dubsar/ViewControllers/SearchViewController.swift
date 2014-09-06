@@ -20,12 +20,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class SearchViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class SearchViewController: SearchBarViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet var searchLabel : UILabel!
     @IBOutlet var resultTableView : UITableView!
     @IBOutlet var pageControl : UIPageControl!
-    @IBOutlet var scopeControl : UISegmentedControl!
 
     class var identifier : String {
         get {
@@ -41,24 +39,12 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         super.viewWillAppear(animated)
 
         if let s = search {
-            scopeControl.selectedSegmentIndex = s.scope == .Words ? 0 : 1
-            if s.isWildCard {
-                removeScopeControl()
-            }
-            else {
-                scopeControl.hidden = false
-            }
-        }
-        else {
-            scopeControl.hidden = true
+            searchBar.selectedScopeButtonIndex = s.scope == .Words ? 0 : 1
+            searchBar.showsScopeBar = !s.isWildCard
         }
 
         title = "Search"
         updateTitle()
-    }
-
-    func removeScopeControl() {
-        // DEBT: Make this work
     }
 
     @IBAction
@@ -68,7 +54,6 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         self.router = Router(viewController: self, model: search)
         self.router!.routerAction = .UpdateView
         self.router!.load()
-        scopeControl.hidden = true
 
         selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
@@ -87,7 +72,6 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         self.router = Router(viewController: self, model: search)
         self.router!.routerAction = .UpdateView
         self.router!.load()
-        scopeControl.hidden = true
 
         selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
@@ -96,17 +80,17 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func updateTitle() {
-        if search == nil || !search!.complete {
-            searchLabel.text = "searching..."
-            return
-        }
+        var newTitle = "Search"
+        if search != nil {
+            if !searchBarEditing {
+                searchBar.text = search!.term
+            }
 
-        var title = "results for \"\(search!.title != nil ? search!.title : search!.term)\""
-        if search!.totalPages > 1 {
-            title = "\(title) p. \(search!.currentPage)/\(search!.totalPages)"
+            if search!.totalPages > 1 {
+            newTitle = "\(newTitle) p. \(search!.currentPage)/\(search!.totalPages)"
         }
-        searchLabel.text = title
-        searchLabel.adjustsFontSizeToFitWidth = true
+        }
+        title = newTitle
     }
 
     func maxHeightOfAdditionsForRow(row: Int) -> CGFloat {
@@ -114,6 +98,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        bookmarkListView.hidden = true
+
         return indexPath != selectedIndexPath
     }
 
@@ -156,9 +142,11 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
             if selectedRow == row {
                 var openCell = tableView.dequeueReusableCellWithIdentifier(OpenWordTableViewCell.openIdentifier) as? OpenWordTableViewCell
+                let maxForRow = maxHeightOfAdditionsForRow(row)
                 if openCell == nil {
-                    openCell = OpenWordTableViewCell(word: word, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
+                    openCell = OpenWordTableViewCell(word: word, frame: tableView.bounds, maxHeightOfAdditions: maxForRow)
                 }
+                openCell!.insertHeightLimit = maxForRow
                 openCell!.cellBackgroundColor = AppConfiguration.highlightColor
                 wordCell = openCell
                 cell = openCell
@@ -185,10 +173,12 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
             if selectedRow == row {
                 var openCell = tableView.dequeueReusableCellWithIdentifier(OpenSynsetTableViewCell.openSynsetIdentifier) as? OpenSynsetTableViewCell
+                let maxForRow = maxHeightOfAdditionsForRow(row)
                 if openCell == nil {
-                    openCell = OpenSynsetTableViewCell(synset: synset, frame: tableView.bounds, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
+                    openCell = OpenSynsetTableViewCell(synset: synset, frame: tableView.bounds, maxHeightOfAdditions: maxForRow)
                 }
                 else {
+                    openCell!.insertHeightLimit = maxForRow
                     openCell!.synset = synset
                     openCell!.frame = tableView.bounds
                 }
@@ -217,6 +207,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        bookmarkListView.hidden = true
+
         if indexPath == selectedIndexPath {
             // DMLOG("row %d reselected, ignoring", indexPath.row)
             return
@@ -240,6 +232,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        bookmarkListView.hidden = true
+
         if search == nil || !search!.complete || search!.results.count == 0 {
             return
         }
@@ -376,11 +370,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
             break
         }
 
-        scopeControl.selectedSegmentIndex = search!.scope == .Words ? 0 : 1
-        scopeControl.hidden = search!.isWildCard
-        if search!.isWildCard {
-            removeScopeControl()
-        }
+        searchBar.selectedScopeButtonIndex = search!.scope == .Words ? 0 : 1
+        searchBar.showsScopeBar = !search!.isWildCard
 
         pageControl.hidden = search!.totalPages <= 1
         pageControl.currentPage = search!.currentPage - 1
@@ -391,9 +382,6 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     }
 
     override func adjustLayout() {
-        searchLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        searchLabel.textColor = AppConfiguration.foregroundColor
-
         pageControl.pageIndicatorTintColor = AppConfiguration.alternateHighlightColor
         pageControl.currentPageIndicatorTintColor = AppConfiguration.foregroundColor
         pageControl.hidden = search == nil || search!.totalPages <= 1
@@ -404,12 +392,48 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         resultTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
 
-        scopeControl.tintColor = AppConfiguration.foregroundColor
-
         super.adjustLayout()
     }
 
     private func updateBackgroundColor() {
         resultTableView.backgroundColor = search != nil && search!.complete && search!.results.count % 2 == 0 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
     }
+
+    override func newSearch(newSearch: DubsarModelsSearch!) {
+        search = newSearch
+
+        self.router = Router(viewController: self, model: search)
+        self.router!.routerAction = .UpdateView
+        self.router!.load()
+
+        selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+
+        updateTitle()
+        resultTableView.reloadData()
+    }
+
+    override func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
+            searchScope = scope
+            if !(theSearchBar.text as String).isEmpty {
+
+                if searchBarEditing {
+                    triggerAutocompletion()
+                }
+                else {
+                    search!.scope = searchScope
+                    search!.complete = false
+                    search!.currentPage = 1
+
+                    newSearch(search)
+                }
+            }
+        }
+    }
+
+    override func resetSearch() {
+        super.resetSearch()
+        updateTitle()
+    }
+
 }
