@@ -20,6 +20,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
+protocol AutocompleterDelegate: class {
+    func autocompleterView(acv: AutocompleterView!, selectedResult: String!)
+}
+
 class AutocompleterView: UIView {
     var autocompleter : DubsarModelsAutocompleter! {
     didSet {
@@ -41,7 +45,7 @@ class AutocompleterView: UIView {
 
     var buttons : [UIButton] = []
 
-    weak var viewController : MainViewController?
+    weak var viewController : AutocompleterDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)

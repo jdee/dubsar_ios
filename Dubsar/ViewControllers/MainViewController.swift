@@ -20,62 +20,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 import DubsarModels
 import UIKit
 
-class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDelegate {
+class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
 
     // MARK: Storyboard outlets
     @IBOutlet var wotdButton : UIButton!
-    @IBOutlet var searchBar : UISearchBar!
     @IBOutlet var wotdLabel : UILabel!
     @IBOutlet var wordNetLabel : UILabel!
 
     var alphabetView : AlphabetView!
-    var autocompleterView : AutocompleterView!
-    var bookmarkListView: BookmarkListView!
-    var autocompleter : DubsarModelsAutocompleter?
-    var lastSequence : Int = -1
-    var searchBarEditing : Bool = false
-    var keyboardHeight : CGFloat = 0
-    var rotated : Bool = false
-
     var wotd: DubsarModelsDailyWord?
-
-    private var searchScope = DubsarModelsSearchScope.Words
 
     // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
-
-        // this view resizes its own height
-        autocompleterView = AutocompleterView(frame: CGRectMake(0, searchBar.bounds.size.height+searchBar.frame.origin.y, view.bounds.size.width, view.bounds.size.height))
-        autocompleterView.hidden = true
-        autocompleterView.viewController = self
-        view.addSubview(autocompleterView)
-
-        // The search bar is always closed (no scope buttons visible) when the bookmark view is showing. but if we try to place it while the buttons
-        // are still showing, it ends up in the wrong place. This hack is the most straightforward way of dealing with it. Maybe a constraint would do the job.
-        bookmarkListView = BookmarkListView(frame: CGRectMake(0, 44, view.bounds.size.width, view.bounds.size.height-44))
-        bookmarkListView.hidden = true
-        bookmarkListView.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
-        view.addSubview(bookmarkListView)
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShowing:", name: UIKeyboardDidShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden:", name: UIKeyboardDidHideNotification, object: nil)
-
-        // deprecated, but somehow not showing up in the storyboard
-        searchBar.autocapitalizationType = .None
-        searchBar.scopeButtonTitles = [ "Words", "Synsets" ]
-        searchBar.selectedScopeButtonIndex = 0
-        searchBar.layer.shadowOffset = CGSizeMake(0, 3)
-        searchBar.showsBookmarkButton = true
-        searchBar.clipsToBounds = false
     }
 
     override func viewWillAppear(animated: Bool) {
         resetSearch()
         stopAnimating()
-        rotated = false
         super.viewWillAppear(animated)
     }
 
@@ -97,17 +61,9 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
     }
 
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        /* avoid the default behavior
         super.didRotateFromInterfaceOrientation(fromInterfaceOrientation) // calls adjustLayout()
-        */
 
-        // DMLOG("Actual view size: %f x %f", Double(view.bounds.size.width), Double(view.bounds.size.height))
         setupToolbar()
-
-        if !bookmarkListView.hidden {
-            bookmarkListView.frame = CGRectMake(0, 44, view.bounds.size.width, view.bounds.size.height - 44)
-            bookmarkListView.setNeedsLayout()
-        }
     }
 
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
@@ -115,7 +71,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         if alphabetView != nil {
             alphabetView.hidden = true
         }
-        rotated = true
 
         if alphabetView != nil {
             // DEBT: Move this stuff into the AlphabetView
@@ -236,70 +191,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         }
     }
 
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        super.touchesBegan(touches, withEvent: event)
-
-        bookmarkListView.hidden = true
-    }
-
-    // MARK: UISearchBarDelegate
-    func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
-            searchScope = scope
-            if !(theSearchBar.text as String).isEmpty {
-                triggerAutocompletion()
-            }
-        }
-    }
-
-    func searchBarShouldBeginEditing(searchBar: UISearchBar!) -> Bool {
-        searchBar.showsCancelButton = true
-        searchBar.showsScopeBar = true
-        searchBar.layer.shadowOpacity = 1
-        // searchBar.layer.shadowPath = UIBezierPath(rect: searchBar.bounds).CGPath
-
-        searchBarEditing = true
-        bookmarkListView.hidden = true
-        return true
-    }
-
-    func searchBarBookmarkButtonClicked(searchBar: UISearchBar!) {
-        DMTRACE("Bookmark button tapped")
-        if searchBarEditing {
-            resetSearch()
-        }
-
-        bookmarkListView.hidden = !bookmarkListView.hidden
-        if !bookmarkListView.hidden {
-            bookmarkListView.setNeedsLayout()
-        }
-    }
-
-    func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
-        resetSearch()
-    }
-
-    func searchBarSearchButtonClicked(searchBar: UISearchBar!) {
-        let search = DubsarModelsSearch(term: searchBar.text, matchCase: false, scope: searchScope)
-        resetSearch()
-
-        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
-    }
-
-    func searchBar(searchBar: UISearchBar!, textDidChange searchText: String!) {
-        autocompleter?.cancel()
-
-        if !searchBarEditing || searchText.isEmpty {
-            autocompleterView.hidden = true
-            return
-        }
-
-        if !rotated {
-            triggerAutocompletion()
-        }
-        // else wait for keyboardShown: to be called to recompute the keyboard height
-    }
-
     override func routeResponse(router: Router!) {
         super.routeResponse(router)
         if router.model.error {
@@ -319,13 +210,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
                 DMTRACE("Updating with word \(word.nameAndPos)")
                 wotdButton.setTitle(word.nameAndPos, forState: .Normal)
                 wotdButton.enabled = true
-            }
-
-        case .UpdateAutocompleter:
-            DMTRACE(".UpdateAutocompleter")
-            let ac = router.model as DubsarModelsAutocompleter
-            if ac.seqNum >= lastSequence {
-                autocompleterFinished(ac, withError: nil)
             }
 
         default:
@@ -355,16 +239,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
          */
     }
 
-    func autocompleterFinished(theAutocompleter: DubsarModelsAutocompleter!, withError error: String!) {
-        // DMLOG("Autocompleter finished for term %@, seq. %d, result count %d", theAutocompleter.term, theAutocompleter.seqNum, theAutocompleter.results.count)
-        if !searchBarEditing || searchBar.text.isEmpty {
-            return
-        }
-
-        autocompleterView.autocompleter = theAutocompleter
-        autocompleterView.hidden = false
-    }
-
     override func adjustLayout() {
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
         DMTRACE("Using font \(font.fontName)")
@@ -377,14 +251,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         wotdButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         wotdButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         wotdButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
-
-        // rerun the autocompletion request with the new max
-        searchBar(searchBar, textDidChange: searchBar.text)
-
-        searchBar.barStyle = AppConfiguration.barStyle
-        searchBar.tintColor = AppConfiguration.foregroundColor
-        searchBar.autocorrectionType = AppConfiguration.autoCorrectSetting ? .Default : .No
-        // searchBar.layer.shadowPath = UIBezierPath(rect: searchBar.bounds).CGPath
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
@@ -421,67 +287,6 @@ class MainViewController: BaseViewController, UIAlertViewDelegate, UISearchBarDe
         if let s = settingButton {
             s.stopAnimating()
         }
-    }
-
-    func triggerAutocompletion() {
-        // compute available space
-        let available = view.bounds.size.height - keyboardHeight - 44
-        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        let margin = AutocompleterView.margin
-        let lineHeight = ("Qp" as NSString).sizeWithAttributes([NSFontAttributeName: font]).height + 3*margin
-
-        var max: UInt = UInt(available / lineHeight) // floor
-        if max < 1 {
-            max = 1
-        }
-
-        // DMLOG("avail. ht: %f, lineHeight: %f, max: %d", available, lineHeight, max)
-
-        // DMLOG("Autocompletion text: %@", searchText)
-        autocompleter = DubsarModelsAutocompleter(term: searchBar.text, matchCase: false, scope: searchScope)
-        autocompleter!.max = max
-        lastSequence = autocompleter!.seqNum
-
-        router = Router(viewController: self, model: autocompleter)
-        router!.routerAction = .UpdateAutocompleter
-        router!.load()
-    }
-
-    func resetSearch() {
-        searchBar.resignFirstResponder()
-        searchBar.text = ""
-        searchBar.showsCancelButton = false
-        searchBar.showsScopeBar = false
-        searchBar.layer.shadowOpacity = 0
-
-        autocompleterView.hidden = true
-        bookmarkListView.hidden = true
-
-        searchBarEditing = false
-
-        adjustLayout()
-    }
-
-    func autocompleterView(_: AutocompleterView!, selectedResult result: String!) {
-        let search = DubsarModelsSearch(term: result, matchCase: false, scope: searchScope)
-        resetSearch()
-        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
-    }
-
-    func keyboardShowing(notification: NSNotification!) {
-        keyboardHeight = KeyboardHelper.keyboardSizeFromNotification(notification)
-
-        // why does this crash?
-        // DMLOG("Keyboard height is %f, rotated = %@", keyboardHeight, (rotated ? "true" : "false"))
-
-        if rotated {
-            triggerAutocompletion()
-            rotated = false
-        }
-    }
-
-    func keyboardHidden(notification: NSNotification!) {
-        adjustLayout()
     }
 
     private func computeAlphabetFrame(orientation: UIInterfaceOrientation) -> CGRect {

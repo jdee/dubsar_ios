@@ -52,6 +52,7 @@
 		7B88F76819B6AA6A002EB78D /* NSString+NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B88F76719B6AA6A002EB78D /* NSString+NSStringAdditions.m */; };
 		7B88F76B19B6AAC7002EB78D /* NSData+NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B88F76A19B6AAC7002EB78D /* NSData+NSDataAdditions.m */; };
 		7B88F76E19B6B09C002EB78D /* NSData+StupidDubsarTricks.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B88F76D19B6B09C002EB78D /* NSData+StupidDubsarTricks.m */; };
+		7B88F77019BB7961002EB78D /* SearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B88F76F19BB7961002EB78D /* SearchBarViewController.swift */; };
 		7BA85A5619848DA100222A6D /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA85A5519848DA100222A6D /* AppConfiguration.swift */; };
 		7BA90E0A197786D400D5C180 /* PushWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA90E09197786D400D5C180 /* PushWrapper.m */; };
 		7BAC1E2E199A801C00D48521 /* CloseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC1E2D199A801C00D48521 /* CloseButton.m */; };
@@ -212,6 +213,7 @@
 		7B88F76A19B6AAC7002EB78D /* NSData+NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+NSDataAdditions.m"; sourceTree = "<group>"; };
 		7B88F76C19B6B09C002EB78D /* NSData+StupidDubsarTricks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+StupidDubsarTricks.h"; sourceTree = "<group>"; };
 		7B88F76D19B6B09C002EB78D /* NSData+StupidDubsarTricks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+StupidDubsarTricks.m"; sourceTree = "<group>"; };
+		7B88F76F19BB7961002EB78D /* SearchBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarViewController.swift; sourceTree = "<group>"; };
 		7BA85A5519848DA100222A6D /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		7BA90E08197786D400D5C180 /* PushWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushWrapper.h; sourceTree = "<group>"; };
 		7BA90E09197786D400D5C180 /* PushWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushWrapper.m; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 				7B7382FA1984700900880CF2 /* FAQViewController.swift */,
 				7B06EC71198879C500C44892 /* ThemeViewController.swift */,
 				7BAC226019732D6C00D2AEA4 /* MainViewController.swift */,
+				7B88F76F19BB7961002EB78D /* SearchBarViewController.swift */,
 				7BBF836F1974D58400969765 /* SearchViewController.swift */,
 				7B06EC6B19886FCE00C44892 /* SettingsViewController.swift */,
 				7B82C93D19760A0E0077D1A0 /* SynsetViewController.swift */,
@@ -678,6 +681,7 @@
 			files = (
 				7B14AE191999B76D00BCD41A /* HomeButton.m in Sources */,
 				7B82C94319760EDC0077D1A0 /* DubsarModelsSynset+ViewSizing.swift in Sources */,
+				7B88F77019BB7961002EB78D /* SearchBarViewController.swift in Sources */,
 				7B14AE201999BCE700BCD41A /* FavoriteBarButtonItem.swift in Sources */,
 				7B06EC701988798600C44892 /* IOSKnobControl.m in Sources */,
 				7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */,
