@@ -387,7 +387,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         pageControl.numberOfPages = Int(search!.totalPages)
         updateTitle()
 
-        resultTableView.backgroundColor = search!.results.count % 2 == 0 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
+        updateBackgroundColor()
     }
 
     override func adjustLayout() {
@@ -400,12 +400,16 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
 
         resultTableView.reloadData()
         view.backgroundColor = AppConfiguration.alternateBackgroundColor
-        resultTableView.backgroundColor = AppConfiguration.alternateBackgroundColor
+        updateBackgroundColor()
 
         resultTableView.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
 
         scopeControl.tintColor = AppConfiguration.foregroundColor
 
         super.adjustLayout()
+    }
+
+    private func updateBackgroundColor() {
+        resultTableView.backgroundColor = search != nil && search!.complete && search!.results.count % 2 == 0 ? AppConfiguration.backgroundColor : AppConfiguration.alternateBackgroundColor
     }
 }
