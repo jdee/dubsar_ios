@@ -25,7 +25,7 @@
 
 - (void)testParsing
 {
-    NSString* stringData = @"[26063,\"food\",\"n\",\"foods\",[[35629,[[35630,\"nutrient\"]],\"any substance that can be metabolized by an animal to give energy and build tissue  \",\"noun.Tops\",null,29]],29]";
+    NSString* stringData = @"[26063,\"food\",\"n\",\"foods\",[[35629,[[35630,\"nutrient\"]],\"any substance that can be metabolized by an animal to give energy and build tissue  \",\"noun.Tops\",null,29,54321]],29]";
     
     DubsarModelsWord* word =[DubsarModelsWord wordWithId:26063 name:@"food" partOfSpeech:DubsarModelsPartOfSpeechNoun];
     word.data = [self.class dataWithString:stringData];

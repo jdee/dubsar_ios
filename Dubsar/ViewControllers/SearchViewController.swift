@@ -34,6 +34,11 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
     var search: DubsarModelsSearch?
     var selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        searchBar.layer.shadowOpacity = 1
+    }
+
     override func viewWillAppear(animated: Bool) {
         // DMLOG("In SearchViewController.viewWillAppear() before super: search is %@nil, %@complete; model is %@nil, %@complete", (search ? "" : "not "), (search.complete ? "" : "not "), (model ? "" : "not "), (model?.complete ? "" : "not "))
         super.viewWillAppear(animated)

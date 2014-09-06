@@ -25,7 +25,7 @@
 
 - (void)testParsing
 {
-    NSString* stringData = @"[21803,\"n\",\"noun.Tops\",\"synset gloss\",[],[[35629,\"food\",null,29],[35630,\"nutrient\",null,1]],30,[[\"hypernym\",\"synset\",21801,\"substance\",\"hypernym gloss\"]]]";
+    NSString* stringData = @"[21803,\"n\",\"noun.Tops\",\"synset gloss\",[],[[35629,\"food\",null,29,35631],[35630,\"nutrient\",null,1,35630]],30,[[\"hypernym\",\"synset\",21801,\"substance\",\"hypernym gloss\"]]]";
     
     DubsarModelsSynset* synset = [DubsarModelsSynset synsetWithId:21803 gloss:@"synset gloss" partOfSpeech:DubsarModelsPartOfSpeechNoun];
     synset.data = [self.class dataWithString:stringData];

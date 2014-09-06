@@ -177,12 +177,10 @@ enum {
 
         DMTRACE(@"Keychain data length: %d", length);
 
-        assert(length == kCCKeySizeAES256);
-
-        if (length == 0) {
+        if (length != kCCKeySizeAES256) {
             CFRelease(returnedKey);
             if ((rc=SecItemDelete((__bridge CFDictionaryRef)query)) != noErr) {
-                DMERROR(@"Error deleting empty key: %d", rc);
+                DMERROR(@"Error deleting key: %d", rc);
             }
             return nil;
         }

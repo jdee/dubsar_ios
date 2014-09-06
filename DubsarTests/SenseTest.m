@@ -25,7 +25,7 @@
 
 - (void)testParsing
 {
-    NSString* stringData = @"[35629,[26063,\"food\",\"n\"],[21803,\"sense gloss\"],\"noun.Tops\",null,29,[[35630,\"nutrient\",null,1]],[],[],[[\"hypernym\",\"synset\",21801,\"substance\",\"hypernym gloss\"]]]";
+    NSString* stringData = @"[35629,[26063,\"food\",\"n\"],[21803,\"sense gloss\"],\"noun.Tops\",null,29,[[35630,\"nutrient\",null,1,21804]],[],[],[[\"hypernym\",\"synset\",21801,\"substance\",\"hypernym gloss\"]]]";
     
     /* This resembles the way senses are parsed in word responses. */
     DubsarModelsWord* word = [DubsarModelsWord wordWithId:26063 name:@"food" partOfSpeech:DubsarModelsPartOfSpeechNoun];
@@ -87,7 +87,7 @@
 
 -(void)testNameAndPosParsing
 {
-    NSString* nameAndPos = @"beauty (n.)";
+    NSString* nameAndPos = @"beauty, n.";
     DubsarModelsSense* sense = [DubsarModelsSense senseWithId:1 nameAndPos:nameAndPos];
     XCTAssertEqualObjects(@"beauty", sense.name, @"name failed");
     XCTAssertEqual(DubsarModelsPartOfSpeechNoun, sense.partOfSpeech, @"part of speech failed");
