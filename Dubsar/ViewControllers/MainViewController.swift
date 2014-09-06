@@ -330,4 +330,15 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         let search = DubsarModelsSearch(wildcard: button.globExpression, page: 1, title: button.titleForState(.Normal), scope: .Words)
         pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
     }
+
+    override func newSearch(newSearch: DubsarModelsSearch!) {
+        pushViewControllerWithIdentifier(SearchViewController.identifier, model: newSearch, routerAction: .UpdateView)
+    }
+
+    override func resetSearch() {
+        super.resetSearch()
+
+        searchBar.showsScopeBar = false
+        searchBar.layer.shadowOpacity = 0
+    }
 }

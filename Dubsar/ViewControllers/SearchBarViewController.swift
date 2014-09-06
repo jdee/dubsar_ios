@@ -52,7 +52,7 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShowing:", name: UIKeyboardDidShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden:", name: UIKeyboardDidHideNotification, object: nil)
 
-        // deprecated, but somehow not showing up in the storyboard
+        // deprecated? but somehow not showing up in the storyboard
         searchBar.autocapitalizationType = .None
         searchBar.scopeButtonTitles = [ "Words", "Synsets" ]
         searchBar.selectedScopeButtonIndex = 0
@@ -95,6 +95,8 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
 
     func searchBarShouldBeginEditing(searchBar: UISearchBar!) -> Bool {
         searchBar.showsCancelButton = true
+
+        // Might want to move these into the MainViewController. If on the search view, scope bar always showing, shadow always present
         searchBar.showsScopeBar = true
         searchBar.layer.shadowOpacity = 1
         // searchBar.layer.shadowPath = UIBezierPath(rect: searchBar.bounds).CGPath
@@ -211,8 +213,6 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
         searchBar.resignFirstResponder()
         searchBar.text = ""
         searchBar.showsCancelButton = false
-        searchBar.showsScopeBar = false
-        searchBar.layer.shadowOpacity = 0
 
         autocompleterView.hidden = true
         bookmarkListView.hidden = true
@@ -225,15 +225,12 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
     func autocompleterView(_: AutocompleterView!, selectedResult result: String!) {
         let search = DubsarModelsSearch(term: result, matchCase: false, scope: searchScope)
         resetSearch()
-        pushViewControllerWithIdentifier(SearchViewController.identifier, model: search, routerAction: .UpdateView)
+
+        newSearch(search)
     }
 
     func keyboardShowing(notification: NSNotification!) {
         keyboardHeight = KeyboardHelper.keyboardSizeFromNotification(notification)
-
-        // why does this crash?
-        // DMLOG("Keyboard height is %f, rotated = %@", keyboardHeight, (rotated ? "true" : "false"))
-
         if rotated {
             triggerAutocompletion()
             rotated = false
@@ -242,5 +239,9 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
     
     func keyboardHidden(notification: NSNotification!) {
         adjustLayout()
+    }
+
+    // to be overridden by child class
+    func newSearch(newSearch: DubsarModelsSearch!) {
     }
 }
