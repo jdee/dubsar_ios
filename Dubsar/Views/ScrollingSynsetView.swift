@@ -69,12 +69,6 @@ class ScrollingSynsetView: UIScrollView {
         pointerView.setTranslatesAutoresizingMaskIntoConstraints(false)
         // */
 
-        /*
-        headerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        sampleView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        pointerView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        // */
-
         bounces = false
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = true

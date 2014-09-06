@@ -31,6 +31,7 @@ class PointerView : UIView {
         pointer = DubsarModelsPointer()
         button = NavButton()
         label = UILabel()
+
         withoutButton = true
         super.init(coder: aDecoder)
     }
@@ -43,6 +44,7 @@ class PointerView : UIView {
         super.init(frame: frame)
 
         // clipsToBounds = true
+        layer.cornerRadius = 4
 
         let fudge : CGFloat = 8
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -87,6 +89,9 @@ class PointerView : UIView {
         addConstraint(constraint)
         constraint = NSLayoutConstraint(item: label, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -buttonSize)
         addConstraint(constraint)
+
+        let gr = UITapGestureRecognizer(target: self, action: "navigate:")
+        addGestureRecognizer(gr)
     }
 
     override func intrinsicContentSize() -> CGSize {
@@ -94,9 +99,12 @@ class PointerView : UIView {
     }
 
     @IBAction
-    func navigate(sender: UIButton!) {
+    func navigate(sender: AnyObject!) {
+        backgroundColor = AppConfiguration.alternateHighlightColor
+
         var target : DubsarModelsModel
-        // DMLOG("Selected pointer targetType \"%@\", targetId %d", pointer.targetType, pointer.targetId)
+        DMDEBUG("Selected pointer targetType \"\(pointer.targetType)\", targetId \(pointer.targetId)")
+
         if pointer.targetType == "Sense" || pointer.targetType == "sense" {
             // DMLOG("Navigating to sense ID %d (%@)", pointer.targetId, pointer.targetText)
             let sense = DubsarModelsSense(id: pointer.targetId, name: nil, partOfSpeech: .Unknown)
@@ -112,6 +120,7 @@ class PointerView : UIView {
             spv.navigateToModel(target)
         }
     }
+
 }
 
 class SynsetPointerView: UIView {
@@ -302,7 +311,6 @@ class SynsetPointerView: UIView {
                     pointerView.label.text = text
                     if !isPreview && pointer.targetType == "Sense" {
                         pointerView.backgroundColor = AppConfiguration.highlightColor
-                        pointerView.layer.cornerRadius = 0.5 * margin
                     }
                     pointerView.viewController = viewController
                     pointerView.setTranslatesAutoresizingMaskIntoConstraints(false)
