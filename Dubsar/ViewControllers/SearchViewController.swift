@@ -40,7 +40,6 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
 
         if let s = search {
             searchBar.selectedScopeButtonIndex = s.scope == .Words ? 0 : 1
-            searchBar.showsScopeBar = !s.isWildCard
         }
 
         title = "Search"
@@ -371,7 +370,6 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
         }
 
         searchBar.selectedScopeButtonIndex = search!.scope == .Words ? 0 : 1
-        searchBar.showsScopeBar = !search!.isWildCard
 
         pageControl.hidden = search!.totalPages <= 1
         pageControl.currentPage = search!.currentPage - 1
@@ -413,6 +411,14 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
     }
 
     override func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        // disallow for wild cards (words only)
+        if let s = search {
+            if s.isWildCard {
+                searchBar.selectedScopeButtonIndex = DubsarModelsSearchScope.Words.toRaw()
+                return
+            }
+        }
+
         if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
             searchScope = scope
             if !(theSearchBar.text as String).isEmpty {
@@ -420,7 +426,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
                 if searchBarEditing {
                     triggerAutocompletion()
                 }
-                else {
+                else if search != nil {
                     search!.scope = searchScope
                     search!.complete = false
                     search!.currentPage = 1
