@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, DubsarModelsLogLevel) {
 
 + (DubsarModelsLogger volatile*)instance;
 
-+ (void)dump:(NSData*)data level:(DubsarModelsLogLevel)level;
++ (void)dump:(NSData*)data level:(DubsarModelsLogLevel)level file:(const char*)file line:(unsigned long)lineNumber;
 
 + (void)logLevel:(DubsarModelsLogLevel)level message:(NSString*)message;
 
@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, DubsarModelsLogLevel) {
 - (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString*)format,...;
 - (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString*)format args:(va_list)args;
 
-- (void)dump:(NSData*)data level:(DubsarModelsLogLevel)level;
+- (void)dump:(NSData*)data level:(DubsarModelsLogLevel)level file:(const char*)file line:(unsigned long)lineNumber;
 
 @end
 
@@ -57,6 +57,8 @@ typedef NS_ENUM(NSInteger, DubsarModelsLogLevel) {
 #define DMINFO(...) [DubsarModelsLogger logFile:__FILE__ line:__LINE__ level:DubsarModelsLogLevelInfo format:__VA_ARGS__]
 #define DMWARN(...) [DubsarModelsLogger logFile:__FILE__ line:__LINE__ level:DubsarModelsLogLevelWarn format:__VA_ARGS__]
 #define DMERROR(...) [DubsarModelsLogger logFile:__FILE__ line:__LINE__ level:DubsarModelsLogLevelError format:__VA_ARGS__]
+
+#define DMDUMP(data) [DubsarModelsLogger dump:data level:DubsarModelsLogLevelTrace file:__FILE__ line:__LINE__]
 #else
 #define DMLOG(...)
 #define DMTRACE(...)
@@ -64,4 +66,6 @@ typedef NS_ENUM(NSInteger, DubsarModelsLogLevel) {
 #define DMINFO(...)
 #define DMWARN(...)
 #define DMERROR(...)
+
+#define DMDUMP(data)
 #endif // DEBUG

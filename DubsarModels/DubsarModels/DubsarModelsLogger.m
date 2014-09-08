@@ -31,9 +31,9 @@
     return _instance;
 }
 
-+ (void)dump:(NSData *)data level:(DubsarModelsLogLevel)level
++ (void)dump:(NSData *)data level:(DubsarModelsLogLevel)level file:(const char *)file line:(unsigned long)lineNumber
 {
-    [[self instance] dump:data level:level];
+    [[self instance] dump:data level:level file:file line:lineNumber];
 }
 
 + (void)logLevel:(DubsarModelsLogLevel)level message:(NSString *)message
@@ -69,15 +69,15 @@
     return self;
 }
 
-- (void)dump:(NSData *)data level:(DubsarModelsLogLevel)level
+- (void)dump:(NSData *)data level:(DubsarModelsLogLevel)level file:(const char *)file line:(unsigned long)lineNumber
 {
     if (level > self.logLevel) return;
 
-    [self logLevel:level message:[NSString stringWithFormat:@"%lu bytes", (unsigned long)data.length]];
+    [self logFile:file line:lineNumber level:level format:@"%lu bytes", (unsigned long)data.length];
 
     const unsigned char* bytes = (const unsigned char*)data.bytes;
     size_t length = data.length;
-    const size_t numPerLine = 8;
+    const size_t numPerLine = 16;
     const int pad = 8;
 
     while (length > 0) {
@@ -99,7 +99,7 @@
             sprintf(line+strlen(line), "%c", isprint(c) ? c : '.');
         }
 
-        [self logLevel:level message:@(line)];
+        [self logFile:file line:lineNumber level:level format:@"%@", @(line)];
 
         length -= numToDump;
         bytes += numToDump;

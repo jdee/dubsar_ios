@@ -109,7 +109,7 @@ enum {
     DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", bytes[16], bytes[17], bytes[18], bytes[19], bytes[20], bytes[21], bytes[22], bytes[23]);
     DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", bytes[24], bytes[25], bytes[26], bytes[27], bytes[28], bytes[29], bytes[30], bytes[31]);
     DMTRACE(@"Clear text:");
-    [DubsarModelsLogger dump:clearText level:DubsarModelsLogLevelTrace];
+    DMDUMP(clearText);
 
     CCCryptorStatus status = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, bytes, kCCKeySizeAES256, output, clearText.bytes, clearText.length, output+kCCBlockSizeAES128, outputSize-kCCBlockSizeAES128, &movedSize);
     if (status != kCCSuccess) {
@@ -121,7 +121,7 @@ enum {
     NSData* data = [NSData dataWithBytes:output length:movedSize+kCCBlockSizeAES128];
 
     DMTRACE(@"Encrypted:");
-    [DubsarModelsLogger dump:data level:DubsarModelsLogLevelTrace];
+    DMDUMP(data);
 
     free(output);
     return data;
@@ -141,7 +141,7 @@ enum {
     DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", bytes[16], bytes[17], bytes[18], bytes[19], bytes[20], bytes[21], bytes[22], bytes[23]);
     DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", bytes[24], bytes[25], bytes[26], bytes[27], bytes[28], bytes[29], bytes[30], bytes[31]);
     DMTRACE(@"Cipher text:");
-    [DubsarModelsLogger dump:cipherText level:DubsarModelsLogLevelTrace];
+    DMDUMP(cipherText);
 
     CCCryptorStatus status = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, bytes, kCCKeySizeAES256, cipherText.bytes, cipherText.bytes+kCCBlockSizeAES128, cipherText.length-kCCBlockSizeAES128, output, outputSize, &movedSize);
     if (status != kCCSuccess) {
@@ -153,7 +153,7 @@ enum {
     NSData* result = [NSData dataWithBytes:output length:movedSize];
 
     DMTRACE(@"Decrypted:");
-    [DubsarModelsLogger dump:result level:DubsarModelsLogLevelTrace];
+    DMDUMP(result);
 
     free(output);
     return result;
