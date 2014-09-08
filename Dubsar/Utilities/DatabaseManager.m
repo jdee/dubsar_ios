@@ -1221,12 +1221,14 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     if (self.unzippedSize != sb.st_size) {
         DMERROR(@"Unzip file header: %ld. File size is %lld", self.unzippedSize, sb.st_size);
         [self notifyDelegateOfError:@"Failed to validate download"];
+        [self deleteDatabase];
         [self restoreOldFileOnFailure];
         return;
     }
     if (_currentDownload.unzippedSize != sb.st_size) {
         DMERROR(@"Advertised database size: %lu. File size is %lld", _currentDownload.unzippedSize, sb.st_size);
         [self notifyDelegateOfError:@"Failed to validate download"];
+        [self deleteDatabase];
         [self restoreOldFileOnFailure];
         return;
     }
@@ -1274,14 +1276,16 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     unzClose(uf);
     uf = NULL;
 
-    [self restoreOldFileOnFailure];
-
     /*
      * In general, if I fail to unzip the file, I should probably delete it, since subsequent attempts are likely to
      * produce the same result, and the bad file will essentially get stuck.
      */
 
-    [[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:NULL];
+    // removes any zips and all DBS except oldFileURL.
+    [self deleteDatabase];
+
+    // then reverts to oldFileURL
+    [self restoreOldFileOnFailure];
 }
 
 - (void)unzip

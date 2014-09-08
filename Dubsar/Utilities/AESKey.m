@@ -187,11 +187,6 @@ enum {
 
         const unsigned char* bytes = (const unsigned char*)CFDataGetBytePtr(cfdata);
 
-        int sum = 0;
-        for (int j=0; j<length; ++j) {
-            sum += bytes[j];
-        }
-
         DMTRACE(@"Loaded key:");
         DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]);
         DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
@@ -201,7 +196,7 @@ enum {
         NSData* returnValue = [NSData dataWithBytes:bytes length:length];
         CFRelease(returnedKey);
 
-        DMDEBUG(@"Loaded %d-bit AES key from keychain. Sum: %d", returnValue.length*8, sum);
+        DMDEBUG(@"Loaded %d-bit AES key from keychain.", returnValue.length*8);
         return returnValue;
     }
 
@@ -229,11 +224,6 @@ enum {
         DMERROR(@"SecItemAdd failed. Error %d", rc);
     }
 
-    int sum = 0;
-    for (int j=0; j<kCCKeySizeAES256; ++j) {
-        sum += buffer[j];
-    }
-
     DMTRACE(@"Generated new key:");
     DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7]);
     DMTRACE(@"%02x %02x %02x %02x %02x %02x %02x %02x", buffer[8], buffer[9], buffer[10], buffer[11], buffer[12], buffer[13], buffer[14], buffer[15]);
@@ -242,7 +232,7 @@ enum {
 
     free(buffer);
 
-    DMTRACE(@"Wrote %ld-bit AES key to keychain. Sum: %d", newKey.length*8, sum);
+    DMTRACE(@"Wrote %ld-bit AES key to keychain.", newKey.length*8);
 
     return newKey;
 }
