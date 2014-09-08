@@ -237,7 +237,7 @@ class AboutViewController: BaseViewController {
         formatter.dateStyle = .ShortStyle
         formatter.timeStyle = .ShortStyle
 
-        lastCheckLabel.text = "Last checked \(formatter.stringFromDate(lastCheck))"
+        lastCheckLabel.text = AppConfiguration.offlineSetting ? "Last checked \(formatter.stringFromDate(lastCheck))" : ""
         textSize = (lastCheckLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         lastCheckLabel.font = font
         lastCheckLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
