@@ -48,6 +48,15 @@
     // /^dubsar-wn3.1-([0-9]+)$/
     return ((NSString*)[_name componentsSeparatedByString:@"-"].lastObject).intValue;
 }
+
+- (BOOL)isEqual:(id)object
+{
+    if (![object isKindOfClass:DubsarModelsDownload.class]) return NO;
+
+    DubsarModelsDownload* other = (DubsarModelsDownload*)object;
+
+    return [_name isEqualToString:other.name];
+}
 @end
 
 @implementation DubsarModelsDownloadList

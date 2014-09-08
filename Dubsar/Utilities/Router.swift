@@ -45,7 +45,10 @@ class Router: NSObject, DubsarModelsLoadDelegate {
 
     deinit {
         if model.loading {
-            model.cancel()
+            model.cancel(false)
+            // cancel() will pop this back to the main thread, but given that we're in deinit,
+            // we may not be around any longer.
+            networkLoadFinished(model)
         }
     }
 

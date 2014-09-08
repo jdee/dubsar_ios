@@ -90,7 +90,7 @@
 - (void)cancel
 {
     self.aborted = YES;
-    [super cancel];
+    [super cancel:YES];
 }
 
 - (void)loadResults:(DubsarModelsDatabaseWrapper*)database

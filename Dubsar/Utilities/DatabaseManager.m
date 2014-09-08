@@ -286,13 +286,15 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     assert(self.connection);
     [self.connection cancel];
-    [_downloadList cancel];
+    [_downloadList cancel:YES];
 
     [self stopMonitoringDownloadHost];
 
-    self.downloadInProgress = NO;
     self.errorMessage = @"Canceled";
-    [[UIApplication sharedApplication] stopUsingNetwork];
+    if (self.downloadInProgress) {
+        [[UIApplication sharedApplication] stopUsingNetwork];
+        self.downloadInProgress = NO;
+    }
 
     [self restoreOldFileOnFailure];
 
@@ -308,12 +310,6 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 - (void)download
 {
-    /* But then there are retries
-    if (self.downloadInProgress) {
-        return;
-    }
-    // */
-
     self.databaseUpdated = NO;
 
     if (!_fileName || !_zipName) {
@@ -324,6 +320,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     self.errorMessage = nil;
 
+    // @@@@@ Begin existing zip evaluation/validation
     struct stat sb;
     int rc = stat(self.zipURL.path.UTF8String, &sb);
     if (rc < 0) {
@@ -331,28 +328,48 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         if (error != ENOENT) {
             char errbuf[256];
             strerror_r(error, errbuf, 255);
+
+            // Storage access error. This might mean we have the wrong folder or something.
+            // Should this be an assertion?
             [self notifyDelegateOfError:@"Error %d (%s) from stat(%@)", error, errbuf, self.zipURL.path];
             return;
         }
+
         // not present. just download
         _etag = nil;
+        _totalSize = 0;
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:DUBSAR_CURRENT_DOWNLOAD_ETAG_KEY];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:DUBSAR_CURRENT_DOWNLOAD_SIZE_KEY];
     }
     else if (_etag) {
         _start = (NSInteger)sb.st_size;
     }
     else {
+        // We don't have an eTag for the existing zip, so we can't validate it. DEBT: An MD5/SHA1 hash for validation
+        // could help.
+
+        // Just remove the file and download fresh.
         NSError* error;
         if (![[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:&error]) {
+            /*
+             * Failed to remove the existing zip file when we don't have an eTag to validate it with the server.
+             * We could just try fopen(..., "w") instead of "a". This is an unlikely corner case.
+             */
             [self notifyDelegateOfError:@"Error removing zip file: %@", error.localizedDescription];
             return;
         }
     }
+    // @@@@@ End existing zip evaluation/validation
 
+    // open the file for append.
     fp = fopen(self.zipURL.path.UTF8String, "a");
     if (!fp) {
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
+
+        // Full house? The write would probably fail, but not the open.
+        // Should this be an assertion?
         [self notifyDelegateOfError: @"Error %d (%s) opening %@", error, errbuf, self.zipURL.path];
         return;
     }
@@ -360,6 +377,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     DMDEBUG(@"Successfully opened/created %@ for write", self.zipURL.path);
     [self excludeFromBackup:self.zipURL];
 
+    // Initialize download stats
     self.downloadSize = self.downloadedSoFar = self.unzippedSoFar = self.unzippedSize = 0;
     self.downloadInProgress = YES;
 
@@ -374,10 +392,12 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     self.unzipStart = now;
     self.downloadStart = now;
 
+    // Set up the DL URL
     NSURL* url = [self.rootURL URLByAppendingPathComponent:_zipName];
     DMINFO(@"Downloading %@", url);
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
 
+    // Add headers in case of a partial DL or validation of a complete DL
     if (_etag && _start > 0 && _start == _totalSize) {
         [request addValue:_etag forHTTPHeaderField:@"If-None-Match"];
         DMDEBUG(@"Added If-None-Match:%@", _etag);
@@ -389,6 +409,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         DMDEBUG(@"Added Range:bytes=%ld-", (long)_start);
     }
 
+    // Make the request
     self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
     [self.connection start];
     [[UIApplication sharedApplication] startUsingNetwork];
@@ -436,7 +457,6 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 {
     [[DubsarModelsDatabase instance] closeDB];
 
-
     NSError* error;
     NSURL* fileURL = self.fileURL;
     if (fileURL && ![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error]) {
@@ -465,33 +485,8 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     va_list args;
     va_start(args, format);
 
-    self.errorMessage = [NSString stringWithFormat:format args:args];
-
+    [self notifyDelegateOfError:format args:args];
     va_end(args);
-
-    if (outfile) {
-        fclose(outfile);
-        outfile = NULL;
-    }
-    if (uf) {
-        unzClose(uf);
-        uf = NULL;
-    }
-
-    self.downloadInProgress = NO;
-
-    if (![self.delegate respondsToSelector:@selector(databaseManager:encounteredError:)]) return;
-
-    if ([NSThread currentThread] != [NSThread mainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // [self deleteDatabase];
-            [self.delegate databaseManager:self encounteredError:self.errorMessage];
-        });
-    }
-    else {
-        // [self deleteDatabase];
-        [self.delegate databaseManager:self encounteredError:self.errorMessage];
-    }
 }
 
 - (void)clearError
@@ -526,7 +521,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     for (NSString* file in files) {
         if (![file hasPrefix:DUBSAR_DOWNLOAD_PREFIX]) continue;
 
-        if (![_fileName isEqualToString:file] ) {
+        if (![_fileName isEqualToString:file] && ![_oldFileName isEqualToString:file]) {
             NSURL* fileURL = [url URLByAppendingPathComponent:file];
             DMINFO(@"Removing %@", fileURL);
             if (![fileManager removeItemAtURL:fileURL error:&error]) {
@@ -809,68 +804,101 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 #pragma mark - DubsarModelsLoadDelegate
 
+// These are called with model == _downloadList
+
 - (void)retryWithModel:(DubsarModelsModel *)model error:(NSString *)error
 {
     DMDEBUG(@"Failed to load download list: %@. Retrying.", error);
 }
 
-// These are called when with == _downloadList
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
 {
+    self.updateCheckInProgress = NO;
     if (error) {
         [self notifyDelegateOfError:@"%@", error];
-        self.updateCheckInProgress = NO;
         [self noUpdateAvailable];
         return;
     }
 
     DubsarModelsDownloadList* downloadList = (DubsarModelsDownloadList*)model;
-    _currentDownload = [self findCorrectDownload:downloadList];
-    if (!_currentDownload) {
+    DubsarModelsDownload* newDownload = [self findCorrectDownload:downloadList];
+    if (!newDownload) {
+        _currentDownload = nil;
+        // this indicates a serious server configuration error. the app cannot download anything if the user requests it.
         [self notifyDelegateOfError:@"No acceptable download available."];
-        self.updateCheckInProgress = NO;
         [self noUpdateAvailable];
         return;
     }
 
-#ifdef DEBUG
-    NSUInteger zipped = _currentDownload.zippedSize;
-    NSUInteger unzipped = _currentDownload.unzippedSize;
+    if ([newDownload isEqual:_currentDownload]) {
+        DMINFO(@"No new download available. %@ is current.", _currentDownload.name);
 
-    DMINFO(@"download: %@. zipped: %lu, unzipped: %lu", _currentDownload.name, (unsigned long)zipped, (unsigned long)unzipped);
+        // if there were previously bad data from the server, make sure they don't get stuck.
+        _currentDownload = newDownload;
+
+        // We may never have successfully downloaded it though. Validate any files present before reporting nothing to do.
+        if (self.fileExists) {
+            // self.fileExists validates the file size.
+            // ordinarily, there should be no zip. don't really care if the
+            // zip is still here, but delete it in case.
+
+            [[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:NULL];
+
+            // All is well. Nothing to see here. Move along.
+            [self noUpdateAvailable];
+        }
+        else {
+            // this could be a partially unzipped file, if the app crashed during the unzip.
+            /*
+             * In that case, we ought to go back and check for an existing zip file and download/resume/validate as
+             * appropriate. Then we should unzip that from scratch. The download process will detect/validate a partial
+             * zip. We could delete the DB, but once we call download, attention shifts to the zip. Once that's downloaded
+             * and validated, the existing DB will be overwritten.
+             */
+
+            // needs a download.
+            [self promptUserOrDownload:_currentDownload];
+
+            // download validates any existing zip. if complete, an If-None-Match header is sent, and if a 304 Not Modified is returned,
+            // tries to unzip the file. if incomplete, If-Range and Range headers are added, and the interrupted DL is resumed.
+        }
+
+        return;
+    }
+
+    // New download available. This is presumably something after _currentDownload that we've never before tried to DL.
+
+#ifdef DEBUG
+    NSUInteger zipped = newDownload.zippedSize;
+    NSUInteger unzipped = newDownload.unzippedSize;
+
+    DMINFO(@"new download: %@. zipped: %lu, unzipped: %lu", newDownload.name, (unsigned long)zipped, (unsigned long)unzipped);
 #endif // DEBUG
 
     _oldFileName = _fileName;
     _oldDownload = _currentDownload;
 
+    // in cleanOldDBS, retain oldFileURL, but nothing else. remove all zips and anything except the old DB,
+    // which is currently open.
+    _zipName = _fileName = nil;
+    [self cleanOldDatabases];
+
+    // These values will be rolled back in case the DL/unzip fails (as long as the app keeps running and detects
+    // the failure).
+    // DEBT: Q. What if the app dies while downloading/unzipping a new DL?
+    // A. That event can't be detected. This only really occurs in case of an optional update, not a required one. If the app dies
+    // while downloading an optional update, it will no longer be possible to revert to the previous update. In essence, after a
+    // crash, the download is no longer optional, since the previous one is no longer viable. This isn't all that hard to fix, but
+    // also not all that important.
+
+    _currentDownload = newDownload;
     _zipName = [_currentDownload.name stringByAppendingString:@".zip"];
     _fileName = [_currentDownload.name stringByAppendingString:@".sqlite3"];
 
     [[NSUserDefaults standardUserDefaults] setValue:_currentDownload.name forKey:DUBSAR_CURRENT_DOWNLOAD_KEY];
     [[NSUserDefaults standardUserDefaults] setValue:_currentDownload.properties[@"mtime"] forKey:DUBSAR_CURRENT_DOWNLOAD_MTIME_KEY];
 
-    if (self.fileExists) {
-        DMINFO(@"Already have %@", self.fileURL.path);
-        [self cleanOldDatabases];
-        self.updateCheckInProgress = NO;
-        [self noUpdateAvailable];
-        return;
-    }
-
-    DMINFO(@"%@ is a new download", _currentDownload.name);
-
-    if (self.delegate && [self.delegate respondsToSelector:@selector(newDownloadAvailable:download:required:)]) {
-        if (singleThread || [NSThread currentThread] == [NSThread mainThread]) {
-            [self.delegate newDownloadAvailable:self download:_currentDownload required:updateRequired];
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate newDownloadAvailable:self download:_currentDownload required:updateRequired];
-            });
-        }
-    }
-
-    self.updateCheckInProgress = NO;
+    [self promptUserOrDownload:_currentDownload];
 }
 
 - (void)networkLoadFinished:(DubsarModelsModel *)model
@@ -885,6 +913,35 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 #pragma mark - Internal convenience methods
 
+- (void)notifyDelegateOfError:(NSString*)format args:(va_list)args
+{
+    self.errorMessage = [NSString stringWithFormat:format args:args];
+
+    if (outfile) {
+        fclose(outfile);
+        outfile = NULL;
+    }
+    if (uf) {
+        unzClose(uf);
+        uf = NULL;
+    }
+
+    self.downloadInProgress = NO;
+
+    if (![self.delegate respondsToSelector:@selector(databaseManager:encounteredError:)]) return;
+
+    if ([NSThread currentThread] != [NSThread mainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // [self deleteDatabase];
+            [self.delegate databaseManager:self encounteredError:self.errorMessage];
+        });
+    }
+    else {
+        // [self deleteDatabase];
+        [self.delegate databaseManager:self encounteredError:self.errorMessage];
+    }
+}
+
 - (void)noUpdateAvailable
 {
     if ([_delegate respondsToSelector:@selector(noUpdateAvailable:)]) {
@@ -894,6 +951,26 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_delegate noUpdateAvailable:self];
+            });
+        }
+    }
+}
+
+- (void)promptUserOrDownload:(DubsarModelsDownload*)download
+{
+    /*
+     * This is mainly here because of the opacity of the AppConfiguration struct from Swift. Also, leaving app
+     * configuration out of this class will make it a bit easier to stuff it into the model framework. The
+     * newDownload:Blah: method will simply call download if autoupdate is set. Otherwise, it prompts the
+     * user.
+     */
+    if (self.delegate && [self.delegate respondsToSelector:@selector(newDownloadAvailable:download:required:)]) {
+        if (singleThread || [NSThread currentThread] == [NSThread mainThread]) {
+            [self.delegate newDownloadAvailable:self download:download required:updateRequired];
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate newDownloadAvailable:self download:download required:updateRequired];
             });
         }
     }
@@ -1185,6 +1262,28 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     }
 }
 
+- (void)unzipFailedWithError:(NSString*)format,...
+{
+    va_list args;
+    va_start(args, format);
+
+    [self notifyDelegateOfError:format args:args];
+
+    va_end(args);
+
+    unzClose(uf);
+    uf = NULL;
+
+    [self restoreOldFileOnFailure];
+
+    /*
+     * In general, if I fail to unzip the file, I should probably delete it, since subsequent attempts are likely to
+     * produce the same result, and the bad file will essentially get stuck.
+     */
+
+    [[NSFileManager defaultManager] removeItemAtURL:self.zipURL error:NULL];
+}
+
 - (void)unzip
 {
     struct stat sb;
@@ -1196,7 +1295,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
-        [self notifyDelegateOfError: @"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path];
+        [self unzipFailedWithError:@"Error %d (%s) from stat(%@)", error, errbuf, self.fileURL.path];
         return;
     }
 
@@ -1209,25 +1308,21 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     
     uf = unzOpen(self.zipURL.path.UTF8String);
     if (!uf) {
-        [self notifyDelegateOfError: @"unzOpen(%@) failed", self.zipURL.path];
+        [self unzipFailedWithError: @"unzOpen(%@) failed", self.zipURL.path];
         return;
     }
     DMTRACE(@"Opened zip file");
 
     rc = unzLocateFile(uf, _fileName.UTF8String, 1);
     if (rc != UNZ_OK) {
-        [self notifyDelegateOfError: @"failed to locate %@ in zip %@", _fileName, _zipName];
-        unzClose(uf);
-        uf = NULL;
+        [self unzipFailedWithError: @"failed to locate %@ in zip %@", _fileName, _zipName];
         return;
     }
     DMTRACE(@"Located %@ in zip file", _fileName);
 
     rc = unzOpenCurrentFile(uf);
     if (rc != UNZ_OK) {
-        [self notifyDelegateOfError: @"Failed to open %@ in zip %@", _fileName, _zipName];
-        unzClose(uf);
-        uf = NULL;
+        [self unzipFailedWithError: @"Failed to open %@ in zip %@", _fileName, _zipName];
         return;
     }
     DMTRACE(@"Opened %@ in zip file", _fileName);
@@ -1235,19 +1330,14 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     unz_file_info fileInfo;
     rc = unzGetCurrentFileInfo(uf, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
     if (rc != UNZ_OK) {
-        [self notifyDelegateOfError: @"Failed to get current file info from zip"];
-        unzClose(uf);
-        uf = NULL;
+        [self unzipFailedWithError: @"Failed to get current file info from zip"];
         return;
     }
 
     self.unzippedSize = fileInfo.uncompressed_size;
     DMDEBUG(@"Unzipped file will be %ld bytes", (long)_unzippedSize);
     if (_currentDownload.unzippedSize != self.unzippedSize) {
-        [self notifyDelegateOfError:@"Failed to validate download"];
-        [self restoreOldFileOnFailure];
-        unzClose(uf);
-        uf = NULL;
+        [self unzipFailedWithError:@"Failed to validate download"];
         return;
     }
 
@@ -1256,9 +1346,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         int error = errno;
         char errbuf[256];
         strerror_r(error, errbuf, 255);
-        [self notifyDelegateOfError: @"Error %d (%s) opening %@ for write", error, errbuf, self.fileURL.path];
-        unzClose(uf);
-        uf = NULL;
+        [self unzipFailedWithError: @"Error %d (%s) opening %@ for write", error, errbuf, self.fileURL.path];
         return;
     }
     DMTRACE(@"Opened %@ for write", _fileName);
@@ -1289,7 +1377,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         if (nr <= 0) {
             if (nr < 0) {
                 // read error
-                [self notifyDelegateOfError: @"unzReadCurrentFile returned %d", nr];
+                [self unzipFailedWithError:@"unzReadCurrentFile returned %d", nr];
                 return;
             }
 
@@ -1309,7 +1397,12 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
             int error = errno;
             char errbuf[256];
             strerror_r(error, errbuf, 255);
-            [self notifyDelegateOfError: @"Failed to write %d bytes to %@. Wrote %zd instead. Error %d (%s)", nr, _fileName, nw, error, errbuf];
+
+            // call unzipFailedWithError? That will delete the zip, assuming it's not unzippable. This can very well just mean a full device.
+            // DEBT: Check the error code.
+            [self notifyDelegateOfError: @"Write failed. Free up space and try again.", nr, _fileName, nw, error, errbuf];
+            unzClose(uf);
+            uf = NULL;
             return;
         }
 

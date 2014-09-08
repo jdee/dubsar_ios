@@ -115,13 +115,20 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     [self databaseThread];
 }
 
-- (void)cancel
+- (void)cancel:(BOOL)notifyClient
 {
     complete = true;
+
+    // DEBT: What if we started a network DL, but the setting changed, and now dbptr is not NULL?
     if (!self.database.dbptr) {
-        [self.connection cancel];
         [self stopMonitoringHost];
-        [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
+
+        if (_loading) {
+            [self.connection cancel];
+            if (notifyClient) {
+                [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
+            }
+        }
     }
     // else // do something like what happens in the AC, with an aborted flag?
 }

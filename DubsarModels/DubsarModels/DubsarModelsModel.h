@@ -60,7 +60,7 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
 
 - (void)load;
 - (void)loadFromServer;
-- (void)cancel;
+- (void)cancel:(BOOL)notifyClient;
 
 // load in current thread; use with care.
 - (void)loadSynchronous;

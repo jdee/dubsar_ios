@@ -129,7 +129,7 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
     }
 
     func searchBar(searchBar: UISearchBar!, textDidChange searchText: String!) {
-        autocompleter?.cancel()
+        autocompleter?.cancel(true)
 
         if !searchBarEditing || searchText.isEmpty {
             autocompleterView.hidden = true
