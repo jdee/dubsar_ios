@@ -64,7 +64,6 @@
 		7BAC226119732D6C00D2AEA4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC226019732D6C00D2AEA4 /* MainViewController.swift */; };
 		7BAC226619732D6C00D2AEA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226519732D6C00D2AEA4 /* Images.xcassets */; };
 		7BAC227219732D6C00D2AEA4 /* DubsarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC227119732D6C00D2AEA4 /* DubsarTests.swift */; };
-		7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC228A1973322F00D2AEA4 /* Dubsar.m */; };
 		7BAC22CF19734A9100D2AEA4 /* AutocompleterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22BE19734A9100D2AEA4 /* AutocompleterTest.m */; };
 		7BAC22D019734A9100D2AEA4 /* DailyWordTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22C019734A9100D2AEA4 /* DailyWordTest.m */; };
 		7BAC22D119734A9100D2AEA4 /* ModelTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BAC22C219734A9100D2AEA4 /* ModelTestCase.m */; };
@@ -233,8 +232,6 @@
 		7BAC226B19732D6C00D2AEA4 /* DubsarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DubsarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BAC227019732D6C00D2AEA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BAC227119732D6C00D2AEA4 /* DubsarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DubsarTests.swift; sourceTree = "<group>"; };
-		7BAC22891973322F00D2AEA4 /* Dubsar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dubsar.h; sourceTree = "<group>"; };
-		7BAC228A1973322F00D2AEA4 /* Dubsar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dubsar.m; sourceTree = "<group>"; };
 		7BAC22B71973343900D2AEA4 /* Dubsar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dubsar-Bridging-Header.h"; sourceTree = "<group>"; };
 		7BAC22BD19734A9100D2AEA4 /* AutocompleterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutocompleterTest.h; sourceTree = "<group>"; };
 		7BAC22BE19734A9100D2AEA4 /* AutocompleterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocompleterTest.m; sourceTree = "<group>"; };
@@ -379,8 +376,6 @@
 		7BAC225B19732D6C00D2AEA4 /* Dubsar */ = {
 			isa = PBXGroup;
 			children = (
-				7BAC22891973322F00D2AEA4 /* Dubsar.h */,
-				7BAC228A1973322F00D2AEA4 /* Dubsar.m */,
 				7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */,
 				7BBF83801975CE7000969765 /* Utilities */,
 				7BBF836D1974B53F00969765 /* Views */,
@@ -734,7 +729,6 @@
 				7B88F76819B6AA6A002EB78D /* NSString+NSStringAdditions.m in Sources */,
 				7B82C94119760D5F0077D1A0 /* SynsetHeaderView.swift in Sources */,
 				7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */,
-				7BAC229C1973322F00D2AEA4 /* Dubsar.m in Sources */,
 				7BBBD6E21989E6070030FDA9 /* DownloadProgressTableViewCell.swift in Sources */,
 				7BCAA9E51992EAEA00B23F4F /* DMLOG.swift in Sources */,
 				7BAC225F19732D6C00D2AEA4 /* AppDelegate.swift in Sources */,

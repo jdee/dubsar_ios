@@ -37,6 +37,7 @@ class AboutViewController: BaseViewController {
     var lastCheckLabel : UILabel!
     var updateButton: UIButton!
     var iTunesButton: UIButton!
+    var privacyButton: UIButton!
     var supportLabel: UILabel!
     var supportEmailButton: UIButton!
     var supportURLButton: UIButton!
@@ -107,6 +108,13 @@ class AboutViewController: BaseViewController {
         iTunesButton.autoresizingMask = .FlexibleWidth
         iTunesButton.layer.cornerRadius = 4
         scroller.addSubview(iTunesButton)
+
+        privacyButton = UIButton(frame: CGRectZero)
+        privacyButton.setTitle("Privacy Statement", forState: .Normal)
+        privacyButton.addTarget(self, action: "viewPrivacyStatement:", forControlEvents: .TouchUpInside)
+        privacyButton.autoresizingMask = .FlexibleWidth
+        privacyButton.layer.cornerRadius = 4
+        scroller.addSubview(privacyButton)
 
         supportLabel = UILabel(frame: CGRectZero)
         supportLabel.text = "For support:"
@@ -256,6 +264,12 @@ class AboutViewController: BaseViewController {
 
         y += textSize.height + vmargin + buttonFudge
         
+        textSize = (privacyButton.currentTitle as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
+        privacyButton.titleLabel!.font = font
+        privacyButton.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height + buttonFudge)
+
+        y += textSize.height + vmargin + buttonFudge
+
         textSize = (supportLabel.text as NSString?)!.sizeOfTextWithConstrainedSize(constrainedSize, font: font)
         supportLabel.font = font
         supportLabel.frame = CGRectMake(hmargin, y, constrainedSize.width, textSize.height)
@@ -288,6 +302,10 @@ class AboutViewController: BaseViewController {
         iTunesButton.backgroundColor = AppConfiguration.highlightColor
         iTunesButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
 
+        privacyButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        privacyButton.backgroundColor = AppConfiguration.highlightColor
+        privacyButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
+
         supportLabel.textColor = AppConfiguration.foregroundColor
 
         supportEmailButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
@@ -311,6 +329,12 @@ class AboutViewController: BaseViewController {
         iTunesButton.layer.shadowOpacity = 1
         iTunesButton.layer.shadowOffset = CGSizeMake(0, 3)
         // iTunesButton.layer.shadowPath = UIBezierPath(roundedRect: iTunesButton.bounds, cornerRadius: iTunesButton.layer.cornerRadius).CGPath
+
+        privacyButton.layer.borderWidth = 1
+        privacyButton.layer.borderColor = AppConfiguration.foregroundColor.CGColor
+        privacyButton.layer.shadowOpacity = 1
+        privacyButton.layer.shadowOffset = CGSizeMake(0, 3)
+        // privacyButton = UIBezierPath(roundedRect: privacyButton.bounds, cornerRadius: privacyButton.layer.cornerRadius).CGPath
 
         supportEmailButton.layer.borderWidth = 1
         supportEmailButton.layer.borderColor = AppConfiguration.foregroundColor.CGColor
@@ -345,7 +369,7 @@ class AboutViewController: BaseViewController {
     }
 
     @IBAction func viewInAppStore(sender: UIButton!) {
-        UIApplication.sharedApplication().openURL(NSURL(string: iTunesLink))
+        UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/us/app/dubsar/id453868483?mt=8"))
     }
 
     @IBAction func sendSupportEmail(sender: UIButton!) {
@@ -354,6 +378,10 @@ class AboutViewController: BaseViewController {
 
     @IBAction func visitSupportURL(sender: UIButton!) {
         UIApplication.sharedApplication().openURL(NSURL(string: "https://m.dubsar-dictionary.com/m_support"))
+    }
+
+    @IBAction func viewPrivacyStatement(sender: UIButton!) {
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://m.dubsar-dictionary.com/m_privacy"))
     }
 
     private func layoutParagraphs(font: UIFont!) {
