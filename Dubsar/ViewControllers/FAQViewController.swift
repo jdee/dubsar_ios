@@ -79,7 +79,20 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
     }
 
     func displayMessage(text: String) {
-        var html = String(format: "<html><body style=\"background-color: #e0e0ff;\"><h1 style=\"color: #1c94c4; text-align: center; margin-top: 2ex; font: bold 24pt Trebuchet MS\">%@</h1></body></html>", text)
+        let background = AppConfiguration.backgroundColor
+        let foreground = AppConfiguration.foregroundColor
+        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline, italic: false)
+
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        background.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        let bgCss = String(format: "%02x%02x%02x", Int(red*255), Int(green*255), Int(blue*255))
+
+        foreground.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        let fgCss = String(format: "%02x%02x%02x", Int(red*255), Int(green*255), Int(blue*255))
+
+        DMTRACE("Presenting FAQ loading view with bg #\(bgCss), fg #\(fgCss)")
+
+        var html = String(format: "<html><body style=\"background-color: #\(bgCss);\"><h1 style=\"color: #\(fgCss); text-align: center; margin-top: 2ex; font: bold \(Int(font.pointSize))pt \(font.familyName)\">%@</h1></body></html>", text)
         faqWebView.loadHTMLString(html, baseURL: nil)
     }
 }
