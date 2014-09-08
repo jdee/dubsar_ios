@@ -23,9 +23,10 @@
 #import <CommonCrypto/CommonCrypto.h> // not @import CommonCrypto
 
 // From Apple's CryptoExercise sample. This seems to be arbitrary, but what the hell?
+// DEBT: Should I/can I just ditch the kSecAttrKeyType here, since I only have one type of key?
 enum {
-    CSSM_ALGID_NONE =					0x00000000L,
-    CSSM_ALGID_VENDOR_DEFINED =			CSSM_ALGID_NONE + 0x80000000L,
+    CSSM_ALGID_NONE           =                   0x00000000L,
+    CSSM_ALGID_VENDOR_DEFINED = CSSM_ALGID_NONE + 0x80000000L,
     CSSM_ALGID_AES
 };
 
@@ -61,9 +62,6 @@ enum {
 
 - (void)initKey
 {
-    // force creation of a new key
-    // [self deleteKey];
-
     self.key = self.loadKey;
     if (!self.key) {
         self.key = self.createKey;
@@ -77,7 +75,7 @@ enum {
 {
     if (![self deleteKey]) return NO;
 
-    [self initKey];
+    self.key = self.createKey;
     return YES;
 }
 
@@ -86,13 +84,13 @@ enum {
     _queryParameters = [NSMutableDictionary dictionary];
     _queryParameters[(__bridge id)kSecClass] = (__bridge id)kSecClassKey;
     _queryParameters[(__bridge id)kSecAttrApplicationTag] = _identifier;
+    _queryParameters[(__bridge id)kSecAttrKeyType] = @(CSSM_ALGID_AES);
     _queryParameters[(__bridge id)kSecAttrKeySizeInBits] = @(kCCKeySizeAES256 * 8);
     _queryParameters[(__bridge id)kSecAttrEffectiveKeySize] = @(kCCKeySizeAES256 * 8);
     _queryParameters[(__bridge id)kSecAttrCanDecrypt] = (__bridge id)(kCFBooleanTrue);
     _queryParameters[(__bridge id)kSecAttrCanEncrypt] = (__bridge id)(kCFBooleanTrue);
     _queryParameters[(__bridge id)kSecAttrCanSign] = (__bridge id)(kCFBooleanFalse);
     _queryParameters[(__bridge id)kSecAttrCanVerify] = (__bridge id)(kCFBooleanFalse);
-    _queryParameters[(__bridge id)kSecAttrKeyType] = @(CSSM_ALGID_AES);
 }
 
 - (NSData *)encrypt:(NSData *)clearText
