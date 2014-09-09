@@ -915,7 +915,9 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 - (void)notifyDelegateOfError:(NSString*)format args:(va_list)args
 {
-    self.errorMessage = [NSString stringWithFormat:format args:args];
+    if (self.downloadInProgress) {
+        self.errorMessage = [NSString stringWithFormat:format args:args];
+    }
 
     if (outfile) {
         fclose(outfile);
