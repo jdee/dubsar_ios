@@ -57,4 +57,6 @@
 - (void)loadWildcardResults:(DubsarModelsDatabaseWrapper*)appDelegate;
 - (void)loadFulltextResults:(DubsarModelsDatabaseWrapper*)appDelegate;
 
+- (void)updateUrl;
+
 @end

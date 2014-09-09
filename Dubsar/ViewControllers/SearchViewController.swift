@@ -420,12 +420,16 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
         if let s = search {
             if s.isWildCard {
                 searchBar.selectedScopeButtonIndex = DubsarModelsSearchScope.Words.toRaw()
+                DMDEBUG("Wild card search. Forcing words.")
                 return
             }
         }
 
         if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
             searchScope = scope
+
+            let enumString = scope == .Words ? "words" : "synsets"
+            DMDEBUG("Changed search scope. Selected scope index \(selectedScope). Scope: \(enumString)")
             if !(theSearchBar.text as String).isEmpty {
 
                 if searchBarEditing {

@@ -86,6 +86,9 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
     func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
         if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
             searchScope = scope
+
+            let enumString = scope == .Words ? "words" : "synsets"
+            DMDEBUG("Changed search scope. Selected scope index \(selectedScope). Scope: \(enumString)")
             if !(theSearchBar.text as String).isEmpty {
                 triggerAutocompletion()
             }

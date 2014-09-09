@@ -75,10 +75,7 @@ static int _seqNum = 0;
         exact = false;
         _scope = scope;
 
-        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        __url = [__url stringByAppendingFormat:@"&scope=%s", (scope == DubsarModelsSearchScopeWords ? "words" : "synsets")];
-        if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
-        [self set_url:__url];
+        [self updateUrl];
     }
     return self;
 }
@@ -101,12 +98,7 @@ static int _seqNum = 0;
 
         // totalPages is set by the server in the response
         totalPages = 0;
-
-        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        __url = [__url stringByAppendingFormat:@"&scope=%s", (scope == DubsarModelsSearchScopeWords ? "words" : "synsets")];
-        if (matchCase) __url = [__url stringByAppendingString:@"&match=case"];
-        if (page > 1) __url = [__url stringByAppendingFormat:@"&page=%d", page];
-        [self set_url:__url];
+        [self updateUrl];
     }
     return self;
 }
@@ -130,13 +122,34 @@ static int _seqNum = 0;
         // totalPages is set by the server in the response
         totalPages = 0;
 
-        NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        __url = [__url stringByAppendingFormat:@"&scope=%s", (scope == DubsarModelsSearchScopeWords ? "words" : "synsets")];
-        __url = [__url stringByAppendingString:@"&match=glob"];
-        if (page > 1) __url = [__url stringByAppendingFormat:@"&page=%d", page];
-        [self set_url:__url];
+        [self updateUrl];
     }
     return self;
+}
+
+- (void)updateUrl
+{
+    NSString* __url = [NSString stringWithFormat:@"/?term=%@", [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    __url = [__url stringByAppendingFormat:@"&scope=%s", (_scope == DubsarModelsSearchScopeWords ? "words" : "synsets")];
+    if (isWildCard) {
+        __url = [__url stringByAppendingString:@"&match=glob"];
+    }
+
+    if (matchCase) {
+        __url = [__url stringByAppendingString:@"&match=case"];
+    }
+
+    if (currentPage > 1) {
+        __url = [__url stringByAppendingFormat:@"&page=%d", currentPage];
+    }
+
+    [self set_url:__url];
+}
+
+- (void)setScope:(DubsarModelsSearchScope)scope
+{
+    _scope = scope;
+    [self updateUrl];
 }
 
 - (void)loadResults:(DubsarModelsDatabaseWrapper*)database
@@ -668,7 +681,7 @@ static int _seqNum = 0;
     for (j=0; j<list.count; ++j) {
         NSArray* entry = list[j];
 
-        if (_scope == DubsarModelsSearchScopeWords) {
+        if (_scope == DubsarModelsSearchScopeWords || self.isWildCard) {
             NSNumber* numericId = entry[0];
             NSString* name = entry[1];
             NSString* posString = entry[2];
