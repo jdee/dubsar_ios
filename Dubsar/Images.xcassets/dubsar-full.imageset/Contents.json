@@ -3,16 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "dubsar-full-large.png"
+      "filename" : "dubsar-full.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "dubsar-full-large@2x.png"
+      "filename" : "dubsar-full@2x.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "dubsar-full@3x.png"
     }
   ],
   "info" : {
