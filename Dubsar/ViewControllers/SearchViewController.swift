@@ -206,6 +206,9 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
         }
 
         DMTRACE("Height of cell at row \(row): \(cell!.bounds.size.height)")
+        if row == 0 {
+            DMTRACE("row 0")
+        }
 
         return cell!
     }
@@ -362,8 +365,23 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
                     DMTRACE("Sent request to synch first sense in open word cell")
                 }
             }
+            else if let synset = router.model as? DubsarModelsSynset {
+                let resultSynset = search!.results[row] as? DubsarModelsSynset
+                assert(resultSynset != nil && synset === resultSynset)
+
+                assert(search != nil && search!.complete && search!.results.count > 0)
+
+                let firstSense = synset.senses.firstObject as DubsarModelsSense
+                if !firstSense.complete {
+                    self.router = Router(viewController: self, model: firstSense)
+                    self.router!.routerAction = .UpdateRowAtIndexPath
+                    self.router!.indexPath = selectedIndexPath
+                    self.router!.load()
+                    DMTRACE("Sent request to synch first sense in open synset cell")
+                }
+            }
             else {
-                DMTRACE("Got response for first sense in open word cell")
+                DMTRACE("Got response for first sense in open cell")
             }
 
             resultTableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .Automatic)

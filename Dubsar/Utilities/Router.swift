@@ -33,6 +33,7 @@ class Router: NSObject, DubsarModelsLoadDelegate {
     var routerAction = RouterAction.UpdateView
     var indexPath: NSIndexPath?
     var dependency: DubsarModelsSense?
+    var finished = false
 
     init(viewController: BaseViewController!, model: DubsarModelsModel!) {
         self.viewController = viewController
@@ -49,6 +50,7 @@ class Router: NSObject, DubsarModelsLoadDelegate {
             // cancel() will pop this back to the main thread, but given that we're in deinit,
             // we may not be around any longer.
             networkLoadFinished(model)
+            finished = true
         }
     }
 
@@ -79,6 +81,8 @@ class Router: NSObject, DubsarModelsLoadDelegate {
     }
 
     func networkLoadFinished(model: DubsarModelsModel!) {
-        UIApplication.sharedApplication().stopUsingNetwork()
+        if !finished {
+            UIApplication.sharedApplication().stopUsingNetwork()
+        }
     }
 }

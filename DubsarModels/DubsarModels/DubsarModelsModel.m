@@ -125,6 +125,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
         if (_loading) {
             [self.connection cancel];
+            _loading = NO;
             if (notifyClient) {
                 [self callDelegateSelectorOnMainThread:@selector(networkLoadFinished:) withError:nil];
             }
