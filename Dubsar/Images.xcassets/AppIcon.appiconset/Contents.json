@@ -1,8 +1,8 @@
 {
   "images" : [
     {
-      "idiom" : "iphone",
       "size" : "29x29",
+      "idiom" : "iphone",
       "filename" : "dubsar-spotlight.png",
       "scale" : "1x"
     },
@@ -23,6 +23,12 @@
       "idiom" : "iphone",
       "filename" : "dubsar-120x120.png",
       "scale" : "2x"
+    },
+    {
+      "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "dubsar-180x180.png",
+      "scale" : "3x"
     },
     {
       "size" : "29x29",
