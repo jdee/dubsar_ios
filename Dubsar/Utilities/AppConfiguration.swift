@@ -44,6 +44,9 @@ struct AppConfiguration {
     static let barKey = "bar"
     static let activityKey = "activity"
 
+    static let defaultOfflineSetting = true
+    static let defaultThemeSetting = 1
+
     // MARK: Dictionaries defining the available themes.
     static let themes = [
         [ nameKey : "Scribe", fontKey : "Palatino",
@@ -75,6 +78,9 @@ struct AppConfiguration {
     // MARK: Wrappers around  NSUserDefaults
     static var themeSetting: Int {
         get {
+        if NSUserDefaults.standardUserDefaults().objectForKey(themeKey) == nil {
+        NSUserDefaults.standardUserDefaults().setInteger(defaultThemeSetting, forKey: themeKey)
+        }
         return NSUserDefaults.standardUserDefaults().integerForKey(themeKey)
         }
         set {
@@ -84,6 +90,10 @@ struct AppConfiguration {
 
     static var offlineSetting: Bool {
         get {
+        if NSUserDefaults.standardUserDefaults().objectForKey(offlineKey) == nil {
+        NSUserDefaults.standardUserDefaults().setBool(defaultOfflineSetting, forKey: offlineKey)
+        }
+
         return NSUserDefaults.standardUserDefaults().boolForKey(offlineKey)
         }
         set {
