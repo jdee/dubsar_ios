@@ -134,7 +134,11 @@ struct AppConfiguration {
 
     static var secureBookmarksSetting: Bool {
         get {
+        #if DEBUG
         return NSUserDefaults.standardUserDefaults().boolForKey(secureBookmarksKey)
+        #else
+        return false
+        #endif
         }
         set {
             NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: secureBookmarksKey)

@@ -12,7 +12,7 @@
 			<key>Key</key>
 			<string>DubsarCurrentAppVersion</string>
 			<key>DefaultValue</key>
-			<string>2.0.0.6</string>
+			<string>2.0.0.7</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -63,16 +63,6 @@
 			<string>Autocorrection</string>
 			<key>Key</key>
 			<string>DubsarAutoCorrect</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Secure bookmarks</string>
-			<key>Key</key>
-			<string>DubsarSecureBookmarks</string>
 			<key>DefaultValue</key>
 			<false/>
 		</dict>

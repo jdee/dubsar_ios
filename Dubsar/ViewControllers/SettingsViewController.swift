@@ -49,14 +49,14 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "setting_type" : "navValue" ],
             [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue", "setting_action" : "offlineSwitchChanged:" ],
             [ "title" : "Autoupdate", "value" : AppConfiguration.autoUpdateKey, "setting_type" : "switch_value", "setting_action" : "autoUpdateChanged:" ],
-            [ "title" : "Autocorrection", "value" : AppConfiguration.autoCorrectKey, "setting_type" : "switch_value", "setting_action" : "autoCorrectChanged:" ],
-            [ "title" : "Secure bookmarks", "value" : AppConfiguration.secureBookmarksKey, "setting_type" : "switch_value", "setting_action" : "secureBookmarksChanged:"]],
+            [ "title" : "Autocorrection", "value" : AppConfiguration.autoCorrectKey, "setting_type" : "switch_value", "setting_action" : "autoCorrectChanged:" ]],
         ]
 
     let devSections: [[[String: String]]] = [
 
         // dev settings (not in settings bundle)
-        [ [ "title" : "Production", "value" : AppConfiguration.productionKey, "setting_type" : "switchValue", "setting_action" : "productionSwitchChanged:" ] ]
+        [ [ "title" : "Production", "value" : AppConfiguration.productionKey, "setting_type" : "switchValue", "setting_action" : "productionSwitchChanged:" ],
+            [ "title" : "Secure bookmarks", "value" : AppConfiguration.secureBookmarksKey, "setting_type" : "switch_value", "setting_action" : "secureBookmarksChanged:"] ]
     ]
 
     var sections: [[[String: String]]] {
