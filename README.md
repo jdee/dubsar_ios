@@ -3,17 +3,8 @@ Dubsar for iOS
 
 Dubsar for iOS is an open-source universal application for iPhone,
 iPod Touch and iPad that allow users to search and browse the WordNet(R) content
-in a local database. Dubsar 1.3.2 is available for free worldwide
-in the App Store for iOS 5.0 and higher.
-
-Dubsar 2.0
-==========
-
-The version of Dubsar in the master branch has been mostly rewritten in Swift. The
-Objective-C model code has been split into a separate framework. This version will
-be released to the App Store once the iOS 8 SDK is released to production. It will
-require iOS 7.0 or later. The old version (1.3.x) will still be available in the
-App Store for iOS 5 and 6. Stay tuned for more details.
+in a local database. Dubsar 2.0.0 is available for free worldwide
+in the App Store for iOS 7.0 and higher.
 
 * * *
 
