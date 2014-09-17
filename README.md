@@ -34,9 +34,9 @@ Also see:
 Copyright
 =========
 
-Copyright (C) 2014 Jimmy Dee except as otherwise attributed.
+Copyright &copy; 2014 Jimmy Dee except as otherwise attributed.
 
-WordNet(R) Copyright (C) 2014 The Trustees of Princeton University.
+WordNet&reg; Copyright &copy; 2014 The Trustees of Princeton University.
 
 License
 =======
@@ -45,7 +45,7 @@ Dubsar is free, open-source software, distributed under Version 2 of
 the GNU General Public License (GPL):
 
 >  Dubsar Dictionary Project
->  Copyright (C) 2010-14 Jimmy Dee
+>  Copyright &copy; 2010-14 Jimmy Dee
 >
 >  This program is free software; you can redistribute it and/or
 >  modify it under the terms of the GNU General Public License
@@ -61,4 +61,6 @@ the GNU General Public License (GPL):
 >  along with this program; if not, write to the Free Software
 >  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-WordNet(R) is available under the [WordNet 3.0 License](http://wordnet.princeton.edu/wordnet/license).
+WordNet&reg; is available under the [WordNet 3.0 License](http://wordnet.princeton.edu/wordnet/license).
+
+Minizip &copy; 1998-2010 Gilles Vollant
