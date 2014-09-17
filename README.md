@@ -38,6 +38,8 @@ Copyright &copy; 2014 Jimmy Dee except as otherwise attributed.
 
 WordNet&reg; Copyright &copy; 2014 The Trustees of Princeton University.
 
+Minizip &copy; 1998-2010 Gilles Vollant
+
 License
 =======
 
@@ -62,5 +64,3 @@ the GNU General Public License (GPL):
 >  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 WordNet&reg; is available under the [WordNet 3.0 License](http://wordnet.princeton.edu/wordnet/license).
-
-Minizip &copy; 1998-2010 Gilles Vollant
