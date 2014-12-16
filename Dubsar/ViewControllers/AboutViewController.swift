@@ -369,19 +369,19 @@ class AboutViewController: BaseViewController {
     }
 
     @IBAction func viewInAppStore(sender: UIButton!) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/us/app/dubsar/id453868483?mt=8"))
+        UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/us/app/dubsar/id453868483?mt=8")!)
     }
 
     @IBAction func sendSupportEmail(sender: UIButton!) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "mailto:support@dubsar-dictionary.com"))
+        UIApplication.sharedApplication().openURL(NSURL(string: "mailto:support@dubsar-dictionary.com")!)
     }
 
     @IBAction func visitSupportURL(sender: UIButton!) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "https://m.dubsar-dictionary.com/m_support"))
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://m.dubsar-dictionary.com/m_support")!)
     }
 
     @IBAction func viewPrivacyStatement(sender: UIButton!) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "https://m.dubsar-dictionary.com/m_privacy"))
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://m.dubsar-dictionary.com/m_privacy")!)
     }
 
     private func layoutParagraphs(font: UIFont!) {

@@ -37,11 +37,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     var loaded: Bool = false
 
     private var favoriteButton: FavoriteBarButtonItem!
-
+    
     private var url: NSURL {
-    get {
-        return NSURL(string: "dubsar:///words/\(theWord!._id)")
-    }
+        get {
+            return NSURL(string: "dubsar:///words/\(theWord!._id)")!
+        }
     }
 
     override func viewDidLoad() {

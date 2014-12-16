@@ -261,7 +261,7 @@ class BookmarkManager: NSObject {
 
     private func validateUrls(urls: [String]) -> Bool {
         for url in urls {
-            let nsurl = NSURL(string: url)
+            let nsurl = NSURL(string: url)!
             if nsurl.scheme == nil || nsurl.scheme! != "dubsar" {
                 return false
             }

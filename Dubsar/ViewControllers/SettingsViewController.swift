@@ -177,10 +177,10 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             }
         }
 
-        cell!.textLabel!.text = setting["title"]
-        cell!.textLabel!.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
+        cell!.textLabel.text = setting["title"]
+        cell!.textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody, italic: false)
         cell!.backgroundColor = AppConfiguration.backgroundColor
-        cell!.textLabel!.textColor = AppConfiguration.foregroundColor
+        cell!.textLabel.textColor = AppConfiguration.foregroundColor
         if type == "label" || type == "navValue" {
             cell!.detailTextLabel!.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline, italic: false)
             cell!.detailTextLabel!.textColor = AppConfiguration.foregroundColor

@@ -173,6 +173,7 @@
     expiration = [[NSUserDefaults standardUserDefaults] integerForKey:DubsarDailyWordExpirationKey];
 
     if (!name) {
+        DMWARN(@"WOTD name not found in user defaults.");
         return false;
     }
 

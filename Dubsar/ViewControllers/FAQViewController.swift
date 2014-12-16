@@ -55,7 +55,7 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
         if !ready {
             ready = true
 
-            let request = NSURLRequest(URL: NSURL(string: url))
+            let request = NSURLRequest(URL: NSURL(string: url)!)
 
             webView.loadRequest(request)
             UIApplication.sharedApplication().startUsingNetwork()

@@ -12,7 +12,7 @@
 			<key>Key</key>
 			<string>DubsarCurrentAppVersion</string>
 			<key>DefaultValue</key>
-			<string>2.0.0.7</string>
+			<string>2.0.1.1</string>
 		</dict>
 		<dict>
 			<key>Type</key>

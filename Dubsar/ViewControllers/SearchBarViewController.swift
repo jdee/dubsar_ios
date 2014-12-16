@@ -84,7 +84,7 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
 
     // MARK: UISearchBarDelegate
     func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
+        if let scope = DubsarModelsSearchScope(rawValue: selectedScope) {
             searchScope = scope
 
             let enumString = scope == .Words ? "words" : "synsets"

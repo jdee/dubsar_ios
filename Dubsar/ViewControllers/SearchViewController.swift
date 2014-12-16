@@ -128,8 +128,8 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
             if cell == nil {
                 cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
                 cell!.selectionStyle = .None
-                cell!.textLabel!.text = "search found no matches"
-                cell!.textLabel!.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
+                cell!.textLabel.text = "search found no matches"
+                cell!.textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
             }
             return cell!
         }
@@ -437,13 +437,13 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
         // disallow for wild cards (words only)
         if let s = search {
             if s.isWildCard {
-                searchBar.selectedScopeButtonIndex = DubsarModelsSearchScope.Words.toRaw()
+                searchBar.selectedScopeButtonIndex = DubsarModelsSearchScope.Words.rawValue
                 DMDEBUG("Wild card search. Forcing words.")
                 return
             }
         }
 
-        if let scope = DubsarModelsSearchScope.fromRaw(selectedScope) {
+        if let scope = DubsarModelsSearchScope(rawValue: selectedScope) {
             searchScope = scope
 
             let enumString = scope == .Words ? "words" : "synsets"
