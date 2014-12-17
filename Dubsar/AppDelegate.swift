@@ -65,6 +65,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         let viewController = navigationController.topViewController as BaseViewController
         viewController.adjustLayout() // in case of a font change in the settings
 
+        if let mainVC = viewController as? MainViewController {
+            // checks the expiration of any cached WOTD before requesting from the server
+            mainVC.load()
+        }
+
         // probably taken care of in the VC's viewWillAppear:
         if let interface = viewController as? DatabaseManagerDelegate {
             databaseManager.delegate = interface
