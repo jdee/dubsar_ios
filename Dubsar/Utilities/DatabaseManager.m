@@ -994,7 +994,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     /*
      * There are potentially two hosts to monitor: The host that serves the download list, and the host that
-     * serves the zip file. In production, the first is dubsar-dictionary.com, the second s.dubsar-dictionary.com.
+     * serves the zip file. In production, the first is dubsar.info, the second s.dubsar.info.
      * However, these are the same host. The second is just a cookie-free domain for static assets. In real life,
      * this is always a single host, so we're fine here. In testing, I often download from a local machine to
      * avoid using network bandwidth. I might need to allow both hosts to be monitored here. Not sure if this

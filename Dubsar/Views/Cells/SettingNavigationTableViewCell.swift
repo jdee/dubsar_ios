@@ -56,13 +56,13 @@ class SettingNavigationTableViewCell: UITableViewCell {
         var newColor: UIColor
         if (selected) {
             spinner.startAnimating()
-            textLabel.hidden = true
+            textLabel!.hidden = true
             accessoryType = .None
             newColor = AppConfiguration.highlightColor
         }
         else {
             spinner.stopAnimating()
-            textLabel.hidden = false
+            textLabel!.hidden = false
             accessoryType = .DisclosureIndicator
             newColor = UIColor.clearColor()
         }

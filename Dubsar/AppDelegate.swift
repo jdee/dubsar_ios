@@ -263,14 +263,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         var word : DubsarModelsWord!
         var title : String?
         if path!.hasPrefix("/wotd/") {
-            let last = url.lastPathComponent as NSString
-            let wotdId = UInt(last.intValue)
+            let last = url.lastPathComponent as NSString?
+            let wotdId = UInt(last!.intValue)
             word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
             title = "Word of the Day"
         }
         else if path!.hasPrefix("/words/") {
-            let last = url.lastPathComponent as NSString
-            let wotdId = UInt(last.intValue)
+            let last = url.lastPathComponent as NSString?
+            let wotdId = UInt(last!.intValue)
             word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
         }
 

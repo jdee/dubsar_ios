@@ -29,7 +29,7 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
 
     @IBOutlet var faqWebView : UIWebView!
 
-    let url = "https://m.dubsar-dictionary.com/ios_faq_v200"
+    let url = "https://dubsar.info/ios_faq_v200"
 
     private var ready = false
     private var loading = false

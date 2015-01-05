@@ -140,7 +140,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
             retryButton.hidden = true
         }
 
-        textLabel.hidden = true
+        textLabel!.hidden = true
 
         frame.size.height = cancelButton.frame.origin.y + cancelButton.bounds.size.height + margin
 

@@ -128,8 +128,8 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
             if cell == nil {
                 cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
                 cell!.selectionStyle = .None
-                cell!.textLabel.text = "search found no matches"
-                cell!.textLabel.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
+                cell!.textLabel!.text = "search found no matches"
+                cell!.textLabel!.font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
             }
             return cell!
         }

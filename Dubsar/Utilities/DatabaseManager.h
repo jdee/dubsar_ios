@@ -20,7 +20,7 @@
 @import DubsarModels;
 @import Foundation;
 
-#define DUBSAR_PRODUCTION_ROOT_URL @"https://s.dubsar-dictionary.com"
+#define DUBSAR_PRODUCTION_ROOT_URL @"https://s.dubsar.info"
 #define DUBSAR_DEVELOPMENT_ROOT_URL @"http://192.168.2.101"
 
 @class DatabaseManager;

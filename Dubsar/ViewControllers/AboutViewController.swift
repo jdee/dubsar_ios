@@ -134,7 +134,7 @@ class AboutViewController: BaseViewController {
         scroller.addSubview(supportEmailButton)
 
         supportURLButton = UIButton(frame: CGRectZero)
-        supportURLButton.setTitle("https://m.dubsar-dictionary.com/m_support", forState: .Normal)
+        supportURLButton.setTitle("https://dubsar.info/m_support", forState: .Normal)
         supportURLButton.titleLabel!.textAlignment = .Center
         supportURLButton.titleLabel!.adjustsFontSizeToFitWidth = true
         supportURLButton.autoresizingMask = .FlexibleWidth
@@ -377,11 +377,11 @@ class AboutViewController: BaseViewController {
     }
 
     @IBAction func visitSupportURL(sender: UIButton!) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "https://m.dubsar-dictionary.com/m_support")!)
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://dubsar.info/m_support")!)
     }
 
     @IBAction func viewPrivacyStatement(sender: UIButton!) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "https://m.dubsar-dictionary.com/m_privacy")!)
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://dubsar.info/m_privacy")!)
     }
 
     private func layoutParagraphs(font: UIFont!) {

@@ -24,7 +24,7 @@
 #import "DubsarModelsLoadDelegate.h"
 #import "DubsarModelsModel.h"
 
-const NSString* DubsarBaseUrl = @"https://dubsar-dictionary.com";
+const NSString* DubsarBaseUrl = @"https://dubsar.info";
 
 @interface DubsarModelsModel()
 @property (nonatomic) NSURLConnection* connection;
