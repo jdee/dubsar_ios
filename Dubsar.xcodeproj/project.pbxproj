@@ -339,11 +339,11 @@
 				7B7F9EC619983AE7006F4BC0 /* OpenSynsetTableViewCell.swift */,
 				7B6CC037197E1C3800151799 /* OpenWordTableViewCell.swift */,
 				7B82D29F1974A3A400F983F6 /* SenseTableViewCell.swift */,
-				7B7F9EC419982292006F4BC0 /* SynsetTableViewCell.swift */,
 				7B06EC731988AC6F00C44892 /* SettingLabelTableViewCell.swift */,
 				7B06EC751988AD6E00C44892 /* SettingNavigationTableViewCell.swift */,
 				7B06EC771988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift */,
 				7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */,
+				7B7F9EC419982292006F4BC0 /* SynsetTableViewCell.swift */,
 				7BBF83711974DB8200969765 /* WordTableViewCell.swift */,
 			);
 			path = Cells;

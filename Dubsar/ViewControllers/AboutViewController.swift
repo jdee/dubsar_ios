@@ -125,7 +125,7 @@ class AboutViewController: BaseViewController {
         scroller.addSubview(supportLabel)
 
         supportEmailButton = UIButton(frame: CGRectZero)
-        supportEmailButton.setTitle("support@dubsar-dictionary.com", forState: .Normal)
+        supportEmailButton.setTitle("support@dubsar.info", forState: .Normal)
         supportEmailButton.titleLabel!.textAlignment = .Center
         supportEmailButton.titleLabel!.adjustsFontSizeToFitWidth = true
         supportEmailButton.autoresizingMask = .FlexibleWidth
@@ -373,7 +373,7 @@ class AboutViewController: BaseViewController {
     }
 
     @IBAction func sendSupportEmail(sender: UIButton!) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "mailto:support@dubsar-dictionary.com")!)
+        UIApplication.sharedApplication().openURL(NSURL(string: "mailto:support@dubsar.info")!)
     }
 
     @IBAction func visitSupportURL(sender: UIButton!) {
