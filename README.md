@@ -3,7 +3,7 @@ Dubsar for iOS
 
 Dubsar for iOS is an open-source universal application for iPhone,
 iPod Touch and iPad that allow users to search and browse the WordNet(R) content
-in a local database. Dubsar 2.0.0 is available for free worldwide
+in a local database. Dubsar 2.0.1 is available for free worldwide
 in the App Store for iOS 7.0 and higher.
 
 * * *
@@ -34,9 +34,9 @@ Also see:
 Copyright
 =========
 
-Copyright &copy; 2014 Jimmy Dee except as otherwise attributed.
+Copyright &copy; 2015 Jimmy Dee except as otherwise attributed.
 
-WordNet&reg; Copyright &copy; 2014 The Trustees of Princeton University.
+WordNet&reg; Copyright &copy; 2015 The Trustees of Princeton University.
 
 Minizip &copy; 1998-2010 Gilles Vollant
 
@@ -47,7 +47,7 @@ Dubsar is free, open-source software, distributed under Version 2 of
 the GNU General Public License (GPL):
 
 >  Dubsar Dictionary Project
->  Copyright &copy; 2010-14 Jimmy Dee
+>  Copyright &copy; 2010-15 Jimmy Dee
 >
 >  This program is free software; you can redistribute it and/or
 >  modify it under the terms of the GNU General Public License

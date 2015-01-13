@@ -1,6 +1,6 @@
 /*
 Dubsar Dictionary Project
-Copyright (C) 2010-14 Jimmy Dee
+Copyright (C) 2010-15 Jimmy Dee
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -89,7 +89,7 @@ class AboutViewController: BaseViewController {
         scroller.addSubview(lastCheckLabel)
 
         copyrightLabel = UILabel(frame: CGRectZero)
-        copyrightLabel.text = "Copyright © 2014 Jimmy Dee"
+        copyrightLabel.text = "Copyright © 2015 Jimmy Dee"
         copyrightLabel.textAlignment = .Center
         copyrightLabel.numberOfLines = 0
         copyrightLabel.lineBreakMode = .ByWordWrapping
