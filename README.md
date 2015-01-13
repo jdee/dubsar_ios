@@ -10,15 +10,11 @@ in the App Store for iOS 7.0 and higher.
 
 See the main [Dubsar wiki](https://github.com/jdee/dubsar/wiki) for more information on Dubsar.
 
-Dubsar Mobile is deployed at https://m.dubsar-dictionary.com/m.
+Further information on Dubsar is available on the [Dubsar site](https://dubsar.info) itself:
 
-Further information on Dubsar is available on the [Dubsar site](https://dubsar-dictionary.com) itself:
-
-[About Dubsar](https://dubsar-dictionary.com/about)
--- [FAQ](https://dubsar-dictionary.com/faq)
--- [QUnit test suite](https://dubsar-dictionary.com/qunit)
--- [Tour](https://dubsar-dictionary.com/tour)
--- [RSS News Feed](https://dubsar-dictionary.com/rss_news.xml)
+[About Dubsar](https://dubsar.info/about)
+-- [FAQ](https://dubsar.info/faq)
+-- [RSS News Feed](https://dubsar.info/rss_news.xml)
 
 Also see:
 
