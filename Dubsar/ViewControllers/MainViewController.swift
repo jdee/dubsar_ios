@@ -26,6 +26,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
     @IBOutlet var wotdButton : UIButton!
     @IBOutlet var wotdLabel : UILabel!
     @IBOutlet var wordNetLabel : UILabel!
+    @IBOutlet var twitterButton: UIButton!
 
     var alphabetView : AlphabetView!
     var wotd: DubsarModelsDailyWord?
@@ -251,6 +252,9 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         wotdButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         wotdButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         wotdButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
+        
+        let twitterImage = UIImage(named: "twitter-\(AppConfiguration.twitterColor)")
+        twitterButton.setImage(twitterImage, forState: .Normal)
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
@@ -273,6 +277,19 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         navigationItem.leftBarButtonItem = settingButton
 
         // super.setupToolbar()
+    }
+    
+    @IBAction func followOnTwitter(sender: UIButton!) {
+        let application = UIApplication.sharedApplication()
+        let urlString = "twitter://user?id=335105958"
+        let url = NSURL(string: urlString)
+        if application.canOpenURL(url!) {
+            application.openURL(url!)
+        }
+        else {
+            let webUrl = NSURL(string: "https://twitter.com/intent/follow?user_id=335105958")
+            application.openURL(webUrl!)
+        }
     }
 
     func showSettingView(sender: SettingBarButtonItem!) {

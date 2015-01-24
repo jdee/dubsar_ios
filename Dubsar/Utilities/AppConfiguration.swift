@@ -43,6 +43,7 @@ struct AppConfiguration {
     static let highlightedForegroundKey = "highlightedForeground"
     static let barKey = "bar"
     static let activityKey = "activity"
+    static let twitterColorKey = "twitterColor"
 
     static let defaultOfflineSetting = true
     static let defaultThemeSetting = 1
@@ -56,7 +57,7 @@ struct AppConfiguration {
             alternateHighlightKey : UIColor(red: 1.0, green: 0.843, blue: 0.0, alpha: 1.0),
             foregroundKey : UIColor(red: 0.363, green: 0.181, blue: 0.050, alpha: 1.0),
             highlightedForegroundKey : UIColor(red: 0.580, green: 0.0, blue: 0.827, alpha: 1.0),
-            barKey: "light", activityKey : "gray" ],
+            barKey: "light", activityKey : "gray", twitterColorKey: "blue" ],
         [ nameKey : "Tigris", fontKey : "Avenir Next",
             backgroundKey : UIColor(red: 0.941, green: 1.000, blue: 0.941, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.686, green: 0.933, blue: 0.933, alpha: 1.0),
@@ -64,7 +65,7 @@ struct AppConfiguration {
             alternateHighlightKey : UIColor(red: 0.518, green: 0.439, blue: 1.0, alpha: 1.0),
             foregroundKey : UIColor.darkTextColor(),
             highlightedForegroundKey : UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0),
-            barKey: "light", activityKey : "gray" ],
+            barKey: "light", activityKey : "gray", twitterColorKey: "blue" ],
         [ nameKey : "Augury", fontKey : "Menlo",
             backgroundKey : UIColor(red: 0.192, green: 0.310, blue: 0.310, alpha: 1.0),
             alternateBackgroundKey : UIColor(red: 0.412, green: 0.412, blue: 0.412, alpha: 1.0),
@@ -72,7 +73,7 @@ struct AppConfiguration {
             alternateHighlightKey : UIColor(red: 0.741, green: 0.718, blue: 0.420, alpha: 1.0),
             foregroundKey : UIColor(red: 0.878, green: 1.0, blue: 1.0, alpha: 1.0),
             highlightedForegroundKey : UIColor(red: 0.0, green: 1.000, blue: 1.000, alpha: 1.0),
-            barKey: "dark", activityKey : "white" ]
+            barKey: "dark", activityKey : "white", twitterColorKey: "white" ]
     ]
 
     // MARK: Wrappers around  NSUserDefaults
@@ -189,6 +190,12 @@ struct AppConfiguration {
                 return .Gray
             }
             return .White
+        }
+    }
+    
+    static var twitterColor: String {
+        get {
+            return getThemeProperty(twitterColorKey) as NSString
         }
     }
 
