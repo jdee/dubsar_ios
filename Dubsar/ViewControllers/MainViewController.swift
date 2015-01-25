@@ -69,9 +69,6 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
 
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         super.willRotateToInterfaceOrientation(toInterfaceOrientation, duration: duration)
-        if alphabetView != nil {
-            alphabetView.hidden = true
-        }
 
         if alphabetView != nil {
             // DEBT: Move this stuff into the AlphabetView
@@ -86,26 +83,31 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
             var newScreenHeight: CGFloat = 0
 
             /*
-             * Somehow, on the iPhone, the main screen size is always measured in portrait, so that height > width.
-             * On the iPad, it's just measured in the current orientation, so height may be less than width.
+             * Somehow, on the iPhone up to iOS 7, the main screen size is always measured in portrait, so that height > width.
+             * On the iPad and on iOS 8+, it's just measured in the current orientation, so height may be less than width.
              */
             let rotatingToPortrait = UIInterfaceOrientationIsPortrait(toInterfaceOrientation)
             let isIPad = UIDevice.currentDevice().userInterfaceIdiom == .Pad
 
-            if !isIPad && rotatingToPortrait {
-                newScreenWidth = UIScreen.mainScreen().bounds.size.width
-                newScreenHeight = UIScreen.mainScreen().bounds.size.height
+            let currentWidth = UIScreen.mainScreen().bounds.size.width
+            let currentHeight = UIScreen.mainScreen().bounds.size.height
+
+            let inverted = !isIPad && rotatingToPortrait && currentWidth < currentHeight
+
+            if inverted {
+                newScreenWidth = currentWidth
+                newScreenHeight = currentHeight
             }
             else {
-                newScreenWidth = UIScreen.mainScreen().bounds.size.height
-                newScreenHeight = UIScreen.mainScreen().bounds.size.width
+                newScreenWidth = currentHeight
+                newScreenHeight = currentWidth
             }
 
             let newViewWidth = newScreenWidth
             var newViewHeight: CGFloat = newScreenHeight - navigationController!.navigationBar.bounds.size.height - 20 // 20 for the status bar
 
-            let fudge: CGFloat = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? 12 : 0 // the difference in the height of the nav bar between orientations
-            newViewHeight += UIInterfaceOrientationIsPortrait(toInterfaceOrientation) ? -fudge : +fudge
+            let fudge: CGFloat = !isIPad ? 12 : 0 // the difference in the height of the nav bar between orientations
+            newViewHeight += rotatingToPortrait ? -fudge : +fudge
 
             // newViewWidth and newViewHeight are now the correct dimensions of this view after the rotation to come.
 
@@ -116,7 +118,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
             // Now when the rotation occurs and the animation below begins, the alphabet view will have its original size and orientation,
             // but be lined up with the lower righthand corner of the view after the rotation, at the beginning of the animation.
 
-            DMTRACE("new view size: \(newViewWidth) x \(newViewHeight). alphabet view size: \(alphabetView.bounds.size.width) x \(alphabetView.bounds.size.height). alphabet view origin: \(alphabetView.frame.origin.x), \(alphabetView.frame.origin.y)")
+            DMDEBUG("new view size: \(newViewWidth) x \(newViewHeight). alphabet view size: \(alphabetView.bounds.size.width) x \(alphabetView.bounds.size.height). alphabet view origin: \(alphabetView.frame.origin.x), \(alphabetView.frame.origin.y)")
 
             // font can change on rotation, but:
             let typicalSize = ("WX" as NSString).sizeWithAttributes([NSFontAttributeName: alphabetView.font])
@@ -142,7 +144,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
             let π = CGFloat(M_PI)
             var transform = CGAffineTransformIdentity
             var inset: CGFloat = 0
-            if UIInterfaceOrientationIsPortrait(toInterfaceOrientation) {
+            if rotatingToPortrait {
                 // rotating from the bottom of the view to the right side
                 let newAlphabetHeight = newViewHeight - searchBar.bounds.size.height
                 let aspect = newAlphabetHeight / alphabetView.bounds.size.width // < 1
