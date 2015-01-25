@@ -29,12 +29,12 @@
                         <viewControllerLayoutGuide type="top" id="ZC5-GH-SrG"/>
                         <viewControllerLayoutGuide type="bottom" id="kNl-cB-m0Q"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Ns1-hy-iv5">
+                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="Ns1-hy-iv5">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="prominent" placeholder="search term(s)" showsBookmarkButton="YES" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2p-CQ-t6I">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="88"/>
+                            <searchBar contentMode="redraw" searchBarStyle="prominent" placeholder="search term(s)" showsBookmarkButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2p-CQ-t6I">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                                 <scopeButtonTitles>
                                     <string>Words</string>
@@ -44,14 +44,14 @@
                                     <outlet property="delegate" destination="qk7-HA-hy1" id="WNM-eB-KDQ"/>
                                 </connections>
                             </searchBar>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Powered by WordNet®" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="AzF-Dj-Ocu">
-                                <rect key="frame" x="20" y="96" width="560" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by WordNet®" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="AzF-Dj-Ocu">
+                                <rect key="frame" x="20" y="52" width="560" height="20"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpD-WL-dUJ">
-                                <rect key="frame" x="20" y="222" width="560" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpD-WL-dUJ">
+                                <rect key="frame" x="20" y="176" width="560" height="32"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <state key="normal" title="loading...">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,26 +60,12 @@
                                     <segue destination="Ztw-Ob-DFo" kind="show" id="X9y-r3-tT7"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Word of the Day" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="Pai-39-ITs">
-                                <rect key="frame" x="20" y="193" width="560" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Word of the Day" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="Pai-39-ITs">
+                                <rect key="frame" x="20" y="148" width="560" height="20"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RMB-aD-f9y">
-                                <rect key="frame" x="16" y="182" width="44" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="6a0-8t-dQ5"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="HHj-k6-jXT"/>
-                                    <constraint firstAttribute="height" constant="44" id="faV-ya-ujo"/>
-                                </constraints>
-                                <state key="normal" image="twitter-blue">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="followOnTwitter:" destination="qk7-HA-hy1" eventType="touchUpInside" id="Ctl-Ct-0kc"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -89,13 +75,11 @@
                             <constraint firstItem="a2p-CQ-t6I" firstAttribute="leading" secondItem="Ns1-hy-iv5" secondAttribute="leading" id="N2W-5l-3cq"/>
                             <constraint firstItem="Pai-39-ITs" firstAttribute="top" secondItem="AzF-Dj-Ocu" secondAttribute="bottom" constant="76" id="PkR-ay-qxy"/>
                             <constraint firstItem="xpD-WL-dUJ" firstAttribute="leading" secondItem="Ns1-hy-iv5" secondAttribute="leading" constant="20" id="Pni-4e-7ja"/>
-                            <constraint firstItem="RMB-aD-f9y" firstAttribute="top" secondItem="Pai-39-ITs" secondAttribute="bottom" constant="-32" id="SgZ-P4-ohu"/>
                             <constraint firstItem="AzF-Dj-Ocu" firstAttribute="top" secondItem="a2p-CQ-t6I" secondAttribute="bottom" constant="8" id="gOC-TL-i6g"/>
                             <constraint firstAttribute="trailing" secondItem="Pai-39-ITs" secondAttribute="trailing" constant="20" id="hT1-X1-gTP"/>
                             <constraint firstItem="Pai-39-ITs" firstAttribute="leading" secondItem="Ns1-hy-iv5" secondAttribute="leading" constant="20" id="kC4-gV-BnX"/>
                             <constraint firstItem="a2p-CQ-t6I" firstAttribute="top" secondItem="Ns1-hy-iv5" secondAttribute="top" id="mSI-4R-gln"/>
                             <constraint firstAttribute="trailing" secondItem="AzF-Dj-Ocu" secondAttribute="trailing" constant="20" id="t1k-0b-iF1"/>
-                            <constraint firstItem="RMB-aD-f9y" firstAttribute="leading" secondItem="Ns1-hy-iv5" secondAttribute="leading" constant="16" id="vZZ-Q7-Acd"/>
                             <constraint firstAttribute="trailing" secondItem="xpD-WL-dUJ" secondAttribute="trailing" constant="20" id="xAB-ke-4Zt"/>
                         </constraints>
                     </view>
@@ -103,7 +87,6 @@
                     <navigationItem key="navigationItem" title="Home" id="m3u-le-uai"/>
                     <connections>
                         <outlet property="searchBar" destination="a2p-CQ-t6I" id="Ld4-N5-e4v"/>
-                        <outlet property="twitterButton" destination="RMB-aD-f9y" id="mye-dM-EYt"/>
                         <outlet property="wordNetLabel" destination="AzF-Dj-Ocu" id="LkT-kb-HAb"/>
                         <outlet property="wotdButton" destination="xpD-WL-dUJ" id="bpO-2l-tJm"/>
                         <outlet property="wotdLabel" destination="Pai-39-ITs" id="zsa-RW-DHv"/>
@@ -125,8 +108,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="75o-h8-6cW">
-                                <rect key="frame" x="0.0" y="88" width="600" height="448"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="75o-h8-6cW">
+                                <rect key="frame" x="0.0" y="44" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="FHr-Mo-Hqo" id="XAO-h2-mXZ"/>
@@ -140,8 +123,8 @@
                                     <action selector="pageChanged:" destination="FHr-Mo-Hqo" eventType="valueChanged" id="Bbr-be-J2L"/>
                                 </connections>
                             </pageControl>
-                            <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="prominent" placeholder="search term(s)" showsBookmarkButton="YES" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Lx-id-KFr">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="88"/>
+                            <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="prominent" placeholder="search term(s)" showsBookmarkButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Lx-id-KFr">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="88" id="o1e-2n-ME8"/>
                                 </constraints>
@@ -403,7 +386,4 @@
             <point key="canvasLocation" x="1491" y="1306"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="twitter-blue" width="16" height="16"/>
-    </resources>
 </document>

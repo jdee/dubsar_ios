@@ -26,7 +26,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
     @IBOutlet var wotdButton : UIButton!
     @IBOutlet var wotdLabel : UILabel!
     @IBOutlet var wordNetLabel : UILabel!
-    @IBOutlet var twitterButton: UIButton!
+    var twitterButton: UIButton!
 
     var alphabetView : AlphabetView!
     var wotd: DubsarModelsDailyWord?
@@ -34,6 +34,8 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
     // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        createTwitterButton()
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
     }
@@ -253,9 +255,8 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         wotdButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         wotdButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
         
-        let twitterImage = UIImage(named: "twitter-\(AppConfiguration.twitterColor)")
-        twitterButton.setImage(twitterImage, forState: .Normal)
-
+        createTwitterButton()
+        
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
 
         AppDelegate.instance.bookmarkManager.loadBookmarks()
@@ -278,7 +279,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
 
         // super.setupToolbar()
     }
-    
+
     @IBAction func followOnTwitter(sender: UIButton!) {
         let application = UIApplication.sharedApplication()
         let urlString = "twitter://user?id=335105958"
@@ -290,6 +291,56 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
             let webUrl = NSURL(string: "https://twitter.com/intent/follow?user_id=335105958")
             application.openURL(webUrl!)
         }
+    }
+    
+    func createTwitterButton() {
+        if twitterButton != nil {
+            twitterButton.removeFromSuperview()
+        }
+
+        // create button with target selector. add as a subview of view.
+        twitterButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
+        twitterButton.addTarget(self, action: "followOnTwitter:", forControlEvents: .TouchUpInside)
+        twitterButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view.addSubview(twitterButton)
+        
+        // constrain to have constant height and width
+        var constraint = NSLayoutConstraint(item: twitterButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 0.0, constant: 44.0)
+        twitterButton.addConstraint(constraint)
+        constraint = NSLayoutConstraint(item: twitterButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 0.0, constant: 44.0)
+        twitterButton.addConstraint(constraint)
+
+        // constrain to align with the top of the WOTD label
+        constraint = NSLayoutConstraint(item: twitterButton, attribute: .Top, relatedBy: .Equal, toItem: wotdLabel, attribute: .Top, multiplier: 1.0, constant: -12)
+        view.addConstraint(constraint)
+
+        // constrain to be always just to the left of the WOTD label
+        let wotdLabelWidth = computeWotdLabelSize().width
+        constraint = NSLayoutConstraint(item: twitterButton, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1.0, constant: -48 - 0.5 * wotdLabelWidth)
+        view.addConstraint(constraint)
+        
+        positionTwitterButton()
+        setTwitterButtonImage()
+    }
+    
+    func setTwitterButtonImage() {
+        let twitterImage = UIImage(named: "twitter-\(AppConfiguration.twitterColor)")
+        twitterButton.setImage(twitterImage, forState: .Normal)
+    }
+    
+    func computeWotdLabelSize() -> CGSize {
+        let string: NSString = wotdLabel.text!
+        let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+
+        let size = string.sizeWithAttributes([NSFontAttributeName: font])
+        return size
+    }
+
+    func positionTwitterButton() {
+        let size = computeWotdLabelSize()
+        twitterButton.frame.origin.x = 0.5 * (view.bounds.size.width - size.width) - 48
+        twitterButton.frame.origin.y = wotdLabel.frame.origin.y
+        DMTRACE("Twitter button at (\(twitterButton.frame.origin.x), \(twitterButton.frame.origin.y))")
     }
 
     func showSettingView(sender: SettingBarButtonItem!) {
