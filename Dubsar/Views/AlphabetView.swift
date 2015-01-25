@@ -59,9 +59,9 @@ class AlphabetView: UIView {
     // */
 
     var horizontal : Bool {
-    get {
-        return frame.size.width > frame.size.height
-    }
+        get {
+            return frame.size.width > frame.size.height
+        }
     }
 
     var buttons: [GlobButton] = []
@@ -120,22 +120,8 @@ class AlphabetView: UIView {
             button.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
             button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
 
-            button.setTranslatesAutoresizingMaskIntoConstraints(false)
-
-            // constrain button to have constant size
-            var constraint = NSLayoutConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 0.0, constant: button.bounds.size.width)
-            button.addConstraint(constraint)
-            constraint = NSLayoutConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 0.0, constant: button.bounds.size.height)
-            button.addConstraint(constraint)
-
             buttons.append(button)
             addSubview(button)
-
-            // constrain button to stay at the same frame origin (x, y)
-            constraint = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: button.frame.origin.x)
-            addConstraint(constraint)
-            constraint = NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: button.frame.origin.y)
-            addConstraint(constraint)
         }
 
         if horizontal {
