@@ -279,11 +279,14 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         let settingButton = AppDelegate.instance.databaseManager.downloadInProgress ? DownloadBarButtonItem(target:self, action:"viewDownload:") : SettingBarButtonItem(target: self, action: "showSettingView:")
         settingButton.width = 32
         navigationItem.leftBarButtonItem = settingButton
+        
+        let newsButtonItem = UIBarButtonItem(title: "News", style: .Bordered, target: self, action: "showNewsView:")
+        navigationItem.rightBarButtonItem = newsButtonItem
 
         // super.setupToolbar()
     }
     
-    @IBAction func showNewsView(sender: UIButton!) {
+    @IBAction func showNewsView(sender: AnyObject!) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewControllerWithIdentifier(NewsViewController.identifier) as UIViewController
         navigationController!.pushViewController(viewController, animated: true)
