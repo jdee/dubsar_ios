@@ -15,6 +15,7 @@
 		7B06EC781988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B06EC771988AE0A00C44892 /* SettingNavigationValueTableViewCell.swift */; };
 		7B1152011974340900869E15 /* DubsarServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1152001974340900869E15 /* DubsarServer.m */; };
 		7B115203197435C100869E15 /* client_secret.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B115202197435C100869E15 /* client_secret.txt */; };
+		7B11E3CA1A7581E600EA479D /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B11E3C91A7581E600EA479D /* NewsViewController.swift */; };
 		7B14AE161999B65E00BCD41A /* BaseBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE151999B65E00BCD41A /* BaseBarButton.m */; };
 		7B14AE191999B76D00BCD41A /* HomeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE181999B76D00BCD41A /* HomeButton.m */; };
 		7B14AE1B1999B8C600BCD41A /* HomeBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE1A1999B8C600BCD41A /* HomeBarButtonItem.swift */; };
@@ -163,6 +164,7 @@
 		7B1151FF1974340900869E15 /* DubsarServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DubsarServer.h; sourceTree = "<group>"; };
 		7B1152001974340900869E15 /* DubsarServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DubsarServer.m; sourceTree = "<group>"; };
 		7B115202197435C100869E15 /* client_secret.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = client_secret.txt; sourceTree = "<group>"; };
+		7B11E3C91A7581E600EA479D /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		7B14AE141999B65E00BCD41A /* BaseBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseBarButton.h; sourceTree = "<group>"; };
 		7B14AE151999B65E00BCD41A /* BaseBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseBarButton.m; sourceTree = "<group>"; };
 		7B14AE171999B76D00BCD41A /* HomeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeButton.h; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 				7B7382FA1984700900880CF2 /* FAQViewController.swift */,
 				7B06EC71198879C500C44892 /* ThemeViewController.swift */,
 				7BAC226019732D6C00D2AEA4 /* MainViewController.swift */,
+				7B11E3C91A7581E600EA479D /* NewsViewController.swift */,
 				7B88F76F19BB7961002EB78D /* SearchBarViewController.swift */,
 				7BBF836F1974D58400969765 /* SearchViewController.swift */,
 				7B06EC6B19886FCE00C44892 /* SettingsViewController.swift */,
@@ -722,6 +725,7 @@
 				7B2F4642198AEAC500F57D21 /* DownloadButtonImage.m in Sources */,
 				7B06EC741988AC6F00C44892 /* SettingLabelTableViewCell.swift in Sources */,
 				7B88F76E19B6B09C002EB78D /* NSData+StupidDubsarTricks.m in Sources */,
+				7B11E3CA1A7581E600EA479D /* NewsViewController.swift in Sources */,
 				7BD8459D198DD013000C3EA5 /* Router.swift in Sources */,
 				7BBBD6DD1989C8850030FDA9 /* ioapi.c in Sources */,
 				7BCA161E197D6E260016C104 /* AlphabetView.swift in Sources */,

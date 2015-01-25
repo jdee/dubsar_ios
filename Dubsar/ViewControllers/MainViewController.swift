@@ -26,6 +26,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
     @IBOutlet var wotdButton : UIButton!
     @IBOutlet var wotdLabel : UILabel!
     @IBOutlet var wordNetLabel : UILabel!
+    @IBOutlet var newsButton: UIButton!
     var twitterButton: UIButton!
 
     var alphabetView : AlphabetView!
@@ -57,9 +58,6 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
             viewController.router = Router(viewController: viewController, model: wotd!.word)
             viewController.title = "Word of the Day"
             DMTRACE("Prepared segue for WOTD VC")
-        }
-        else {
-            DMERROR("WOTD segue prep failed")
         }
     }
 
@@ -248,12 +246,17 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         wotdLabel.font = font
         wotdButton.titleLabel!.font = font
         wordNetLabel.font = font
+        newsButton.titleLabel!.font = font
 
         wotdLabel.textColor = AppConfiguration.foregroundColor
         wordNetLabel.textColor = AppConfiguration.foregroundColor
         wotdButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
         wotdButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         wotdButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
+
+        newsButton.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
+        newsButton.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
+        newsButton.setTitleColor(AppConfiguration.alternateBackgroundColor, forState: .Disabled)
         
         createTwitterButton()
         
@@ -278,6 +281,12 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         navigationItem.leftBarButtonItem = settingButton
 
         // super.setupToolbar()
+    }
+    
+    @IBAction func showNewsView(sender: UIButton!) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewControllerWithIdentifier(NewsViewController.identifier) as UIViewController
+        navigationController!.pushViewController(viewController, animated: true)
     }
 
     @IBAction func followOnTwitter(sender: UIButton!) {

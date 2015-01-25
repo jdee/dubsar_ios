@@ -66,11 +66,23 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Y0-lQ-7SW">
+                                <rect key="frame" x="16" y="293" width="564" height="30"/>
+                                <state key="normal" title="News">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="eNh-ij-Qvh" kind="show" id="Z7f-qZ-cTt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="7Y0-lQ-7SW" firstAttribute="leading" secondItem="Ns1-hy-iv5" secondAttribute="leading" constant="16" id="7pi-vN-80H"/>
                             <constraint firstItem="xpD-WL-dUJ" firstAttribute="top" secondItem="Pai-39-ITs" secondAttribute="bottom" constant="8" id="Ef9-jH-t4W"/>
                             <constraint firstAttribute="trailing" secondItem="a2p-CQ-t6I" secondAttribute="trailing" id="GJa-mn-d1u"/>
+                            <constraint firstAttribute="trailing" secondItem="7Y0-lQ-7SW" secondAttribute="trailing" constant="20" id="Hjx-bM-gcb"/>
                             <constraint firstItem="AzF-Dj-Ocu" firstAttribute="leading" secondItem="Ns1-hy-iv5" secondAttribute="leading" constant="20" id="I7A-2B-NGh"/>
                             <constraint firstItem="a2p-CQ-t6I" firstAttribute="leading" secondItem="Ns1-hy-iv5" secondAttribute="leading" id="N2W-5l-3cq"/>
                             <constraint firstItem="Pai-39-ITs" firstAttribute="top" secondItem="AzF-Dj-Ocu" secondAttribute="bottom" constant="76" id="PkR-ay-qxy"/>
@@ -81,11 +93,13 @@
                             <constraint firstItem="a2p-CQ-t6I" firstAttribute="top" secondItem="Ns1-hy-iv5" secondAttribute="top" id="mSI-4R-gln"/>
                             <constraint firstAttribute="trailing" secondItem="AzF-Dj-Ocu" secondAttribute="trailing" constant="20" id="t1k-0b-iF1"/>
                             <constraint firstAttribute="trailing" secondItem="xpD-WL-dUJ" secondAttribute="trailing" constant="20" id="xAB-ke-4Zt"/>
+                            <constraint firstItem="7Y0-lQ-7SW" firstAttribute="top" secondItem="xpD-WL-dUJ" secondAttribute="bottom" constant="85" id="y1M-Re-o6t"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Home" id="m3u-le-uai"/>
                     <connections>
+                        <outlet property="newsButton" destination="7Y0-lQ-7SW" id="oLA-ED-i6P"/>
                         <outlet property="searchBar" destination="a2p-CQ-t6I" id="Ld4-N5-e4v"/>
                         <outlet property="wordNetLabel" destination="AzF-Dj-Ocu" id="LkT-kb-HAb"/>
                         <outlet property="wotdButton" destination="xpD-WL-dUJ" id="bpO-2l-tJm"/>
@@ -274,6 +288,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oMC-64-dLT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="173" y="1953"/>
+        </scene>
+        <!--News-->
+        <scene sceneID="R7W-HM-7xb">
+            <objects>
+                <viewController storyboardIdentifier="News" title="News" id="eNh-ij-Qvh" customClass="NewsViewController" customModule="Dubsar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Jgg-hc-yUr"/>
+                        <viewControllerLayoutGuide type="bottom" id="O67-vl-msX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kt5-7b-vfa">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x30-tn-zqB">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="delegate" destination="eNh-ij-Qvh" id="UUj-34-Z4O"/>
+                                </connections>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="x30-tn-zqB" secondAttribute="bottom" id="Bs5-vM-Ba7"/>
+                            <constraint firstAttribute="trailing" secondItem="x30-tn-zqB" secondAttribute="trailing" id="ZNb-V4-pof"/>
+                            <constraint firstItem="x30-tn-zqB" firstAttribute="top" secondItem="kt5-7b-vfa" secondAttribute="top" id="ZT3-01-Arz"/>
+                            <constraint firstItem="x30-tn-zqB" firstAttribute="leading" secondItem="kt5-7b-vfa" secondAttribute="leading" id="vlv-Dz-V9z"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="newsWebView" destination="x30-tn-zqB" id="b5m-da-2y7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q0h-NJ-aZY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="173" y="2608"/>
         </scene>
         <!--Settings-->
         <scene sceneID="3A6-Wp-dsx">
