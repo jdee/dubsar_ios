@@ -29,7 +29,7 @@ class NewsViewController: BaseViewController, UIWebViewDelegate {
 
     @IBOutlet var newsWebView : UIWebView!
 
-    let url = "https://dubsar.info/news"
+    let url = "https://dubsar.info/ios_news_v200"
 
     private var ready = false
     private var loading = false
@@ -80,7 +80,15 @@ class NewsViewController: BaseViewController, UIWebViewDelegate {
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if navigationType == .LinkClicked {
-            UIApplication.sharedApplication().openURL(request.URL)
+            let application = UIApplication.sharedApplication()
+            if application.canOpenURL(request.URL) {
+                application.openURL(request.URL)
+            }
+            // This is why I use dubsar:/// URLs, like file:/// URLs, without a host.
+            else if request.URL.scheme! == "twitter" && request.URL.host! == "user" && request.URL.query!.hasPrefix("id=") {
+                let webUrl = NSURL(string: "https://twitter.com/intent/follow?user_\(request.URL.query!)")
+                application.openURL(webUrl!)
+            }
             return false
         }
         return true
