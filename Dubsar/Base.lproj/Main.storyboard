@@ -108,7 +108,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="75o-h8-6cW">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="75o-h8-6cW">
                                 <rect key="frame" x="0.0" y="44" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -123,10 +123,10 @@
                                     <action selector="pageChanged:" destination="FHr-Mo-Hqo" eventType="valueChanged" id="Bbr-be-J2L"/>
                                 </connections>
                             </pageControl>
-                            <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="prominent" placeholder="search term(s)" showsBookmarkButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Lx-id-KFr">
+                            <searchBar contentMode="redraw" searchBarStyle="prominent" placeholder="search term(s)" showsBookmarkButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Lx-id-KFr">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="88" id="o1e-2n-ME8"/>
+                                    <constraint firstAttribute="height" constant="44" id="o1e-2n-ME8"/>
                                 </constraints>
                                 <textInputTraits key="textInputTraits" spellCheckingType="no" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                                 <scopeButtonTitles>
