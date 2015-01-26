@@ -201,6 +201,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         twitterButton.addTarget(self, action: "followOnTwitter:", forControlEvents: .TouchUpInside)
         twitterButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         view.addSubview(twitterButton)
+        view.sendSubviewToBack(twitterButton)
         
         // constrain to have constant height and width
         var constraint = NSLayoutConstraint(item: twitterButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 0.0, constant: 44.0)

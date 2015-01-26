@@ -67,7 +67,7 @@ class AboutViewController: BaseViewController {
         versionLabel.autoresizingMask = .FlexibleWidth
         scroller.addSubview(versionLabel)
 
-        let dubsarModelsVersionString = String(format: "%.2f", 0.01 * floor(DubsarModelsVersionNumber * 100))
+        let dubsarModelsVersionString = String(format: "%.1f", 0.1 * floor(DubsarModelsVersionNumber * 10))
         modelsVersionLabel = UILabel(frame: CGRectZero)
         modelsVersionLabel.text = "DubsarModels Version \(dubsarModelsVersionString)"
         modelsVersionLabel.textAlignment = .Center
