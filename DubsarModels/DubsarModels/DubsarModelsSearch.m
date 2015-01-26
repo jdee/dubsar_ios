@@ -105,7 +105,7 @@ static int _seqNum = 0;
 
 -(instancetype)initWithWildcard:(NSString *)globExpression page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum scope:(DubsarModelsSearchScope)scope
 {
-    DMLOG(@"constructing search for \"%@\"", globExpression);
+    DMTRACE(@"constructing search for \"%@\"", globExpression);
 
     self = [super init];
     if (self) {   
