@@ -140,7 +140,7 @@ static int _seqNum = 0;
     }
 
     if (currentPage > 1) {
-        __url = [__url stringByAppendingFormat:@"&page=%d", currentPage];
+        __url = [__url stringByAppendingFormat:@"&page=%lu", (unsigned long)currentPage];
     }
 
     [self set_url:__url];
