@@ -33,7 +33,7 @@ class DownloadBarButtonItem: UIBarButtonItem {
         button.setTitleColor(AppConfiguration.highlightedForegroundColor, forState: .Highlighted)
         button.backgroundColor = UIColor.clearColor()
 
-        super.init(customView: button)
+        self.init(customView: button)
         self.target = target
         self.action = action
 
@@ -42,7 +42,7 @@ class DownloadBarButtonItem: UIBarButtonItem {
         button.barButtonItem = self
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }

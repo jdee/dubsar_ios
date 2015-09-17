@@ -152,9 +152,9 @@ class AboutViewController: BaseViewController {
         }
         else if let download = current {
             let range = NSRange(location: 0, length: 19)
-            let mtime = download.properties["mtime"] as NSString
+            let mtime = download.properties["mtime"] as! NSString
             var timestamp: NSString = mtime.substringWithRange(range)
-            timestamp = timestamp.stringByReplacingOccurrencesOfString("T", withString: " ", options: nil, range: range)
+            timestamp = timestamp.stringByReplacingOccurrencesOfString("T", withString: " ", options: [], range: range)
 
             dbVersionString = "\(download.name)\n\(timestamp) UTC"
         }
@@ -203,7 +203,7 @@ class AboutViewController: BaseViewController {
         let buttonFudge: CGFloat = 12
 
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        let attrs: [ NSObject: AnyObject ]! = [NSFontAttributeName: font]
+        let attrs = [NSFontAttributeName: font]
         let hmargin : CGFloat = 20
         let vmargin : CGFloat = 8
         var constrainedSize = view.bounds.size
@@ -348,8 +348,8 @@ class AboutViewController: BaseViewController {
         supportURLButton.layer.shadowOffset = CGSizeMake(0, 3)
         // supportURLButton.layer.shadowPath = UIBezierPath(roundedRect: supportURLButton.bounds, cornerRadius: supportURLButton.layer.cornerRadius).CGPath
 
-        var headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
-        var bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
+        let headlineFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleHeadline)
+        let bodyFontDesc = AppConfiguration.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody)
 
         layoutParagraphs(UIFont(descriptor: bodyFontDesc, size: headlineFontDesc.pointSize))
 
@@ -414,13 +414,13 @@ class AboutViewController: BaseViewController {
         y = lastLabel.frame.origin.y + lastLabel.bounds.size.height + margin
 
         let newLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, textSize.height))
-        newLabel.text = text
+        newLabel.text = text as String
         newLabel.font = font
         newLabel.numberOfLines = 0
         newLabel.lineBreakMode = .ByWordWrapping
         newLabel.textAlignment = .Center
         newLabel.textColor = AppConfiguration.foregroundColor
-        newLabel.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        newLabel.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
 
         paragraphLabels.append(newLabel)
         scroller.addSubview(newLabel)

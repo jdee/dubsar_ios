@@ -25,7 +25,7 @@ class SettingBarButtonItem: UIBarButtonItem {
         super.init()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -53,7 +53,7 @@ class SettingBarButtonItem: UIBarButtonItem {
         button.layer.borderColor = AppConfiguration.foregroundColor.CGColor
         // */
 
-        super.init(customView: button)
+        self.init(customView: button)
         self.target = target
         self.action = action
 
@@ -70,7 +70,7 @@ class SettingBarButtonItem: UIBarButtonItem {
 
     private var gearButton: GearButton {
         get {
-            return customView as GearButton
+            return customView as! GearButton
         }
     }
 

@@ -71,7 +71,7 @@ class AlphabetView: UIView {
         super.init(frame: frame)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -158,7 +158,6 @@ class AlphabetView: UIView {
         // accessibility fonts. only the body font becomes enormous.)
         let sizes: [CGFloat] = [ 23, 22, 21, 20, 19, 18, 17, 16, 15, 14 ]
 
-        var fontToUse: UIFont!
         for fontSize in sizes {
             if fontSize > headlineFontSize {
                 continue

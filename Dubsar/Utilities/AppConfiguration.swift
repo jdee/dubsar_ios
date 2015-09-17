@@ -162,14 +162,14 @@ struct AppConfiguration {
     static var themeName: String? {
         get {
             let setting: NSString? = getThemeProperty(nameKey)
-            return setting
+            return setting as? String
         }
     }
 
     static var fontSetting: String? {
         get {
             let setting: NSString? = getThemeProperty(fontKey)
-            return setting
+            return setting as? String
         }
     }
 
@@ -195,7 +195,7 @@ struct AppConfiguration {
     
     static var twitterColor: String {
         get {
-            return getThemeProperty(twitterColorKey) as NSString
+            return getThemeProperty(twitterColorKey) as NSString as String
         }
     }
 

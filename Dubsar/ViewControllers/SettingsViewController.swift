@@ -45,7 +45,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         [ [ "title" : "About", "view" : "About", "setting_type" : "nav" ],
             [ "title" : "FAQ", "view" : "FAQ", "setting_type" : "nav" ] ],
 
-        [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)) as String, "setting_type" : "label" ],
+        [ [ "title" : "Current version", "value" : NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleVersionKey)) as! String, "setting_type" : "label" ],
             [ "title" : "Theme", "view" : "Theme", "value" : AppConfiguration.themeKey, "setting_type" : "navValue" ],
             [ "title" : "Offline", "value" : AppConfiguration.offlineKey, "setting_type" : "switchValue", "setting_action" : "offlineSwitchChanged:" ],
             [ "title" : "Autoupdate", "value" : AppConfiguration.autoUpdateKey, "setting_type" : "switch_value", "setting_action" : "autoUpdateChanged:" ],
@@ -102,14 +102,13 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
 
         let settings = sections[section] as [[String: String]]
         let setting = settings[row] as [String: String]
-        let view = setting["view"]
         let value = setting["value"]
         let type = setting["setting_type"]
         let action = setting["setting_action"]
 
         var cell: UITableViewCell?
         if type == "navValue" {
-            cell = tableView.dequeueReusableCellWithIdentifier(value!) as? UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(value!)
             if cell == nil {
                 cell = SettingNavigationValueTableViewCell(identifier: value!)
             }
@@ -119,13 +118,13 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
             }
         }
         else if type == "nav" {
-            cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationTableViewCell.identifier) as? UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(SettingNavigationTableViewCell.identifier)
             if cell == nil {
                 cell = SettingNavigationTableViewCell(style: .Default, identifier: SettingNavigationTableViewCell.identifier)
             }
         }
         else if type == "label" {
-            cell = tableView.dequeueReusableCellWithIdentifier(SettingLabelTableViewCell.identifier) as? UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(SettingLabelTableViewCell.identifier)
             if cell == nil {
                 cell = SettingLabelTableViewCell()
             }
@@ -292,7 +291,7 @@ class SettingsViewController: BaseViewController, UITableViewDataSource, UITable
         setupToolbar()
     }
 
-    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 0 {
             return
         }

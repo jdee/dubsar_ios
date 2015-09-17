@@ -32,7 +32,7 @@ class OpenSynsetTableViewCell: OpenSenseTableViewCell {
         self.synset = synset
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }

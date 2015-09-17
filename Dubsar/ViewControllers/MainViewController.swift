@@ -199,7 +199,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         // create button with target selector. add as a subview of view.
         twitterButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
         twitterButton.addTarget(self, action: "followOnTwitter:", forControlEvents: .TouchUpInside)
-        twitterButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        twitterButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(twitterButton)
         view.sendSubviewToBack(twitterButton)
         
@@ -243,7 +243,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
     }
 
     func showSettingView(sender: SettingBarButtonItem!) {
-        let settingButton = navigationItem.leftBarButtonItem as SettingBarButtonItem
+        let settingButton = navigationItem.leftBarButtonItem as! SettingBarButtonItem
         settingButton.startAnimating()
 
         pushViewControllerWithIdentifier(SettingsViewController.identifier, router: nil)

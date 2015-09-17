@@ -37,7 +37,7 @@ class OpenWordTableViewCell: WordTableViewCell {
         selectionStyle = .None
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         insertHeightLimit = 0
         super.init(coder: aDecoder)
     }
@@ -63,7 +63,7 @@ class OpenWordTableViewCell: WordTableViewCell {
 
         assert(word!.senses != nil)
 
-        let sense = word!.senses.firstObject as DubsarModelsSense
+        let sense = word!.senses.firstObject as! DubsarModelsSense
         let openSenseCell = OpenSenseTableViewCell(sense: sense, frame: CGRectMake(0, y, bounds.size.width, bounds.size.height-y), maxHeightOfAdditions: insertHeightLimit)
         openSenseCell.cellBackgroundColor = cellBackgroundColor
         openSenseCell.rebuild()
@@ -74,7 +74,7 @@ class OpenWordTableViewCell: WordTableViewCell {
         openSenseView.frame.size.height = openSenseCell.bounds.size.height
         openSenseView.backgroundColor = cellBackgroundColor
 
-        let lastSubview = (view!.subviews as NSArray).lastObject as UIView
+        let lastSubview = (view!.subviews as NSArray).lastObject as! UIView
         // view!.removeConstraint(NSLayoutConstraint(item: lastSubview, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1.0, constant: -WordTableViewCell.margin))
 
         view!.addSubview(openSenseView)

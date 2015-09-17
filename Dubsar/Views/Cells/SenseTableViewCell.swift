@@ -71,7 +71,7 @@ class SenseTableViewCell: UITableViewCell {
         clipsToBounds = true
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -96,12 +96,12 @@ class SenseTableViewCell: UITableViewCell {
         view = UIView(frame: bounds)
         view!.layer.borderColor = UIColor.blackColor().CGColor
         view!.layer.borderWidth = 0
-        view!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view!.translatesAutoresizingMaskIntoConstraints = false
         view!.backgroundColor = cellBackgroundColor
 
         contentView.addSubview(view!)
-        contentView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        contentView.removeConstraints(contentView.constraints())
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.removeConstraints(contentView.constraints)
         contentView.layer.borderColor = UIColor.whiteColor().CGColor
         contentView.layer.borderWidth = 0
 
@@ -141,7 +141,7 @@ class SenseTableViewCell: UITableViewCell {
         lexnameLabel.numberOfLines = 1
         lexnameLabel.textColor = AppConfiguration.foregroundColor
         lexnameLabel.textAlignment = .Left
-        lexnameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        lexnameLabel.translatesAutoresizingMaskIntoConstraints = false
         lexnameLabel.layer.borderWidth = 0
         lexnameLabel.layer.borderColor = UIColor.greenColor().CGColor
         view!.addSubview(lexnameLabel)
@@ -164,7 +164,7 @@ class SenseTableViewCell: UITableViewCell {
         textLabel.numberOfLines = 0
         textLabel.textColor = AppConfiguration.foregroundColor
         textLabel.textAlignment = .Left
-        textLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
         textLabel.layer.borderColor = UIColor.blueColor().CGColor
         textLabel.layer.borderWidth = 0
         textLabel.contentMode = .Redraw
@@ -188,7 +188,7 @@ class SenseTableViewCell: UITableViewCell {
             synonymLabel.numberOfLines = 0
             synonymLabel.textColor = AppConfiguration.foregroundColor
             synonymLabel.textAlignment = .Left
-            synonymLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+            synonymLabel.translatesAutoresizingMaskIntoConstraints = false
             synonymLabel.layer.borderWidth = 0
             synonymLabel.layer.borderColor = UIColor.orangeColor().CGColor
             view!.addSubview(synonymLabel)

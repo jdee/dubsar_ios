@@ -151,7 +151,7 @@ class SynsetHeaderView: UIView {
         build()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         synset = DubsarModelsSynset()
         glossLabel = UILabel()
         lexnameLabel = UILabel()
@@ -186,12 +186,12 @@ class SynsetHeaderView: UIView {
             glossLabel.invalidateIntrinsicContentSize()
 
             // Lexname label
-            var lexnameText = "<\(synset.lexname)>" as NSString
+            let lexnameText = "<\(synset.lexname)>" as NSString
 
             let lexnameSize = lexnameText.sizeWithAttributes([NSFontAttributeName: headlineFont])
 
             lexnameLabel.frame = CGRectMake(margin, 2 * margin + glossSize.height, lexnameSize.width, lexnameSize.height)
-            lexnameLabel.text = lexnameText
+            lexnameLabel.text = lexnameText as String
             lexnameLabel.font = headlineFont
             lexnameLabel.textColor = AppConfiguration.foregroundColor
             lexnameLabel.invalidateIntrinsicContentSize()
@@ -201,7 +201,7 @@ class SynsetHeaderView: UIView {
                 extraText = "(\(sense!.marker))"
             }
             else if synset.senses.count == 1 {
-                let firstSense = synset.senses.firstObject as DubsarModelsSense
+                let firstSense = synset.senses.firstObject as! DubsarModelsSense
                 if !firstSense.marker.isEmpty {
                     extraText = "(\(firstSense.marker))"
                 }
@@ -227,7 +227,7 @@ class SynsetHeaderView: UIView {
              * shrink the text on the extraTextLabel. It could alternately go onto a separate line.
              */
             extraTextLabel.frame = CGRectMake(2 * margin + lexnameSize.width, 2 * margin + glossSize.height, min(extraTextSize.width, bounds.size.width - lexnameLabel.bounds.size.width-2*margin), extraTextSize.height)
-            extraTextLabel.text = extraText
+            extraTextLabel.text = extraText as String
             extraTextLabel.font = headlineFont
             extraTextLabel.textAlignment = .Center
             extraTextLabel.adjustsFontSizeToFitWidth = true
@@ -273,20 +273,20 @@ class SynsetHeaderView: UIView {
 
         glossLabel.lineBreakMode = .ByWordWrapping
         glossLabel.numberOfLines = 0
-        glossLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        glossLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(glossLabel)
 
         lexnameLabel.lineBreakMode = .ByWordWrapping
         lexnameLabel.numberOfLines = 0
-        lexnameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        lexnameLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(lexnameLabel)
 
         extraTextLabel.lineBreakMode = .ByWordWrapping
         extraTextLabel.numberOfLines = 0
-        extraTextLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        extraTextLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(extraTextLabel)
 
-        synonymView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        synonymView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(synonymView)
 
         let margin = SynsetHeaderView.margin

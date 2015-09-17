@@ -47,17 +47,17 @@ class FavoriteBarButtonItem: UIBarButtonItem {
         favoriteButton.target = target
         favoriteButton.action = action
 
-        super.init(customView: favoriteButton)
+        self.init(customView: favoriteButton)
         self.target = target
         self.action = action
 
         // how does this get set to nil?
-        favoriteButton = customView as FavoriteButton
+        favoriteButton = customView as! FavoriteButton
 
         favoriteButton.barButtonItem = self
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 

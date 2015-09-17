@@ -26,7 +26,7 @@ class NavButton: UIButton {
     }
     }
 
-    override init() {
+    init() {
         super.init(frame: CGRectZero)
     }
 
@@ -35,7 +35,7 @@ class NavButton: UIButton {
         refreshImages()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 

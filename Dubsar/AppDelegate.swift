@@ -32,20 +32,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
     class var instance : AppDelegate {
         get {
-            return UIApplication.sharedApplication().delegate as AppDelegate
+            return UIApplication.sharedApplication().delegate as! AppDelegate
         }
     }
 
     var navigationController : UINavigationController {
     get {
-        return window!.rootViewController as UINavigationController
+        return window!.rootViewController as! UINavigationController
     }
     }
 
     private var bgTask = UIBackgroundTaskInvalid
     private var updatePending = false
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         #if DEBUG
             // .Debug is also the default, but this is where to change it. (disabled, not to mention compiled out, in release builds)
             DubsarModelsLogger.instance().logLevel = .Debug
@@ -59,10 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         return true
     }
 
-    func applicationDidBecomeActive(application: UIApplication!) {
+    func applicationDidBecomeActive(application: UIApplication) {
         NSUserDefaults.standardUserDefaults().synchronize()
 
-        let viewController = navigationController.topViewController as BaseViewController
+        let viewController = navigationController.topViewController as! BaseViewController
         viewController.adjustLayout() // in case of a font change in the settings
 
         if let mainVC = viewController as? MainViewController {
@@ -78,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         checkOfflineSetting()
     }
 
-    func applicationDidEnterBackground(theApplication: UIApplication!) {
+    func applicationDidEnterBackground(theApplication: UIApplication) {
         voidCache()
         NSUserDefaults.standardUserDefaults().synchronize()
 
@@ -126,7 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                     my.databaseManager.downloadInBackground()
                 }
                 else if !AppConfiguration.autoUpdateSetting {
-                    var localNotif = UILocalNotification()
+                    let localNotif = UILocalNotification()
                     localNotif.alertBody = "Background download expired"
 
                     theApplication.presentLocalNotificationNow(localNotif)
@@ -159,7 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                      * Autoupdate is on. Notify the user if the DB was actually updated. Otherwise, don't bother.
                      */
                     if my.databaseManager.databaseUpdated {
-                        var localNotif = UILocalNotification()
+                        let localNotif = UILocalNotification()
                         localNotif.alertBody = "Database updated"
                         theApplication.presentLocalNotificationNow(localNotif)
                     }
@@ -178,7 +178,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                     assert(!my.databaseManager.downloadInProgress)
 
                     // generate a local notification
-                    var localNotif = UILocalNotification()
+                    let localNotif = UILocalNotification()
                     if my.databaseManager.errorMessage != nil {
                         // failure
                         localNotif.alertBody = "Download failed: \(my.databaseManager.errorMessage)"
@@ -197,11 +197,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
     }
 
-    func applicationDidReceiveMemoryWarning(application: UIApplication!) {
+    func applicationDidReceiveMemoryWarning(application: UIApplication) {
         voidCache()
     }
 
-    func application(application: UIApplication!, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData!) {
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         DubsarServer.postDeviceToken(deviceToken)
     }
 
@@ -209,7 +209,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         DMERROR("application did fail (or as we say in English, failed) to register for remote notifications: \(error.localizedDescription)")
     }
 
-    func application(application: UIApplication!, didReceiveLocalNotification notification: UILocalNotification!) {
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         DMINFO("Received local notification: \(notification.alertBody)")
         /* not really necessary
         let viewController = navigationController.topViewController as BaseViewController
@@ -217,26 +217,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         // */
     }
 
-    func application(application: UIApplication, didReceiveRemoteNotification notification: NSDictionary?) {
-        if notification == nil {
-            return
-        }
-
+    func application(application: UIApplication, didReceiveRemoteNotification notification: [NSObject: AnyObject]) {
         // Custom (Dubsar) payload handling
-        let dubsarPayload = notification!.objectForKey(dubsar) as? NSDictionary
+        let dubsarPayload = notification[dubsar] as? [NSObject: AnyObject]
         DubsarModelsDailyWord.updateWotdWithNotificationPayload(notification)
 
-        let url = dubsarPayload?.objectForKey("url") as? NSString
+        let url = dubsarPayload?["url"] as? String
         if url != nil {
-            alertURL = NSURL(string:url!)
+            alertURL = NSURL(string:url! as String)
         }
         else {
             alertURL = nil
         }
 
         // Standard APNS payload handling
-        let aps = notification?.objectForKey("aps") as? NSDictionary
-        let alert = aps?.objectForKey("alert") as? NSString
+        let aps = notification["aps"] as? [NSObject: AnyObject]
+        let alert = aps?["alert"] as? String
 
         switch (application.applicationState) {
         case .Active:
@@ -248,12 +244,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
     }
 
-    func application(theApplication: UIApplication!, handleActionWithIdentifier identifier: String!, forRemoteNotification userInfo: NSDictionary!, completionHandler: (() -> Void)!) {
+    func application(theApplication: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject: AnyObject], completionHandler: (() -> Void)) {
         DMINFO("Received remote notification action \(identifier)")
         application(theApplication, didReceiveRemoteNotification: userInfo)
     }
 
-    func application(application: UIApplication!, openURL url: NSURL!, sourceApplication: String!, annotation: AnyObject!) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         let scheme = url.scheme
         if scheme != dubsar {
             return false
@@ -274,7 +270,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
         }
 
-        let top = navigationController.topViewController as BaseViewController
+        let top = navigationController.topViewController as! BaseViewController
 
         navigationController.dismissViewControllerAnimated(true, completion: nil)
         dispatch_async(dispatch_get_main_queue()) {
@@ -294,7 +290,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         return true
     }
 
-    func application(application: UIApplication!, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings!) {
+    @available(iOS 8.0, *)
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         DMTRACE("Application did register user notification settings")
     }
 
@@ -332,7 +329,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                 databaseManager.rejectDownload()
             }
 
-            let viewController = navigationController.topViewController as BaseViewController
+            let viewController = navigationController.topViewController as! BaseViewController
             viewController.adjustLayout()
 
             updatePending = false
@@ -356,7 +353,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             databaseManager.deleteDatabase()
         }
 
-        let viewController = navigationController.topViewController as BaseViewController
+        let viewController = navigationController.topViewController as! BaseViewController
         viewController.adjustLayout()
 
         updatePending = false
@@ -364,17 +361,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
     func databaseManager(theDatabaseManager: DatabaseManager!, encounteredError errorMessage: String!) {
         AppConfiguration.offlineSetting = theDatabaseManager.fileExists // may have rolled back to an old DB in case of DL failure.
-        let viewController = navigationController.topViewController as BaseViewController
+        let viewController = navigationController.topViewController as! BaseViewController
         viewController.adjustLayout()
     }
 
     func downloadComplete(databaseManager: DatabaseManager!) {
-        let viewController = navigationController.topViewController as BaseViewController
+        let viewController = navigationController.topViewController as! BaseViewController
         viewController.adjustLayout()
     }
 
     func noUpdateAvailable(databaseManager: DatabaseManager!) {
-        let viewController = navigationController.topViewController as BaseViewController
+        let viewController = navigationController.topViewController as! BaseViewController
         viewController.adjustLayout()
     }
 
@@ -386,7 +383,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         if AppConfiguration.autoUpdateSetting {
             theDatabaseManager.download()
-            let viewController = navigationController.topViewController as BaseViewController
+            let viewController = navigationController.topViewController as! BaseViewController
             viewController.adjustLayout()
             return
         }
@@ -406,7 +403,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         // Alert user.
         var message: String
         var cancelTitle = "Cancel"
-        var downloadTitle = "Download"
+        let downloadTitle = "Download"
         if (required) {
             /*
              * This means that databaseManager.checkCurrentDownloadVersion() deleted the DB that was installed when the app launched because the version number
@@ -514,9 +511,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         PushWrapper.register()
 
         // extract the push payload, if any, from the launchOptions
-        let payload = launchOptions?.objectForKey(UIApplicationLaunchOptionsRemoteNotificationKey) as? NSDictionary
-        // pass it back to this app. this is where notifications arrive if a notification is tapped while the app is not running. the app is launched by the tap in that case.
-        application(theApplication, didReceiveRemoteNotification: payload)
+        if let payload = launchOptions?.objectForKey(UIApplicationLaunchOptionsRemoteNotificationKey) as? [NSObject: AnyObject] {
+            // pass it back to this app. this is where notifications arrive if a notification is tapped while the app is not running. the app is launched by the tap in that case.
+            application(theApplication, didReceiveRemoteNotification: payload)
+        }
     }
 
     func showAlert(message: String?) {
@@ -542,7 +540,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         let application = UIApplication.sharedApplication()
 
         if url!.scheme == dubsar {
-            self.application(application, openURL:url, sourceApplication:nil, annotation:nil)
+            self.application(application, openURL:url!, sourceApplication:nil, annotation:url!)
         }
         else {
             // pass http/https URLS to Safari

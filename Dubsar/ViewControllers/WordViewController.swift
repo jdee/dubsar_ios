@@ -96,7 +96,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
     func selectRowForSense(sense: DubsarModelsSense!) {
         let senses = theWord!.senses as [AnyObject]
         var index = senses.count
-        for (j, s) in enumerate(senses as [DubsarModelsSense]) {
+        for (j, s) in (senses as! [DubsarModelsSense]).enumerate() {
             if s._id == sense._id {
                 index = j
                 break
@@ -138,11 +138,11 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             return cell!
         }
 
-        let sense = theWord!.senses[row-1] as DubsarModelsSense
+        let sense = theWord!.senses[row-1] as! DubsarModelsSense
         let frame = tableView.bounds
 
         var cell : SenseTableViewCell?
-        var selectedRow = selectedIndexPath.indexAtPosition(1)
+        let selectedRow = selectedIndexPath.indexAtPosition(1)
 
         if selectedRow == row {
             let identifier = OpenSenseTableViewCell.openIdentifier
@@ -188,9 +188,9 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             return height
         }
 
-        let sense = theWord!.senses[row-1] as DubsarModelsSense
+        let sense = theWord!.senses[row-1] as! DubsarModelsSense
 
-        var selectedRow :Int = selectedIndexPath.indexAtPosition(1)
+        let selectedRow :Int = selectedIndexPath.indexAtPosition(1)
         let height = sense.sizeOfCellWithConstrainedSize(tableView.bounds.size, open: row == selectedRow, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row)).height
 
         DMTRACE("Height of row \(row) with row \(selectedRow) selected: \(height)")
@@ -209,9 +209,9 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             return height
         }
 
-        let sense = theWord!.senses[row-1] as DubsarModelsSense
+        let sense = theWord!.senses[row-1] as! DubsarModelsSense
 
-        var selectedRow :Int = selectedIndexPath.indexAtPosition(1)
+        let selectedRow :Int = selectedIndexPath.indexAtPosition(1)
         let height = sense.estimatedHeightOfCell(tableView.bounds.size, open: row == selectedRow, maxHeightOfAdditions: maxHeightOfAdditionsForRow(row))
 
         DMTRACE("estimated Height of row \(row) with row \(selectedRow) selected: \(height)")
@@ -284,7 +284,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
             return
         }
 
-        let sense = theWord!.senses[row - 1] as DubsarModelsSense
+        let sense = theWord!.senses[row - 1] as! DubsarModelsSense
         if sense.complete {
             return
         }
@@ -327,7 +327,7 @@ class WordViewController: BaseViewController, UITableViewDataSource, UITableView
         super.setupToolbar()
 
         if theWord != nil {
-            var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
+            var items = navigationItem.rightBarButtonItems!
             favoriteButton = FavoriteBarButtonItem(target:self, action:"favoriteTapped:")
             favoriteButton.selected = theWord != nil && AppDelegate.instance.bookmarkManager.isUrlBookmarked(url)
 

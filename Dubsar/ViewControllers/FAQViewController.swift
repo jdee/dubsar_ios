@@ -51,7 +51,7 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
-    func webViewDidFinishLoad(webView: UIWebView!) {
+    func webViewDidFinishLoad(webView: UIWebView) {
         if !ready {
             ready = true
 
@@ -66,12 +66,12 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
         loading = false
     }
 
-    func webViewDidStartLoad(webView: UIWebView!) {
+    func webViewDidStartLoad(webView: UIWebView) {
         loading = true
     }
 
-    func webView(webView: UIWebView!, didFailLoadWithError error: NSError!) {
-        let errorMessage = error.localizedDescription
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        let errorMessage = error?.localizedDescription ?? "<no error>"
         displayMessage(errorMessage)
         DMERROR("error loading FAQ: \(errorMessage)")
         UIApplication.sharedApplication().stopUsingNetwork()
@@ -92,7 +92,7 @@ class FAQViewController: BaseViewController, UIWebViewDelegate {
 
         DMTRACE("Presenting FAQ loading view with bg #\(bgCss), fg #\(fgCss)")
 
-        var html = String(format: "<html><body style=\"background-color: #\(bgCss);\"><h1 style=\"color: #\(fgCss); text-align: center; margin-top: 2ex; font: bold \(Int(font.pointSize))pt \(font.familyName)\">%@</h1></body></html>", text)
+        let html = String(format: "<html><body style=\"background-color: #\(bgCss);\"><h1 style=\"color: #\(fgCss); text-align: center; margin-top: 2ex; font: bold \(Int(font.pointSize))pt \(font.familyName)\">%@</h1></body></html>", text)
         faqWebView.loadHTMLString(html, baseURL: nil)
     }
 }

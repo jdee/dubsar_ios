@@ -51,7 +51,7 @@ class NewsViewController: BaseViewController, UIWebViewDelegate {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
-    func webViewDidFinishLoad(webView: UIWebView!) {
+    func webViewDidFinishLoad(webView: UIWebView) {
         if !ready {
             ready = true
 
@@ -66,12 +66,12 @@ class NewsViewController: BaseViewController, UIWebViewDelegate {
         loading = false
     }
 
-    func webViewDidStartLoad(webView: UIWebView!) {
+    func webViewDidStartLoad(webView: UIWebView) {
         loading = true
     }
 
-    func webView(webView: UIWebView!, didFailLoadWithError error: NSError!) {
-        let errorMessage = error.localizedDescription
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        let errorMessage = error?.localizedDescription ?? "<no error>"
         displayMessage(errorMessage)
         DMERROR("error loading news: \(errorMessage)")
         UIApplication.sharedApplication().stopUsingNetwork()
@@ -81,12 +81,12 @@ class NewsViewController: BaseViewController, UIWebViewDelegate {
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if navigationType == .LinkClicked {
             let application = UIApplication.sharedApplication()
-            if application.canOpenURL(request.URL) {
-                application.openURL(request.URL)
+            if application.canOpenURL(request.URL!) {
+                application.openURL(request.URL!)
             }
             // This is why I use dubsar:/// URLs, like file:/// URLs, without a host.
-            else if request.URL.scheme! == "twitter" && request.URL.host! == "user" && request.URL.query!.hasPrefix("id=") {
-                let webUrl = NSURL(string: "https://twitter.com/intent/follow?user_\(request.URL.query!)")
+            else if request.URL!.scheme == "twitter" && request.URL!.host! == "user" && request.URL!.query!.hasPrefix("id=") {
+                let webUrl = NSURL(string: "https://twitter.com/intent/follow?user_\(request.URL!.query!)")
                 application.openURL(webUrl!)
             }
             return false
@@ -108,7 +108,7 @@ class NewsViewController: BaseViewController, UIWebViewDelegate {
 
         DMTRACE("Presenting news loading view with bg #\(bgCss), fg #\(fgCss)")
 
-        var html = String(format: "<html><body style=\"background-color: #\(bgCss);\"><h1 style=\"color: #\(fgCss); text-align: center; margin-top: 2ex; font: bold \(Int(font.pointSize))pt \(font.familyName)\">%@</h1></body></html>", text)
+        let html = String(format: "<html><body style=\"background-color: #\(bgCss);\"><h1 style=\"color: #\(fgCss); text-align: center; margin-top: 2ex; font: bold \(Int(font.pointSize))pt \(font.familyName)\">%@</h1></body></html>", text)
         newsWebView.loadHTMLString(html, baseURL: nil)
     }
 }

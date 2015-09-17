@@ -37,7 +37,7 @@ class BookmarkView: UIView {
     init(frame: CGRect, bookmark: Bookmark!) {
         self.bookmark = bookmark
         button = UIButton(frame: CGRectMake(0, 0, frame.size.width-frame.size.height, frame.size.height))
-        button.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        button.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
 
         closeButton = CloseButton(frame: CGRectMake(frame.size.width-frame.size.height, 0, frame.size.height, frame.size.height))
         closeButton.autoresizingMask = .FlexibleLeftMargin
@@ -56,7 +56,7 @@ class BookmarkView: UIView {
         rebuild()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         bookmark = Bookmark()
         button = UIButton()
         closeButton = CloseButton()

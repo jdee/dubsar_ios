@@ -27,7 +27,7 @@ class PointerView : UIView {
     let withoutButton : Bool
     weak var viewController : SynsetViewController?
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         pointer = DubsarModelsPointer()
         button = NavButton()
         label = UILabel()
@@ -55,7 +55,7 @@ class PointerView : UIView {
         label.font = bodyFont
         label.textColor = AppConfiguration.foregroundColor
         label.frame = CGRectMake(0, 0, withoutButton ? bounds.size.width : bounds.size.width-buttonSize, bounds.size.height)
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        label.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(label)
 
@@ -77,7 +77,7 @@ class PointerView : UIView {
         button.frame = CGRectMake(label.bounds.size.width, 0, buttonSize, buttonSize)
 
         button.addTarget(self, action: "navigate:", forControlEvents: .TouchUpInside)
-        button.setTranslatesAutoresizingMaskIntoConstraints(false)
+        button.translatesAutoresizingMaskIntoConstraints = false
 
         constraint = NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
         addConstraint(constraint)
@@ -161,7 +161,7 @@ class SynsetPointerView: UIView {
         clipsToBounds = true
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         synset = DubsarModelsSynset()
         isPreview = true
         super.init(coder: aDecoder)
@@ -222,7 +222,7 @@ class SynsetPointerView: UIView {
             return s.pointerForRowAtIndexPath(indexPath)
         }
         else if synset.senses.count == 1 {
-            let firstSense = synset.senses.firstObject as DubsarModelsSense
+            let firstSense = synset.senses.firstObject as! DubsarModelsSense
             return firstSense.pointerForRowAtIndexPath(indexPath)
         }
         return synset.pointerForRowAtIndexPath(indexPath)
@@ -242,22 +242,22 @@ class SynsetPointerView: UIView {
         var sectionNumber: Int
         var finished = false
         for sectionNumber = nextSection; sectionNumber < Int(numberOfSections); ++sectionNumber {
-            let section = sections[sectionNumber] as DubsarModelsSection
+            let section = sections[sectionNumber] as! DubsarModelsSection
             if nextRow == -1 {
                 let title = section.header as NSString
                 let titleSize = title.sizeOfTextWithConstrainedSize(constrainedSize, font: titleFont)
                 if !layoutMode {
                     let titleLabel = UILabel(frame: CGRectMake(margin, y, constrainedSize.width, titleSize.height))
                     titleLabel.font = titleFont
-                    titleLabel.text = title
+                    titleLabel.text = title as String
                     titleLabel.lineBreakMode = .ByWordWrapping
                     titleLabel.numberOfLines = 0
                     titleLabel.textAlignment = .Center
                     titleLabel.textColor = AppConfiguration.foregroundColor
-                    titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+                    titleLabel.translatesAutoresizingMaskIntoConstraints = false
                     addSubview(titleLabel)
 
-                    let previousLabel: UIView? = labels.isEmpty ? nil : ((labels as NSArray).lastObject as UIView)
+                    let previousLabel: UIView? = labels.isEmpty ? nil : ((labels as NSArray).lastObject as! UIView)
 
                     labels.append(titleLabel)
 
@@ -308,16 +308,16 @@ class SynsetPointerView: UIView {
 
                 if !layoutMode {
                     let pointerView = PointerView(pointer: pointer, frame: CGRectMake(margin, y, constrainedSize.width, textSize.height), withoutButton: isPreview)
-                    pointerView.label.text = text
+                    pointerView.label.text = text as String
                     if !isPreview && pointer.targetType == "Sense" {
                         pointerView.backgroundColor = AppConfiguration.highlightColor
                     }
                     pointerView.viewController = viewController
-                    pointerView.setTranslatesAutoresizingMaskIntoConstraints(false)
+                    pointerView.translatesAutoresizingMaskIntoConstraints = false
 
                     addSubview(pointerView)
 
-                    let previousLabel: UIView = (labels as NSArray).lastObject as UIView
+                    let previousLabel: UIView = (labels as NSArray).lastObject as! UIView
                     labels.append(pointerView)
                     pointerView.button.refreshImages() // do this after addSubview(). Otherwise, we have no graphics context and can't generate an image.
 
@@ -361,7 +361,7 @@ class SynsetPointerView: UIView {
         //*
         let lastLabel = (labels as NSArray).lastObject as? UIView
         if lastLabel != nil {
-            var constraint = NSLayoutConstraint(item: lastLabel!, attribute: .Bottom, relatedBy: .LessThanOrEqual, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -margin)
+            let constraint = NSLayoutConstraint(item: lastLabel!, attribute: .Bottom, relatedBy: .LessThanOrEqual, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -margin)
             addConstraint(constraint)
             myConstraints.append(constraint)
         }
@@ -382,20 +382,20 @@ class SynsetPointerView: UIView {
         // in both cases, numberOfSections does an SQL query and builds the sections array
         if sense != nil {
             numberOfSections = sense!.numberOfSections
-            sections = sense!.sections
+            sections = sense!.sections as [AnyObject]
         }
         else if synset.senses.count == 1 {
-            let firstSense = synset.senses.firstObject as DubsarModelsSense
+            let firstSense = synset.senses.firstObject as! DubsarModelsSense
             numberOfSections = firstSense.numberOfSections
-            sections = firstSense.sections
+            sections = firstSense.sections as [AnyObject]
         }
         else {
             numberOfSections = synset.numberOfSections
-            sections = synset.sections
+            sections = synset.sections as [AnyObject]
         }
 
         totalRows = numberOfSections
-        for section in sections as [DubsarModelsSection] {
+        for section in sections as! [DubsarModelsSection] {
             totalRows += section.numRows
         }
         completedUpToY = 0

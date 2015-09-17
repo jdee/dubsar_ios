@@ -60,7 +60,7 @@ class Router: NSObject, DubsarModelsLoadDelegate {
         model.load()
     }
 
-    func newResultFound(results: NSArray!, model: DubsarModelsModel!) {
+    func newResultFound(results: [AnyObject]!, model: DubsarModelsModel!) {
         assert(routerAction == .UpdateAutocompleter)
         if let vc = viewController {
             vc.routeResponse(self)

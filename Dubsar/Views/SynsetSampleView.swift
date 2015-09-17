@@ -43,7 +43,7 @@ class SynsetSampleView: UIView {
         super.init(frame: frame)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         synset = DubsarModelsSynset()
         isPreview = true
         super.init(coder: aDecoder)
@@ -63,10 +63,10 @@ class SynsetSampleView: UIView {
 
         var samples = [AnyObject]()
         if synset.complete {
-            samples = synset.samples
+            samples = synset.samples as [AnyObject]
         }
         else if sense != nil && sense!.complete {
-            samples = sense!.samples
+            samples = sense!.samples as [AnyObject]
         }
 
         var y = SynsetSampleView.margin
@@ -81,7 +81,7 @@ class SynsetSampleView: UIView {
             backgroundColor = AppConfiguration.alternateHighlightColor
         }
 
-        for sample in samples as [NSString] {
+        for sample in samples as! [NSString] {
             y = addSample(sample, atY: y, background: UIColor.clearColor(), font: font)
             DMTRACE("Added \(sample) at \(y)")
         }
@@ -89,18 +89,18 @@ class SynsetSampleView: UIView {
         /*
         * Always include lexical info when displaying synsets with only one word.
         */
-        let verbFrames : NSArray? = sense != nil ? sense!.verbFrames : synset.senses.count == 1 ? (synset.senses.firstObject as DubsarModelsSense).verbFrames : nil
+        let verbFrames : NSArray? = sense != nil ? sense!.verbFrames : synset.senses.count == 1 ? (synset.senses.firstObject as! DubsarModelsSense).verbFrames : nil
         if verbFrames != nil && verbFrames!.count > 0 {
-            let frames = verbFrames as [AnyObject]
-            for verbFrame in frames as [NSString] {
+            let frames = verbFrames as! [AnyObject]
+            for verbFrame in frames as! [NSString] {
                 y = addSample(verbFrame, atY: y, background: isPreview ? UIColor.clearColor() : AppConfiguration.highlightColor, font: font)
                 DMTRACE("Added \(verbFrame) at \(y)")
             }
         }
 
         if !labels.isEmpty {
-            var lastLabel = labels[labels.count - 1]
-            var constraint = NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal, toItem: lastLabel, attribute: .Bottom, multiplier: 1.0, constant: SynsetSampleView.margin)
+            let lastLabel = labels[labels.count - 1]
+            let constraint = NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal, toItem: lastLabel, attribute: .Bottom, multiplier: 1.0, constant: SynsetSampleView.margin)
             addConstraint(constraint)
             myConstraints.append(constraint)
         }
@@ -131,10 +131,10 @@ class SynsetSampleView: UIView {
             label.font = font
             label.lineBreakMode = .ByWordWrapping
             label.numberOfLines = 0
-            label.text = sample
+            label.text = sample as String
             label.textColor = AppConfiguration.foregroundColor
             label.backgroundColor = UIColor.clearColor()
-            label.setTranslatesAutoresizingMaskIntoConstraints(false)
+            label.translatesAutoresizingMaskIntoConstraints = false
             label.textAlignment = .Left
             label.layer.cornerRadius = 0.5 * margin
             label.layer.backgroundColor = background.CGColor

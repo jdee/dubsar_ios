@@ -53,8 +53,7 @@ extension DubsarModelsWord {
 
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
 
-        let optionalInflections: [AnyObject]? = inflections
-        if optionalInflections != nil && inflections.count > 0 {
+        if inflections != nil && inflections.count > 0 {
             let inflectionSize = inflectionSizeWithConstrainedSize(constraint, font: bodyFont)
             size.height += inflectionSize.height + WordTableViewCell.margin
         }
@@ -91,9 +90,6 @@ extension DubsarModelsWord {
         let margin = WordTableViewCell.margin
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
         let lineHeight = ("Qp" as NSString).sizeWithAttributes([NSFontAttributeName: bodyFont]).height + margin
-
-        let width = ("0123456789" as NSString).sizeWithAttributes([NSFontAttributeName: bodyFont]).width
-        let numPerLine: CGFloat = 10 * (constraint.width - 2 * margin)/width
 
         // estimate the number of lines
         let headerLines: CGFloat = 3

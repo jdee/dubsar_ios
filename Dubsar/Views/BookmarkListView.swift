@@ -42,7 +42,7 @@ class BookmarkListView: UIView {
         let margin = BookmarkListView.margin
 
         scroller = UIScrollView(frame: CGRectMake(0, 0, frame.size.width, frame.size.height))
-        scroller.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        scroller.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
 
         backgroundView = UIView(frame: CGRectMake(0, 0, frame.size.width, frame.size.height))
         backgroundView.autoresizingMask = .FlexibleWidth
@@ -69,7 +69,7 @@ class BookmarkListView: UIView {
         backgroundView.addSubview(label)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         scroller = UIScrollView()
         backgroundView = UIView()
         label = UILabel()
@@ -133,6 +133,6 @@ class BookmarkListView: UIView {
     }
 
     func bookmarkSelected(bookmark: Bookmark!) {
-        AppDelegate.instance.application(UIApplication.sharedApplication(), openURL: bookmark.url, sourceApplication: nil, annotation: nil)
+        AppDelegate.instance.application(UIApplication.sharedApplication(), openURL: bookmark.url, sourceApplication: nil, annotation: bookmark)
     }
 }

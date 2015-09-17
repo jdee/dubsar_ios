@@ -133,7 +133,6 @@ extension DubsarModelsSynset {
             return numHeaderLines * lineHeight + maxHeightOfAdditions
         }
 
-        let numberOfSections = self.numberOfSections
         if maxHeightOfAdditions > 0 {
             return numHeaderLines * lineHeight + maxHeightOfAdditions
         }

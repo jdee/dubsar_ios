@@ -143,14 +143,14 @@ class BaseViewController: UIViewController {
 
                     if routerAction == RouterAction.UpdateViewWithDependency {
                         if vcIdentifier == WordViewController.identifier {
-                            let sense = model as DubsarModelsSense
+                            let sense = model as! DubsarModelsSense
                             let word: DubsarModelsWord? = sense.word
                             assert(word != nil)
                             router = Router(viewController: vc, model: word)
                             router.dependency = sense
                         }
                         else if vcIdentifier == SynsetViewController.identifier {
-                            let sense = model as DubsarModelsSense
+                            let sense = model as! DubsarModelsSense
                             let synset: DubsarModelsSynset? = sense.synset
                             assert(synset != nil)
                             DMTRACE("Displaying synset view for synset \(synset!._id), sense \(sense._id)")
@@ -190,7 +190,7 @@ class BaseViewController: UIViewController {
         if !AppDelegate.instance.databaseManager.downloadInProgress {
             DMTRACE("No download in progress")
             // meh
-            let rightBarButtonItems: [UIBarButtonItem]? = navigationItem.rightBarButtonItems as? [UIBarButtonItem]
+            let rightBarButtonItems: [UIBarButtonItem]? = navigationItem.rightBarButtonItems
             if let items = rightBarButtonItems {
                 var newItems = [UIBarButtonItem]()
                 for item in items {
@@ -212,7 +212,7 @@ class BaseViewController: UIViewController {
 
         let myDownloadButton = DownloadBarButtonItem(target: self, action: "viewDownload:")
         if rightBarButtonItem != nil && (navigationItem.rightBarButtonItem as? DownloadBarButtonItem) == nil {
-            var items = navigationItem.rightBarButtonItems as [UIBarButtonItem]
+            var items = navigationItem.rightBarButtonItems!
             items.append(myDownloadButton)
 
             navigationItem.rightBarButtonItems = items

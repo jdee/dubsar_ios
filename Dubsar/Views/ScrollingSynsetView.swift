@@ -26,7 +26,7 @@ class ScrollingSynsetView: UIScrollView {
     var sense : DubsarModelsSense? {
     didSet {
         if sense == nil && synset.senses.count == 1 {
-            let firstSense = synset.senses.firstObject as DubsarModelsSense
+            let firstSense = synset.senses.firstObject as! DubsarModelsSense
             headerView.sense = firstSense
             sampleView.sense = firstSense
             pointerView.sense = firstSense
@@ -64,9 +64,9 @@ class ScrollingSynsetView: UIScrollView {
         super.init(frame: frame)
 
         //*
-        headerView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        sampleView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        pointerView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        sampleView.translatesAutoresizingMaskIntoConstraints = false
+        pointerView.translatesAutoresizingMaskIntoConstraints = false
         // */
 
         bounces = false
@@ -111,7 +111,7 @@ class ScrollingSynsetView: UIScrollView {
         // */
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         synset = DubsarModelsSynset()
         headerView = SynsetHeaderView(synset: synset, frame: CGRectZero)
         sampleView = SynsetSampleView(synset: synset, frame: CGRectZero, preview: true)
@@ -129,7 +129,7 @@ class ScrollingSynsetView: UIScrollView {
             if hasReset {
                 hasReset = false
 
-                let firstSense = synset.senses.firstObject as DubsarModelsSense
+                let firstSense = synset.senses.firstObject as! DubsarModelsSense
                 hasPointers = (sense != nil && sense!.complete && sense!.numberOfSections > 0) || (sense == nil && firstSense.complete && firstSense.numberOfSections > 0) || synset.numberOfSections > 0
 
                 // these automatically adjust their heights in layoutSubviews()

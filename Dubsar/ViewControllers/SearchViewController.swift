@@ -53,7 +53,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
 
     @IBAction
     func pageChanged(sender: UIPageControl) {
-        search!.currentPage = sender.currentPage + 1
+        search!.currentPage = UInt(sender.currentPage) + 1
         search!.complete = false
         self.router = Router(viewController: self, model: search)
         self.router!.routerAction = .UpdateView
@@ -124,7 +124,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
 
         if search!.results.count == 0 {
             let identifier = "no-results"
-            var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? UITableViewCell
+            var cell = tableView.dequeueReusableCellWithIdentifier(identifier)
             if cell == nil {
                 cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
                 cell!.selectionStyle = .None
@@ -139,7 +139,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
 
         var cell: UITableViewCell?
 
-        let result = search!.results[row] as DubsarModelsModel
+        let result = search!.results[row] as! DubsarModelsModel
 
         if let word = result as? DubsarModelsWord {
             var wordCell: WordTableViewCell?
@@ -247,7 +247,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
 
         let row = indexPath.indexAtPosition(1)
 
-        let result = search!.results[row] as DubsarModelsModel
+        let result = search!.results[row] as! DubsarModelsModel
 
         if let word = result as? DubsarModelsWord {
             pushViewControllerWithIdentifier(WordViewController.identifier, model: word, routerAction: .UpdateView)
@@ -265,7 +265,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
         let row = indexPath.indexAtPosition(1)
         let selectedRow = selectedIndexPath.indexAtPosition(1)
 
-        let result = search!.results[row] as DubsarModelsModel
+        let result = search!.results[row] as! DubsarModelsModel
 
         var height: CGFloat = 0.0
         if let word = result as? DubsarModelsWord {
@@ -291,7 +291,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
         let row = indexPath.indexAtPosition(1)
         let selectedRow = selectedIndexPath.indexAtPosition(1)
 
-        let result = search!.results[row] as DubsarModelsModel
+        let result = search!.results[row] as! DubsarModelsModel
 
         var height: CGFloat = 0.0
         if let word = result as? DubsarModelsWord {
@@ -312,7 +312,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
             return
         }
 
-        let result = search!.results[row] as DubsarModelsModel
+        let result = search!.results[row] as! DubsarModelsModel
         if result.complete {
             return
         }
@@ -356,7 +356,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
 
                 assert(search != nil && search!.complete && search!.results.count > 0)
 
-                let firstSense = word.senses.firstObject as DubsarModelsSense
+                let firstSense = word.senses.firstObject as! DubsarModelsSense
                 if !firstSense.complete {
                     self.router = Router(viewController: self, model: firstSense)
                     self.router!.routerAction = .UpdateRowAtIndexPath
@@ -371,7 +371,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
 
                 assert(search != nil && search!.complete && search!.results.count > 0)
 
-                let firstSense = synset.senses.firstObject as DubsarModelsSense
+                let firstSense = synset.senses.firstObject as! DubsarModelsSense
                 if !firstSense.complete {
                     self.router = Router(viewController: self, model: firstSense)
                     self.router!.routerAction = .UpdateRowAtIndexPath
@@ -395,7 +395,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
         searchBar.selectedScopeButtonIndex = search!.scope == .Words ? 0 : 1
 
         pageControl.hidden = search!.totalPages <= 1
-        pageControl.currentPage = search!.currentPage - 1
+        pageControl.currentPage = Int(search!.currentPage) - 1
         pageControl.numberOfPages = Int(search!.totalPages)
         updateTitle()
 
@@ -433,7 +433,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
         resultTableView.reloadData()
     }
 
-    override func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
+    override func searchBar(theSearchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         // disallow for wild cards (words only)
         if let s = search {
             if s.isWildCard {
@@ -448,7 +448,7 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
 
             let enumString = scope == .Words ? "words" : "synsets"
             DMDEBUG("Changed search scope. Selected scope index \(selectedScope). Scope: \(enumString)")
-            if !(theSearchBar.text as String).isEmpty {
+            if !(theSearchBar.text ?? "").isEmpty {
 
                 if searchBarEditing {
                     triggerAutocompletion()

@@ -107,7 +107,7 @@ class ThemeViewController: BaseViewController {
     private func selectedFontIndex() -> Int {
         let fontSetting = AppConfiguration.fontSetting
         var selected = -1
-        for (index, title) in enumerate(fonts) {
+        for (index, title) in fonts.enumerate() {
             if title == fontSetting {
                 selected = index
                 break

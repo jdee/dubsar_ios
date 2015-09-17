@@ -49,7 +49,7 @@ class AutocompleterView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        autoresizingMask = .FlexibleHeight | .FlexibleWidth | .FlexibleBottomMargin
+        autoresizingMask = [.FlexibleHeight, .FlexibleWidth, .FlexibleBottomMargin]
 
         layer.shadowOffset = CGSizeMake(0, 3)
         layer.shadowOpacity = 1.0
@@ -57,7 +57,7 @@ class AutocompleterView: UIView {
         clipsToBounds = false
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -97,11 +97,11 @@ class AutocompleterView: UIView {
                     y += textSize.height + 3*margin
                 }
 
-                for result in results as [NSString] {
+                for result in results as! [NSString] {
                     let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
                     let textSize = result.sizeWithAttributes([NSFontAttributeName: font])
                     let button = UIButton(frame: CGRectMake(margin, y, bounds.size.width - 2*margin, textSize.height + 2*margin))
-                    button.setTitle(result, forState: .Normal)
+                    button.setTitle(result as String, forState: .Normal)
                     button.setTitleColor(AppConfiguration.foregroundColor, forState: .Normal)
                     button.titleLabel!.font = font
                     button.addTarget(self, action: "resultSelected:", forControlEvents: .TouchUpInside)

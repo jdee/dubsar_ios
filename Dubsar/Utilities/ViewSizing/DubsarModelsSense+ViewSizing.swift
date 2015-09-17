@@ -37,7 +37,6 @@ extension DubsarModelsSense {
 
         let bodyFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleBody)
         let caption1Font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleCaption1)
-        let subheadlineFont = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleSubheadline)
 
         let glossSize = glossSizeWithConstrainedSize(constraint, font: bodyFont)
 
@@ -128,7 +127,6 @@ extension DubsarModelsSense {
             return numHeaderLines * lineHeight + maxHeightOfAdditions
         }
 
-        let numberOfSections = self.numberOfSections
         if maxHeightOfAdditions > 0 {
             return numHeaderLines * lineHeight + maxHeightOfAdditions
         }

@@ -71,7 +71,7 @@ class SynsetViewController: BaseViewController {
             DMTRACE("Constructing new scroller for synset ID \(theSynset!._id), size: \(view.bounds.size.width) x \(view.bounds.size.height)")
             scroller = ScrollingSynsetView(synset: theSynset, frame: view.bounds)
             view.addSubview(scroller!)
-            scroller!.setTranslatesAutoresizingMaskIntoConstraints(false)
+            scroller!.translatesAutoresizingMaskIntoConstraints = false
 
             var constraint = NSLayoutConstraint(item: scroller!, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 0.0)
             view.addConstraint(constraint)
@@ -104,13 +104,6 @@ class SynsetViewController: BaseViewController {
     }
 
     func synsetHeaderView(synsetHeaderView: SynsetHeaderView!, selectedSense sense: DubsarModelsSense?) {
-        if let s = sense {
-            // DMLOG("Selected synonym ID %d (%@)", s._id, s.name)
-        }
-        else {
-            // DMLOG("No synonym selected")
-        }
-
         self.sense = sense
         scroller!.sense = sense // maybe this can be done inside the scroller
 
@@ -150,11 +143,9 @@ class SynsetViewController: BaseViewController {
 
         let senses = theSynset!.senses as [AnyObject]
 
-        var index = senses.count
-        for (j, s) in enumerate(senses as [DubsarModelsSense]) {
+        for s in senses as! [DubsarModelsSense] {
             if s._id == sense!._id {
                 sense = s
-                index = j
                 break
             }
         }

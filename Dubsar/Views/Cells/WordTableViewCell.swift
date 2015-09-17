@@ -56,7 +56,7 @@ class WordTableViewCell: UITableViewCell {
         selectionStyle = .None
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         isPreview = true
         super.init(coder: aDecoder)
     }
@@ -97,7 +97,7 @@ class WordTableViewCell: UITableViewCell {
 
         view = UIView(frame: bounds)
         view!.backgroundColor = selected ? AppConfiguration.highlightColor : cellBackgroundColor
-        view!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view!.translatesAutoresizingMaskIntoConstraints = false
 
         layer.borderColor = UIColor.redColor().CGColor
         // layer.borderWidth = 1
@@ -108,8 +108,8 @@ class WordTableViewCell: UITableViewCell {
 
         contentView.frame = bounds
         contentView.addSubview(view!)
-        contentView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        contentView.removeConstraints(contentView.constraints())
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.removeConstraints(contentView.constraints)
 
         var constraint: NSLayoutConstraint
         //* Usually an autoresizing mask works, but this fixes a problem that the autoresizingMask doesn't.
@@ -136,9 +136,9 @@ class WordTableViewCell: UITableViewCell {
         nameAndPosLabel.lineBreakMode = .ByWordWrapping
         nameAndPosLabel.numberOfLines = 0
         nameAndPosLabel.font = headlineFont
-        nameAndPosLabel.text = nameAndPos
+        nameAndPosLabel.text = nameAndPos as String
         nameAndPosLabel.textColor = AppConfiguration.foregroundColor
-        nameAndPosLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        nameAndPosLabel.translatesAutoresizingMaskIntoConstraints = false
         nameAndPosLabel.layer.borderColor = UIColor.orangeColor().CGColor
         // nameAndPosLabel.layer.borderWidth = 1
         view!.addSubview(nameAndPosLabel)
@@ -156,11 +156,11 @@ class WordTableViewCell: UITableViewCell {
             inflectionLabel!.lineBreakMode = .ByWordWrapping
             inflectionLabel!.numberOfLines = 0
             inflectionLabel!.font = italicFont
-            inflectionLabel!.text = inflectionText
+            inflectionLabel!.text = inflectionText as String
             inflectionLabel!.textColor = AppConfiguration.foregroundColor
             inflectionLabel!.layer.borderColor = UIColor.yellowColor().CGColor
             // inflectionLabel.layer.borderWidth = 1
-            inflectionLabel!.setTranslatesAutoresizingMaskIntoConstraints(false)
+            inflectionLabel!.translatesAutoresizingMaskIntoConstraints = false
             view!.addSubview(inflectionLabel!)
 
             constraint = NSLayoutConstraint(item: inflectionLabel!, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - (isPreview ? accessorySize : 0))
@@ -181,11 +181,11 @@ class WordTableViewCell: UITableViewCell {
             freqCntLabel.lineBreakMode = .ByWordWrapping
             freqCntLabel.numberOfLines = 0
             freqCntLabel.font = bodyFont
-            freqCntLabel.text = freqCntText
+            freqCntLabel.text = freqCntText as String
             freqCntLabel.textColor = AppConfiguration.foregroundColor
             freqCntLabel.layer.borderColor = UIColor.purpleColor().CGColor
             // freqCntLabel.layer.borderWidth = 1
-            freqCntLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+            freqCntLabel.translatesAutoresizingMaskIntoConstraints = false
             view!.addSubview(freqCntLabel)
 
             constraint = NSLayoutConstraint(item: freqCntLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: -margin - (isPreview ? accessorySize : 0))

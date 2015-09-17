@@ -40,7 +40,7 @@ class SettingNavigationTableViewCell: UITableViewCell {
         contentView.addSubview(spinner)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         spinner = UIActivityIndicatorView()
         super.init(coder: aDecoder)
     }

@@ -22,7 +22,15 @@ import UIKit
 class BookmarkManager: NSObject {
 
     var bookmarks = [Bookmark]()
-    lazy var aesKey = AESKey(identifier: "\(NSBundle.mainBundle().bundleIdentifier).bookmarks")
+
+    lazy var aesKey = AESKey(identifier: bookmarkKeyIdentifier)
+
+    class var bookmarkKeyIdentifier: String {
+        get {
+            let bundleIdentifier = NSBundle.mainBundle().bundleIdentifier ?? "com.dubsar-dictionary.Dubsar"
+            return "\(bundleIdentifier).bookmarks"
+        }
+    }
 
     func toggleBookmark(bookmark: Bookmark!) -> Bool {
         // do we have this bookmark?
@@ -149,8 +157,8 @@ class BookmarkManager: NSObject {
             else {
                 DMTRACE("Decrypting base64 URLS: \(raw!)")
 
-                let cipherText = NSData.base64DataFromString(raw)
-                var data = aesKey.decrypt(cipherText)
+                let cipherText = NSData.base64DataFromString(raw as! String)
+                let data = aesKey.decrypt(cipherText)
                 if data == nil {
                     // the setting might have changed. if this is successfully parsed as plain text, it will
                     // be encrypted and written back.
@@ -185,20 +193,20 @@ class BookmarkManager: NSObject {
         urls = string.componentsSeparatedByString(" ")
 
         // Check to see if they're all dubsar:/// URLS.
-        if !validateUrls(urls as [String]) {
+        if !validateUrls(urls as! [String]) {
             var valid = false
             if !secureBookmarksSetting {
                 /*
                  * The setting might have changed. This might be encrypted.
                  */
-                let cipherText = NSData.base64DataFromString(raw)
+                let cipherText = NSData.base64DataFromString(raw as! String)
                 let data = aesKey.decrypt(cipherText)
 
                 if data != nil {
                     string = NSString(data: data, encoding: NSUTF8StringEncoding)
                     urls = string.componentsSeparatedByString(" ")
 
-                    valid = validateUrls(urls as [String])
+                    valid = validateUrls(urls as! [String])
                     secureBookmarksSetting = valid
                 }
             }
@@ -223,7 +231,7 @@ class BookmarkManager: NSObject {
 
         // Assume that we straightened this out above and don't need all the second guessing here.
         if secureBookmarksSetting {
-            let cipherText = NSData.base64DataFromString(raw)
+            let cipherText = NSData.base64DataFromString(raw as! String)
             let data = aesKey.decrypt(cipherText)
             string = NSString(data: data, encoding: NSUTF8StringEncoding)
         }
@@ -235,15 +243,15 @@ class BookmarkManager: NSObject {
 
         labels = string.componentsSeparatedByString("\u{1f}")
 
-        for (index, url) in enumerate(urls as [String]) {
+        for (index, url) in (urls as! [String]).enumerate() {
             if index >= labels.count {
                 DMDEBUG("No more labels. Returning with \(bookmarks.count) bookmarks")
                 saveBookmarks()
                 return
             }
 
-            let label = labels[index] as NSString
-            if (label as String).isEmpty || url.isEmpty {
+            let label = labels[index] as! String
+            if label.isEmpty || url.isEmpty {
                 continue
             }
 
@@ -262,7 +270,7 @@ class BookmarkManager: NSObject {
     private func validateUrls(urls: [String]) -> Bool {
         for url in urls {
             let nsurl = NSURL(string: url)!
-            if nsurl.scheme == nil || nsurl.scheme! != "dubsar" {
+            if nsurl.scheme.isEmpty || nsurl.scheme != "dubsar" {
                 return false
             }
         }

@@ -34,7 +34,7 @@ class GradientView: UIView {
         super.init(frame: frame)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         firstColor = UIColor.clearColor()
         secondColor = UIColor.clearColor()
         startPoint = CGPointZero

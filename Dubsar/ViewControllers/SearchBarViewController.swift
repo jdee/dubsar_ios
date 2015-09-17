@@ -45,7 +45,7 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
         // are still showing, it ends up in the wrong place. This hack is the most straightforward way of dealing with it. Maybe a constraint would do the job.
         bookmarkListView = BookmarkListView(frame: CGRectMake(0, 44, view.bounds.size.width, view.bounds.size.height-44))
         bookmarkListView.hidden = true
-        bookmarkListView.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        bookmarkListView.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         view.addSubview(bookmarkListView)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShowing:", name: UIKeyboardDidShowNotification, object: nil)
@@ -76,26 +76,26 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
         }
     }
 
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
 
         bookmarkListView.hidden = true
     }
 
     // MARK: UISearchBarDelegate
-    func searchBar(theSearchBar: UISearchBar!, selectedScopeButtonIndexDidChange selectedScope: Int) {
+    func searchBar(theSearchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         if let scope = DubsarModelsSearchScope(rawValue: selectedScope) {
             searchScope = scope
 
             let enumString = scope == .Words ? "words" : "synsets"
             DMDEBUG("Changed search scope. Selected scope index \(selectedScope). Scope: \(enumString)")
-            if !(theSearchBar.text as String).isEmpty {
+            if !(theSearchBar.text ?? "" as String).isEmpty {
                 triggerAutocompletion()
             }
         }
     }
 
-    func searchBarShouldBeginEditing(searchBar: UISearchBar!) -> Bool {
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
         searchBar.showsCancelButton = true
 
         // Might want to move these into the MainViewController. If on the search view, scope bar always showing, shadow always present
@@ -108,7 +108,7 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
         return true
     }
 
-    func searchBarBookmarkButtonClicked(searchBar: UISearchBar!) {
+    func searchBarBookmarkButtonClicked(searchBar: UISearchBar) {
         DMTRACE("Bookmark button tapped")
         if searchBarEditing {
             resetSearch()
@@ -120,18 +120,18 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
         }
     }
 
-    func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         resetSearch()
     }
 
-    func searchBarSearchButtonClicked(searchBar: UISearchBar!) {
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         let search = DubsarModelsSearch(term: searchBar.text, matchCase: false, scope: searchScope)
         resetSearch()
 
         newSearch(search)
     }
 
-    func searchBar(searchBar: UISearchBar!, textDidChange searchText: String!) {
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         autocompleter?.cancel(true)
 
         if !searchBarEditing || searchText.isEmpty {
@@ -147,7 +147,7 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
 
     func autocompleterFinished(theAutocompleter: DubsarModelsAutocompleter!, withError error: String!) {
         // DMLOG("Autocompleter finished for term %@, seq. %d, result count %d", theAutocompleter.term, theAutocompleter.seqNum, theAutocompleter.results.count)
-        if !searchBarEditing || searchBar.text.isEmpty {
+        if !searchBarEditing || searchBar.text!.isEmpty {
             return
         }
 
@@ -164,7 +164,7 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
         switch (router.routerAction) {
         case .UpdateAutocompleter:
             DMTRACE(".UpdateAutocompleter")
-            let ac = router.model as DubsarModelsAutocompleter
+            let ac = router.model as! DubsarModelsAutocompleter
             if ac.seqNum >= lastSequence {
                 autocompleterFinished(ac, withError: nil)
             }
@@ -178,7 +178,7 @@ class SearchBarViewController: BaseViewController, UISearchBarDelegate, Autocomp
         super.adjustLayout()
 
         // rerun the autocompletion request with the new max
-        searchBar(searchBar, textDidChange: searchBar.text)
+        searchBar(searchBar, textDidChange: searchBar.text ?? "")
 
         searchBar.barStyle = AppConfiguration.barStyle
         searchBar.tintColor = AppConfiguration.foregroundColor

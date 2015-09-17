@@ -35,7 +35,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
     var retryButton: UIButton
     var gradientView: GradientView
 
-    override init() {
+    init() {
         downloadLabel = UILabel(frame: CGRectZero)
         downloadProgress = UIProgressView(progressViewStyle: .Bar)
         unzipLabel = UILabel(frame: CGRectZero)
@@ -48,7 +48,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
 
         selectionStyle = .None
 
-        gradientView.autoresizingMask = .FlexibleHeight | .FlexibleWidth | .FlexibleBottomMargin | .FlexibleRightMargin
+        gradientView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth, .FlexibleBottomMargin, .FlexibleRightMargin]
 
         downloadLabel.text = "Download: requesting..."
         downloadLabel.lineBreakMode = .ByWordWrapping
@@ -71,7 +71,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
         contentView.addSubview(retryButton)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         downloadLabel = UILabel()
         downloadProgress = UIProgressView()
         unzipLabel = UILabel()
@@ -123,7 +123,7 @@ class DownloadProgressTableViewCell: UITableViewCell {
         else {
             cancelTitle = "Close"
         }
-        cancelButton.setTitle(cancelTitle, forState: .Normal)
+        cancelButton.setTitle(cancelTitle as String, forState: .Normal)
 
         let retryShowing = !AppDelegate.instance.databaseManager.downloadInProgress && AppDelegate.instance.databaseManager.errorMessage != nil
         var cancelSize = cancelTitle.sizeWithAttributes([NSFontAttributeName: font])

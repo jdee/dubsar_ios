@@ -34,7 +34,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         super.init(sense: sense, frame: frame, identifier: identifier)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         insertHeightLimit = 0
         super.init(coder: aDecoder)
     }
@@ -58,13 +58,13 @@ class OpenSenseTableViewCell: SenseTableViewCell {
             return
         }
 
-        let lastSubview = (view!.subviews as NSArray).lastObject as UIView
+        let lastSubview = (view!.subviews as NSArray).lastObject as! UIView
 
         let accessoryWidth = SenseTableViewCell.accessoryWidth
 
         let sampleView = SynsetSampleView(synset: synset != nil ? synset : sense.synset, frame: CGRectMake(0, y, bounds.size.width - accessoryWidth, UIScreen.mainScreen().bounds.size.height), preview: true)
         sampleView.sense = sense
-        sampleView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        sampleView.translatesAutoresizingMaskIntoConstraints = false
         view!.addSubview(sampleView)
         sampleView.layoutSubviews()
 
@@ -115,7 +115,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         pointerView.scrollViewTop = 0
         pointerView.scrollViewBottom = available
         pointerView.backgroundColor = UIColor.clearColor()
-        pointerView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        pointerView.translatesAutoresizingMaskIntoConstraints = false
         pointerView.layer.borderColor = UIColor.yellowColor().CGColor
         pointerView.layer.borderWidth = 0
         view!.addSubview(pointerView)
@@ -159,10 +159,10 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         constraint = NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
         contentView.removeConstraint(constraint)
 
-        contentView.removeConstraints(contentView.constraints())
+        contentView.removeConstraints(contentView.constraints)
 
         view!.removeFromSuperview()
-        view!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view!.translatesAutoresizingMaskIntoConstraints = false
         view!.clipsToBounds = true
         return view
     }
@@ -183,7 +183,7 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         let gradientView = GradientView(frame: CGRectMake(0, aView.bounds.size.height - gradientHeight, aView.bounds.width, gradientHeight), firstColor: topColor, secondColor: bottomColor, startPoint: CGPointMake(0, 0), endPoint: CGPointMake(0, gradientHeight))
         gradientView.opaque = false
         gradientView.alpha = 0.333
-        gradientView.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
+        gradientView.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
 
         DMTRACE("Added gradient at \(gradientView.frame.origin.y)")
         aView.addSubview(gradientView)
