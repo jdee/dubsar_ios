@@ -69,6 +69,12 @@
     return [[self alloc]initWithId:theId nameAndPos:nameAndPos];
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    return self;
+}
+
 -(instancetype)initWithId:(NSUInteger)theId name:(NSString *)theName synset:(DubsarModelsSynset *)theSynset
 {
     self = [super init];

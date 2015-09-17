@@ -54,6 +54,12 @@
     return [[self alloc]initWithId:theId gloss:theGloss partOfSpeech:thePartOfSpeech];
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    return self;
+}
+
 - (instancetype)initWithId:(NSUInteger)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
 {
     self = [super init];

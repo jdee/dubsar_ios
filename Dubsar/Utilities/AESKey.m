@@ -48,6 +48,12 @@ enum {
     return [[self alloc] initWithIdentifier:identifier];
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    return self;
+}
+
 - (instancetype)initWithIdentifier:(NSString *)identifier
 {
     self = [super init];

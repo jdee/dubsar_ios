@@ -34,6 +34,7 @@
 
 + (instancetype)autocompleterWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase scope:(DubsarModelsSearchScope)scope;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithTerm:(NSString*)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase scope:(DubsarModelsSearchScope)scope NS_DESIGNATED_INITIALIZER;
 
 

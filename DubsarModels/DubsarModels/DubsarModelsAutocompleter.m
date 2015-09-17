@@ -45,6 +45,12 @@
     return [[self alloc]initWithTerm:theTerm seqNum:_seqNum++ matchCase:mustMatchCase scope:scope];
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    return self;
+}
+
 - (instancetype)initWithTerm:(NSString *)theTerm seqNum:(NSInteger)theSeqNum matchCase:(BOOL)mustMatchCase scope:(DubsarModelsSearchScope)scope
 {
     self = [super init];

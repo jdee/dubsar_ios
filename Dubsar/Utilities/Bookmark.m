@@ -21,6 +21,12 @@
 
 @implementation Bookmark
 
+- (instancetype)init
+{
+    self = [super init];
+    return self;
+}
+
 - (instancetype)initWithUrl:(NSURL *)url
 {
     self = [super init];

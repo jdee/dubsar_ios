@@ -33,6 +33,7 @@
 
 +(instancetype)wordWithId:(NSUInteger)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
 +(instancetype)wordWithId:(NSUInteger)theId name:(NSString*)theName posString:(NSString*)posString;
+-(instancetype)init NS_DESIGNATED_INITIALIZER;
 -(instancetype)initWithId:(NSUInteger)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
 -(instancetype)initWithId:(NSUInteger)theId name:(NSString*)theName posString:(NSString*)posString NS_DESIGNATED_INITIALIZER;
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *pos;

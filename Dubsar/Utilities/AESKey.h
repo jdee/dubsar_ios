@@ -25,6 +25,7 @@
 
 + (instancetype)keyWithIdentifier:(NSString*)identifier;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithIdentifier:(NSString*)identifier NS_DESIGNATED_INITIALIZER;
 
 - (NSData*)encrypt:(NSData*)clearText;

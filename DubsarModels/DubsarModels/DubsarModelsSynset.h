@@ -41,6 +41,7 @@
 
 +(instancetype)synsetWithId:(NSUInteger)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
 +(instancetype)synsetWithId:(NSUInteger)theId gloss:(NSString*)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech;
+-(instancetype)init NS_DESIGNATED_INITIALIZER;
 -(instancetype)initWithId:(NSUInteger)theId partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
 -(instancetype)initWithId:(NSUInteger)theId gloss:(NSString*)theGloss partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
 -(void)parseData;

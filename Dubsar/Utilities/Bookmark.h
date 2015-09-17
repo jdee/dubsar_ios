@@ -26,6 +26,7 @@
 @property (nonatomic) NSURL* url;
 @property (nonatomic) NSString* label;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithUrl:(NSURL*)url NS_DESIGNATED_INITIALIZER;
 
 @end

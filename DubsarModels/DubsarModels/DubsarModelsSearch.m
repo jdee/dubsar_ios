@@ -58,6 +58,12 @@ static int _seqNum = 0;
     return [[self alloc]initWithWildcard:globExpression page:page title:theTitle seqNum:_seqNum++ scope:scope];
 }
 
+-(instancetype)init
+{
+    self = [super init];
+    return self;
+}
+
 -(instancetype)initWithTerm:(NSString *)theTerm matchCase:(BOOL)mustMatchCase seqNum:(int)theSeqNum scope:(DubsarModelsSearchScope)scope
 {
     DMLOG(@"constructing search for \"%@\"", theTerm);

@@ -55,6 +55,8 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
 
 @property bool preview;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+
 +(NSString*)incrementString:(NSString*)string;
 +(BOOL)canRetryError:(NSError*)error;
 

@@ -46,6 +46,12 @@
     return [[self alloc] initWithId:theId name:theName posString:posString];
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    return self;
+}
+
 -(instancetype)initWithId:(NSUInteger)theId name:(NSString *)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech
 {
     self = [super init];

@@ -51,6 +51,7 @@
 - (instancetype)initWithTerm:(NSString*)theTerm matchCase:(BOOL)mustMatchCase page:(int)page seqNum:(int)theSeqNum scope:(DubsarModelsSearchScope)scope NS_DESIGNATED_INITIALIZER;
 + (instancetype)searchWithWildcard:(NSString*)globExpression page:(int)page title:(NSString*)theTitle scope:(DubsarModelsSearchScope)scope;
 - (instancetype)initWithWildcard:(NSString*)globExpression page:(int)page title:(NSString*)theTitle seqNum:(int)theSeqNum scope:(DubsarModelsSearchScope)scope NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 
 - (DubsarModelsSearch*)newSearchForPage:(int)page;
 

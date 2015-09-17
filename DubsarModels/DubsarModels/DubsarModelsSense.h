@@ -60,6 +60,7 @@
 +(instancetype)senseWithId:(NSUInteger)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(DubsarModelsWord*)theWord;
 +(instancetype)senseWithId:(NSUInteger)theId nameAndPos:(NSString*)nameAndPos;
 
+-(instancetype)init NS_DESIGNATED_INITIALIZER;
 -(instancetype)initWithId:(NSUInteger)theId name:(NSString*)theName synset:(DubsarModelsSynset*)theSynset NS_DESIGNATED_INITIALIZER;
 -(instancetype)initWithId:(NSUInteger)theId name:(NSString*)theName partOfSpeech:(DubsarModelsPartOfSpeech)thePartOfSpeech NS_DESIGNATED_INITIALIZER;
 -(instancetype)initWithId:(NSUInteger)theId gloss:(NSString*)theGloss synonyms:(NSArray*)theSynonyms word:(DubsarModelsWord*)theWord NS_DESIGNATED_INITIALIZER;
