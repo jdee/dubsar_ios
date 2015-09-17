@@ -36,9 +36,9 @@
     [[self instance] dump:data level:level file:file line:lineNumber];
 }
 
-+ (void)logLevel:(DubsarModelsLogLevel)level message:(NSString *)message
++ (void)logFile:(const char *)file line:(unsigned long)line level:(DubsarModelsLogLevel)level message:(NSString *)message
 {
-    [[self instance] logLevel:level message:message];
+    [[self instance] logFile:file line:line level:level message:message];
 }
 
 + (void)logFile:(const char *)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString *)format, ...
@@ -106,9 +106,9 @@
     }
 }
 
-- (void)logLevel:(DubsarModelsLogLevel)level message:(NSString *)message
+- (void)logFile:(const char *)file line:(unsigned long)line level:(DubsarModelsLogLevel)level message:(NSString *)message
 {
-    [self logFile:NULL line:0 level:level format:@"%@", message];
+    [self logFile:file line:line level:level format:@"%@", message];
 }
 
 - (void)logFile:(const char*)file line:(unsigned long)line level:(DubsarModelsLogLevel)level format:(NSString *)format, ...

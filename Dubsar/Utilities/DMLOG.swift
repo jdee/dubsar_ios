@@ -17,44 +17,44 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-func DMLOG(message: String) {
+func DMLOG(message: String, file: String=__FILE__, line: UInt=__LINE__) {
     #if DEBUG
-        DubsarModelsLogger.logLevel(.Trace, message: message)
+        DubsarModelsLogger.logFile(file, line: line, level: DubsarModelsLogLevel.Trace, message: message)
         #else
     #endif
 }
 
-func DMTRACE(message: String) {
+func DMTRACE(message: String, file: String=__FILE__, line: UInt=__LINE__) {
     #if DEBUG
-        DubsarModelsLogger.logLevel(.Trace, message: message)
+        DubsarModelsLogger.logFile(file, line: line, level: DubsarModelsLogLevel.Trace, message: message)
         #else
     #endif
 }
 
-func DMDEBUG(message: String) {
+func DMDEBUG(message: String, file: String=__FILE__, line: UInt=__LINE__) {
     #if DEBUG
-        DubsarModelsLogger.logLevel(.Debug, message: message)
+        DubsarModelsLogger.logFile(file, line: line, level: DubsarModelsLogLevel.Debug, message: message)
         #else
     #endif
 }
 
-func DMINFO(message: String) {
+func DMINFO(message: String, file: String=__FILE__, line: UInt=__LINE__) {
     #if DEBUG
-        DubsarModelsLogger.logLevel(.Info, message: message)
+        DubsarModelsLogger.logFile(file, line: line, level: DubsarModelsLogLevel.Info, message: message)
         #else
     #endif
 }
 
-func DMWARN(message: String) {
+func DMWARN(message: String, file: String=__FILE__, line: UInt=__LINE__) {
     #if DEBUG
-        DubsarModelsLogger.logLevel(.Warn, message: message)
+        DubsarModelsLogger.logFile(file, line: line, level: DubsarModelsLogLevel.Warn, message: message)
         #else
     #endif
 }
 
-func DMERROR(message: String) {
+func DMERROR(message: String, file: String=__FILE__, line: UInt=__LINE__) {
     #if DEBUG
-        DubsarModelsLogger.logLevel(.Error, message: message)
+        DubsarModelsLogger.logFile(file, line: line, level: DubsarModelsLogLevel.Error, message: message)
         #else
     #endif
 }
