@@ -35,6 +35,11 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
     // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        assert(wotdButton != nil)
+        assert(wotdLabel != nil)
+        assert(wordNetLabel != nil)
+        assert(newsButton != nil)
         
         createTwitterButton()
 
@@ -84,6 +89,10 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
             return
         }
 
+        if wotdButton == nil {
+            return
+        }
+        
         switch router.routerAction {
         case .UpdateView:
             DMTRACE(".UpdateView")
@@ -127,7 +136,12 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
     }
 
     override func adjustLayout() {
+        if wotdLabel == nil || wotdButton == nil || wordNetLabel == nil || newsButton == nil {
+            return
+        }
+
         let font = AppConfiguration.preferredFontForTextStyle(UIFontTextStyleHeadline)
+
         DMTRACE("Using font \(font.fontName)")
         wotdLabel.font = font
         wotdButton.titleLabel!.font = font
