@@ -98,6 +98,7 @@
 		7BDE9B631979FDF8002E7574 /* OpenSenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */; };
 		7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */; };
 		7BE4393F1BAB0014001BB62B /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BE4393E1BAB0014001BB62B /* Launch Screen.storyboard */; settings = {ASSET_TAGS = (); }; };
+		7BE439411BAB0B2D001BB62B /* iTunesArtwork@3x in Resources */ = {isa = PBXBuildFile; fileRef = 7BE439401BAB0B2D001BB62B /* iTunesArtwork@3x */; settings = {ASSET_TAGS = (); }; };
 		7BFF6A2019B4DEDB002FEDED /* AESKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BFF6A1F19B4DEDB002FEDED /* AESKey.m */; };
 		7BFF6A2219B4E2BD002FEDED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BFF6A2119B4E2BD002FEDED /* Security.framework */; };
 /* End PBXBuildFile section */
@@ -280,6 +281,7 @@
 		7BDE9B621979FDF8002E7574 /* OpenSenseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSenseTableViewCell.swift; sourceTree = "<group>"; };
 		7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleterView.swift; sourceTree = "<group>"; };
 		7BE4393E1BAB0014001BB62B /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		7BE439401BAB0B2D001BB62B /* iTunesArtwork@3x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@3x"; sourceTree = "<group>"; };
 		7BFF6A1E19B4DEDB002FEDED /* AESKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESKey.h; sourceTree = "<group>"; };
 		7BFF6A1F19B4DEDB002FEDED /* AESKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESKey.m; sourceTree = "<group>"; };
 		7BFF6A2119B4E2BD002FEDED /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -359,6 +361,7 @@
 				7B670D0F197398B600E83937 /* Settings.bundle */,
 				7B670D0B1973851F00E83937 /* iTunesArtwork */,
 				7B670D0C1973851F00E83937 /* iTunesArtwork@2x */,
+				7BE439401BAB0B2D001BB62B /* iTunesArtwork@3x */,
 				7BAC225B19732D6C00D2AEA4 /* Dubsar */,
 				7BAC226E19732D6C00D2AEA4 /* DubsarTests */,
 				7B670D1119739B0900E83937 /* Frameworks */,
@@ -664,6 +667,7 @@
 				7B115203197435C100869E15 /* client_secret.txt in Resources */,
 				7BAC226619732D6C00D2AEA4 /* Images.xcassets in Resources */,
 				7B670D10197398B600E83937 /* Settings.bundle in Resources */,
+				7BE439411BAB0B2D001BB62B /* iTunesArtwork@3x in Resources */,
 				7B670D0D1973851F00E83937 /* iTunesArtwork in Resources */,
 				7BE4393F1BAB0014001BB62B /* Launch Screen.storyboard in Resources */,
 			);
