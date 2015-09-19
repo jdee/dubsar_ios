@@ -105,9 +105,7 @@ struct AppConfiguration {
     static var productionSetting: Bool {
         get {
         #if DEBUG
-        // don't use development server until app security policy issue addressed
-        return true
-        // return NSUserDefaults.standardUserDefaults().boolForKey(productionKey)
+        return NSUserDefaults.standardUserDefaults().boolForKey(productionKey)
         #else
         return true
         #endif
