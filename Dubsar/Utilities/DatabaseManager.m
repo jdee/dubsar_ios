@@ -748,7 +748,8 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     }
 
     self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
-    if (self.downloadSize != _currentDownload.zippedSize) {
+    if (self.downloadSize != _currentDownload.zippedSize - _start) {
+        DMERROR(@"Download is wrong size. Expected %lu, got %lu", _currentDownload.zippedSize, self.downloadSize);
         [self notifyDelegateOfError:@"Failed to validate download"];
         [[UIApplication sharedApplication] stopUsingNetwork];
         self.downloadInProgress = NO;
@@ -1343,6 +1344,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     self.unzippedSize = fileInfo.uncompressed_size;
     DMDEBUG(@"Unzipped file will be %ld bytes", (long)_unzippedSize);
     if (_currentDownload.unzippedSize != self.unzippedSize) {
+        DMERROR(@"Unzipped file is wrong size: expected %lu, got %lu", _currentDownload.unzippedSize, self.unzippedSize);
         [self unzipFailedWithError:@"Failed to validate download"];
         return;
     }
