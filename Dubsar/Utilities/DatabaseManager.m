@@ -1322,7 +1322,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     }
     DMTRACE(@"Opened zip file");
 
-    rc = unzLocateFile(uf, _fileName.UTF8String, 1);
+    rc = unzLocateFile(uf, _fileName.UTF8String, NULL);
     if (rc != UNZ_OK) {
         [self unzipFailedWithError: @"failed to locate %@ in zip %@", _fileName, _zipName];
         return;

@@ -99,6 +99,9 @@
 		7BDE9B65197C6B1E002E7574 /* AutocompleterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */; };
 		7BE4393F1BAB0014001BB62B /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BE4393E1BAB0014001BB62B /* Launch Screen.storyboard */; settings = {ASSET_TAGS = (); }; };
 		7BE439411BAB0B2D001BB62B /* iTunesArtwork@3x in Resources */ = {isa = PBXBuildFile; fileRef = 7BE439401BAB0B2D001BB62B /* iTunesArtwork@3x */; settings = {ASSET_TAGS = (); }; };
+		7BE6DDF61BAF79780026BBFA /* ioapi_buf.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BE6DDEC1BAF79780026BBFA /* ioapi_buf.c */; settings = {ASSET_TAGS = (); }; };
+		7BE6DDF71BAF79780026BBFA /* ioapi_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BE6DDEE1BAF79780026BBFA /* ioapi_mem.c */; settings = {ASSET_TAGS = (); }; };
+		7BE6DDFB1BAF79780026BBFA /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BE6DDF41BAF79780026BBFA /* zip.c */; settings = {ASSET_TAGS = (); }; };
 		7BFF6A2019B4DEDB002FEDED /* AESKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BFF6A1F19B4DEDB002FEDED /* AESKey.m */; };
 		7BFF6A2219B4E2BD002FEDED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BFF6A2119B4E2BD002FEDED /* Security.framework */; };
 /* End PBXBuildFile section */
@@ -282,6 +285,13 @@
 		7BDE9B64197C6B1E002E7574 /* AutocompleterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutocompleterView.swift; sourceTree = "<group>"; };
 		7BE4393E1BAB0014001BB62B /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		7BE439401BAB0B2D001BB62B /* iTunesArtwork@3x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@3x"; sourceTree = "<group>"; };
+		7BE6DDEB1BAF79780026BBFA /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		7BE6DDEC1BAF79780026BBFA /* ioapi_buf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi_buf.c; sourceTree = "<group>"; };
+		7BE6DDED1BAF79780026BBFA /* ioapi_buf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi_buf.h; sourceTree = "<group>"; };
+		7BE6DDEE1BAF79780026BBFA /* ioapi_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi_mem.c; sourceTree = "<group>"; };
+		7BE6DDEF1BAF79780026BBFA /* ioapi_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi_mem.h; sourceTree = "<group>"; };
+		7BE6DDF41BAF79780026BBFA /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		7BE6DDF51BAF79780026BBFA /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		7BFF6A1E19B4DEDB002FEDED /* AESKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESKey.h; sourceTree = "<group>"; };
 		7BFF6A1F19B4DEDB002FEDED /* AESKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESKey.m; sourceTree = "<group>"; };
 		7BFF6A2119B4E2BD002FEDED /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -443,6 +453,13 @@
 		7BBBD6D81989C8850030FDA9 /* minizip */ = {
 			isa = PBXGroup;
 			children = (
+				7BE6DDEB1BAF79780026BBFA /* crypt.h */,
+				7BE6DDEC1BAF79780026BBFA /* ioapi_buf.c */,
+				7BE6DDED1BAF79780026BBFA /* ioapi_buf.h */,
+				7BE6DDEE1BAF79780026BBFA /* ioapi_mem.c */,
+				7BE6DDEF1BAF79780026BBFA /* ioapi_mem.h */,
+				7BE6DDF41BAF79780026BBFA /* zip.c */,
+				7BE6DDF51BAF79780026BBFA /* zip.h */,
 				7BBBD6D91989C8850030FDA9 /* ioapi.c */,
 				7BBBD6DA1989C8850030FDA9 /* ioapi.h */,
 				7BBBD6DB1989C8850030FDA9 /* unzip.c */,
@@ -695,6 +712,7 @@
 				7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */,
 				7B1152011974340900869E15 /* DubsarServer.m in Sources */,
 				7BBF83741975871300969765 /* BaseViewController.swift in Sources */,
+				7BE6DDF71BAF79780026BBFA /* ioapi_mem.c in Sources */,
 				7B497C971978889700563A4B /* SynsetPointerView.swift in Sources */,
 				7BBBD6DE1989C8850030FDA9 /* unzip.c in Sources */,
 				7BAC1E33199A8E2F00D48521 /* BookmarkManager.swift in Sources */,
@@ -704,6 +722,7 @@
 				7BCAA9D719929E2F00B23F4F /* DownloadBarButtonItem.swift in Sources */,
 				7BAC1E2E199A801C00D48521 /* CloseButton.m in Sources */,
 				7BA85A5619848DA100222A6D /* AppConfiguration.swift in Sources */,
+				7BE6DDFB1BAF79780026BBFA /* zip.c in Sources */,
 				7B7D3E93197DB3DC00619DEA /* KeyboardHelper.m in Sources */,
 				7BBF83701974D58400969765 /* SearchViewController.swift in Sources */,
 				7B14AE291999D23A00BCD41A /* GearButton.m in Sources */,
@@ -717,6 +736,7 @@
 				7B7382F5198418EA00880CF2 /* AboutViewController.swift in Sources */,
 				7BBF83821975DF0C00969765 /* DubsarModelsSense+ViewSizing.swift in Sources */,
 				7B82C93E19760A0E0077D1A0 /* SynsetViewController.swift in Sources */,
+				7BE6DDF61BAF79780026BBFA /* ioapi_buf.c in Sources */,
 				7BA90E0A197786D400D5C180 /* PushWrapper.m in Sources */,
 				7B497C8D1978546000563A4B /* ScrollingSynsetView.swift in Sources */,
 				7BAC1E37199AA0D000D48521 /* BookmarkListView.swift in Sources */,
