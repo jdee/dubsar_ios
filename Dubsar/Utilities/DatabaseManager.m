@@ -748,8 +748,9 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     }
 
     self.downloadSize = ((NSNumber*)httpResp.allHeaderFields[@"Content-Length"]).integerValue;
+    /* The Content-Lenght field doesn't seem to be consistent. Maybe an nginx update will fix it.
     if (self.downloadSize != _currentDownload.zippedSize - _start) {
-        DMERROR(@"Download is wrong size. Expected %lu, got %lu", _currentDownload.zippedSize, self.downloadSize);
+        DMERROR(@"Download is wrong size. Expected %lu, got %lu", _currentDownload.zippedSize - _start, self.downloadSize);
         [self notifyDelegateOfError:@"Failed to validate download"];
         [[UIApplication sharedApplication] stopUsingNetwork];
         self.downloadInProgress = NO;
@@ -761,6 +762,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         [self restoreOldFileOnFailure];
         return;
     }
+    // */
 
     NSString* newETag = (NSString*)httpResp.allHeaderFields[@"ETag"];
     if (_etag && ![_etag isEqualToString:newETag]) {
