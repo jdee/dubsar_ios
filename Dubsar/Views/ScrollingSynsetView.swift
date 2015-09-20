@@ -135,10 +135,12 @@ class ScrollingSynsetView: UIScrollView {
                 // these automatically adjust their heights in layoutSubviews()
                 headerView.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height)
                 DMTRACE("Header view size: \(bounds.size.width) x \(bounds.size.height)")
-                headerView.layoutSubviews()
+                headerView.setNeedsLayout()
+                headerView.layoutIfNeeded()
 
                 sampleView.frame = CGRectMake(0, headerView.bounds.size.height, bounds.size.width, bounds.size.height)
-                sampleView.layoutSubviews()
+                sampleView.setNeedsLayout()
+                sampleView.layoutIfNeeded()
 
                 if hasPointers {
                     pointerView.frame = CGRectMake(0, headerView.bounds.size.height + sampleView.bounds.size.height, bounds.size.width, bounds.size.height)
@@ -151,7 +153,8 @@ class ScrollingSynsetView: UIScrollView {
                 DMTRACE("originY: \(originY), bounds.size.height: \(bounds.size.height)")
                 pointerView.scrollViewTop = contentOffset.y - originY
                 pointerView.scrollViewBottom = pointerView.scrollViewTop + bounds.size.height
-                pointerView.layoutSubviews()
+                pointerView.setNeedsLayout()
+                pointerView.layoutIfNeeded()
 
                 /*
                 contentSize = CGSizeMake(bounds.size.width, headerView.bounds.size.height + sampleView.bounds.size.height + pointerView.bounds.size.height)

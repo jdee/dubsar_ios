@@ -449,11 +449,14 @@ class SearchViewController: SearchBarViewController, UITableViewDataSource, UITa
             let enumString = scope == .Words ? "words" : "synsets"
             DMDEBUG("Changed search scope. Selected scope index \(selectedScope). Scope: \(enumString)")
             if !(theSearchBar.text ?? "").isEmpty {
+                DMTRACE("search bar text is \(theSearchBar.text!)")
 
                 if searchBarEditing {
+                    DMTRACE("Autocompleting in new scope")
                     triggerAutocompletion()
                 }
                 else if search != nil {
+                    DMTRACE("Changed search scope")
                     search!.scope = searchScope
                     search!.complete = false
                     search!.currentPage = 1

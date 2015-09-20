@@ -66,7 +66,8 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         sampleView.sense = sense
         sampleView.translatesAutoresizingMaskIntoConstraints = false
         view!.addSubview(sampleView)
-        sampleView.layoutSubviews()
+        sampleView.setNeedsLayout()
+        sampleView.layoutIfNeeded()
 
         sampleView.backgroundColor = UIColor.clearColor()
         sampleView.layer.borderColor = UIColor.greenColor().CGColor
@@ -119,7 +120,8 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         pointerView.layer.borderColor = UIColor.yellowColor().CGColor
         pointerView.layer.borderWidth = 0
         view!.addSubview(pointerView)
-        pointerView.layoutSubviews()
+        pointerView.setNeedsLayout()
+        pointerView.layoutIfNeeded()
 
         constraint = NSLayoutConstraint(item: pointerView, attribute: .Top, relatedBy: .Equal, toItem: sampleView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
         view!.addConstraint(constraint)
