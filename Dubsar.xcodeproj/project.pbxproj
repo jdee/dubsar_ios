@@ -923,7 +923,7 @@
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Dubsar-gtxcrwsszmnigedrmhxqqasmxygq/Build/Products/Debug-iphoneos",
 				);
-				INFOPLIST_FILE = Dubsar/Info.plist;
+				INFOPLIST_FILE = "Dubsar/Info-Debug.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
