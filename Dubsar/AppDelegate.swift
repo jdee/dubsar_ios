@@ -479,9 +479,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
             return
         }
-        else if offlineSetting { // When the response comes back, if autoupdate is on, the download will just start. If autoupdate is off, the user will be prompted with an alert.
+        else if offlineSetting && !databaseManager.updateCheckInProgress { // When the response comes back, if autoupdate is on, the download will just start. If autoupdate is off, the user will be prompted with an alert.
             DMTRACE("No database. Offline setting is on. Getting download list.")
             checkForUpdate()
+            return
+        }
+        else if offlineSetting {
+            DMTRACE("update check already in progress. waiting for results.")
             return
         }
         else {
