@@ -17,6 +17,8 @@
 #ifndef _UNZ_H
 #define _UNZ_H
 
+#pragma clang system_header
+
 #ifdef __cplusplus
 extern "C" {
 #endif

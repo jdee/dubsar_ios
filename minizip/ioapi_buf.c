@@ -10,6 +10,8 @@
    See the accompanying LICENSE file for the full text of the license.
 */
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -512,3 +514,5 @@ void fill_buffer_filefunc64 (pzlib_filefunc_def, ourbuf)
     pzlib_filefunc_def->zerror_file = ferror_buf_func;
     pzlib_filefunc_def->opaque = ourbuf;
 }
+
+#pragma clang diagnostic pop

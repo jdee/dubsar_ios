@@ -19,6 +19,9 @@
 */
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -190,3 +193,5 @@ void fill_memory_filefunc (pzlib_filefunc_def, ourmem)
     pzlib_filefunc_def->zerror_file = ferror_mem_func;
     pzlib_filefunc_def->opaque = ourmem;
 }
+
+#pragma clang diagnostic pop

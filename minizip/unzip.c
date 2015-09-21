@@ -16,6 +16,9 @@
    See the accompanying LICENSE file for the full text of the license.
 */
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1888,3 +1891,5 @@ extern int ZEXPORT unzeof(unzFile file)
         return 1;
     return 0;
 }
+
+#pragma clang diagnostic pop

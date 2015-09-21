@@ -14,6 +14,10 @@
    See the accompanying LICENSE file for the full text of the license.
 */
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+#pragma clang diagnostic ignored "-Wconditional-uninitialized"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -2019,3 +2023,5 @@ extern int ZEXPORT zipClose(zipFile file, const char* global_comment)
 
     return err;
 }
+
+#pragma clang diagnostic pop

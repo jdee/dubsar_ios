@@ -15,6 +15,8 @@
 #ifndef _ZIP_H
 #define _ZIP_H
 
+#pragma clang system_header
+
 #ifdef __cplusplus
 extern "C" {
 #endif

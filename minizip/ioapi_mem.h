@@ -18,6 +18,8 @@
 #ifndef _IOAPI_MEM_H
 #define _IOAPI_MEM_H
 
+#pragma clang system_header
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

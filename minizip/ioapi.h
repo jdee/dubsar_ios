@@ -14,6 +14,8 @@
 #ifndef _ZLIBIOAPI64_H
 #define _ZLIBIOAPI64_H
 
+#pragma clang system_header
+
 #if (!defined(_WIN32)) && (!defined(WIN32)) && (!defined(__APPLE__))
 #  ifndef __USE_FILE_OFFSET64
 #    define __USE_FILE_OFFSET64

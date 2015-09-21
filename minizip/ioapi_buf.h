@@ -13,6 +13,8 @@
 #ifndef _IOAPI_BUF_H
 #define _IOAPI_BUF_H
 
+#pragma clang system_header
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
