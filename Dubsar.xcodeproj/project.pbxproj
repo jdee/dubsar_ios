@@ -292,6 +292,7 @@
 		7BE6DDEF1BAF79780026BBFA /* ioapi_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi_mem.h; sourceTree = "<group>"; };
 		7BE6DDF41BAF79780026BBFA /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
 		7BE6DDF51BAF79780026BBFA /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		7BE6DDFC1BAF7DEB0026BBFA /* Info-Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Debug.plist"; sourceTree = "<group>"; };
 		7BFF6A1E19B4DEDB002FEDED /* AESKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESKey.h; sourceTree = "<group>"; };
 		7BFF6A1F19B4DEDB002FEDED /* AESKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESKey.m; sourceTree = "<group>"; };
 		7BFF6A2119B4E2BD002FEDED /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -411,6 +412,7 @@
 				7B115202197435C100869E15 /* client_secret.txt */,
 				7BAC22B71973343900D2AEA4 /* Dubsar-Bridging-Header.h */,
 				7BAC225D19732D6C00D2AEA4 /* Info.plist */,
+				7BE6DDFC1BAF7DEB0026BBFA /* Info-Debug.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
