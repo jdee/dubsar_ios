@@ -103,7 +103,7 @@
 		7BE6DDF71BAF79780026BBFA /* ioapi_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BE6DDEE1BAF79780026BBFA /* ioapi_mem.c */; settings = {ASSET_TAGS = (); }; };
 		7BE6DDFB1BAF79780026BBFA /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BE6DDF41BAF79780026BBFA /* zip.c */; settings = {ASSET_TAGS = (); }; };
 		7BFF6A2019B4DEDB002FEDED /* AESKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BFF6A1F19B4DEDB002FEDED /* AESKey.m */; };
-		7BFF6A2219B4E2BD002FEDED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BFF6A2119B4E2BD002FEDED /* Security.framework */; };
+		7BFF6A2219B4E2BD002FEDED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BFF6A2119B4E2BD002FEDED /* Security.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

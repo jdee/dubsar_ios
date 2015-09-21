@@ -1249,6 +1249,10 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     _oldDownload = nil;
 
     self.downloadInProgress = NO;
+    NSURL* fileURL = self.fileURL;
+    DMTRACE(@"reopening %@", fileURL);
+    [DubsarModelsDatabase instance].databaseURL = fileURL; // reopen the DB that was just downloaded
+
     if ([NSThread currentThread] != [NSThread mainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self reopenAndNotify];
@@ -1261,7 +1265,6 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 - (void)reopenAndNotify
 {
-    [DubsarModelsDatabase instance].databaseURL = self.fileURL; // reopen the DB that was just downloaded
     self.databaseUpdated = YES;
     [self cleanOldDatabases];
     if ([self.delegate respondsToSelector:@selector(downloadComplete:)]) {
