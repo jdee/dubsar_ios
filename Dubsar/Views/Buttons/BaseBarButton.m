@@ -61,8 +61,9 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     if ([_target respondsToSelector:_action]) {
+        __weak typeof(self) weakself = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_target performSelector:_action withObject:_barButtonItem];
+            [weakself.target performSelector:weakself.action withObject:weakself.barButtonItem];
         });
     }
 #pragma clang diagnostic pop

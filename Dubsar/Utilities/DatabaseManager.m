@@ -791,8 +791,9 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
             [self.delegate downloadStarted:self];
         }
         else {
+            __weak typeof(self) weakself = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate downloadStarted:self];
+                [weakself.delegate downloadStarted:weakself];
             });
         }
     }
@@ -936,9 +937,10 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     if (![self.delegate respondsToSelector:@selector(databaseManager:encounteredError:)]) return;
 
     if ([NSThread currentThread] != [NSThread mainThread]) {
+        __weak typeof(self) weakself = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             // [self deleteDatabase];
-            [self.delegate databaseManager:self encounteredError:self.errorMessage];
+            [weakself.delegate databaseManager:weakself encounteredError:weakself.errorMessage];
         });
     }
     else {
@@ -954,8 +956,9 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
             [_delegate noUpdateAvailable:self];
         }
         else {
+            __weak typeof(self) weakself = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [_delegate noUpdateAvailable:self];
+                [weakself.delegate noUpdateAvailable:weakself];
             });
         }
     }
@@ -974,8 +977,9 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
             [self.delegate newDownloadAvailable:self download:download required:updateRequired];
         }
         else {
+            __weak typeof(self) weakself = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate newDownloadAvailable:self download:download required:updateRequired];
+                [weakself.delegate newDownloadAvailable:weakself download:download required:updateRequired];
             });
         }
     }
@@ -1170,8 +1174,9 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
             [self.delegate progressUpdated:self];
         }
         else {
+            __weak typeof(self) weakself = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate progressUpdated:self];
+                [weakself.delegate progressUpdated:weakself];
             });
         }
     }
@@ -1190,8 +1195,9 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
             [self.delegate unzipStarted:self];
         }
         else {
+            __weak typeof(self) weakself = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate unzipStarted:self];
+                [weakself.delegate unzipStarted:weakself];
             });
         }
     }
@@ -1254,8 +1260,9 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     [DubsarModelsDatabase instance].databaseURL = fileURL; // reopen the DB that was just downloaded
 
     if ([NSThread currentThread] != [NSThread mainThread]) {
+        __weak typeof(self) weakself = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self reopenAndNotify];
+            [weakself reopenAndNotify];
         });
     }
     else {
@@ -1438,8 +1445,9 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
     if ([self.delegate respondsToSelector:@selector(progressUpdated:)]) {
         if ([NSThread mainThread] != [NSThread currentThread]) {
+            __weak typeof(self) weakself = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate progressUpdated:self];
+                [weakself.delegate progressUpdated:weakself];
             });
         }
         else {

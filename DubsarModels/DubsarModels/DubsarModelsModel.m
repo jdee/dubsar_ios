@@ -301,8 +301,9 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
         [self callDelegateSelector:action withError:loadError];
     }
     else {
+        __weak typeof(self) weakself = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self callDelegateSelector:action withError:loadError];
+            [weakself callDelegateSelector:action withError:loadError];
         });
     }
 }

@@ -243,8 +243,9 @@
         return;
     }
 
+    __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.delegate newResultFound:nil model:self];
+        [weakself.delegate newResultFound:nil model:weakself];
     });
 }
 
