@@ -66,9 +66,8 @@ class OpenSenseTableViewCell: SenseTableViewCell {
         sampleView.sense = sense
         sampleView.translatesAutoresizingMaskIntoConstraints = false
         view!.addSubview(sampleView)
-        sampleView.setNeedsLayout()
-        sampleView.layoutIfNeeded()
-
+        sampleView.resetSubviews()
+        
         sampleView.backgroundColor = UIColor.clearColor()
         sampleView.layer.borderColor = UIColor.greenColor().CGColor
         sampleView.layer.borderWidth = 0

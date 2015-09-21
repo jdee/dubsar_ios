@@ -48,17 +48,15 @@ class SynsetSampleView: UIView {
         isPreview = true
         super.init(coder: aDecoder)
     }
-
-    override func layoutSubviews() {
+    
+    func resetSubviews() {
         DMTRACE("Entered SynsetSampleView.layoutSubviews()")
         for label in labels {
             label.removeFromSuperview()
         }
         labels = []
 
-        for constraint in myConstraints {
-            removeConstraint(constraint)
-        }
+        removeConstraints(myConstraints)
         myConstraints = []
 
         var samples = [AnyObject]()
@@ -108,8 +106,6 @@ class SynsetSampleView: UIView {
         frame.size.height = y
         DMTRACE("sample view height: \(bounds.size.height)")
         invalidateIntrinsicContentSize()
-
-        super.layoutSubviews()
     }
 
     override func intrinsicContentSize() -> CGSize {

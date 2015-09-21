@@ -139,9 +139,8 @@ class ScrollingSynsetView: UIScrollView {
                 headerView.layoutIfNeeded()
 
                 sampleView.frame = CGRectMake(0, headerView.bounds.size.height, bounds.size.width, bounds.size.height)
-                sampleView.setNeedsLayout()
-                sampleView.layoutIfNeeded()
-
+                sampleView.resetSubviews()
+                
                 if hasPointers {
                     pointerView.frame = CGRectMake(0, headerView.bounds.size.height + sampleView.bounds.size.height, bounds.size.width, bounds.size.height)
                 }
