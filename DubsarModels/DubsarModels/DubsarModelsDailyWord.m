@@ -78,6 +78,16 @@
     DubsarModelsPartOfSpeech partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:pos];
 
     [self updateWotdId:wotdId expiration:texpiration name:name partOfSpeech:partOfSpeech];
+
+    NSUserDefaults* userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.dubsar-dictionary.Dubsar.Documents"];
+    if (userDefaults) {
+        [userDefaults setObject:dubsarPayload[@"url"] forKey:@"wotdURL"];
+        [userDefaults setObject:nameAndPos forKey:@"wotdText"];
+        DMDEBUG(@"Set wotdURL to %@, wotdText to %@", dubsarPayload[@"url"], nameAndPos);
+    }
+    else {
+        DMERROR(@"Could not get shared user defaults suite");
+    }
 }
 
 + (void)updateWotdId:(NSInteger)wotdId expiration:(time_t)expiration name:(NSString*)name partOfSpeech:(DubsarModelsPartOfSpeech)partOfSpeech

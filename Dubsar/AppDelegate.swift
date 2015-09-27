@@ -56,6 +56,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         setupDBManager()
 
         bookmarkManager.loadBookmarks()
+
+        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+
         return true
     }
 
@@ -244,6 +247,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
     }
 
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        self.application(application, didReceiveRemoteNotification: userInfo)
+        completionHandler(.NewData)
+    }
+
     func application(theApplication: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject: AnyObject], completionHandler: (() -> Void)) {
         DMINFO("Received remote notification action \(identifier)")
         application(theApplication, didReceiveRemoteNotification: userInfo)
@@ -258,16 +266,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         let path = url.path
         var word : DubsarModelsWord!
         var title : String?
-        if path!.hasPrefix("/wotd/") {
+        if path?.hasPrefix("/wotd/") ?? false {
             let last = url.lastPathComponent as NSString?
             let wotdId = UInt(last!.intValue)
             word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
             title = "Word of the Day"
         }
-        else if path!.hasPrefix("/words/") {
+        else if path?.hasPrefix("/words/") ?? false {
             let last = url.lastPathComponent as NSString?
             let wotdId = UInt(last!.intValue)
             word = DubsarModelsWord(id: wotdId, name: nil, partOfSpeech: .Unknown) // load the name and pos from the DB by ID
+        }
+        else {
+            return true
         }
 
         let top = navigationController.topViewController as! BaseViewController
@@ -293,6 +304,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     @available(iOS 8.0, *)
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         DMTRACE("Application did register user notification settings")
+    }
+
+    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        // TODO: Update WOTD from the server.
+        completionHandler(.NewData)
     }
 
     func voidCache() {
