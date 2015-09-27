@@ -26,11 +26,29 @@
 
 const NSString* DubsarBaseUrl = @"https://dubsar.info";
 
+@interface DubsarModelsBlockProxy : NSObject<DubsarModelsLoadDelegate>
+
+@property (nonatomic, strong) DubsarModelsCallbackBlock callbackBlock;
+
+@end
+
+@implementation DubsarModelsBlockProxy
+
+- (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
+{
+    if (self.callbackBlock) {
+        self.callbackBlock(model, error);
+    }
+}
+
+@end
+
 @interface DubsarModelsModel()
 @property (nonatomic) NSURLConnection* connection;
 @property (nonatomic, readonly) SCNetworkReachabilityRef reachabilityRef;
 @property (nonatomic, readonly) SCNetworkReachabilityFlags currentReachability;
 @property (nonatomic, readonly) NSTimeInterval retryInterval;
+@property (nonatomic) DubsarModelsBlockProxy *blockProxy;
 
 - (void)connectivityChanged:(SCNetworkReachabilityFlags)flags;
 @end
@@ -99,6 +117,27 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
     if (_reachabilityRef) {
         CFRelease(_reachabilityRef);
     }
+}
+
+- (void)setCallbackBlock:(DubsarModelsCallbackBlock)callbackBlock
+{
+    //*
+    if (!callbackBlock) {
+        self.delegate = nil;
+        _callbackBlock = nil;
+        self.blockProxy = nil;
+        return;
+    }
+    // */
+    assert(callbackBlock);
+
+    _callbackBlock = callbackBlock;
+    DubsarModelsBlockProxy* blockProxy = [[DubsarModelsBlockProxy alloc] init];
+    blockProxy.callbackBlock = callbackBlock;
+    self.blockProxy = blockProxy;
+    self.delegate = blockProxy;
+    assert(self.delegate != nil);
+    DMTRACE(@"Set delegate for model to block proxy");
 }
 
 - (void)load
@@ -295,6 +334,7 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 - (void)callDelegateSelectorOnMainThread:(SEL)action withError:(NSString*)loadError
 {
+    assert(delegate);
     if (![delegate respondsToSelector:action]) return;
 
     if (!_callsDelegateOnMainThread || [NSThread currentThread] == [NSThread mainThread]) {

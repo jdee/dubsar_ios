@@ -26,6 +26,9 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
     DubsarModelsSearchScopeSynsets
 };
 
+@class DubsarModelsModel;
+typedef void(^DubsarModelsCallbackBlock)(DubsarModelsModel* result, NSString* error);
+
 @class DubsarModelsDatabaseWrapper;
 @protocol DubsarModelsLoadDelegate;
 
@@ -52,6 +55,7 @@ typedef NS_ENUM(NSInteger, DubsarModelsSearchScope) {
 @property (atomic) BOOL loading;
 @property (nonatomic) BOOL callsDelegateOnMainThread;
 @property (nonatomic) BOOL retriesWhenAvailable;
+@property (nonatomic, strong) DubsarModelsCallbackBlock callbackBlock;
 
 @property bool preview;
 
