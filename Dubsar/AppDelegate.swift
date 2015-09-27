@@ -214,10 +214,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         DMINFO("Received local notification: \(notification.alertBody)")
-        /* not really necessary
-        let viewController = navigationController.topViewController as BaseViewController
-        viewController.adjustLayout()
-        // */
     }
 
     func application(application: UIApplication, didReceiveRemoteNotification notification: [NSObject: AnyObject]) {
@@ -235,11 +231,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         // Standard APNS payload handling
         let aps = notification["aps"] as? [NSObject: AnyObject]
-        let alert = aps?["alert"] as? String
+        var body: String!
+        var title: String?
+        if let alert = aps?["alert"] as? String {
+            body = alert
+        }
+        else if let alert = aps?["alert"] as? [NSObject: AnyObject] {
+            body = alert["body"] as! String
+            title = alert["title"] as? String
+        }
 
         switch (application.applicationState) {
         case .Active:
-            showAlert(alert)
+            showAlertWithBody(body, title: title)
 
         default:
             openURL(alertURL)
@@ -537,12 +541,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
     }
 
-    func showAlert(message: String?) {
-        assert(message != nil)
+    func showAlertWithBody(body: String, title: String?=nil) {
         // https://devforums.apple.com/message/973043#973043
         let alert = UIAlertView()
-        alert.title = "Dubsar Alert"
-        alert.message = message
+        alert.title = title ?? "Dubsar Alert"
+        alert.message = body
         alert.addButtonWithTitle("OK")
         if alertURL != nil {
             alert.addButtonWithTitle("More")
