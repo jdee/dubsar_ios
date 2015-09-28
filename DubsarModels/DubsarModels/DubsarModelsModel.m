@@ -334,7 +334,6 @@ static void reachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReacha
 
 - (void)callDelegateSelectorOnMainThread:(SEL)action withError:(NSString*)loadError
 {
-    assert(delegate);
     if (![delegate respondsToSelector:action]) return;
 
     if (!_callsDelegateOnMainThread || [NSThread currentThread] == [NSThread mainThread]) {

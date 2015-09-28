@@ -200,6 +200,15 @@
     [[NSUserDefaults standardUserDefaults] setValue:word.name forKey:DubsarDailyWordNameKey];
     [[NSUserDefaults standardUserDefaults] setValue:word.pos forKey:DubsarDailyWordPosKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+
+    NSUserDefaults* userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.dubsar-dictionary.Dubsar.Documents"];
+    if (userDefaults) {
+        [userDefaults setObject:[NSString stringWithFormat:@"dubsar:///wotd/%lu", (unsigned long)word._id] forKey:@"wotdURL"];
+        [userDefaults setObject:[NSString stringWithFormat:@"%@, %@.", word.name, word.pos] forKey:@"wotdText"];
+    }
+    else {
+        DMERROR(@"Could not get shared user defaults suite");
+    }
 }
 
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error
