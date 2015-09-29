@@ -352,17 +352,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        DMDEBUG("In application:performFetchWithCompletionHandler:")
         let wotd = DubsarModelsDailyWord()
         let callbackBlock = {
-            (word: DubsarModelsModel?, error: String?) in
+            (model: DubsarModelsModel?, error: String?) in
             if let error = error {
                 DMERROR("Error getting WOTD in bg: \(error)")
                 completionHandler(.Failed)
             }
-            else {
-                DMDEBUG("Successfully updated WOTD in bg")
-                // TODO: Return .NoData unless we just updated
-                completionHandler(.NewData)
+            else if let newWotd = model as? DubsarModelsDailyWord {
+                let fresh = newWotd.fresh ? "fresh" : "cached"
+                DMDEBUG("Successfully updated WOTD in bg. WOTD is \(fresh)")
+                completionHandler(newWotd.fresh ? .NewData : .NoData)
             }
         }
         wotd.callbackBlock = callbackBlock
