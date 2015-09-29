@@ -282,7 +282,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
                 var regex: NSRegularExpression?
                 do {
-                    regex = try NSRegularExpression(pattern: ": (.*),", options: [])
+                    regex = try NSRegularExpression(pattern: ": (.*)$", options: [])
                 }
                 catch let error as NSError {
                     DMERROR("Regex error: \(error.debugDescription)")
