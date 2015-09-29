@@ -245,9 +245,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         case .Active:
             showAlertWithBody(body, title: title)
 
-        default:
+        case .Inactive:
             openURL(alertURL)
             alertURL = nil
+
+        default:
+            // Just update data in the background.
+            break
         }
     }
 
@@ -258,7 +262,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
     func application(theApplication: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject: AnyObject], completionHandler: (() -> Void)) {
         DMINFO("Received remote notification action \(identifier)")
-        application(theApplication, didReceiveRemoteNotification: userInfo)
+        if identifier == "view" {
+            application(theApplication, didReceiveRemoteNotification: userInfo)
+        }
+        else if identifier == "bookmark" {
+            if let payload = userInfo[dubsar] as? [NSObject: AnyObject], let url = payload["url"] as? String, let aps = userInfo["aps"] as? [NSObject: AnyObject] {
+                if bookmarkManager.isUrlBookmarked(NSURL(string: url)!) {
+                    completionHandler()
+                    return
+                }
+
+                var message: String?
+                if let alert = aps["alert"] as? [NSObject: AnyObject], let body = alert["body"] as? String {
+                    message = body
+                }
+                else if let alert = aps["alert"] as? String {
+                    message = alert
+                }
+
+                var regex: NSRegularExpression?
+                do {
+                    regex = try NSRegularExpression(pattern: ": (.*),", options: [])
+                }
+                catch let error as NSError {
+                    DMERROR("Regex error: \(error.debugDescription)")
+                }
+
+                if let message = message, let regex = regex, let result = regex.firstMatchInString(message, options: [], range: NSMakeRange(0, message.characters.count)) {
+                    let word = (message as NSString).substringWithRange(result.rangeAtIndex(1))
+                    let bookmark = Bookmark(url: NSURL(string: url)!)
+                    bookmark.label = word
+
+                    bookmarkManager.toggleBookmark(bookmark)
+                }
+            }
+        }
+        completionHandler()
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {

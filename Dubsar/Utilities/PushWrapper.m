@@ -19,6 +19,12 @@
 
 #import "PushWrapper.h"
 
+@interface PushWrapper()
+
++ (UIUserNotificationCategory*) wotdCategory;
+
+@end
+
 @implementation PushWrapper
 
 + (void)register
@@ -32,13 +38,36 @@
 
     if ([theApplication respondsToSelector:@selector(registerUserNotificationSettings:)]) {
         // iOS 8
-        [theApplication registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
+        NSSet *categories = [NSSet setWithObject:[self wotdCategory]];
+        [theApplication registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:categories]];
         [theApplication registerForRemoteNotifications];
     }
     else {
         // iOS 7 and below
         [theApplication registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound];
     }
+}
+
++ (UIUserNotificationCategory *)wotdCategory
+{
+    UIMutableUserNotificationCategory* category = [[UIMutableUserNotificationCategory alloc] init];
+    category.identifier = @"wotd";
+
+    UIMutableUserNotificationAction* viewAction = [[UIMutableUserNotificationAction alloc] init];
+    viewAction.identifier = @"view";
+    viewAction.authenticationRequired = YES;
+    viewAction.destructive = NO;
+    viewAction.title = @"View";
+
+    UIMutableUserNotificationAction* bookmarkAction = [[UIMutableUserNotificationAction alloc] init];
+    bookmarkAction.identifier = @"bookmark";
+    bookmarkAction.authenticationRequired = NO;
+    bookmarkAction.destructive = NO;
+    bookmarkAction.title = @"Bookmark";
+
+    [category setActions:@[viewAction, bookmarkAction] forContext:UIUserNotificationActionContextDefault];
+    
+    return category;
 }
 
 @end
