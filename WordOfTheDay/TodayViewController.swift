@@ -25,6 +25,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     @IBOutlet var wotdButton: UIButton!
 
     var wotdURL: NSURL?
+    var wotdUpdated = false
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -53,12 +54,17 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         if let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
             if let text = userDefaults.stringForKey("wotdText") {
                 wotdButton.setTitle(text, forState: .Normal)
-                // NSLog("wotd text: \(text)")
             }
 
             if let url = userDefaults.stringForKey("wotdURL") {
                 wotdURL = NSURL(string: url)
-                // NSLog("wotd URL: \(url)")
+            }
+
+            if userDefaults.objectForKey("wotdUpdated") != nil {
+                wotdUpdated = userDefaults.boolForKey("wotdUpdated")
+            }
+            else {
+                wotdUpdated = false
             }
         }
         else {
@@ -68,13 +74,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     @available(iOSApplicationExtension 8.0, *)
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
-        // Perform any setup necessary in order to update the view.
+        completionHandler(wotdUpdated ? .NewData : .NoData)
 
-        // If an error is encountered, use NCUpdateResult.Failed
-        // If there's no update required, use NCUpdateResult.NoData
-        // If there's an update, use NCUpdateResult.NewData
-
-        completionHandler(NCUpdateResult.NewData)
+        wotdUpdated = false
+        NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents")?.setBool(false, forKey: "wotdUpdated")
     }
 
     @available(iOSApplicationExtension 8.0, *)

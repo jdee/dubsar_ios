@@ -78,16 +78,6 @@
     DubsarModelsPartOfSpeech partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:pos];
 
     [self updateWotdId:wotdId expiration:texpiration name:name partOfSpeech:partOfSpeech];
-
-    NSUserDefaults* userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.dubsar-dictionary.Dubsar.Documents"];
-    if (userDefaults) {
-        [userDefaults setObject:dubsarPayload[@"url"] forKey:@"wotdURL"];
-        [userDefaults setObject:nameAndPos forKey:@"wotdText"];
-        DMDEBUG(@"Set wotdURL to %@, wotdText to %@", dubsarPayload[@"url"], nameAndPos);
-    }
-    else {
-        DMERROR(@"Could not get shared user defaults suite");
-    }
 }
 
 + (void)updateWotdId:(NSInteger)wotdId expiration:(time_t)expiration name:(NSString*)name partOfSpeech:(DubsarModelsPartOfSpeech)partOfSpeech
@@ -205,6 +195,8 @@
     if (userDefaults) {
         [userDefaults setObject:[NSString stringWithFormat:@"dubsar:///wotd/%lu", (unsigned long)word._id] forKey:@"wotdURL"];
         [userDefaults setObject:[NSString stringWithFormat:@"%@, %@.", word.name, word.pos] forKey:@"wotdText"];
+        [userDefaults setBool:YES forKey:@"wotdUpdated"];
+        DMDEBUG(@"Updated user defaults for Word of the Day extension");
     }
     else {
         DMERROR(@"Could not get shared user defaults suite");
