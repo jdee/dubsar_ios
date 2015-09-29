@@ -282,7 +282,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
                 var regex: NSRegularExpression?
                 do {
-                    regex = try NSRegularExpression(pattern: ": (.*)$", options: [])
+                    regex = try NSRegularExpression(pattern: ": (.*) \\((.*)\\)", options: [])
                 }
                 catch let error as NSError {
                     DMERROR("Regex error: \(error.debugDescription)")
@@ -290,8 +290,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
                 if let message = message, let regex = regex, let result = regex.firstMatchInString(message, options: [], range: NSMakeRange(0, message.characters.count)) {
                     let word = (message as NSString).substringWithRange(result.rangeAtIndex(1))
+                    let pos = (message as NSString).substringWithRange(result.rangeAtIndex(2))
                     let bookmark = Bookmark(url: NSURL(string: url)!)
-                    bookmark.label = word
+                    bookmark.label = "\(word), \(pos)"
 
                     bookmarkManager.toggleBookmark(bookmark)
                 }
