@@ -243,6 +243,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         switch (application.applicationState) {
         case .Active:
+            // TODO: For category "wotd," show options to View, Bookmark or Ignore.
             showAlertWithBody(body, title: title)
 
         case .Inactive:
@@ -360,6 +361,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
             }
             else {
                 DMDEBUG("Successfully updated WOTD in bg")
+                // TODO: Return .NoData unless we just updated
                 completionHandler(.NewData)
             }
         }

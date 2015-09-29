@@ -58,9 +58,17 @@
     texpiration = sexpiration.intValue;
 
     NSDictionary* aps = notification[@"aps"];
-    NSString* alert = aps[@"alert"];
 
-    NSString* nameAndPos = [alert substringFromIndex:@"Word of the day: ".length];
+    NSString* nameAndPos;
+
+    if ([aps[@"alert"] isKindOfClass:NSString.class]) {
+        NSString* alert = aps[@"alert"];
+        nameAndPos = [alert substringFromIndex:@"Word of the day: ".length];
+    }
+    else if ([aps[@"alert"] isKindOfClass:NSDictionary.class]) {
+        NSDictionary* alert = aps[@"alert"];
+        nameAndPos = alert[@"body"];
+    }
 
     NSArray* components;
     if ([nameAndPos rangeOfString:@","].location == NSNotFound) {
