@@ -209,6 +209,8 @@
     else {
         DMERROR(@"Could not get shared user defaults suite");
     }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:DubsarModelsDailyWordUpdatedNotification object:self userInfo:@{@"nameAndPos": word.nameAndPos}];
 }
 
 - (void)loadComplete:(DubsarModelsModel *)model withError:(NSString *)error

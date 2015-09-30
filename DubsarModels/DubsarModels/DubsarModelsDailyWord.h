@@ -21,6 +21,8 @@
 #import "DubsarModels/DubsarModelsModel.h"
 #import "DubsarModels/DubsarModelsPartOfSpeechDictionary.h"
 
+#define DubsarModelsDailyWordUpdatedNotification @"DubsarModelsDailyWordUpdatedNotification"
+
 @class DubsarModelsWord;
 
 @interface DubsarModelsDailyWord : DubsarModelsModel<DubsarModelsLoadDelegate>

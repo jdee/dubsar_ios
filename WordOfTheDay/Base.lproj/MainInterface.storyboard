@@ -23,7 +23,7 @@
                                     <constraint firstAttribute="height" constant="100" id="ae6-iQ-PlI"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="23"/>
-                                <state key="normal" title="loading...">
+                                <state key="normal">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>

@@ -33,6 +33,11 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
     var wotd: DubsarModelsDailyWord?
 
     // MARK: View lifecycle
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,6 +49,7 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         createTwitterButton()
 
         adjustAlphabetView(UIApplication.sharedApplication().statusBarOrientation)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "wordOfTheDayUpdated:", name: DubsarModelsDailyWordUpdatedNotification, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -322,5 +328,11 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
         searchBar.text = ""
         searchBar.showsScopeBar = false
         searchBar.layer.shadowOpacity = 0
+    }
+
+    func wordOfTheDayUpdated(notification: NSNotification!) {
+        if let userInfo = notification.userInfo, let nameAndPos = userInfo["nameAndPos"] as? String {
+            wotdButton.setTitle(nameAndPos, forState: .Normal)
+        }
     }
 }
