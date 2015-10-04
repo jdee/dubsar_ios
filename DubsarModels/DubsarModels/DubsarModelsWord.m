@@ -60,6 +60,7 @@
         name = theName;
         partOfSpeech = thePartOfSpeech;
         inflections = nil;
+        _isFavorite = NO;
         [self initUrl];
     }
     return self;
@@ -71,6 +72,7 @@
     if (self) {
         _id = theId;
         name = theName;
+        _isFavorite = NO;
         
         partOfSpeech = [DubsarModelsPartOfSpeechDictionary partOfSpeechFromPOS:posString];
         [self initUrl];

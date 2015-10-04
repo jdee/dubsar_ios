@@ -45,6 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     private var bgTask = UIBackgroundTaskInvalid
     private var updatePending = false
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         #if DEBUG
             // .Debug is also the default, but this is where to change it. (disabled, not to mention compiled out, in release builds)
@@ -58,6 +62,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         bookmarkManager.loadBookmarks()
 
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "listenForUpdatesFromExtension:", name: NSUserDefaultsDidChangeNotification, object: nil)
 
         return true
     }
@@ -217,6 +223,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func application(application: UIApplication, didReceiveRemoteNotification notification: [NSObject: AnyObject]) {
+        // TODO: Check push type (dubsarPayload["type"] == "wotd")
+
         // Custom (Dubsar) payload handling
         let dubsarPayload = notification[dubsar] as? [NSObject: AnyObject]
         DubsarModelsDailyWord.updateWotdWithNotificationPayload(notification)
@@ -227,6 +235,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
         else {
             alertURL = nil
+        }
+
+        if let urlString = url, let url = NSURL(string: urlString.stringByReplacingOccurrencesOfString("wotd", withString: "words")), let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
+            userDefaults.setBool(bookmarkManager.isUrlBookmarked(url), forKey: "isFavorite")
         }
 
         // Standard APNS payload handling
@@ -378,14 +390,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         DMDEBUG("In application:performFetchWithCompletionHandler:")
         let wotd = DubsarModelsDailyWord()
         let callbackBlock = {
-            (model: DubsarModelsModel?, error: String?) in
+            [unowned self] (model: DubsarModelsModel?, error: String?) in
             if let error = error {
                 DMERROR("Error getting WOTD in bg: \(error)")
                 completionHandler(.Failed)
             }
             else if let newWotd = model as? DubsarModelsDailyWord {
                 let fresh = newWotd.fresh ? "fresh" : "cached"
-                DMDEBUG("Successfully updated WOTD in bg. WOTD is \(fresh)")
+                DMDEBUG("Successfully updated WOTD in bg. WOTD is \(fresh). ID is \(newWotd.word._id)")
+
+                if let url = NSURL(string: "dubsar:///words/\(newWotd.word._id)"), let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
+                    userDefaults.setBool(self.bookmarkManager.isUrlBookmarked(url), forKey: "isFavorite")
+                }
+
                 completionHandler(newWotd.fresh ? .NewData : .NoData)
             }
         }
@@ -650,5 +667,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
         }
     }
 
+    func listenForUpdatesFromExtension(notification: NSNotification!) {
+        if let userDefaults = notification.object as? NSUserDefaults {
+            if userDefaults.objectForKey("toggleBookmark") != nil {
+                let wotdId = NSUserDefaults.standardUserDefaults().integerForKey(DubsarDailyWordIdKey)
+                if let url = NSURL(string: "dubsar:///words/\(wotdId)"), let wotdName = NSUserDefaults.standardUserDefaults().stringForKey(DubsarDailyWordNameKey), let wotdPos = NSUserDefaults.standardUserDefaults().stringForKey(DubsarDailyWordPosKey) {
+                    let label = "\(wotdName), \(wotdPos)."
+                    let bookmark = Bookmark(url: url)
+                    bookmark.label = label
+                    bookmarkManager.toggleBookmark(bookmark)
+                }
+                userDefaults.removeObjectForKey("toggleBookmark")
+            }
+        }
+    }
 }
 

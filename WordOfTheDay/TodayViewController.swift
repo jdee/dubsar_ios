@@ -78,6 +78,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             else {
                 wotdUpdated = false
             }
+
+            if userDefaults.objectForKey("isFavorite") != nil {
+                favoriteButton.selected = userDefaults.boolForKey("isFavorite")
+            }
         }
         else {
             NSLog("Failed to get shared user defaults suite")
@@ -100,6 +104,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
 
     func faveTapped(sender: FavoriteButton!) {
-        sender.selected = !sender.selected
+        if let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
+            userDefaults.setBool(true, forKey: "toggleBookmark")
+            userDefaults.setBool(!sender.selected, forKey: "isFavorite") // triggers udpateUserDefaults, where the button state is reset
+        }
     }
 }

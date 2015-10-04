@@ -40,6 +40,8 @@
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *nameAndPos;
 @property (nonatomic, readonly, copy) NSString* otherForms;
 
+@property (nonatomic) BOOL isFavorite;
+
 -(void)parseData;
 -(void)initUrl;
 -(void)addInflection:(NSString*)inflection;

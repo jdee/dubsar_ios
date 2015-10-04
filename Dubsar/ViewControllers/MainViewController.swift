@@ -107,11 +107,19 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
                 DMTRACE("Updating with WOTD \(wotd.word.nameAndPos)")
                 wotdButton.setTitle(wotd.word.nameAndPos, forState: .Normal)
                 wotdButton.enabled = true
+                
+                if let url = NSURL(string: "dubsar:///words/\(wotd.word._id)"), let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
+                    userDefaults.setBool(AppDelegate.instance.bookmarkManager.isUrlBookmarked(url), forKey: "isFavorite")
+                }
             }
             else if let word = router.model as? DubsarModelsWord {
                 DMTRACE("Updating with word \(word.nameAndPos)")
                 wotdButton.setTitle(word.nameAndPos, forState: .Normal)
                 wotdButton.enabled = true
+                
+                if let url = NSURL(string: "dubsar:///words/\(word._id)"), let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
+                    userDefaults.setBool(AppDelegate.instance.bookmarkManager.isUrlBookmarked(url), forKey: "isFavorite")
+                }
             }
 
         default:

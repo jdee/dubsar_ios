@@ -22,11 +22,6 @@
 #import "DubsarModelsLoadDelegate.h"
 #import "DubsarModelsWord.h"
 
-#define DubsarDailyWordIdKey @"DubsarDailyWordId"
-#define DubsarDailyWordExpirationKey @"DubsarDailyWordExpiration"
-#define DubsarDailyWordNameKey @"DubsarDailyWordName"
-#define DubsarDailyWordPosKey @"DubsarDailyWordPos"
-
 @implementation DubsarModelsDailyWord
 
 @synthesize fresh;

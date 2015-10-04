@@ -23,6 +23,11 @@
 
 #define DubsarModelsDailyWordUpdatedNotification @"DubsarModelsDailyWordUpdatedNotification"
 
+#define DubsarDailyWordIdKey @"DubsarDailyWordId"
+#define DubsarDailyWordExpirationKey @"DubsarDailyWordExpiration"
+#define DubsarDailyWordNameKey @"DubsarDailyWordName"
+#define DubsarDailyWordPosKey @"DubsarDailyWordPos"
+
 @class DubsarModelsWord;
 
 @interface DubsarModelsDailyWord : DubsarModelsModel<DubsarModelsLoadDelegate>
