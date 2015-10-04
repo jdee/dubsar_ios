@@ -38,7 +38,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         super.viewDidLoad()
 
         let gold = UIColor(red: 1.0, green: 0.843, blue: 0.000, alpha: 1.0)
-        let blue = UIColor(red: 0.255, green: 0.412, blue: 0.882, alpha: 1.0)
+        // let blue = UIColor(red: 0.255, green: 0.412, blue: 0.882, alpha: 1.0) // royal blue #4169e1
+        // let blue = UIColor(red: 0.392, green: 0.584, blue: 0.929, alpha: 1.0) // cornflower blue #6495ed
+        let blue = UIColor(red: 0.118, green: 0.565, blue: 1.000, alpha: 1.0) // dodger blue #1e90ff
 
         self.favoriteButton = FavoriteButton(frame: self.faveHolder.bounds)
         self.favoriteButton.setTitleColor(gold, forState: .Normal)
