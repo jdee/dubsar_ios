@@ -23,9 +23,12 @@ import NotificationCenter
 class TodayViewController: UIViewController, NCWidgetProviding {
 
     @IBOutlet var wotdButton: UIButton!
+    @IBOutlet var faveHolder: UIView!
 
     var wotdURL: NSURL?
     var wotdUpdated = false
+
+    var favoriteButton: FavoriteButton!
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -33,6 +36,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.favoriteButton = FavoriteButton(frame: self.faveHolder.bounds)
+        self.favoriteButton.setTitleColor(UIColor(red: 0.110, green: 0.580, blue: 0.768, alpha: 1.0), forState: .Normal)
+        self.faveHolder.addSubview(self.favoriteButton)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDefaultsUpdated:", name: NSUserDefaultsDidChangeNotification, object: nil)
     }

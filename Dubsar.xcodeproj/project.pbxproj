@@ -23,6 +23,7 @@
 		7B14AE201999BCE700BCD41A /* FavoriteBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE1F1999BCE700BCD41A /* FavoriteBarButtonItem.swift */; };
 		7B14AE291999D23A00BCD41A /* GearButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE281999D23A00BCD41A /* GearButton.m */; };
 		7B14AE2B1999D61800BCD41A /* SettingBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE2A1999D61800BCD41A /* SettingBarButtonItem.swift */; };
+		7B18FFDD1BC1BBB90026DF15 /* FavoriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B18FFDB1BC1BBB90026DF15 /* FavoriteButton.m */; settings = {ASSET_TAGS = (); }; };
 		7B1B4E79197450F5008F38BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
 		7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B4E7A19747EB6008F38BF /* WordViewController.swift */; };
 		7B1FDE2E19894E81004519D4 /* SettingSwitchValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */; };
@@ -206,6 +207,9 @@
 		7B14AE271999D23A00BCD41A /* GearButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GearButton.h; sourceTree = "<group>"; };
 		7B14AE281999D23A00BCD41A /* GearButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GearButton.m; sourceTree = "<group>"; };
 		7B14AE2A1999D61800BCD41A /* SettingBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingBarButtonItem.swift; sourceTree = "<group>"; };
+		7B18FFD71BC1BBB90026DF15 /* WordOfTheDay-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WordOfTheDay-Bridging-Header.h"; sourceTree = "<group>"; };
+		7B18FFDA1BC1BBB90026DF15 /* FavoriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteButton.h; sourceTree = "<group>"; };
+		7B18FFDB1BC1BBB90026DF15 /* FavoriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteButton.m; sourceTree = "<group>"; };
 		7B1B4E7A19747EB6008F38BF /* WordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordViewController.swift; sourceTree = "<group>"; };
 		7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingSwitchValueTableViewCell.swift; sourceTree = "<group>"; };
 		7B2E066F1BB77F81005DB1FC /* WordOfTheDay.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WordOfTheDay.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -375,10 +379,13 @@
 		7B2E06721BB77F81005DB1FC /* WordOfTheDay */ = {
 			isa = PBXGroup;
 			children = (
+				7B18FFDA1BC1BBB90026DF15 /* FavoriteButton.h */,
+				7B18FFDB1BC1BBB90026DF15 /* FavoriteButton.m */,
 				7B2E06801BB77FBD005DB1FC /* WordOfTheDay.entitlements */,
 				7B2E06731BB77F81005DB1FC /* TodayViewController.swift */,
 				7B2E06751BB77F81005DB1FC /* MainInterface.storyboard */,
 				7B2E06781BB77F81005DB1FC /* Info.plist */,
+				7B18FFD71BC1BBB90026DF15 /* WordOfTheDay-Bridging-Header.h */,
 			);
 			path = WordOfTheDay;
 			sourceTree = "<group>";
@@ -801,6 +808,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B18FFDD1BC1BBB90026DF15 /* FavoriteButton.m in Sources */,
 				7B2E06741BB77F81005DB1FC /* TodayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -969,6 +977,7 @@
 		7B2E067C1BB77F81005DB1FC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WordOfTheDay/WordOfTheDay.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -985,12 +994,15 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "WordOfTheDay/WordOfTheDay-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		7B2E067D1BB77F81005DB1FC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WordOfTheDay/WordOfTheDay.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1004,6 +1016,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "WordOfTheDay/WordOfTheDay-Bridging-Header.h";
 			};
 			name = Release;
 		};

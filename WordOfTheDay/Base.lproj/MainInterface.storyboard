@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Today View Controller-->
@@ -30,10 +32,20 @@
                                     <action selector="viewWordOfTheDay:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="3iL-2s-pev"/>
                                 </connections>
                             </button>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CMz-wY-gJo">
+                                <rect key="frame" x="240" y="28" width="44" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="CMz-wY-gJo" secondAttribute="height" multiplier="1:1" id="6HT-iN-XzF"/>
+                                    <constraint firstAttribute="width" constant="44" id="x4u-Lp-ULG"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="szy-WS-O1S" secondAttribute="bottom" id="5sy-hl-XWD"/>
+                            <constraint firstItem="CMz-wY-gJo" firstAttribute="trailing" secondItem="S3S-Oj-5AN" secondAttribute="trailingMargin" constant="-20" id="NVP-KW-KIT"/>
                             <constraint firstAttribute="trailing" secondItem="szy-WS-O1S" secondAttribute="trailing" id="OCt-aN-OXb"/>
+                            <constraint firstItem="CMz-wY-gJo" firstAttribute="centerY" secondItem="szy-WS-O1S" secondAttribute="centerY" id="h8r-t5-T5g"/>
                             <constraint firstItem="szy-WS-O1S" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="m7a-Sf-iMO"/>
                             <constraint firstItem="szy-WS-O1S" firstAttribute="top" secondItem="S3S-Oj-5AN" secondAttribute="top" id="w9V-V1-LOn"/>
                         </constraints>
@@ -45,6 +57,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="100"/>
                     <connections>
+                        <outlet property="faveHolder" destination="CMz-wY-gJo" id="T5X-AE-g2r"/>
                         <outlet property="wotdButton" destination="szy-WS-O1S" id="soC-a2-eVu"/>
                     </connections>
                 </viewController>
