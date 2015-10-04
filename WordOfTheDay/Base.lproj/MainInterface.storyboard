@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szy-WS-O1S">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                <rect key="frame" x="64" y="0.0" width="192" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="ae6-iQ-PlI"/>
                                 </constraints>
@@ -44,9 +44,9 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="szy-WS-O1S" secondAttribute="bottom" id="5sy-hl-XWD"/>
                             <constraint firstItem="CMz-wY-gJo" firstAttribute="trailing" secondItem="S3S-Oj-5AN" secondAttribute="trailingMargin" constant="-20" id="NVP-KW-KIT"/>
-                            <constraint firstAttribute="trailing" secondItem="szy-WS-O1S" secondAttribute="trailing" id="OCt-aN-OXb"/>
+                            <constraint firstAttribute="trailing" secondItem="szy-WS-O1S" secondAttribute="trailing" constant="64" id="OCt-aN-OXb"/>
                             <constraint firstItem="CMz-wY-gJo" firstAttribute="centerY" secondItem="szy-WS-O1S" secondAttribute="centerY" constant="-4" id="h8r-t5-T5g"/>
-                            <constraint firstItem="szy-WS-O1S" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="m7a-Sf-iMO"/>
+                            <constraint firstItem="szy-WS-O1S" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" constant="64" id="m7a-Sf-iMO"/>
                             <constraint firstItem="szy-WS-O1S" firstAttribute="top" secondItem="S3S-Oj-5AN" secondAttribute="top" id="w9V-V1-LOn"/>
                         </constraints>
                     </view>

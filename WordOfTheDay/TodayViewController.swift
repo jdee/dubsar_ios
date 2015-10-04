@@ -42,6 +42,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // let blue = UIColor(red: 0.392, green: 0.584, blue: 0.929, alpha: 1.0) // cornflower blue #6495ed
         let blue = UIColor(red: 0.118, green: 0.565, blue: 1.000, alpha: 1.0) // dodger blue #1e90ff
 
+        self.wotdButton.titleLabel!.adjustsFontSizeToFitWidth = true
+
         self.favoriteButton = FavoriteButton(frame: self.faveHolder.bounds)
         self.favoriteButton.setTitleColor(gold, forState: .Normal)
         self.favoriteButton.fillColor = blue
