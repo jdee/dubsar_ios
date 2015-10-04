@@ -37,8 +37,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let gold = UIColor(red: 1.0, green: 0.843, blue: 0.000, alpha: 1.0)
+        let blue = UIColor(red: 0.255, green: 0.412, blue: 0.882, alpha: 1.0)
+
         self.favoriteButton = FavoriteButton(frame: self.faveHolder.bounds)
-        self.favoriteButton.setTitleColor(UIColor(red: 0.110, green: 0.580, blue: 0.768, alpha: 1.0), forState: .Normal)
+        self.favoriteButton.setTitleColor(gold, forState: .Normal)
+        self.favoriteButton.fillColor = blue
+        self.favoriteButton.addTarget(self, action: "faveTapped:", forControlEvents: .TouchUpInside)
         self.faveHolder.addSubview(self.favoriteButton)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDefaultsUpdated:", name: NSUserDefaultsDidChangeNotification, object: nil)
@@ -92,5 +97,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         if let url = wotdURL {
             self.extensionContext?.openURL(url, completionHandler: nil)
         }
+    }
+
+    func faveTapped(sender: FavoriteButton!) {
+        sender.selected = !sender.selected
     }
 }
