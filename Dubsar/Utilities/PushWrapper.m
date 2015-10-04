@@ -56,12 +56,18 @@
     UIMutableUserNotificationAction* viewAction = [[UIMutableUserNotificationAction alloc] init];
     viewAction.identifier = @"view";
     viewAction.authenticationRequired = YES;
+    viewAction.activationMode = UIUserNotificationActivationModeForeground;
     viewAction.destructive = NO;
     viewAction.title = @"View";
 
     UIMutableUserNotificationAction* bookmarkAction = [[UIMutableUserNotificationAction alloc] init];
     bookmarkAction.identifier = @"bookmark";
+#ifdef DEBUG
+    bookmarkAction.authenticationRequired = YES; // for keychain
+#else
     bookmarkAction.authenticationRequired = NO;
+#endif // DEBUG
+    bookmarkAction.activationMode = UIUserNotificationActivationModeBackground;
     bookmarkAction.destructive = NO;
     bookmarkAction.title = @"Bookmark";
 

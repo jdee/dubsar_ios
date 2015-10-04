@@ -21,7 +21,7 @@ import UIKit
 
 struct AppConfiguration {
 
-    // MARK: User default keys from settings bundle
+    // MARK: - User default keys from settings bundle
     static let themeKey = "DubsarTheme"
     static let offlineKey = "DubsarOffline"
     static let autoUpdateKey = "DubsarAutoUpdate"
@@ -29,10 +29,10 @@ struct AppConfiguration {
     static let lastUpdateCheckTimeKey = "DubsarLastUpdateCheckTime"
     static let secureBookmarksKey = "DubsarSecureBookmarks"
 
-    // MARK: Dev key(s)
+    // MARK: - Dev key(s)
     static let productionKey = "DubsarProduction"
 
-    // MARK: Keys into the theme dictionaries below
+    // MARK: - Keys into the theme dictionaries below
     static let nameKey = "name"
     static let fontKey = "font"
     static let backgroundKey = "background"
@@ -48,7 +48,7 @@ struct AppConfiguration {
     static let defaultOfflineSetting = true
     static let defaultThemeSetting = 1
 
-    // MARK: Dictionaries defining the available themes.
+    // MARK: - Dictionaries defining the available themes.
     static let themes = [
         [ nameKey : "Scribe", fontKey : "Palatino",
             backgroundKey : UIColor(red: 1.0, green: 0.98, blue: 0.941, alpha: 1.0),
@@ -76,7 +76,7 @@ struct AppConfiguration {
             barKey: "dark", activityKey : "white", twitterColorKey: "white" ]
     ]
 
-    // MARK: Wrappers around  NSUserDefaults
+    // MARK: - Wrappers around  NSUserDefaults
     static var themeSetting: Int {
         get {
         if NSUserDefaults.standardUserDefaults().objectForKey(themeKey) == nil {
@@ -158,7 +158,7 @@ struct AppConfiguration {
         NSUserDefaults.standardUserDefaults().setInteger(now, forKey: lastUpdateCheckTimeKey)
     }
 
-    // MARK: Derived conveniences
+    // MARK: - Derived conveniences
     static var themeName: String? {
         get {
             let setting: NSString? = getThemeProperty(nameKey)
@@ -206,7 +206,7 @@ struct AppConfiguration {
         }
     }
 
-    // MARK: Font and font descriptor retrieval
+    // MARK: - Font and font descriptor retrieval
     static func preferredFontDescriptorWithTextStyle(style: String!, italic: Bool=false) -> UIFontDescriptor! {
         let fontDesc = UIFontDescriptor.preferredFontDescriptorWithTextStyle(style) // just for the pointSize
 
@@ -236,7 +236,7 @@ struct AppConfiguration {
         return font
     }
 
-    // MARK: Color scheme (derived props)
+    // MARK: - Color scheme (derived props)
     static var backgroundColor: UIColor {
         get {
             return getThemeProperty(backgroundKey)

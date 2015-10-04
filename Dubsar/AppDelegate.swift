@@ -281,24 +281,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
                     message = alert
                 }
 
+                DMDEBUG("attempting to bookmark word from notification: \(message)")
+
                 var regex: NSRegularExpression?
                 do {
-                    regex = try NSRegularExpression(pattern: ": (.*) \\((.*)\\)", options: [])
+                    regex = try NSRegularExpression(pattern: "^(.+), (\\w+)\\.$", options: [])
                 }
                 catch let error as NSError {
+                    // not really a runtime error
                     DMERROR("Regex error: \(error.debugDescription)")
+                    abort()
                 }
 
                 if let message = message, let regex = regex, let result = regex.firstMatchInString(message, options: [], range: NSMakeRange(0, message.characters.count)) {
                     let word = (message as NSString).substringWithRange(result.rangeAtIndex(1))
                     let pos = (message as NSString).substringWithRange(result.rangeAtIndex(2))
-                    let bookmark = Bookmark(url: NSURL(string: url)!)
+
+                    let wordUrl = url.stringByReplacingOccurrencesOfString("wotd", withString: "words")
+                    
+                    let bookmark = Bookmark(url: NSURL(string: wordUrl)!)
                     bookmark.label = "\(word), \(pos)"
 
-                    bookmarkManager.toggleBookmark(bookmark)
+                    if !bookmarkManager.isUrlBookmarked(bookmark.url) {
+                        DMDEBUG("Adding bookmark for \(bookmark.label): \(bookmark.url)")
+                        bookmarkManager.toggleBookmark(bookmark)
+                    }
+                    else {
+                        DMWARN("URL \(bookmark.url) already bookmarked")
+                    }
+                }
+                else {
+                    DMWARN("Unable to find word and pos from message for bookmark")
                 }
             }
+            else {
+                DMWARN("Unable to find payload for message to bookmark")
+            }
         }
+        else {
+            DMWARN("Unrecognized action identifier: \(identifier)")
+        }
+
         completionHandler()
     }
 
