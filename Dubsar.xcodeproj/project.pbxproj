@@ -24,6 +24,7 @@
 		7B14AE291999D23A00BCD41A /* GearButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE281999D23A00BCD41A /* GearButton.m */; };
 		7B14AE2B1999D61800BCD41A /* SettingBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B14AE2A1999D61800BCD41A /* SettingBarButtonItem.swift */; };
 		7B18FFDD1BC1BBB90026DF15 /* FavoriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B18FFDB1BC1BBB90026DF15 /* FavoriteButton.m */; settings = {ASSET_TAGS = (); }; };
+		7B18FFDF1BC1F5EE0026DF15 /* Dubsar.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 7B18FFDE1BC1F5EE0026DF15 /* Dubsar.entitlements */; settings = {ASSET_TAGS = (); }; };
 		7B1B4E79197450F5008F38BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC226219732D6C00D2AEA4 /* Main.storyboard */; };
 		7B1B4E7B19747EB6008F38BF /* WordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B4E7A19747EB6008F38BF /* WordViewController.swift */; };
 		7B1FDE2E19894E81004519D4 /* SettingSwitchValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */; };
@@ -210,6 +211,7 @@
 		7B18FFD71BC1BBB90026DF15 /* WordOfTheDay-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WordOfTheDay-Bridging-Header.h"; sourceTree = "<group>"; };
 		7B18FFDA1BC1BBB90026DF15 /* FavoriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteButton.h; sourceTree = "<group>"; };
 		7B18FFDB1BC1BBB90026DF15 /* FavoriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteButton.m; sourceTree = "<group>"; };
+		7B18FFDE1BC1F5EE0026DF15 /* Dubsar.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Dubsar.entitlements; sourceTree = "<group>"; };
 		7B1B4E7A19747EB6008F38BF /* WordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordViewController.swift; sourceTree = "<group>"; };
 		7B1FDE2D19894E81004519D4 /* SettingSwitchValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingSwitchValueTableViewCell.swift; sourceTree = "<group>"; };
 		7B2E066F1BB77F81005DB1FC /* WordOfTheDay.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WordOfTheDay.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -379,9 +381,9 @@
 		7B2E06721BB77F81005DB1FC /* WordOfTheDay */ = {
 			isa = PBXGroup;
 			children = (
+				7B2E06801BB77FBD005DB1FC /* WordOfTheDay.entitlements */,
 				7B18FFDA1BC1BBB90026DF15 /* FavoriteButton.h */,
 				7B18FFDB1BC1BBB90026DF15 /* FavoriteButton.m */,
-				7B2E06801BB77FBD005DB1FC /* WordOfTheDay.entitlements */,
 				7B2E06731BB77F81005DB1FC /* TodayViewController.swift */,
 				7B2E06751BB77F81005DB1FC /* MainInterface.storyboard */,
 				7B2E06781BB77F81005DB1FC /* Info.plist */,
@@ -454,6 +456,7 @@
 		7BAC225B19732D6C00D2AEA4 /* Dubsar */ = {
 			isa = PBXGroup;
 			children = (
+				7B18FFDE1BC1F5EE0026DF15 /* Dubsar.entitlements */,
 				7BAC225E19732D6C00D2AEA4 /* AppDelegate.swift */,
 				7BBF83801975CE7000969765 /* Utilities */,
 				7BBF836D1974B53F00969765 /* Views */,
@@ -786,6 +789,7 @@
 				7B1B4E79197450F5008F38BF /* Main.storyboard in Resources */,
 				7B670D0E1973851F00E83937 /* iTunesArtwork@2x in Resources */,
 				7B115203197435C100869E15 /* client_secret.txt in Resources */,
+				7B18FFDF1BC1F5EE0026DF15 /* Dubsar.entitlements in Resources */,
 				7BAC226619732D6C00D2AEA4 /* Images.xcassets in Resources */,
 				7B670D10197398B600E83937 /* Settings.bundle in Resources */,
 				7BE439411BAB0B2D001BB62B /* iTunesArtwork@3x in Resources */,
@@ -1110,6 +1114,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Dubsar/Dubsar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1134,6 +1139,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Dubsar/Dubsar.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (

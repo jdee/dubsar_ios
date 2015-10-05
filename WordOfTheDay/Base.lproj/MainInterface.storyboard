@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szy-WS-O1S">
-                                <rect key="frame" x="64" y="0.0" width="192" height="100"/>
+                                <rect key="frame" x="70" y="0.0" width="180" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="ae6-iQ-PlI"/>
                                 </constraints>
@@ -33,7 +33,7 @@
                                 </connections>
                             </button>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CMz-wY-gJo">
-                                <rect key="frame" x="240" y="24" width="44" height="44"/>
+                                <rect key="frame" x="250" y="24" width="44" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="CMz-wY-gJo" secondAttribute="height" multiplier="1:1" id="6HT-iN-XzF"/>
@@ -43,10 +43,10 @@
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="szy-WS-O1S" secondAttribute="bottom" id="5sy-hl-XWD"/>
-                            <constraint firstItem="CMz-wY-gJo" firstAttribute="trailing" secondItem="S3S-Oj-5AN" secondAttribute="trailingMargin" constant="-20" id="NVP-KW-KIT"/>
-                            <constraint firstAttribute="trailing" secondItem="szy-WS-O1S" secondAttribute="trailing" constant="64" id="OCt-aN-OXb"/>
+                            <constraint firstItem="CMz-wY-gJo" firstAttribute="leading" secondItem="szy-WS-O1S" secondAttribute="trailing" id="7hI-jP-bIx"/>
+                            <constraint firstItem="CMz-wY-gJo" firstAttribute="trailing" secondItem="S3S-Oj-5AN" secondAttribute="trailingMargin" constant="-10" id="NVP-KW-KIT"/>
+                            <constraint firstItem="szy-WS-O1S" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="f9i-4X-l2v"/>
                             <constraint firstItem="CMz-wY-gJo" firstAttribute="centerY" secondItem="szy-WS-O1S" secondAttribute="centerY" constant="-4" id="h8r-t5-T5g"/>
-                            <constraint firstItem="szy-WS-O1S" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" constant="64" id="m7a-Sf-iMO"/>
                             <constraint firstItem="szy-WS-O1S" firstAttribute="top" secondItem="S3S-Oj-5AN" secondAttribute="top" id="w9V-V1-LOn"/>
                         </constraints>
                     </view>
