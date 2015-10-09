@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Today View Controller-->
@@ -20,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szy-WS-O1S">
-                                <rect key="frame" x="60" y="0.0" width="200" height="100"/>
+                                <rect key="frame" x="48" y="0.0" width="224" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="ae6-iQ-PlI"/>
                                 </constraints>
@@ -33,7 +32,7 @@
                                 </connections>
                             </button>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CMz-wY-gJo">
-                                <rect key="frame" x="260" y="24" width="44" height="44"/>
+                                <rect key="frame" x="272" y="24" width="44" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="CMz-wY-gJo" secondAttribute="height" multiplier="1:1" id="6HT-iN-XzF"/>
@@ -44,7 +43,7 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="szy-WS-O1S" secondAttribute="bottom" id="5sy-hl-XWD"/>
                             <constraint firstItem="CMz-wY-gJo" firstAttribute="leading" secondItem="szy-WS-O1S" secondAttribute="trailing" id="7hI-jP-bIx"/>
-                            <constraint firstItem="CMz-wY-gJo" firstAttribute="trailing" secondItem="S3S-Oj-5AN" secondAttribute="trailingMargin" id="NVP-KW-KIT"/>
+                            <constraint firstItem="CMz-wY-gJo" firstAttribute="trailing" secondItem="S3S-Oj-5AN" secondAttribute="trailing" constant="-4" id="NVP-KW-KIT"/>
                             <constraint firstItem="szy-WS-O1S" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="f9i-4X-l2v"/>
                             <constraint firstItem="CMz-wY-gJo" firstAttribute="centerY" secondItem="szy-WS-O1S" secondAttribute="centerY" constant="-4" id="h8r-t5-T5g"/>
                             <constraint firstItem="szy-WS-O1S" firstAttribute="top" secondItem="S3S-Oj-5AN" secondAttribute="top" id="w9V-V1-LOn"/>
