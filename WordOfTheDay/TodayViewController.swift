@@ -67,28 +67,28 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     func updateUserDefaults() {
-        if let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
-            if let text = userDefaults.stringForKey("wotdText") {
-                wotdButton.setTitle(text, forState: .Normal)
-            }
+        guard let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") else {
+            NSLog("Failed to get shared user defaults suite")
+            return
+        }
 
-            if let url = userDefaults.stringForKey("wotdURL") {
-                wotdURL = NSURL(string: url)
-            }
-
-            if userDefaults.objectForKey("wotdUpdated") != nil {
-                wotdUpdated = userDefaults.boolForKey("wotdUpdated")
-            }
-            else {
-                wotdUpdated = false
-            }
-
-            if userDefaults.objectForKey("isFavorite") != nil {
-                favoriteButton.selected = userDefaults.boolForKey("isFavorite")
-            }
+        if let text = userDefaults.stringForKey("wotdText") {
+            wotdButton.setTitle(text, forState: .Normal)
+        }
+        
+        if let url = userDefaults.stringForKey("wotdURL") {
+            wotdURL = NSURL(string: url)
+        }
+        
+        if userDefaults.objectForKey("wotdUpdated") != nil {
+            wotdUpdated = userDefaults.boolForKey("wotdUpdated")
         }
         else {
-            NSLog("Failed to get shared user defaults suite")
+            wotdUpdated = false
+        }
+        
+        if userDefaults.objectForKey("isFavorite") != nil {
+            favoriteButton.selected = userDefaults.boolForKey("isFavorite")
         }
     }
     
@@ -102,15 +102,21 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
     @available(iOSApplicationExtension 8.0, *)
     @IBAction func viewWordOfTheDay(sender: UIButton!) {
-        if let url = wotdURL {
-            self.extensionContext?.openURL(url, completionHandler: nil)
+        guard let url = wotdURL else {
+            return
         }
+
+        self.extensionContext?.openURL(url, completionHandler: nil)
     }
 
     func faveTapped(sender: FavoriteButton!) {
-        if let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
-            userDefaults.setBool(true, forKey: "toggleBookmark")
-            userDefaults.setBool(!sender.selected, forKey: "isFavorite") // triggers udpateUserDefaults, where the button state is reset
+        sender.selected = !sender.selected
+
+        guard let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") else {
+            return
         }
+
+        userDefaults.removeObjectForKey("isFavorite") // set by the app only; avoids a recursion in updateUserDefaults().
+        userDefaults.setBool(sender.selected, forKey: "extensionUpdatedBookmark")
     }
 }

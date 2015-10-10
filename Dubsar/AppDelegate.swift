@@ -239,6 +239,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
         if let urlString = url, let url = NSURL(string: urlString.stringByReplacingOccurrencesOfString("wotd", withString: "words")), let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
             userDefaults.setBool(bookmarkManager.isUrlBookmarked(url), forKey: "isFavorite")
+            let isFave = userDefaults.boolForKey("isFavorite")
+            DMDEBUG("Updated isFavorite to \(isFave) from push")
         }
 
         // Standard APNS payload handling
@@ -401,6 +403,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
 
                 if let url = NSURL(string: "dubsar:///words/\(newWotd.word._id)"), let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
                     userDefaults.setBool(self.bookmarkManager.isUrlBookmarked(url), forKey: "isFavorite")
+                    let isFave = userDefaults.boolForKey("isFavorite")
+                    DMDEBUG("Updated isFavorite to \(isFave) in background fetch")
                 }
 
                 completionHandler(newWotd.fresh ? .NewData : .NoData)
@@ -668,17 +672,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate, Data
     }
 
     func listenForUpdatesFromExtension(notification: NSNotification!) {
-        if let userDefaults = notification.object as? NSUserDefaults {
-            if userDefaults.objectForKey("toggleBookmark") != nil {
-                let wotdId = NSUserDefaults.standardUserDefaults().integerForKey(DubsarDailyWordIdKey)
-                if let url = NSURL(string: "dubsar:///words/\(wotdId)"), let wotdName = NSUserDefaults.standardUserDefaults().stringForKey(DubsarDailyWordNameKey), let wotdPos = NSUserDefaults.standardUserDefaults().stringForKey(DubsarDailyWordPosKey) {
-                    let label = "\(wotdName), \(wotdPos)."
-                    let bookmark = Bookmark(url: url)
-                    bookmark.label = label
-                    bookmarkManager.toggleBookmark(bookmark)
-                }
-                userDefaults.removeObjectForKey("toggleBookmark")
-            }
+        guard let userDefaults = notification.object as? NSUserDefaults where userDefaults.objectForKey("extensionUpdatedBookmark") != nil else {
+            return
+        }
+
+        defer {
+            userDefaults.removeObjectForKey("extensionUpdatedBookmark") // set only by the extension
+        }
+
+        let wotdId = NSUserDefaults.standardUserDefaults().integerForKey(DubsarDailyWordIdKey)
+        guard let url = NSURL(string: "dubsar:///words/\(wotdId)"), let wotdName = NSUserDefaults.standardUserDefaults().stringForKey(DubsarDailyWordNameKey), let wotdPos = NSUserDefaults.standardUserDefaults().stringForKey(DubsarDailyWordPosKey) else {
+            return
+        }
+
+        let isFavorite = userDefaults.boolForKey("extensionUpdatedBookmark")
+
+        // first remove the extensionUpdatedBookmark key to avoid coming in here recursively
+        userDefaults.removeObjectForKey("extensionUpdatedBookmark")
+        userDefaults.setBool(isFavorite, forKey: "isFavorite")
+        DMTRACE("isFavorite updated by extension to \(isFavorite)")
+
+        let label = "\(wotdName), \(wotdPos)."
+        let bookmark = Bookmark(url: url)
+        bookmark.label = label
+
+        if isFavorite {
+            bookmarkManager.addBookmark(bookmark)
+        }
+        else {
+            bookmarkManager.removeBookmark(bookmark)
         }
     }
 }

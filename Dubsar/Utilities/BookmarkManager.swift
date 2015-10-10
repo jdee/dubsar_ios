@@ -32,6 +32,20 @@ class BookmarkManager: NSObject {
         }
     }
 
+    func addBookmark(bookmark: Bookmark!) -> Bool {
+        if !isUrlBookmarked(bookmark.url) {
+            return toggleBookmark(bookmark)
+        }
+        return true
+    }
+
+    func removeBookmark(bookmark: Bookmark!) -> Bool {
+        if isUrlBookmarked(bookmark.url) {
+            return toggleBookmark(bookmark)
+        }
+        return true
+    }
+
     func toggleBookmark(bookmark: Bookmark!) -> Bool {
         // do we have this bookmark?
 

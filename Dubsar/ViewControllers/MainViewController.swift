@@ -110,6 +110,8 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
                 
                 if let url = NSURL(string: "dubsar:///words/\(wotd.word._id)"), let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
                     userDefaults.setBool(AppDelegate.instance.bookmarkManager.isUrlBookmarked(url), forKey: "isFavorite")
+                    let isFave = userDefaults.boolForKey("isFavorite")
+                    DMTRACE("Updated isFavorite to \(isFave) from WOTD response")
                 }
             }
             else if let word = router.model as? DubsarModelsWord {
@@ -119,6 +121,8 @@ class MainViewController: SearchBarViewController, UIAlertViewDelegate  {
                 
                 if let url = NSURL(string: "dubsar:///words/\(word._id)"), let userDefaults = NSUserDefaults(suiteName: "group.com.dubsar-dictionary.Dubsar.Documents") {
                     userDefaults.setBool(AppDelegate.instance.bookmarkManager.isUrlBookmarked(url), forKey: "isFavorite")
+                    let isFave = userDefaults.boolForKey("isFavorite")
+                    DMTRACE("Updated isFavorite to \(isFave) from word response")
                 }
             }
 
